@@ -1,0 +1,128 @@
+---
+// src/pages/news.astro  —  converted from news.html
+// URL preserved: /news.html. Body + page scripts VERBATIM. Metadata, header,
+// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
+const schema = [];
+---
+
+<BaseLayout
+  title="Medicare News & Updates | Vernal Medicare"
+  description="Stay informed with the latest Medicare news, updates, and tips for Vernal and the Uintah Basin. Local insights from your trusted Medicare agent."
+  canonical="https://vernalmedicare.com/news.html"
+  ogDescription="Stay informed with the latest Medicare news and updates for the Uintah Basin."
+>
+  <!-- News Header -->
+  <section class="news-header">
+    <div class="container">
+      <h1>Medicare News & Updates</h1>
+      <p>Stay informed with the latest Medicare information and local updates for the Uintah Basin</p>
+    </div>
+  </section>
+
+  <!-- Featured Video -->
+  <div class="container">
+    <div class="featured-news">
+      <div class="featured-content" style="grid-template-columns: 1fr; max-width: 850px; margin: 0 auto;">
+        <div class="featured-text" style="text-align: center;">
+          <span class="news-category">Featured Video</span>
+          <h2>Watch out, Medicare Scams are on the rise</h2>
+          <p class="news-date">October 21, 2025</p>
+        </div>
+        <div class="video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+          <iframe 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+            src="https://www.youtube.com/embed/jYVklWlR5js" 
+            title="Medicare Advantage Plans Explained" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- News Grid -->
+  <div class="container">
+    <div class="news-grid">
+      
+      <!-- Sample Article 1 - Part D Video -->
+      <article class="news-card">
+        <div class="video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%;">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/5ggzkO_55Dw?si=9lG8QJxGTAVoEblp" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="news-card-content">
+          <span class="news-category">Medicare Updates</span>
+          <p class="news-date">October 21, 2025</p>
+          <h2>IT'S A SCAM! A DAY IN THE LIFE!</h2>
+          <p class="news-excerpt">
+             Medicare, Marketplace, Funeral Expense and Back to Back Jason Calls
+          </p>
+        </div>
+      </article>
+
+      <!-- Sample Article 2 - 2026 Medicare Changes Video -->
+      <article class="news-card">
+        <div class="video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%;">
+          <iframe 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+            src="https://www.youtube.com/embed/RzQeflUCgb0" 
+            title="2026 Medicare Changes" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="news-card-content">
+          <span class="news-category">Medicare Updates</span>
+          <p class="news-date">October 15, 2025</p>
+          <h2>Important Medicare Changes Coming in 2026</h2>
+          <p class="news-excerpt">
+            Get informed about the key Medicare changes for 2026. Learn what's new and how these updates may impact your coverage and costs.
+          </p>
+        </div>
+      </article>
+
+      <!-- Sample Article 3 - Medicare Scam Warning Video -->
+      <article class="news-card">
+        <div class="video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%;">
+          <iframe 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+            src="https://www.youtube.com/embed/D_r_sUA4LoU" 
+            title="Medicare Phone Scam Warning" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="news-card-content">
+          <span class="news-category">Consumer Protection</span>
+          <p class="news-date">October 10, 2025</p>
+          <h2>Warning: Medicare Scams Over the Phone</h2>
+          <p class="news-excerpt">
+            Stay safe from Medicare scammers! Learn how to identify fraudulent phone calls 
+            and protect your personal information from scammers pretending to be from Medicare.
+          </p>
+        </div>
+      </article>
+
+      <!-- Add more articles here following the same pattern -->
+
+    </div>
+  </div>
+
+  <!-- Call to Action -->
+  <section class="help" style="margin-top: 4rem;">
+    <div class="container" style="text-align: center;">
+      <h2>Questions About Medicare?</h2>
+      <p>Schedule a free consultation to discuss your coverage options for the Uintah Basin.</p>
+      <p style="margin-top: 1.5rem;">
+        <a href="tel:+14352195120" class="button">Call +1 (435) 219-5120 (TTY: 711)</a>
+        <a href="mailto:rocco@vernalmedicare.com" class="button">Email Rocco</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  
+</BaseLayout>

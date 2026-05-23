@@ -1,0 +1,71 @@
+---
+// src/components/LocalBusinessSchema.astro  (Runbook Part 3 — schema injection)
+//
+// Generates the LocalBusiness/InsuranceAgency/MedicalBusiness JSON-LD from the
+// single source of truth, so the NAP in markup and the NAP in schema are
+// guaranteed identical. Mirrors the existing site's schema shape verbatim.
+import { BUSINESS as B } from '../data/business';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': ['LocalBusiness', 'InsuranceAgency', 'MedicalBusiness'],
+  '@id': 'https://vernalmedicare.com/#business',
+  name: B.name,
+  url: B.url,
+  logo: B.logo,
+  image: B.image,
+  description:
+    'Local, licensed Medicare help in Vernal and the Uintah Basin. Compare Medicare Advantage, Medigap, and Part D with a local agent.',
+  telephone: B.phoneE164,
+  email: B.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: B.street,
+    addressLocality: B.city,
+    addressRegion: B.region,
+    postalCode: B.postal,
+    addressCountry: B.country,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: B.geo.lat,
+    longitude: B.geo.lng,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: B.hours.days,
+      opens: B.hours.opens,
+      closes: B.hours.closes,
+    },
+  ],
+  areaServed: B.areaServed.map((name, i) =>
+    i === 0
+      ? { '@type': 'City', name, containedIn: { '@type': 'State', name: 'Utah' } }
+      : { '@type': 'City', name }
+  ),
+  serviceArea: {
+    '@type': 'GeoCircle',
+    geoMidpoint: {
+      '@type': 'GeoCoordinates',
+      latitude: B.geo.lat,
+      longitude: B.geo.lng,
+    },
+    geoRadius: '50000',
+  },
+  containedInPlace: {
+    '@type': 'Pharmacy',
+    name: B.containedInPlace,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: B.street,
+      addressLocality: B.city,
+      addressRegion: B.region,
+      postalCode: B.postal,
+      addressCountry: B.country,
+    },
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

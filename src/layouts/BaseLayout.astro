@@ -1,0 +1,186 @@
+---
+// src/layouts/BaseLayout.astro  (Runbook Part 2 & 3 — the shell + centralized metadata)
+//
+// Everything every page shares lives here ONCE: <head> metadata, verification
+// tags, Open Graph / Twitter, fonts, Google Analytics, the LocalBusiness schema,
+// header, footer, and the shared end-of-body scripts (mobile nav toggle, year,
+// 3CX live chat). A page passes its unique title/description/canonical/OG as
+// props; the layout renders them consistently every time.
+//
+// PER-PAGE SCHEMA: pass raw JSON-LD objects via the `schema` prop (array). The
+// page's own Article/FAQPage/Breadcrumb schema is injected in <head> verbatim.
+import { BUSINESS as B } from '../data/business';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  // Open Graph overrides (fall back to sensible defaults)
+  ogTitle?: string;
+  ogDescription?: string;
+  ogType?: string;
+  ogImage?: string;
+  // Twitter overrides
+  twitterTitle?: string;
+  twitterDescription?: string;
+  twitterImage?: string;
+  // Extra per-page JSON-LD blocks (Article, FAQPage, Breadcrumb, etc.)
+  schema?: object[];
+  // Set false on pages that should NOT emit the global LocalBusiness schema
+  includeLocalBusiness?: boolean;
+  // Optional extra stylesheet (e.g. aca.css on the ACA page)
+  extraStylesheet?: string;
+  // GA property IDs to fire. Defaults to primary; dual-tracked pages pass both.
+  gaIds?: string[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogTitle,
+  ogDescription,
+  ogType = 'website',
+  ogImage = B.ogImage,
+  twitterTitle,
+  twitterDescription,
+  twitterImage = B.ogImage,
+  schema = [],
+  // Default false: only emit LocalBusiness on pages that originally had it,
+  // so the migration changes nothing. Flip per-page via the prop.
+  includeLocalBusiness = false,
+  extraStylesheet,
+  gaIds = [B.gaId],
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <link rel="canonical" href={canonical} />
+
+    <!-- Verification -->
+    <meta name="google-site-verification" content={B.googleSiteVerification} />
+    <meta name="msvalidate.01" content={B.bingVerification} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={ogTitle ?? title} />
+    <meta property="og:description" content={ogDescription ?? description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content={B.name} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={twitterTitle ?? title} />
+    <meta name="twitter:description" content={twitterDescription ?? description} />
+    <meta name="twitter:image" content={twitterImage} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap"
+      as="style"
+      onload="this.rel='stylesheet'"
+    />
+    <noscript
+      ><link
+        href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap"
+        rel="stylesheet"
+      /></noscript
+    >
+    <link rel="stylesheet" href="/styles.css" />
+    {extraStylesheet && <link rel="stylesheet" href={extraStylesheet} />}
+
+    <!-- Google tag (gtag.js) — fires each configured property -->
+    {gaIds.length > 0 && (
+      <Fragment>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaIds[0]}`}></script>
+        <script is:inline define:vars={{ gaIds, primary: B.gaId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gaIds.forEach(function (id) {
+            // The primary property used anonymize_ip in the originals; preserve that.
+            if (id === primary) gtag('config', id, { anonymize_ip: true });
+            else gtag('config', id);
+          });
+        </script>
+        {gaIds.slice(1).map((id) => (
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${id}`}></script>
+        ))}
+      </Fragment>
+    )}
+
+    <!-- Global LocalBusiness schema (welded to business.ts) -->
+    {includeLocalBusiness && <LocalBusinessSchema />}
+
+    <!-- Per-page JSON-LD (Article / FAQPage / Breadcrumb / etc.), verbatim -->
+    {schema.map((block) => <script type="application/ld+json" set:html={JSON.stringify(block)} />)}
+  </head>
+
+  <body>
+    <Header />
+
+    <slot />
+
+    <Footer />
+
+    <!-- Shared scripts (active-nav fallback + year + mobile nav toggle) -->
+    <script is:inline>
+      (function () {
+        // Year
+        var y = document.getElementById('current-year');
+        if (y) y.textContent = new Date().getFullYear();
+      })();
+
+      // Mobile nav toggle
+      (function setupToggle() {
+        const toggleLabel = document.getElementById('nav-toggle-label');
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.querySelector('.main-nav');
+        if (!toggleLabel || !navToggle || !navMenu) return setTimeout(setupToggle, 100);
+        let isToggled = false;
+        function setState(on) {
+          isToggled = on;
+          navToggle.checked = on;
+          navMenu.style.cssText = on ? 'display:block!important' : 'display:none!important';
+          toggleLabel.classList.toggle('open', on);
+          toggleLabel.setAttribute('aria-expanded', on ? 'true' : 'false');
+        }
+        document
+          .querySelectorAll('.nav-menu a')
+          .forEach((a) => a.addEventListener('click', () => setState(false)));
+        toggleLabel.addEventListener('click', () => setState(!isToggled));
+        toggleLabel.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setState(!isToggled);
+          }
+        });
+      })();
+    </script>
+
+    <!-- 3CX Live Chat (sitewide) -->
+    <call-us-selector phonesystem-url="https://1888.3cx.cloud" party="LiveChat956014"></call-us-selector>
+    <script defer src="https://downloads-global.3cx.com/downloads/livechatandtalk/v1/callus.js" id="tcx-callus-js"></script>
+
+    <!-- Page-specific scripts (carousels, etc.) injected per page -->
+    <slot name="scripts" />
+  </body>
+</html>

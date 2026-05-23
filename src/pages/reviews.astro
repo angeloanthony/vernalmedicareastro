@@ -1,0 +1,106 @@
+---
+// src/pages/reviews.astro  —  converted from reviews.html
+// URL preserved: /reviews.html. Body + page scripts VERBATIM. Metadata, header,
+// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "InsuranceAgency",
+    "name": "Vernal Medicare",
+    "url": "https://vernalmedicare.com/",
+    "logo": "https://vernalmedicare.com/pictures/Rocco.webp",
+    "description": "Licensed help with Medicare Advantage, Medigap, Part D, and under-65 health insurance in Vernal and the Uintah Basin.",
+    "telephone": "+1-435-219-5120",
+    "email": "rocco@vernalmedicare.com",
+    "areaServed": "Uintah County, Utah",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Vernal",
+      "addressRegion": "UT",
+      "postalCode": "84078",
+      "addressCountry": "US"
+    }
+  }
+];
+---
+
+<BaseLayout
+  title="Reviews — Medicare & Health Insurance in Vernal, Utah | Vernal Medicare"
+  description="Real feedback from local clients in Vernal and the Uintah Basin about our Medicare and health insurance help."
+  canonical="https://vernalmedicare.com/reviews.html"
+  ogTitle="Client Reviews | Vernal Medicare"
+  twitterTitle="Client Reviews | Vernal Medicare"
+  twitterDescription="Real feedback from local clients in Vernal and the Uintah Basin."
+  schema={schema}
+>
+  <main id="content" class="container">
+    <section>
+      <h1>What Clients Say</h1>
+      <p>We're grateful for every kind word. Here are public posts and reviews.</p>
+      <p class="text-center" style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
+        <a class="button" href="https://www.facebook.com/VernalMedicare/reviews/?ref=page_internal" target="_blank" rel="noopener">
+          Write a Facebook Review
+        </a>
+        <a class="button" href="https://www.instagram.com/vernalmedicare/" target="_blank" rel="noopener">
+          Message us on Instagram
+        </a>
+      </p>
+    </section>
+
+    <section class="reviews">
+      <h2>Latest Reviews</h2>
+
+      <!-- Facebook Page Plugin -->
+      <div class="fb-wrap" style="text-align: center; margin: 20px 0;">
+<iframe
+  title="Vernal Medicare – Facebook"
+  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FVernalMedicare%2F&tabs=&width=500&height=220&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false"
+  width="500" height="220" style="border:none;overflow:hidden;max-width:100%;"
+  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" loading="lazy">
+</iframe>
+      </div>
+
+      <!-- Review Cards -->
+      <div class="review-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 30px 0;">
+        <figure class="review-card">
+          <blockquote>"Rocco is patient and clear. He saved us money and made the process easy."</blockquote>
+          <figcaption>— Local client</figcaption>
+        </figure>
+
+        <figure class="review-card">
+          <blockquote>"Honest, patient, and local. He walked me through Advantage vs. Supplement without pressure."</blockquote>
+          <figcaption>— Jim P.</figcaption>
+        </figure>
+
+        <figure class="review-card">
+          <blockquote>"Rocco made Medicare simple and found a plan that covered my doctors and meds."</blockquote>
+          <figcaption>— J.S.</figcaption>
+        </figure>
+      </div>
+
+      <!-- Instagram Link -->
+      <p style="text-align: center; margin: 20px 0;">
+        <a class="button" href="https://www.instagram.com/vernalmedicare/" target="_blank" rel="noopener">
+          See our Instagram
+        </a>
+      </p>
+
+      <!-- Smith Pharmacy Picture -->
+      <div class="smith-photo" style="text-align: center; margin-top: 30px;">
+        <img src="pictures/joke66.webp" alt="Smith Pharmacy - Vernal" loading="lazy" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+      </div>
+    </section>
+
+    <!-- Disclosures -->
+    <section>
+      <h2>Important disclosures</h2>
+      <p><em>We do not offer every plan available in your area.</em> Any information we provide is limited to the plans we do offer. For information on all of your options, visit <a href="https://www.medicare.gov" rel="nofollow">Medicare.gov</a>or call 1-800-MEDICARE (TTY: 711).</p>
+      <p>Not connected with or endorsed by the U.S. government or the federal Medicare program. Enrollment in any plan depends on contract renewal.</p>
+    </section>
+  </main>
+
+  
+</BaseLayout>

@@ -1,0 +1,19 @@
+# robots.txt for Vernal Medicare
+# Allow all main site content to be crawled
+
+User-agent: *
+Allow: /
+
+# Block common system or junk directories (not used now, but safe to include)
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /junk/
+
+# Block common tracking parameters (avoid duplicate content)
+Disallow: /*?utm=
+Disallow: /*?sessionid=
+
+# Do NOT block CSS, JS, or images — these are needed for rendering
+
+# Sitemap location
+Sitemap: https://vernalmedicare.com/sitemap.xml

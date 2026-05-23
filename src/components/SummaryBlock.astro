@@ -1,0 +1,17 @@
+---
+// src/components/SummaryBlock.astro  (Runbook Part 9 — AI summary block)
+//
+// Renders the AI-pullable TL;DR box that AI Overviews cite. Using a component
+// guarantees every page that needs one has it in a consistent shape.
+//
+// Usage:  <SummaryBlock>Short plain-language summary of the page.</SummaryBlock>
+// or:     <SummaryBlock text="..." />
+interface Props {
+  text?: string;
+}
+const { text } = Astro.props;
+---
+
+<div class="summary-block" role="note" aria-label="Quick summary">
+  {text ? <p>{text}</p> : <slot />}
+</div>

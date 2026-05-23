@@ -1,0 +1,88 @@
+---
+// src/components/Header.astro
+// Lifted verbatim from the existing site's top-bar + main-header + nav.
+// Phone/email come from the single source of truth (business.ts).
+// Active-nav is computed server-side from the current path — no client JS needed
+// for the highlight, though the mobile toggle script still ships (see BaseLayout).
+import { BUSINESS } from '../data/business';
+
+// Current path for active-nav highlighting. With build format 'file',
+// pathname is like "/faq.html" or "/" for home.
+const path = Astro.url.pathname;
+const isActive = (href: string) => {
+  // Normalize "/index.html" and "/" to home
+  const here = path === '/' || path === '/index.html' ? '/' : path;
+  const target =
+    href === 'index.html' || href === '/' ? '/' : '/' + href.replace(/^\//, '');
+  return here === target;
+};
+
+const navLinks = [
+  { href: 'index.html', label: 'Home' },
+  { href: 'medigap.html', label: 'Medigap' },
+  { href: 'aca.html', label: 'Under-65 Health Insurance' },
+  { href: 'indemnity.html', label: 'Copay Coverage' },
+  { href: 'life.html', label: 'Life Insurance' },
+  { href: 'faq.html', label: 'FAQ' },
+  { href: 'reviews.html', label: 'Reviews' },
+  { href: 'about.html', label: 'About' },
+  { href: 'news.html', label: 'News' },
+];
+---
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="container">
+    <span>📧 <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a></span>
+    <span>📞 <a href={`tel:${BUSINESS.phoneTel}`}>{BUSINESS.phone}</a> (TTY: {BUSINESS.tty})</span>
+  </div>
+</div>
+
+<!-- Header / Nav -->
+<header class="main-header">
+  <div class="container header-top">
+    <div class="logo-left">
+      <a href="index.html">
+        <img src="pictures/Rocco.webp" alt="Rocco DeLuca — Vernal Medicare" />
+      </a>
+    </div>
+
+    <div class="site-name-center">
+      <a href="index.html" class="site-name" aria-label="Medicare Simplified — Home">
+        <picture>
+          <source srcset="pictures/medicare-simplified.webp" type="image/webp" />
+          <img src="pictures/medicare-simplified.png" alt="Medicare Simplified" class="brand-logo" />
+        </picture>
+      </a>
+    </div>
+
+    <input
+      type="checkbox"
+      id="nav-toggle"
+      class="nav-toggle"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+      aria-controls="main-nav"
+    />
+    <label for="nav-toggle" class="nav-toggle-label" id="nav-toggle-label">
+      <span></span>
+    </label>
+
+    <nav class="main-nav" id="main-nav">
+      <ul class="nav-menu">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                {...(isActive(link.href) ? { 'aria-current': 'page' } : {})}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

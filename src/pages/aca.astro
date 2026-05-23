@@ -1,0 +1,230 @@
+---
+// src/pages/aca.astro  —  converted from aca.html
+// URL preserved: /aca.html. Body + page scripts VERBATIM. Metadata, header,
+// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "InsuranceAgency",
+    "name": "Vernal Medicare",
+    "url": "https://vernalmedicare.com/",
+    "logo": "https://vernalmedicare.com/pictures/Rocco.webp",
+    "description": "Licensed help with Medicare Advantage, Medigap, Part D, and under-65 health insurance in Vernal and the Uintah Basin.",
+    "telephone": "+1-435-219-5120",
+    "email": "rocco@vernalmedicare.com",
+    "areaServed": "Uintah County, Utah",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Vernal",
+      "addressRegion": "UT",
+      "postalCode": "84078",
+      "addressCountry": "US"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is ACA health insurance?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ACA (Affordable Care Act) Marketplace plans are comprehensive major-medical coverage that include essential health benefits and cover preexisting conditions."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will I pay $0 premium?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Many households qualify for savings, but amounts depend on income, household size, ages, plan, and location."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if my employer offers insurance?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "If your employer's offer is considered affordable under ACA rules, Marketplace subsidies generally aren't available. We'll check your situation to confirm."
+        }
+      }
+    ]
+  }
+];
+---
+
+<BaseLayout
+  title="Under-65 Health Insurance (ACA) in Vernal, Utah | Vernal Medicare"
+  description="Local, licensed help with ACA Marketplace (under-65) health insurance in Vernal and the Uintah Basin. Check eligibility for savings and enroll with confidence."
+  canonical="https://vernalmedicare.com/aca.html"
+  ogDescription="Local, licensed help comparing ACA Marketplace plans in Vernal and the Uintah Basin."
+  twitterDescription="Local, licensed help with ACA Marketplace plans in the Uintah Basin."
+  schema={schema}
+>
+  <main id="content">
+    <section class="container" id="medigap-intro">
+      <h2 style="margin:16px 0;">Under-65 Health Insurance — Video</h2>
+
+      <div class="mg-two-up">
+        <!-- LEFT: video card -->
+        <div class="mg-card">
+          <div class="mg-ratio">
+            <iframe
+              src="https://player.vimeo.com/video/1114521936?title=0&byline=0&portrait=0&dnt=1&autoplay=1&muted=1"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen
+              loading="lazy"
+              title="Under-65 Health Insurance Video"></iframe>
+          </div>
+        </div>
+
+        <!-- RIGHT: flip-on-click comic (3 images) -->
+        <a class="vm-comic" href="pictures/joke14.webp" target="_blank" rel="noopener">
+          <img
+            src="pictures/joke14.webp"
+            data-alt="pictures/joke27.webp"
+            data-alt2="pictures/joke28.webp"
+            alt="Medicare comic"
+            loading="lazy" decoding="async">
+        </a>
+      </div>
+    </section>
+
+    <!-- Hero -->
+    <section>
+      <h1>Under-65 Health Insurance (ACA) — Simple Guide</h1>
+      <p><strong>Real, comprehensive coverage</strong>—often with <strong>income-based savings</strong> through the ACA Marketplace.
+        If you don't have insurance, I can help you enroll the right way and protect what you've worked for.</p>
+      <p>
+        <a class="button primary" href="tel:+14352195120" aria-label="Call Vernal Medicare at 435-219-5120">
+          Call (435) 219-5120 (TTY: 711)
+        </a>
+        <a
+          class="button"
+          href="mailto:rocco@vernalmedicare.com?subject=Under-65%20Health%20Insurance%20question&body=Hi%20Rocco%2C%0D%0A%0D%0AI%27d%20like%20help%20with%20Under-65%20Health%20Insurance.%0D%0A%0D%0AThanks!"
+          aria-label="Email Vernal Medicare"
+        >
+          Email us
+        </a>
+      </p>
+
+      <p class="note">Not a government agency. Local, licensed help serving Vernal and the Uintah Basin.</p>
+    </section>
+
+    <!-- Why it matters (property) -->
+    <section>
+      <h2>Why coverage matters (especially if you own property)</h2>
+      <ul>
+        <li>ACA plans include an annual <strong>out-of-pocket maximum</strong> to help cap worst-case costs.</li>
+        <li><strong>Essential health benefits</strong> and preventive care are included.</li>
+        <li>Coverage helps reduce the risk that medical bills threaten your savings and assets.</li>
+      </ul>
+    </section>
+
+    <!-- How it works -->
+    <section>
+      <h2>How it works</h2>
+      <ul>
+        <li><strong>Quick chat</strong> — tell us your doctors, meds, and must-haves.</li>
+        <li><strong>Side-by-side options</strong> — we narrow choices to what fits you.</li>
+        <li><strong>Enroll when ready</strong> — by phone or online, with a licensed agent.</li>
+        <li><strong>We stay with you</strong> — year-round help for questions and changes.</li>
+      </ul>
+    </section>
+
+    <!-- Who qualifies -->
+    <section>
+      <h2>Who qualifies for ACA savings?</h2>
+      <ul>
+        <li>You're under 65 and not on Medicare.</li>
+        <li>Your household income and size fit subsidy ranges.</li>
+        <li>You live in an eligible ZIP/county.</li>
+        <li>You <strong>do not</strong> have an offer of <em>affordable</em> employer coverage (per ACA rules).</li>
+      </ul>
+      <p class="note">If you do have an employer offer, subsidies may not apply. Not sure? We'll check and give you a clear answer.</p>
+    </section>
+
+    <!-- Enrollment windows -->
+    <section>
+      <h2>Enrollment windows (quick guide)</h2>
+      <ul>
+        <li><strong>Open Enrollment</strong>: typically early Nov – mid-Jan (coverage starts in Jan).</li>
+        <li><strong>Special Enrollment</strong>: after certain life events—moving, losing coverage, marriage, birth, etc.</li>
+      </ul>
+      <p class="note">Dates and rules can vary each year—ask us to confirm your options.</p>
+    </section>
+
+    <!-- CTA -->
+    <section>
+      <h2>Get local, licensed help</h2>
+      <p>We'll estimate your savings, check your doctors/prescriptions, and show simple options—no pressure.</p>
+      <p>
+        <a class="button primary" href="tel:+14352195120" aria-label="Call Vernal Medicare at 435-219-5120">
+          Call (435) 219-5120 (TTY: 711)
+        </a>
+        <a
+          class="button"
+          href="mailto:rocco@vernalmedicare.com?subject=Under-65%20Health%20Insurance%20question&body=Hi%20Rocco%2C%0D%0A%0D%0AI%27d%20like%20help%20with%20Under-65%20Health%20Insurance.%0D%0A%0D%0AThanks!"
+          aria-label="Email Vernal Medicare"
+        >
+          Email us
+        </a>
+      </p>
+    </section>
+
+    <!-- Disclosures -->
+    <section>
+      <h2>Disclosures</h2>
+      <p>Plan availability varies by county and carrier. Savings require eligibility for federal premium tax credits and/or cost-sharing reductions through the ACA Marketplace; amounts vary by household size, income, ages, and other factors. For information about all Marketplace options, visit <a href="https://www.healthcare.gov" rel="nofollow">HealthCare.gov</a> or call 1-800-318-2596.</p>
+      <p>Not connected with or endorsed by HealthCare.gov or any government agency.</p>
+    </section>
+  </main>
+
+  
+
+<script>
+  (function(){
+    document.addEventListener('click', function(e){
+      const link = e.target.closest('.vm-comic');
+      if (!link) return;
+
+      e.preventDefault();
+      const img = link.querySelector('img');
+      if (!img) return;
+
+      img.classList.add('is-flipping');
+
+      const onEnd = function(){
+        img.removeEventListener('transitionend', onEnd);
+
+        const a = img.getAttribute('src');
+        const b = img.getAttribute('data-alt');
+        const c = img.getAttribute('data-alt2');
+
+        if (c) {
+          // 3-image rotation: a -> b -> c -> a
+          img.setAttribute('src', b || a);
+          img.setAttribute('data-alt', c || a);
+          img.setAttribute('data-alt2', a);
+        } else if (b) {
+          // 2-image swap: a <-> b
+          img.setAttribute('src', b);
+          img.setAttribute('data-alt', a);
+        }
+
+        link.setAttribute('href', img.getAttribute('src'));
+
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          img.classList.remove('is-flipping');
+        }));
+      };
+
+      img.addEventListener('transitionend', onEnd);
+    });
+  })();
+  </script>
+</BaseLayout>

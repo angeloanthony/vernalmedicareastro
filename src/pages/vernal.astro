@@ -1,0 +1,134 @@
+---
+// src/pages/vernal.astro  —  converted from vernal.html
+// URL preserved: /vernal.html. Body + page scripts VERBATIM. Metadata, header,
+// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "InsuranceAgency",
+    "name": "Vernal Medicare",
+    "url": "https://vernalmedicare.com/vernal.html",
+    "telephone": "+1-435-219-5120",
+    "email": "rocco@vernalmedicare.com",
+    "areaServed": "Vernal, Utah",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Vernal",
+      "addressRegion": "UT",
+      "addressCountry": "US"
+    }
+  }
+];
+---
+
+<BaseLayout
+  title="Vernal Medicare — Local, Licensed Medicare Help in Uintah County"
+  description="Compare Medicare Advantage, Medigap, and Part D with a local, licensed agent in Vernal and the Uintah Basin. Free, no-pressure guidance."
+  canonical="https://vernalmedicare.com/vernal.html"
+  ogTitle="Medicare in Vernal, Utah | Vernal Medicare"
+  ogDescription="Local, licensed Medicare help in Vernal, Utah. Compare Medicare Advantage, Medigap, and Part D with a local agent."
+  twitterTitle="Medicare in Vernal, Utah | Vernal Medicare"
+  twitterDescription="Local, licensed Medicare help in Vernal and the Uintah Basin."
+  schema={schema}
+  gaIds={[]}
+>
+  <main>
+    <!-- Hero -->
+    <section>
+      <h1>Medicare Help in Vernal, Utah</h1>
+      <p><strong>Local, licensed help</strong> comparing Medicare Advantage (Part C), Medigap, and Part D—right here in Vernal. We’ll check your doctors, prescriptions, and budget so you can choose with confidence.</p>
+      <p>
+       <a class="button primary" href="tel:+14352195120">Call 435-219-5120 (TTY: 711)</a>
+
+        <a class="button" href="about.html">Email us</a>
+      </p>
+    </section>
+
+    <!-- Services -->
+    <section>
+      <h2>What we do in Vernal</h2>
+      <ul>
+        <li><strong>Compare plans</strong> for your doctors, clinics, and pharmacies.</li>
+        <li><strong>Medigap + Part D</strong> (Plan G, Plan N, and drug plans) for predictable costs.</li>
+        <li><strong>Drug review</strong>: formularies, prior auth, and preferred pharmacies.</li>
+        <li><strong>Savings programs</strong>: Extra Help & Medicare Savings Programs.</li>
+        <li><strong>Annual checkups</strong> so your plan still fits when things change.</li>
+      </ul>
+    </section>
+
+    <!-- How it works -->
+    <section>
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Quick chat</strong> — tell us your doctors, meds, and must-haves.</li>
+        <li><strong>Side-by-side options</strong> — we narrow choices to what fits you.</li>
+        <li><strong>Enroll when ready</strong> — by phone or online, with a licensed agent.</li>
+        <li><strong>We stay with you</strong> — year-round help for questions and changes.</li>
+      </ol>
+    </section>
+
+    <!-- Local -->
+    <section>
+      <h2>Local focus: Vernal & the Basin</h2>
+      <p>We help neighbors across Vernal and nearby communities. We coordinate around the clinics and pharmacies you already use, and we’re easy to reach when you need us.</p>
+    </section>
+
+    <!-- Enrollment windows -->
+    <section>
+      <h2>Enrollment windows (quick guide)</h2>
+      <ul>
+        <li><strong>AEP:</strong> Oct 15–Dec 7 (changes start Jan 1).</li>
+        <li><strong>OEP (MA):</strong> Jan 1–Mar 31 (one change if you’re on an MA plan).</li>
+        <li><strong>IEP/ICEP:</strong> around your 65th birthday or first eligibility.</li>
+        <li><strong>SEPs:</strong> moving, losing coverage, Extra Help/Medicaid, and more.</li>
+      </ul>
+    </section>
+
+    <!-- Disclosures -->
+    <section>
+      <h2>Important disclosures</h2>
+      <p><em>We do not offer every plan available in your area.</em> Any information we provide is limited to the plans we do offer. Contact <a href="https://www.medicare.gov" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711) 24/7 for all options.</p>
+      <p>Not connected with or endorsed by the U.S. government or the federal Medicare program. Enrollment in any plan depends on contract renewal.</p>
+    </section>
+
+    <!-- CTA -->
+    <section>
+      <h2>Talk with a local, licensed agent</h2>
+      <p>
+        <a class="button primary" href="tel:+14352195120">Call 435-219-5120 (TTY: 711)</a>
+
+        <a class="button" href="about.html">Email us</a>
+      </p>
+    </section>
+  </main>
+
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "InsuranceAgency",
+    "name": "Vernal Medicare",
+    "url": "https://vernalmedicare.com/vernal.html",
+    "telephone": "+1-435-219-5120",
+    "email": "rocco@vernalmedicare.com",
+    "areaServed": "Vernal, Utah",
+    "address": { "@type": "PostalAddress", "addressLocality": "Vernal", "addressRegion": "UT", "addressCountry": "US" }
+  }
+  </script>
+
+<script>
+    (function() {
+      const here = location.pathname.replace(/\/$/, '') || '/';
+      document.querySelectorAll('.nav-menu a').forEach(a => {
+        const href = a.getAttribute('href');
+        const normalized = (href === 'index.html' || href === './' || href === '/') ? '/' : `/${href}`;
+        if (normalized.replace(/\/$/, '') === here.replace(/\/$/, '')) a.classList.add('active');
+      });
+      const y = document.getElementById('current-year'); if (y) y.textContent = new Date().getFullYear();
+    })();
+  </script>
+</BaseLayout>
