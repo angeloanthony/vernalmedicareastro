@@ -95,9 +95,9 @@ p {
 }
 
 .site-name-center {
-    text-align: center;
-    padding: 0 1rem;
-    flex: 1; /* Fa espandere il nome per occupare spazio */
+  text-align: center;
+  padding: 0 1rem;
+  flex: 1; /* Fa espandere il nome per occupare spazio */
 }
 
 .site-name {
@@ -158,16 +158,16 @@ p {
 }
 
 .nav-toggle-label {
-    display: none;
-    width: 40px;
-    height: 30px;
-    flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
+  display: none;
+  width: 40px;
+  height: 30px;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .nav-toggle-label span,
@@ -269,37 +269,37 @@ p {
 
 /* Desktop: float the card into the picture, centered near the bottom */
 @media (min-width: 769px){
- .hero-row .hero-text{
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 2px;
+  .hero-row .hero-text{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 2px;
 
-  /* keep the shaded card from stretching across the whole hero */
-  width: auto;
-  max-width: 860px;         /* tweak 720–960px as you like */
+    /* keep the shaded card from stretching across the whole hero */
+    width: auto;
+    max-width: 860px;         /* tweak 720–960px as you like */
 
-  padding: 14px 18px;
-  background: rgba(152, 155, 158, 0.46);
-  color: #fff;
-  border-radius: 10px;
-  margin: 0;
-  box-shadow: 0 8px 24px rgba(140, 136, 136, 0.28);
-}
+    padding: 14px 18px;
+    background: rgba(152, 155, 158, 0.46);
+    color: #fff;
+    border-radius: 10px;
+    margin: 0;
+    box-shadow: 0 8px 24px rgba(140, 136, 136, 0.28);
+  }
 
 
   /* … your h1/p rules are already set to max-width:none */
 }
 
-   /* Keep headline full-width (no forced wrap) */
-  .hero-row .hero-text h1{
-    color: #fff;
-    text-shadow: 0 2px 6px rgba(0,0,0,.35);
-    font-size: clamp(2rem, 2.2vw, 2.6rem);
-    line-height: 1.15;
-    max-width: none !important;    /* ← remove the 34ch cap */
-    margin: 0 0 .35rem;
-    white-space: wrap;
+ /* Keep headline full-width (no forced wrap) */
+ .hero-row .hero-text h1{
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,.35);
+  font-size: clamp(2rem, 2.2vw, 2.6rem);
+  line-height: 1.15;
+  max-width: none !important;    /* ← remove the 34ch cap */
+  margin: 0 0 .35rem;
+  white-space: wrap;
   }
 
 /* Body text bigger & more readable on desktop */
@@ -313,14 +313,14 @@ p {
   white-space: wrap;
 }
 
-  /* Shorter button inside hero only */
-  .hero-row .hero-text .button{
-    padding: 10px 16px;
-    font-size: 1rem;
+ /* Shorter button inside hero only */
+ .hero-row .hero-text .button{
+  padding: 10px 16px;
+  font-size: 1rem;
   }
 
   .hero-row .hero-text a{
-    color:#fff; text-decoration: underline; font-weight:700;
+  color:#fff; text-decoration: underline; font-weight:700;
   }
 
 .hero-image-wrapper {
@@ -447,13 +447,13 @@ p {
 }
 
 .post img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    object-position: top;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Testimonials Section */
@@ -609,10 +609,10 @@ p {
     min-height: 60px;
   }
 
- .site-name-center {
-  padding: 0 1rem;
-  flex: 0 0 auto;        /* title takes only what it needs */
-}
+  .site-name-center {
+    padding: 0 1rem;
+    flex: 0 0 auto;        /* title takes only what it needs */
+  }
 
   .site-name {
     font-size: 1.8rem;
@@ -620,51 +620,51 @@ p {
   }
 
   .nav-toggle-label {
-  display: flex;
-  width: 15px; /* Increased width for better symmetry */
-  height: 25px; /* Your preferred height */
-  overflow: visible; /* Ensure rotated elements are not clipped */
-}
+    display: flex;
+    width: 15px; /* Increased width for better symmetry */
+    height: 25px; /* Your preferred height */
+    overflow: visible; /* Ensure rotated elements are not clipped */
+  }
 
-.nav-toggle-label span,
-.nav-toggle-label span::before,
-.nav-toggle-label span::after {
-  display: block;
-  background-color: #002b49;
-  height: 3px; /* Consistent height for clean lines */
-  width: 100%;
-  border-radius: 3px;
-  position: absolute;
-  transition: all 0.3s ease; /* Smooth animation */
-}
+  .nav-toggle-label span,
+  .nav-toggle-label span::before,
+  .nav-toggle-label span::after {
+    display: block;
+    background-color: #002b49;
+    height: 3px; /* Consistent height for clean lines */
+    width: 100%;
+    border-radius: 3px;
+    position: absolute;
+    transition: all 0.3s ease; /* Smooth animation */
+  }
 
-.nav-toggle-label span {
-  top: 50%; /* Center the middle line */
-  transform: translateY(-50%); /* Vertically center */
-  width: 100%; /* Ensure full width */
-}
+  .nav-toggle-label span {
+    top: 50%; /* Center the middle line */
+    transform: translateY(-50%); /* Vertically center */
+    width: 100%; /* Ensure full width */
+  }
 
-.nav-toggle-label span::before {
-  top: -8px; /* Even spacing above middle line */
-  content: '';
-}
+  .nav-toggle-label span::before {
+    top: -8px; /* Even spacing above middle line */
+    content: '';
+  }
 
-.nav-toggle-label span::after {
-  top: 8px; /* Even spacing below middle line */
-  content: '';
-}
+  .nav-toggle-label span::after {
+    top: 8px; /* Even spacing below middle line */
+    content: '';
+  }
 
-.main-nav {
-  display: none;
-  width: 100%;
-  background: #002b49;
-  padding: 1rem 0;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 1001;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+  .main-nav {
+    display: none;
+    width: 100%;
+    background: #002b49;
+    padding: 1rem 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1001;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
 
   .nav-menu {
     flex-direction: column;
@@ -676,28 +676,28 @@ p {
     display: block;
   }
 
-.nav-menu li a {
-  font-size: 1.2rem;
-  padding: 1rem;
-  width: 100%;
-  text-align: center;
-  color: white;
-  transition: background-color 0.3s;
-  white-space: normal;   /* ← new: allow wrapping on phones */
-}
+  .nav-menu li a {
+    font-size: 1.2rem;
+    padding: 1rem;
+    width: 100%;
+    text-align: center;
+    color: white;
+    transition: background-color 0.3s;
+    white-space: normal;   /* ← new: allow wrapping on phones */
+  }
 
-.nav-menu li a:hover {
-  background-color: #9e0853; /* match brand red */
-  color: white;
-}
+  .nav-menu li a:hover {
+    background-color: #9e0853; /* match brand red */
+    color: white;
+  }
 
-/* Mobile layout: text below the photo (not covering it) */
-.hero-banner { height: 400px; }
+  /* Mobile layout: text below the photo (not covering it) */
+  .hero-banner { height: 400px; }
 
-.hero-text { margin-top: 12px; }
+  .hero-text { margin-top: 12px; }
 
-.hero-text h1 { font-size: 1.5rem; line-height: 1.3; white-space: normal; }
-.hero-text p  { font-size: 0.95rem; line-height: 1.5; white-space: normal; }
+  .hero-text h1 { font-size: 1.5rem; line-height: 1.3; white-space: normal; }
+  .hero-text p  { font-size: 0.95rem; line-height: 1.5; white-space: normal; }
 
   .service-cards,
   .blog-posts {
@@ -750,7 +750,7 @@ p {
 }
 
 .nav-toggle-label {
-    z-index: 1002;
+  z-index: 1002;
 }
 
 @media (max-width: 481px) {
@@ -963,11 +963,11 @@ main img {
 }
 
  .we-accept-caption {
-   font-size: 0.9rem;
-   color: #333;
-   margin-top: 0.5rem;
-   text-align: center;
- }
+  font-size: 0.9rem;
+  color: #333;
+  margin-top: 0.5rem;
+  text-align: center;
+  }
 
 main {
   padding: 3rem 1rem;
@@ -996,17 +996,17 @@ main {
 }
 
 .payment-buttons {
-    display: flex;
-    flex-wrap: nowrap; /* Prevent wrapping to keep buttons side by side */
-    justify-content: center;
-    align-items: center; /* Vertically center the buttons */
-    gap: 1rem;
-    margin: 0.5rem 0;
-    width: 100%;
-    max-width: 500px; /* Limit the width to prevent stretching */
-    box-sizing: border-box;
-    margin-left: auto; /* Center the container */
-    margin-right: auto;
+  display: flex;
+  flex-wrap: nowrap; /* Prevent wrapping to keep buttons side by side */
+  justify-content: center;
+  align-items: center; /* Vertically center the buttons */
+  gap: 1rem;
+  margin: 0.5rem 0;
+  width: 100%;
+  max-width: 500px; /* Limit the width to prevent stretching */
+  box-sizing: border-box;
+  margin-left: auto; /* Center the container */
+  margin-right: auto;
 }
 
 @media (max-width: 768px) {
@@ -1017,26 +1017,26 @@ main {
 }
 
 .paypal-btn {
-    display: block; /* Ensure the container is visible */
-    min-width: 200px; /* Give enough space for the PayPal button */
-    height: 40px; /* Match SwipeSimple button height */
-    overflow: hidden; /* Prevent overflow */
+  display: block; /* Ensure the container is visible */
+  min-width: 200px; /* Give enough space for the PayPal button */
+  height: 40px; /* Match SwipeSimple button height */
+  overflow: hidden; /* Prevent overflow */
 }
 
 .paypal-btn:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 #paypal-container-CUMKDLDX93SSY {
-    width: 100% !important; /* Ensure it takes the full width of the parent */
-    height: 100% !important; /* Ensure it takes the full height of the parent */
-    display: block !important; /* Ensure visibility */
+  width: 100% !important; /* Ensure it takes the full width of the parent */
+  height: 100% !important; /* Ensure it takes the full height of the parent */
+  display: block !important; /* Ensure visibility */
 }
 
 #paypal-container-CUMKDLDX93SSY iframe {
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 6px !important; /* Match SwipeSimple button */
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 6px !important; /* Match SwipeSimple button */
 }
 
 .card img.detective-img,
@@ -1167,13 +1167,13 @@ main a:focus {
     line-height: 1.45;
   }
 
-.hero-text h1,
-.hero-text p,
-.hero-text li,
-.hero-text strong,
-.hero-text span {                 /* ← no links here */
-color: #0b2a3b !important;
-}
+  .hero-text h1,
+  .hero-text p,
+  .hero-text li,
+  .hero-text strong,
+  .hero-text span {                 /* ← no links here */
+    color: #0b2a3b !important;
+  }
 
   .hero-text a:not(.button):not(.enroll-btn) {
     text-decoration: underline;
@@ -1181,14 +1181,14 @@ color: #0b2a3b !important;
   }
 
   .hero-text a.enroll-btn,
-.hero-text a.enroll-btn:visited,
-.hero-text a.enroll-btn:hover,
-.hero-text a.enroll-btn:focus,
-.hero-text a.enroll-btn:active {
-  color:#fff !important;
-  -webkit-text-fill-color:#fff !important;
-  text-decoration:none !important;
-}
+  .hero-text a.enroll-btn:visited,
+  .hero-text a.enroll-btn:hover,
+  .hero-text a.enroll-btn:focus,
+  .hero-text a.enroll-btn:active {
+    color:#fff !important;
+    -webkit-text-fill-color:#fff !important;
+    text-decoration:none !important;
+  }
 }
 
 /* Ensure solid, high-contrast background */
@@ -1212,22 +1212,22 @@ color: #0b2a3b !important;
   }
 }
 
-  /* Force the CTA button text to stay white in all states */
-  .hero-text a.button,
-  .hero-text a.button:link,
-  .hero-text a.button:visited,
-  .hero-text a.button:hover,
-  .hero-text a.button:focus,
-  .hero-text a.button:active {
-    color: #fff !important;
-    -webkit-text-fill-color: #fff !important; /* iOS/Safari */
-    text-decoration: none !important;
+ /* Force the CTA button text to stay white in all states */
+ .hero-text a.button,
+ .hero-text a.button:link,
+ .hero-text a.button:visited,
+ .hero-text a.button:hover,
+ .hero-text a.button:focus,
+ .hero-text a.button:active {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important; /* iOS/Safari */
+  text-decoration: none !important;
   }
 
-  /* If the button contains inner elements, keep them white too */
-  .hero-text a.button * {
-    color: inherit !important;
-    -webkit-text-fill-color: inherit !important;
+ /* If the button contains inner elements, keep them white too */
+ .hero-text a.button * {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
   }
 
 /* 1) Make sure button text is always white on every state */
@@ -1404,7 +1404,7 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
 
 /* Move arrows farther from each other (desktop) */
 @media (min-width: 860px){
-  .smile-arrow.prev{ left: -120px; }   /* try -20 to -40 */
+  .smile-arrow.prev{ left: -120px; }
   .smile-arrow.next{ right: -120px; }
 }
 
@@ -1510,20 +1510,19 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
   z-index:-1;
   border-radius:50%;
   background: radial-gradient(ellipse at center,
-              rgba(0,0,0,.28) 0%,
-              rgba(0,0,0,0) 70%);
+    rgba(0,0,0,.28) 0%,
+    rgba(0,0,0,0) 70%);
   filter: blur(4px);                        /* soft edge */
 }
 
 /* === Reviews Carousel (namespaced) === */
 #vm-reviews {
   position: relative;
-  max-width: 800px; /* make Reviews Carousel wider  */
+  max-width: 800px;
   margin: 24px auto 48px;
   padding: 8px 12px 28px;
   border-radius: 18px;
   background: #fff;
-  /* subtle 3D frame + glow that matches your card style */
   box-shadow:
     0 1px 0 rgba(0,0,0,.05),
     0 8px 24px rgba(0,0,0,.12),
@@ -1563,7 +1562,7 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
   place-items: center;
   font-weight: 700;
   color: #fff;
-  background: linear-gradient(145deg,#3b5998,#1877f2); /* FB blue vibe */
+  background: linear-gradient(145deg,#3b5998,#1877f2);
   box-shadow: 0 4px 10px rgba(24,119,242,.25);
 }
 
@@ -1580,7 +1579,7 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
 #vm-reviews .vm-reviews__nav {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%); /* Centra perfettamente l'asse verticale */
+  transform: translateY(-50%);
   z-index: 20;
   border: 0;
   width: 40px;
@@ -1621,7 +1620,15 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
 
 /* put in your CSS (or the <style> at bottom) */
 #vm-reviews { overflow: hidden; }
-#vm-reviews .vm-reviews__slide { flex: 0 0 100%; } /* one full panel per slide */
+#vm-reviews .vm-reviews__slide { flex: 0 0 100%; }
+
+/* === FIX: Review name heading — visible, styled correctly === */
+.vm-reviews__name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #002b49;
+  margin: 0 0 8px;
+}
 
 /* === Spiritual Thoughts (namespaced) === */
 #vm-spirit { max-width: 1100px; margin: 40px auto 28px; padding: 12px; }
@@ -1650,14 +1657,14 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
   padding: 18px 12px;
   border-radius: 12px;
   background:#ffffff;
-  outline: 3px solid #c79a2b1a;           /* faint gold outline */
-  box-shadow: inset 0 0 0 2px #c79a2b;    /* gold frame */
+  outline: 3px solid #c79a2b1a;
+  box-shadow: inset 0 0 0 2px #c79a2b;
 }
 #vm-spirit blockquote {
   margin: 0;
   font-size: clamp(1.15rem, 1vw + 1rem, 1.6rem);
   line-height: 1.6;
-  color:#0f2556; /* navy */
+  color:#0f2556;
   font-style: italic;
 }
 #vm-spirit figcaption {
@@ -1700,7 +1707,7 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
 
 .help-grid{
   display:grid;
-  grid-template-columns: 1fr;                   /* mobile first */
+  grid-template-columns: 1fr;
   gap: clamp(16px,2vw,28px);
   align-items:start;
 }
@@ -1712,18 +1719,16 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
   }
 }
 
-/* Left column: comfortable line length & lists */
 .help-left{ max-width: 720px; }
 .help-left h3{ margin:.25rem 0 .5rem; font-size:1.25rem; color:#0b2a3a; }
 .help-left ol, .help-left ul{ margin:.5rem 0 .75rem 1.25rem; }
 .help-left li{ margin:.25rem 0; line-height:1.6; }
 
-/* Right column: image card, capped size */
 .help-right{ margin:0; }
 .help-right img{
   width:100%;
   height:auto;
-  max-width: clamp(340px, 42vw, 520px);        /* keeps it from overpowering */
+  max-width: clamp(340px, 42vw, 520px);
   border-radius:16px;
   background: linear-gradient(145deg,#f8fafc,#e8edf3);
   border:1px solid #e5e7eb;
@@ -1750,7 +1755,6 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
   }
 }
 
-/* Card look with stronger 3D effect */
 .mg-card{
   background:#fff;
   border:3px solid #e8eef7;
@@ -1768,7 +1772,6 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
     0 44px 88px rgba(0,0,0,.14);
 }
 
-/* Responsive 16:9 video frame */
 .mg-ratio{
   position:relative;
   padding-top:56.25%;
@@ -1781,7 +1784,6 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
   border:0;
 }
 
-/* Image inside the card */
 .mg-card img{
   display:block;
   width:50%;
@@ -1791,14 +1793,12 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
 
 @media (min-width: 992px){
   #medigap-intro .mg-two-up > .mg-card:nth-child(2){
-    max-width: 1420px;  /* adjust here */
+    max-width: 1420px;
     justify-self: end;
   }
 }
 
-/* ---- Flip-book card ---- */
 #medigap-intro .mg-book{
-  /* keep it a bit smaller than the video */
   max-width: 420px;
   justify-self: end;
 }
@@ -1806,7 +1806,7 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
 #medigap-intro .book-view{
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;             /* square; change to 4/3 if you prefer */
+  aspect-ratio: 1 / 1;
   border-radius: 14px;
   overflow: hidden;
   background: #fff;
@@ -1831,7 +1831,6 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
     0 36px 72px rgba(0,0,0,.12);
   transition: transform .7s cubic-bezier(.2,.6,.2,1), box-shadow .7s;
   pointer-events: none;
-  /* subtle page shading */
   background-image:
     linear-gradient(90deg, rgba(0,0,0,.15), rgba(0,0,0,0) 30%),
     linear-gradient(180deg, #fff, #f8fafc);
@@ -1844,7 +1843,6 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
     -28px 36px 72px rgba(0,0,0,.14);
 }
 
-/* controls */
 #medigap-intro .book-controls{
   display:flex; gap:10px; justify-content:center; margin-top:10px;
 }
@@ -1855,15 +1853,11 @@ body .cta:hover, body .cta:focus, body .cta:active, body .cta:visited {
 }
 #medigap-intro .book-controls button:active{ transform: translateY(1px); }
 
-/* stack nicely on mobile */
 @media (max-width: 991px){
   #medigap-intro .mg-book{ max-width: 520px; justify-self: stretch; }
 }
 
-/* Medigap intro – right image card frame */
-#medigap-intro .mg-two-
-
-up figure.mg-card{
+#medigap-intro .mg-two-up figure.mg-card{
   position: relative;
   background: #fff;
   border: 1px solid rgba(11,42,58,.12);
@@ -1875,25 +1869,23 @@ up figure.mg-card{
   justify-content: center;
 }
 
-/* keep the picture large enough but not overflowing */
 #medigap-intro .mg-two-up figure.mg-card img{
   display: block;
   width: 100%;
   height: auto;
-  max-width: 720px;      /* tweak if you want it bigger/smaller */
-  max-height: 460px;     /* keeps it from getting giant */
+  max-width: 720px;
+  max-height: 460px;
   object-fit: contain;
-  border-radius: 12px;   /* soft corners inside the frame */
+  border-radius: 12px;
 }
 
-/* stop accidental black backgrounds on any embedded players */
 .vm iframe,
 .mg-ratio iframe,
 iframe {
   background: transparent !important;
 }
 
-.mg-ratio { position: relative; }  /* already present, just ensuring */
+.mg-ratio { position: relative; }
 .unmute-btn{
   position:absolute; right:12px; bottom:12px;
   z-index: 5;
@@ -1903,12 +1895,11 @@ iframe {
 }
 .unmute-btn:focus{ outline:3px solid #9e0853; outline-offset:2px; }
 
-/* --- Flip card for the right image --- */
 .flip-card{ position:relative; perspective:1200px; }
 .flip-card .flip-inner{
   position:relative;
   width:100%;
-  aspect-ratio: 4 / 3;            /* adjust to 1/1 if you prefer square */
+  aspect-ratio: 4 / 3;
   transform-style:preserve-3d;
   transition: transform .6s cubic-bezier(.2,.6,.2,1);
 }
@@ -1921,11 +1912,9 @@ iframe {
 }
 .flip-card .flip-face.back{ transform: rotateY(180deg); }
 
-/* flip on hover (desktop) and when JS toggles the class */
 .flip-card:hover .flip-inner,
 .flip-card.is-flipped .flip-inner{ transform: rotateY(180deg); }
 
-/* small overlay button for taps/mobiles */
 .flip-btn{
   position:absolute; right:12px; bottom:12px;
   z-index:5;
@@ -1936,11 +1925,10 @@ iframe {
 }
 .flip-btn:focus{ outline:3px solid #9e0853; outline-offset:2px; }
 
-/* Medigap intro: make the right flip image smaller and align it to the edge */
 #medigap-intro .vm-comic{
-  max-width: 500px;     /* ← change to 420px if you want smaller */
+  max-width: 500px;
   width: 100%;
-  justify-self: end;     /* hugs the right side on desktop */
+  justify-self: end;
 }
 
 #medigap-intro .vm-comic img{
@@ -1949,19 +1937,19 @@ iframe {
   height: auto;
 }
 
-/* On phones/tablets, let it be full width again */
 @media (max-width: 991px){
   #medigap-intro .vm-comic{
     max-width: 100%;
     justify-self: stretch;
   }
 }
+
 /* Header wordmark sizing */
 .brand-logo {
-  height: 100px;          /* make it taller */
-  width: auto;           /* keep proportions */
-  margin-top: 5px;     /* pull it up so it overlaps */
-  margin-bottom: -15px;  /* pull it down so it overlaps */
+  height: 100px;
+  width: auto;
+  margin-top: 5px;
+  margin-bottom: -15px;
   position: relative;
   z-index: 5;
 }
@@ -1980,7 +1968,6 @@ iframe {
   .local-nap .nap-grid{ grid-template-columns:1fr; }
 }
 
-/* Card look on both sides */
 .local-nap .nap-info,
 .local-nap .map-wrap{
   background:#fff;
@@ -1997,7 +1984,6 @@ iframe {
 
 .local-nap .nap-info p{ margin:6px 0; }
 
-/* Bullets and buttons */
 .local-nap .nap-points{ margin:10px 0 8px; padding-left:18px; }
 .local-nap .nap-points li{ margin:6px 0; }
 
@@ -2007,7 +1993,6 @@ iframe {
 }
 .local-nap .nap-ctas .button{ padding:10px 16px; }
 
-/* Map frame */
 .local-nap .map-wrap{ padding:10px; }
 .local-nap .map-wrap iframe{
   display:block; width:100%; height:360px;
@@ -2028,7 +2013,7 @@ iframe {
 
 .local-internal a {
   text-decoration: underline;
-  color: #1e40af;   /* matches your buttons */
+  color: #1e40af;
   font-weight: 600;
 }
 
@@ -2038,12 +2023,12 @@ iframe {
 
 #faq {
   margin: 40px auto;
-  max-width: 780px;   /* keeps lines readable */
-  text-align: left;   /* questions/answers stay aligned */
+  max-width: 780px;
+  text-align: left;
 }
 
 #faq h2 {
-  text-align: center;  /* center the section heading */
+  text-align: center;
   margin-bottom: 20px;
 }
 
@@ -2086,14 +2071,12 @@ iframe {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Hover - stays round, gets bigger */
 .logo-left:hover img {
   transform: scale(1.4) !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
   border-radius: 50% !important;
 }
 
-/* Desktop: slightly bigger base size */
 @media (min-width: 769px) {
   .logo-left {
     height: 110px;
@@ -2107,7 +2090,6 @@ iframe {
   }
 }
 
-/* Mobile: smaller */
 @media (max-width: 768px) {
   .logo-left {
     height: 64px;
@@ -2115,13 +2097,11 @@ iframe {
     margin-left: 0;
   }
   
-  /* Disable hover on mobile */
   .logo-left:hover img {
     transform: none !important;
   }
 }
 
-/* Tablet */
 @media (max-width: 960px) and (min-width: 769px) {
   .logo-left {
     height: 90px;
@@ -2136,40 +2116,37 @@ iframe {
 
 .enroll-btn,
 a.enroll-btn {
-  background-color: #dc3545 !important; /* Bright red */
+  background-color: #dc3545 !important;
   color: white !important;
-  font-size: 1.4rem !important; /* Bigger text */
-  padding: 1.1rem 2.8rem !important; /* More padding */
-  font-weight: 700 !important; /* Bold */
+  font-size: 1.4rem !important;
+  padding: 1.1rem 2.8rem !important;
+  font-weight: 700 !important;
   border: none !important;
   border-radius: 10px !important;
   text-decoration: none !important;
   display: inline-block !important;
   transition: all 0.3s ease !important;
-  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.35) !important; /* Red shadow */
+  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.35) !important;
   text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
-  -webkit-text-fill-color: white !important; /* Safari fix */
+  -webkit-text-fill-color: white !important;
 }
 
-/* Hover state */
 .enroll-btn:hover,
 a.enroll-btn:hover {
-  background-color: #c82333 !important; /* Darker red */
-  transform: translateY(-3px) !important; /* Lift effect */
+  background-color: #c82333 !important;
+  transform: translateY(-3px) !important;
   box-shadow: 0 8px 20px rgba(220, 53, 69, 0.45) !important;
   color: white !important;
   -webkit-text-fill-color: white !important;
 }
 
-/* Active/Click state */
 .enroll-btn:active,
 a.enroll-btn:active {
   transform: translateY(-1px) !important;
   box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
 }
 
-/* Focus state for accessibility */
 .enroll-btn:focus,
 a.enroll-btn:focus {
   outline: 3px solid #dc3545 !important;
@@ -2178,7 +2155,6 @@ a.enroll-btn:focus {
   -webkit-text-fill-color: white !important;
 }
 
-/* All states keep white text */
 .enroll-btn:visited,
 a.enroll-btn:visited,
 .enroll-btn:link,
@@ -2187,7 +2163,6 @@ a.enroll-btn:link {
   -webkit-text-fill-color: white !important;
 }
 
-/* Ensure enroll button stays white in hero section */
 .hero-text .enroll-btn,
 .hero-text a.enroll-btn,
 body .enroll-btn,
@@ -2218,7 +2193,6 @@ body a.enroll-btn:visited {
   text-decoration: none !important;
 }
 
-/* Mobile: slightly smaller but still prominent */
 @media (max-width: 768px) {
   .enroll-btn,
   a.enroll-btn {
@@ -2232,7 +2206,6 @@ body a.enroll-btn:visited {
   }
 }
 
-/* Small phones */
 @media (max-width: 480px) {
   .enroll-btn,
   a.enroll-btn {
@@ -2240,11 +2213,11 @@ body a.enroll-btn:visited {
     padding: 0.85rem 1.6rem !important;
   }
 }
+
 /* ========================================
    VOICE-TRIGGER LANDING PAGES
    ======================================== */
 
-/* Simple header for voice pages */
 .simple-header {
   background: #f8f9fa;
   padding: 1rem;
@@ -2261,7 +2234,6 @@ body a.enroll-btn:visited {
   text-decoration: underline;
 }
 
-/* Main voice page container */
 .voice-page {
   padding: 2rem 1rem;
   max-width: 800px;
@@ -2322,7 +2294,6 @@ body a.enroll-btn:visited {
   color: #666;
 }
 
-/* Answer content sections */
 .answer-content,
 .agent-bio,
 .part-d-info,
@@ -2330,7 +2301,6 @@ body a.enroll-btn:visited {
   margin-bottom: 2rem;
 }
 
-/* Contact info box */
 .contact-info {
   background: linear-gradient(135deg, #f0f8ff 0%, #e6f2ff 100%);
   padding: 2rem;
@@ -2360,7 +2330,6 @@ body a.enroll-btn:visited {
   text-decoration: underline;
 }
 
-/* CTA buttons */
 .cta-buttons {
   margin-top: 1.5rem;
   display: flex;
@@ -2384,7 +2353,6 @@ body a.enroll-btn:visited {
   text-decoration: none;
 }
 
-/* Service area box */
 .service-area {
   background: #fafafa;
   padding: 1.5rem;
@@ -2406,7 +2374,6 @@ body a.enroll-btn:visited {
   font-size: 0.95rem;
 }
 
-/* Simple footer */
 .simple-footer {
   background: #2c3e50;
   color: white;
@@ -2428,7 +2395,6 @@ body a.enroll-btn:visited {
   text-decoration: underline;
 }
 
-/* Mobile responsiveness */
 @media (max-width: 768px) {
   .voice-page {
     padding: 1rem 0.75rem;
@@ -2464,62 +2430,56 @@ body a.enroll-btn:visited {
    CAROUSEL ARROW FIX - Vertical Centering
    ======================================== */
 
-/* Reviews Carousel */
 #vm-reviews .vm-reviews__nav,
 #vm-reviews button.vm-reviews__nav,
 #vm-reviews .vm-reviews__prev,
 #vm-reviews .vm-reviews__next {
-    position: absolute !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    -webkit-transform: translateY(-50%) !important;
-    z-index: 5001 !important;
-    bottom: auto !important;
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  -webkit-transform: translateY(-50%) !important;
+  z-index: 5001 !important;
+  bottom: auto !important;
 }
 
-/* Smile/Comic Carousel */
 .smile .smile-arrow,
 .smile button.smile-arrow,
 .smile .smile-arrow.prev,
 .smile .smile-arrow.next,
 .smile-wrap .smile-arrow {
-    position: absolute !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    -webkit-transform: translateY(-50%) !important;
-    translate: none !important;
-    z-index: 5001 !important;
-    bottom: auto !important;
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  -webkit-transform: translateY(-50%) !important;
+  translate: none !important;
+  z-index: 5001 !important;
+  bottom: auto !important;
 }
 
-/* Spiritual Thoughts Carousel */
 #vm-spirit .spirit-nav,
 #vm-spirit button.spirit-nav,
 #vm-spirit .spirit-prev,
 #vm-spirit .spirit-next,
 #vm-spirit .spirit-wrap .spirit-nav {
-    position: absolute !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    -webkit-transform: translateY(-50%) !important;
-    translate: none !important;
-    z-index: 5001 !important;
-    bottom: auto !important;
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  -webkit-transform: translateY(-50%) !important;
+  translate: none !important;
+  z-index: 5001 !important;
+  bottom: auto !important;
 }
 
-/* Ensure parent containers are positioned */
 #vm-reviews,
 .smile-wrap,
 #vm-spirit .spirit-wrap {
-    position: relative !important;
+  position: relative !important;
 }
 
 /* ========================================
    CMS COMPLIANCE STYLING
-   Add this section to the END of styles.css
    ======================================== */
 
-/* Main compliance block - prominent placement after hero */
 .cms-compliance {
   background: #fffbf0;
   border: 2px solid #d97706;
@@ -2542,7 +2502,7 @@ body a.enroll-btn:visited {
   color: #333;
   font-size: 0.95rem;
   line-height: 1.6;
-  text-align: left; /* Override any center alignment */
+  text-align: left;
 }
 
 .cms-compliance strong {
@@ -2551,17 +2511,16 @@ body a.enroll-btn:visited {
 }
 
 .cms-compliance a {
-  color: #002b49; /* Match your brand navy */
+  color: #002b49;
   text-decoration: underline;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 .cms-compliance a:hover {
-  color: #9e0853; /* Match your brand pink */
+  color: #9e0853;
 }
 
-/* Compact version for secondary pages */
 .cms-disclaimer-compact {
   background: #f9fafb;
   border-left: 4px solid #d97706;
@@ -2592,7 +2551,6 @@ body a.enroll-btn:visited {
   color: #9e0853;
 }
 
-/* Enhanced footer disclosure */
 .cms-footer-disclosure {
   background: #f3f4f6;
   padding: 2rem 1rem;
@@ -2641,7 +2599,6 @@ body a.enroll-btn:visited {
   color: #6b7280;
 }
 
-/* Mobile responsiveness for compliance sections */
 @media (max-width: 768px) {
   .cms-compliance,
   .cms-disclaimer-compact {
@@ -2673,7 +2630,6 @@ body a.enroll-btn:visited {
   }
 }
 
-/* Ensure compliance sections don't get section hover effects */
 .cms-compliance:hover,
 .cms-disclaimer-compact:hover,
 .cms-footer-disclosure:hover {
@@ -2681,7 +2637,6 @@ body a.enroll-btn:visited {
   box-shadow: 0 4px 12px rgba(217, 119, 6, 0.15);
 }
 
-/* Make sure compliance links are visible in all contexts */
 main .cms-compliance a,
 main .cms-disclaimer-compact a,
 .cms-footer-disclosure a {
@@ -2695,7 +2650,6 @@ main .cms-disclaimer-compact a:hover,
   color: #9e0853 !important;
 }
 
-/* Print styles - ensure compliance text is always visible when printed */
 @media print {
   .cms-compliance,
   .cms-disclaimer-compact,
@@ -2710,17 +2664,6 @@ main .cms-disclaimer-compact a:hover,
   .cms-footer-disclosure * {
     color: #000 !important;
   }
-}
-
-.vm-reviews__name {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
 }
 
 /* NEWS PAGE */
@@ -2794,4 +2737,85 @@ main .cms-disclaimer-compact a:hover,
   padding: 2rem;
   margin: 2rem 0;
   box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+}
+
+/* ====================== REVIEWS PAGE - CLEAN STYLES ====================== */
+
+.reviews {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin: 40px 0;
+}
+
+.review-card {
+  background: white;
+  padding: 26px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  border: 1px solid #f0f0f0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.review-card blockquote {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 18px;
+  color: #333;
+}
+
+.review-card figcaption {
+  color: #444;
+  font-weight: 500;
+}
+
+.reviews h2::after,
+.cta h2::after {
+  display: none;
+}
+
+.cta {
+  background: #f0f7ff;
+  border: 2px solid #9e0853;
+  padding: 40px;
+  border-radius: 12px;
+  margin: 60px auto;
+  max-width: 800px;
+}
+
+.cta h2 {
+  color: #002b49;
+  margin-bottom: 1rem;
+}
+
+.button {
+  background-color: #9e0853;
+  color: white;
+  padding: 14px 32px;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.button:hover {
+  background-color: #c71585;
+  transform: translateY(-2px);
+}
+
+.rating-box {
+  background: #f8f9fa;
+  border: 3px solid #fbbc05;
+  border-radius: 12px;
 }
