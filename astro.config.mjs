@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
 // NOTE: @astrojs/sitemap is intentionally NOT enabled during migration.
 // Your hand-built split sitemaps (sitemap-pages/money/posts/local) live in
 // public/ and ship verbatim, so nothing changes for Search Console on launch.
@@ -47,4 +48,6 @@ export default defineConfig({
     // Example (commented out — we are NOT changing URLs in this migration):
     // '/old-page.html': '/new-page.html',
   },
+
+  adapter: cloudflare(),
 });
