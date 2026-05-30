@@ -1,0 +1,11 @@
+# public/_redirects  —  Cloudflare Pages redirect safety net
+#
+# We are PRESERVING .html URLs in this migration, so there are no required
+# redirects. This file is a safety net / future home for any host-level rules.
+#
+# Format:  /old-path   /new-path   301
+# Example (only if a URL ever truly changes — not the case today):
+# /old-page.html   /new-page.html   301
+#
+# Leave empty during migration. Validate any rule you add with an HTTP status
+# checker after launch (Runbook Part 8).
