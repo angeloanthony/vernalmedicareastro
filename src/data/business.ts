@@ -54,6 +54,9 @@ export const BUSINESS = {
 
   // Analytics
   gaId: 'G-NW6ENB89NF',
+  // Always-on sitewide GA4 property: fires on EVERY page regardless of the
+  // per-page `gaIds` override (which controls the additional property tags).
+  gaGlobalId: 'G-NBXPYV4X2Q',
 
   // Third-party
   quoteUrl:

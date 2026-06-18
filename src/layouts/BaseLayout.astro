@@ -55,6 +55,13 @@ const {
   extraStylesheet,
   gaIds = [B.gaId],
 } = Astro.props;
+
+// The always-on global property fires on every page; the per-page `gaIds`
+// (which a page may set to [] to suppress its property-specific tags) are
+// appended. Dedupe so an ID listed in both places only configures once.
+const allGaIds = [B.gaGlobalId, ...gaIds].filter(
+  (id, i, arr) => id && arr.indexOf(id) === i,
+);
 ---
 
 <!doctype html>
@@ -106,23 +113,23 @@ const {
     <link rel="stylesheet" href="/styles.css" />
     {extraStylesheet && <link rel="stylesheet" href={extraStylesheet} />}
 
-    <!-- Google tag (gtag.js) — fires each configured property -->
-    {gaIds.length > 0 && (
+    <!-- Google tag (gtag.js) — global sitewide property + each per-page property -->
+    {allGaIds.length > 0 && (
       <Fragment>
-        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaIds[0]}`}></script>
-        <script is:inline define:vars={{ gaIds, primary: B.gaId }}>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${allGaIds[0]}`}></script>
+        <script is:inline define:vars={{ allGaIds, primary: B.gaId }}>
           window.dataLayer = window.dataLayer || [];
           function gtag() {
             dataLayer.push(arguments);
           }
           gtag('js', new Date());
-          gaIds.forEach(function (id) {
+          allGaIds.forEach(function (id) {
             // The primary property used anonymize_ip in the originals; preserve that.
             if (id === primary) gtag('config', id, { anonymize_ip: true });
             else gtag('config', id);
           });
         </script>
-        {gaIds.slice(1).map((id) => (
+        {allGaIds.slice(1).map((id) => (
           <script async src={`https://www.googletagmanager.com/gtag/js?id=${id}`}></script>
         ))}
       </Fragment>
