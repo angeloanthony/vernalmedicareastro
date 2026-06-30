@@ -1,196 +1,205 @@
 # ADR-0008 — Page Framework (the page-rendering contract)
 
 **Status:** Accepted · 2026-06-30 · **Supersedes ADR-0005** (SEO-only scope)
+**Companion:** ADR-0009 (Migration Rules)
 
 ## Context
 Almost every future page (article, calculator, drug, location, comparison) shares
-~80% structure: breadcrumbs, author/reviewed-by/updated byline, summary, FAQ, CTA,
-related pages, disclaimers, and JSON-LD orchestration. Building these per page — or
-as four independent layouts — duplicates that 80%. Vernal's `BaseLayout` already
-owns the `<head>` (title/OG/canonical/GA/`schema[]`) and must be preserved.
+~80% structure: breadcrumbs, author/reviewed-by/updated byline, summary, FAQ,
+next-steps, CTA, related pages, citations, disclaimers, and JSON-LD orchestration.
+Building these per page — or as independent layouts — duplicates that 80%. Vernal's
+`BaseLayout` already owns the `<head>` and must be preserved.
 
 ## Decision
-Build **one Page Framework**: a `StandardPageLayout` that wraps `BaseLayout` and
-owns the shared 80%, with thin page-type specializations on top. Key choices
-(approved):
+One Page Framework: a `StandardPageLayout` that wraps `BaseLayout` and owns the
+shared 80%, with thin page-type specializations on top, all driven by a single
+`PageContext`. Approved refinements (this revision):
 
-1. **Shared hierarchy**, not four independent layouts.
-2. **One `PageContext` object** per page, not dozens of props.
-3. **Authors live in `src/data/authors.ts`** (content, not config).
-4. **Add `ComparisonPage`** as a first-class page type.
-5. **Related pages are computed from taxonomy** (silo + tags), not hand-listed.
-6. **Schema is composable** (`SchemaModule[]`), assembled from context — not one
-   monolithic per-page builder.
-7. **E-E-A-T fields supported from day one**: written-by, reviewed-by, last-updated,
-   sources, medical disclaimer, local availability.
+1. **Shared hierarchy** (not independent layouts).
+2. **`RecordPageLayout`** parent for the data-record pages (Drug, Location) — a drug
+   is not a location; both are *records*.
+3. **Split `PageData` (portable content model) from `PageContext`** so MDX, CMS,
+   AI-generated, and calculator pages share one content shape.
+4. **Schema is chosen by the framework, not the author** — page type → primary
+   JSON-LD; FAQ/Breadcrumb/Person added automatically from context.
+5. **Authors in `src/data/authors.ts`**; **`Evidence` citations are first-class data**.
+6. **`NextStep`** guidance block (renamed from DecisionBox).
+7. **Related pages computed + weighted-scored** from taxonomy; top 4 shown.
+8. **`InteractivePage` reserved** (workflows: quizzes, wizards, finders ≠ calculators).
+9. **`src/lib/search/` reserved** for later (keyword/drug/plan/location search).
+10. **`data/pageIndex.ts` built now** (manual; auto-generated later).
+11. **E-E-A-T supported from day one** (written-by, reviewed-by, updated, sources,
+   medical disclaimer, local availability).
 
-Plus a new shared block — **`DecisionBox`** (contextual "if X, do Y next" guidance).
-
-> Astro note: "inheritance" here means **composition** — `ArticlePage.astro` renders
-> `StandardPageLayout.astro` which renders `BaseLayout.astro`. No class inheritance.
+> Astro note: "inheritance" = **composition** (`ArticlePage` → `StandardPageLayout`
+> → `BaseLayout`). No class inheritance.
 
 ## Component hierarchy (UML-style)
 
 ```
-BaseLayout                         (unchanged: head / OG / canonical / GA / schema[])
-  └─ StandardPageLayout            shared 80%: breadcrumb · header(title + AuthorByline +
-       │                            updated + localAvailability) · summary · decisions ·
-       │                            <body slot> · FAQ · sources · related · CTA ·
-       │                            disclaimer · schema orchestration → BaseLayout.schema
-       ├─ ArticlePage              + prose body              (Article | MedicalWebPage)
-       ├─ ComparisonPage           + ComparisonTable + verdict (Article + FAQPage)
-       ├─ CalculatorPage           = Phase-1 calculator/* re-parented onto StandardPageLayout
-       │                            (+ HowTo / MedicalWebPage)
-       └─ RecordPageLayout         data-record-driven: header from a record + taxonomy related
-            ├─ LocationPage        from data/locations  (+ LocalBusiness areaServed)
-            └─ DrugPage            from data/drugs       (+ MedicalWebPage / Drug)
+BaseLayout                       (unchanged: head / OG / canonical / GA / schema[])
+  └─ StandardPageLayout          shared 80%: breadcrumb · header(title + AuthorByline +
+       │                          updated + localAvailability) · summary · nextSteps ·
+       │                          <body slot> · FAQ · sources · related · CTA · disclaimer
+       │                          · schema orchestration → BaseLayout.schema
+       ├─ ArticlePage            prose                        → Article
+       ├─ ComparisonPage         + ComparisonTable + verdict  → Article
+       ├─ CalculatorPage         Phase-1 calculator/* re-parented → HowTo
+       ├─ InteractivePage        RESERVED (Phase 4+): quizzes, eligibility wizard,
+       │                          plan/county finder — workflows, not calculators
+       └─ RecordPageLayout       data-record-driven (record header + taxonomy related)
+            ├─ DrugPage           data/drugs      → MedicalWebPage
+            └─ LocationPage       data/locations  → LocalBusiness
 ```
 
 Content blocks (`src/components/content/`): `AuthorByline`, `SummaryBox` (reuse
-`SummaryBlock`), `FAQ` (reuse, welded visible+schema), `Breadcrumbs` (reuse),
-`RelatedPages`, `DecisionBox`, `SourcesList`, `Disclaimer`, `PageCTA`
-(generalize `CalculatorCTA`), `ComparisonTable` (generalize `CalculatorComparison`).
+`SummaryBlock`), `FAQ` (reuse — welded visible+schema), `Breadcrumbs` (reuse),
+`RelatedPages`, `NextStep`, `SourcesList`, `Disclaimer`, `PageCTA` (generalize
+`CalculatorCTA`), `ComparisonTable` (generalize `CalculatorComparison`).
 
 ## The contract — TypeScript interfaces
 
 ```ts
 // ── Identity / E-E-A-T (records in src/data/authors.ts) ──────────────────────
 interface Author {
-  id: string;                         // 'rocco'
-  name: string;                       // 'Rocco DeLuca'
-  jobTitle: string;                   // 'Licensed Medicare Agent'
+  id: string;                          // 'rocco'
+  name: string; jobTitle: string;
   role: 'author' | 'reviewer' | 'source' | 'contributor';
-  url?: string;                       // bio/about page
-  sameAs?: string[];                  // license lookup, Facebook, GBP
-  credentials?: string[];             // 'NPN #…', 'AHIP certified 2026'
+  url?: string; sameAs?: string[];     // bio, license lookup, GBP, socials
+  credentials?: string[];              // 'NPN #…', 'AHIP certified 2026'
 }
 
-// ── SEO / head (fed straight into BaseLayout) ────────────────────────────────
-interface PageMeta {
+// ── Evidence: authoritative citations as first-class data ────────────────────
+interface Evidence {
   title: string;
-  description: string;
-  canonical: string;                  // absolute, .html (URL policy, ADR-0002)
-  ogTitle?: string;
-  ogDescription?: string;
-  ogType?: 'website' | 'article';
-  ogImage?: string;
-  robots?: string;                    // default 'index, follow'
+  url: string;
+  publisher: string;                   // 'CMS' | 'Medicare.gov' | 'SSA' | 'IRS' | …
+  date?: string;                       // ISO publication/accessed date
 }
 
-// ── Taxonomy (drives auto-related) ───────────────────────────────────────────
+// ── Taxonomy (drives weighted related) ───────────────────────────────────────
 type SiloKey =
   | 'medicare-101' | 'enrollment' | 'medicare-advantage' | 'medigap'
   | 'part-d' | 'costs-irmaa' | 'providers' | 'local' | 'tools'
   | 'dual-eligible' | 'other-insurance' | 'trust';
+interface Taxonomy { silo: SiloKey; tags?: string[]; pillar?: boolean; }
 
-interface Taxonomy {
-  silo: SiloKey;                      // primary cluster (exactly one)
-  tags?: string[];                    // cross-cutting topics
-  pillar?: boolean;                   // hub/pillar page?
+// ── NextStep: contextual "what do I do now?" guidance ────────────────────────
+interface NextStep {
+  when: string;                        // 'If you're turning 65 in the next 3 months'
+  action: string;                      // 'Enroll during your Initial Enrollment Period'
+  href?: string; cta?: string;
 }
 
-// ── Related (computed from taxonomy; override allowed) ───────────────────────
-interface RelatedPage {
-  href: string;
-  label: string;
-  blurb?: string;
-  silo?: SiloKey;
+// ── PageData: the PORTABLE content model (MDX / CMS / AI / calculators share it) ─
+interface PageData {
+  title: string;
+  description: string;
+  taxonomy: Taxonomy;
+  summary?: string;                    // AI-pullable TL;DR
+  faqs?: FAQItem[];                    // FAQItem from types/FAQ
+  sources?: Evidence[];                // citations
+  nextSteps?: NextStep[];
+  // body is supplied via the layout <slot/> (or rendered MDX later)
 }
 
-// ── Contextual guidance block ────────────────────────────────────────────────
-interface DecisionBox {
-  condition: string;                  // "If you're turning 65 in the next 3 months…"
-  guidance: string;                   // "…enroll during your Initial Enrollment Period."
-  href?: string;                      // optional next step
-  cta?: string;                       // optional link label
+// ── PageMeta: head extras only (title/description come from PageData) ─────────
+interface PageMeta {
+  canonical: string;                   // absolute .html (ADR-0002)
+  ogTitle?: string; ogDescription?: string;
+  ogType?: 'website' | 'article'; ogImage?: string;
+  robots?: string;                     // default 'index, follow'
 }
 
-// ── CTA (defaults pull phone/quote from business.ts) ─────────────────────────
 interface CTAConfig {
-  heading?: string;
-  text?: string;
+  heading?: string; text?: string;
   primary?: { label: string; href: string };
   secondary?: { label: string; href: string };
 }
 
-// ── Schema as composable modules ─────────────────────────────────────────────
+// ── Related: computed + scored; top 4 rendered ───────────────────────────────
+interface RelatedPage { href: string; label: string; blurb?: string; silo?: SiloKey; score?: number; }
+
+// ── Schema: composable; KIND IS CHOSEN BY THE LAYOUT, never the author ───────
 type SchemaKind =
   | 'Article' | 'MedicalWebPage' | 'WebPage' | 'HowTo' | 'FAQPage'
   | 'BreadcrumbList' | 'Person' | 'Organization' | 'LocalBusiness'
   | 'WebSite' | 'Review' | 'Drug';
+interface SchemaModule { kind: SchemaKind; build: (ctx: PageContext) => Record<string, unknown>; }
 
-interface SchemaModule {
-  kind: SchemaKind;
-  build: (ctx: PageContext) => Record<string, unknown>;   // → one JSON-LD object
-}
-
-// ── THE master contract: one object per page ─────────────────────────────────
+// ── THE master object: one per page ──────────────────────────────────────────
 interface PageContext {
-  meta: PageMeta;
-  taxonomy: Taxonomy;
-
-  // E-E-A-T (optional, supported from day one)
-  author?: Author;                    // default: ROCCO (data/authors)
+  page: PageData;                      // portable content
+  meta: PageMeta;                      // head extras (canonical, og)
+  // identity / E-E-A-T (optional, day one)
+  author?: Author;                     // default: ROCCO (data/authors)
   reviewedBy?: Author;
-  lastUpdated?: string;               // 'June 2026' or ISO
-  sources?: { label: string; href: string }[];
+  lastUpdated?: string;
   medicalDisclaimer?: boolean | string;
-  localAvailability?: string;         // 'Available in Vernal & the Uintah Basin'
-
-  // Structure
-  breadcrumb?: Crumb[];               // Crumb from types/Location
-  summary?: string;                   // AI-pullable TL;DR
-  decisions?: DecisionBox[];
-  faqs?: FAQItem[];                   // FAQItem from types/FAQ
-  related?: RelatedPage[];            // omit → computed from taxonomy
+  localAvailability?: string;
+  // structure
+  breadcrumb?: Crumb[];                // Crumb from types/Location
+  related?: RelatedPage[];             // omit → computed (scored) from taxonomy
   cta?: CTAConfig;
-
-  // Schema
-  schemaType?: Extract<SchemaKind, 'Article' | 'MedicalWebPage' | 'WebPage' | 'HowTo'>;
-  schema?: SchemaModule[];            // extra/override modules; base set auto-derived
+  // schema OVERRIDES only — primary kind + base set are set automatically
+  schema?: SchemaModule[];
 }
 ```
 
-## Schema composition model
-`lib/schema` exports one builder per `SchemaKind` (have: `faqPageSchema`,
-`breadcrumbSchema`, `articleSchema`; add: `medicalWebPageSchema`, `personSchema`,
-`organizationSchema`, `localBusinessSchema`, `websiteSchema`, `reviewSchema`,
-`drugSchema`, `howToSchema`). A single `assembleSchema(ctx): object[]` **derives the
-base set** from context — `schemaType` → Article/MedicalWebPage; `breadcrumb` →
-BreadcrumbList; `faqs` → FAQPage; `author`/`reviewedBy` → Person — then appends any
-`ctx.schema` overrides. `StandardPageLayout` passes the result to
-`BaseLayout.schema`. No page hand-writes JSON-LD.
+## Automatic schema selection
+The **layout** passes its primary `SchemaKind` to `assembleSchema(ctx, primaryKind)`;
+authors never choose. Mapping:
 
-## Related-from-taxonomy model
-`lib/related.relatedFor(taxonomy, index, limit = 4): RelatedPage[]` ranks by
-same-silo then tag overlap. It reads a **page index** (`data/pageIndex.ts` now;
-derived from content collections once Phase 4 lands). Pages declare `taxonomy`; the
-framework computes "Related" — no manual lists to maintain.
+| Page type | Primary schema |
+|---|---|
+| ArticlePage / ComparisonPage | `Article` |
+| CalculatorPage | `HowTo` |
+| DrugPage | `MedicalWebPage` (+ `Drug`) |
+| LocationPage | `LocalBusiness` |
 
-## File layout (to build in Phase 2)
+`assembleSchema` then auto-adds: `BreadcrumbList` (if `breadcrumb`), `FAQPage` (if
+`page.faqs`), `Person` (author/reviewer), sitewide `Organization`/`WebSite`, and
+`citation` from `page.sources` (Evidence → CreativeWork). Finally appends
+`ctx.schema` overrides. Output → `BaseLayout.schema`. No page hand-writes JSON-LD.
+
+## Weighted related model
+`lib/related.relatedFor(taxonomy, index): RelatedPage[]` scores each candidate and
+returns the top 4 (excluding self):
+
 ```
-src/types/Page.ts            PageContext, PageMeta, Author, Taxonomy, RelatedPage,
-                             DecisionBox, CTAConfig, SchemaKind, SchemaModule (+ barrel)
-src/data/authors.ts          ROCCO (+ future reviewer / pharmacist / CMS source)
-src/data/pageIndex.ts        registry for related-computation (interim)
-src/lib/schema/*             + new builders; assembleSchema(ctx)
-src/lib/related/*            relatedFor(...)
-src/components/layout/        StandardPageLayout, ArticlePage, ComparisonPage,
-                              RecordPageLayout, LocationPage, DrugPage
-src/components/content/       AuthorByline, RelatedPages, DecisionBox, SourcesList,
-                              Disclaimer, PageCTA, ComparisonTable (+ reuse FAQ/Summary/Breadcrumbs)
+score = (sameSilo ? 60 : 0) + 12 × sharedTagCount + (candidate.pillar ? 10 : 0)
 ```
+
+Tunable in `lib/related`; reads `data/pageIndex.ts` (manual now; generated from
+content collections in Phase 4). Pages declare `taxonomy`; the framework picks
+"Related" — no hand-maintained lists.
+
+## File layout (build in Phase 2)
+```
+src/types/Page.ts        PageData, PageContext, PageMeta, Author, Evidence,
+                         Taxonomy, NextStep, RelatedPage, CTAConfig,
+                         SchemaKind, SchemaModule (+ barrel)
+src/data/authors.ts      ROCCO (+ future reviewer / pharmacist / CMS source)
+src/data/pageIndex.ts    manual page registry for related-computation (now)
+src/lib/schema/*         + builders per kind; assembleSchema(ctx, primary)
+src/lib/related/*        relatedFor(...) (weighted)
+src/lib/search/          RESERVED placeholder (future: keyword/drug/plan/location)
+src/components/layout/    StandardPageLayout, ArticlePage, ComparisonPage,
+                          CalculatorPage (re-parent), RecordPageLayout,
+                          DrugPage, LocationPage  (InteractivePage reserved)
+src/components/content/   AuthorByline, RelatedPages, NextStep, SourcesList,
+                          Disclaimer, PageCTA, ComparisonTable (+ reuse FAQ/Summary/Breadcrumbs)
+```
+
+## Resolved questions
+- **RecordPageLayout** — adopted (Drug & Location are records, not an is-a).
+- **pageIndex.ts** — built now, manual.
+- **Default schema** — neither hand-picked; **automatic by page type** (table above).
 
 ## Consequences
-- Every page becomes **`PageContext` + body**; the 80% is centralized and tested once.
-- Fixes audit bugs **centrally**: welded FAQ schema, breadcrumbs everywhere, author
-  E-E-A-T, canonical correctness.
-- Phase-2 work touches one Phase-1 component (re-parent `CalculatorLayout` onto
-  `StandardPageLayout`) — additive, behind the gate, no existing page changed.
-- Existing 47 pages are migrated onto the framework **later, one small commit each**
-  (also ratchets the astro-check baseline down).
-
-## Deferred / open
-- `RecordPageLayout` vs. `DrugPage extends LocationPage` (proposed: shared parent).
-- Page index now (`data/pageIndex.ts`) vs. waiting for content collections (Phase 4).
-- `MedicalWebPage` vs `Article` default for health guides.
+- A page = `PageData` + `PageContext` + body slot; the 80% is centralized/tested once.
+- Fixes audit bugs centrally (welded FAQ schema, breadcrumbs, author E-E-A-T,
+  canonicals) and ratchets the astro-check baseline down as pages adopt it.
+- Phase-2 touches one Phase-1 component (re-parent `CalculatorLayout`) — additive,
+  behind the gate, no existing page changed.
+- Existing 47 pages migrate later, one small commit each (ADR-0009).
