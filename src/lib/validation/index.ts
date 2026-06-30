@@ -3,7 +3,7 @@
 /** Parse a user value (may include "$", ",", "%") to a finite number, else null. */
 export const toNumber = (v: unknown): number | null => {
   if (typeof v === 'number') return Number.isFinite(v) ? v : null;
-  const n = parseFloat(String(v ?? '').replace(/[^0-9.\-]/g, ''));
+  const n = parseFloat(String(v ?? '').replace(/[^0-9.-]/g, ''));
   return Number.isFinite(n) ? n : null;
 };
 

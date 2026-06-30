@@ -5,6 +5,15 @@ This project documents an in-progress migration; entries are grouped by mileston
 
 ## [Unreleased]
 
+### Added — Developer Quality Gate (2026-06-30)
+- `npm run verify`: astro check (error-ratchet baseline) → Vitest → production build.
+- Scripts: `typecheck`, `lint` (ESLint over the TS layer), `test`, `test:watch`, `verify`.
+- Unit tests for `src/lib` (formatters, dates, validation, calculators) — 16 tests.
+- CI workflow (`.github/workflows/ci.yml`) runs lint + verify on push/PR.
+- `docs/VERIFICATION.md`; `docs/ADR/` (numbered records 0001–0007); `DECISIONS.md`
+  becomes the ADR index. Git tag `foundation-complete` marks the Phase-1 rollback point.
+- devDeps: `@astrojs/check`, `typescript`, `vitest`, `eslint`, `typescript-eslint`, `@eslint/js`.
+
 ### Added — Phase 1: Foundation (2026-06-30)
 - **Data layer** (`src/data/`): `annualMedicareData.ts` (year-keyed CMS figures)
   + `figures.ts` accessor, `conditions.ts`, `drugs.ts` (14 featured drugs + 25

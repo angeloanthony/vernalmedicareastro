@@ -55,6 +55,13 @@ no production code) → review → **implement** exactly that design. Keeps revi
 small and architecture decisions out of large diffs. Still one architectural area
 per commit.
 
+### Quality gate (enforced)
+`npm run verify` = **astro check (ratcheted)** → **unit tests** → **build**, run on
+every commit and in CI. Legacy `astro check` debt is held at a baseline (59 errors,
+ratchets down only — see [docs/VERIFICATION.md](docs/VERIFICATION.md)). Decisions
+recorded as ADRs in [docs/ADR/](docs/ADR/) (index: [DECISIONS.md](DECISIONS.md)).
+Rollback marker: git tag `foundation-complete`.
+
 ## Feature decision matrix
 
 | Feature / System | Vernal | Alta | Decision | Phase | Status |
