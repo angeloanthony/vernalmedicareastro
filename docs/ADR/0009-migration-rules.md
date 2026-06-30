@@ -31,6 +31,10 @@ These rules are binding for every contributor (human or AI) and every phase.
    a figure, NAP, or schema fact (ADR-0003). One brand: Vernal / Rocco (ADR-0001/0003).
 9. **Design → review → implement** for every major feature. The design (interfaces,
    file layout) is approved before production code.
+10. **Prove the framework on a real page before the next feature.** Every
+    implementation PR must migrate **one production page** onto a new framework
+    (verified end-to-end) before a second feature is built on it. No stacking
+    framework → calculator → FAQ → schema → … without a single proven page in between.
 
 ## Consequences
 - Slower but reversible; rankings are protected by process, not vigilance.

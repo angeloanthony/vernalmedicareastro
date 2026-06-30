@@ -196,6 +196,29 @@ src/components/content/   AuthorByline, RelatedPages, NextStep, SourcesList,
 - **pageIndex.ts** — built now, manual.
 - **Default schema** — neither hand-picked; **automatic by page type** (table above).
 
+## Implementation order (interfaces before consumers)
+Build stable interfaces first; layouts consume them last (they shouldn't evolve
+while the contract is still moving):
+
+1. `types/Page.ts` (the contract above)
+2. `data/authors.ts`
+3. `data/pageIndex.ts`
+4. `lib/related` (weighted engine)
+5. `lib/schema` (`assembleSchema` + new builders)
+6. `StandardPageLayout`
+7. `ArticlePage` → `RecordPageLayout` → `CalculatorPage` (re-parent) → `LocationPage`
+
+**First production page = a *static article*** (`medicare-part-a-vs-part-b`), not a
+calculator. It exercises the framework, schema, author, related, FAQ, breadcrumbs,
+NextStep, and sources **without** client-side interactivity — so any failure is the
+framework, not calculator logic (Migration Rule 10). Verify URL/HTML/schema/
+breadcrumbs/related unchanged-or-improved. **Only then build IRMAA.**
+
+## Reserved (not in the active contract yet)
+- **Content health** — a future optional `PageData.contentHealth`
+  (`{ reviewed, lastMedicalReview, cmsVersion, staleAfter, confidence }`) to flag
+  pages needing review after CMS/Medicare changes. Designed for, not built.
+
 ## Consequences
 - A page = `PageData` + `PageContext` + body slot; the 80% is centralized/tested once.
 - Fixes audit bugs centrally (welded FAQ schema, breadcrumbs, author E-E-A-T,
