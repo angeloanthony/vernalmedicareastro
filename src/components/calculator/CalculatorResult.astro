@@ -1,0 +1,29 @@
+---
+// CalculatorResult.astro — the results region. Renders an optional initial
+// CalculatorResult server-side (no-JS fallback) and exposes [data-calc-results]
+// so a calculator's client script can re-render on input via renderResults().
+import type { CalculatorResult } from '../../types/Calculator';
+
+interface Props {
+  heading?: string;
+  initial?: CalculatorResult;
+}
+const { heading = 'Your estimate', initial } = Astro.props;
+---
+
+<div class="calc-result" data-calc-results aria-live="polite">
+  <h2 class="calc-result-heading">{heading}</h2>
+  {initial && initial.summary && <p class="calc-result-summary">{initial.summary}</p>}
+  {initial ? (
+    <dl class="calc-result-list">
+      {initial.rows.map((r) => (
+        <div class:list={['calc-row', { 'is-emphasis': r.emphasis }]}>
+          <dt>{r.label}</dt>
+          <dd>{r.value}</dd>
+        </div>
+      ))}
+    </dl>
+  ) : (
+    <p class="calc-result-empty">Enter your details to see an estimate.</p>
+  )}
+</div>

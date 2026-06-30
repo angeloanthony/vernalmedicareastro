@@ -1,0 +1,56 @@
+---
+// CalculatorInput.astro — one labeled control, driven by a CalculatorField.
+// Emits data-calc-field / data-calc-type so the per-calculator client script can
+// read every input generically (see src/lib/calculators readFields).
+import type { CalculatorField } from '../../types/Calculator';
+
+interface Props {
+  field: CalculatorField;
+}
+const { field } = Astro.props;
+const { id, label, type, help, options, min, max, step, required } = field;
+const describedBy = help ? `${id}-help` : undefined;
+const numericInputMode = type === 'currency' || type === 'number' || type === 'percent';
+---
+
+<div class="calc-field" data-field-type={type}>
+  <label for={id} class="calc-label">
+    {label}{required && <span class="calc-req" aria-hidden="true"> *</span>}
+  </label>
+  {help && <p class="calc-help" id={describedBy}>{help}</p>}
+
+  {type === 'select' && (
+    <select id={id} name={id} data-calc-field={id} data-calc-type={type} aria-describedby={describedBy}>
+      {options?.map((o) => <option value={o.value}>{o.label}</option>)}
+    </select>
+  )}
+
+  {type === 'radio' && (
+    <div class="calc-radios" role="radiogroup" aria-label={label} data-calc-field={id} data-calc-type={type}>
+      {options?.map((o, i) => (
+        <label class="calc-radio">
+          <input type="radio" name={id} value={o.value} checked={i === 0} /> {o.label}
+        </label>
+      ))}
+    </div>
+  )}
+
+  {type === 'boolean' && (
+    <input type="checkbox" id={id} name={id} data-calc-field={id} data-calc-type={type} aria-describedby={describedBy} />
+  )}
+
+  {(type === 'number' || type === 'currency' || type === 'percent' || type === 'date') && (
+    <input
+      id={id}
+      name={id}
+      type={type === 'date' ? 'date' : 'number'}
+      inputmode={numericInputMode ? 'decimal' : undefined}
+      min={min}
+      max={max}
+      step={step}
+      data-calc-field={id}
+      data-calc-type={type}
+      aria-describedby={describedBy}
+    />
+  )}
+</div>

@@ -1,0 +1,19 @@
+---
+// CalculatorDisclaimer.astro — compliance + "estimate only" footer for tools.
+// The TPMO disclaimer comes from business.ts (single source); the estimate
+// caveat is overridable per calculator.
+import { BUSINESS } from '../../data/business';
+
+interface Props {
+  text?: string;
+}
+const { text } = Astro.props;
+const estimateNote =
+  text ??
+  'Estimates only — not a quote, offer, or determination of benefits. Figures use current-year CMS amounts and may change.';
+---
+
+<footer class="calc-disclaimer">
+  <p class="calc-disclaimer-estimate">{estimateNote}</p>
+  <p class="calc-disclaimer-tpmo">{BUSINESS.disclaimer}</p>
+</footer>

@@ -1,0 +1,10 @@
+---
+// CalculatorShare.astro — share button (native share, clipboard fallback).
+// Behaviour is wired generically by CalculatorLayout's script via [data-calc-share].
+interface Props {
+  label?: string;
+}
+const { label = 'Share' } = Astro.props;
+---
+
+<button type="button" class="btn btn-outline calc-share" data-calc-share>{label}</button>

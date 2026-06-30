@@ -1,0 +1,10 @@
+---
+// CalculatorPrint.astro — print / save-as-PDF button. Behaviour is wired
+// generically by CalculatorLayout's script via [data-calc-print].
+interface Props {
+  label?: string;
+}
+const { label = 'Print / Save as PDF' } = Astro.props;
+---
+
+<button type="button" class="btn btn-outline calc-print" data-calc-print>{label}</button>

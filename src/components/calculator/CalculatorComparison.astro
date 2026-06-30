@@ -1,0 +1,35 @@
+---
+// CalculatorComparison.astro — generic comparison table (e.g. IRMAA tiers,
+// Plan G vs N). Pure presentational; data passed in as columns + rows.
+interface Row {
+  label: string;
+  values: string[];
+  emphasis?: boolean;
+}
+interface Props {
+  columns: string[];
+  rows: Row[];
+  caption?: string;
+  /** Header for the row-label column. */
+  rowHeader?: string;
+}
+const { columns, rows, caption, rowHeader = '' } = Astro.props;
+---
+
+<table class="calc-comparison">
+  {caption && <caption>{caption}</caption>}
+  <thead>
+    <tr>
+      <th scope="col">{rowHeader}</th>
+      {columns.map((c) => <th scope="col">{c}</th>)}
+    </tr>
+  </thead>
+  <tbody>
+    {rows.map((r) => (
+      <tr class:list={[{ 'is-emphasis': r.emphasis }]}>
+        <th scope="row">{r.label}</th>
+        {r.values.map((v) => <td>{v}</td>)}
+      </tr>
+    ))}
+  </tbody>
+</table>
