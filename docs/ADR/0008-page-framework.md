@@ -203,8 +203,9 @@ while the contract is still moving):
 1. `types/Page.ts` (the contract above)
 2. `data/authors.ts`
 3. `data/pageIndex.ts`
-4. `lib/related` (weighted engine)
-5. `lib/schema` (`assembleSchema` + new builders)
+4. `lib/schema` (`assembleSchema` + new builders) — built before related, since the
+   related engine leans on the taxonomy/metadata the schema/content model defines
+5. `lib/related` (weighted engine)
 6. `StandardPageLayout`
 7. `ArticlePage` → `RecordPageLayout` → `CalculatorPage` (re-parent) → `LocationPage`
 

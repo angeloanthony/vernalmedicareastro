@@ -35,6 +35,14 @@ engine. Also: relocate root components into the new taxonomy folders.
 ## Phase 7 — Performance
 Cleanup · CSS audit · image optimization · Astro tuning · final QA.
 
+## Milestone tags (rollback / bisect points)
+```
+foundation-complete ✓ → page-framework-proven → irmaa-v1 → drug-framework
+                        → alta-phase-1 → alta-phase-2
+```
+Tag after each milestone passes `npm run verify`; `page-framework-proven` is set once
+the first static article (M4) renders correctly with URLs unchanged.
+
 ---
 See [MIGRATION.md](MIGRATION.md) for the live feature/decision matrix and
 [DECISIONS.md](DECISIONS.md) for why.
