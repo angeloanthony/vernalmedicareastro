@@ -1,6 +1,10 @@
 # ADR-0005 — SEO framework (reusable head + structured data)
 
-**Status:** Proposed · 2026-06-30
+**Status:** Superseded by [ADR-0008](0008-page-framework.md) · 2026-06-30
+
+> Superseded: the SEO concern was merged into the unified **Page Framework**
+> (ADR-0008) — SEO lives as `lib/schema` builders + `StandardPageLayout` wiring,
+> not a parallel head system. Original proposal kept below for history.
 
 ## Context
 Every future page (calculator, drug, location, article) needs consistent SEO:
