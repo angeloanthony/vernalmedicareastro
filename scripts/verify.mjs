@@ -21,22 +21,30 @@ function run(label, command) {
   return { status: r.status ?? 1, out: (r.stdout || '') + (r.stderr || '') };
 }
 
+// Tests run with INHERITED stdio (not piped). Piping Vitest's stdout under
+// spawnSync appears to trigger the cold-cache bootstrap race ("no tests" /
+// reading 'config'); inheriting the terminal avoids it. We only need the exit
+// status here, not the captured output.
+function runInherit(label, command) {
+  console.log(`\n▶ ${label}`);
+  const r = spawnSync(command, { stdio: 'inherit', shell: true });
+  return { status: r.status ?? 1 };
+}
+
 function fail(msg) {
   console.error(`\n✖ ${msg}`);
   process.exit(1);
 }
 
 // ── 1. unit tests ────────────────────────────────────────────────────────────
-// Run first, in a clean process. Vitest intermittently fails to BOOTSTRAP on a
-// cold cache (0 tests collected / "Cannot read properties of undefined (reading
-// 'config')") — an init race, not a test failure. Retry once: a genuine test
-// failure still fails both attempts, so this hides no real breakage.
-// TODO(workaround): this retry is a mitigation, not a fix. Revisit after a future
-// Astro/Vite/Vitest upgrade — if the bootstrap race is gone, drop the retry.
-let tests = run('unit tests', 'npx vitest run');
+// Inherited stdio (see runInherit) is the primary fix for the Vitest bootstrap
+// race; the single retry remains as a belt-and-suspenders safety net.
+// TODO(workaround): revisit after a future Astro/Vite/Vitest upgrade — if the
+// bootstrap race is gone, the inherit+retry can be simplified.
+let tests = runInherit('unit tests', 'npx vitest run');
 if (tests.status !== 0) {
-  console.log("↻ vitest didn't bootstrap cleanly — retrying once (cold-cache init race)");
-  tests = run('unit tests (retry)', 'npx vitest run');
+  console.log('↻ vitest did not bootstrap cleanly — retrying once');
+  tests = runInherit('unit tests (retry)', 'npx vitest run');
 }
 if (tests.status !== 0) fail('unit tests failed.');
 
