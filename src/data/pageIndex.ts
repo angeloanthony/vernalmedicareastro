@@ -52,4 +52,9 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Medigap (Medicare Supplement) in Vernal',
     taxonomy: { silo: 'medigap', tags: ['overview'] },
   },
+  {
+    href: '/medicare-irmaa-calculator.html',
+    title: '2026 Medicare IRMAA Calculator',
+    taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'costs', 'part-b', 'part-d'] },
+  },
 ];

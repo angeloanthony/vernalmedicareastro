@@ -1,0 +1,168 @@
+---
+// src/pages/medicare-irmaa-calculator.astro — NET-NEW page (fills Vernal's IRMAA
+// gap). URL: /medicare-irmaa-calculator.html. Built on CalculatorPage → the
+// framework generates header/byline/summary/FAQ/related/CTA/disclaimer + HowTo
+// schema; the interactive estimate runs client-side from annualMedicareData.
+import CalculatorPage from '../components/layout/CalculatorPage.astro';
+import CalculatorSection from '../components/calculator/CalculatorSection.astro';
+import CalculatorInput from '../components/calculator/CalculatorInput.astro';
+import CalculatorResult from '../components/calculator/CalculatorResult.astro';
+import CalculatorComparison from '../components/calculator/CalculatorComparison.astro';
+import CalculatorPrint from '../components/calculator/CalculatorPrint.astro';
+import CalculatorShare from '../components/calculator/CalculatorShare.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+import type { PageContext } from '../types/Page';
+import type { CalculatorField } from '../types/Calculator';
+
+const f = figuresFor();
+const year = f.year;
+
+const statusField: CalculatorField = {
+  id: 'status',
+  label: 'Tax filing status',
+  type: 'radio',
+  options: [
+    { label: 'Single', value: 'single' },
+    { label: 'Married filing jointly', value: 'married' },
+  ],
+};
+const magiField: CalculatorField = {
+  id: 'magi',
+  label: 'Modified adjusted gross income (MAGI)',
+  type: 'currency',
+  help: `IRMAA for ${year} is based on your MAGI from ${year - 2}.`,
+};
+
+// 2026 IRMAA brackets table (single filers) built from the figures data.
+const bounds = f.irmaa.single;
+const bracketRows = f.irmaa.partBByTier.map((partB, i) => {
+  const range =
+    i === 0
+      ? `≤ ${usd(bounds[0])}`
+      : i < bounds.length
+        ? `${usd(bounds[i - 1] + 1)} – ${usd(bounds[i])}`
+        : `> ${usd(bounds[bounds.length - 1])}`;
+  return {
+    label: range,
+    values: [usd(partB, { cents: true }), usd(f.irmaa.partDByTier[i], { cents: true })],
+  };
+});
+
+const context: PageContext = {
+  page: {
+    title: `${year} IRMAA Calculator | Medicare Part B & Part D Surcharge by Income | Vernal Medicare`,
+    heading: `${year} Medicare IRMAA Calculator`,
+    description: `Estimate your ${year} Medicare IRMAA surcharge from your income. See your Part B premium and Part D surcharge by MAGI and filing status. Free help from a local Vernal agent.`,
+    taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'costs', 'part-b', 'part-d'] },
+    summary: `IRMAA is an income-related surcharge added to Medicare Part B and Part D premiums. In ${year} it starts above ${usd(f.irmaa.single[0])} MAGI (single) or ${usd(f.irmaa.married[0])} (married), based on your income from ${year - 2}. Enter your income below to estimate it.`,
+    faqs: [
+      {
+        question: 'What is IRMAA?',
+        answer:
+          'IRMAA (Income-Related Monthly Adjustment Amount) is an extra charge added to your Medicare Part B and Part D premiums when your income is above a set threshold. It is not a separate bill — it is added to your premiums.',
+      },
+      {
+        question: `What income does ${year} IRMAA use?`,
+        answer: `Your ${year} IRMAA is based on the Modified Adjusted Gross Income (MAGI) from your ${year - 2} tax return — a two-year lookback. If your income has dropped since then, you may be able to appeal.`,
+      },
+      {
+        question: 'How do I appeal or lower my IRMAA?',
+        answer:
+          'If a life-changing event (retirement, marriage, divorce, or the death of a spouse) lowered your income, file Form SSA-44 with Social Security to request a reduction. Call us and we can walk you through it.',
+      },
+    ],
+    sources: [
+      { title: 'Medicare costs at a glance', url: 'https://www.medicare.gov/basics/costs/medicare-costs', publisher: 'Medicare.gov' },
+      { title: 'Medicare premiums & income brackets (IRMAA)', url: 'https://www.ssa.gov/benefits/medicare/medicare-premiums.html', publisher: 'Social Security Administration' },
+    ],
+    nextSteps: [
+      {
+        when: 'If your income dropped after retirement,',
+        action: 'you may be paying IRMAA you no longer owe — ask us about filing Form SSA-44 to appeal.',
+      },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-irmaa-calculator.html',
+    ogType: 'website',
+    ogTitle: `${year} Medicare IRMAA Calculator`,
+    ogDescription: `Estimate your ${year} Medicare IRMAA surcharge on Part B and Part D by income.`,
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: `${year} IRMAA Calculator`, href: '/medicare-irmaa-calculator.html' },
+  ],
+  medicalDisclaimer:
+    'Estimates only, based on published CMS figures. Your actual premium is set by Social Security.',
+};
+---
+
+<CalculatorPage context={context}>
+  <p>Higher-income Medicare beneficiaries pay more for Part B and Part D through IRMAA — an income-related surcharge. Enter your income and filing status to estimate your {year} surcharge.</p>
+
+  <form class="calc-form" data-calc-form novalidate>
+    <CalculatorSection title="Your details">
+      <CalculatorInput field={statusField} />
+      <CalculatorInput field={magiField} />
+    </CalculatorSection>
+    <div class="calc-actions">
+      <CalculatorPrint />
+      <CalculatorShare />
+    </div>
+  </form>
+
+  <CalculatorResult heading={`Your ${year} IRMAA estimate`} />
+
+  <h2>{year} IRMAA brackets — single filers</h2>
+  <CalculatorComparison
+    rowHeader={`${year - 2} MAGI (single)`}
+    columns={['Monthly Part B', 'Monthly Part D surcharge']}
+    rows={bracketRows}
+    caption={`${year} Medicare IRMAA, single filers. Married-filing-jointly thresholds are roughly double.`}
+  />
+
+  <h2>How IRMAA works</h2>
+  <p>Social Security looks back at your tax return from two years ago to decide whether you owe IRMAA today. It uses your <strong>modified adjusted gross income</strong> — your adjusted gross income plus any tax-exempt interest. If you're above the first threshold, a surcharge is added to both your Part B premium and your Part D premium, in the tiers shown above.</p>
+
+  <p>Because of the two-year lookback, a big one-time income event (selling a home, a Roth conversion, capital gains) can push you into IRMAA even if your current income is lower. And if a <strong>life-changing event</strong> — retirement, marriage, divorce, or the death of a spouse — has reduced your income, you can appeal with <strong>Form SSA-44</strong> and often have the surcharge reduced or removed.</p>
+
+  <script>
+    import { bindCalculator } from '../lib/calculators';
+    import { computeIrmaa, type FilingStatus } from '../lib/calculators/irmaa';
+    import { figuresFor } from '../data/annualMedicareData';
+    import { usd } from '../lib/formatters';
+    import type { CalculatorResult } from '../types/Calculator';
+
+    const F = figuresFor();
+    const toStatus = (v: string): FilingStatus => (v === 'married' ? 'married' : 'single');
+    const toNum = (v: string): number => {
+      const n = parseFloat((v || '').replace(/[^0-9.]/g, ''));
+      return Number.isFinite(n) ? n : 0;
+    };
+
+    function compute(fields: Record<string, string>): CalculatorResult {
+      const magi = toNum(fields.magi);
+      const r = computeIrmaa(toStatus(fields.status), magi, F);
+      return {
+        summary: r.hasIrmaa
+          ? `At a MAGI of ${usd(magi)}, you'd pay about ${usd(r.monthlyExtra, { cents: true })}/month extra from IRMAA (${usd(r.annualExtra)}/year).`
+          : `At a MAGI of ${usd(magi)}, you're in the standard tier — no IRMAA surcharge.`,
+        rows: [
+          { label: 'IRMAA tier', value: r.tier === 0 ? 'Standard (no IRMAA)' : `Tier ${r.tier} of 5` },
+          { label: 'Monthly Part B premium', value: usd(r.partBPremium, { cents: true }) },
+          { label: 'Monthly Part D surcharge', value: usd(r.partDSurcharge, { cents: true }) },
+          { label: 'Extra per month from IRMAA', value: usd(r.monthlyExtra, { cents: true }), emphasis: true },
+          { label: 'Extra per year from IRMAA', value: usd(r.annualExtra) },
+        ],
+      };
+    }
+
+    const form = document.querySelector<HTMLElement>('[data-calc-form]');
+    const results = document.querySelector<HTMLElement>('[data-calc-results]');
+    if (form && results) bindCalculator(form, results, compute);
+  </script>
+</CalculatorPage>
