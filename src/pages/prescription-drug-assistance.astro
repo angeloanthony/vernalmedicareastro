@@ -1,0 +1,93 @@
+---
+// src/pages/prescription-drug-assistance.astro — Part D / Drug Assistance HUB (M8).
+// Pillar for the drug-assistance silo: explains how to pay for expensive drugs on
+// Medicare and links every featured drug page (grouped by condition, from data).
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { FEATURED_DRUGS } from '../data/drugs';
+import { CONDITIONS } from '../data/conditions';
+import type { PageContext } from '../types/Page';
+
+// Group featured drugs by condition (data-driven), skipping empty conditions.
+const byCondition = CONDITIONS.map((c) => ({
+  ...c,
+  drugs: FEATURED_DRUGS.filter((d) => d.conditions.includes(c.key)),
+})).filter((g) => g.drugs.length > 0);
+
+const context: PageContext = {
+  page: {
+    title: 'Prescription Drug Assistance on Medicare — Help Paying for Expensive Drugs | Vernal Medicare',
+    heading: 'Prescription Drug Assistance on Medicare',
+    description:
+      "Can't afford your medication on Medicare? Manufacturer patient assistance programs, nonprofit copay grants, and Extra Help can lower or eliminate the cost. See programs by drug — free local help in Utah.",
+    taxonomy: { silo: 'part-d', tags: ['drug-assistance', 'part-d', 'extra-help', 'costs'], pillar: true },
+    summary:
+      "If a prescription is unaffordable, you have more options than you think. On Medicare you usually can't use manufacturer copay coupons — but you can often use the manufacturer's Patient Assistance Program (free drug by income), nonprofit foundation grants, and Extra Help. Pick your drug below to see the programs that fit.",
+    faqs: [
+      {
+        question: 'Why can\'t I use a copay card on Medicare?',
+        answer:
+          'Federal anti-kickback rules generally bar people with Medicare from using manufacturer copay coupons or savings cards. The good news: manufacturer Patient Assistance Programs (which provide the drug free or low-cost by income) and nonprofit foundation grants are allowed and can help a lot.',
+      },
+      {
+        question: 'What kinds of help are available?',
+        answer:
+          'Four kinds: (1) manufacturer Patient Assistance Programs, (2) nonprofit copay-grant foundations for a specific diagnosis, (3) government programs like Extra Help and Medicare Savings Programs, and (4) free databases and discount tools. Many people qualify for more than one.',
+      },
+      {
+        question: 'Is applying free?',
+        answer:
+          'Yes — always. Never pay a fee to enroll in Extra Help, a foundation grant, or a manufacturer program. A fee is a red flag for a scam. We can screen you and help you apply at no cost.',
+      },
+    ],
+    sources: [
+      { title: 'Get help with drug costs', url: 'https://www.medicare.gov/basics/costs/help/drug-costs', publisher: 'Medicare.gov' },
+      { title: 'Extra Help (Part D Low-Income Subsidy)', url: 'https://www.ssa.gov/medicare/part-d-extra-help', publisher: 'Social Security Administration' },
+    ],
+    nextSteps: [
+      {
+        when: 'If a medication is straining your budget,',
+        action: 'send us your drug list — we\'ll check assistance programs, Extra Help, and the lowest-cost Part D plan for you, free.',
+      },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/prescription-drug-assistance.html',
+    ogType: 'article',
+    ogTitle: 'Prescription Drug Assistance on Medicare',
+    ogDescription: 'Manufacturer PAPs, nonprofit grants, and Extra Help — how to pay for expensive drugs on Medicare.',
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Prescription Drug Assistance', href: '/prescription-drug-assistance.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>Brand-name medications can cost hundreds or thousands of dollars a month — but if you're on Medicare and struggling to afford one, there's almost always help. Below are the featured drugs we cover, grouped by what they treat. Pick yours to see the manufacturer, nonprofit, and government programs that can lower your cost.</p>
+
+  <h2>The Four Kinds of Help</h2>
+  <ul>
+    <li><strong>Manufacturer Patient Assistance Programs</strong> — the drug company provides the medication free or low-cost, by income.</li>
+    <li><strong>Nonprofit copay-grant foundations</strong> — diagnosis-based charities (PAN, HealthWell, and others) that grant money you can use with Medicare.</li>
+    <li><strong>Government programs</strong> — <a href="medicare-extra-help-utah.html">Extra Help</a> and <a href="medicare-savings-programs-utah.html">Medicare Savings Programs</a> that lower drug and Medicare costs.</li>
+    <li><strong>Search &amp; discount tools</strong> — free databases (NeedyMeds, RxAssist) that list additional programs.</li>
+  </ul>
+
+  <h2>Find Assistance by Medication</h2>
+  {byCondition.map((g) => (
+    <section>
+      <h3>{g.label}</h3>
+      <ul>
+        {g.drugs.map((d) => (
+          <li><a href={`/${d.slug}-assistance-program.html`}>{d.drug}</a> <span style="color:#555;">({d.generic})</span></li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <p style="margin-top:1.5rem;">Don't see your medication, or not sure where to start? Call us — we'll screen every program you might qualify for and help you apply, free, anywhere in the Uintah Basin or by phone across Utah.</p>
+</ArticlePage>
