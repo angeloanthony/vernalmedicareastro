@@ -238,6 +238,22 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Medicare Advantage vs Medigap in Vernal',
     taxonomy: { silo: 'medicare-advantage', tags: ['medicare-advantage', 'advantage', 'medigap', 'comparison', 'vernal', 'local'] },
   },
+  // ── Trust silo (M21) — E-E-A-T: agent bio, FAQ, reviews ──
+  {
+    href: '/about.html',
+    title: 'About Vernal Medicare (Rocco DeLuca)',
+    taxonomy: { silo: 'trust', tags: ['trust', 'about', 'agent', 'vernal', 'uintah-county'], pillar: true },
+  },
+  {
+    href: '/faq.html',
+    title: 'Medicare & Health Insurance FAQ — Vernal',
+    taxonomy: { silo: 'trust', tags: ['trust', 'faq', 'local', 'vernal', 'uintah-county'] },
+  },
+  {
+    href: '/reviews.html',
+    title: 'Client Reviews — Vernal Medicare',
+    taxonomy: { silo: 'trust', tags: ['trust', 'reviews', 'local', 'vernal'] },
+  },
   // ── Providers silo (M15) — local hospitals & pharmacies (E-E-A-T) ──
   {
     href: '/medicare-hospitals-uintah-county.html',

@@ -1,120 +1,53 @@
 ---
-// src/pages/faq.astro  —  converted from faq.html
-// URL preserved: /faq.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/faq.astro — MIGRATED to the Page Framework (M21).
+// URL, title, description preserved. All 9 visible Q&A move into page.faqs, so
+// the framework now renders them AND generates FAQPage schema for all nine
+// (the legacy inline schema only covered 4). Hand-rolled JSON-LD dropped.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import type { PageContext } from '../types/Page';
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "InsuranceAgency",
-    "name": "Vernal Medicare",
-    "url": "https://vernalmedicare.com/",
-    "logo": "https://vernalmedicare.com/pictures/Rocco.webp",
-    "description": "Licensed help with Medicare Advantage, Medigap, Part D, and under-65 health insurance in Vernal and the Uintah Basin.",
-    "telephone": "+1-435-219-5120",
-    "email": "rocco@vernalmedicare.com",
-    "areaServed": "Uintah County, Utah",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Vernal",
-      "addressRegion": "UT",
-      "postalCode": "84078",
-      "addressCountry": "US"
-    }
+const context: PageContext = {
+  page: {
+    title: 'FAQ — Medicare & Health Insurance in Vernal, Utah | Vernal Medicare',
+    heading: 'Medicare & Health Insurance FAQ — Vernal, Utah',
+    description:
+      'Local, licensed help with Medicare Advantage, Medigap, Part D, and under-65 health insurance in Vernal and the Uintah Basin. Clear answers to common questions.',
+    taxonomy: { silo: 'trust', tags: ['trust', 'faq', 'local', 'vernal', 'uintah-county'] },
+    summary:
+      'Clear answers to the questions Vernal and Uintah Basin residents ask most — who I am, what it costs (nothing extra to you), how we meet, and the help I provide with Medicaid, Extra Help, and prescription copay assistance.',
+    faqs: [
+      { question: 'Are you local to Vernal?', answer: "Yes. I live and work here. You can often find me at Smith's Pharmacy, and I'm available for in-person help when you need it." },
+      { question: 'Why choose a local agent instead of signing up over the phone?', answer: 'With unknown phone ads, you may never see that agent again. When you work with me, you get a local advocate who helps fix problems, reviews your plan each year, and is here when questions pop up.' },
+      { question: 'If I change my mind, can you help me switch plans?', answer: "Absolutely. It's my job to help you find the right plan and, when Medicare rules allow, move you to it. I handle the forms and follow-through so changes go smoothly." },
+      { question: 'Can I come back to you for anything?', answer: "Please do. Plan rules, bills, prior authorizations, drug lists, doctors in-network—bring it all. I'll help you sort it out." },
+      { question: 'What if I change my plan with another agent?', answer: "When a client switches through another agent, I often receive a chargeback. I'm trying to make an honest living here in Vernal, and I truly appreciate clients who come back to me—I'll give you that same honesty and effort in return." },
+      { question: 'Do you help with Medicaid and the Low-Income Subsidy (Extra Help)?', answer: 'Yes. I can help you apply for Utah Medicaid and Extra Help (LIS), which can lower your monthly drug plan premium and reduce prescription costs.' },
+      { question: 'Can you help with medications and copay grants?', answer: "Yes. I'll search for manufacturer patient-assistance programs and charitable copay foundations and help you apply when they're available for your medications." },
+      { question: 'What does it cost to work with you?', answer: "There's no extra cost to you. I'm paid by the plan you choose. Your trust and coming back to me lets me keep serving you all year long—thank you." },
+      { question: 'How do we meet?', answer: "We can meet at Smith's Pharmacy, your home, by phone, or online—whatever is easiest for you. Call or email to set a time." },
+    ],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Are you local to Vernal?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. I live and work here. You can often find me at Smith's Pharmacy, and I'm available for in-person help when you need it."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Why choose a local agent instead of signing up over the phone?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "With unknown phone ads, you may never see that agent again. When you work with me, you get a local advocate who helps fix problems, reviews your plan each year, and is here when questions pop up."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What does it cost to work with you?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "There's no extra cost to you. I'm paid by the plan you choose. Your trust and coming back to me lets me keep serving you all year long."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How do we meet?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "We can meet at Smith's Pharmacy, your home, by phone, or online—whatever is easiest for you. Call or email to set a time."
-        }
-      }
-    ]
-  }
-];
+  meta: {
+    canonical: 'https://vernalmedicare.com/faq.html',
+    ogType: 'article',
+    ogDescription:
+      'Local, licensed help with Medicare and under-65 health insurance in Vernal and the Uintah Basin.',
+  },
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'FAQ', href: '/faq.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="FAQ — Medicare & Health Insurance in Vernal, Utah | Vernal Medicare"
-  description="Local, licensed help with Medicare Advantage, Medigap, Part D, and under-65 health insurance in Vernal and the Uintah Basin. Clear answers to common questions."
-  canonical="https://vernalmedicare.com/faq.html"
-  ogDescription="Local, licensed help with Medicare and under-65 health insurance in Vernal and the Uintah Basin."
-  twitterDescription="Local, licensed help with Medicare and under-65 health insurance in the Uintah Basin."
-  schema={schema}
->
-  <main>
-    <section>
-      <h2>Frequently Asked Questions</h2>
-      <p>Local, face-to-face help in Vernal—clear answers, steady support, and someone you can actually find if you need anything.</p>
-    </section>
+<ArticlePage context={context}>
+  <p>Local, face-to-face help in Vernal—clear answers, steady support, and someone you can actually find if you need anything. A few of the questions I hear most are below; for anything else, just call or email.</p>
 
-    <section>
-      <h2>Answers You're Looking For</h2>
-
-      <h3>Are you local to Vernal?</h3>
-      <p>Yes. I live and work here. You can often find me at <span class="highlight">Smith's Pharmacy</span>, and I'm available for in-person help when you need it.</p>
-
-      <h3>Why choose a local agent instead of signing up over the phone?</h3>
-      <p>With unknown phone ads, you may never see that agent again. When you work with me, you get a local advocate who helps fix problems, reviews your plan each year, and is here when questions pop up.</p>
-
-      <h3>If I change my mind, can you help me switch plans?</h3>
-      <p>Absolutely. It's my job to help you find the right plan and, when Medicare rules allow, move you to it. I handle the forms and follow-through so changes go smoothly.</p>
-
-      <h3>Can I come back to you for anything?</h3>
-      <p>Please do. Plan rules, bills, prior authorizations, drug lists, doctors in-network—bring it all. I'll help you sort it out.</p>
-
-      <h3>What if I change my plan with another agent?</h3>
-      <p>When a client switches through another agent, I often receive a <span class="highlight">chargeback</span>. I'm trying to make an honest living here in Vernal, and I truly appreciate clients who come back to me—I'll give you that same honesty and effort in return.</p>
-
-      <h3>Do you help with Medicaid and the Low-Income Subsidy (Extra Help)?</h3>
-      <p>Yes. I can help you apply for Utah Medicaid and Extra Help (LIS), which can lower your monthly drug plan premium and reduce prescription costs.</p>
-
-      <h3>Can you help with medications and copay grants?</h3>
-      <p>Yes. I'll search for manufacturer patient-assistance programs and charitable copay foundations and help you apply when they're available for your medications.</p>
-
-      <h3>What does it cost to work with you?</h3>
-      <p>There's no extra cost to you. I'm paid by the plan you choose. Your trust and coming back to me lets me keep serving you all year long—thank you.</p>
-
-      <h3>How do we meet?</h3>
-      <p>We can meet at Smith's Pharmacy, your home, by phone, or online—whatever is easiest for you. Call or email to set a time.</p>
-
-      <p class="text-center" style="margin-top:1rem; display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
-        <a class="btn" href="tel:+14352195120">Call +1 (435) 219-5120 (TTY: 711)</a>
-        <a class="btn" href="mailto:rocco@vernalmedicare.com">Email Rocco</a>
-      </p>
-    </section>
-  </main>
-
-  
-</BaseLayout>
+  <p style="margin-top:1rem; display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
+    <a class="btn" href="tel:+14352195120">Call +1 (435) 219-5120 (TTY: 711)</a>
+    <a class="btn" href="mailto:rocco@vernalmedicare.com">Email Rocco</a>
+  </p>
+</ArticlePage>

@@ -1,121 +1,74 @@
 ---
-// src/pages/about.astro  —  converted from about.html
-// URL preserved: /about.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/about.astro — MIGRATED to the Page Framework (M21).
+// The agent bio / E-E-A-T page. URL, title, description preserved. On ArticlePage
+// the framework auto-emits the canonical Person (#person) for Rocco + the linked
+// Organization, so the hand-rolled InsuranceAgency+Person JSON-LD is dropped. The
+// first-person multi-plan disclosure stays inline in the "Carriers" narrative
+// (so marketingDisclaimer is NOT set — the framework's TPMO line still renders).
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import type { PageContext } from '../types/Page';
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "InsuranceAgency",
-    "name": "Vernal Medicare",
-    "url": "https://vernalmedicare.com/",
-    "logo": "https://vernalmedicare.com/pictures/rocco.webp",
-    "description": "Licensed help with Medicare, under-65 health coverage, copay coverage, and life insurance in the Uintah Basin.",
-    "telephone": "+1-435-219-5120",
-    "email": "rocco@vernalmedicare.com",
-    "areaServed": "Uintah County, Utah",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Vernal",
-      "addressRegion": "UT",
-      "postalCode": "84078",
-      "addressCountry": "US"
-    }
+const context: PageContext = {
+  page: {
+    title: 'About — Vernal Medicare | Local, Licensed Help in Uintah County',
+    heading: 'About Vernal Medicare',
+    description:
+      "I'm Rocco DeLuca, a local, licensed agent in Vernal, Utah. Simple help with Medicare, under-65 coverage, copay coverage, and life insurance—no pressure.",
+    taxonomy: { silo: 'trust', tags: ['trust', 'about', 'agent', 'vernal', 'uintah-county'] },
+    summary:
+      "I'm Rocco DeLuca, a local, licensed insurance agent based in Vernal. I help Uintah Basin residents choose Medicare Advantage, Medigap, Part D, under-65 Marketplace coverage, copay (fixed indemnity) plans, and life insurance — in plain English, at no extra cost, with year-round support.",
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Rocco DeLuca",
-    "jobTitle": "Licensed Insurance Agent",
-    "worksFor": {
-      "@type": "InsuranceAgency",
-      "name": "Vernal Medicare"
-    },
-    "telephone": "+1-435-219-5120",
-    "email": "rocco@vernalmedicare.com",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Vernal",
-      "addressRegion": "UT",
-      "postalCode": "84078"
-    },
-    "knowsAbout": [
-      "Medicare",
-      "Medicare Advantage",
-      "Medigap",
-      "Health Insurance"
-    ]
-  }
-];
+  meta: {
+    canonical: 'https://vernalmedicare.com/about.html',
+    ogType: 'article',
+    ogDescription:
+      'Local, face-to-face help choosing Medicare and health coverage that fits your needs and budget.',
+  },
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="About — Vernal Medicare | Local, Licensed Help in Uintah County"
-  description="I'm Rocco DeLuca, a local, licensed agent in Vernal, Utah. Simple help with Medicare, under-65 coverage, copay coverage, and life insurance—no pressure."
-  canonical="https://vernalmedicare.com/about.html"
-  ogDescription="Local, face-to-face help choosing Medicare and health coverage that fits your needs and budget."
-  twitterDescription="Local, face-to-face help choosing Medicare and health coverage that fits your needs and budget."
-  schema={schema}
->
-  <main id="content" class="container">
-    <!-- Hero -->
-    <section>
-      <h1>About Vernal Medicare</h1>
-      <p>I'm <strong>Rocco DeLuca</strong>, a local, licensed agent based in Vernal. My job is simple: help you choose coverage that fits your needs and budget—<em>without the runaround</em>.</p>
-    </section>
+<ArticlePage context={context}>
+  <p>I'm <strong>Rocco DeLuca</strong>, a local, licensed agent based in Vernal. My job is simple: help you choose coverage that fits your needs and budget—<em>without the runaround</em>.</p>
 
-    <!-- What I help with (condensed) -->
-    <section>
-      <h2>What I help with</h2>
-      <ul>
-        <li><strong>Medicare Advantage</strong> and <strong>Medigap</strong></li>
-        <li><strong>Prescription plans (Part D)</strong></li>
-        <li><strong>Under-65 health insurance</strong> (Marketplace)</li>
-        <li><strong>Copay coverage</strong> (fixed indemnity)</li>
-        <li><strong>Life insurance</strong> (term & final expense)</li>
-      </ul>
-      <p class="note">There's no extra cost to you—agents are typically paid by the plan or carrier if you enroll.</p>
-    </section>
+  <h2>What I help with</h2>
+  <ul>
+    <li><strong>Medicare Advantage</strong> and <strong>Medigap</strong></li>
+    <li><strong>Prescription plans (Part D)</strong></li>
+    <li><strong>Under-65 health insurance</strong> (Marketplace)</li>
+    <li><strong>Copay coverage</strong> (fixed indemnity)</li>
+    <li><strong>Life insurance</strong> (term & final expense)</li>
+  </ul>
+  <p class="note">There's no extra cost to you—agents are typically paid by the plan or carrier if you enroll.</p>
 
-    <!-- How we work (non-repetitive) -->
-    <section>
-      <h2>How we'll work together</h2>
-      <ol>
-        <li><strong>Listen:</strong> your needs and budget first.</li>
-        <li><strong>Compare:</strong> simple, side-by-side options in plain English.</li>
-        <li><strong>Enroll & support:</strong> we get it done right—and I'm here year-round.</li>
-      </ol>
-    </section>
+  <h2>How we'll work together</h2>
+  <ol>
+    <li><strong>Listen:</strong> your needs and budget first.</li>
+    <li><strong>Compare:</strong> simple, side-by-side options in plain English.</li>
+    <li><strong>Enroll & support:</strong> we get it done right—and I'm here year-round.</li>
+  </ol>
 
-    <!-- Local angle (short) -->
-    <section>
-      <h2>Why local matters</h2>
-      <p>Plans perform differently by county. Because I live and work here, I know the local networks, pharmacies, and what actually works in the Basin.</p>
-    </section>
+  <h2>Why local matters</h2>
+  <p>Plans perform differently by county. Because I live and work here, I know the local networks, pharmacies, and what actually works in the Basin. See <a href="medicare-plans-vernal-utah.html">Medicare plans in Vernal</a> or <a href="medicare-agent-vernal.html">more about working with a local agent</a>.</p>
 
-    <!-- Carriers & standard disclosure (short) -->
-    <section>
-      <h2>Carriers</h2>
-      <p>I work with multiple carriers (availability varies by county). <em>We do not offer every plan available in your area.</em> Any information I provide is limited to the plans I do offer. For info on all your options, visit <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or call 1-800-MEDICARE (TTY: 711).</p>
-    </section>
+  <h2>Carriers</h2>
+  <p>I work with multiple carriers (availability varies by county). <em>We do not offer every plan available in your area.</em> Any information I provide is limited to the plans I do offer. For info on all your options, visit <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or call 1-800-MEDICARE (TTY: 711).</p>
 
-    <!-- Contact -->
-    <section>
-      <h2>Ready to talk?</h2>
-      <p>Call or email for a friendly, no-pressure chat.</p>
-      <p style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
-        <a class="button primary" href="tel:+14352195120">Call (435) 219-5120 (TTY: 711)</a>
-        <a class="button" href="mailto:rocco@vernalmedicare.com">Email us</a>
-      </p>
-    </section>
+  <h2>Ready to talk?</h2>
+  <p>Call or email for a friendly, no-pressure chat.</p>
+  <p style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
+    <a class="button primary" href="tel:+14352195120">Call (435) 219-5120 (TTY: 711)</a>
+    <a class="button" href="mailto:rocco@vernalmedicare.com">Email us</a>
+  </p>
 
-    <blockquote class="pull-quote" style="font-style:italic; margin: 1.5rem 0; color:#555;">
-      "Coverage should be simple, local, and matched to you."
-      <span style="display:block; margin-top:.5rem;">— Rocco DeLuca</span>
-    </blockquote>
-  </main>
-
-  
-</BaseLayout>
+  <blockquote class="pull-quote" style="font-style:italic; margin: 1.5rem 0; color:#555;">
+    "Coverage should be simple, local, and matched to you."
+    <span style="display:block; margin-top:.5rem;">— Rocco DeLuca</span>
+  </blockquote>
+</ArticlePage>
