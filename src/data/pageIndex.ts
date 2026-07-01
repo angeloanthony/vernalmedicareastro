@@ -72,6 +72,11 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     taxonomy: { silo: 'enrollment', tags: ['iep', 'deadlines', 'part-b'] },
   },
   {
+    href: '/turning-65.html',
+    title: 'Turning 65: Your Medicare Step-by-Step',
+    taxonomy: { silo: 'enrollment', tags: ['turning-65', 'enrollment', 'iep', 'journey', 'deadlines'], pillar: true },
+  },
+  {
     href: '/medicare-supplement-vs-advantage.html',
     title: 'Medicare Supplement vs Medicare Advantage',
     taxonomy: { silo: 'medigap', tags: ['comparison', 'advantage', 'original-medicare'] },
