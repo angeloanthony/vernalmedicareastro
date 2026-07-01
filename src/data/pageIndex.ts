@@ -9,6 +9,7 @@
 // ---------------------------------------------------------------------------
 
 import type { Taxonomy } from '../types/Page';
+import { FEATURED_DRUGS } from './drugs';
 
 export interface PageIndexEntry {
   href: string;
@@ -110,4 +111,10 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'What Happens If You Miss Medicare Enrollment',
     taxonomy: { silo: 'enrollment', tags: ['penalties', 'missed', 'part-b', 'part-d', 'gep'] },
   },
+  // ── Part D / Drug Assistance silo (M8) — generated from data/drugs.ts ──
+  ...FEATURED_DRUGS.map((d): PageIndexEntry => ({
+    href: `/${d.slug}-assistance-program.html`,
+    title: `${d.drug} Assistance Programs`,
+    taxonomy: { silo: 'part-d', tags: ['drug-assistance', 'part-d', ...d.conditions] },
+  })),
 ];

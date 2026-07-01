@@ -1,0 +1,106 @@
+---
+// src/pages/[drug]-assistance-program.astro — data-driven drug-assistance pages
+// (M8). One per FEATURED_DRUG in data/drugs.ts → /<slug>-assistance-program.html.
+// "Help paying for X on Medicare" intent — distinct from the existing "does
+// Medicare cover X" coverage pages (no cannibalization). Rendered via DrugPage.
+import DrugPage from '../components/layout/DrugPage.astro';
+import {
+  FEATURED_DRUGS,
+  programsForDrug,
+  condLabel,
+  TYPE_META,
+  FUND_STATUS_META,
+  type Drug,
+} from '../data/drugs';
+import type { PageContext } from '../types/Page';
+
+export function getStaticPaths() {
+  return FEATURED_DRUGS.map((d) => ({ params: { drug: d.slug }, props: { d } }));
+}
+
+const { d } = Astro.props as { d: Drug };
+const groups = programsForDrug(d.drug, d.conditions);
+const telLink = (phone: string) => `tel:${phone.replace(/[^0-9]/g, '')}`;
+
+const sections = [
+  { heading: `${d.drug} Manufacturer Assistance`, blurb: `The company that makes ${d.drug} may provide it free or at low cost to people who qualify by income — including many Medicare beneficiaries.`, items: groups.manufacturer },
+  { heading: 'Nonprofit Copay Grant Foundations', blurb: `Disease-based charities that give grants you can use with Medicare for ${d.conditionLabel}. Funds open and close based on availability.`, items: groups.foundation },
+  { heading: 'Government Programs', blurb: 'Federal and state programs that lower your overall drug and Medicare costs.', items: groups.government },
+  { heading: 'Search & Discount Tools', blurb: 'Free databases that list additional programs and discounts.', items: groups.database },
+].filter((s) => s.items.length > 0);
+
+const related = FEATURED_DRUGS.filter((x) => x.slug !== d.slug).slice(0, 6);
+
+const context: PageContext = {
+  page: {
+    title: `${d.drug} Assistance Programs — Help Paying for ${d.drug} on Medicare | Vernal Medicare`,
+    heading: `${d.drug} Assistance Programs`,
+    description: `How to get help paying for ${d.drug} (${d.generic}) on Medicare: manufacturer patient assistance, nonprofit copay grants, and Extra Help. Why copay coupons don't work on Medicare — and what does.`,
+    taxonomy: { silo: 'part-d', tags: ['drug-assistance', 'part-d', ...d.conditions] },
+    summary: `On Medicare you generally can't use a ${d.drug} copay coupon — but the manufacturer's Patient Assistance Program and nonprofit foundation grants still can. Below are the routes that work with Medicare for ${d.conditionLabel}.`,
+    faqs: [
+      { question: `Can I use a ${d.drug} copay card if I have Medicare?`, answer: `Usually no. Federal anti-kickback rules generally prohibit people with Medicare from using manufacturer copay coupons or savings cards for ${d.drug}. But you may still qualify for the manufacturer's Patient Assistance Program, which provides ${d.drug} free or at low cost based on income.` },
+      { question: `How do I get help paying for ${d.drug}?`, answer: `Start with the ${d.drug} manufacturer assistance program, check whether a nonprofit foundation has an open fund for your condition, and apply for Medicare Extra Help if your income is limited. We can screen you and help you apply — free.` },
+      { question: `Is ${d.drug} covered by Medicare Part D?`, answer: `${d.drug} is often on Part D and Medicare Advantage drug formularies, frequently on a higher brand or specialty tier and sometimes with prior authorization. Coverage and cost vary by plan — we can check yours.` },
+      { question: `Is applying for ${d.drug} assistance free?`, answer: `Yes. Every program here is free to apply for. Never pay a fee to enroll in Extra Help, a foundation grant, or a manufacturer assistance program — that's a red flag for a scam.` },
+    ],
+    sources: [
+      { title: 'Get help with drug costs', url: 'https://www.medicare.gov/basics/costs/help/drug-costs', publisher: 'Medicare.gov' },
+      { title: 'Extra Help (Part D Low-Income Subsidy)', url: 'https://www.ssa.gov/medicare/part-d-extra-help', publisher: 'Social Security Administration' },
+    ],
+    nextSteps: [
+      { when: `If ${d.drug} is straining your budget,`, action: 'send us your medication list — we\'ll check assistance programs, Extra Help, and which Part D plan covers it for the least, free.' },
+    ],
+  },
+  meta: {
+    canonical: `https://vernalmedicare.com/${d.slug}-assistance-program.html`,
+    ogType: 'article',
+    ogTitle: `${d.drug} Assistance Programs`,
+    ogDescription: `Help paying for ${d.drug} (${d.generic}) on Medicare — manufacturer PAPs, nonprofit grants, Extra Help.`,
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Prescription Drug Assistance', href: '/prescription-drug-assistance.html' },
+    { name: d.drug, href: `/${d.slug}-assistance-program.html` },
+  ],
+  medicalDisclaimer:
+    'Program details (funds, eligibility, phone numbers) change often — verify with each program before applying. Not medical advice.',
+};
+---
+
+<DrugPage context={context}>
+  <aside class="callout" role="note" style="background:#fff7ed; border-left:4px solid #d97706; padding:1rem 1.25rem; border-radius:6px; margin:1rem 0;">
+    <p style="margin:0;"><strong>On Medicare?</strong> You generally <strong>cannot use a {d.drug} copay coupon or savings card</strong> — federal anti-kickback rules block them. But the manufacturer's <strong>Patient Assistance Program</strong> (free drug by income) and nonprofit <strong>foundation grants</strong> still can help. Below are the routes that work <em>with</em> Medicare.</p>
+  </aside>
+
+  {sections.map((s) => (
+    <section class="da-section">
+      <h2>{s.heading}</h2>
+      <p>{s.blurb}</p>
+      {s.items.map((p) => (
+        <div class="da-card" style="border:1px solid #e6ebf2; border-radius:12px; padding:16px 18px; margin:12px 0;">
+          <h3 style="margin:0 0 4px;">{p.name}</h3>
+          <p style="margin:0; font-size:.9rem; color:#555;"><em>{TYPE_META[p.type].label}{p.status ? ` · ${FUND_STATUS_META[p.status].dot} ${FUND_STATUS_META[p.status].label}` : ''}</em></p>
+          <p style="margin:.6rem 0 0;">{p.helps}</p>
+          <p style="margin:.4rem 0 0; font-size:.94rem; color:#475467;"><strong>Who may qualify:</strong> {p.eligibility}</p>
+          {p.conditions[0] !== 'any' && (
+            <p style="margin:.4rem 0 0; font-size:.94rem; color:#475467;"><strong>Conditions:</strong> {p.conditions.map((c) => condLabel(c)).join(', ')}</p>
+          )}
+          <p style="margin:.6rem 0 0;">
+            <a href={p.url} target="_blank" rel="noopener noreferrer">{p.urlLabel} &rarr;</a>{p.phone && <> &nbsp;·&nbsp; <a href={telLink(p.phone)}>{p.phone}</a></>}
+          </p>
+        </div>
+      ))}
+    </section>
+  ))}
+
+  <h2>Assistance for Other Costly Drugs</h2>
+  <ul>
+    {related.map((r) => (
+      <li><a href={`/${r.slug}-assistance-program.html`}>{r.drug} ({r.generic}) assistance</a></li>
+    ))}
+  </ul>
+</DrugPage>
