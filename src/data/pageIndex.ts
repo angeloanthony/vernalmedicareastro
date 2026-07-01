@@ -63,4 +63,14 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Dual Eligible & Medicaid Plans (D-SNP)',
     taxonomy: { silo: 'dual-eligible', tags: ['d-snp', 'medicaid', 'extra-help', 'qmb', 'msp'], pillar: true },
   },
+  {
+    href: '/medicare-extra-help-utah.html',
+    title: 'Medicare Extra Help (Part D Low-Income Subsidy)',
+    taxonomy: { silo: 'dual-eligible', tags: ['extra-help', 'lis', 'part-d', 'medicaid', 'costs'] },
+  },
+  {
+    href: '/medicare-savings-programs-utah.html',
+    title: 'Medicare Savings Programs (QMB, SLMB, QI)',
+    taxonomy: { silo: 'dual-eligible', tags: ['msp', 'qmb', 'slmb', 'qi', 'medicaid', 'costs', 'part-b'] },
+  },
 ];
