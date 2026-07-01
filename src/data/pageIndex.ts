@@ -12,6 +12,7 @@ import type { Taxonomy } from '../types/Page';
 import { FEATURED_DRUGS } from './drugs';
 import { TOWNS } from './towns';
 import { NEWS_ARTICLES } from './news';
+import { DRUG_COVERAGE } from './drugCoverage';
 
 export interface PageIndexEntry {
   href: string;
@@ -382,5 +383,16 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     href: `/${d.slug}-assistance-program.html`,
     title: `${d.drug} Assistance Programs`,
     taxonomy: { silo: 'part-d', tags: ['drug-assistance', 'part-d', ...d.conditions] },
+  })),
+  // ── Drug-Coverage Center (M32) — hub + per-drug "does Medicare cover X" ──
+  {
+    href: '/medicare-drug-coverage.html',
+    title: 'Does Medicare Cover My Drug?',
+    taxonomy: { silo: 'part-d', tags: ['drug-coverage', 'part-d', 'coverage', 'formulary'] },
+  },
+  ...DRUG_COVERAGE.map((d): PageIndexEntry => ({
+    href: `/does-medicare-cover-${d.slug}.html`,
+    title: `Does Medicare Cover ${d.brand}?`,
+    taxonomy: { silo: 'part-d', tags: ['drug-coverage', d.condition, 'part-d', 'coverage'] },
   })),
 ];

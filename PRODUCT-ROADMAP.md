@@ -21,9 +21,31 @@ Legend: ✅ live · 🚧 in progress · 📋 planned · ⏸ on hold
 | **Glossary** | 🚧 M29 |
 | **Turning-65 Center** | 📋 M30 |
 | **News Center** | 📋 M31 |
-| **Drug-Coverage Center** ("does Medicare cover X") | 📋 M32 |
-| **On-site Search** | 📋 M33 |
+| **Drug-Coverage Center** ("does Medicare cover X") | ✅ M32 |
+| Calculator platform expansion | 📋 M33 |
+| **On-site Search** | 📋 M34 |
 | Statewide (Wasatch-Front counties) | ⏸ local-first first |
+
+## Platform metrics (KPI snapshot — 2026-07-01)
+
+Operational size, not just milestone count. Update as products ship.
+
+| Metric | Count |
+|---|---|
+| Total pages built | 119 |
+| Populated silos | 12 |
+| Calculators / decision tools | 4 |
+| Glossary terms | 43 |
+| News articles (Intelligence Center) | 6 |
+| Local town pages (Uintah Basin) | 13 |
+| Drug pages — assistance (M8) + coverage (M32) | 14 + 14 |
+| Trust / E-E-A-T pages | credentials · editorial policy · about · reviews |
+| astro-check legacy errors (ratcheting down) | 47 |
+| Unit tests | 39 |
+| CI | green (Node 24) |
+
+_Future ops metrics to add once analytics/GSC are wired: internal-link count,
+structured-data coverage, page traffic, assisted conversions per product._
 
 ---
 

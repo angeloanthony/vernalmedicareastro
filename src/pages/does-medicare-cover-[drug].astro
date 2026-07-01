@@ -1,0 +1,100 @@
+---
+// src/pages/does-medicare-cover-[drug].astro — per-drug coverage page (M32).
+// One page per entry in data/drugCoverage.ts → /does-medicare-cover-<slug>.html.
+// Every drug renders the SAME standardized structure. Interlinks with the
+// drug-ASSISTANCE page (different intent) and the Part D pillar.
+import type { GetStaticPaths } from 'astro';
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { DRUG_COVERAGE } from '../data/drugCoverage';
+import { DRUG_CONDITION_META } from '../types/DrugCoverage';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+import type { DrugCoverageEntry } from '../types/DrugCoverage';
+
+export const getStaticPaths = (() =>
+  DRUG_COVERAGE.map((d) => ({ params: { drug: d.slug }, props: { d } }))) satisfies GetStaticPaths;
+
+interface Props {
+  d: DrugCoverageEntry;
+}
+const { d } = Astro.props as Props;
+const bySlug = new Map(DRUG_COVERAGE.map((x) => [x.slug, x]));
+const assistanceHref = d.assistanceSlug ? `${d.assistanceSlug}-assistance-program.html` : 'prescription-drug-assistance.html';
+
+const context: PageContext = {
+  page: {
+    title: `Does Medicare Cover ${d.brand}? — Coverage & Costs | Vernal Medicare`,
+    heading: `Does Medicare Cover ${d.brand}?`,
+    description: `${d.coveredSummary} How ${d.brand} (${d.generic}) is covered under Medicare — which part, when, prior authorization, and what to do if it isn’t covered.`,
+    taxonomy: { silo: 'part-d', tags: ['drug-coverage', d.condition, d.slug, 'part-d', 'coverage'] },
+    summary: d.coveredSummary,
+    faqs: [
+      { question: `Does Medicare cover ${d.brand}?`, answer: `${d.coveredSummary} ${d.coveredWhen}` },
+      { question: `Which part of Medicare covers ${d.brand}?`, answer: d.whichPart },
+      { question: `What if my plan doesn’t cover ${d.brand}?`, answer: d.ifNotCovered },
+    ],
+    sources: [{ title: d.source.title, url: d.source.url, publisher: 'Medicare.gov' }],
+    nextSteps: [
+      { when: `Want to know exactly what ${d.brand} costs on your plan?`, action: `call us free at ${BUSINESS.phone} — we’ll check your formulary.` },
+    ],
+  },
+  meta: {
+    canonical: `https://vernalmedicare.com/does-medicare-cover-${d.slug}.html`,
+    ogType: 'article',
+    ogTitle: `Does Medicare Cover ${d.brand}?`,
+    ogDescription: d.coveredSummary,
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Drug Coverage', href: '/medicare-drug-coverage.html' },
+    { name: `${d.brand}`, href: `/does-medicare-cover-${d.slug}.html` },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p class="dc-tag"><a href="/medicare-drug-coverage.html">Drug Coverage</a> · {DRUG_CONDITION_META[d.condition].label}</p>
+  <p><strong>{d.brand}</strong> ({d.generic}) is used for {d.treats}.</p>
+
+  <h2>Does Medicare cover {d.brand}?</h2>
+  <p><strong>{d.coveredSummary}</strong> {d.coveredWhen}</p>
+
+  <h2>Which part of Medicare covers it?</h2>
+  <p>{d.whichPart}</p>
+
+  <h2>Prior authorization &amp; plan rules</h2>
+  <p>{d.priorAuth}</p>
+
+  <h2>If it isn’t covered (or costs too much)</h2>
+  <p>{d.ifNotCovered}</p>
+  <ul>
+    <li><strong><a href={`/${assistanceHref}`}>Help paying for {d.brand}</a></strong> — assistance programs and grants.</li>
+    <li><a href="best-part-d-plans-vernal.html">Compare Part D plans</a> that cover {d.brand} on a better tier.</li>
+    <li><a href="tier-3-vs-tier-4-medicare-part-d.html">How drug tiers work</a> · <a href="medicare-extra-help-utah.html">Extra Help</a> for lower-income beneficiaries.</li>
+  </ul>
+
+  {d.related && d.related.length > 0 && (
+    <Fragment>
+      <h2>Related medications</h2>
+      <ul>
+        {d.related.map((slug) => {
+          const r = bySlug.get(slug);
+          return r ? <li><a href={`does-medicare-cover-${r.slug}.html`}>Does Medicare cover {r.brand}?</a> — {r.generic}</li> : null;
+        })}
+      </ul>
+    </Fragment>
+  )}
+
+  <h2>Get a Real Answer for Your Plan — Free</h2>
+  <p>Coverage and cost depend on your specific plan and diagnosis. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) with your medication list, and we’ll tell you exactly what {d.brand} costs on your plan — and whether a different plan would cover it better. No cost, no pressure.</p>
+</ArticlePage>
+
+<style>
+  .dc-tag {
+    text-transform: uppercase; letter-spacing: 0.03em; font-size: 0.8rem; font-weight: 700;
+    color: var(--color-accent, #9e0853); margin: 0 0 0.5rem;
+  }
+</style>

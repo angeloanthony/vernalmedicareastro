@@ -1,0 +1,101 @@
+---
+// src/pages/medicare-drug-coverage.astro — Drug-Coverage Center hub (M32).
+// A knowledge graph organized by condition: each drug is a node with the same
+// standardized "does Medicare cover it?" structure. Distinct intent from the
+// drug-ASSISTANCE pages ("help paying for X") — they interlink, not duplicate.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { DRUG_COVERAGE } from '../data/drugCoverage';
+import { DRUG_CONDITION_META, type DrugCondition, type CoverageStatus } from '../types/DrugCoverage';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const ORDER: DrugCondition[] = ['diabetes', 'heart', 'autoimmune', 'respiratory', 'weight'];
+const STATUS_LABEL: Record<CoverageStatus, string> = { covered: 'Covered', conditional: 'Covered with criteria', limited: 'Usually not covered' };
+const groups = ORDER
+  .map((c) => ({ c, meta: DRUG_CONDITION_META[c], drugs: DRUG_COVERAGE.filter((d) => d.condition === c).sort((a, b) => a.brand.localeCompare(b.brand)) }))
+  .filter((g) => g.drugs.length > 0);
+
+const context: PageContext = {
+  page: {
+    title: 'Does Medicare Cover My Drug? — Coverage by Medication | Vernal Medicare',
+    heading: 'Does Medicare Cover My Drug?',
+    description:
+      'Does Medicare cover Eliquis, Jardiance, Humira, and more? Coverage by medication — which part covers it, when, prior authorization, and what to do if it doesn’t. Free local help.',
+    taxonomy: { silo: 'part-d', tags: ['drug-coverage', 'part-d', 'coverage', 'formulary'] },
+    summary:
+      `Wondering if Medicare covers a specific medication? This center answers "does Medicare cover it?" for ${DRUG_COVERAGE.length} common brand-name drugs, organized by the condition they treat — with the same details every time: which part covers it, under what circumstances, whether prior authorization applies, and what to do if it isn’t covered.`,
+    faqs: [
+      { question: 'Which part of Medicare covers prescription drugs?', answer: 'Most self-administered prescriptions are covered by Part D — a standalone drug plan or the drug coverage built into a Medicare Advantage plan. A few drugs given in a clinic fall under Part B.' },
+      { question: 'Why does my plan require prior authorization?', answer: 'For expensive brand drugs and biologics, plans often require prior authorization (approval before covering) or step therapy (trying a lower-cost option first). Your doctor submits the request, and you can appeal a denial.' },
+      { question: 'What if Medicare won’t cover my drug?', answer: 'Options include comparing plans that cover it on a better tier, requesting an exception with your doctor’s support, using a biosimilar or covered alternative, and applying for manufacturer or foundation assistance. We can help you sort through them free.' },
+    ],
+    sources: [
+      { title: 'Medicare.gov — drug coverage (Part D)', url: 'https://www.medicare.gov/drug-coverage-part-d', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      { when: 'Not sure if your plan covers your medication?', action: `call us free at ${BUSINESS.phone} — bring your drug list and we’ll check it.` },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-drug-coverage.html',
+    ogType: 'website',
+    ogTitle: 'Does Medicare Cover My Drug?',
+    ogDescription: 'Coverage by medication — which part, when, prior auth, and what to do if it isn’t covered.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Drug Coverage', href: '/medicare-drug-coverage.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>"Does Medicare cover my medication?" It depends on the drug, your diagnosis, and your plan. Below, {DRUG_COVERAGE.length} common brand-name drugs by condition — each with the same answers: is it covered, when, which part, does it need prior authorization, and what to do if it isn’t. This is about <em>coverage</em>; if you need <a href="prescription-drug-assistance.html">help paying for a drug</a>, start there instead.</p>
+
+  <nav class="dc-nav" aria-label="Conditions">
+    {groups.map((g) => <a href={`#${g.c}`}>{g.meta.label}</a>)}
+  </nav>
+
+  {groups.map((g) => (
+    <section id={g.c} class="dc-category">
+      <h2>{g.meta.label}</h2>
+      <p class="dc-blurb">{g.meta.blurb}</p>
+      <ul class="dc-list">
+        {g.drugs.map((d) => (
+          <li class="dc-item">
+            <a class="dc-drug" href={`does-medicare-cover-${d.slug}.html`}>Does Medicare cover {d.brand}?</a>
+            <span class={`dc-status dc-${d.status}`}>{STATUS_LABEL[d.status]}</span>
+            <p class="dc-treats">{d.generic} — for {d.treats}.</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <h2>Bring Us Your Drug List — Free</h2>
+  <p>The fastest way to know what your Medicare plan covers (and for how much) is to check your exact medication list against the formularies. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) or <a href="best-part-d-plans-vernal.html">compare Part D plans</a> — we’ll match a plan to your drugs and pharmacy, no cost, no pressure.</p>
+</ArticlePage>
+
+<style>
+  .dc-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.25rem 0 2rem; }
+  .dc-nav a {
+    padding: 0.35rem 0.75rem; background: var(--color-surface, #f4f6f8);
+    border: 1px solid var(--color-border, #d8dee4); border-radius: 999px;
+    font-size: 0.9rem; text-decoration: none;
+  }
+  .dc-blurb { color: var(--color-text-muted, #667085); margin-top: -0.35rem; }
+  .dc-list { list-style: none; padding: 0; margin: 0; }
+  .dc-item { padding: 0.8rem 0; border-top: 1px solid var(--color-border, #e5e9ee); }
+  .dc-drug { font-weight: 700; font-size: 1.05rem; }
+  .dc-status {
+    display: inline-block; margin-left: 0.5rem; padding: 0.1rem 0.55rem;
+    border-radius: 999px; font-size: 0.75rem; font-weight: 700; vertical-align: middle;
+  }
+  .dc-covered { background: #e6f4ea; color: #1b7a3d; }
+  .dc-conditional { background: #fff4e5; color: #a5610a; }
+  .dc-limited { background: #fdecea; color: #b42318; }
+  .dc-treats { color: var(--color-text-muted, #667085); margin: 0.25rem 0 0; font-size: 0.92rem; }
+</style>
