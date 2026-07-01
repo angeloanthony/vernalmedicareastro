@@ -19,6 +19,12 @@ export interface PageIndexEntry {
 }
 
 export const PAGE_INDEX: PageIndexEntry[] = [
+  // ── Master hub (M25) — the top-level parent above every silo ──
+  {
+    href: '/medicare-help-center.html',
+    title: 'Medicare Help Center',
+    taxonomy: { silo: 'medicare-101', tags: ['medicare-101', 'hub', 'help-center', 'overview', 'vernal'], pillar: true },
+  },
   {
     href: '/medicare-part-a-vs-part-b.html',
     title: 'Medicare Part A vs Part B',
