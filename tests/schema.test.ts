@@ -33,6 +33,7 @@ describe('schema.assembleSchema', () => {
     expect(primary['@type']).toBe('Article');
     expect(primary.headline).toBe('Medicare Part A vs Part B');
     expect((primary.author as { name: string }).name).toBe('Rocco DeLuca');
+    expect((primary.publisher as { '@type': string })['@type']).toBe('Organization');
     expect(primary.dateModified).toBe('June 2026');
     expect((primary.citation as unknown[]).length).toBe(1);
   });

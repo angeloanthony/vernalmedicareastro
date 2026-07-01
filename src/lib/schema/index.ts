@@ -93,7 +93,15 @@ function primaryEntity(ctx: PageContext, primary: SchemaKind): Json {
     url: abs(meta.canonical),
     mainEntityOfPage: abs(meta.canonical),
   };
-  if (type === 'Article' || type === 'MedicalWebPage') node.headline = page.title;
+  if (type === 'Article' || type === 'MedicalWebPage') {
+    node.headline = page.heading ?? page.title;
+    node.publisher = {
+      '@type': 'Organization',
+      name: BUSINESS.name,
+      url: BUSINESS.url,
+      logo: { '@type': 'ImageObject', url: BUSINESS.logo },
+    };
+  }
 
   const author = resolveAuthor(ctx.author);
   if (author) node.author = personRef(author);
@@ -102,6 +110,7 @@ function primaryEntity(ctx: PageContext, primary: SchemaKind): Json {
     node.reviewedBy = personRef(reviewer);
     if (ctx.lastUpdated) node.lastReviewed = ctx.lastUpdated;
   }
+  if (ctx.datePublished) node.datePublished = ctx.datePublished;
   if (ctx.lastUpdated) node.dateModified = ctx.lastUpdated;
   if (page.sources?.length) node.citation = page.sources.map(citationOf);
   return node;

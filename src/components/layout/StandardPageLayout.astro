@@ -48,6 +48,8 @@ const related = context.related ?? relatedFor(page.taxonomy, PAGE_INDEX, current
   ogTitle={meta.ogTitle}
   ogDescription={meta.ogDescription}
   ogImage={meta.ogImage}
+  twitterTitle={meta.ogTitle ?? page.title}
+  twitterDescription={meta.ogDescription ?? page.description}
   schema={schema}
 >
   <article class="page container">
@@ -64,7 +66,7 @@ const related = context.related ?? relatedFor(page.taxonomy, PAGE_INDEX, current
     )}
 
     <header class="page-header">
-      <h1>{page.title}</h1>
+      <h1>{page.heading ?? page.title}</h1>
       <AuthorByline
         authorId={context.author}
         reviewedById={context.reviewedBy}

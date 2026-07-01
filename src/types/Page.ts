@@ -68,6 +68,8 @@ export interface NextStep {
 // ── PageData: the portable content model (MDX / CMS / AI / calculators share it) ─
 export interface PageData {
   title: string;
+  /** H1 for the page when it differs from the SEO <title>. Defaults to title. */
+  heading?: string;
   description: string;
   taxonomy: Taxonomy;
   summary?: string;
@@ -130,6 +132,9 @@ export interface PageContext {
   // identity / E-E-A-T (optional, day one) — references, resolved by the schema engine
   author?: AuthorId;
   reviewedBy?: AuthorId;
+  /** ISO publish date (Article datePublished). */
+  datePublished?: string;
+  /** ISO last-modified date; drives byline "Updated …" + Article dateModified. */
   lastUpdated?: string;
   medicalDisclaimer?: boolean | string;
   localAvailability?: string;

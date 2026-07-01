@@ -16,6 +16,13 @@ const author = authorId ? authorById(authorId) : undefined;
 const reviewerRaw = reviewedById ? authorById(reviewedById) : undefined;
 const reviewer = reviewerRaw && reviewerRaw.id !== author?.id ? reviewerRaw : undefined;
 const show = Boolean(author || reviewer || updated || localAvailability);
+
+// Display an ISO date as "Month YYYY"; pass other strings through unchanged.
+const parsed = updated ? new Date(updated) : null;
+const updatedDisplay =
+  parsed && !Number.isNaN(parsed.getTime())
+    ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long' }).format(parsed)
+    : updated;
 ---
 
 {show && (
@@ -24,7 +31,7 @@ const show = Boolean(author || reviewer || updated || localAvailability);
       <Fragment>By <a href={author.url ?? '#'}>{author.name}</a>, {author.jobTitle}</Fragment>
     )}
     {reviewer && <Fragment> · Reviewed by {reviewer.name}</Fragment>}
-    {updated && <Fragment> · Updated {updated}</Fragment>}
+    {updated && <Fragment> · Updated {updatedDisplay}</Fragment>}
     {localAvailability && <Fragment> · {localAvailability}</Fragment>}
   </p>
 )}

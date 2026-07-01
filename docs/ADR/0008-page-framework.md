@@ -93,7 +93,8 @@ interface NextStep {
 
 // ── PageData: the PORTABLE content model (MDX / CMS / AI / calculators share it) ─
 interface PageData {
-  title: string;
+  title: string;                       // SEO <title>
+  heading?: string;                    // H1 when it differs from title (added in M4)
   description: string;
   taxonomy: Taxonomy;
   summary?: string;                    // AI-pullable TL;DR
@@ -131,10 +132,11 @@ interface SchemaModule { kind: SchemaKind; build: (ctx: PageContext) => Record<s
 interface PageContext {
   page: PageData;                      // portable content
   meta: PageMeta;                      // head extras (canonical, og)
-  // identity / E-E-A-T (optional, day one)
-  author?: Author;                     // default: ROCCO (data/authors)
-  reviewedBy?: Author;
-  lastUpdated?: string;
+  // identity / E-E-A-T (optional, day one) — AuthorId refs, resolved by the schema engine
+  author?: AuthorId;                   // default: 'rocco' (data/authors)
+  reviewedBy?: AuthorId;
+  datePublished?: string;              // ISO (Article datePublished; added in M4)
+  lastUpdated?: string;                // ISO → byline "Updated …" + Article dateModified
   medicalDisclaimer?: boolean | string;
   localAvailability?: string;
   // structure
