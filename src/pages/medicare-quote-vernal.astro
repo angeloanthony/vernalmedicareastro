@@ -1,128 +1,76 @@
 ---
-// src/pages/medicare-quote-vernal.astro  —  converted from medicare-quote-vernal.html
-// URL preserved: /medicare-quote-vernal.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/medicare-quote-vernal.astro — MIGRATED to the Page Framework.
+// URL, title, description, canonical, H1, publish date and gaIds preserved from
+// the ranking legacy page. Now on ArticlePage: automatic Article+FAQ+Breadcrumb
+// schema, byline, related, and the required marketing disclaimer. The inline
+// hand-rolled JSON-LD (Breadcrumb/Article/FAQ) and the inline CMS
+// marketing-disclaimer block were removed — the framework generates both. The
+// FAQ Q&A moved into page.faqs. SunfireMatrix quote links preserved verbatim.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
+const context: PageContext = {
+  page: {
+    title: 'Get a Free Medicare Quote in 60 Seconds — Vernal, Utah',
+    heading: 'Get a Free Medicare Quote — Vernal & Uintah Basin Residents',
+    description:
+      'Get a personalized Medicare Advantage, Medigap, or Part D quote for Vernal and the Uintah Basin. Free, fast, no obligation. Call 435-219-5120.',
+    taxonomy: {
+      silo: 'local',
+      tags: ['local', 'quote', 'tools', 'vernal', 'uintah-county'],
+    },
+    summary:
+      'Get a personalized Medicare Advantage, Medigap, or Part D quote for Vernal and the Uintah Basin in about 60 seconds using our online Sunfire Matrix tool, or call 435-219-5120 for a full comparison with a licensed local agent. Quotes are always free with no obligation.',
+    faqs: [
       {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://vernalmedicare.com/"
+        question: 'How do I get a Medicare quote in Vernal, Utah?',
+        answer:
+          'Use our free online tool at vernalmedicare.com or call 435-219-5120 for a personalized comparison. Quotes are always free with no obligation.',
       },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Get a Free Medicare Quote — Vernal &amp; Uintah Basin Residents",
-        "item": "https://vernalmedicare.com/medicare-quote-vernal.html"
-      }
-    ]
+    ],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Get a Free Medicare Quote in 60 Seconds — Vernal, Utah",
-    "description": "Get a personalized Medicare Advantage, Medigap, or Part D quote for Vernal and the Uintah Basin. Free, fast, no obligation. Call 435-219-5120.",
-    "author": {
-      "@type": "Person",
-      "name": "Rocco DeLuca",
-      "jobTitle": "Licensed Insurance Agent"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Vernal Medicare",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://vernalmedicare.com/pictures/Rocco.webp"
-      }
-    },
-    "datePublished": "2026-04-04",
-    "dateModified": "2026-04-04",
-    "mainEntityOfPage": "https://vernalmedicare.com/medicare-quote-vernal.html"
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-quote-vernal.html',
+    ogType: 'article',
+    gaIds: ['G-NW6ENB89NF', 'G-FTDW9B2G6Q'],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How do I get a Medicare quote in Vernal, Utah?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Use our free online tool at vernalmedicare.com or call 435-219-5120 for a personalized comparison. Quotes are always free with no obligation."
-        }
-      }
-    ]
-  }
-];
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Free Medicare Quote', href: '/medicare-quote-vernal.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="Get a Free Medicare Quote in 60 Seconds — Vernal, Utah"
-  description="Get a personalized Medicare Advantage, Medigap, or Part D quote for Vernal and the Uintah Basin. Free, fast, no obligation. Call 435-219-5120."
-  canonical="https://vernalmedicare.com/medicare-quote-vernal.html"
-  ogType="article"
-  schema={schema}
-  gaIds={["G-NW6ENB89NF", "G-FTDW9B2G6Q"]}
->
-  <section class="cms-compliance" style="background:#fffbf0;border:2px solid #d97706;border-radius:8px;padding:1.5rem;margin:2rem auto;max-width:1100px;">
-    <h2 style="color:#92400e;margin-top:0;font-size:1.1rem;">Important Medicare Information</h2>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>We do not offer every plan available in your area.</strong> Any information we provide is limited to those plans we do offer in your area. Please contact <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711), 24 hours a day, 7 days a week, to get information on all of your options.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      Vernal Medicare is a licensed and certified representative of Medicare Advantage organizations and stand-alone prescription drug plans. Each of the organizations we represent has a Medicare contract. Enrollment in any plan depends on contract renewal.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>Not connected with or endorsed by the U.S. government or the federal Medicare program.</strong>
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      By calling the number above, you will be directed to a licensed insurance agent.
-    </p>
-  </section>
+<ArticlePage context={context}>
+  <p>Ready to see your options? Get a personalized Medicare quote in about 60 seconds using our online tool, or call for a full comparison with a licensed local agent.</p>
 
-<main>
-  <section>
-    <p style="font-size:.9rem;color:#666;margin-bottom:.5rem;">
-      <em>By <strong>Rocco DeLuca</strong>, Licensed Insurance Agent &bull; Published 2026-04-04 &bull; Last updated 2026-04-04</em>
-    </p>
-    <h1 style="text-align:center;">Get a Free Medicare Quote — Vernal &amp; Uintah Basin Residents</h1>
-    
-        <p>Ready to see your options? Get a personalized Medicare quote in about 60 seconds using our online tool, or call for a full comparison with a licensed local agent.</p>
+  <h2>Quick Online Quote</h2>
+  <p>Our Sunfire Matrix tool generates personalized plan estimates based on your zip code, medications, doctors, and preferred pharmacy. It shows Medicare Advantage, Part D, and supplemental options ranked by estimated total annual cost.</p>
+  <p style="text-align:center;margin:1.5rem 0;">
+    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Get Your Free Quote Now</a>
+  </p>
 
-        <h2>Quick Online Quote</h2>
-        <p>Our Sunfire Matrix tool generates personalized plan estimates based on your zip code, medications, doctors, and preferred pharmacy. It shows Medicare Advantage, Part D, and supplemental options ranked by estimated total annual cost.</p>
-        <p style="text-align:center;margin:1.5rem 0;">
-          <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Get Your Free Quote Now</a>
-        </p>
+  <h2>What You Will See</h2>
+  <p>Available Medicare Advantage plans with monthly premiums, copays, and MOOP. Part D drug plans with estimated annual medication costs. Medigap quotes with monthly premiums by carrier. Doctor and hospital network confirmation. Extra benefits comparison (dental, vision, hearing, fitness).</p>
 
-        <h2>What You Will See</h2>
-        <p>Available Medicare Advantage plans with monthly premiums, copays, and MOOP. Part D drug plans with estimated annual medication costs. Medigap quotes with monthly premiums by carrier. Doctor and hospital network confirmation. Extra benefits comparison (dental, vision, hearing, fitness).</p>
+  <h2>Prefer to Talk to a Person?</h2>
+  <p>Many Vernal residents prefer a conversation over an online tool — and that is perfectly fine. Call Rocco at <a href="tel:+14352195120">435-219-5120</a> for a personalized consultation. Bring your medication list and we can have your comparison done in about 15 minutes. Available Monday through Friday, 1 pm to 5 pm at Smith's Pharmacy (1080 W Hwy 40, Vernal) or by phone anytime during business hours. Saturday appointments available by request.</p>
 
-        <h2>Prefer to Talk to a Person?</h2>
-        <p>Many Vernal residents prefer a conversation over an online tool — and that is perfectly fine. Call Rocco at <a href="tel:+14352195120">435-219-5120</a> for a personalized consultation. Bring your medication list and we can have your comparison done in about 15 minutes. Available Monday through Friday, 1 pm to 5 pm at Smith's Pharmacy (1080 W Hwy 40, Vernal) or by phone anytime during business hours. Saturday appointments available by request.</p>
+  <h2>Completely Free — Always</h2>
+  <p>Quotes, comparisons, and enrollment help are always free. We are compensated by insurance carriers, not by you. No pressure, no obligation.</p>
 
-        <h2>Completely Free — Always</h2>
-        <p>Quotes, comparisons, and enrollment help are always free. We are compensated by insurance carriers, not by you. No pressure, no obligation.</p>
+  <p>Related: <a href="free-medicare-comparison-vernal.html">Full comparison tool</a> | <a href="medicare-checklist-2026.html">2026 Medicare checklist</a> | <a href="best-medicare-advantage-vernal.html">Best Advantage plans</a></p>
+  <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
 
-        <p>Related: <a href="free-medicare-comparison-vernal.html">Full comparison tool</a> | <a href="medicare-checklist-2026.html">2026 Medicare checklist</a> | <a href="best-medicare-advantage-vernal.html">Best Advantage plans</a></p>
-        <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
-        
-    <p style="text-align:center;margin-top:2rem;">
-      <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
-    </p>
-    <p style="text-align:center;margin-top:1rem;">
-      <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
-    </p>
-  </section>
-</main>
-
-
-  
-</BaseLayout>
+  <p style="text-align:center;margin-top:2rem;">
+    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
+  </p>
+  <p style="text-align:center;margin-top:1rem;">
+    <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
+  </p>
+</ArticlePage>

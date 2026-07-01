@@ -1,147 +1,93 @@
 ---
-// src/pages/medicare-vernal-ut.astro  —  converted from medicare-vernal-ut.html
-// URL preserved: /medicare-vernal-ut.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/medicare-vernal-ut.astro — MIGRATED to the Page Framework.
+// The OFFICE / "Visit Us" LOCAL page. URL (/medicare-vernal-ut.html), title,
+// description, canonical, and the legacy H1 preserved. Now on ArticlePage:
+// automatic Article+FAQ+Breadcrumb schema, byline, related, and the required
+// marketing disclaimer. The inline hand-rolled JSON-LD (BreadcrumbList,
+// LocalBusiness/InsuranceAgency, FAQPage) and the inline "Disclosures" CMS
+// marketing block were removed — the framework generates breadcrumb + FAQ +
+// disclaimer, and the LocalBusiness block only duplicated the sitewide
+// LocalBusiness from business.ts, so it was dropped. FAQ Q&A moved into
+// page.faqs; marketingDisclaimer:true set. The Google Maps <iframe> embed,
+// the hero, NAP grid, hours/directions, and all custom markup are preserved
+// byte-for-byte in the body slot. No stale $185/$257/$1,676 figures appeared,
+// so no figuresFor()/usd data layer is needed.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
+const context: PageContext = {
+  page: {
+    title: "Vernal Medicare Office at Smith's Pharmacy | Visit Our Local Agent",
+    heading: "Visit Vernal Medicare at Smith's Pharmacy",
+    description:
+      "Visit Vernal Medicare inside Smith's Pharmacy at 1080 W Hwy 40 in Vernal, UT. Stop in, call, or schedule a home visit. Free plan reviews. Mon–Fri 1pm–5pm. Call 435-219-5120.",
+    taxonomy: { silo: 'local', tags: ['local', 'vernal', 'office', 'uintah-county'] },
+    summary:
+      "Vernal Medicare's local office is inside Smith's Pharmacy at 1080 W Hwy 40 in Vernal, Utah — open Monday through Friday, 1pm to 5pm, with Saturday appointments and no-charge home visits across the Uintah Basin. Stop in, call, or schedule a visit for a free, no-pressure Medicare plan review.",
+    faqs: [
       {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://vernalmedicare.com/"
+        question: 'Where is Vernal Medicare located?',
+        answer:
+          "Inside Smith's Pharmacy at 1080 W Hwy 40, Vernal, UT 84078. Look for our office area near the back of the pharmacy.",
       },
       {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Vernal Medicare Office",
-        "item": "https://vernalmedicare.com/medicare-vernal-ut.html"
-      }
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": [
-      "LocalBusiness",
-      "InsuranceAgency"
+        question: 'What are your office hours?',
+        answer:
+          'Monday through Friday, 1pm to 5pm. Saturday appointments and home visits are available throughout the Uintah Basin.',
+      },
+      {
+        question: 'Do I need an appointment to stop in?',
+        answer:
+          'Walk-ins are welcome during office hours. For dedicated time and a full side-by-side plan comparison, scheduling ahead is recommended — call 435-219-5120.',
+      },
+      {
+        question: 'Do you charge for Medicare help?',
+        answer:
+          "No. Plan reviews and enrollments are free. Licensed agents are paid by the insurance carriers, so there's no cost to you.",
+      },
+      {
+        question: 'Can you come to me?',
+        answer:
+          'Yes. Home visits are available at no extra charge throughout Vernal, Naples, Maeser, Jensen, Roosevelt, Duchesne, and the surrounding Uintah Basin communities.',
+      },
+      {
+        question: 'What should I bring to an appointment?',
+        answer:
+          "Your Medicare card (or Social Security card if you're approaching 65), a list of your current medications, and a list of doctors and specialists you want to keep seeing.",
+      },
+      {
+        question: 'Where can I learn about Medicare options before I come in?',
+        answer:
+          'See our complete 2026 Medicare guide for Vernal. It covers Medicare Advantage, Medigap, Part D, costs, enrollment periods, and local hospitals and pharmacies.',
+      },
     ],
-    "@id": "https://vernalmedicare.com/#business",
-    "name": "Vernal Medicare",
-    "url": "https://vernalmedicare.com/",
-    "telephone": "+1-435-219-5120",
-    "email": "rocco@vernalmedicare.com",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "1080 W Hwy 40",
-      "addressLocality": "Vernal",
-      "addressRegion": "UT",
-      "postalCode": "84078",
-      "addressCountry": "US"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 40.4527277,
-      "longitude": -109.5478186
-    },
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday"
-        ],
-        "opens": "13:00",
-        "closes": "17:00"
-      }
-    ],
-    "containedInPlace": {
-      "@type": "Pharmacy",
-      "name": "Smith's Pharmacy"
-    }
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "@id": "https://vernalmedicare.com/medicare-vernal-ut.html#faq",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Where is Vernal Medicare located?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Inside Smith's Pharmacy at 1080 W Hwy 40, Vernal, UT 84078."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What are your office hours?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Monday through Friday, 1pm to 5pm. Saturday appointments and home visits are available throughout the Uintah Basin."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Do I need an appointment to stop in?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Walk-ins are welcome during office hours. For dedicated time and a side-by-side plan comparison, scheduling ahead is recommended — call 435-219-5120."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Do you charge for Medicare help?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. Plan reviews and enrollments are free. Licensed agents are paid by the insurance carriers."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can you come to me?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. Home visits are available at no extra charge throughout Vernal, Naples, Maeser, Jensen, Roosevelt, Duchesne, and the surrounding Uintah Basin communities."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What should I bring to an appointment?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Your Medicare card (or Social Security card if you're approaching 65), a list of your current medications, and a list of doctors and specialists you want to keep seeing."
-        }
-      }
-    ]
-  }
-];
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-vernal-ut.html',
+    ogType: 'article',
+    ogTitle: "Vernal Medicare Office at Smith's Pharmacy | Visit Us",
+    ogDescription:
+      "Visit our Vernal Medicare office inside Smith's Pharmacy on Hwy 40. Free plan reviews, phone consultations, and home visits across the Uintah Basin.",
+    gaIds: ['G-FTDW9B2G6Q'],
+  },
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Visit Us in Vernal', href: '/medicare-vernal-ut.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="Vernal Medicare Office at Smith's Pharmacy | Visit Our Local Agent"
-  description="Visit Vernal Medicare inside Smith's Pharmacy at 1080 W Hwy 40 in Vernal, UT. Stop in, call, or schedule a home visit. Free plan reviews. Mon–Fri 1pm–5pm. Call 435-219-5120."
-  canonical="https://vernalmedicare.com/medicare-vernal-ut.html"
-  ogTitle="Vernal Medicare Office at Smith's Pharmacy | Visit Us"
-  ogDescription="Visit our Vernal Medicare office inside Smith's Pharmacy on Hwy 40. Free plan reviews, phone consultations, and home visits across the Uintah Basin."
-  twitterTitle="Vernal Medicare Office at Smith's Pharmacy | Visit Us"
-  twitterDescription="Visit our Vernal Medicare office inside Smith's Pharmacy on Hwy 40. Mon–Fri 1pm–5pm."
-  schema={schema}
-  gaIds={["G-FTDW9B2G6Q"]}
->
+<ArticlePage context={context}>
   <!-- Hero -->
   <section class="hero-row">
     <div class="hero-image-wrapper">
       <img src="/pictures/vernalmedicare.webp" alt="Vernal Medicare office at Smith's Pharmacy in Vernal, Utah" width="1600" height="600" class="hero-banner" loading="eager" decoding="async" fetchpriority="high">
       <div class="hero-text">
-        <h1>Visit Vernal Medicare at Smith's Pharmacy</h1>
         <p>Stop in, call, or schedule a home visit — we serve Vernal, Naples, Maeser, Jensen, and the Uintah Basin.</p>
         <p>
           <a href="tel:+14352195120" class="enroll-btn" aria-label="Call Vernal Medicare">(435) 219-5120</a>
@@ -228,47 +174,6 @@ const schema = [
     </div>
   </section>
 
-  <!-- FAQs -->
-  <section id="faq" aria-label="Visiting Vernal Medicare — FAQs">
-    <div class="container">
-      <h2>Visiting Our Office — FAQs</h2>
-
-      <details>
-        <summary>Where is Vernal Medicare located?</summary>
-        <p>Inside Smith's Pharmacy at 1080 W Hwy 40, Vernal, UT 84078. Look for our office area near the back of the pharmacy.</p>
-      </details>
-
-      <details>
-        <summary>What are your office hours?</summary>
-        <p>Monday through Friday, 1pm to 5pm. Saturday appointments and home visits are available throughout the Uintah Basin.</p>
-      </details>
-
-      <details>
-        <summary>Do I need an appointment to stop in?</summary>
-        <p>Walk-ins are welcome during office hours. For dedicated time and a full side-by-side plan comparison, scheduling ahead is recommended — call <a href="tel:+14352195120">(435) 219-5120</a>.</p>
-      </details>
-
-      <details>
-        <summary>Do you charge for Medicare help?</summary>
-        <p>No. Plan reviews and enrollments are free. Licensed agents are paid by the insurance carriers, so there's no cost to you.</p>
-      </details>
-
-      <details>
-        <summary>Can you come to me?</summary>
-        <p>Yes. Home visits are available at no extra charge throughout Vernal, Naples, Maeser, Jensen, Roosevelt, Duchesne, and the surrounding Uintah Basin communities.</p>
-      </details>
-
-      <details>
-        <summary>What should I bring to an appointment?</summary>
-        <p>Your Medicare card (or Social Security card if you're approaching 65), a list of your current medications, and a list of doctors and specialists you want to keep seeing.</p>
-      </details>
-
-      <details>
-        <summary>Where can I learn about Medicare options before I come in?</summary>
-        <p>See our <a href="/medicare-plans-vernal-utah.html">complete 2026 Medicare guide for Vernal</a>. It covers Medicare Advantage, Medigap, Part D, costs, enrollment periods, and local hospitals and pharmacies.</p>
-      </details>
-    </div>
-  </section>
 
   <!-- Areas served + cluster links -->
   <section class="areas">
@@ -284,14 +189,4 @@ const schema = [
       </p>
     </div>
   </section>
-
-  <!-- Disclosures -->
-  <section class="container">
-    <h2>Disclosures</h2>
-    <p><em>We do not offer every plan available in your area.</em> Any information we provide is limited to the plans we do offer in your area. Contact
-      <a href="https://www.medicare.gov" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 1-877-486-2048) 24/7 to get information on all your options. Not connected with or endorsed by the U.S. government or the federal Medicare program. Enrollment in any plan depends on contract renewal.</p>
-  </section>
-
-  <!-- Footer -->
-  
-</BaseLayout>
+</ArticlePage>
