@@ -5,6 +5,26 @@ This project documents an in-progress migration; entries are grouped by mileston
 
 ## [Unreleased]
 
+### Added — M6: Dual-Eligible content silo (2026-06-30)
+- 5-page cluster: `/dual-eligible.html` (hub) + Extra Help, Medicare Savings
+  Programs (QMB/SLMB/QI consolidated), D-SNP, Medicare+Medicaid/Utah. First
+  Alta→Vernal content migration; data-driven from `annualMedicareData`; auto
+  (`relatedFor`) + intentional in-content interlinking; rebranded (no Alta
+  leakage). 48 → 53 pages, no existing URL changed. Tag `dual-eligible-v1`.
+
+### Added — M5: IRMAA calculator (2026-06-30)
+- Net-new `/medicare-irmaa-calculator.html`. `CalculatorPage` (composes
+  `StandardPageLayout`, `HowTo` schema) + `lib/calculators/irmaa` (unit-tested);
+  interactive estimate from `annualMedicareData`. Retired Phase-1
+  `CalculatorLayout`. Tag `irmaa-v1`.
+
+### Added — M3–M4: Page Framework + first migration (2026-06-30)
+- `types/Page` (PageContext) · `data/authors` · `data/pageIndex` · `lib/schema`
+  (`assembleSchema`, `@id`-linked entities) · `lib/related` (weighted) ·
+  `StandardPageLayout` + content blocks + `ArticlePage`/`CalculatorPage`.
+  Migrated `medicare-part-a-vs-part-b` as the proving page (URL preserved,
+  schema enhanced). Tag `page-framework-proven`. ADRs 0008–0010.
+
 ### Added — Developer Quality Gate (2026-06-30)
 - `npm run verify`: astro check (error-ratchet baseline) → Vitest → production build.
 - Scripts: `typecheck`, `lint` (ESLint over the TS layer), `test`, `test:watch`, `verify`.
