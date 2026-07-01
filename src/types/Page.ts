@@ -87,6 +87,9 @@ export interface PageMeta {
   ogType?: 'website' | 'article';
   ogImage?: string;
   robots?: string;
+  /** Extra per-page GA4 property IDs (in addition to the always-on global one).
+   *  Preserves per-page analytics when migrating legacy pages onto the framework. */
+  gaIds?: string[];
 }
 
 export interface CTAConfig {
@@ -137,6 +140,9 @@ export interface PageContext {
   /** ISO last-modified date; drives byline "Updated …" + Article dateModified. */
   lastUpdated?: string;
   medicalDisclaimer?: boolean | string;
+  /** Render the required CMS multi-plan marketing disclaimer ("We do not offer
+   *  every plan…"). Set true on any page that markets specific MA/PDP plans. */
+  marketingDisclaimer?: boolean;
   localAvailability?: string;
   // structure
   breadcrumb?: Crumb[];

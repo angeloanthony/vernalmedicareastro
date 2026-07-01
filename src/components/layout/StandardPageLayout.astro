@@ -12,6 +12,7 @@ import SourcesList from '../content/SourcesList.astro';
 import RelatedPages from '../content/RelatedPages.astro';
 import PageCTA from '../content/PageCTA.astro';
 import Disclaimer from '../content/Disclaimer.astro';
+import MarketingDisclaimer from '../content/MarketingDisclaimer.astro';
 import { assembleSchema } from '../../lib/schema';
 import { relatedFor } from '../../lib/related';
 import { PAGE_INDEX } from '../../data/pageIndex';
@@ -51,6 +52,7 @@ const related = context.related ?? relatedFor(page.taxonomy, PAGE_INDEX, current
   twitterTitle={meta.ogTitle ?? page.title}
   twitterDescription={meta.ogDescription ?? page.description}
   schema={schema}
+  gaIds={meta.gaIds}
 >
   <article class="page container">
     {crumbs.length > 0 && (
@@ -101,6 +103,7 @@ const related = context.related ?? relatedFor(page.taxonomy, PAGE_INDEX, current
 
     <PageCTA cta={context.cta} />
 
+    {context.marketingDisclaimer && <MarketingDisclaimer />}
     <Disclaimer medical={context.medicalDisclaimer} />
   </article>
 </BaseLayout>
