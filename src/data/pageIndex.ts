@@ -28,6 +28,12 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Medicare Help Center',
     taxonomy: { silo: 'medicare-101', tags: ['medicare-101', 'hub', 'help-center', 'overview', 'vernal'], pillar: true },
   },
+  // ── Decision Center (M39) — situation-based front door into the hubs ──
+  {
+    href: '/medicare-decision-center.html',
+    title: 'Where Do I Start With Medicare?',
+    taxonomy: { silo: 'medicare-101', tags: ['medicare-101', 'hub', 'decision-center', 'start-here', 'overview'], pillar: true },
+  },
   {
     href: '/medicare-part-a-vs-part-b.html',
     title: 'Medicare Part A vs Part B',

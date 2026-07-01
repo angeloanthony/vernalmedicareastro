@@ -11,6 +11,7 @@ Legend: ✅ complete · 🚧 in progress · 📋 planned
 
 | Product / Hub | Page | Status | Last reviewed | Source |
 |---|---|---|---|---|
+| **Decision Center** | medicare-decision-center (data/decisionPaths.ts) | ✅ | Jul 2026 | Vernal |
 | **Help Center** | medicare-help-center | ✅ | Jul 2026 | Vernal |
 | **Turning 65 Center** | turning-65 (+ data/turning65.ts) | ✅ | Jul 2026 | Vernal |
 | **Working Past 65** | working-past-65 (hub) | ✅ | Jul 2026 | Vernal |
