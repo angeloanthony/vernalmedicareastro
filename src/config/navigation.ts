@@ -18,5 +18,5 @@ export const PRIMARY_NAV: NavLink[] = [
   { href: 'faq.html', label: 'FAQ' },
   { href: 'reviews.html', label: 'Reviews' },
   { href: 'about.html', label: 'About' },
-  { href: 'news.html', label: 'News' },
+  { href: 'medicare-news.html', label: 'News' },
 ];

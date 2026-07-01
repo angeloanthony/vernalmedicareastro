@@ -11,6 +11,7 @@
 import type { Taxonomy } from '../types/Page';
 import { FEATURED_DRUGS } from './drugs';
 import { TOWNS } from './towns';
+import { NEWS_ARTICLES } from './news';
 
 export interface PageIndexEntry {
   href: string;
@@ -35,6 +36,17 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Medicare Glossary',
     taxonomy: { silo: 'medicare-101', tags: ['medicare-101', 'glossary', 'reference', 'overview'] },
   },
+  // ── News center (M31) — index + per-article pages ──
+  {
+    href: '/medicare-news.html',
+    title: 'Medicare News & Updates',
+    taxonomy: { silo: 'medicare-101', tags: ['news', 'updates', 'medicare-101', '2026'] },
+  },
+  ...NEWS_ARTICLES.map((a): PageIndexEntry => ({
+    href: `/medicare-news/${a.slug}.html`,
+    title: a.title,
+    taxonomy: { silo: 'medicare-101', tags: ['news', a.category, '2026'] },
+  })),
   {
     href: '/medicare-home-health-utah.html',
     title: 'Medicare Home Health Coverage in Utah',

@@ -1,0 +1,100 @@
+---
+// src/pages/medicare-news.astro — Medicare Intelligence Center index (M31).
+// Structured news, not a blog: renders current articles from data/news.ts,
+// grouped by category, each answering what-changed/who/what-to-do on its page.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { NEWS_ARTICLES } from '../data/news';
+import { NEWS_CATEGORY_META, type NewsCategory } from '../types/News';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const CATEGORY_ORDER: NewsCategory[] = ['costs', 'part-d', 'coverage', 'assistance', 'alerts'];
+const fmt = (iso: string) =>
+  new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(iso));
+
+// Only current + historical show on the index; sort newest first.
+const live = NEWS_ARTICLES.filter((a) => a.lifecycle !== 'archived').sort((a, b) => b.published.localeCompare(a.published));
+const groups = CATEGORY_ORDER
+  .map((cat) => ({ cat, meta: NEWS_CATEGORY_META[cat], items: live.filter((a) => a.category === cat) }))
+  .filter((g) => g.items.length > 0);
+
+const context: PageContext = {
+  page: {
+    title: 'Medicare News & Updates — Uintah Basin | Vernal Medicare',
+    heading: 'Medicare News & Updates',
+    description:
+      'Plain-English Medicare news for 2026: the $2,000 drug cap, insulin cap, Medicare Advantage changes, Extra Help, GLP-1 coverage, and scam alerts — what changed and what to do.',
+    taxonomy: { silo: 'medicare-101', tags: ['news', 'updates', 'medicare-101', '2026'] },
+    summary:
+      'Medicare rules change every year. This is what’s new — explained simply, with what changed, who it affects, and what to do about it. Reviewed by a licensed local agent and tied to the guides that go deeper.',
+    faqs: [
+      { question: 'What’s the biggest Medicare change for 2026?', answer: 'For most people it’s the $2,000 annual cap on out-of-pocket Part D drug costs — the old “donut hole” is gone. Insulin is also capped at $35 a month.' },
+      { question: 'How often do you update this?', answer: 'We review the figures and updates as CMS and Social Security release them, and sooner if a mid-year change is announced. Each article shows when it was published.' },
+    ],
+    sources: [
+      { title: 'Medicare.gov — official U.S. government Medicare site', url: 'https://www.medicare.gov', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      { when: 'Not sure how a change affects you?', action: `call us free at ${BUSINESS.phone} — we’ll explain it for your situation.` },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-news.html',
+    ogType: 'website',
+    ogTitle: 'Medicare News & Updates',
+    ogDescription: 'What changed in Medicare, who it affects, and what to do — in plain English.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare News', href: '/medicare-news.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>Medicare changes every year, and the details matter. Here’s what’s new — each item explained in plain English: <strong>what changed, who it affects, and what to do</strong>. Reviewed by a local licensed agent, with links to the guides that go deeper.</p>
+
+  <nav class="news-nav" aria-label="News categories">
+    {groups.map((g) => <a href={`#${g.cat}`}>{g.meta.label}</a>)}
+  </nav>
+
+  {groups.map((g) => (
+    <section id={g.cat} class="news-category">
+      <h2>{g.meta.label}</h2>
+      <p class="news-cat-blurb">{g.meta.blurb}</p>
+      <ul class="news-list">
+        {g.items.map((a) => (
+          <li class="news-item">
+            <a class="news-title" href={`medicare-news/${a.slug}.html`}>{a.title}</a>
+            <p class="news-meta">{fmt(a.published)}{a.lifecycle === 'historical' ? ' · past update' : ''}</p>
+            <p>{a.dek}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <h2>Questions About a Change?</h2>
+  <p>News is only useful if you know what it means for <em>you</em>. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) and we’ll translate any Medicare change into a plan for your situation. Start anywhere in the <a href="medicare-help-center.html">Medicare Help Center</a>.</p>
+</ArticlePage>
+
+<style>
+  .news-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.25rem 0 2rem; }
+  .news-nav a {
+    padding: 0.35rem 0.75rem;
+    background: var(--color-surface, #f4f6f8);
+    border: 1px solid var(--color-border, #d8dee4);
+    border-radius: 999px; font-size: 0.9rem; text-decoration: none;
+  }
+  .news-cat-blurb { color: var(--color-text-muted, #667085); margin-top: -0.35rem; }
+  .news-list { list-style: none; padding: 0; margin: 0; }
+  .news-item { padding: 0.9rem 0; border-top: 1px solid var(--color-border, #e5e9ee); }
+  .news-title { font-weight: 700; font-size: 1.1rem; }
+  .news-meta {
+    text-transform: uppercase; letter-spacing: 0.03em; font-size: 0.78rem;
+    color: var(--color-text-muted, #667085); margin: 0.2rem 0;
+  }
+</style>
