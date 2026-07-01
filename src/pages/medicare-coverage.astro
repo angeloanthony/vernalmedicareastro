@@ -1,0 +1,102 @@
+---
+// src/pages/medicare-coverage.astro — Services-Coverage Center hub (M38, Wave 2).
+// The SERVICES sibling of the Drug-Coverage Center: a knowledge graph organized
+// by the kind of care, each service a node with the same standardized "does
+// Medicare cover it?" structure. Interlinks with drug coverage, dental/vision/
+// hearing, and the costs pillar — different intent, not duplicate content.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { SERVICE_COVERAGE } from '../data/serviceCoverage';
+import { SERVICE_CATEGORY_META, type ServiceCategory, type ServiceStatus } from '../types/ServiceCoverage';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const ORDER: ServiceCategory[] = ['preventive', 'therapy', 'facility', 'equipment'];
+const STATUS_LABEL: Record<ServiceStatus, string> = { covered: 'Covered', conditional: 'Covered with conditions', limited: 'Limited coverage' };
+const groups = ORDER
+  .map((c) => ({ c, meta: SERVICE_CATEGORY_META[c], services: SERVICE_COVERAGE.filter((s) => s.category === c).sort((a, b) => a.service.localeCompare(b.service)) }))
+  .filter((g) => g.services.length > 0);
+
+const context: PageContext = {
+  page: {
+    title: 'Does Medicare Cover It? — Coverage by Service | Vernal Medicare',
+    heading: 'Does Medicare Cover It?',
+    description:
+      'Does Medicare cover physical therapy, skilled nursing, hospice, mental health, DME, ambulance, and more? Coverage by service — which part covers it, what you pay, and the limits. Free local help.',
+    taxonomy: { silo: 'medicare-101', tags: ['coverage', 'services', 'medicare-101', 'part-a', 'part-b'], pillar: true },
+    summary:
+      `"Does Medicare cover ___?" is one of the most common Medicare questions. This center answers it for ${SERVICE_COVERAGE.length} common medical services, organized by the kind of care — with the same details every time: is it covered, under what circumstances, which part covers it, what you pay, and the limits people get wrong. For medications, see the drug-coverage center instead.`,
+    faqs: [
+      { question: 'How do I know if Medicare covers a service?', answer: 'A service is covered when it is medically necessary and delivered by a provider who accepts Medicare. Original Medicare (Parts A and B) covers hospital and medical care; Part D covers prescriptions; Medicare Advantage must cover everything Original Medicare does and often adds extras. When in doubt, ask before you get the service.' },
+      { question: 'What does Medicare NOT cover?', answer: 'Original Medicare generally does not cover routine dental, vision, or hearing, most long-term custodial care, routine foot care, or care that is not medically necessary. Some of these can be added through a Medicare Advantage plan or a separate policy.' },
+      { question: 'Why did I get a bill for something I thought was covered?', answer: 'Common reasons: the provider does not accept Medicare assignment, the service was "observation" rather than inpatient, a screening turned into a diagnostic test, or you had not met your deductible. We can help you read the bill and check it, free.' },
+    ],
+    sources: [
+      { title: 'Medicare.gov — what Medicare covers', url: 'https://www.medicare.gov/coverage', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      { when: 'Not sure whether a service is covered?', action: `call us free at ${BUSINESS.phone} — tell us what you need and we’ll check it.` },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-coverage.html',
+    ogType: 'website',
+    ogTitle: 'Does Medicare Cover It?',
+    ogDescription: 'Coverage by service — which part covers it, what you pay, and the limits people get wrong.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Coverage', href: '/medicare-coverage.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>"Does Medicare cover ___?" It depends on the service, whether it’s medically necessary, and how you get it. Below, {SERVICE_COVERAGE.length} common services by type of care — each with the same answers: is it covered, when, which part, what you pay, and the limits. This is about <em>services</em>; for medications, see <a href="medicare-drug-coverage.html">does Medicare cover my drug?</a>, and for <a href="medicare-dental-vision-hearing.html">dental, vision &amp; hearing</a> start there.</p>
+
+  <nav class="sc-nav" aria-label="Categories">
+    {groups.map((g) => <a href={`#${g.c}`}>{g.meta.label}</a>)}
+  </nav>
+
+  {groups.map((g) => (
+    <section id={g.c} class="sc-category">
+      <h2>{g.meta.label}</h2>
+      <p class="sc-blurb">{g.meta.blurb}</p>
+      <ul class="sc-list">
+        {g.services.map((s) => (
+          <li class="sc-item">
+            <a class="sc-service" href={`medicare-coverage/${s.slug}.html`}>Does Medicare cover {s.service.toLowerCase()}?</a>
+            <span class={`sc-status sc-${s.status}`}>{STATUS_LABEL[s.status]}</span>
+            <p class="sc-what">{s.coveredSummary}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <h2>Check Your Situation With a Local Person — Free</h2>
+  <p>Whether a service is covered often comes down to the details — medical necessity, which provider, inpatient vs. observation. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) and we’ll tell you what Medicare covers for your situation, and what a bill should look like. No cost, no pressure.</p>
+</ArticlePage>
+
+<style>
+  .sc-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.25rem 0 2rem; }
+  .sc-nav a {
+    padding: 0.35rem 0.75rem; background: var(--color-surface, #f4f6f8);
+    border: 1px solid var(--color-border, #d8dee4); border-radius: 999px;
+    font-size: 0.9rem; text-decoration: none;
+  }
+  .sc-blurb { color: var(--color-text-muted, #667085); margin-top: -0.35rem; }
+  .sc-list { list-style: none; padding: 0; margin: 0; }
+  .sc-item { padding: 0.8rem 0; border-top: 1px solid var(--color-border, #e5e9ee); }
+  .sc-service { font-weight: 700; font-size: 1.05rem; }
+  .sc-status {
+    display: inline-block; margin-left: 0.5rem; padding: 0.1rem 0.55rem;
+    border-radius: 999px; font-size: 0.75rem; font-weight: 700; vertical-align: middle;
+  }
+  .sc-covered { background: #e6f4ea; color: #1b7a3d; }
+  .sc-conditional { background: #fff4e5; color: #a5610a; }
+  .sc-limited { background: #fdecea; color: #b42318; }
+  .sc-what { color: var(--color-text-muted, #667085); margin: 0.25rem 0 0; font-size: 0.92rem; }
+</style>

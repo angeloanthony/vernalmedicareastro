@@ -19,6 +19,7 @@ Legend: ✅ complete · 🚧 in progress · 📋 planned
 | Working Past 65 | cobra-and-medicare | ✅ | Jul 2026 | Adapted from Alta |
 | Working Past 65 | medicare-creditable-coverage | ✅ | Jul 2026 | Adapted from Alta |
 | **Coverage** | medicare-dental-vision-hearing | ✅ | Jul 2026 | Adapted from Alta |
+| **Services-Coverage Center** | medicare-coverage + 11 (data/serviceCoverage.ts) | ✅ | Jul 2026 | Vernal (Alta topics) |
 | **Drug-Coverage Center** | medicare-drug-coverage + 14 (data/drugCoverage.ts) | ✅ | Jul 2026 | Vernal (Alta drug list) |
 | **Glossary** | medicare-glossary (data/glossary.ts, 43 terms) | ✅ | Jul 2026 | Vernal |
 | **News Center** | medicare-news + 6 (data/news.ts) | ✅ | Jul 2026 | Curated (Alta topics) |

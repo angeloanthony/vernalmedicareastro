@@ -13,6 +13,7 @@ import { FEATURED_DRUGS } from './drugs';
 import { TOWNS } from './towns';
 import { NEWS_ARTICLES } from './news';
 import { DRUG_COVERAGE } from './drugCoverage';
+import { SERVICE_COVERAGE } from './serviceCoverage';
 
 export interface PageIndexEntry {
   href: string;
@@ -441,5 +442,16 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     href: `/does-medicare-cover-${d.slug}.html`,
     title: `Does Medicare Cover ${d.brand}?`,
     taxonomy: { silo: 'part-d', tags: ['drug-coverage', d.condition, 'part-d', 'coverage'] },
+  })),
+  // ── Services-Coverage Center (M38) — hub + per-service "does Medicare cover X" ──
+  {
+    href: '/medicare-coverage.html',
+    title: 'Does Medicare Cover It?',
+    taxonomy: { silo: 'medicare-101', tags: ['coverage', 'services', 'medicare-101', 'part-a', 'part-b'], pillar: true },
+  },
+  ...SERVICE_COVERAGE.map((s): PageIndexEntry => ({
+    href: `/medicare-coverage/${s.slug}.html`,
+    title: `Does Medicare Cover ${s.service}?`,
+    taxonomy: { silo: 'medicare-101', tags: ['coverage', 'services', s.category, 'medicare-101'] },
   })),
 ];
