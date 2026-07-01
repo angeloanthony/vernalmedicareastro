@@ -1,128 +1,76 @@
 ---
-// src/pages/free-medicare-comparison-vernal.astro  —  converted from free-medicare-comparison-vernal.html
-// URL preserved: /free-medicare-comparison-vernal.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/free-medicare-comparison-vernal.astro — MIGRATED to the Page Framework.
+// URL, title, description, canonical, H1, publish date and gaIds preserved from
+// the ranking legacy page. Now on ArticlePage: automatic Article+FAQ+Breadcrumb
+// schema, byline, related, and the required marketing disclaimer. The inline
+// hand-rolled JSON-LD (Breadcrumb/Article/FAQ) and the inline CMS
+// marketing-disclaimer block were removed — the framework generates both. The
+// FAQ Q&A moved into page.faqs. SunfireMatrix quote links preserved verbatim.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
+const context: PageContext = {
+  page: {
+    title: 'Free Medicare Plan Comparison Tool — Vernal, Utah 2026',
+    heading: 'Free Medicare Plan Comparison — Vernal & Uintah Basin',
+    description:
+      'Compare Medicare Advantage, Medigap, and Part D plans side by side — free for Vernal and Uintah Basin residents. Use our online tool or call 435-219-5120.',
+    taxonomy: {
+      silo: 'local',
+      tags: ['local', 'comparison', 'tools', 'vernal', 'uintah-county'],
+    },
+    summary:
+      'Compare Medicare Advantage, Medigap, and Part D plans side by side for free as a Vernal or Uintah Basin resident. Use our online Sunfire Matrix comparison tool or call 435-219-5120 for a personalized review with a licensed local agent. Comparisons are always free with no obligation.',
+    faqs: [
       {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://vernalmedicare.com/"
+        question: 'Is the Medicare plan comparison tool free?',
+        answer:
+          'Yes. Our online comparison tool and personalized agent consultations are completely free. Vernal Medicare is compensated by insurance carriers, not by you.',
       },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Free Medicare Plan Comparison — Vernal &amp; Uintah Basin",
-        "item": "https://vernalmedicare.com/free-medicare-comparison-vernal.html"
-      }
-    ]
+    ],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Free Medicare Plan Comparison Tool — Vernal, Utah 2026",
-    "description": "Compare Medicare Advantage, Medigap, and Part D plans side by side — free for Vernal and Uintah Basin residents. Use our online tool or call 435-219-5120.",
-    "author": {
-      "@type": "Person",
-      "name": "Rocco DeLuca",
-      "jobTitle": "Licensed Insurance Agent"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Vernal Medicare",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://vernalmedicare.com/pictures/Rocco.webp"
-      }
-    },
-    "datePublished": "2026-04-04",
-    "dateModified": "2026-04-04",
-    "mainEntityOfPage": "https://vernalmedicare.com/free-medicare-comparison-vernal.html"
+  meta: {
+    canonical: 'https://vernalmedicare.com/free-medicare-comparison-vernal.html',
+    ogType: 'article',
+    gaIds: ['G-NW6ENB89NF', 'G-FTDW9B2G6Q'],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Is the Medicare plan comparison tool free?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. Our online comparison tool and personalized agent consultations are completely free. Vernal Medicare is compensated by insurance carriers, not by you."
-        }
-      }
-    ]
-  }
-];
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Free Medicare Comparison', href: '/free-medicare-comparison-vernal.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="Free Medicare Plan Comparison Tool — Vernal, Utah 2026"
-  description="Compare Medicare Advantage, Medigap, and Part D plans side by side — free for Vernal and Uintah Basin residents. Use our online tool or call 435-219-5120."
-  canonical="https://vernalmedicare.com/free-medicare-comparison-vernal.html"
-  ogType="article"
-  schema={schema}
-  gaIds={["G-NW6ENB89NF", "G-FTDW9B2G6Q"]}
->
-  <section class="cms-compliance" style="background:#fffbf0;border:2px solid #d97706;border-radius:8px;padding:1.5rem;margin:2rem auto;max-width:1100px;">
-    <h2 style="color:#92400e;margin-top:0;font-size:1.1rem;">Important Medicare Information</h2>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>We do not offer every plan available in your area.</strong> Any information we provide is limited to those plans we do offer in your area. Please contact <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711), 24 hours a day, 7 days a week, to get information on all of your options.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      Vernal Medicare is a licensed and certified representative of Medicare Advantage organizations and stand-alone prescription drug plans. Each of the organizations we represent has a Medicare contract. Enrollment in any plan depends on contract renewal.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>Not connected with or endorsed by the U.S. government or the federal Medicare program.</strong>
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      By calling the number above, you will be directed to a licensed insurance agent.
-    </p>
-  </section>
+<ArticlePage context={context}>
+  <p>Comparing Medicare plans should not cost you anything. Vernal Medicare provides free, side-by-side plan comparisons for every Medicare beneficiary in the Uintah Basin. Use our online comparison tool or call for a personalized review with a licensed agent.</p>
 
-<main>
-  <section>
-    <p style="font-size:.9rem;color:#666;margin-bottom:.5rem;">
-      <em>By <strong>Rocco DeLuca</strong>, Licensed Insurance Agent &bull; Published 2026-04-04 &bull; Last updated 2026-04-04</em>
-    </p>
-    <h1 style="text-align:center;">Free Medicare Plan Comparison — Vernal &amp; Uintah Basin</h1>
-    
-        <p>Comparing Medicare plans should not cost you anything. Vernal Medicare provides free, side-by-side plan comparisons for every Medicare beneficiary in the Uintah Basin. Use our online comparison tool or call for a personalized review with a licensed agent.</p>
+  <h2>Compare Plans Online</h2>
+  <p>Our Medicare plan comparison tool lets you enter your zip code, doctors, prescriptions, and preferred pharmacy to see available plans ranked by estimated annual cost. The tool is powered by Sunfire Matrix — the same platform used by licensed agents nationwide.</p>
+  <p style="text-align:center;margin:1.5rem 0;">
+    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Launch Plan Comparison Tool</a>
+  </p>
 
-        <h2>Compare Plans Online</h2>
-        <p>Our Medicare plan comparison tool lets you enter your zip code, doctors, prescriptions, and preferred pharmacy to see available plans ranked by estimated annual cost. The tool is powered by Sunfire Matrix — the same platform used by licensed agents nationwide.</p>
-        <p style="text-align:center;margin:1.5rem 0;">
-          <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Launch Plan Comparison Tool</a>
-        </p>
+  <h2>What the Comparison Includes</h2>
+  <p>Medicare Advantage plans (HMO and PPO) with estimated annual costs, Medicare Supplement (Medigap) quotes for Plan G and Plan N, Part D prescription drug plan comparisons based on your medications, pharmacy cost differences (Smith's, Walgreens, mail-order), doctor and hospital network verification, and extra benefit comparisons (dental, vision, hearing, fitness).</p>
 
-        <h2>What the Comparison Includes</h2>
-        <p>Medicare Advantage plans (HMO and PPO) with estimated annual costs, Medicare Supplement (Medigap) quotes for Plan G and Plan N, Part D prescription drug plan comparisons based on your medications, pharmacy cost differences (Smith's, Walgreens, mail-order), doctor and hospital network verification, and extra benefit comparisons (dental, vision, hearing, fitness).</p>
+  <h2>Personalized Help Available</h2>
+  <p>The online tool is a great starting point, but a 15-minute phone call with Rocco can identify savings the tool may miss. We check for Extra Help eligibility, verify provider networks, and consider factors like travel patterns and upcoming procedures that affect which plan is truly best for you. Call <a href="tel:+14352195120">435-219-5120</a> or email <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>.</p>
 
-        <h2>Personalized Help Available</h2>
-        <p>The online tool is a great starting point, but a 15-minute phone call with Rocco can identify savings the tool may miss. We check for Extra Help eligibility, verify provider networks, and consider factors like travel patterns and upcoming procedures that affect which plan is truly best for you. Call <a href="tel:+14352195120">435-219-5120</a> or email <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>.</p>
+  <h2>No Cost, No Obligation</h2>
+  <p>Plan comparisons are always free. Vernal Medicare is compensated by insurance carriers when you enroll — you pay nothing for our advice, time, or expertise. We serve Vernal, Naples, Maeser, Jensen, Roosevelt, Duchesne, and all of Uintah and Duchesne Counties.</p>
 
-        <h2>No Cost, No Obligation</h2>
-        <p>Plan comparisons are always free. Vernal Medicare is compensated by insurance carriers when you enroll — you pay nothing for our advice, time, or expertise. We serve Vernal, Naples, Maeser, Jensen, Roosevelt, Duchesne, and all of Uintah and Duchesne Counties.</p>
+  <p>Related: <a href="best-medicare-advantage-vernal.html">Best Advantage plans</a> | <a href="best-part-d-plans-vernal.html">Best Part D plans</a> | <a href="plan-g-vs-plan-n-vernal.html">Plan G vs Plan N</a></p>
+  <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
 
-        <p>Related: <a href="best-medicare-advantage-vernal.html">Best Advantage plans</a> | <a href="best-part-d-plans-vernal.html">Best Part D plans</a> | <a href="plan-g-vs-plan-n-vernal.html">Plan G vs Plan N</a></p>
-        <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
-        
-    <p style="text-align:center;margin-top:2rem;">
-      <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
-    </p>
-    <p style="text-align:center;margin-top:1rem;">
-      <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
-    </p>
-  </section>
-</main>
-
-
-  
-</BaseLayout>
+  <p style="text-align:center;margin-top:2rem;">
+    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
+  </p>
+  <p style="text-align:center;margin-top:1rem;">
+    <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
+  </p>
+</ArticlePage>

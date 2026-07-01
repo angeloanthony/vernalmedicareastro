@@ -197,6 +197,22 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Medicare Enrollment Help in Vernal, Utah',
     taxonomy: { silo: 'local', tags: ['local', 'vernal', 'enrollment', 'uintah-county'] },
   },
+  // Local tools / office (M22):
+  {
+    href: '/medicare-quote-vernal.html',
+    title: 'Get a Free Medicare Quote — Vernal',
+    taxonomy: { silo: 'local', tags: ['local', 'quote', 'tools', 'vernal', 'uintah-county'] },
+  },
+  {
+    href: '/free-medicare-comparison-vernal.html',
+    title: 'Free Medicare Plan Comparison — Vernal',
+    taxonomy: { silo: 'local', tags: ['local', 'comparison', 'tools', 'vernal', 'uintah-county'] },
+  },
+  {
+    href: '/medicare-vernal-ut.html',
+    title: "Visit Vernal Medicare at Smith's Pharmacy",
+    taxonomy: { silo: 'local', tags: ['local', 'vernal', 'office', 'uintah-county'] },
+  },
   // ── Local silo (M12) — flagship migrations; blueprint for future towns ──
   {
     href: '/medicare-roosevelt-utah.html',
