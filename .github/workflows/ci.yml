@@ -18,4 +18,9 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
-      - run: npm run verify # astro check (ratcheted) → unit tests → build
+      - name: unit tests
+        run: npm test
+      - name: build
+        run: npm run build
+      - name: verify (astro check ratchet + tests + build)
+        run: npm run verify
