@@ -1,0 +1,80 @@
+---
+// src/pages/editorial-policy.astro — E-E-A-T (M26). How we research, source,
+// review, and update. Describes the site's ACTUAL process (single-source annual
+// figures, official sources, agent review) — all true, no invention. Linked
+// from every article byline ("How we keep this accurate").
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Editorial Policy & How We Keep Medicare Info Accurate | Vernal Medicare',
+    heading: 'Editorial Policy — How We Keep This Accurate',
+    description:
+      'How Vernal Medicare researches, sources, reviews, and updates its Medicare content — official sources, single-source annual figures, and review by a licensed agent.',
+    taxonomy: { silo: 'trust', tags: ['trust', 'editorial-policy', 'accuracy', 'e-e-a-t'] },
+    summary:
+      'Medicare decisions are high-stakes, so accuracy matters. Every page here is written and reviewed by a licensed Medicare agent, sourced from official government references (Medicare.gov, CMS, Social Security, IRS), and built so the year’s official figures live in one place and update everywhere at once. Here’s exactly how that works.',
+    faqs: [
+      { question: 'Who writes and reviews this content?', answer: `Rocco DeLuca, a licensed Medicare insurance agent serving Vernal and the Uintah Basin, writes and reviews the Medicare content on this site.` },
+      { question: 'How often are the numbers updated?', answer: 'The year’s official figures (premiums, deductibles, IRMAA brackets, drug caps) are updated each year when CMS and Social Security publish them, and any time an official change is announced mid-year.' },
+      { question: 'What sources do you use?', answer: 'Primary, official sources only for facts and figures: Medicare.gov, the Centers for Medicare & Medicaid Services (CMS), the Social Security Administration (SSA), and the IRS. We cite them on the relevant pages.' },
+      { question: 'How do I report an error?', answer: `If you spot something that looks wrong or out of date, please tell us — email ${BUSINESS.email} or call ${BUSINESS.phone}. We take corrections seriously and fix them quickly.` },
+    ],
+    sources: [
+      { title: 'Medicare.gov — official U.S. government Medicare site', url: 'https://www.medicare.gov', publisher: 'Medicare.gov' },
+      { title: 'Centers for Medicare & Medicaid Services (CMS)', url: 'https://www.cms.gov', publisher: 'CMS.gov' },
+      { title: 'Social Security Administration', url: 'https://www.ssa.gov', publisher: 'SSA.gov' },
+    ],
+    nextSteps: [
+      { when: 'Have a question about a number on this site?', action: `call us at ${BUSINESS.phone} — we’ll show you exactly where it comes from.` },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/editorial-policy.html',
+    ogType: 'article',
+    ogTitle: 'Editorial Policy — How We Keep This Accurate',
+    ogDescription: 'Official sources, single-source annual figures, and review by a licensed agent.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Editorial Policy', href: '/editorial-policy.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>Choosing Medicare coverage is a Your-Money-Your-Life decision. You deserve information you can trust. This page explains exactly how we research, write, review, and maintain the Medicare content on this site — and how to reach us if something looks wrong.</p>
+
+  <h2>Who Writes This</h2>
+  <p>The Medicare content here is written and reviewed by <a href="about.html"><strong>Rocco DeLuca</strong></a>, a licensed Medicare insurance agent who lives and works in Vernal and serves the Uintah Basin. It reflects real, hands-on experience helping local beneficiaries enroll, compare, and solve problems year-round — not a national content mill. See <a href="medicare-agent-credentials.html">Rocco’s credentials</a>.</p>
+
+  <h2>Where the Facts Come From</h2>
+  <p>For anything factual — premiums, deductibles, IRMAA brackets, drug caps, enrollment windows, penalties — we use <strong>primary, official sources only</strong>:</p>
+  <ul>
+    <li><strong><a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a></strong> — the official U.S. government site for Medicare.</li>
+    <li><strong>The Centers for Medicare &amp; Medicaid Services (CMS)</strong> — the agency that sets the annual figures.</li>
+    <li><strong>The Social Security Administration (SSA)</strong> — Part B premiums, IRMAA, and enrollment.</li>
+    <li><strong>The IRS</strong> — for the income (MAGI) rules that drive IRMAA.</li>
+  </ul>
+  <p>We cite these sources on the pages where they apply. We don’t publish figures we can’t tie back to an official release.</p>
+
+  <h2>How We Keep the Numbers Current</h2>
+  <p>Medicare’s numbers change every year. To make sure a stale figure can’t linger in one forgotten corner of the site, <strong>every official figure lives in a single source of truth</strong> — one data file that holds that year’s CMS and SSA numbers. Every page, calculator, and comparison reads from it. When CMS publishes new figures, we update that one place and <strong>every page corrects at once</strong>. It’s the same discipline that keeps our calculators and our written guides in perfect agreement.</p>
+
+  <h2>How Pages Are Reviewed &amp; Updated</h2>
+  <ul>
+    <li><strong>Reviewed by a licensed agent.</strong> Content is reviewed by Rocco before it’s published, and each page carries a “Last updated” date in its byline.</li>
+    <li><strong>Refreshed annually.</strong> We review the figures every year as CMS and SSA release them, and sooner if an official mid-year change is announced.</li>
+    <li><strong>Corrections welcome.</strong> If you find something wrong or out of date, tell us and we’ll fix it quickly.</li>
+  </ul>
+
+  <h2>Our Independence &amp; Compliance</h2>
+  <p>We’re a local, independent agency — not the government. <em>We do not offer every plan available in your area.</em> Our guidance is educational and general; your best choice depends on your specific situation, which is why we offer free one-on-one help. There’s no cost to you for that help — licensed agents are paid by the insurance carriers, and your premium doesn’t change whether you enroll through us or on your own. For all of your options, contact <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711).</p>
+
+  <p>Questions about anything you read here? <strong>Call us at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) or email <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>.</p>
+</ArticlePage>

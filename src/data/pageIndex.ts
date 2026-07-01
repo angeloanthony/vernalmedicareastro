@@ -302,6 +302,16 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Client Reviews — Vernal Medicare',
     taxonomy: { silo: 'trust', tags: ['trust', 'reviews', 'local', 'vernal'] },
   },
+  {
+    href: '/medicare-agent-credentials.html',
+    title: 'Credentials & Certifications — Rocco DeLuca',
+    taxonomy: { silo: 'trust', tags: ['trust', 'credentials', 'agent', 'e-e-a-t', 'vernal'] },
+  },
+  {
+    href: '/editorial-policy.html',
+    title: 'Editorial Policy — How We Keep This Accurate',
+    taxonomy: { silo: 'trust', tags: ['trust', 'editorial-policy', 'accuracy', 'e-e-a-t'] },
+  },
   // ── Providers silo (M15) — local hospitals & pharmacies (E-E-A-T) ──
   {
     href: '/medicare-hospitals-uintah-county.html',

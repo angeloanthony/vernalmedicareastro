@@ -1,0 +1,57 @@
+---
+// src/pages/terms.astro — Terms of Use (M26). Fixes the sitewide footer link to
+// /terms.html that previously 404'd. Standard terms + the Medicare disclosures.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Terms of Use | Vernal Medicare',
+    heading: 'Terms of Use',
+    description:
+      'The terms that govern your use of the Vernal Medicare website, including our informational-only content, insurance licensing, and Medicare disclosures.',
+    taxonomy: { silo: 'trust', tags: ['trust', 'terms', 'legal'] },
+    summary:
+      'By using this website you agree to these terms. In short: the content here is general Medicare education, not personalized advice; Vernal Medicare is a licensed, independent insurance agency; and for your specific situation you should talk with us or contact Medicare directly.',
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/terms.html',
+    ogType: 'article',
+    robots: 'noindex,follow',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Terms of Use', href: '/terms.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p><em>Last updated: July 2026.</em> These Terms of Use govern your use of the Vernal Medicare website at vernalmedicare.com. By using the site, you agree to them. If you don’t agree, please don’t use the site.</p>
+
+  <h2>Informational Purposes Only</h2>
+  <p>The content on this site is <strong>general Medicare and insurance education</strong>, not personalized insurance, financial, legal, or medical advice. Plan availability, premiums, benefits, and rules change and vary by person and by area. Nothing here is a guarantee of coverage, cost, or eligibility. Always confirm the details for your own situation before you act — with us, with the plan, or with Medicare.</p>
+
+  <h2>Licensed, Independent Agency</h2>
+  <p>Vernal Medicare is a licensed, independent insurance agency led by {BUSINESS.legalAgent}. We help with Medicare Advantage, Medicare Supplement (Medigap), and Part D prescription drug plans, as well as under-65 and other insurance lines. There is no cost to you for our help; licensed agents are compensated by the insurance carriers.</p>
+
+  <h2>Medicare Disclosures</h2>
+  <p><strong>We do not offer every plan available in your area.</strong> Any information we provide is limited to the plans we do offer. Please contact <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711), 24 hours a day, 7 days a week, to get information on all of your options.</p>
+  <p>Vernal Medicare is a licensed and certified representative of Medicare Advantage organizations and stand-alone prescription drug plans. Each of the organizations we represent has a Medicare contract; enrollment in any plan depends on contract renewal. <strong>Not connected with or endorsed by the U.S. government or the federal Medicare program.</strong></p>
+
+  <h2>Third-Party Links</h2>
+  <p>This site links to third-party sites (such as Medicare.gov and plan enrollment tools) for your convenience. We don’t control those sites and aren’t responsible for their content, accuracy, or privacy practices.</p>
+
+  <h2>No Warranties; Limitation of Liability</h2>
+  <p>The site is provided “as is,” without warranties of any kind. To the fullest extent permitted by law, Vernal Medicare is not liable for any damages arising from your use of the site or reliance on its content. Your best protection is to confirm specifics with a licensed agent or Medicare directly.</p>
+
+  <h2>Changes to These Terms</h2>
+  <p>We may update these Terms from time to time; the “last updated” date above reflects the current version. Continued use of the site means you accept the current Terms.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about these Terms? Call {BUSINESS.phone} (TTY: {BUSINESS.tty}) or email <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>. See also our <a href="privacy.html">Privacy Policy</a> and <a href="editorial-policy.html">Editorial Policy</a>.</p>
+</ArticlePage>
