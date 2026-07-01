@@ -9,6 +9,23 @@ location engine) underneath them — module by module, lowest-risk first. Nothin
 that carries Alta's brand, NAP, agent identity, analytics, or geography goes to
 production.
 
+## Milestone status (live) — updated 2026-06-30
+
+| Milestone | Status | Tag |
+|---|---|---|
+| M1 Foundation | ✅ merged | `foundation-complete` |
+| M2 Architecture / ADRs (0001–0010) | ✅ | — |
+| M3 Page Framework | ✅ merged | `page-framework-proven` |
+| M4 First production migration (Part A vs B) | ✅ merged | (with M3) |
+| M5 IRMAA calculator | ✅ merged | `irmaa-v1` |
+| M6 Dual-Eligible content silo (5 pages) | ✅ merged | `dual-eligible-v1` |
+| M7 Enrollment content silo | ▶ in progress | — |
+
+**Baseline:** `main` builds **53 pages**; astro-check baseline **59** (legacy debt,
+ratcheting down); **30 unit tests**; CI green on Node 24. Both paths proven —
+content (`ArticlePage`) and interactive (`CalculatorPage`). Now in the
+**content-scaling phase**: one topical silo per branch/PR, reusing the framework.
+
 ## Locked decisions
 
 | Decision | Choice |

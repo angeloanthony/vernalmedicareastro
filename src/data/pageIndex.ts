@@ -83,4 +83,31 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Medicare and Medicaid Together in Utah',
     taxonomy: { silo: 'dual-eligible', tags: ['medicaid', 'dual-eligible', 'utah', 'extra-help', 'msp'] },
   },
+  // ── Enrollment silo (M7). when-to-enroll is already indexed above. ──
+  {
+    href: '/medicare-enrollment-periods.html',
+    title: 'Medicare Enrollment Periods Explained',
+    taxonomy: { silo: 'enrollment', tags: ['enrollment', 'iep', 'sep', 'gep', 'aep', 'deadlines'], pillar: true },
+  },
+  {
+    href: '/medicare-special-enrollment-period.html',
+    title: 'Medicare Special Enrollment Period (SEP)',
+    taxonomy: { silo: 'enrollment', tags: ['sep', 'special-enrollment', 'deadlines', 'part-b'] },
+  },
+  {
+    href: '/medicare-general-enrollment-period.html',
+    title: 'Medicare General Enrollment Period (GEP)',
+    taxonomy: { silo: 'enrollment', tags: ['gep', 'general-enrollment', 'part-b', 'penalties', 'deadlines'] },
+  },
+  // Existing enrollment pages, registered so the cluster auto-interlinks:
+  {
+    href: '/medicare-open-enrollment-2026.html',
+    title: 'Medicare Open Enrollment 2026 (AEP)',
+    taxonomy: { silo: 'enrollment', tags: ['aep', 'oep', 'enrollment', 'deadlines'] },
+  },
+  {
+    href: '/missed-medicare-enrollment.html',
+    title: 'What Happens If You Miss Medicare Enrollment',
+    taxonomy: { silo: 'enrollment', tags: ['penalties', 'missed', 'part-b', 'part-d', 'gep'] },
+  },
 ];
