@@ -1,196 +1,116 @@
 ---
-/* medicare-enrollment-vernal.astro — standalone passthrough (simple-header/footer, separate GA
-   property G-FTDW9B2G6Q). Preserved VERBATIM; intentionally does NOT use
-   BaseLayout so its distinct chrome and analytics are unchanged. */
----
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Medicare Enrollment Help in Vernal Utah | Free Assistance | Vernal Medicare</title>
-  <meta name="description" content="Get free Medicare enrollment help in Vernal, Utah. We guide you through Medicare Advantage, Medigap, and Part D enrollment. Call 435-219-5120 today.">
-  <link rel="canonical" href="https://vernalmedicare.com/medicare-enrollment-vernal.html">
-  <link rel="stylesheet" href="styles.css">
+// src/pages/medicare-enrollment-vernal.astro — MIGRATED to the Page Framework.
+// URL (/medicare-enrollment-vernal.html), title, description, canonical, H1 and
+// publish date preserved from the legacy page. Now on ArticlePage: automatic
+// Article+FAQ+Breadcrumb schema, byline, related, and the required marketing
+// disclaimer (inline CMS block removed → marketingDisclaimer: true). The legacy
+// per-page GA property (G-FTDW9B2G6Q) is preserved via meta.gaIds.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 
-  <!-- Voice-Optimized Schema -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": "Medicare Enrollment Assistance",
-    "provider": {
-      "@type": "InsuranceAgency",
-      "name": "Vernal Medicare",
-      "telephone": "+1-435-219-5120",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "1080 W Hwy 40",
-        "addressLocality": "Vernal",
-        "addressRegion": "UT",
-        "postalCode": "84078"
-      }
-    },
-    "areaServed": [
+const context: PageContext = {
+  page: {
+    title: 'Medicare Enrollment Help in Vernal Utah | Free Assistance | Vernal Medicare',
+    heading: 'Medicare Enrollment Help in Vernal, Utah',
+    description:
+      'Get free Medicare enrollment help in Vernal, Utah. We guide you through Medicare Advantage, Medigap, and Part D enrollment. Call 435-219-5120 today.',
+    taxonomy: { silo: 'local', tags: ['local', 'vernal', 'enrollment', 'uintah-county'] },
+    summary:
+      'Enrolling in Medicare can be confusing. We guide Vernal and Uintah Basin residents through the entire process — comparing Medicare Advantage, Medigap, and Part D plans and completing enrollment paperwork — at no cost, so you choose the right coverage for your doctors, prescriptions, and budget.',
+    faqs: [
       {
-        "@type": "City",
-        "name": "Vernal"
+        question: 'How do I get help with Medicare enrollment in Vernal?',
+        answer:
+          "Call Vernal Medicare at 435-219-5120 or visit us at Smith's Pharmacy at 1080 West Highway 40 in Vernal. We offer free Medicare plan comparisons and enrollment help for all Uintah Basin residents. No cost, no pressure.",
       },
       {
-        "@type": "City",
-        "name": "Naples"
+        question: 'When can I enroll in Medicare?',
+        answer:
+          "You can enroll during your Initial Enrollment Period (3 months before to 3 months after turning 65), Annual Enrollment Period (October 15 to December 7), or during Special Enrollment Periods if you qualify. We'll review your situation and enrollment options.",
       },
-      {
-        "@type": "City",
-        "name": "Maeser"
-      },
-      {
-        "@type": "City",
-        "name": "Jensen"
-      }
     ],
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    }
-  }
-  </script>
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-enrollment-vernal.html',
+    ogType: 'article',
+    gaIds: ['G-FTDW9B2G6Q'],
+  },
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-06-30',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare Enrollment in Vernal', href: '/medicare-enrollment-vernal.html' },
+  ],
+};
+---
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How do I get help with Medicare enrollment in Vernal?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Call Vernal Medicare at 435-219-5120 or visit us at Smith's Pharmacy at 1080 West Highway 40 in Vernal. We offer free Medicare plan comparisons and enrollment help for all Uintah Basin residents. No cost, no pressure."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "When can I enroll in Medicare?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "You can enroll during your Initial Enrollment Period (3 months before to 3 months after turning 65), Annual Enrollment Period (October 15 to December 7), or during Special Enrollment Periods if you qualify. We'll review your situation and enrollment options."
-        }
-      }
-    ]
-  }
-  </script>
+<ArticlePage context={context}>
+  <div class="enrollment-info">
+    <h2>Free Medicare Enrollment Assistance for Vernal Residents</h2>
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "speakable": {
-      "@type": "SpeakableSpecification",
-      "cssSelector": [".enrollment-info", ".contact-info"]
-    }
-  }
-  </script>
+    <p>Enrolling in Medicare can be confusing. We guide you through the entire process, from comparing plans to completing enrollment paperwork. Our local expertise ensures you choose the right coverage for your doctors, prescriptions, and budget in the Uintah Basin.</p>
 
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTDW9B2G6Q"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-FTDW9B2G6Q');
-</script>
+    <h3>What We Help You Enroll In</h3>
+    <ul>
+      <li><strong>Medicare Advantage (Part C):</strong> HMO and PPO plans with local doctors and hospitals</li>
+      <li><strong>Medicare Supplement (Medigap):</strong> Plan G, Plan N, and other supplement options</li>
+      <li><strong>Part D Prescription Drug Plans:</strong> Coverage for your specific medications</li>
+      <li><strong>Part A &amp; Part B:</strong> We can direct you to Social Security for Original Medicare</li>
+    </ul>
 
-</head>
+    <h3>Medicare Enrollment Periods</h3>
 
-<body>
-  <header class="simple-header">
-    <div class="container">
-      <a href="index.html">← Back to Vernal Medicare</a>
-    </div>
-  </header>
+    <h4>Initial Enrollment Period (IEP)</h4>
+    <p>3 months before your 65th birthday, your birth month, and 3 months after (7 months total). This is your first chance to enroll in Medicare.</p>
 
-  <main class="voice-page">
-    <div class="container">
-      <h1>Medicare Enrollment Help in Vernal, Utah</h1>
-      
-      <div class="enrollment-info">
+    <h4>Annual Enrollment Period (AEP)</h4>
+    <p>October 15 – December 7 every year. You can switch Medicare Advantage plans, switch from Original Medicare to Medicare Advantage (or vice versa), or change Part D plans.</p>
 
-<section class="cms-disclaimer-compact" style="background: #f9fafb; border-left: 4px solid #d97706; padding: 1rem 1.25rem; margin: 1.5rem auto; max-width: 1100px; font-size: 0.9rem; color: #333; line-height: 1.5;">
-  <p style="margin: 0.5rem 0; text-align: left;"><strong>We do not offer every plan available in your area.</strong> Please contact <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711) to get information on all of your options. Not connected with or endorsed by the U.S. government or the federal Medicare program.</p>
-</section>
+    <h4>Special Enrollment Periods (SEP)</h4>
+    <p>Certain life events may qualify you for special enrollment outside normal periods. Examples include moving, losing other coverage, or qualifying for Extra Help.</p>
 
-  <h2>Free Medicare Enrollment Assistance for Vernal Residents</h2>
-        
-        <p>Enrolling in Medicare can be confusing. We guide you through the entire process, from comparing plans to completing enrollment paperwork. Our local expertise ensures you choose the right coverage for your doctors, prescriptions, and budget in the Uintah Basin.</p>
+    <h3>What to Bring to Your Enrollment Appointment</h3>
+    <ul>
+      <li>Medicare card (if you have one)</li>
+      <li>List of current medications</li>
+      <li>List of doctors and specialists you see</li>
+      <li>Preferred pharmacy information</li>
+      <li>Social Security number</li>
+    </ul>
 
-        <h3>What We Help You Enroll In</h3>
-        <ul>
-          <li><strong>Medicare Advantage (Part C):</strong> HMO and PPO plans with local doctors and hospitals</li>
-          <li><strong>Medicare Supplement (Medigap):</strong> Plan G, Plan N, and other supplement options</li>
-          <li><strong>Part D Prescription Drug Plans:</strong> Coverage for your specific medications</li>
-          <li><strong>Part A & Part B:</strong> We can direct you to Social Security for Original Medicare</li>
-        </ul>
+    <h3>Enrollment Process</h3>
+    <ol>
+      <li><strong>Consultation:</strong> We discuss your health needs and coverage preferences</li>
+      <li><strong>Plan Comparison:</strong> We compare all available plans for your situation</li>
+      <li><strong>Recommendation:</strong> We explain which plans best fit your needs</li>
+      <li><strong>Enrollment:</strong> We help you complete the enrollment application</li>
+      <li><strong>Follow-up:</strong> We confirm your coverage and answer questions</li>
+    </ol>
 
-        <h3>Medicare Enrollment Periods</h3>
-        
-        <h4>Initial Enrollment Period (IEP)</h4>
-        <p>3 months before your 65th birthday, your birth month, and 3 months after (7 months total). This is your first chance to enroll in Medicare.</p>
+    <h3>No Cost to You</h3>
+    <p>Medicare enrollment assistance is completely free. We're compensated by the insurance plans, not by you. There's no charge for our time, advice, or ongoing support.</p>
+  </div>
 
-        <h4>Annual Enrollment Period (AEP)</h4>
-        <p>October 15 – December 7 every year. You can switch Medicare Advantage plans, switch from Original Medicare to Medicare Advantage (or vice versa), or change Part D plans.</p>
+  <div class="contact-info">
+    <h2>Schedule Your Free Medicare Enrollment Appointment</h2>
+    <p><strong>Phone:</strong> <a href={`tel:${BUSINESS.phoneTel}`}>435-219-5120 (TTY: 711)</a></p>
+    <p><strong>Email:</strong> <a href={`mailto:${BUSINESS.email}`}>rocco@vernalmedicare.com</a></p>
+    <p><strong>Office:</strong> Smith's Pharmacy, 1080 W Hwy 40, Vernal, UT 84078</p>
+    <p><strong>Hours:</strong> Monday–Friday, 1pm–5pm | Saturday by appointment</p>
 
-        <h4>Special Enrollment Periods (SEP)</h4>
-        <p>Certain life events may qualify you for special enrollment outside normal periods. Examples include moving, losing other coverage, or qualifying for Extra Help.</p>
+    <p><strong>Meeting Options:</strong> In-person at Smith's Pharmacy, by phone, or by video call</p>
 
-        <h3>What to Bring to Your Enrollment Appointment</h3>
-        <ul>
-          <li>Medicare card (if you have one)</li>
-          <li>List of current medications</li>
-          <li>List of doctors and specialists you see</li>
-          <li>Preferred pharmacy information</li>
-          <li>Social Security number</li>
-        </ul>
+    <p class="cta-buttons">
+      <a href={`tel:${BUSINESS.phoneTel}`} class="button">Call to Enroll</a>
+      <a href={`mailto:${BUSINESS.email}`} class="button">Email for Appointment</a>
+    </p>
+  </div>
 
-        <h3>Enrollment Process</h3>
-        <ol>
-          <li><strong>Consultation:</strong> We discuss your health needs and coverage preferences</li>
-          <li><strong>Plan Comparison:</strong> We compare all available plans for your situation</li>
-          <li><strong>Recommendation:</strong> We explain which plans best fit your needs</li>
-          <li><strong>Enrollment:</strong> We help you complete the enrollment application</li>
-          <li><strong>Follow-up:</strong> We confirm your coverage and answer questions</li>
-        </ol>
-
-        <h3>No Cost to You</h3>
-        <p>Medicare enrollment assistance is completely free. We're compensated by the insurance plans, not by you. There's no charge for our time, advice, or ongoing support.</p>
-      </div>
-
-      <div class="contact-info">
-        <h2>Schedule Your Free Medicare Enrollment Appointment</h2>
-        <p><strong>Phone:</strong> <a href="tel:+14352195120">435-219-5120 (TTY: 711)</a></p>
-        <p><strong>Email:</strong> <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a></p>
-        <p><strong>Office:</strong> Smith's Pharmacy, 1080 W Hwy 40, Vernal, UT 84078</p>
-        <p><strong>Hours:</strong> Monday–Friday, 1pm–5pm | Saturday by appointment</p>
-        
-        <p><strong>Meeting Options:</strong> In-person at Smith's Pharmacy, by phone, or by video call</p>
-        
-        <p class="cta-buttons">
-          <a href="tel:+14352195120" class="button">Call to Enroll</a>
-          <a href="mailto:rocco@vernalmedicare.com" class="button">Email for Appointment</a>
-        </p>
-      </div>
-
-      <div class="service-area">
-        <h3>Medicare Enrollment Help Throughout Uintah County</h3>
-        <p>Vernal • Naples • Maeser • Jensen • Roosevelt • Ballard • Duchesne • Fort Duchesne</p>
-      </div>
-    </div>
-  </main>
-
-  <footer class="simple-footer">
-    <p>© <span id="current-year"></span> Vernal Medicare | Medicare Enrollment Assistance | <a href="tel:+14352195120">435-219-5120 (TTY: 711)</a></p>
-    <p style="font-size:.85rem;opacity:.8">Not connected with or endorsed by the U.S. government or the federal Medicare program.</p>
-  </footer>
-</body>
-</html>
+  <div class="service-area">
+    <h3>Medicare Enrollment Help Throughout Uintah County</h3>
+    <p>Vernal • Naples • Maeser • Jensen • Roosevelt • Ballard • Duchesne • Fort Duchesne</p>
+  </div>
+</ArticlePage>
