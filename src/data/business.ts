@@ -66,6 +66,16 @@ export const BUSINESS = {
   // Compliance disclaimer (must appear in footer on every page, verbatim)
   disclaimer:
     'Not connected with or endorsed by the U.S. government or the federal Medicare program. By calling this number, you will be connected to a licensed insurance agent/producer.',
+
+  // CMS multi-plan marketing disclaimer — required (verbatim) on any page that
+  // markets specific Medicare Advantage / Part D plans. Rendered by
+  // MarketingDisclaimer.astro; the TPMO `disclaimer` above covers the rest.
+  marketingDisclaimer: {
+    multiPlan:
+      'We do not offer every plan available in your area. Any information we provide is limited to those plans we do offer in your area. Please contact Medicare.gov or 1-800-MEDICARE (TTY: 711), 24 hours a day, 7 days a week, to get information on all of your options.',
+    representative:
+      'Vernal Medicare is a licensed and certified representative of Medicare Advantage organizations and stand-alone prescription drug plans. Each of the organizations we represent has a Medicare contract. Enrollment in any plan depends on contract renewal.',
+  },
 } as const;
 
 export type Business = typeof BUSINESS;

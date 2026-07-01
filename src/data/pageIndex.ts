@@ -170,6 +170,17 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Medicare Enrollment Timeline Calculator',
     taxonomy: { silo: 'enrollment', tags: ['iep', 'timeline', 'tools', 'turning-65'] },
   },
+  // ── Local silo (M12) — flagship migrations; blueprint for future towns ──
+  {
+    href: '/medicare-roosevelt-utah.html',
+    title: 'Medicare Plans in Roosevelt, Utah',
+    taxonomy: { silo: 'local', tags: ['local', 'roosevelt', 'duchesne-county', 'overview', 'original-medicare'] },
+  },
+  {
+    href: '/medicare-duchesne-utah.html',
+    title: 'Medicare Agent Serving Duchesne, Utah',
+    taxonomy: { silo: 'local', tags: ['local', 'duchesne', 'duchesne-county', 'overview', 'original-medicare'] },
+  },
   // ── Part D / Drug Assistance silo (M8) ──
   {
     href: '/prescription-drug-assistance.html',

@@ -1,0 +1,36 @@
+---
+// MarketingDisclaimer.astro — the required CMS multi-plan marketing disclaimer
+// ("We do not offer every plan…" + representative statement), rendered from
+// business.ts so the text can never drift. Opt-in via context.marketingDisclaimer
+// on any page that markets specific MA/PDP plans. The TPMO "not connected"
+// statement is handled separately by Disclaimer.astro.
+import { BUSINESS } from '../../data/business';
+const { multiPlan, representative } = BUSINESS.marketingDisclaimer;
+---
+
+<section class="marketing-disclaimer" aria-label="Important Medicare information">
+  <h2>Important Medicare Information</h2>
+  <p>{multiPlan}</p>
+  <p>{representative}</p>
+</section>
+
+<style>
+  .marketing-disclaimer {
+    background: #fffbf0;
+    border: 2px solid #d97706;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin: 2rem 0;
+  }
+  .marketing-disclaimer h2 {
+    color: #92400e;
+    margin-top: 0;
+    font-size: 1.05rem;
+  }
+  .marketing-disclaimer p {
+    color: #333;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0.6rem 0 0;
+  }
+</style>
