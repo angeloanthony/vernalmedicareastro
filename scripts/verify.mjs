@@ -29,8 +29,10 @@ function fail(msg) {
 // ── 1. unit tests ────────────────────────────────────────────────────────────
 // Run first, in a clean process. Vitest intermittently fails to BOOTSTRAP on a
 // cold cache (0 tests collected / "Cannot read properties of undefined (reading
-// 'config')") — a deterministic init race, not a test failure. Retry once: a
-// genuine test failure still fails both attempts, so this hides no real breakage.
+// 'config')") — an init race, not a test failure. Retry once: a genuine test
+// failure still fails both attempts, so this hides no real breakage.
+// TODO(workaround): this retry is a mitigation, not a fix. Revisit after a future
+// Astro/Vite/Vitest upgrade — if the bootstrap race is gone, drop the retry.
 let tests = run('unit tests', 'npx vitest run');
 if (tests.status !== 0) {
   console.log("↻ vitest didn't bootstrap cleanly — retrying once (cold-cache init race)");
