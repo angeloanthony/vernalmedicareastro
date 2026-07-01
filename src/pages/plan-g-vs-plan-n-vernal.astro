@@ -3,6 +3,9 @@
 // URL preserved: /plan-g-vs-plan-n-vernal.html. Body + page scripts VERBATIM. Metadata, header,
 // footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+const f = figuresFor();
 
 // Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
 const schema = [
@@ -55,7 +58,7 @@ const schema = [
         "name": "What is the difference between Medicare Plan G and Plan N?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Plan G covers nearly everything — you pay only the $257 annual Part B deductible. Plan N has lower premiums but charges small copays for office ($20) and ER visits ($50) and does not cover Part B excess charges."
+          "text": `Plan G covers nearly everything — you pay only the ${usd(f.partB.deductible)} annual Part B deductible. Plan N has lower premiums but charges small copays for office ($20) and ER visits ($50) and does not cover Part B excess charges.`
         }
       },
       {
@@ -108,7 +111,7 @@ const schema = [
     <p>Plan G and Plan N are the two most popular Medicare Supplement (Medigap) plans in Utah. Both pair with Original Medicare to reduce your out-of-pocket costs, but they differ in coverage, premiums, and how copays work. For Vernal and Uintah Basin residents, choosing between them affects your annual healthcare spending significantly.</p>
 
     <h2>Plan G Coverage</h2>
-    <p>Plan G is the most comprehensive Medigap plan available to new Medicare enrollees. It covers the Part A deductible ($1,676 per benefit period in 2026), Part A and Part B coinsurance and copays, skilled nursing facility coinsurance, Part B excess charges (when doctors charge above Medicare-approved amounts), first three pints of blood, and 80% of foreign travel emergency care. The only cost Plan G does not cover is the annual Part B deductible ($257 in 2026). After paying that deductible, Plan G enrollees typically pay nothing else out of pocket for Medicare-covered services.</p>
+    <p>Plan G is the most comprehensive Medigap plan available to new Medicare enrollees. It covers the Part A deductible ({usd(f.partA.deductible)} per benefit period in 2026), Part A and Part B coinsurance and copays, skilled nursing facility coinsurance, Part B excess charges (when doctors charge above Medicare-approved amounts), first three pints of blood, and 80% of foreign travel emergency care. The only cost Plan G does not cover is the annual Part B deductible ({usd(f.partB.deductible)} in 2026). After paying that deductible, Plan G enrollees typically pay nothing else out of pocket for Medicare-covered services.</p>
 
     <h2>Plan N Coverage</h2>
     <p>Plan N covers most of the same items as Plan G with two differences. Plan N does not cover Part B excess charges, and Plan N requires copays of up to $20 for doctor office visits and up to $50 for emergency room visits that do not result in admission. In exchange, Plan N premiums are typically $30–$60 per month lower than Plan G.</p>

@@ -3,6 +3,10 @@
 // URL preserved: /medicare-cost-uintah-county.html. Body + page scripts VERBATIM. Metadata, header,
 // footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+
+const f = figuresFor();
 
 // Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
 const schema = [
@@ -55,7 +59,7 @@ const schema = [
         "name": "How much does Medicare cost in Uintah County in 2026?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Part B: $185/month standard. Advantage: often $0 premium. Medigap Plan G: ~$120–$180/month. Part D: $7–$80/month. Drug spending capped at $2,000/year. Call 435-219-5120 for personalized costs."
+          "text": `Part B: ${usd(f.partB.premium, { cents: true })}/month standard. Advantage: often $0 premium. Medigap Plan G: ~$120–$180/month. Part D: $7–$80/month. Drug spending capped at $2,000/year. Call 435-219-5120 for personalized costs.`
         }
       }
     ]
@@ -101,13 +105,13 @@ const schema = [
         <p>Medicare costs in Uintah County depend on your coverage choice, income level, health status, and prescriptions. Here is a comprehensive breakdown for 2026.</p>
 
         <h2>Original Medicare Costs</h2>
-        <p><strong>Part A:</strong> Premium-free for most (40+ quarters of work history). Hospital deductible: $1,676 per benefit period. Days 61–90: $419/day coinsurance. Skilled nursing days 21–100: $209.50/day. <strong>Part B:</strong> Standard premium: $185/month. Annual deductible: $257. After deductible: 20% coinsurance with no cap. <strong>No maximum out-of-pocket limit</strong> — this is why supplemental coverage is essential.</p>
+        <p><strong>Part A:</strong> Premium-free for most (40+ quarters of work history). Hospital deductible: {usd(f.partA.deductible)} per benefit period. Days 61–90: $419/day coinsurance. Skilled nursing days 21–100: $209.50/day. <strong>Part B:</strong> Standard premium: {usd(f.partB.premium, { cents: true })}/month. Annual deductible: {usd(f.partB.deductible)}. After deductible: 20% coinsurance with no cap. <strong>No maximum out-of-pocket limit</strong> — this is why supplemental coverage is essential.</p>
 
         <h2>Medicare Advantage Costs in the Uintah Basin</h2>
         <p>Medicare Advantage premiums: $0 to $50+/month (many $0 options). Primary care copay: typically $0–$20. Specialist copay: typically $25–$50. Hospital admission: $200–$400/day for first few days. Maximum out-of-pocket: $4,000–$9,350/year depending on plan. Drug coverage included in most plans.</p>
 
         <h2>Medigap Costs in Utah</h2>
-        <p>Plan G: approximately $120–$180/month (age 65, non-smoker). Plan N: approximately $80–$140/month. After paying the $257 Part B deductible (Plan G) or small copays (Plan N), out-of-pocket costs are essentially zero for Medicare-covered services. You must add a separate Part D plan ($7–$80/month).</p>
+        <p>Plan G: approximately $120–$180/month (age 65, non-smoker). Plan N: approximately $80–$140/month. After paying the {usd(f.partB.deductible)} Part B deductible (Plan G) or small copays (Plan N), out-of-pocket costs are essentially zero for Medicare-covered services. You must add a separate Part D plan ($7–$80/month).</p>
 
         <h2>Part D Prescription Drug Costs</h2>
         <p>Premiums: $7–$80+/month. Deductible: $0–$590 (many plans have no deductible). Out-of-pocket cap: $2,000/year (new for 2026). Insulin: capped at $35/month. Specific drug costs vary dramatically by plan and pharmacy.</p>

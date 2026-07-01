@@ -3,6 +3,9 @@
 // URL preserved: /medicare-open-enrollment-2026.html. Body + page scripts VERBATIM. Metadata, header,
 // footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+const f = figuresFor();
 
 // Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
 const schema = [
@@ -128,7 +131,7 @@ const schema = [
     <p>Certain life events qualify you for a Special Enrollment Period. These include losing employer or union coverage, moving out of your plan's service area, qualifying for Extra Help or Medicaid, or experiencing other qualifying circumstances. SEPs let you make changes outside the normal enrollment windows.</p>
 
     <h2>2026 Medicare Cost Snapshot for Utah</h2>
-    <p>Part B standard monthly premium: $185. Part B annual deductible: $257. Part A hospital deductible per benefit period: $1,676. Medicare Advantage plans: $0 premium options available in the Uintah Basin. Medigap Plan G in Utah: approximately $120–$220/month depending on age and health factors.</p>
+    <p>Part B standard monthly premium: {usd(f.partB.premium, { cents: true })}. Part B annual deductible: {usd(f.partB.deductible)}. Part A hospital deductible per benefit period: {usd(f.partA.deductible)}. Medicare Advantage plans: $0 premium options available in the Uintah Basin. Medigap Plan G in Utah: approximately $120–$220/month depending on age and health factors.</p>
 
     <h2>Free Enrollment Help in Vernal and the Uintah Basin</h2>
     <p>Rocco DeLuca provides free Medicare enrollment assistance to residents of Vernal, Naples, Maeser, Jensen, Roosevelt, Duchesne, and all of Uintah and Duchesne Counties. We compare plans side by side, check your prescriptions and doctors, and handle the enrollment paperwork. No cost, no pressure.</p>
