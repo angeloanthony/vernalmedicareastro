@@ -1,0 +1,79 @@
+---
+// src/pages/d-snp-plans-utah.astro — Dual-Eligible silo spoke (M6).
+// The definitive D-SNP explainer. ArticlePage; framework handles chrome + schema.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'D-SNP Plans in Utah — Dual-Eligible Special Needs Plans Explained | Vernal Medicare',
+    heading: 'D-SNP Plans: Dual-Eligible Special Needs Plans Explained',
+    description:
+      'A Dual-Eligible Special Needs Plan (D-SNP) is Medicare Advantage built for people with Medicare and Medicaid. Learn the benefits, who qualifies, how to enroll, and how to switch — with a local Utah agent.',
+    taxonomy: { silo: 'dual-eligible', tags: ['d-snp', 'medicare-advantage', 'medicaid', 'extra-help'] },
+    summary:
+      'A D-SNP is a Medicare Advantage plan designed for people who have both Medicare and Medicaid. It coordinates both programs and adds benefits — grocery/OTC allowances, transportation, and richer dental, vision, and hearing — usually at a $0 premium with $0 copays for many services.',
+    faqs: [
+      {
+        question: 'Who can enroll in a D-SNP?',
+        answer:
+          'You must have Medicare (Parts A and B) and qualify for Medicaid or a Medicare Savings Program (QMB, SLMB, or QI). The plan verifies your dual-eligible status with the state. If you lose Medicaid eligibility, most plans give you a grace period to requalify before you have to move.',
+      },
+      {
+        question: 'How is a D-SNP different from a regular Medicare Advantage plan?',
+        answer:
+          'A D-SNP is limited to dual-eligible members and is built to coordinate Medicare and Medicaid together, so you rarely see a bill. It typically includes extras a standard plan may not — a monthly grocery/OTC card, transportation, and stronger dental/vision/hearing — and Medicaid often covers cost-sharing behind it.',
+      },
+      {
+        question: 'Can I switch D-SNP plans during the year?',
+        answer:
+          'Yes. Dual-eligible members get a Special Enrollment Period that lets them change plans more often than other beneficiaries (generally once per calendar quarter for the first three quarters, plus the Annual Enrollment Period).',
+      },
+    ],
+    sources: [
+      { title: 'Special Needs Plans (SNP)', url: 'https://www.medicare.gov/health-drug-plans/health-plans/your-coverage-options/SNP', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      {
+        when: "If you're not sure whether you have Medicaid or an MSP,",
+        action: 'we can check your dual-eligible status and find the D-SNPs available in your Uintah Basin county — free.',
+      },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/d-snp-plans-utah.html',
+    ogType: 'article',
+    ogTitle: 'D-SNP Plans Explained (Dual-Eligible Special Needs Plans)',
+    ogDescription: 'Medicare Advantage built for people with Medicare + Medicaid: benefits, eligibility, enrollment, and switching.',
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Dual Eligible & Medicaid', href: '/dual-eligible.html' },
+    { name: 'D-SNP Plans', href: '/d-snp-plans-utah.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>If you have both Medicare and Medicaid, a <strong>Dual-Eligible Special Needs Plan (D-SNP)</strong> is usually the single best-value option available to you. It's a type of Medicare Advantage plan restricted to <a href="dual-eligible.html">dual-eligible</a> members and built to weave Medicare and Medicaid together so you almost never see a bill.</p>
+
+  <h2>What a D-SNP Includes</h2>
+  <ul>
+    <li><strong>Grocery &amp; OTC allowance</strong> — a monthly card for healthy food and pharmacy items</li>
+    <li><strong>Transportation</strong> — rides to medical appointments (and sometimes the pharmacy)</li>
+    <li><strong>Dental, vision, hearing</strong> — typically more generous than a standard Advantage plan</li>
+    <li><strong>$0 premium and $0 copays</strong> for many services</li>
+    <li><strong>Extra Help built in</strong> — dramatically lower drug costs (see <a href="medicare-extra-help-utah.html">Extra Help</a>)</li>
+  </ul>
+
+  <h2>Who Qualifies</h2>
+  <p>You need Medicare Parts A and B plus Medicaid or a <a href="medicare-savings-programs-utah.html">Medicare Savings Program (QMB, SLMB, or QI)</a>. If you're close but not enrolled, qualifying for an MSP is often the fastest route in — and it unlocks a D-SNP <em>and</em> Extra Help at the same time.</p>
+
+  <h2>Enrolling &amp; Switching</h2>
+  <p>Because your circumstances can change, dual-eligible members get a <strong>Special Enrollment Period</strong> that allows plan changes more often than other beneficiaries. That flexibility matters if a plan drops a benefit or your doctor leaves the network. If you ever lose Medicaid, most D-SNPs offer a grace period to requalify before you'd need to change plans — more on that in <a href="medicare-medicaid-utah.html">Medicare and Medicaid in Utah</a>.</p>
+
+  <p>Not sure where to start? The <a href="dual-eligible.html">dual-eligible overview</a> lays out the whole picture, or call and we'll check exactly which D-SNPs are offered where you live.</p>
+</ArticlePage>

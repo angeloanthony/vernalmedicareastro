@@ -1,0 +1,76 @@
+---
+// src/pages/medicare-medicaid-utah.astro — Dual-Eligible silo spoke (M6).
+// Medicare + Medicaid together in Utah (applying, full vs partial, losing/keeping
+// eligibility). ArticlePage; framework handles chrome + schema.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Medicare and Medicaid Together in Utah — Dual Eligibility Explained | Vernal Medicare',
+    heading: 'Medicare and Medicaid Together in Utah',
+    description:
+      'How Medicare and Medicaid work together in Utah: who is dual eligible, how to apply, full vs. partial dual eligibility, and what happens if you lose Medicaid. Free local help.',
+    taxonomy: { silo: 'dual-eligible', tags: ['medicaid', 'dual-eligible', 'utah', 'extra-help', 'msp'] },
+    summary:
+      'In Utah, you can have both Medicare and Medicaid at the same time. Medicare pays first; Medicaid can pick up premiums, deductibles, and coinsurance and add benefits Medicare does not cover. Utah administers Medicaid through the Department of Workforce Services — and qualifying also unlocks Extra Help and, usually, a D-SNP.',
+    faqs: [
+      {
+        question: 'How do Medicare and Medicaid work together?',
+        answer:
+          'Medicare is your primary coverage and pays first. Medicaid is the payer of last resort — for dual-eligible members it can cover Medicare premiums, deductibles, and coinsurance, plus services Medicare does not, such as long-term care. You generally use a D-SNP or your Medicaid card alongside Medicare.',
+      },
+      {
+        question: 'How do I apply for Medicaid in Utah?',
+        answer:
+          'Apply through the Utah Department of Workforce Services (jobs.utah.gov) online, by phone, or in person. Eligibility is based on income and, for some categories, assets. We can help you gather what you need and, if you are close, check a Medicare Savings Program that may qualify you.',
+      },
+      {
+        question: 'What happens if I lose Medicaid?',
+        answer:
+          'If your income rises and you lose Medicaid, you also lose the extra D-SNP benefits tied to it — but most D-SNPs give a grace period (often up to 6 months) to requalify before you must switch plans. You may still qualify for a Medicare Savings Program or Extra Help at the higher limits.',
+      },
+    ],
+    sources: [
+      { title: 'Medicare & Medicaid (dual eligibility)', url: 'https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/joint-medicare-medicaid-enrollees', publisher: 'Medicare.gov' },
+      { title: 'Utah Medicaid', url: 'https://medicaid.utah.gov/', publisher: 'Utah Department of Health & Human Services' },
+    ],
+    nextSteps: [
+      {
+        when: 'If you have Medicare and think your income may qualify you for Medicaid,',
+        action: 'let us check Medicaid, Medicare Savings Programs, and Extra Help together — many people qualify for more than they expect.',
+      },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-medicaid-utah.html',
+    ogType: 'article',
+    ogTitle: 'Medicare and Medicaid Together in Utah',
+    ogDescription: 'Who is dual eligible, how to apply for Utah Medicaid, full vs. partial dual eligibility, and what happens if you lose Medicaid.',
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Dual Eligible & Medicaid', href: '/dual-eligible.html' },
+    { name: 'Medicare + Medicaid in Utah', href: '/medicare-medicaid-utah.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>Having both Medicare and Medicaid — being <a href="dual-eligible.html">dual eligible</a> — is one of the most protective positions in the whole system. Medicare covers your core care, and Medicaid fills in behind it: premiums, cost-sharing, and services Medicare simply doesn't cover.</p>
+
+  <h2>How the Two Programs Fit Together</h2>
+  <p>Medicare always pays <strong>first</strong>. Medicaid is the "payer of last resort," so for dual-eligible members it can cover the Part B premium, deductibles, and coinsurance, and add benefits like long-term services and supports. In practice, most dual-eligible members use a <a href="d-snp-plans-utah.html">D-SNP</a> that coordinates it all in one plan.</p>
+
+  <h2>Full vs. Partial Dual Eligibility</h2>
+  <p><strong>Full duals</strong> get comprehensive Medicaid on top of Medicare. <strong>Partial duals</strong> qualify through a <a href="medicare-savings-programs-utah.html">Medicare Savings Program</a> that pays some Medicare costs (like the Part B premium) without full Medicaid benefits. Either way, you also get <a href="medicare-extra-help-utah.html">Extra Help</a> for prescriptions automatically.</p>
+
+  <h2>Applying in Utah</h2>
+  <p>Utah runs Medicaid through the Department of Workforce Services. You can apply online at jobs.utah.gov, by phone, or in person. If you're a Uintah Basin resident, we can sit down and walk through it with you — and check every related program at once.</p>
+
+  <h2>If You Lose Medicaid</h2>
+  <p>If your income rises above the limit, you may lose Medicaid and the D-SNP extras tied to it. The good news: most plans give a <strong>grace period</strong> (often up to six months) to requalify, and you may still qualify for a Medicare Savings Program or Extra Help at the higher limits. Start with the <a href="dual-eligible.html">dual-eligible overview</a> if you're mapping out your options.</p>
+</ArticlePage>

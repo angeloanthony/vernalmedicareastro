@@ -57,4 +57,30 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: '2026 Medicare IRMAA Calculator',
     taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'costs', 'part-b', 'part-d'] },
   },
+  // ── Dual-Eligible / Medicaid silo (M6) ──
+  {
+    href: '/dual-eligible.html',
+    title: 'Dual Eligible & Medicaid Plans (D-SNP)',
+    taxonomy: { silo: 'dual-eligible', tags: ['d-snp', 'medicaid', 'extra-help', 'qmb', 'msp'], pillar: true },
+  },
+  {
+    href: '/medicare-extra-help-utah.html',
+    title: 'Medicare Extra Help (Part D Low-Income Subsidy)',
+    taxonomy: { silo: 'dual-eligible', tags: ['extra-help', 'lis', 'part-d', 'medicaid', 'costs'] },
+  },
+  {
+    href: '/medicare-savings-programs-utah.html',
+    title: 'Medicare Savings Programs (QMB, SLMB, QI)',
+    taxonomy: { silo: 'dual-eligible', tags: ['msp', 'qmb', 'slmb', 'qi', 'medicaid', 'costs', 'part-b'] },
+  },
+  {
+    href: '/d-snp-plans-utah.html',
+    title: 'D-SNP Plans (Dual-Eligible Special Needs Plans)',
+    taxonomy: { silo: 'dual-eligible', tags: ['d-snp', 'medicare-advantage', 'medicaid', 'extra-help'] },
+  },
+  {
+    href: '/medicare-medicaid-utah.html',
+    title: 'Medicare and Medicaid Together in Utah',
+    taxonomy: { silo: 'dual-eligible', tags: ['medicaid', 'dual-eligible', 'utah', 'extra-help', 'msp'] },
+  },
 ];

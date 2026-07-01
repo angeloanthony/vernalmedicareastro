@@ -1,0 +1,94 @@
+---
+// src/pages/medicare-extra-help-utah.astro — Dual-Eligible silo spoke (M6).
+// Extra Help (Part D Low-Income Subsidy). Data-driven: 2026 limits come from
+// annualMedicareData so they stay single-sourced and correct.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+import type { PageContext } from '../types/Page';
+
+const f = figuresFor();
+const year = f.year;
+const eh = f.extraHelp;
+
+const context: PageContext = {
+  page: {
+    title: `Medicare Extra Help (Part D Low-Income Subsidy) in Utah ${year} | Vernal Medicare`,
+    heading: 'Medicare Extra Help (Part D Low-Income Subsidy)',
+    description: `Extra Help lowers or eliminates your Medicare Part D premium, deductible, and drug copays. See ${year} limits, who qualifies automatically, and how to apply — free help from a local Utah agent.`,
+    taxonomy: { silo: 'dual-eligible', tags: ['extra-help', 'lis', 'part-d', 'medicaid', 'costs'] },
+    summary: `Extra Help (the Part D Low-Income Subsidy) is a federal program that can wipe out your Part D premium and deductible and cap your drug copays at about ${usd(eh.maxDrugCopay, { cents: true })}. In ${year}, resources must be under ${usd(eh.resourcesIndividual)} (single) or ${usd(eh.resourcesCouple)} (married). Many people who qualify never apply.`,
+    faqs: [
+      {
+        question: 'What does Extra Help pay for?',
+        answer: `Extra Help lowers or eliminates your Part D monthly premium and deductible and caps your prescription copays — as low as about ${usd(eh.maxDrugCopay, { cents: true })} per drug for people with the full subsidy. It works with your existing Part D or Medicare Advantage drug plan.`,
+      },
+      {
+        question: `Who qualifies for Extra Help in ${year}?`,
+        answer: `It's based on limited income and resources. For ${year}, countable resources must generally be below ${usd(eh.resourcesIndividual)} for an individual or ${usd(eh.resourcesCouple)} for a married couple. If you have Medicaid, SSI, or a Medicare Savings Program, you qualify for Extra Help automatically.`,
+      },
+      {
+        question: 'How do I apply?',
+        answer: 'Apply for free through Social Security (online, by phone, or at a local office). There is never a fee to apply. We can help you complete it and check whether a Medicare Savings Program would qualify you automatically.',
+      },
+    ],
+    sources: [
+      { title: 'Extra Help with Medicare prescription drug costs', url: 'https://www.ssa.gov/medicare/part-d-extra-help', publisher: 'Social Security Administration' },
+      { title: 'Get help with drug costs', url: 'https://www.medicare.gov/basics/costs/help/drug-costs', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      {
+        when: 'If you already have Medicaid, SSI, or a Medicare Savings Program,',
+        action: "you qualify for Extra Help automatically — you don't need to apply separately. Call us to confirm your drug plan is applying it.",
+      },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-extra-help-utah.html',
+    ogType: 'article',
+    ogTitle: 'Medicare Extra Help (Part D Low-Income Subsidy)',
+    ogDescription: `Extra Help lowers or eliminates your Part D premium, deductible, and copays. ${year} limits and how to apply.`,
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Dual Eligible & Medicaid', href: '/dual-eligible.html' },
+    { name: 'Extra Help (Part D LIS)', href: '/medicare-extra-help-utah.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>Prescription drugs are one of the biggest worries for people on Medicare — but if your income is limited, <strong>Extra Help</strong> (officially the Part D Low-Income Subsidy, or LIS) can dramatically reduce what you pay. It's one of the most valuable and most under-used Medicare programs.</p>
+
+  <h2>What Extra Help Covers</h2>
+  <ul>
+    <li><strong>Part D premium</strong> — lowered or reduced to $0</li>
+    <li><strong>Part D deductible</strong> — reduced or eliminated</li>
+    <li><strong>Drug copays</strong> — capped at roughly {usd(eh.maxDrugCopay, { cents: true })} per prescription for those with the full subsidy</li>
+    <li><strong>No coverage gap ("donut hole")</strong> — Extra Help removes it</li>
+    <li><strong>No late-enrollment penalty</strong> for Part D while you have it</li>
+  </ul>
+  <p>It layers on top of the {year} Part D protections everyone gets — the {usd(f.partD.annualCap)} annual out-of-pocket cap and the {usd(f.partD.insulinCap)}/month insulin cap.</p>
+
+  <h2>{year} Eligibility Limits</h2>
+  <p>Extra Help is based on <strong>limited income and resources</strong>. For {year}, your countable resources (savings, investments — not your home or car) must generally be below:</p>
+  <ul>
+    <li><strong>{usd(eh.resourcesIndividual)}</strong> for an individual</li>
+    <li><strong>{usd(eh.resourcesCouple)}</strong> for a married couple living together</li>
+  </ul>
+  <p>Income limits also apply, and they're higher than many people expect — it's worth checking even if you think you earn too much.</p>
+
+  <h2>You May Already Qualify Automatically</h2>
+  <p>If you have any of the following, you get Extra Help <strong>automatically</strong> — no separate application needed:</p>
+  <ul>
+    <li>Medicaid</li>
+    <li>Supplemental Security Income (SSI)</li>
+    <li>A <a href="medicare-savings-programs-utah.html">Medicare Savings Program (QMB, SLMB, or QI)</a></li>
+  </ul>
+
+  <h2>How to Apply</h2>
+  <p>Apply for free through Social Security — online, by phone, or in person. There's never a fee. If you're a Uintah Basin resident, we can sit down and complete the application with you, and check whether a <a href="medicare-savings-programs-utah.html">Medicare Savings Program</a> would qualify you automatically. Not sure where to start? See the <a href="dual-eligible.html">dual-eligible overview</a>.</p>
+</ArticlePage>
