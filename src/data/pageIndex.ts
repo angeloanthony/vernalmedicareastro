@@ -53,10 +53,31 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Medigap (Medicare Supplement) in Vernal',
     taxonomy: { silo: 'medigap', tags: ['overview'] },
   },
+  // ── IRMAA authority cluster (M10). Calculator was indexed since M5. ──
+  {
+    href: '/medicare-irmaa.html',
+    title: 'Medicare IRMAA Explained',
+    taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'costs', 'part-b', 'part-d', 'magi'], pillar: true },
+  },
   {
     href: '/medicare-irmaa-calculator.html',
     title: '2026 Medicare IRMAA Calculator',
     taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'costs', 'part-b', 'part-d'] },
+  },
+  {
+    href: '/medicare-irmaa-brackets-2026.html',
+    title: '2026 Medicare IRMAA Brackets',
+    taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'brackets', 'costs', 'part-b', 'part-d', 'magi'] },
+  },
+  {
+    href: '/medicare-irmaa-appeal-ssa-44.html',
+    title: 'How to Appeal Medicare IRMAA (Form SSA-44)',
+    taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'appeal', 'ssa-44', 'costs', 'part-b', 'part-d'] },
+  },
+  {
+    href: '/medicare-irmaa-life-changing-events.html',
+    title: 'Medicare IRMAA Life-Changing Events',
+    taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'appeal', 'life-changing-events', 'costs', 'part-b', 'part-d'] },
   },
   // ── Dual-Eligible / Medicaid silo (M6) ──
   {

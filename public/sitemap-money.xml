@@ -120,4 +120,32 @@
     <priority>0.7</priority>
   </url>
 
+  <url>
+    <loc>https://vernalmedicare.com/medicare-irmaa.html</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://vernalmedicare.com/medicare-irmaa-brackets-2026.html</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://vernalmedicare.com/medicare-irmaa-appeal-ssa-44.html</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://vernalmedicare.com/medicare-irmaa-life-changing-events.html</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>

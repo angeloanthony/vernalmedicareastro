@@ -1,0 +1,76 @@
+---
+// src/pages/medicare-irmaa-appeal-ssa-44.astro — IRMAA appeal guide (M10).
+// NET-NEW. ArticlePage in the costs-irmaa silo; pairs with the life-changing
+// events page (which qualifies you) and the hub.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import type { PageContext } from '../types/Page';
+
+const f = figuresFor();
+const year = f.year;
+
+const context: PageContext = {
+  page: {
+    title: `How to Appeal Medicare IRMAA with Form SSA-44 (${year}) | Vernal Medicare`,
+    heading: 'How to Appeal Your Medicare IRMAA (Form SSA-44)',
+    description: `If a life-changing event lowered your income, you can appeal your Medicare IRMAA surcharge with Form SSA-44. Here's exactly how — the form, the proof, and where to send it.`,
+    taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'appeal', 'ssa-44', 'costs', 'part-b', 'part-d'] },
+    summary: `If your income dropped because of a qualifying life-changing event, you don't have to accept an IRMAA surcharge based on two-year-old income. File Form SSA-44 with Social Security, attach proof of the event and your lower expected income, and ask them to use your current income instead.`,
+    faqs: [
+      { question: 'When should I file Form SSA-44?', answer: 'As soon as you get an IRMAA determination letter and a life-changing event has reduced (or will reduce) your income. You can file before or after the surcharge starts; an approved appeal is applied going forward and can be backdated to the start of the affected year.' },
+      { question: 'What proof do I need?', answer: 'Evidence of the event (for example a retirement or work-stoppage letter, death certificate, or divorce decree) plus an estimate of your new MAGI — a recent pay stub, a signed statement, or a tax return once you have one.' },
+      { question: 'What if my appeal is denied?', answer: 'You can request a formal reconsideration and, if needed, a hearing. Keep copies of everything you submit. We can help you understand the letter and your options.' },
+    ],
+    sources: [
+      { title: 'Medicare Income-Related Monthly Adjustment Amount — Life-Changing Event (Form SSA-44)', url: 'https://www.ssa.gov/forms/ssa-44.pdf', publisher: 'Social Security Administration' },
+      { title: 'Medicare premiums: Rules for higher-income beneficiaries', url: 'https://www.ssa.gov/benefits/medicare/medicare-premiums.html', publisher: 'Social Security Administration' },
+    ],
+    nextSteps: [
+      { when: 'If a life event lowered your income,', action: 'gather your proof and file SSA-44 — call us free and we’ll help you fill it out.' },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-irmaa-appeal-ssa-44.html',
+    ogType: 'article',
+    ogTitle: 'How to Appeal Medicare IRMAA (Form SSA-44)',
+    ogDescription: 'The form, the proof, and where to send it — appeal an IRMAA surcharge after an income drop.',
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'IRMAA', href: '/medicare-irmaa.html' },
+    { name: 'Appeal (SSA-44)', href: '/medicare-irmaa-appeal-ssa-44.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>Getting an <a href="medicare-irmaa.html">IRMAA</a> surcharge based on income you no longer earn is frustrating — but you can do something about it. If a <a href="medicare-irmaa-life-changing-events.html">qualifying life-changing event</a> reduced your income, <strong>Form SSA-44</strong> asks Social Security to base your surcharge on your <em>current</em> income instead of your {year - 2} tax return.</p>
+
+  <h2>Step 1 — Confirm You Qualify</h2>
+  <p>SSA-44 is for income drops caused by a specific <a href="medicare-irmaa-life-changing-events.html">life-changing event</a> — retirement or reduced work hours, marriage, divorce, the death of a spouse, loss of a pension, or the end of an income-producing property. A simple year-to-year dip that isn't tied to one of these events doesn't qualify (though it will still lower your IRMAA automatically in a future year).</p>
+
+  <h2>Step 2 — Fill Out the Form</h2>
+  <p>On <a href="https://www.ssa.gov/forms/ssa-44.pdf" rel="nofollow">Form SSA-44</a> you'll:</p>
+  <ol>
+    <li>Check the <strong>life-changing event</strong> that applies and give its date.</li>
+    <li>Enter your <strong>estimated MAGI</strong> for the year the event affects (and the next year, if you expect it to keep dropping).</li>
+    <li>Sign it — you're attesting the estimate is accurate.</li>
+  </ol>
+
+  <h2>Step 3 — Attach Your Proof</h2>
+  <p>Include documentation of both the event and the new income, for example:</p>
+  <ul>
+    <li>A retirement or <strong>work-stoppage letter</strong> from your employer, or a signed statement.</li>
+    <li>A <strong>death certificate</strong>, <strong>divorce decree</strong>, or <strong>marriage certificate</strong>, as applicable.</li>
+    <li>A recent <strong>pay stub</strong>, benefit statement, or amended/most-recent <strong>tax return</strong> showing the lower income.</li>
+  </ul>
+
+  <h2>Step 4 — Submit It</h2>
+  <p>Take or mail the signed form and proof to your <strong>local Social Security office</strong>, or send it to the address on your IRMAA determination letter. Keep a full copy for yourself. If it's approved, the corrected premium applies going forward and can be backdated to the start of the affected year.</p>
+
+  <h2>Don't Owe a Surcharge You Can Remove</h2>
+  <p>Many people pay IRMAA for a year or more without realizing an appeal was available. If you've had a retirement, a death in the family, or another <a href="medicare-irmaa-life-changing-events.html">life-changing event</a>, <strong>call us free</strong> — we'll help you check the <a href="medicare-irmaa-brackets-2026.html">brackets</a>, estimate your new tier, and get SSA-44 filed correctly.</p>
+</ArticlePage>

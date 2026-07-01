@@ -1,0 +1,127 @@
+---
+// src/pages/medicare-irmaa-brackets-2026.astro — IRMAA brackets (M10). The table
+// is generated from annualMedicareData.irmaa so it never drifts from the figures
+// the calculator uses. Roll the year → the data updates → this page follows.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+import type { PageContext } from '../types/Page';
+
+const f = figuresFor();
+const year = f.year;
+const { single, married, partBByTier, partDByTier } = f.irmaa;
+
+// Build one row per tier. `single`/`married` hold the 5 upper thresholds that
+// separate the 6 tiers; index i's range is (bound[i-1], bound[i]].
+function rangeFor(bounds: readonly number[], i: number): string {
+  if (i === 0) return `≤ ${usd(bounds[0])}`;
+  if (i >= bounds.length) return `Above ${usd(bounds[bounds.length - 1])}`;
+  return `${usd(bounds[i - 1] + 1)} – ${usd(bounds[i])}`;
+}
+
+const basePartB = partBByTier[0];
+const rows = partBByTier.map((partB, i) => ({
+  single: rangeFor(single, i),
+  married: rangeFor(married, i),
+  partB: usd(partB, { cents: true }),
+  partBSurcharge: i === 0 ? '—' : usd(partB - basePartB, { cents: true }),
+  partD: i === 0 ? '—' : usd(partDByTier[i], { cents: true }),
+}));
+
+const context: PageContext = {
+  page: {
+    title: `${year} Medicare IRMAA Brackets — Part B & Part D by Income | Vernal Medicare`,
+    heading: `${year} Medicare IRMAA Brackets`,
+    description: `The full ${year} Medicare IRMAA income brackets: Part B premium and Part D surcharge at every MAGI tier, for single and married filers. Based on your ${year - 2} income.`,
+    taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'brackets', 'costs', 'part-b', 'part-d', 'magi'] },
+    summary: `These are the ${year} IRMAA brackets. Social Security uses your ${year - 2} MAGI to place you in a tier; the standard Part B premium is ${usd(basePartB, { cents: true })}, and each higher tier adds a Part B and Part D surcharge on top.`,
+    faqs: [
+      { question: `What is the standard Part B premium in ${year}?`, answer: `${usd(basePartB, { cents: true })} per month. You pay only that if your ${year - 2} MAGI was ${usd(single[0])} or less (single) or ${usd(married[0])} or less (married filing jointly).` },
+      { question: 'Do these brackets change every year?', answer: 'Yes. Both the income thresholds and the surcharge amounts are set annually by Medicare, so check the current year before you plan. This table reflects the official figures.' },
+      { question: 'What if I file taxes as married filing separately?', answer: 'Married-filing-separately has its own, much lower thresholds and can trigger IRMAA at a far smaller income. If that’s you, talk to us or Social Security about your specific situation.' },
+    ],
+    sources: [
+      { title: 'Medicare costs', url: 'https://www.medicare.gov/basics/costs/medicare-costs', publisher: 'Medicare.gov' },
+      { title: 'Medicare premiums: Rules for higher-income beneficiaries', url: 'https://www.ssa.gov/benefits/medicare/medicare-premiums.html', publisher: 'Social Security Administration' },
+    ],
+    nextSteps: [
+      { when: 'To see your own number,', action: 'use the IRMAA calculator — or call us to plan around a threshold.' },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-irmaa-brackets-2026.html',
+    ogType: 'article',
+    ogTitle: `${year} Medicare IRMAA Brackets`,
+    ogDescription: `Part B premium and Part D surcharge at every ${year} income tier.`,
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'IRMAA', href: '/medicare-irmaa.html' },
+    { name: `${year} Brackets`, href: '/medicare-irmaa-brackets-2026.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>These are the official <strong>{year} Medicare IRMAA brackets</strong>. Social Security places you in a tier using your <a href="medicare-irmaa.html">MAGI from {year - 2}</a>, then adds the surcharges below to the standard Part B premium of <strong>{usd(basePartB, { cents: true })}</strong>. Part D IRMAA is billed separately, on top of your drug plan's premium.</p>
+
+  <table class="irmaa-brackets">
+    <thead>
+      <tr>
+        <th scope="col">MAGI — Single</th>
+        <th scope="col">MAGI — Married filing jointly</th>
+        <th scope="col">Part B premium</th>
+        <th scope="col">Part B surcharge</th>
+        <th scope="col">Part D surcharge</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((r) => (
+        <tr>
+          <td>{r.single}</td>
+          <td>{r.married}</td>
+          <td>{r.partB}</td>
+          <td>{r.partBSurcharge}</td>
+          <td>{r.partD}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <p class="table-note">Part D surcharge is added to whatever your Part D plan charges. Married-filing-separately uses different, lower thresholds.</p>
+
+  <h2>How to Read This</h2>
+  <p>Find the row matching your {year - 2} income and filing status. The <strong>Part B premium</strong> column is your total monthly Part B cost; the surcharge columns show how much of that is IRMAA. Only your income determines the tier — the surcharge amounts are the same for single and married filers within a tier.</p>
+
+  <h2>Near a Threshold?</h2>
+  <p>Crossing a bracket by even a dollar bumps you to the next tier for the whole year, so income near a line is worth planning. <a href="medicare-irmaa-calculator.html">Estimate your surcharge</a>, and if a <a href="medicare-irmaa-life-changing-events.html">life-changing event</a> lowered your income, you may be able to <a href="medicare-irmaa-appeal-ssa-44.html">appeal with Form SSA-44</a>. We're glad to walk through it with you, free.</p>
+</ArticlePage>
+
+<style>
+  .irmaa-brackets {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+  }
+  .irmaa-brackets th,
+  .irmaa-brackets td {
+    border: 1px solid var(--color-border, #d8dee4);
+    padding: 0.5rem 0.65rem;
+    text-align: left;
+  }
+  .irmaa-brackets thead th {
+    background: var(--color-surface, #f4f6f8);
+    font-weight: 600;
+  }
+  .irmaa-brackets tbody tr:nth-child(even) {
+    background: var(--color-surface, #f9fafb);
+  }
+  .table-note {
+    font-size: 0.85rem;
+    color: var(--color-text-muted, #667085);
+    margin-top: -0.5rem;
+  }
+</style>
