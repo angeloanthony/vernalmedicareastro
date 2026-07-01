@@ -1,0 +1,39 @@
+---
+// src/pages/medicare-search.astro — on-site search (M34). Uses Pagefind, which
+// indexes the built HTML (data-pagefind-body in BaseLayout). Static, no backend,
+// nothing leaves the site. Results carry a content type (Calculator/Guide/Drug).
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import Search from 'astro-pagefind/components/Search.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Search Vernal Medicare',
+    heading: 'Search',
+    description: 'Search every Vernal Medicare guide, calculator, glossary term, and news update.',
+    taxonomy: { silo: 'tools', tags: ['search', 'tools', 'discovery'] },
+    summary: 'Looking for something specific? Search all of Vernal Medicare — guides, calculators, drug coverage, the glossary, and news — right here.',
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-search.html',
+    ogType: 'website',
+    robots: 'noindex,follow',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Search', href: '/medicare-search.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>Search everything on the site — guides, calculators, drug coverage, glossary terms, and news. Or browse the <a href="medicare-help-center.html">Medicare Help Center</a>.</p>
+
+  <Search className="pagefind-ui" />
+
+  <p style="margin-top:2rem;">Can’t find it? <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) — a real person, no phone tree.</p>
+</ArticlePage>

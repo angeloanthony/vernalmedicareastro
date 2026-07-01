@@ -145,7 +145,11 @@ const allGaIds = [B.gaGlobalId, ...gaIds].filter(
   <body>
     <Header />
 
-    <slot />
+    <!-- data-pagefind-body scopes on-site search to page content (every page uses
+         this layout), excluding the shared header/footer. -->
+    <div data-pagefind-body>
+      <slot />
+    </div>
 
     <Footer />
 
