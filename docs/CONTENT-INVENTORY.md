@@ -33,6 +33,7 @@ Legend: ✅ complete · 🚧 in progress · 📋 planned
 | **Medigap** | medigap (+ Plan G vs N, HD-G, vs Advantage) | ✅ | Jul 2026 | Vernal |
 | **Medicare Advantage** | best-medicare-advantage-vernal (+ $0/HMO-PPO/vs-Medigap) | ✅ | Jul 2026 | Vernal |
 | **Part D** | prescription-drug-assistance (+ best/cheapest/tiers, 14 drug pages) | ✅ | Jul 2026 | Vernal |
+| **Financial Assistance** | medicare-financial-assistance (hub) · medicare-income-limits-2026 (data-driven) | ✅ | Jul 2026 | Vernal |
 | **Dual-Eligible** | dual-eligible (+ Extra Help/MSP/D-SNP/Medicaid) | ✅ | Jul 2026 | Vernal |
 | **Local (Basin)** | medicare-plans-vernal-utah (pillar) + 13 town pages (data/towns.ts) | ✅ | Jul 2026 | Vernal |
 | **Providers** | medicare-hospitals-uintah-county (+ Ashley/UBH/pharmacies) | ✅ | Jul 2026 | Vernal |
@@ -51,3 +52,4 @@ Legend: ✅ complete · 🚧 in progress · 📋 planned
 2. Re-review the IRMAA brackets, Part D cap, and MSP/Extra-Help limits in that file.
 3. Refresh the News Center for the new year; set superseded items `lifecycle: 'historical'`.
 4. Update the "Last reviewed" dates above for any page whose content changed.
+5. Year-stamped slugs (`medicare-income-limits-2026`, `medicare-out-of-pocket-maximum-2026`, `medicare-irmaa-brackets-2026`, `medicare-open-enrollment-2026`) don't auto-rename — create the new-year page and redirect/relink. The page *bodies* are data-driven and update from `annualMedicareData.ts` automatically; only the URL and internal links need attention.

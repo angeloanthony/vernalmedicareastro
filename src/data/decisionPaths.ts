@@ -57,11 +57,11 @@ export const DECISION_PATHS: DecisionPath[] = [
     id: 'financial-help',
     situation: 'I need help paying for Medicare',
     blurb: 'You’re on a fixed or lower income and want to lower your costs.',
-    primary: { label: 'See Medicare Savings Programs', href: '/medicare-savings-programs-utah.html' },
+    primary: { label: 'Open the help-paying hub', href: '/medicare-financial-assistance.html' },
     links: [
+      { label: 'Medicare income limits for 2026', href: '/medicare-income-limits-2026.html' },
+      { label: 'Medicare Savings Programs', href: '/medicare-savings-programs-utah.html' },
       { label: 'Extra Help for drug costs', href: '/medicare-extra-help-utah.html' },
-      { label: 'Dual-eligible (Medicare + Medicaid)', href: '/dual-eligible.html' },
-      { label: 'Extra Help eligibility calculator', href: '/medicare-extra-help-calculator.html' },
     ],
   },
   {

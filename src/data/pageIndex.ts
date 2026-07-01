@@ -149,6 +149,17 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     taxonomy: { silo: 'costs-irmaa', tags: ['moop', 'costs'] },
   },
   {
+    href: '/medicare-income-limits-2026.html',
+    title: 'Medicare Income Limits for 2026',
+    taxonomy: { silo: 'costs-irmaa', tags: ['income-limits', 'msp', 'extra-help', 'irmaa', 'costs', 'assistance'] },
+  },
+  // ── Financial-assistance hub (M40) — ties costs + assistance into one journey ──
+  {
+    href: '/medicare-financial-assistance.html',
+    title: 'Help Paying for Medicare',
+    taxonomy: { silo: 'dual-eligible', tags: ['financial-assistance', 'costs', 'msp', 'extra-help', 'premium-assistance', 'dual-eligible'], pillar: true },
+  },
+  {
     href: '/medigap.html',
     title: 'Medigap (Medicare Supplement) in Vernal',
     taxonomy: { silo: 'medigap', tags: ['medigap', 'supplement', 'overview', 'vernal', 'original-medicare'], pillar: true },
