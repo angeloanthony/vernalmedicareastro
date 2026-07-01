@@ -21,12 +21,34 @@ function run(label, command) {
   return { status: r.status ?? 1, out: (r.stdout || '') + (r.stderr || '') };
 }
 
+// Tests run with INHERITED stdio (not piped). Piping Vitest's stdout under
+// spawnSync appears to trigger the cold-cache bootstrap race ("no tests" /
+// reading 'config'); inheriting the terminal avoids it. We only need the exit
+// status here, not the captured output.
+function runInherit(label, command) {
+  console.log(`\n▶ ${label}`);
+  const r = spawnSync(command, { stdio: 'inherit', shell: true });
+  return { status: r.status ?? 1 };
+}
+
 function fail(msg) {
   console.error(`\n✖ ${msg}`);
   process.exit(1);
 }
 
-// ── 1. astro check (error ratchet — green today, blocks NEW errors) ──────────
+// ── 1. unit tests ────────────────────────────────────────────────────────────
+// Inherited stdio (see runInherit) is the primary fix for the Vitest bootstrap
+// race; the single retry remains as a belt-and-suspenders safety net.
+// TODO(workaround): revisit after a future Astro/Vite/Vitest upgrade — if the
+// bootstrap race is gone, the inherit+retry can be simplified.
+let tests = runInherit('unit tests', 'npx vitest run');
+if (tests.status !== 0) {
+  console.log('↻ vitest did not bootstrap cleanly — retrying once');
+  tests = runInherit('unit tests (retry)', 'npx vitest run');
+}
+if (tests.status !== 0) fail('unit tests failed.');
+
+// ── 2. astro check (error ratchet — green today, blocks NEW errors) ──────────
 const check = run('astro check', 'npx astro check');
 const m = check.out.match(/-\s*(\d+)\s+errors?/);
 if (!m && check.status !== 0) fail('astro check failed and no error count could be parsed.');
@@ -40,9 +62,6 @@ console.log(
     ? `✔ astro check: ${errors} errors (below baseline ${limit}) — ratchet scripts/quality-baseline.json down to ${errors}.`
     : `✔ astro check: ${errors} errors == baseline ${limit} (legacy debt; no new errors).`,
 );
-
-// ── 2. unit tests ────────────────────────────────────────────────────────────
-if (run('unit tests', 'npx vitest run').status !== 0) fail('unit tests failed.');
 
 // ── 3. production build ──────────────────────────────────────────────────────
 const build = run('build', 'npx astro build');

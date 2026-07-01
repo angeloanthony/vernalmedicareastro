@@ -7,15 +7,18 @@ Sequenced so SEO-sensitive work is always isolated and reversible. Status as of
 Data layer · type system · config · application + calculator framework ·
 documentation. No page wired; build unchanged (47 pages).
 
-## ▶ Phase 2 — SEO Framework (next)
-Reusable SEO/structured-data layer so every later page inherits it:
-`SEOHead`, `Canonical`, `OpenGraph`, and JSON-LD emitters (`BreadcrumbSchema`,
-`FAQSchema`, `ArticleSchema`, `MedicalSchema`, `CalculatorSchema`,
-`LocalBusinessSchema`) on top of `src/lib/schema`. Design first, then implement.
+## ▶ Phase 2 — Page Framework (next) — ADR-0008
+The unified page-rendering framework (SEO folded in): `StandardPageLayout` +
+page types, one `PageContext`, automatic schema, weighted related, E-E-A-T.
+Near-term milestones:
+- **M3 — Implement** the framework in interface-first order (types → authors →
+  pageIndex → related → schema → StandardPageLayout → page types).
+- **M4 — Migrate ONE static article** (`medicare-part-a-vs-part-b`) end-to-end as
+  the first proof (no interactivity). Verify URL/HTML/schema/breadcrumbs/related.
 
 ## Phase 3 — Calculators (on the framework)
-IRMAA → Cost → Drug Cost → Penalty → Timeline, each fed by
-`annualMedicareData.ts`. Thin pages; shared shell.
+- **M5 — IRMAA** (first interactive feature; first calculator on the framework).
+- Then Cost → Drug Cost → Penalty → Timeline, fed by `annualMedicareData.ts`.
 
 ## Phase 4 — Content Framework
 FAQ engine (welded visible + schema) · drug database (data-driven pages) · blog
@@ -31,6 +34,14 @@ engine. Also: relocate root components into the new taxonomy folders.
 
 ## Phase 7 — Performance
 Cleanup · CSS audit · image optimization · Astro tuning · final QA.
+
+## Milestone tags (rollback / bisect points)
+```
+foundation-complete ✓ → page-framework-proven → irmaa-v1 → drug-framework
+                        → alta-phase-1 → alta-phase-2
+```
+Tag after each milestone passes `npm run verify`; `page-framework-proven` is set once
+the first static article (M4) renders correctly with URLs unchanged.
 
 ---
 See [MIGRATION.md](MIGRATION.md) for the live feature/decision matrix and

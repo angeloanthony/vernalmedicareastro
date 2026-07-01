@@ -1,0 +1,25 @@
+---
+// SourcesList.astro — authoritative citations (Evidence). Visible list; the
+// machine-readable citations are emitted by assembleSchema.
+import type { Evidence } from '../../types/Page';
+
+interface Props {
+  sources: Evidence[];
+  heading?: string;
+}
+const { sources, heading = 'Sources' } = Astro.props;
+---
+
+{sources.length > 0 && (
+  <section class="sources" aria-label="Sources">
+    <h2>{heading}</h2>
+    <ul>
+      {sources.map((s) => (
+        <li>
+          <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a> — {s.publisher}
+          {s.date && <Fragment> ({s.date})</Fragment>}
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

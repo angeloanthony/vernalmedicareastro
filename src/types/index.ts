@@ -8,3 +8,4 @@ export * from './MedicarePlan';
 export * from './FAQ';
 export * from './Location';
 export * from './Provider';
+export * from './Page';

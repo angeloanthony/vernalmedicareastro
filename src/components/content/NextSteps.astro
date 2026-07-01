@@ -1,0 +1,20 @@
+---
+// NextSteps.astro — contextual "if X, do Y next" guidance blocks.
+import type { NextStep } from '../../types/Page';
+
+interface Props {
+  steps: NextStep[];
+}
+const { steps } = Astro.props;
+---
+
+{steps.length > 0 && (
+  <section class="next-steps" aria-label="Next steps">
+    {steps.map((s) => (
+      <aside class="next-step" role="note">
+        <strong class="next-step-when">{s.when}</strong> {s.action}
+        {s.href && <Fragment> <a href={s.href}>{s.cta ?? 'Learn more'}</a></Fragment>}
+      </aside>
+    ))}
+  </section>
+)}

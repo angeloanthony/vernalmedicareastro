@@ -1,0 +1,22 @@
+---
+// Disclaimer.astro — optional medical/general disclaimer + the TPMO disclaimer
+// (from business.ts, required sitewide).
+import { BUSINESS } from '../../data/business';
+
+interface Props {
+  medical?: boolean | string;
+}
+const { medical } = Astro.props;
+
+const medicalText =
+  typeof medical === 'string'
+    ? medical
+    : medical
+      ? 'This page is general information, not medical or financial advice. Confirm details for your own situation before acting.'
+      : undefined;
+---
+
+<footer class="page-disclaimer">
+  {medicalText && <p>{medicalText}</p>}
+  <p>{BUSINESS.disclaimer}</p>
+</footer>

@@ -1,0 +1,23 @@
+---
+// RelatedPages.astro — renders the (already computed + scored) related list.
+import type { RelatedPage } from '../../types/Page';
+
+interface Props {
+  related: RelatedPage[];
+  heading?: string;
+}
+const { related, heading = 'Related' } = Astro.props;
+---
+
+{related.length > 0 && (
+  <nav class="related" aria-label="Related pages">
+    <h2>{heading}</h2>
+    <ul>
+      {related.map((r) => (
+        <li>
+          <a href={r.href}>{r.label}</a>{r.blurb && <span class="related-blurb"> — {r.blurb}</span>}
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}

@@ -1,0 +1,106 @@
+---
+// StandardPageLayout.astro — the shared 80% for every page type (ADR-0008).
+// Wraps Vernal's BaseLayout, orchestrates schema (assembleSchema) and related
+// (relatedFor) from one PageContext, and renders breadcrumb · header + byline ·
+// summary · next-steps · <body slot> · FAQ · sources · related · CTA · disclaimer.
+// The page-type layout passes its primary schema kind; authors never write JSON-LD.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SummaryBlock from '../SummaryBlock.astro';
+import AuthorByline from '../content/AuthorByline.astro';
+import NextSteps from '../content/NextSteps.astro';
+import SourcesList from '../content/SourcesList.astro';
+import RelatedPages from '../content/RelatedPages.astro';
+import PageCTA from '../content/PageCTA.astro';
+import Disclaimer from '../content/Disclaimer.astro';
+import { assembleSchema } from '../../lib/schema';
+import { relatedFor } from '../../lib/related';
+import { PAGE_INDEX } from '../../data/pageIndex';
+import type { PageContext, SchemaKind } from '../../types/Page';
+
+interface Props {
+  context: PageContext;
+  /** Primary JSON-LD @type for this page kind (set by the page-type layout). */
+  primarySchema?: SchemaKind;
+}
+const { context, primarySchema = 'WebPage' } = Astro.props;
+const { page, meta } = context;
+
+const schema = assembleSchema(context, primarySchema);
+const crumbs = context.breadcrumb ?? [];
+const faqs = page.faqs ?? [];
+const nextSteps = page.nextSteps ?? [];
+const sources = page.sources ?? [];
+
+let currentHref = meta.canonical;
+try {
+  currentHref = new URL(meta.canonical).pathname;
+} catch {
+  /* canonical wasn't absolute; use as-is */
+}
+const related = context.related ?? relatedFor(page.taxonomy, PAGE_INDEX, currentHref);
+---
+
+<BaseLayout
+  title={page.title}
+  description={page.description}
+  canonical={meta.canonical}
+  ogType={meta.ogType ?? 'article'}
+  ogTitle={meta.ogTitle}
+  ogDescription={meta.ogDescription}
+  ogImage={meta.ogImage}
+  twitterTitle={meta.ogTitle ?? page.title}
+  twitterDescription={meta.ogDescription ?? page.description}
+  schema={schema}
+>
+  <article class="page container">
+    {crumbs.length > 0 && (
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          {crumbs.map((c, i) => (
+            <li>
+              {i < crumbs.length - 1 ? <a href={c.href}>{c.name}</a> : <span aria-current="page">{c.name}</span>}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+
+    <header class="page-header">
+      <h1>{page.heading ?? page.title}</h1>
+      <AuthorByline
+        authorId={context.author}
+        reviewedById={context.reviewedBy}
+        updated={context.lastUpdated}
+        localAvailability={context.localAvailability}
+      />
+    </header>
+
+    {page.summary && <SummaryBlock text={page.summary} />}
+
+    {nextSteps.length > 0 && <NextSteps steps={nextSteps} />}
+
+    <div class="page-body">
+      <slot />
+    </div>
+
+    {faqs.length > 0 && (
+      <section class="faq" aria-label="Frequently asked questions">
+        <h2>Frequently Asked Questions</h2>
+        {faqs.map((f) => (
+          <details>
+            <summary set:html={f.question} />
+            <div class="faq-answer" set:html={f.answer} />
+          </details>
+        ))}
+      </section>
+    )}
+
+    {sources.length > 0 && <SourcesList sources={sources} />}
+
+    <RelatedPages related={related} />
+
+    <PageCTA cta={context.cta} />
+
+    <Disclaimer medical={context.medicalDisclaimer} />
+  </article>
+</BaseLayout>

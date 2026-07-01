@@ -1,0 +1,16 @@
+---
+// ArticlePage.astro — informational/guide pages. The thinnest specialization:
+// set the primary schema to Article; StandardPageLayout does everything else.
+// The unique body prose is passed as the default slot.
+import StandardPageLayout from './StandardPageLayout.astro';
+import type { PageContext } from '../../types/Page';
+
+interface Props {
+  context: PageContext;
+}
+const { context } = Astro.props;
+---
+
+<StandardPageLayout context={context} primarySchema="Article">
+  <slot />
+</StandardPageLayout>
