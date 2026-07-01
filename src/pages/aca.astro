@@ -1,71 +1,64 @@
 ---
-// src/pages/aca.astro  —  converted from aca.html
-// URL preserved: /aca.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/aca.astro — MIGRATED to the Page Framework.
+// Under-65 ACA / Marketplace health insurance (NOT Medicare). URL (/aca.html),
+// title, description, canonical, and the legacy H1 preserved. Now on ArticlePage:
+// automatic Article+FAQ+Breadcrumb schema, byline, and related. The inline
+// hand-rolled JSON-LD (InsuranceAgency + FAQPage) was removed — the framework
+// generates it; the FAQ Q&A moved into page.faqs. No CMS multi-plan marketing
+// block existed (this is not a Medicare page), so marketingDisclaimer is unset.
+// The Vimeo <iframe> embed, the flip-comic, and the page script are preserved
+// byte-for-byte in the body slot.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "InsuranceAgency",
-    "name": "Vernal Medicare",
-    "url": "https://vernalmedicare.com/",
-    "logo": "https://vernalmedicare.com/pictures/rocco.webp",
-    "description": "Licensed help with Medicare Advantage, Medigap, Part D, and under-65 health insurance in Vernal and the Uintah Basin.",
-    "telephone": "+1-435-219-5120",
-    "email": "rocco@vernalmedicare.com",
-    "areaServed": "Uintah County, Utah",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Vernal",
-      "addressRegion": "UT",
-      "postalCode": "84078",
-      "addressCountry": "US"
-    }
+const context: PageContext = {
+  page: {
+    title: 'Under-65 Health Insurance (ACA) in Vernal, Utah | Vernal Medicare',
+    heading: 'Under-65 Health Insurance (ACA) — Simple Guide',
+    description:
+      'Local, licensed help with ACA Marketplace (under-65) health insurance in Vernal and the Uintah Basin. Check eligibility for savings and enroll with confidence.',
+    taxonomy: {
+      silo: 'other-insurance',
+      tags: ['other-insurance', 'aca', 'marketplace', 'under-65', 'vernal'],
+    },
+    summary:
+      "ACA (Affordable Care Act) Marketplace plans are comprehensive, under-65 major-medical coverage — with essential health benefits, an annual out-of-pocket maximum, and often income-based savings. Local, licensed help checking your eligibility for savings and enrolling the right way in Vernal and the Uintah Basin.",
+    faqs: [
+      {
+        question: 'What is ACA health insurance?',
+        answer:
+          'ACA (Affordable Care Act) Marketplace plans are comprehensive major-medical coverage that include essential health benefits and cover preexisting conditions.',
+      },
+      {
+        question: 'Will I pay $0 premium?',
+        answer:
+          'Many households qualify for savings, but amounts depend on income, household size, ages, plan, and location.',
+      },
+      {
+        question: 'What if my employer offers insurance?',
+        answer:
+          "If your employer's offer is considered affordable under ACA rules, Marketplace subsidies generally aren't available. We'll check your situation to confirm.",
+      },
+    ],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is ACA health insurance?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "ACA (Affordable Care Act) Marketplace plans are comprehensive major-medical coverage that include essential health benefits and cover preexisting conditions."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Will I pay $0 premium?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Many households qualify for savings, but amounts depend on income, household size, ages, plan, and location."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What if my employer offers insurance?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "If your employer's offer is considered affordable under ACA rules, Marketplace subsidies generally aren't available. We'll check your situation to confirm."
-        }
-      }
-    ]
-  }
-];
+  meta: {
+    canonical: 'https://vernalmedicare.com/aca.html',
+    ogType: 'article',
+    ogDescription:
+      'Local, licensed help comparing ACA Marketplace plans in Vernal and the Uintah Basin.',
+  },
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Under-65 Health Insurance (ACA)', href: '/aca.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="Under-65 Health Insurance (ACA) in Vernal, Utah | Vernal Medicare"
-  description="Local, licensed help with ACA Marketplace (under-65) health insurance in Vernal and the Uintah Basin. Check eligibility for savings and enroll with confidence."
-  canonical="https://vernalmedicare.com/aca.html"
-  ogDescription="Local, licensed help comparing ACA Marketplace plans in Vernal and the Uintah Basin."
-  twitterDescription="Local, licensed help with ACA Marketplace plans in the Uintah Basin."
-  schema={schema}
->
-  <main id="content">
+<ArticlePage context={context}>
     <section class="container" id="medigap-intro">
       <h2 style="margin:16px 0;">Under-65 Health Insurance — Video</h2>
 
@@ -96,7 +89,6 @@ const schema = [
 
     <!-- Hero -->
     <section>
-      <h1>Under-65 Health Insurance (ACA) — Simple Guide</h1>
       <p><strong>Real, comprehensive coverage</strong>—often with <strong>income-based savings</strong> through the ACA Marketplace.
         If you don't have insurance, I can help you enroll the right way and protect what you've worked for.</p>
       <p>
@@ -182,9 +174,6 @@ const schema = [
       <p>Plan availability varies by county and carrier. Savings require eligibility for federal premium tax credits and/or cost-sharing reductions through the ACA Marketplace; amounts vary by household size, income, ages, and other factors. For information about all Marketplace options, visit <a href="https://www.healthcare.gov" rel="nofollow">HealthCare.gov</a> or call 1-800-318-2596.</p>
       <p>Not connected with or endorsed by HealthCare.gov or any government agency.</p>
     </section>
-  </main>
-
-  
 
 <script>
   (function(){
@@ -227,4 +216,4 @@ const schema = [
     });
   })();
   </script>
-</BaseLayout>
+</ArticlePage>

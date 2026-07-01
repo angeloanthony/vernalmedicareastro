@@ -1,71 +1,63 @@
 ---
-// src/pages/life.astro  —  converted from life.html
-// URL preserved: /life.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/life.astro — MIGRATED to the Page Framework.
+// Life insurance (NOT Medicare). URL (/life.html), title, description, canonical,
+// and the legacy H1 preserved. Now on ArticlePage: automatic Article+FAQ+Breadcrumb
+// schema, byline, and related. The inline hand-rolled JSON-LD (InsuranceAgency +
+// FAQPage) was removed — the framework generates it; the FAQ Q&A moved into
+// page.faqs. No CMS multi-plan marketing block existed (this is not a Medicare
+// page), so marketingDisclaimer is unset. The Vimeo <iframe> embed, the flip-comic,
+// and the page script are preserved byte-for-byte in the body slot.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "InsuranceAgency",
-    "name": "Vernal Medicare",
-    "url": "https://vernalmedicare.com/",
-    "logo": "https://vernalmedicare.com/pictures/Rocco.webp",
-    "description": "Licensed help with Medicare, under-65 health coverage, and life insurance.",
-    "telephone": "+1-435-219-5120",
-    "email": "rocco@vernalmedicare.com",
-    "areaServed": "Uintah County, Utah",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Vernal",
-      "addressRegion": "UT",
-      "postalCode": "84078",
-      "addressCountry": "US"
-    }
+const context: PageContext = {
+  page: {
+    title: 'Life Insurance in Vernal, Utah | Vernal Medicare',
+    heading: 'Life Insurance — Simple & Local',
+    description:
+      'Simple, local help with life insurance—term, whole life, and final expense. Protect income, family, and debts with the right amount and term.',
+    taxonomy: {
+      silo: 'other-insurance',
+      tags: ['other-insurance', 'life-insurance', 'final-expense', 'vernal'],
+    },
+    summary:
+      "Life insurance protects your family's income, your home, and final expenses. Term life covers a set period for income, mortgage, and kids; whole life and final expense cover permanent needs like funeral costs. Simple, local, licensed help picking the right amount and term in Vernal and the Uintah Basin.",
+    faqs: [
+      {
+        question: 'Which is best—term or whole life?',
+        answer:
+          'Most families start with term life to protect income, mortgage, and kids for a set period. Whole life or final expense can cover permanent needs like funeral costs.',
+      },
+      {
+        question: 'Do I need a medical exam?',
+        answer:
+          'Some policies are no-exam or simplified issue; others may require labs. It depends on amount, age, and health.',
+      },
+      {
+        question: 'How much coverage should I pick?',
+        answer:
+          'A common rule is 10–15× annual income, or enough to clear major debts and provide a few years of living expenses.',
+      },
+    ],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Which is best—term or whole life?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Most families start with term life to protect income, mortgage, and kids for a set period. Whole life or final expense can cover permanent needs like funeral costs."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Do I need a medical exam?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Some policies are no-exam or simplified issue; others may require labs. It depends on amount, age, and health."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How much coverage should I pick?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "A common rule is 10–15× annual income, or enough to clear major debts and provide a few years of living expenses."
-        }
-      }
-    ]
-  }
-];
+  meta: {
+    canonical: 'https://vernalmedicare.com/life.html',
+    ogType: 'article',
+    ogDescription:
+      'Simple, local help with life insurance—term, whole life, and final expense.',
+  },
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Life Insurance', href: '/life.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="Life Insurance in Vernal, Utah | Vernal Medicare"
-  description="Simple, local help with life insurance—term, whole life, and final expense. Protect income, family, and debts with the right amount and term."
-  canonical="https://vernalmedicare.com/life.html"
-  ogDescription="Simple, local help with life insurance—term, whole life, and final expense."
-  twitterDescription="Protect income, family, and debts with the right amount and term."
-  schema={schema}
->
-  <main id="content">
+<ArticlePage context={context}>
     <section class="container" id="medigap-intro">
       <h2 style="margin:16px 0;">Life Insurance — Video</h2>
 
@@ -96,7 +88,6 @@ const schema = [
 
     <!-- Hero -->
     <section>
-      <h1>Life Insurance — Simple & Local</h1>
       <p>Protect your family's income, your home, and final expenses with a plan that fits your budget. I'll keep it simple and show clear options.</p>
       <p style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
         <a class="button primary" href="tel:+14352195120" aria-label="Call Vernal Medicare at 435-219-5120">
@@ -168,9 +159,6 @@ const schema = [
       <h2>Disclosures</h2>
       <p>Life insurance is subject to underwriting. Policy features, riders, and availability vary by carrier and state. Read the policy for terms, exclusions, and limitations.</p>
     </section>
-  </main>
-
-  
 
 <script>
   (function(){
@@ -213,4 +201,4 @@ const schema = [
     });
   })();
   </script>
-</BaseLayout>
+</ArticlePage>
