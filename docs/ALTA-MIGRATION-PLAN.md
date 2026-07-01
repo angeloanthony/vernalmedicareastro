@@ -141,6 +141,28 @@ Small, verifiable waves — one branch/PR/tag each, same discipline as Phase I.
 
 ---
 
+## Deliverable 7 — Migration Score
+
+Score each import/create asset so the highest-impact work is always chosen first.
+**SEO value** (1–10, topical authority + intent value) · **Difficulty** (1–10,
+build + data-sourcing effort) · **Priority** = value-to-effort, ⭐ = do sooner.
+
+| Product / asset | SEO value | Difficulty | Priority | Milestone |
+|---|:---:|:---:|:---:|---|
+| **Glossary** (framework, term-scalable) | 10 | 3 | ⭐⭐⭐⭐⭐ | M29 |
+| **Turning-65 Center** | 10 | 4 | ⭐⭐⭐⭐⭐ | M30 |
+| **News Center** (framework + 6) | 8 | 4 | ⭐⭐⭐⭐ | M31 |
+| **Drug-coverage cluster** (14 net-new) | 9 | 5 | ⭐⭐⭐⭐ | M32 |
+| **On-site search** (Pagefind) | 7 | 2 | ⭐⭐⭐ | M33 |
+| Dental / Vision / Hearing | 7 | 3 | ⭐⭐⭐ | Wave 3 |
+| Turning-65 depth (delay Part B, employer coverage) | 6 | 3 | ⭐⭐⭐ | with M30 |
+| Timely updates → News (IRA, 2027, new Part D rules) | 6 | 3 | ⭐⭐⭐ | with M31 |
+| GSC-overlap drugs (insulin/mounjaro/ozempic/wegovy) | 8 | 6 | ⏸ hold | post-GSC |
+| Statewide county cluster | 6 | 8 | ⏸ hold | local-first first |
+
+Ordering the ⭐⭐⭐⭐⭐ items first (Glossary, Turning-65) maximizes value-per-effort
+and lifts the whole site (glossary links everywhere; turning-65 is a top funnel).
+
 ## What M28 does NOT do
 
 No pages moved, no redirects implemented, no code. The next step (**M29 = Wave 1**)
