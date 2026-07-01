@@ -1,0 +1,66 @@
+---
+// src/pages/medicare-creditable-coverage.astro — "Working Past 65" cluster spoke.
+// Hub: working-past-65.html. Integrated (not copied): employer-coverage, delaying
+// Part B, COBRA, the SEP path, the glossary, and Part D. Author Rocco. YMYL — the
+// Part B vs Part D distinction is kept exact.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'What Is Creditable Coverage for Medicare? | Vernal Medicare',
+    heading: 'Medicare Creditable Coverage, Explained',
+    description:
+      '“Creditable coverage” is what lets you delay Medicare without a late penalty — but it means two different things for Part B and Part D. A local Uintah Basin agent explains both.',
+    taxonomy: { silo: 'enrollment', tags: ['creditable-coverage', 'part-b', 'part-d', 'penalties', 'sep'] },
+    summary:
+      '“Creditable coverage” means other coverage at least as good as Medicare’s — it’s what lets you delay Medicare without a late penalty. But it means two related-but-different things. For Part B, it’s coverage from active current employment (you or a spouse still working at an employer with 20+ employees), which also earns you a Special Enrollment Period later. For Part D, “creditable drug coverage” is drug coverage expected to pay, on average, at least as much as standard Medicare Part D. Keep the notices your plan sends — you may need them to prove you avoided a penalty.',
+    faqs: [
+      { question: 'What does “creditable coverage” mean?', answer: 'Coverage that’s at least as good as Medicare’s. Having it lets you delay Medicare without a late enrollment penalty. The exact test differs for Part B (must be from active current employment) versus Part D (drug coverage expected to pay, on average, at least as much as standard Part D).' },
+      { question: 'Is COBRA creditable coverage for Part B?', answer: 'Generally no. COBRA and retiree coverage usually do NOT count as creditable for Part B, because they aren’t tied to active current employment. If you delay Part B while on COBRA, you can still owe a lifetime late penalty and miss your Special Enrollment Period. Talk to us before you rely on COBRA to delay Part B.' },
+      { question: 'How do I prove I had creditable drug coverage?', answer: 'Your drug plan must send you a “Notice of Creditable Coverage” each year, usually before October 15. Save those notices — you may need them to show you avoided the Part D late penalty when you eventually enroll.' },
+    ],
+    sources: [
+      { title: 'Medicare.gov — avoid the Part D late enrollment penalty', url: 'https://www.medicare.gov/basics/costs/medicare-costs/avoid-penalties', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      { when: 'If you’re working past 65 and not sure your coverage is creditable,', action: `call us free at ${BUSINESS.phone} — we’ll confirm whether you can delay safely.` },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-creditable-coverage.html',
+    ogType: 'article',
+    ogTitle: 'Medicare Creditable Coverage, Explained',
+    ogDescription: 'What “creditable coverage” means — and why it’s different for Part B and Part D.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Working Past 65', href: '/working-past-65.html' },
+    { name: 'Creditable Coverage', href: '/medicare-creditable-coverage.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>If you’re <a href="working-past-65.html">working past 65</a>, one phrase decides whether you can delay parts of Medicare safely: <strong>creditable coverage</strong>. In plain terms, it’s <strong>other coverage that’s at least as good as Medicare’s</strong> — and having it is what lets you put off Medicare without a lifetime late-enrollment penalty.</p>
+
+  <p>Here’s the catch that trips people up: “creditable coverage” means <strong>two related but different things</strong> depending on whether we’re talking about <strong>Part B</strong> (doctor/outpatient) or <strong>Part D</strong> (prescription drugs). Getting them mixed up is how people end up with penalties they didn’t see coming.</p>
+
+  <h2>Creditable Coverage for Part B</h2>
+  <p>For Part B, creditable coverage means coverage from <strong>active current employment</strong> — either you or a spouse is <em>still working</em>, at an <a href="medicare-and-employer-coverage.html">employer with 20 or more employees</a>. That kind of coverage lets you <a href="delaying-medicare-part-b.html">delay Part B without penalty</a>, and it earns you a <strong><a href="medicare-special-enrollment-period.html">Special Enrollment Period</a></strong> to sign up later — when the job or the coverage ends — without paying a lifetime penalty.</p>
+  <p>The trap: <strong>COBRA and retiree coverage generally do NOT count as creditable for Part B.</strong> They aren’t tied to active current employment, so they don’t protect you from the Part B late penalty or give you that Special Enrollment Period. If you’re about to lean on <a href="cobra-and-medicare.html">COBRA to delay Part B</a>, check with us first — this is one of the most expensive mistakes we see.</p>
+
+  <h2>Creditable Coverage for Part D</h2>
+  <p>For Part D, the term shifts to <strong>“creditable drug coverage.”</strong> This is drug coverage that’s expected to pay, on average, <strong>at least as much as standard Medicare Part D</strong> would. Coverage that’s often creditable for Part D includes many <strong>employer or union plans</strong>, some <strong>retiree plans</strong>, and <strong>VA drug benefits</strong>.</p>
+  <p>The key document is the <strong>Notice of Creditable Coverage</strong>. Your plan must send you one <strong>each year, usually before October 15</strong>, telling you whether its drug coverage is creditable. As long as you keep creditable drug coverage, you can <strong>delay Part D without the Part D late penalty</strong>. (When you’re ready to add drug coverage, we can help you find the <a href="best-part-d-plans-vernal.html">best Part D plan for you</a>.)</p>
+
+  <h2>Keep Your Notices</h2>
+  <p><strong>Save every creditable-coverage notice your plan sends you.</strong> If Medicare ever questions a gap, those notices are your proof that you had qualifying coverage and avoided a penalty. Tuck them somewhere you’ll find them years from now — a folder, an email label, whatever works. Not sure what a term means? Our <a href="medicare-glossary.html#creditable-coverage">glossary</a> spells it out.</p>
+
+  <h2>Not Sure If Your Coverage Counts? Ask Us — Free</h2>
+  <p>Whether coverage is “creditable” isn’t always obvious, and the wrong guess can cost you a <strong>lifetime</strong> penalty. Before you delay Part B <em>or</em> Part D, let’s confirm you’re protected. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) — we’re local to the Uintah Basin, and we’ll walk through your exact situation so you can delay Medicare with confidence.</p>
+</ArticlePage>

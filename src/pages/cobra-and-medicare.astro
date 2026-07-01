@@ -1,0 +1,75 @@
+---
+// src/pages/cobra-and-medicare.astro — Working Past 65 cluster spoke.
+// Hub: working-past-65.html. Integrated (not copied): links the hub, the
+// employer-coverage path, the Part B delay + creditable-coverage rules, the
+// SEP explainer, and the penalty calculator. Author Rocco. YMYL — facts precise.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'COBRA and Medicare — Don’t Fall Into This Trap | Vernal Medicare',
+    heading: 'COBRA and Medicare',
+    description:
+      'COBRA is not creditable coverage for delaying Medicare Part B. Enroll in Part B when your active employment ends — not when COBRA runs out — or risk a permanent penalty and coverage gaps.',
+    taxonomy: { silo: 'enrollment', tags: ['cobra', 'part-b', 'penalties', 'sep', 'working-past-65'] },
+    summary:
+      'If you’re eligible for Medicare, COBRA does NOT let you delay Part B — it is not creditable coverage for that purpose. Your 8-month Special Enrollment Period to sign up for Part B starts when your ACTIVE EMPLOYMENT ends, not when COBRA ends. Once you’re Medicare-eligible, Medicare is primary and COBRA pays secondary. Taking COBRA at 65 and skipping Part B is a common, costly trap: a permanent late-enrollment penalty plus coverage gaps. (Part D is a separate question — COBRA can sometimes count as creditable drug coverage.)',
+    faqs: [
+      { question: 'Can I use COBRA instead of enrolling in Medicare Part B?', answer: 'No. COBRA is not creditable coverage for delaying Part B. If you’re eligible for Medicare, you should enroll in Part B when your active employment ends — not rely on COBRA. Skipping Part B in favor of COBRA leads to a permanent Part B late-enrollment penalty and coverage gaps, because Medicare should be your primary coverage.' },
+      { question: 'When does my Part B window start — when my job ends or when COBRA ends?', answer: 'When your active employment ends. Your 8-month Special Enrollment Period for Part B begins the month after your active employment stops, NOT when COBRA runs out. COBRA does not extend the window. People who wait until COBRA ends often miss the enrollment period and get penalized.' },
+      { question: 'If I’m eligible for Medicare and have COBRA, which one pays first?', answer: 'Medicare is primary once you’re eligible; COBRA pays secondary. If you don’t actually enroll in Medicare, you can be left exposed — COBRA won’t fully cover the share Medicare was supposed to pay as the primary payer.' },
+    ],
+    sources: [
+      { title: 'Medicare.gov — how COBRA works with Medicare', url: 'https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/cobra-coverage', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      { when: 'If you’re on COBRA or about to leave a job at or after 65,', action: `call us free at ${BUSINESS.phone} — we’ll make sure you enroll in Part B on time and avoid the penalty.` },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/cobra-and-medicare.html',
+    ogType: 'article',
+    ogTitle: 'COBRA and Medicare — Don’t Fall Into This Trap',
+    ogDescription: 'COBRA doesn’t let you delay Part B. Your enrollment window starts when your job ends, not when COBRA ends.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Working Past 65', href: '/working-past-65.html' },
+    { name: 'COBRA & Medicare', href: '/cobra-and-medicare.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>Here’s one of the most expensive mistakes we see people make when they leave a job at or after 65: they take <strong>COBRA</strong> to keep their old health plan, assume it counts as coverage, and put off enrolling in <strong>Medicare Part B</strong>. It feels reasonable — you still have insurance, so why rush? But COBRA and Medicare don’t work the way people expect, and this specific move can lock in a <strong>permanent penalty</strong> and leave you with <strong>coverage gaps</strong>. This is part of our <a href="working-past-65.html">Working Past 65</a> guide, and it’s worth getting exactly right.</p>
+
+  <h2>COBRA Doesn’t Let You Delay Part B</h2>
+  <p>The single most important fact on this page: <strong>COBRA is not creditable coverage for delaying Medicare Part B.</strong> Coverage from a <em>current, active</em> job can let you postpone Part B without penalty (see <a href="medicare-and-employer-coverage.html">Medicare and employer coverage</a> and <a href="delaying-medicare-part-b.html">delaying Part B</a>). COBRA is different — it’s the continuation of a plan <em>after</em> your active employment has ended, and Medicare does not treat it as a reason to delay.</p>
+  <p>So if you’re eligible for Medicare, you should <strong>enroll in Part B when your active employment ends</strong> — not rely on COBRA to carry you. For the rules on which coverage counts, see <a href="medicare-creditable-coverage.html">Medicare creditable coverage</a>.</p>
+
+  <h2>Your Window Starts When the Job Ends, Not When COBRA Ends</h2>
+  <p>When active employer coverage ends, you get a <strong>Special Enrollment Period (SEP)</strong> to sign up for Part B — an 8-month window. The trap is <em>when</em> the clock starts:</p>
+  <ul>
+    <li>Your 8-month SEP starts when your <strong>active employment ends</strong>.</li>
+    <li>It does <strong>NOT</strong> start when your COBRA ends.</li>
+    <li>COBRA does <strong>not</strong> extend this window.</li>
+  </ul>
+  <p>Because COBRA can run for many months, people naturally wait until it’s about to run out to think about Medicare — and by then the 8-month window has often already closed. They miss it and get penalized. Don’t count from your COBRA end date; count from the day your job (active employment) ended. More on this in our <a href="medicare-special-enrollment-period.html">Special Enrollment Period</a> guide.</p>
+
+  <h2>Medicare Is Primary Over COBRA</h2>
+  <p>Once you’re eligible for Medicare, <strong>Medicare is primary and COBRA pays secondary.</strong> That order matters. If you actually enroll in Medicare, it pays first and COBRA can fill in behind it. But if you skip Part B and lean on COBRA alone, you’re exposed: COBRA won’t fully pick up the share Medicare was supposed to pay as the primary payer, and you can be left with large bills the plan won’t cover. That’s the second half of the trap — not just the penalty, but real coverage gaps.</p>
+
+  <h2>The Trap, in One Sentence</h2>
+  <p>Taking COBRA at 65 and skipping Part B leads to <strong>(1) a permanent Part B late-enrollment penalty</strong> and <strong>(2) coverage gaps</strong>, because Medicare should have been primary all along. You can estimate what the penalty would cost with our <a href="medicare-part-b-penalty-calculator.html">Part B penalty calculator</a> — the surcharge is added to your premium for as long as you have Part B, so it’s a lifetime cost, not a one-time fee.</p>
+
+  <h2>Part D Is a Separate Question</h2>
+  <p>Keep Part B and Part D straight. The rules above are about <strong>Part B</strong> (medical). For <strong>Part D</strong> (prescription drug coverage), COBRA <em>can</em> sometimes count as creditable coverage — so drug coverage through COBRA may protect you from the Part D late penalty even though it does nothing for Part B. Don’t let that lull you into thinking COBRA covers you for Part B; it’s two different rules, and only one of them can be satisfied by COBRA.</p>
+
+  <h2>Get This Right — Free Help</h2>
+  <p>If you’re on COBRA now, or you’re about to leave a job at or after 65, the timing of your Part B enrollment is the whole ballgame. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) and we’ll pin down exactly when your window started, make sure you enroll in Part B on time, and keep you out of the penalty. See also our <a href="working-past-65.html">Working Past 65</a> hub and the guide to <a href="medicare-and-employer-coverage.html">Medicare with employer coverage</a>.</p>
+</ArticlePage>

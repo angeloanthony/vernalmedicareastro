@@ -94,6 +94,32 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Turning 65: Your Medicare Step-by-Step',
     taxonomy: { silo: 'enrollment', tags: ['turning-65', 'enrollment', 'iep', 'journey', 'deadlines'], pillar: true },
   },
+  // ── Working Past 65 cluster (M37) — hub + 4 spokes ──
+  {
+    href: '/working-past-65.html',
+    title: 'Working Past 65: Do You Need Medicare Yet?',
+    taxonomy: { silo: 'enrollment', tags: ['working-past-65', 'employer-coverage', 'delay-part-b', 'enrollment', 'sep'], pillar: true },
+  },
+  {
+    href: '/medicare-and-employer-coverage.html',
+    title: 'Medicare & Employer Coverage After 65',
+    taxonomy: { silo: 'enrollment', tags: ['employer-coverage', 'working-past-65', 'part-b', 'sep', 'enrollment'] },
+  },
+  {
+    href: '/delaying-medicare-part-b.html',
+    title: 'Delaying Medicare Part B',
+    taxonomy: { silo: 'enrollment', tags: ['delay-part-b', 'part-b', 'penalties', 'sep', 'working-past-65'] },
+  },
+  {
+    href: '/cobra-and-medicare.html',
+    title: 'COBRA and Medicare',
+    taxonomy: { silo: 'enrollment', tags: ['cobra', 'part-b', 'penalties', 'sep', 'working-past-65'] },
+  },
+  {
+    href: '/medicare-creditable-coverage.html',
+    title: 'Medicare Creditable Coverage, Explained',
+    taxonomy: { silo: 'enrollment', tags: ['creditable-coverage', 'part-b', 'part-d', 'penalties', 'sep'] },
+  },
   {
     href: '/medicare-supplement-vs-advantage.html',
     title: 'Medicare Supplement vs Medicare Advantage',
