@@ -212,6 +212,27 @@ export const PAGE_INDEX: PageIndexEntry[] = [
       tags: ['local', t.slug, t.county.toLowerCase().replace(/\s+/g, '-'), 'overview', 'original-medicare'],
     },
   })),
+  // ── Providers silo (M15) — local hospitals & pharmacies (E-E-A-T) ──
+  {
+    href: '/medicare-hospitals-uintah-county.html',
+    title: 'Medicare Coverage for Hospitals in Uintah County',
+    taxonomy: { silo: 'providers', tags: ['providers', 'hospital', 'uintah-county', 'local', 'overview'], pillar: true },
+  },
+  {
+    href: '/medicare-ashley-regional-vernal.html',
+    title: 'Medicare Coverage at Ashley Regional Medical Center',
+    taxonomy: { silo: 'providers', tags: ['providers', 'hospital', 'ashley-regional', 'vernal', 'uintah-county', 'local'] },
+  },
+  {
+    href: '/medicare-uintah-basin-medical-center.html',
+    title: 'Medicare Plans for Uintah Basin Healthcare',
+    taxonomy: { silo: 'providers', tags: ['providers', 'hospital', 'uintah-basin-healthcare', 'roosevelt', 'duchesne-county', 'local'] },
+  },
+  {
+    href: '/medicare-vernal-pharmacies.html',
+    title: 'Medicare Plans Accepted at Vernal Pharmacies',
+    taxonomy: { silo: 'providers', tags: ['providers', 'pharmacy', 'part-d', 'vernal', 'uintah-county', 'local'] },
+  },
   // ── Part D / Drug Assistance silo (M8) ──
   {
     href: '/prescription-drug-assistance.html',

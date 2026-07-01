@@ -1,125 +1,75 @@
 ---
-// src/pages/medicare-vernal-pharmacies.astro  —  converted from medicare-vernal-pharmacies.html
-// URL preserved: /medicare-vernal-pharmacies.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/medicare-vernal-pharmacies.astro — MIGRATED to the Page Framework.
+// URL, title, description, H1, canonical and gaIds preserved from the ranking
+// legacy page. Now on ArticlePage: automatic Article+FAQ+Breadcrumb schema,
+// byline, related, and the required marketing disclaimer.
+//   • Inline CMS "We do not offer every plan…" block → marketingDisclaimer: true
+//   • Inline JSON-LD (Breadcrumb/Article/FAQ) dropped; FAQ moved to page.faqs
+// No stale $185 Part B premium and no "Uintah Basin Medical Center" appeared, so
+// no correctness fixes were required (the $1/$10 figures are illustrative Part D
+// pharmacy-tier examples, not a premium — no usd()/figuresFor() needed).
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
+const context: PageContext = {
+  page: {
+    title: "Medicare Plans Accepted at Vernal Pharmacies — 2026 Guide",
+    heading: 'Medicare Plans Accepted at Vernal Pharmacies — 2026',
+    description:
+      "Which Medicare Part D and Advantage plans work at Smith's Pharmacy, Walgreens, and other Vernal pharmacies? Compare drug costs for 2026.",
+    taxonomy: {
+      silo: 'providers',
+      tags: ['providers', 'pharmacy', 'part-d', 'vernal', 'uintah-county', 'local'],
+    },
+    summary:
+      "Your pharmacy choice directly affects your Medicare drug costs. We compare Part D and Medicare Advantage drug pricing at Smith's Pharmacy, Walgreens, Walmart, and mail-order options for Vernal and the Uintah Basin — checking preferred vs. standard pricing so you pay less at the counter.",
+    faqs: [
       {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://vernalmedicare.com/"
+        question: "Which Medicare plans work at Smith's Pharmacy in Vernal?",
+        answer:
+          "Most Part D and Medicare Advantage plans include Smith's Pharmacy in their network. Some designate Smith's as a preferred pharmacy with lower copays. Call 435-219-5120 to check your plan.",
       },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Medicare Plans Accepted at Vernal Pharmacies — 2026",
-        "item": "https://vernalmedicare.com/medicare-vernal-pharmacies.html"
-      }
-    ]
+    ],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Medicare Plans Accepted at Vernal Pharmacies — 2026 Guide",
-    "description": "Which Medicare Part D and Advantage plans work at Smith's Pharmacy, Walgreens, and other Vernal pharmacies? Compare drug costs for 2026.",
-    "author": {
-      "@type": "Person",
-      "name": "Rocco DeLuca",
-      "jobTitle": "Licensed Insurance Agent"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Vernal Medicare",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://vernalmedicare.com/pictures/Rocco.webp"
-      }
-    },
-    "datePublished": "2026-04-04",
-    "dateModified": "2026-04-04",
-    "mainEntityOfPage": "https://vernalmedicare.com/medicare-vernal-pharmacies.html"
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-vernal-pharmacies.html',
+    ogType: 'article',
+    gaIds: ['G-NW6ENB89NF', 'G-FTDW9B2G6Q'],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Which Medicare plans work at Smith's Pharmacy in Vernal?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Most Part D and Medicare Advantage plans include Smith's Pharmacy in their network. Some designate Smith's as a preferred pharmacy with lower copays. Call 435-219-5120 to check your plan."
-        }
-      }
-    ]
-  }
-];
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-06-30',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Vernal Pharmacies', href: '/medicare-vernal-pharmacies.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="Medicare Plans Accepted at Vernal Pharmacies — 2026 Guide"
-  description="Which Medicare Part D and Advantage plans work at Smith's Pharmacy, Walgreens, and other Vernal pharmacies? Compare drug costs for 2026."
-  canonical="https://vernalmedicare.com/medicare-vernal-pharmacies.html"
-  ogType="article"
-  schema={schema}
-  gaIds={["G-NW6ENB89NF", "G-FTDW9B2G6Q"]}
->
-  <section class="cms-compliance" style="background:#fffbf0;border:2px solid #d97706;border-radius:8px;padding:1.5rem;margin:2rem auto;max-width:1100px;">
-    <h2 style="color:#92400e;margin-top:0;font-size:1.1rem;">Important Medicare Information</h2>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>We do not offer every plan available in your area.</strong> Any information we provide is limited to those plans we do offer in your area. Please contact <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711), 24 hours a day, 7 days a week, to get information on all of your options.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      Vernal Medicare is a licensed and certified representative of Medicare Advantage organizations and stand-alone prescription drug plans. Each of the organizations we represent has a Medicare contract. Enrollment in any plan depends on contract renewal.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>Not connected with or endorsed by the U.S. government or the federal Medicare program.</strong>
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      By calling the number above, you will be directed to a licensed insurance agent.
-    </p>
-  </section>
+<ArticlePage context={context}>
+  <p>Your pharmacy choice directly affects your Medicare drug costs. Part D plans and Medicare Advantage plans with drug coverage offer lower pricing at "preferred" pharmacies — and the preferred pharmacy varies by plan.</p>
 
-<main>
-  <section>
-    <p style="font-size:.9rem;color:#666;margin-bottom:.5rem;">
-      <em>By <strong>Rocco DeLuca</strong>, Licensed Insurance Agent &bull; Published 2026-04-04 &bull; Last updated 2026-04-04</em>
-    </p>
-    <h1 style="text-align:center;">Medicare Plans Accepted at Vernal Pharmacies — 2026</h1>
-    
-        <p>Your pharmacy choice directly affects your Medicare drug costs. Part D plans and Medicare Advantage plans with drug coverage offer lower pricing at "preferred" pharmacies — and the preferred pharmacy varies by plan.</p>
+  <h2>Pharmacies in Vernal and the Uintah Basin</h2>
+  <p><strong>Smith's Pharmacy</strong> — 1080 W Hwy 40, Vernal. Full-service pharmacy inside Smith's grocery. Many Part D plans list Smith's as a preferred or standard network pharmacy. This is also where Vernal Medicare operates. <strong>Walgreens</strong> — Vernal location. National chain with extensive Part D plan participation. <strong>Other options:</strong> Independent pharmacies, Walmart (Roosevelt), and mail-order pharmacy services.</p>
 
-        <h2>Pharmacies in Vernal and the Uintah Basin</h2>
-        <p><strong>Smith's Pharmacy</strong> — 1080 W Hwy 40, Vernal. Full-service pharmacy inside Smith's grocery. Many Part D plans list Smith's as a preferred or standard network pharmacy. This is also where Vernal Medicare operates. <strong>Walgreens</strong> — Vernal location. National chain with extensive Part D plan participation. <strong>Other options:</strong> Independent pharmacies, Walmart (Roosevelt), and mail-order pharmacy services.</p>
+  <h2>Preferred vs Standard Pharmacy Pricing</h2>
+  <p>Part D plans have two pharmacy tiers: preferred and standard. The same drug on the same plan can cost significantly less at a preferred pharmacy. For example, a generic drug might cost $1 at a preferred pharmacy and $10 at a standard one. We always check preferred pharmacy designations when comparing plans for Vernal residents.</p>
 
-        <h2>Preferred vs Standard Pharmacy Pricing</h2>
-        <p>Part D plans have two pharmacy tiers: preferred and standard. The same drug on the same plan can cost significantly less at a preferred pharmacy. For example, a generic drug might cost $1 at a preferred pharmacy and $10 at a standard one. We always check preferred pharmacy designations when comparing plans for Vernal residents.</p>
+  <h2>Mail-Order Pharmacy Options</h2>
+  <p>For maintenance medications (drugs you take regularly), mail-order pharmacies often provide 90-day supplies at lower per-unit costs. Most Part D plans include mail-order options. This can be especially convenient for Vernal residents who may not want to make frequent pharmacy trips.</p>
 
-        <h2>Mail-Order Pharmacy Options</h2>
-        <p>For maintenance medications (drugs you take regularly), mail-order pharmacies often provide 90-day supplies at lower per-unit costs. Most Part D plans include mail-order options. This can be especially convenient for Vernal residents who may not want to make frequent pharmacy trips.</p>
+  <h2>How We Compare Pharmacy Costs</h2>
+  <p>When we review your Part D options, we check each plan's pricing at your preferred pharmacy, identify which pharmacy is preferred for the plans that cover your drugs best, calculate total annual cost including premiums, copays, and deductible, and verify that all your medications are on the plan's formulary.</p>
 
-        <h2>How We Compare Pharmacy Costs</h2>
-        <p>When we review your Part D options, we check each plan's pricing at your preferred pharmacy, identify which pharmacy is preferred for the plans that cover your drugs best, calculate total annual cost including premiums, copays, and deductible, and verify that all your medications are on the plan's formulary.</p>
+  <p>Related: <a href="best-part-d-plans-vernal.html">Best Part D plans</a> | <a href="cheapest-prescription-drug-plans.html">Cheapest drug plans</a> | <a href="insulin-cost-medicare-vernal.html">Insulin costs</a></p>
+  <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
 
-        <p>Related: <a href="best-part-d-plans-vernal.html">Best Part D plans</a> | <a href="cheapest-prescription-drug-plans.html">Cheapest drug plans</a> | <a href="insulin-cost-medicare-vernal.html">Insulin costs</a></p>
-        <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
-        
-    <p style="text-align:center;margin-top:2rem;">
-      <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
-    </p>
-    <p style="text-align:center;margin-top:1rem;">
-      <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
-    </p>
-  </section>
-</main>
-
-
-  
-</BaseLayout>
+  <p style="text-align:center;margin-top:2rem;">
+    <a href={BUSINESS.quoteUrl} class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
+  </p>
+  <p style="text-align:center;margin-top:1rem;">
+    <strong>Call Rocco:</strong> <a href={`tel:${BUSINESS.phoneTel}`}>{BUSINESS.phone}</a> (TTY: {BUSINESS.tty}) &bull; <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
+  </p>
+</ArticlePage>
