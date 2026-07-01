@@ -65,20 +65,6 @@
   </url>
 
   <url>
-    <loc>https://vernalmedicare.com/news.html</loc>
-    <lastmod>2026-04-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://vernalmedicare.com/privacy.html</loc>
-    <lastmod>2026-04-04</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-
-  <url>
     <loc>https://vernalmedicare.com/medicare-agent-vernal.html</loc>
     <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>

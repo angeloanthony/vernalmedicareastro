@@ -31,6 +31,8 @@ interface Props {
   schema?: object[];
   // Set false on pages that should NOT emit the global LocalBusiness schema
   includeLocalBusiness?: boolean;
+  // Per-page robots meta (e.g. "noindex,follow"). Omitted → no robots meta.
+  robots?: string;
   // Optional extra stylesheet (e.g. aca.css on the ACA page)
   extraStylesheet?: string;
   // GA property IDs to fire. Defaults to primary; dual-tracked pages pass both.
@@ -54,6 +56,8 @@ const {
   includeLocalBusiness = false,
   extraStylesheet,
   gaIds = [B.gaId],
+  // Optional per-page robots directive (e.g. "noindex,follow" for search/privacy).
+  robots,
 } = Astro.props;
 
 // The always-on global property fires on every page; the per-page `gaIds`
@@ -73,6 +77,7 @@ const allGaIds = [B.gaGlobalId, ...gaIds].filter(
     <meta name="description" content={description} />
 
     <link rel="canonical" href={canonical} />
+    {robots && <meta name="robots" content={robots} />}
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
     <!-- Verification -->

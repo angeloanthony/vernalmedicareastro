@@ -17,20 +17,23 @@ const isActive = (href: string) => {
   return here === target;
 };
 
+// Absolute (root-relative) hrefs so the nav resolves correctly from ANY depth —
+// including subfolder pages like /medicare-news/* and /medicare-coverage/*.
+// (Relative hrefs 404'd on those pages; fixed in the M42 QA pass.)
 const navLinks = [
-  { href: 'index.html', label: 'Home' },
-  { href: 'medicare-decision-center.html', label: 'Start Here' },
-  { href: 'medicare-help-center.html', label: 'Medicare Help Center' },
-  { href: 'turning-65.html', label: 'Turning 65' },
-  { href: 'medigap.html', label: 'Medigap' },
-  { href: 'aca.html', label: 'Under-65 Health Insurance' },
-  { href: 'indemnity.html', label: 'Copay Coverage' },
-  { href: 'life.html', label: 'Life Insurance' },
-  { href: 'faq.html', label: 'FAQ' },
-  { href: 'reviews.html', label: 'Reviews' },
-  { href: 'about.html', label: 'About' },
-  { href: 'medicare-news.html', label: 'News' },
-  { href: 'medicare-search.html', label: 'Search' },
+  { href: '/', label: 'Home' },
+  { href: '/medicare-decision-center.html', label: 'Start Here' },
+  { href: '/medicare-help-center.html', label: 'Medicare Help Center' },
+  { href: '/turning-65.html', label: 'Turning 65' },
+  { href: '/medigap.html', label: 'Medigap' },
+  { href: '/aca.html', label: 'Under-65 Health Insurance' },
+  { href: '/indemnity.html', label: 'Copay Coverage' },
+  { href: '/life.html', label: 'Life Insurance' },
+  { href: '/faq.html', label: 'FAQ' },
+  { href: '/reviews.html', label: 'Reviews' },
+  { href: '/about.html', label: 'About' },
+  { href: '/medicare-news.html', label: 'News' },
+  { href: '/medicare-search.html', label: 'Search' },
 ];
 ---
 
@@ -46,13 +49,13 @@ const navLinks = [
 <header class="main-header">
   <div class="container header-top">
     <div class="logo-left">
-      <a href="index.html">
+      <a href="/">
         <img src="/pictures/rocco.webp" alt="Rocco DeLuca — Vernal Medicare" />
       </a>
     </div>
 
     <div class="site-name-center">
-      <a href="index.html" class="site-name" aria-label="Medicare Simplified — Home">
+      <a href="/" class="site-name" aria-label="Medicare Simplified — Home">
         <picture>
           <source srcset="/pictures/medicare-simplified.webp" type="image/webp" />
           <img src="/pictures/medicare-simplified.webp" alt="Medicare Simplified" class="brand-logo" />
