@@ -1,0 +1,103 @@
+---
+// src/pages/medicare-financial-assistance.astro — the "help paying for Medicare"
+// hub (M40, Wave 2). The unifying pillar the audit called for: it ties the
+// already-built cost + assistance pages (MSP, Extra Help, dual-eligible,
+// Medicaid, IRMAA, calculators) into ONE income-based journey. Pure routing +
+// framing over existing content — the Decision Center's "I need help paying"
+// path lands here.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const f = figuresFor();
+const year = f.year;
+const msp = f.medicareSavingsPrograms;
+
+const context: PageContext = {
+  page: {
+    title: 'Help Paying for Medicare — Programs & Assistance | Vernal Medicare',
+    heading: 'Help Paying for Medicare',
+    description:
+      'Medicare has real costs — but there’s more help than most people realize. A single guide to lowering them: Medicare Savings Programs, Extra Help, Medicaid, and smart plan choices, organized by your income. Free local help in the Uintah Basin.',
+    taxonomy: { silo: 'dual-eligible', tags: ['financial-assistance', 'costs', 'msp', 'extra-help', 'premium-assistance', 'dual-eligible'], pillar: true },
+    summary:
+      `Medicare isn’t free, but far more people qualify for help than use it. This hub pulls every assistance path into one place and sorts it by income: programs that pay your premiums (and more), help with drug costs, full Medicaid coordination, and — if you don’t qualify for a program — the plan choices that lower costs anyway. Start by finding where you fall.`,
+    faqs: [
+      { question: 'What help is there to pay for Medicare?', answer: `Several layers: Medicare Savings Programs pay your Part B premium (${usd(f.partB.premium, { cents: true })}/mo in ${year}) and, for QMB, your deductibles and coinsurance too; Extra Help lowers drug costs; and if your income is low enough, Medicaid can coordinate with Medicare to cover most out-of-pocket costs. Which one fits depends on your income and assets.` },
+      { question: 'How do I know if I qualify?', answer: `Compare your income and assets to the ${year} limits — start with our income-limits page, or use the Extra Help calculator. Qualifying for a Medicare Savings Program automatically qualifies you for Extra Help, so it’s worth checking even if you think you earn too much.` },
+      { question: 'What if I don’t qualify for any program?', answer: 'You can still lower costs by choosing the right plan — a $0-premium Medicare Advantage plan, a lower-cost Part D plan matched to your drugs, or a high-deductible Medigap plan. And the Part D $2,000 out-of-pocket cap now protects everyone. We can walk through the options free.' },
+    ],
+    sources: [
+      { title: 'Medicare.gov — get help with costs', url: 'https://www.medicare.gov/basics/costs/help', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      { when: 'Think you might qualify for help?', action: `call us free at ${BUSINESS.phone} — we’ll check every program and help you apply.` },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-financial-assistance.html',
+    ogType: 'website',
+    ogTitle: 'Help Paying for Medicare',
+    ogDescription: 'Every assistance path in one place — Medicare Savings Programs, Extra Help, Medicaid, and smart plan choices, sorted by income.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Help Paying for Medicare', href: '/medicare-financial-assistance.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>Medicare isn’t free — but far more people qualify for help than ever use it. This is the whole picture in one place, sorted by income. Don’t rule yourself out: the limits are higher than most people expect, and qualifying for one program often unlocks another. If it’s easier, just <strong>call {BUSINESS.phone}</strong> and we’ll check everything for you, free.</p>
+
+  <h2>Step 1: Find Where You Fall</h2>
+  <p>Almost all help depends on your income and assets. Start by comparing them to this year’s limits.</p>
+  <ul>
+    <li><strong><a href="medicare-income-limits-2026.html">Medicare income limits for {year}</a></strong> — every MSP, Extra Help, and IRMAA threshold, side by side.</li>
+    <li><strong><a href="medicare-extra-help-calculator.html">Extra Help eligibility calculator</a></strong> — estimate whether you qualify in a minute.</li>
+    <li><a href="medicare-costs.html">How much does Medicare cost?</a> — the {year} premiums and deductibles you’re trying to lower.</li>
+  </ul>
+
+  <h2>Step 2: The Programs, From Most Help to Least</h2>
+
+  <h3>Full Medicaid + Medicare (dual-eligible)</h3>
+  <p>If your income is low enough, Medicaid works alongside Medicare to cover most of what Medicare doesn’t — often leaving little or nothing out of pocket.</p>
+  <ul>
+    <li><strong><a href="dual-eligible.html">Dual-eligible (Medicare + Medicaid)</a></strong> — how the two work together.</li>
+    <li><a href="medicare-medicaid-utah.html">Medicare &amp; Medicaid in Utah</a> · <a href="d-snp-plans-utah.html">D-SNP plans</a> built for dual-eligibles.</li>
+  </ul>
+
+  <h3>Medicare Savings Programs (QMB, SLMB, QI)</h3>
+  <p>These pay your Part B premium ({usd(f.partB.premium, { cents: true })}/month in {year}) — and QMB pays your deductibles and coinsurance too, acting like a free supplement. Single-person income limits run up to about {usd(msp.qi.individual)}/month.</p>
+  <ul>
+    <li><strong><a href="medicare-savings-programs-utah.html">Medicare Savings Programs</a></strong> — QMB, SLMB, and QI explained, with {year} limits.</li>
+  </ul>
+
+  <h3>Extra Help for drug costs</h3>
+  <p>Extra Help (the Part D Low-Income Subsidy) can drop your drug premiums to as little as $0 and cap copays. Its income limit reaches higher than the MSPs — and an MSP qualifies you for it automatically.</p>
+  <ul>
+    <li><strong><a href="medicare-extra-help-utah.html">Extra Help</a></strong> — what it covers and how to apply.</li>
+    <li><a href="prescription-drug-assistance.html">Other prescription assistance</a> — manufacturer and foundation programs.</li>
+  </ul>
+
+  <h2>Step 3: No Program? Lower Costs Anyway</h2>
+  <p>Even without a program, the right plan choices save real money — and the {year} <a href="medicare-out-of-pocket-maximum-2026.html">out-of-pocket maximum</a> (including the {usd(f.partD.annualCap)} Part D cap) protects everyone.</p>
+  <ul>
+    <li><a href="zero-premium-medicare-advantage.html">$0-premium Medicare Advantage</a> · <a href="medicare-plan-g-high-deductible.html">high-deductible Medigap</a>.</li>
+    <li><a href="best-part-d-plans-vernal.html">Match a Part D plan to your drugs</a> · <a href="medicare-part-d-cost-calculator.html">Part D cost calculator</a> · <a href="cheapest-prescription-drug-plans.html">cheapest drug plans</a>.</li>
+  </ul>
+
+  <h2>Higher Income? A Different Problem</h2>
+  <p>If your income is high, the issue isn’t assistance — it’s the IRMAA surcharge added to your premiums. It can often be reduced or appealed.</p>
+  <ul>
+    <li><a href="medicare-irmaa.html">Understand IRMAA</a> · <a href="how-to-reduce-medicare-irmaa.html">how to reduce it</a> · <a href="medicare-irmaa-appeal-ssa-44.html">how to appeal (SSA-44)</a>.</li>
+  </ul>
+
+  <h2>Let’s Find Every Dollar of Help — Free</h2>
+  <p>Sorting out which programs you qualify for — and applying — is exactly what we do, at no cost. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) or <a href="medicare-quote-vernal.html">request a free review</a>. We’ll check your income and assets against every {year} program and help you enroll in whatever you qualify for. No cost, no pressure.</p>
+</ArticlePage>

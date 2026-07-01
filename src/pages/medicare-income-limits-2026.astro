@@ -1,0 +1,131 @@
+---
+// src/pages/medicare-income-limits-2026.astro — the income-limits reference (M40).
+// The one genuinely-missing page the M40 audit found: every 2026 threshold that
+// governs help paying for Medicare, side by side, so a person can see "where do
+// I fall?" in one place. FULLY data-driven from figuresFor() — no hard-coded
+// numbers — so bumping CURRENT_YEAR rolls this page over automatically.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const f = figuresFor();
+const year = f.year;
+const msp = f.medicareSavingsPrograms;
+const eh = f.extraHelp;
+const irmaaSingle = f.irmaa.single[0];
+const irmaaMarried = f.irmaa.married[0];
+const lookbackYear = year - 2;
+
+const context: PageContext = {
+  page: {
+    title: `Medicare Income Limits ${year} — MSP, Extra Help & IRMAA | Vernal Medicare`,
+    heading: `Medicare Income Limits for ${year}`,
+    description: `Every ${year} Medicare income and resource limit in one place — Medicare Savings Programs (QMB, SLMB, QI), Extra Help, and where IRMAA surcharges begin. See where you fall and what help you qualify for.`,
+    taxonomy: { silo: 'costs-irmaa', tags: ['income-limits', 'msp', 'extra-help', 'irmaa', 'costs', 'assistance'] },
+    summary: `Whether you get help paying for Medicare — or pay a surcharge — comes down to a handful of income and resource limits. Here they all are for ${year}, in one place: the Medicare Savings Programs (QMB, SLMB, QI), Extra Help for drug costs, and the income level where IRMAA surcharges begin. Find where you fall, then follow the link to apply or estimate.`,
+    faqs: [
+      { question: `What income is too much for Medicare help in ${year}?`, answer: `It depends on the program. For a single person, Medicare Savings Programs run up to about ${usd(msp.qi.individual)}/month of income (the QI limit). Extra Help reaches higher — roughly 150% of the federal poverty level. Above those, you likely won’t qualify for a program, but you can still lower costs by choosing the right plan. Our calculators check your exact situation.` },
+      { question: 'Do my assets count, not just income?', answer: `Yes. Medicare Savings Programs also have a resource (asset) limit — about ${usd(msp.resources.individual)} for a single person and ${usd(msp.resources.couple)} for a couple in ${year}. Extra Help has its own, higher resource limits (${usd(eh.resourcesIndividual)} single, ${usd(eh.resourcesCouple)} couple). Your home and usually one car don’t count.` },
+      { question: 'What income does IRMAA use?', answer: `IRMAA looks back two years — your ${year} surcharge is based on your ${lookbackYear} tax return (MAGI). Surcharges begin above ${usd(irmaaSingle)} (single) or ${usd(irmaaMarried)} (married filing jointly).` },
+    ],
+    sources: [
+      { title: 'Medicare.gov — get help with costs', url: 'https://www.medicare.gov/basics/costs/help', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      { when: 'Not sure which program you qualify for?', action: `call us free at ${BUSINESS.phone} — we’ll check your income and assets against every ${year} limit.` },
+    ],
+  },
+  meta: {
+    canonical: `https://vernalmedicare.com/medicare-income-limits-2026.html`,
+    ogType: 'article',
+    ogTitle: `Medicare Income Limits for ${year}`,
+    ogDescription: `MSP, Extra Help, and IRMAA thresholds for ${year} — all in one place.`,
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Costs', href: '/medicare-costs.html' },
+    { name: `Income Limits ${year}`, href: `/medicare-income-limits-2026.html` },
+  ],
+};
+
+const cell = 'padding:10px; border:1px solid #ddd;';
+const head = 'padding:10px; border:1px solid #ddd; text-align:left; background:#f4f6f8;';
+---
+
+<ArticlePage context={context}>
+  <p>Whether you get <a href="medicare-financial-assistance.html">help paying for Medicare</a> — or owe an income surcharge — comes down to a few limits. Here they are for {year}, all in one place. Find where you fall, then follow the link to apply or estimate. Every number below is the official {year} figure; when the limits change, this page updates automatically.</p>
+
+  <h2>Medicare Savings Programs (MSP)</h2>
+  <p>State-run programs that pay your Medicare premiums (and, for QMB, deductibles and coinsurance too). These are <strong>monthly income</strong> limits for {year}:</p>
+  <table style="border-collapse:collapse; width:100%; margin:1rem 0;">
+    <thead>
+      <tr>
+        <th style={head}>Program</th>
+        <th style={head}>What it pays</th>
+        <th style={head}>Single (monthly)</th>
+        <th style={head}>Married (monthly)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style={cell}><strong>QMB</strong></td>
+        <td style={cell}>Part A &amp; B premiums + deductibles &amp; coinsurance</td>
+        <td style={cell}>{usd(msp.qmb.individual)}</td>
+        <td style={cell}>{usd(msp.qmb.couple)}</td>
+      </tr>
+      <tr>
+        <td style={cell}><strong>SLMB</strong></td>
+        <td style={cell}>Part B premium ({usd(f.partB.premium, { cents: true })}/mo)</td>
+        <td style={cell}>{usd(msp.slmb.individual)}</td>
+        <td style={cell}>{usd(msp.slmb.couple)}</td>
+      </tr>
+      <tr>
+        <td style={cell}><strong>QI</strong></td>
+        <td style={cell}>Part B premium (limited funding — apply early)</td>
+        <td style={cell}>{usd(msp.qi.individual)}</td>
+        <td style={cell}>{usd(msp.qi.couple)}</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="color:#555; font-size:.95rem;">MSP resource (asset) limits for {year}: about {usd(msp.resources.individual)} (single) and {usd(msp.resources.couple)} (married). Your home and usually one car don’t count. Full details: <a href="medicare-savings-programs-utah.html">Medicare Savings Programs</a>.</p>
+
+  <h2>Extra Help (Part D drug costs)</h2>
+  <p>Extra Help — also called the Low-Income Subsidy — lowers what you pay for prescriptions. Its income limit reaches higher than the MSPs (roughly 150% of the federal poverty level), and qualifying for an MSP <strong>automatically</strong> qualifies you for Extra Help. The {year} resource (asset) limits:</p>
+  <table style="border-collapse:collapse; width:100%; margin:1rem 0;">
+    <thead>
+      <tr>
+        <th style={head}>Household</th>
+        <th style={head}>Resource limit ({year})</th>
+        <th style={head}>What you pay</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style={cell}>Single</td>
+        <td style={cell}>{usd(eh.resourcesIndividual)}</td>
+        <td style={cell} rowspan="2">As little as $0 in premiums and up to {usd(eh.maxDrugCopay, { cents: true })} per drug</td>
+      </tr>
+      <tr>
+        <td style={cell}>Married</td>
+        <td style={cell}>{usd(eh.resourcesCouple)}</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="color:#555; font-size:.95rem;">Estimate your eligibility with the <a href="medicare-extra-help-calculator.html">Extra Help calculator</a>, or read the full <a href="medicare-extra-help-utah.html">Extra Help</a> guide.</p>
+
+  <h2>IRMAA — the high-income surcharge</h2>
+  <p>At the other end: if your income is high, you pay a surcharge on top of your Part B and Part D premiums. IRMAA uses a <strong>two-year lookback</strong> — your {year} surcharge is based on your {lookbackYear} tax return. It begins above:</p>
+  <ul>
+    <li><strong>{usd(irmaaSingle)}</strong> — single or head of household</li>
+    <li><strong>{usd(irmaaMarried)}</strong> — married filing jointly</li>
+  </ul>
+  <p>See the full tiered table on <a href="medicare-irmaa-brackets-2026.html">{year} IRMAA brackets</a>, estimate yours with the <a href="medicare-irmaa-calculator.html">IRMAA calculator</a>, or learn <a href="how-to-reduce-medicare-irmaa.html">how to reduce it</a>.</p>
+
+  <h2>Where Do You Fall? — Free Check</h2>
+  <p>These limits decide real money — a premium paid for you, or a surcharge added on. The exact answer depends on your income <em>and</em> assets, and the rules have exceptions. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) and we’ll check you against every {year} limit and help you apply for anything you qualify for. No cost, no pressure. Start at the <a href="medicare-financial-assistance.html">help-paying-for-Medicare hub</a>.</p>
+</ArticlePage>
