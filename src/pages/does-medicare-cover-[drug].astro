@@ -65,6 +65,9 @@ const context: PageContext = {
   <h2>Which part of Medicare covers it?</h2>
   <p>{d.whichPart}</p>
 
+  <h2>Typical formulary tier</h2>
+  <p>{d.tier}. Your exact tier — and copay — depend on the plan you choose, which is why matching the formulary to your medications matters.</p>
+
   <h2>Prior authorization &amp; plan rules</h2>
   <p>{d.priorAuth}</p>
 
@@ -87,6 +90,12 @@ const context: PageContext = {
       </ul>
     </Fragment>
   )}
+
+  <h2>Related Medicare guides</h2>
+  <ul>
+    <li><a href="medicare-drug-coverage.html">All drug coverage</a> · <a href="best-part-d-plans-vernal.html">Part D plans</a> · <a href="tier-3-vs-tier-4-medicare-part-d.html">how drug tiers work</a>.</li>
+    <li><a href="medicare-costs.html">Medicare costs</a> · <a href="medicare-glossary.html">Glossary</a> · <a href="medicare-help-center.html">Medicare Help Center</a>.</li>
+  </ul>
 
   <h2>Get a Real Answer for Your Plan — Free</h2>
   <p>Coverage and cost depend on your specific plan and diagnosis. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) with your medication list, and we’ll tell you exactly what {d.brand} costs on your plan — and whether a different plan would cover it better. No cost, no pressure.</p>

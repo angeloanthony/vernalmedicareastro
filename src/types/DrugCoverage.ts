@@ -36,6 +36,8 @@ export interface DrugCoverageEntry {
   coveredWhen: string;
   /** Which part of Medicare covers it (usually Part D). */
   whichPart: string;
+  /** Typical formulary tier (varies by plan) — e.g. "Brand tier (often Tier 3)". */
+  tier: string;
   /** Prior-authorization / step-therapy note. */
   priorAuth: string;
   /** What to do if it isn't covered or costs too much. */
