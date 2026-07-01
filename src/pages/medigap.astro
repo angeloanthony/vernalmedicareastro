@@ -10,7 +10,6 @@
 // page scripts are preserved byte-for-byte in the body slot. No stale $185/$257/
 // $1,676 figures appeared, so no figuresFor()/usd data layer is needed.
 import ArticlePage from '../components/layout/ArticlePage.astro';
-import { BUSINESS } from '../data/business';
 import type { PageContext } from '../types/Page';
 
 const context: PageContext = {
@@ -168,7 +167,7 @@ const context: PageContext = {
 
 
 
-<script>
+<script is:inline>
   (function(){
     document.addEventListener('click', function(e){
       const link = e.target.closest('.vm-comic');
@@ -210,7 +209,7 @@ const context: PageContext = {
   })();
   </script>
 
-<script>
+<script is:inline>
   (function(){
     const wrap = document.querySelector('.smile-wrap');
     if (!wrap) return;

@@ -1,4 +1,4 @@
 {
-  "astroCheckErrors": 47,
-  "note": "Pre-existing type errors in legacy migrated pages (not framework code). The verify gate fails if errors EXCEED this number. Ratchet DOWN as legacy pages are cleaned in Phase 2/6; never raise it. Ratcheted 59->47 in M14 when the Vernal home-turf cluster was migrated off BaseLayout."
+  "astroCheckErrors": 0,
+  "note": "Legacy type-error debt is CLEARED (was 59, ratcheted to 0 in the M35 Quality Sprint). The gate now fails on ANY new type error. Keep it at 0: fix errors, do not raise this. (M35 cleared the last errors by marking legacy vanilla-JS inline scripts is:inline and rewriting privacy.astro.)"
 }

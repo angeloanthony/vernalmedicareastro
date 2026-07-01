@@ -9,7 +9,6 @@
 // The Vimeo <iframe> embed, the flip-comic, and the page script are preserved
 // byte-for-byte in the body slot.
 import ArticlePage from '../components/layout/ArticlePage.astro';
-import { BUSINESS } from '../data/business';
 import type { PageContext } from '../types/Page';
 
 const context: PageContext = {
@@ -175,7 +174,7 @@ const context: PageContext = {
       <p>Not connected with or endorsed by HealthCare.gov or any government agency.</p>
     </section>
 
-<script>
+<script is:inline>
   (function(){
     document.addEventListener('click', function(e){
       const link = e.target.closest('.vm-comic');

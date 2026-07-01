@@ -8,7 +8,6 @@
 // page), so marketingDisclaimer is unset. The Vimeo <iframe> embed, the flip-comic,
 // and the page script are preserved byte-for-byte in the body slot.
 import ArticlePage from '../components/layout/ArticlePage.astro';
-import { BUSINESS } from '../data/business';
 import type { PageContext } from '../types/Page';
 
 const context: PageContext = {
@@ -160,7 +159,7 @@ const context: PageContext = {
       <p>Life insurance is subject to underwriting. Policy features, riders, and availability vary by carrier and state. Read the policy for terms, exclusions, and limitations.</p>
     </section>
 
-<script>
+<script is:inline>
   (function(){
     document.addEventListener('click', function(e){
       const link = e.target.closest('.vm-comic');

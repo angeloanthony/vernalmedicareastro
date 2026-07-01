@@ -1,30 +1,62 @@
 ---
-// src/pages/privacy.astro  —  converted from privacy.html
-// URL preserved: /privacy.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/privacy.astro — Privacy Policy (M35 quality sprint). Rewritten:
+// the legacy file wrongly held Terms content with a canonical to /terms.html and
+// a dead inline script (type errors). Now a real Privacy Policy on the framework,
+// canonical /privacy.html. Terms of Use live at /terms.html.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [];
+const context: PageContext = {
+  page: {
+    title: 'Privacy Policy | Vernal Medicare',
+    heading: 'Privacy Policy',
+    description:
+      'How Vernal Medicare collects, uses, and protects your information, and the choices you have.',
+    taxonomy: { silo: 'trust', tags: ['trust', 'privacy', 'legal'] },
+    summary:
+      'Your privacy matters. This policy explains what information we collect when you use vernalmedicare.com or contact us, how we use it, who we share it with (we don’t sell it), and your choices.',
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/privacy.html',
+    ogType: 'article',
+    robots: 'noindex,follow',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Privacy Policy', href: '/privacy.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="Terms & Conditions | Vernal Medicare"
-  description="Terms for using VernalMedicare.com and Medicare marketing disclosures."
-  canonical="https://vernalmedicare.com/terms.html"
-  gaIds={[]}
->
-  <main class="container" style="max-width:900px;line-height:1.7">
-    <h1>Terms &amp; Conditions</h1>
-    <p><strong>No government affiliation.</strong> We are not connected with or endorsed by the U.S. government or the federal Medicare program.</p>
-    <p><strong>Compensation.</strong> Our help is free to you. We may be paid by plan sponsors/insurers. This does not change the plans we show you.</p>
-    <p><strong>TPMO disclosure.</strong> We do not offer every plan available in your area. Information we provide is limited to the plans we do offer. Contact <a href="https://www.medicare.gov" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 1-877-486-2048), 24/7, to get information on all your options.</p>
-    <p><strong>Availability.</strong> Plan availability varies by ZIP/county. Enrollment depends on contract renewal.</p>
-    <p><strong>Use of site.</strong> Information is general and may change. Using this site does not create a client/broker relationship.</p>
-    <p>See our <a href="privacy.html">Privacy Policy</a>.</p>
-  </main>
+<ArticlePage context={context}>
+  <p><em>Last updated: July 2026.</em> This Privacy Policy explains how Vernal Medicare handles information in connection with vernalmedicare.com and our services.</p>
 
-  
+  <h2>Information We Collect</h2>
+  <ul>
+    <li><strong>Information you give us</strong> — when you call, email, request a quote, or ask for help, we collect what you share (name, contact details, and the Medicare details needed to help you).</li>
+    <li><strong>Usage data</strong> — like most sites, we use analytics to see which pages are visited, so we can improve the content. This is aggregate and doesn’t identify you personally.</li>
+    <li><strong>Cookies</strong> — small files that help the site work and let analytics count visits. You can disable cookies in your browser.</li>
+  </ul>
 
-<script>document.getElementById('y').textContent=new Date().getFullYear()</script>
-</BaseLayout>
+  <h2>How We Use It</h2>
+  <p>We use your information to answer your questions, compare and enroll you in coverage when you ask, provide year-round support, and improve the site. We only use the Medicare information you share to help you with Medicare.</p>
+
+  <h2>How We Share It</h2>
+  <p><strong>We do not sell your personal information.</strong> We share it only as needed to serve you — for example, with an insurance carrier when you choose to enroll in its plan, or with service providers that help us operate (such as analytics), under confidentiality obligations. We may disclose information if required by law.</p>
+
+  <h2>Data Security &amp; Retention</h2>
+  <p>We take reasonable measures to protect your information and keep it only as long as needed to serve you and meet legal and carrier requirements.</p>
+
+  <h2>Your Choices</h2>
+  <p>You can decline to share information (though it may limit the help we can provide), disable cookies in your browser, and ask us what we have on file or to update or delete it. Contact us anytime.</p>
+
+  <h2>Medicare Disclosures</h2>
+  <p>Vernal Medicare is not connected with or endorsed by the U.S. government or the federal Medicare program. Our help is free to you; we may be paid by insurers, which does not change the plans we show you. See our <a href="terms.html">Terms of Use</a>.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about your privacy? Call {BUSINESS.phone} (TTY: {BUSINESS.tty}) or email <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>.</p>
+</ArticlePage>

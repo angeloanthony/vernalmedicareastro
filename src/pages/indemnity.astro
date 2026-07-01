@@ -11,7 +11,6 @@
 // byte-for-byte in the body slot. No Medicare-figures data layer is needed, so no
 // figuresFor()/usd import.
 import ArticlePage from '../components/layout/ArticlePage.astro';
-import { BUSINESS } from '../data/business';
 import type { PageContext } from '../types/Page';
 
 const context: PageContext = {
@@ -157,7 +156,7 @@ const context: PageContext = {
       <p>Not connected with or endorsed by the U.S. government or the federal Medicare program.</p>
     </section>
 
-<script>
+<script is:inline>
   (function(){
     document.addEventListener('click', function(e){
       const link = e.target.closest('.vm-comic');

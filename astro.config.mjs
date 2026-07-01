@@ -49,7 +49,9 @@ export default defineConfig({
   // stay mostly empty. Only add entries here if a specific page's URL truly
   // has to change — and pair it with a status checker validation after launch.
   redirects: {
-    // Example (commented out — we are NOT changing URLs in this migration):
-    // '/old-page.html': '/new-page.html',
+    // The bespoke /news.html was superseded by the News Center (M31/M35).
+    // With build.format:'file', Astro appends .html to the key — so the key is
+    // '/news' to emit dist/news.html (which serves the old /news.html URL).
+    '/news': '/medicare-news.html',
   },
 });
