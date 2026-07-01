@@ -1,0 +1,82 @@
+---
+// src/pages/how-to-reduce-medicare-irmaa.astro — IRMAA cluster capstone (M10.1).
+// Educational MAGI-planning page; the "act on it" companion to the appeal path.
+// NOT tax advice — carries an explicit disclaimer. Last IRMAA page: the cluster
+// is complete after this (hub → brackets → calculator → LCE → appeal → reduce).
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+import type { PageContext } from '../types/Page';
+
+const f = figuresFor();
+const year = f.year;
+const single0 = f.irmaa.single[0];
+const married0 = f.irmaa.married[0];
+
+const context: PageContext = {
+  page: {
+    title: `How to Reduce Medicare IRMAA Legally — MAGI Planning (${year}) | Vernal Medicare`,
+    heading: 'How to Reduce Your Medicare IRMAA (Legally)',
+    description: `IRMAA is based on your MAGI, and MAGI can be planned. Learn the legitimate levers — Roth timing, QCDs, capital-gains and property-sale timing — that can keep you under a bracket.`,
+    taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'planning', 'magi', 'costs', 'part-b', 'part-d'] },
+    summary: `Because IRMAA is set entirely by your Modified Adjusted Gross Income (MAGI), the way to lower it is to manage the income that lands on your tax return. This is educational MAGI planning — not tax advice — covering the common, legitimate levers: Roth conversion timing, qualified charitable distributions, capital-gains and property-sale timing, and watching the bracket thresholds (${usd(single0)} single / ${usd(married0)} married in ${year}).`,
+    faqs: [
+      { question: 'Can I really lower my IRMAA?', answer: 'You can’t change the rules, but you can manage the income that determines your tier. Because a single dollar over a threshold bumps you to the next bracket for the whole year, keeping MAGI just under a line — through timing and account choices — is the entire game.' },
+      { question: 'Is reducing IRMAA legal?', answer: 'Managing when and how income is realized is ordinary, legitimate tax planning — the same MAGI that drives your taxes drives IRMAA. What matters is doing it correctly, which is why a tax professional should sign off on any specific move.' },
+      { question: 'Does a Roth conversion raise IRMAA?', answer: 'Yes — a Roth conversion adds to MAGI in the year you convert, which can push you into a higher IRMAA tier two years later. The trade-off is that Roth withdrawals later are not counted in MAGI at all, so conversions are about timing across years.' },
+    ],
+    sources: [
+      { title: 'Medicare premiums: Rules for higher-income beneficiaries', url: 'https://www.ssa.gov/benefits/medicare/medicare-premiums.html', publisher: 'Social Security Administration' },
+      { title: 'Retirement topics — Qualified charitable distributions', url: 'https://www.irs.gov/retirement-plans/retirement-plans-faqs-regarding-required-minimum-distributions', publisher: 'IRS.gov' },
+    ],
+    nextSteps: [
+      { when: 'Before you make a move,', action: 'check which bracket you’re near, then run it past your tax advisor — and call us free to see the Medicare side.' },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/how-to-reduce-medicare-irmaa.html',
+    ogType: 'article',
+    ogTitle: 'How to Reduce Your Medicare IRMAA (Legally)',
+    ogDescription: 'The legitimate MAGI-planning levers that can keep you under an IRMAA bracket.',
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  medicalDisclaimer: 'Educational information only — not tax, legal, or financial advice. IRMAA and MAGI planning depend on your full tax picture; confirm any specific move with a qualified tax professional before acting.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'IRMAA', href: '/medicare-irmaa.html' },
+    { name: 'Reduce IRMAA', href: '/how-to-reduce-medicare-irmaa.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p><a href="medicare-irmaa.html">IRMAA</a> is set by one number: your <strong>Modified Adjusted Gross Income (MAGI)</strong> from two years back. That's actually good news — because MAGI is something you can plan around. Cross a <a href="medicare-irmaa-brackets-2026.html">bracket</a> by a single dollar and you pay the higher surcharge for the whole year, so the goal is simple: keep MAGI just under the line that matters for you.</p>
+
+  <p>The levers below are ordinary, legitimate tax planning. None of this is tax advice — it's a map of what to discuss with your tax professional.</p>
+
+  <h2>Time Roth Conversions Carefully</h2>
+  <p>A <strong>Roth conversion</strong> adds to your MAGI in the year you convert, which can raise IRMAA two years later. But money already in a Roth is <em>not</em> counted in MAGI when you withdraw it. So conversions are a timing decision: paying tax (and possibly one year of IRMAA) now to shrink future taxable withdrawals — ideally done in lower-income years, or spread across several years to avoid jumping a bracket in any single one.</p>
+
+  <h2>Use Qualified Charitable Distributions (QCDs)</h2>
+  <p>If you're subject to Required Minimum Distributions, a <strong>QCD</strong> lets you send money directly from an IRA to a charity. It satisfies your RMD but is excluded from MAGI — so it can lower the income that drives IRMAA while meeting the distribution you owed anyway. For charitably-inclined retirees near a bracket, it's one of the cleanest tools available.</p>
+
+  <h2>Manage Capital Gains and RMD Timing</h2>
+  <p>Realized capital gains land in MAGI, so <strong>spreading a large sale across tax years</strong>, harvesting losses to offset gains, or simply choosing <em>when</em> to sell can keep a one-time gain from tipping you into a higher tier. The same goes for the timing of discretionary withdrawals — bunching them into a year you're already in a high bracket, and easing off in years you're near a threshold.</p>
+
+  <h2>Plan a Property Sale</h2>
+  <p>Selling a home or investment property can create a large one-year gain that spikes IRMAA — but the capital-gains exclusion on a primary residence, installment sales, and choosing the sale year deliberately can all soften the MAGI hit. If a sale is coming, model the IRMAA impact <em>before</em> you close, not after the determination letter arrives.</p>
+
+  <h2>Watch the Thresholds — and the Traps</h2>
+  <ul>
+    <li><strong>Know your line.</strong> In {year}, IRMAA starts above {usd(single0)} (single) or {usd(married0)} (married filing jointly). <a href="medicare-irmaa-calculator.html">Estimate where you land</a> before year-end, while you can still act.</li>
+    <li><strong>Tax-exempt interest still counts.</strong> Municipal-bond interest is added back into MAGI for IRMAA even though it's income-tax-free.</li>
+    <li><strong>Married-filing-separately is a trap.</strong> It uses much lower thresholds and can trigger a high surcharge at modest income.</li>
+  </ul>
+
+  <h2>If Your Income Already Dropped</h2>
+  <p>Planning is for future years. If your income <em>already</em> fell because of retirement, a spouse's death, or another <a href="medicare-irmaa-life-changing-events.html">life-changing event</a>, you don't plan around it — you <a href="medicare-irmaa-appeal-ssa-44.html">appeal it with Form SSA-44</a> right now.</p>
+
+  <p>IRMAA planning sits at the intersection of taxes and Medicare. Bring your tax advisor for the tax side, and <strong>call us free</strong> for the Medicare side — we'll help you see which bracket you're near and what a move actually saves.</p>
+</ArticlePage>

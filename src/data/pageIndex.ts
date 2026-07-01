@@ -79,6 +79,11 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Medicare IRMAA Life-Changing Events',
     taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'appeal', 'life-changing-events', 'costs', 'part-b', 'part-d'] },
   },
+  {
+    href: '/how-to-reduce-medicare-irmaa.html',
+    title: 'How to Reduce Medicare IRMAA (Legally)',
+    taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'planning', 'magi', 'costs', 'part-b', 'part-d'] },
+  },
   // ── Dual-Eligible / Medicaid silo (M6) ──
   {
     href: '/dual-eligible.html',
