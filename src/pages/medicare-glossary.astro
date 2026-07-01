@@ -1,0 +1,140 @@
+---
+// src/pages/medicare-glossary.astro — Medicare Glossary (M29). A categorized
+// knowledge system rendered from data/glossary.ts: each term leads with a
+// plain-language answer (people + AI search), then the detail, then a link to
+// the Vernal page that OWNS the topic (reinforces pillars, never competes).
+// The data model supports promoting a term to its own page later.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { GLOSSARY } from '../data/glossary';
+import { CATEGORY_META, type GlossaryCategory } from '../types/Glossary';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const CATEGORY_ORDER: GlossaryCategory[] = ['enrollment', 'costs', 'plans', 'assistance', 'coverage'];
+const bySlug = new Map(GLOSSARY.map((t) => [t.slug, t]));
+const groups = CATEGORY_ORDER.map((cat) => ({
+  cat,
+  meta: CATEGORY_META[cat],
+  terms: GLOSSARY.filter((t) => t.category === cat).sort((a, b) => a.term.localeCompare(b.term)),
+}));
+
+const context: PageContext = {
+  page: {
+    title: 'Medicare Glossary — Plain-English Terms | Vernal Medicare',
+    heading: 'Medicare Glossary',
+    description:
+      'Medicare terms explained in plain English, by category — enrollment, costs, plans, financial assistance, and coverage. Each term links to a deeper guide.',
+    taxonomy: { silo: 'medicare-101', tags: ['medicare-101', 'glossary', 'reference', 'overview'] },
+    summary:
+      `Medicare has its own vocabulary. This glossary explains ${GLOSSARY.length} key terms in plain English, grouped by topic, with a link from each to the guide that covers it in depth. Not sure what something on your paperwork means? Look it up here, or call us free.`,
+    faqs: [
+      { question: 'What is IRMAA?', answer: 'IRMAA (the Income-Related Monthly Adjustment Amount) is an income-based surcharge added to your Medicare Part B and Part D premiums if your income is above the year’s threshold.' },
+      { question: 'What is the difference between a copay and coinsurance?', answer: 'A copayment is a flat dollar amount (e.g. $20 per visit); coinsurance is a percentage of the cost (e.g. 20% under Part B). Copays are predictable; coinsurance scales with the price of care.' },
+      { question: 'What does "creditable coverage" mean?', answer: 'Creditable coverage is other drug or health coverage at least as good as Medicare’s. Keeping it lets you delay Medicare without a late-enrollment penalty.' },
+    ],
+    sources: [
+      { title: 'Medicare.gov glossary', url: 'https://www.medicare.gov/glossary', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      { when: 'Confused by a term on your Medicare paperwork?', action: `call us free at ${BUSINESS.phone} — we’ll explain it in plain English.` },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-glossary.html',
+    ogType: 'article',
+    ogTitle: 'Medicare Glossary — Plain-English Terms',
+    ogDescription: 'Medicare terms explained simply, by category, each linked to a deeper guide.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare Glossary', href: '/medicare-glossary.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>Medicare comes with a lot of jargon. Below, {GLOSSARY.length} of the terms that come up most — in plain English first, then the detail — grouped by topic. Each term links to the guide that covers it in depth.</p>
+
+  <nav class="glossary-nav" aria-label="Glossary categories">
+    {groups.map((g) => <a href={`#${g.cat}`}>{g.meta.label}</a>)}
+  </nav>
+
+  {groups.map((g) => (
+    <section id={g.cat} class="glossary-category">
+      <h2>{g.meta.label}</h2>
+      <p class="glossary-cat-blurb">{g.meta.blurb}</p>
+      <dl class="glossary-list">
+        {g.terms.map((t) => (
+          <div id={t.slug} class="glossary-term">
+            <dt>{t.term}</dt>
+            <dd>
+              <p><strong>{t.short}</strong></p>
+              <p>{t.full}</p>
+              <p class="glossary-links">
+                {t.authorityHref && <a href={t.authorityHref}>Learn more: {t.authorityLabel}</a>}
+                {t.calculatorHref && t.calculatorHref !== t.authorityHref && (
+                  <Fragment> · <a href={t.calculatorHref}>calculator</a></Fragment>
+                )}
+                {t.related && t.related.length > 0 && (
+                  <Fragment>
+                    {' · Related: '}
+                    {t.related
+                      .map((slug) => bySlug.get(slug))
+                      .filter(Boolean)
+                      .map((r, i) => (
+                        <Fragment>{i > 0 ? ', ' : ''}<a href={`#${r!.slug}`}>{r!.term.replace(/\s*\(.*\)$/, '')}</a></Fragment>
+                      ))}
+                  </Fragment>
+                )}
+              </p>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  ))}
+
+  <h2>Still Have Questions?</h2>
+  <p>A glossary can only go so far. If a term on your Medicare mail or a plan document has you stuck, <strong>call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) — we’ll walk through it in plain English, no pressure. Start anywhere in the <a href="medicare-help-center.html">Medicare Help Center</a>.</p>
+</ArticlePage>
+
+<style>
+  .glossary-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.25rem 0 2rem;
+  }
+  .glossary-nav a {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    background: var(--color-surface, #f4f6f8);
+    border: 1px solid var(--color-border, #d8dee4);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+  .glossary-cat-blurb {
+    color: var(--color-text-muted, #667085);
+    margin-top: -0.35rem;
+  }
+  .glossary-list { margin: 0; }
+  .glossary-term {
+    padding: 1rem 0;
+    border-top: 1px solid var(--color-border, #e5e9ee);
+  }
+  .glossary-term dt {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.35rem;
+  }
+  .glossary-term dd { margin: 0; }
+  .glossary-term dd p { margin: 0.35rem 0; }
+  .glossary-links {
+    font-size: 0.9rem;
+    color: var(--color-text-muted, #667085);
+  }
+</style>

@@ -31,6 +31,11 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     taxonomy: { silo: 'medicare-101', tags: ['part-a', 'part-b', 'original-medicare'] },
   },
   {
+    href: '/medicare-glossary.html',
+    title: 'Medicare Glossary',
+    taxonomy: { silo: 'medicare-101', tags: ['medicare-101', 'glossary', 'reference', 'overview'] },
+  },
+  {
     href: '/medicare-home-health-utah.html',
     title: 'Medicare Home Health Coverage in Utah',
     taxonomy: { silo: 'medicare-101', tags: ['home-health', 'coverage', 'part-a', 'utah'] },
