@@ -14,11 +14,15 @@ export const ROCCO: Author = {
   name: BUSINESS.legalAgent, // 'Rocco DeLuca'
   jobTitle: 'Licensed Medicare Insurance Agent',
   role: 'author',
-  url: '/medicare-agent-vernal.html',
+  url: '/about.html', // canonical bio / "Meet Rocco" (E-E-A-T anchor)
   sameAs: ['https://www.facebook.com/VernalMedicare'],
+  // True, general statements (no unverified specifics). Rocco can add his
+  // license #, NPN, and specific carrier appointments on the credentials page.
   credentials: [
-    'Licensed Medicare insurance agent',
-    'Local, independent — serving Vernal and the Uintah Basin',
+    'Licensed Medicare insurance agent (Utah)',
+    'Completes annual AHIP Medicare certification',
+    'Carrier-certified before offering any Medicare Advantage or Part D plan',
+    'Local & independent — serving Vernal and the Uintah Basin',
   ],
 };
 
