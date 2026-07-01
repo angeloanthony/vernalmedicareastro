@@ -1,0 +1,126 @@
+---
+// src/pages/medicare-extra-help-calculator.astro — Calculator Platform (M33).
+// Estimates Extra Help / Medicare Savings Program eligibility from income +
+// resources. Encourages applying (free) — it's an estimate, not a determination.
+import CalculatorPage from '../components/layout/CalculatorPage.astro';
+import CalculatorSection from '../components/calculator/CalculatorSection.astro';
+import CalculatorInput from '../components/calculator/CalculatorInput.astro';
+import CalculatorResult from '../components/calculator/CalculatorResult.astro';
+import CalculatorPrint from '../components/calculator/CalculatorPrint.astro';
+import CalculatorShare from '../components/calculator/CalculatorShare.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+import type { PageContext } from '../types/Page';
+import type { CalculatorField } from '../types/Calculator';
+
+const f = figuresFor();
+const statusField: CalculatorField = {
+  id: 'status', label: 'Marital status', type: 'radio',
+  options: [{ label: 'Single', value: 'single' }, { label: 'Married (living together)', value: 'married' }],
+};
+const incomeField: CalculatorField = {
+  id: 'income', label: 'Total monthly income', type: 'currency',
+  help: 'Social Security, pensions, wages — before deductions.',
+};
+const resourcesField: CalculatorField = {
+  id: 'resources', label: 'Countable resources (savings, investments)', type: 'currency',
+  help: 'Do NOT count your home or one car.',
+};
+
+const context: PageContext = {
+  page: {
+    title: `Extra Help & Medicare Savings Program Eligibility Estimator ${f.year} | Vernal Medicare`,
+    heading: 'Extra Help & Savings Program Estimator',
+    description: `Estimate whether you qualify for Extra Help or a Medicare Savings Program (QMB, SLMB, QI) — which can pay your Part B premium and slash drug costs. Based on ${f.year} limits.`,
+    taxonomy: { silo: 'dual-eligible', tags: ['extra-help', 'msp', 'qmb', 'slmb', 'qi', 'tools', 'costs'] },
+    summary: `Medicare Savings Programs can pay your Part B premium (${usd(f.partB.premium, { cents: true })}/month), and Extra Help can wipe out most drug costs — and the income limits are higher than most people expect. Enter your income and resources to see whether it’s worth applying. It’s free either way.`,
+    faqs: [
+      { question: 'What counts as a “resource”?', answer: 'Countable resources include money in checking, savings, stocks, and bonds. They do NOT count your home, one car, household goods, or burial funds up to a limit.' },
+      { question: 'Is this an official determination?', answer: 'No — it’s an estimate to help you decide whether to apply. Only your state and Social Security make the actual decision, and applying is free. When in doubt, apply.' },
+    ],
+    sources: [{ title: 'SSA — Extra Help with Medicare drug costs', url: 'https://www.ssa.gov/medicare/part-d-extra-help', publisher: 'SSA.gov' }],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-extra-help-calculator.html',
+    ogType: 'website',
+    ogTitle: 'Extra Help & Savings Program Estimator',
+    ogDescription: 'See if you qualify for help paying your Medicare premiums and drug costs.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  medicalDisclaimer: 'Estimate only, based on published limits. Eligibility is determined by your state and Social Security — applying is free.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Extra Help', href: '/medicare-extra-help-utah.html' },
+    { name: 'Eligibility Estimator', href: '/medicare-extra-help-calculator.html' },
+  ],
+};
+---
+
+<CalculatorPage context={context}>
+  <p>Many people who qualify for help paying for Medicare never apply — often because they assume they earn too much. The limits are higher than you’d think. Estimate below, then see <a href="medicare-extra-help-utah.html">Extra Help</a> and <a href="medicare-savings-programs-utah.html">Medicare Savings Programs</a>.</p>
+
+  <form class="calc-form" data-calc-form novalidate>
+    <CalculatorSection title="About you">
+      <CalculatorInput field={statusField} />
+      <CalculatorInput field={incomeField} />
+      <CalculatorInput field={resourcesField} />
+    </CalculatorSection>
+    <div class="calc-actions">
+      <CalculatorPrint />
+      <CalculatorShare />
+    </div>
+  </form>
+
+  <CalculatorResult heading="Your estimated eligibility" />
+
+  <p>Even if this estimate doesn’t show a match, limits change and there are exceptions — <strong>call us free at 435-219-5120</strong> and we’ll help you apply if there’s any chance you qualify.</p>
+
+  <script>
+    import { bindCalculator } from '../lib/calculators';
+    import { computeAssistanceEligibility } from '../lib/calculators/assistance';
+    import { figuresFor } from '../data/annualMedicareData';
+    import { usd } from '../lib/formatters';
+    import type { CalculatorResult } from '../types/Calculator';
+
+    const F = figuresFor();
+    const num = (s: string) => Number(String(s || '').replace(/[^0-9.]/g, '')) || 0;
+    const PROGRAM: Record<string, string> = {
+      qmb: 'QMB — pays your Part B premium + most cost-sharing',
+      slmb: 'SLMB — pays your Part B premium',
+      qi: 'QI — pays your Part B premium',
+      none: 'No Savings Program match at this income/resources',
+    };
+    const EH: Record<string, string> = {
+      automatic: 'Yes — automatic with your Savings Program',
+      possible: 'Possibly — worth applying',
+      unlikely: 'Unlikely at this income/resources',
+    };
+
+    function compute(fields: Record<string, string>): CalculatorResult {
+      const married = fields.status === 'married';
+      const r = computeAssistanceEligibility(num(fields.income), num(fields.resources), married, F);
+      const summary =
+        r.program !== 'none'
+          ? `You likely qualify for ${PROGRAM[r.program]} — which also gives you Extra Help for drug costs automatically. Applying is free and worth it.`
+          : r.extraHelp === 'possible'
+            ? 'You may still qualify for Extra Help — apply to find out. The limits are higher than most people expect.'
+            : 'This estimate doesn’t show a match — but it’s only an estimate, and limits change. If money is tight, it’s still worth a quick check with us.';
+      return {
+        summary,
+        rows: [
+          { label: 'Medicare Savings Program', value: PROGRAM[r.program], emphasis: true },
+          { label: 'Extra Help (drug costs)', value: EH[r.extraHelp] },
+          { label: 'Monthly income limit used', value: usd(r.incomeLimitUsed) },
+          { label: 'Resource limit', value: usd(r.resourceLimitUsed) },
+          { label: 'Within resource limit?', value: r.withinResources ? 'Yes' : 'No' },
+        ],
+      };
+    }
+
+    const form = document.querySelector<HTMLElement>('[data-calc-form]');
+    const results = document.querySelector<HTMLElement>('[data-calc-results]');
+    if (form && results) bindCalculator(form, results, compute);
+  </script>
+</CalculatorPage>

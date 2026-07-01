@@ -231,6 +231,22 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Medicare Enrollment Timeline Calculator',
     taxonomy: { silo: 'enrollment', tags: ['iep', 'timeline', 'tools', 'turning-65'] },
   },
+  // ── Calculator platform (M33) ──
+  {
+    href: '/medicare-calculators.html',
+    title: 'Free Medicare Calculators',
+    taxonomy: { silo: 'tools', tags: ['tools', 'calculators', 'costs', 'irmaa', 'part-d'] },
+  },
+  {
+    href: '/medicare-extra-help-calculator.html',
+    title: 'Extra Help & Savings Program Estimator',
+    taxonomy: { silo: 'dual-eligible', tags: ['extra-help', 'msp', 'qmb', 'slmb', 'qi', 'tools', 'costs'] },
+  },
+  {
+    href: '/medicare-part-d-cost-calculator.html',
+    title: 'Part D Drug Cost Calculator',
+    taxonomy: { silo: 'part-d', tags: ['part-d', 'costs', 'tools', 'drug-cap'] },
+  },
   // ── Vernal home-turf cluster (M14) — migrated onto the framework ──
   {
     href: '/vernal.html',
