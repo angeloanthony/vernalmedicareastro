@@ -55,7 +55,7 @@ export const organizationSchema = (): Json => ({
   '@id': `${BUSINESS.url}#org`,
   name: BUSINESS.name,
   url: BUSINESS.url,
-  logo: BUSINESS.logo,
+  logo: { '@type': 'ImageObject', url: BUSINESS.logo },
   telephone: BUSINESS.phoneE164,
 });
 
@@ -67,11 +67,11 @@ const citationOf = (e: Evidence): Json => ({
   ...(e.date ? { datePublished: e.date } : {}),
 });
 
-const personRef = (a: Author): Json => ({
-  '@type': 'Person',
-  name: a.name,
-  ...(a.url ? { url: abs(a.url) } : {}),
-});
+// Reference the standalone Person/Organization node by @id — no duplicate full
+// entity, and the linked entity can't drift. Inline Person only as a fallback
+// when there's no url to key an @id on.
+const personRef = (a: Author): Json =>
+  a.url ? { '@id': `${abs(a.url)}#person` } : { '@type': 'Person', name: a.name };
 
 // Primary @type per page kind. LocalBusiness/Drug/Review/WebSite builders land
 // with their page types (Location/Drug); until then those fall back to WebPage.
@@ -95,12 +95,7 @@ function primaryEntity(ctx: PageContext, primary: SchemaKind): Json {
   };
   if (type === 'Article' || type === 'MedicalWebPage') {
     node.headline = page.heading ?? page.title;
-    node.publisher = {
-      '@type': 'Organization',
-      name: BUSINESS.name,
-      url: BUSINESS.url,
-      logo: { '@type': 'ImageObject', url: BUSINESS.logo },
-    };
+    node.publisher = { '@id': `${BUSINESS.url}#org` }; // → standalone Organization node
   }
 
   const author = resolveAuthor(ctx.author);

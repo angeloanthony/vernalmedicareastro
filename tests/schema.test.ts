@@ -28,14 +28,24 @@ describe('schema.assembleSchema', () => {
     expect(types(s)).toEqual(expect.arrayContaining(['Article', 'BreadcrumbList', 'FAQPage', 'Person', 'Organization']));
   });
 
-  it('builds the primary from PageData with resolved author + freshness', () => {
+  it('builds the primary from PageData with @id-linked author + freshness', () => {
     const primary = s[0];
     expect(primary['@type']).toBe('Article');
     expect(primary.headline).toBe('Medicare Part A vs Part B');
-    expect((primary.author as { name: string }).name).toBe('Rocco DeLuca');
-    expect((primary.publisher as { '@type': string })['@type']).toBe('Organization');
+    expect((primary.author as { '@id': string })['@id']).toContain('#person');
+    expect((primary.publisher as { '@id': string })['@id']).toContain('#org');
     expect(primary.dateModified).toBe('June 2026');
     expect((primary.citation as unknown[]).length).toBe(1);
+  });
+
+  it('emits ONE Person and ONE Organization node (referenced by @id, no dupes)', () => {
+    const persons = s.filter((n) => n['@type'] === 'Person');
+    const orgs = s.filter((n) => n['@type'] === 'Organization');
+    expect(persons.length).toBe(1);
+    expect(orgs.length).toBe(1);
+    expect((persons[0] as { name: string }).name).toBe('Rocco DeLuca');
+    expect((s[0].author as { '@id': string })['@id']).toBe((persons[0] as { '@id': string })['@id']);
+    expect((s[0].publisher as { '@id': string })['@id']).toBe((orgs[0] as { '@id': string })['@id']);
   });
 
   it('lets the layout pick the primary @type', () => {
