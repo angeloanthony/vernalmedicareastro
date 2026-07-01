@@ -26,7 +26,13 @@ function fail(msg) {
   process.exit(1);
 }
 
-// ── 1. astro check (error ratchet — green today, blocks NEW errors) ──────────
+// ── 1. unit tests ────────────────────────────────────────────────────────────
+// Run FIRST, in a clean process. Vitest and Astro both use Vite/esbuild; running
+// Vitest immediately after `astro check` intermittently corrupts its init
+// ("Cannot read properties of undefined (reading 'config')"). Tests-first avoids it.
+if (run('unit tests', 'npx vitest run').status !== 0) fail('unit tests failed.');
+
+// ── 2. astro check (error ratchet — green today, blocks NEW errors) ──────────
 const check = run('astro check', 'npx astro check');
 const m = check.out.match(/-\s*(\d+)\s+errors?/);
 if (!m && check.status !== 0) fail('astro check failed and no error count could be parsed.');
@@ -40,9 +46,6 @@ console.log(
     ? `✔ astro check: ${errors} errors (below baseline ${limit}) — ratchet scripts/quality-baseline.json down to ${errors}.`
     : `✔ astro check: ${errors} errors == baseline ${limit} (legacy debt; no new errors).`,
 );
-
-// ── 2. unit tests ────────────────────────────────────────────────────────────
-if (run('unit tests', 'npx vitest run').status !== 0) fail('unit tests failed.');
 
 // ── 3. production build ──────────────────────────────────────────────────────
 const build = run('build', 'npx astro build');
