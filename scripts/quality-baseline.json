@@ -1,0 +1,4 @@
+{
+  "astroCheckErrors": 59,
+  "note": "Pre-existing type errors in legacy migrated pages (not framework code). The verify gate fails if errors EXCEED this number. Ratchet DOWN as legacy pages are cleaned in Phase 2/6; never raise it."
+}

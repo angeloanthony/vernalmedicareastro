@@ -1,0 +1,14 @@
+---
+// CalculatorWarning.astro — inline callout for caveats (penalties, deadlines,
+// "estimate only"). Tone drives styling.
+interface Props {
+  title?: string;
+  tone?: 'info' | 'warning' | 'danger';
+}
+const { title, tone = 'warning' } = Astro.props;
+---
+
+<aside class:list={['calc-warning', `calc-warning--${tone}`]} role="note">
+  {title && <strong class="calc-warning-title">{title}</strong>}
+  <div class="calc-warning-body"><slot /></div>
+</aside>

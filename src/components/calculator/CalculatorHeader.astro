@@ -1,0 +1,22 @@
+---
+// CalculatorHeader.astro — H1 + intro + E-E-A-T "reviewed by" byline.
+// The byline (author + updated date) reinforces expertise/freshness on every
+// tool. Author name comes from business.ts (single source).
+import { BUSINESS } from '../../data/business';
+
+interface Props {
+  heading: string;
+  intro?: string;
+  /** Human date string, e.g. "June 2026". Shown in the reviewer byline. */
+  updated?: string;
+}
+const { heading, intro, updated } = Astro.props;
+---
+
+<header class="calc-header">
+  <h1>{heading}</h1>
+  {intro && <p class="calc-intro">{intro}</p>}
+  <p class="calc-byline">
+    Reviewed by {BUSINESS.legalAgent}, Licensed Medicare Agent{updated && <> · Updated {updated}</>}
+  </p>
+</header>

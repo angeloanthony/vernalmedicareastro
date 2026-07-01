@@ -1,0 +1,14 @@
+---
+// CalculatorSection.astro — a titled group of inputs (or any content).
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description } = Astro.props;
+---
+
+<section class="calc-section">
+  {title && <h2 class="calc-section-title">{title}</h2>}
+  {description && <p class="calc-section-desc">{description}</p>}
+  <slot />
+</section>

@@ -1,0 +1,23 @@
+---
+// CalculatorCTA.astro — conversion block under every calculator. Phone + quote
+// come from business.ts so the CTA can never drift from the live NAP.
+import { BUSINESS } from '../../data/business';
+
+interface Props {
+  heading?: string;
+  text?: string;
+}
+const {
+  heading = 'Want a real number for your situation?',
+  text = `${BUSINESS.legalAgent} can run your exact figures — free, no pressure.`,
+} = Astro.props;
+---
+
+<section class="calc-cta">
+  <h2 class="calc-cta-heading">{heading}</h2>
+  <p class="calc-cta-text">{text}</p>
+  <p class="calc-cta-actions">
+    <a class="btn btn-primary" href={`tel:${BUSINESS.phoneTel}`}>Call {BUSINESS.phone}</a>
+    <a class="btn btn-outline" href={BUSINESS.quoteUrl} target="_blank" rel="noopener noreferrer">Get a Free Quote</a>
+  </p>
+</section>
