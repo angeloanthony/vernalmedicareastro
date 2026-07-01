@@ -115,4 +115,148 @@ export const TOWNS: Town[] = [
       },
     ],
   },
+  {
+    slug: 'myton',
+    name: 'Myton',
+    county: 'Duchesne County',
+    region: 'duchesne',
+    hospital: 'Uintah Basin Healthcare',
+    hospitalCity: 'Roosevelt',
+    distanceFromOffice: 'along the US-40 corridor between Roosevelt and Duchesne, on the west end of the Basin',
+    nearby: ['Roosevelt', 'Duchesne'],
+    intro:
+      'Myton sits right on US-40 between Roosevelt and Duchesne. Local Medicare help is scarce out here, so most Myton residents work with us by phone or video — or meet when it suits them.',
+    faqs: [
+      {
+        question: 'Is there Medicare help for Myton, Utah?',
+        answer:
+          'Yes. Vernal Medicare serves Myton and the whole Duchesne County corridor. Plan comparisons and enrollment help are free — by phone, video, or in person.',
+      },
+      {
+        question: 'Which hospital do Myton residents use?',
+        answer:
+          'Uintah Basin Healthcare in Roosevelt is the nearest hospital for Myton. We confirm it and your doctors are in-network before you pick a Medicare Advantage plan.',
+      },
+    ],
+  },
+  {
+    slug: 'tabiona',
+    name: 'Tabiona',
+    county: 'Duchesne County',
+    region: 'duchesne',
+    hospital: 'Uintah Basin Healthcare',
+    hospitalCity: 'Roosevelt',
+    distanceFromOffice: 'in the rural northwest corner of Duchesne County',
+    nearby: ['Duchesne', 'Hanna'],
+    intro:
+      'Tabiona is a small, rural community in northwest Duchesne County where in-person insurance help is hard to come by. We make Medicare easy from wherever you are — by phone or video, on your schedule.',
+    faqs: [
+      {
+        question: 'Can Tabiona residents get Medicare help remotely?',
+        answer:
+          'Absolutely. Most Tabiona clients handle everything by phone or video — comparisons, drug-cost checks, and enrollment. It is free and there is no need to travel.',
+      },
+      {
+        question: 'What Medicare plans are available in Tabiona?',
+        answer:
+          'Tabiona residents can choose Medicare Advantage (HMO/PPO), Medigap (Plan G and Plan N), and Part D drug plans. We compare the current options for your doctors and medications at no cost.',
+      },
+    ],
+  },
+  {
+    slug: 'altamont',
+    name: 'Altamont',
+    county: 'Duchesne County',
+    region: 'duchesne',
+    hospital: 'Uintah Basin Healthcare',
+    hospitalCity: 'Roosevelt',
+    distanceFromOffice: 'in the Upper Country north of Roosevelt',
+    nearby: ['Roosevelt', 'Neola', 'Bluebell'],
+    intro:
+      'Altamont sits in the "Upper Country" north of Roosevelt. We help Altamont-area families sort out Medicare without a long drive — most of it happens by phone or video, and we can meet when you want to.',
+    faqs: [
+      {
+        question: 'Is there a Medicare agent near Altamont, Utah?',
+        answer:
+          'Yes. Vernal Medicare serves Altamont and the Upper Country. Free plan comparisons and enrollment help, by phone, video, or in person.',
+      },
+      {
+        question: 'Which hospital do Altamont residents use?',
+        answer:
+          'Uintah Basin Healthcare in Roosevelt is the closest hospital. We verify it and your providers are covered before you choose a Medicare Advantage plan.',
+      },
+    ],
+  },
+  {
+    slug: 'neola',
+    name: 'Neola',
+    county: 'Duchesne County',
+    region: 'duchesne',
+    hospital: 'Uintah Basin Healthcare',
+    hospitalCity: 'Roosevelt',
+    distanceFromOffice: 'in the Upper Country north of Roosevelt',
+    nearby: ['Roosevelt', 'Altamont'],
+    intro:
+      'Neola is a rural community north of Roosevelt in the Upper Country. Medicare shouldn’t require a trip to the city — we handle it with Neola residents by phone, video, or in person, at no cost.',
+    faqs: [
+      {
+        question: 'Can Neola residents enroll in Medicare without driving to town?',
+        answer:
+          'Yes. Enrollment, plan comparisons, and drug-cost checks can all be done by phone or video. Some Neola clients prefer to meet in person — that is your choice.',
+      },
+      {
+        question: 'Does it cost anything to work with a local agent?',
+        answer:
+          'No. Our help is free — we’re paid by the carriers, and it doesn’t change your premium. You get an independent comparison instead of one company’s pitch.',
+      },
+    ],
+  },
+  {
+    slug: 'fort-duchesne',
+    name: 'Fort Duchesne',
+    county: 'Uintah County',
+    region: 'duchesne',
+    hospital: 'Uintah Basin Healthcare',
+    hospitalCity: 'Roosevelt',
+    distanceFromOffice: 'between Roosevelt and Vernal on the Uintah & Ouray Reservation',
+    nearby: ['Roosevelt', 'Ballard'],
+    intro:
+      'Fort Duchesne sits between Roosevelt and Vernal on the Uintah & Ouray Reservation. We serve the whole community with free, respectful Medicare help — by phone, video, or in person.',
+    faqs: [
+      {
+        question: 'Is there local Medicare help for Fort Duchesne?',
+        answer:
+          'Yes. Vernal Medicare serves Fort Duchesne and the surrounding area. Plan comparisons and enrollment help are always free, in person or remotely.',
+      },
+      {
+        question: 'Which hospital do Fort Duchesne residents use?',
+        answer:
+          'Uintah Basin Healthcare in Roosevelt is the nearest hospital. When comparing Medicare Advantage plans, we make sure your providers are in-network first.',
+      },
+    ],
+  },
+  {
+    slug: 'ouray',
+    name: 'Ouray',
+    county: 'Uintah County',
+    region: 'duchesne',
+    hospital: 'Uintah Basin Healthcare',
+    hospitalCity: 'Roosevelt',
+    distanceFromOffice: 'in the remote south of Uintah County, near the Green River',
+    nearby: ['Fort Duchesne', 'Randlett'],
+    intro:
+      'Ouray is a small, remote community in southern Uintah County. Distance shouldn’t keep you from good Medicare help — we work with Ouray-area residents by phone and video, and can arrange to meet.',
+    faqs: [
+      {
+        question: 'Can Ouray residents get Medicare help without a long drive?',
+        answer:
+          'Yes. Everything — comparisons, drug-cost checks, and enrollment — can be handled by phone or video, at no cost to you.',
+      },
+      {
+        question: 'What Medicare plans work in Ouray, Utah?',
+        answer:
+          'Ouray residents can access Medicare Advantage, Medigap, and Part D drug plans. We compare the current options against your doctors and medications for free.',
+      },
+    ],
+  },
 ];
