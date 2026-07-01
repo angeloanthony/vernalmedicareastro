@@ -58,7 +58,7 @@ export const PAGE_INDEX: PageIndexEntry[] = [
   {
     href: '/medigap.html',
     title: 'Medigap (Medicare Supplement) in Vernal',
-    taxonomy: { silo: 'medigap', tags: ['overview'] },
+    taxonomy: { silo: 'medigap', tags: ['medigap', 'supplement', 'overview', 'vernal', 'original-medicare'], pillar: true },
   },
   // ── IRMAA authority cluster (M10). Calculator was indexed since M5. ──
   {
