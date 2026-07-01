@@ -9,6 +9,7 @@ export interface NavLink {
 
 export const PRIMARY_NAV: NavLink[] = [
   { href: 'index.html', label: 'Home' },
+  { href: 'medicare-help-center.html', label: 'Medicare Help Center' },
   { href: 'medigap.html', label: 'Medigap' },
   { href: 'aca.html', label: 'Under-65 Health Insurance' },
   { href: 'indemnity.html', label: 'Copay Coverage' },
