@@ -1,0 +1,97 @@
+---
+// src/pages/medicare-enrollment-timeline.astro — Decision Tools (M9).
+import CalculatorPage from '../components/layout/CalculatorPage.astro';
+import CalculatorSection from '../components/calculator/CalculatorSection.astro';
+import CalculatorInput from '../components/calculator/CalculatorInput.astro';
+import CalculatorResult from '../components/calculator/CalculatorResult.astro';
+import CalculatorPrint from '../components/calculator/CalculatorPrint.astro';
+import CalculatorShare from '../components/calculator/CalculatorShare.astro';
+import type { PageContext } from '../types/Page';
+import type { CalculatorField } from '../types/Calculator';
+
+const dobField: CalculatorField = {
+  id: 'dob',
+  label: 'Your date of birth',
+  type: 'date',
+  help: 'We calculate the 7-month Initial Enrollment Period around your 65th birthday.',
+};
+
+const context: PageContext = {
+  page: {
+    title: 'Medicare Enrollment Timeline Calculator — Your IEP Dates | Vernal Medicare',
+    heading: 'Medicare Enrollment Timeline Calculator',
+    description: 'Enter your date of birth to see your exact Medicare Initial Enrollment Period — the 7-month window to sign up without a penalty — and when coverage can start.',
+    taxonomy: { silo: 'enrollment', tags: ['iep', 'timeline', 'deadlines', 'turning-65'] },
+    summary: 'Your Initial Enrollment Period is a 7-month window: the 3 months before your 65th-birthday month, that month, and the 3 months after. Enter your birthday to see your exact dates and the earliest your coverage can start.',
+    faqs: [
+      { question: 'When should I enroll to avoid a gap?', answer: 'Enroll during the 3 months before your birthday month — then your coverage can start the first day of your birthday month, with no gap.' },
+      { question: 'What if I miss my Initial Enrollment Period?', answer: 'You may qualify for a penalty-free Special Enrollment Period (e.g., if you had employer coverage). Otherwise you’d use the General Enrollment Period and may owe a late penalty.' },
+    ],
+    sources: [{ title: 'When does Medicare coverage start', url: 'https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start', publisher: 'Medicare.gov' }],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-enrollment-timeline.html',
+    ogType: 'website',
+    ogTitle: 'Medicare Enrollment Timeline Calculator',
+    ogDescription: 'See your exact Medicare Initial Enrollment Period dates from your date of birth.',
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  medicalDisclaimer: 'General timing guidance. Confirm your exact dates with Social Security or with us.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare Enrollment Periods', href: '/medicare-enrollment-periods.html' },
+    { name: 'Enrollment Timeline', href: '/medicare-enrollment-timeline.html' },
+  ],
+};
+---
+
+<CalculatorPage context={context}>
+  <p>Turning 65? Your <a href="when-to-enroll-medicare-utah.html">Initial Enrollment Period</a> is a 7-month window around your birthday. Enter your date of birth to see your exact dates.</p>
+
+  <form class="calc-form" data-calc-form novalidate>
+    <CalculatorSection title="Your birthday">
+      <CalculatorInput field={dobField} />
+    </CalculatorSection>
+    <div class="calc-actions">
+      <CalculatorPrint />
+      <CalculatorShare />
+    </div>
+  </form>
+
+  <CalculatorResult heading="Your Initial Enrollment Period" />
+
+  <p>Want to plan the whole thing? See our <a href="medicare-enrollment-periods.html">enrollment periods overview</a>, or call and we’ll map your dates with you.</p>
+
+  <script>
+    import { bindCalculator } from '../lib/calculators';
+    import { computeEnrollmentTimeline } from '../lib/calculators/timeline';
+    import { formatDate } from '../lib/dates';
+    import type { CalculatorResult } from '../types/Calculator';
+
+    function compute(fields: Record<string, string>): CalculatorResult {
+      const raw = fields.dob || '';
+      const parts = raw.split('-').map((n) => parseInt(n, 10));
+      if (parts.length !== 3 || parts.some((n) => Number.isNaN(n))) {
+        return { summary: 'Enter your date of birth to see your enrollment window.', rows: [] };
+      }
+      const dob = new Date(parts[0], parts[1] - 1, parts[2]); // local, no tz shift
+      const t = computeEnrollmentTimeline(dob);
+      const fmt = (d: Date) => formatDate(d);
+      return {
+        summary: `You turn 65 on ${fmt(t.turns65)}. Your Initial Enrollment Period runs ${fmt(t.iepStart)} through ${fmt(t.iepEnd)}.`,
+        rows: [
+          { label: 'You turn 65', value: fmt(t.turns65) },
+          { label: 'IEP starts', value: fmt(t.iepStart) },
+          { label: 'IEP ends', value: fmt(t.iepEnd), emphasis: true },
+          { label: 'Enroll early → coverage can start', value: fmt(t.earliestCoverageStart) },
+        ],
+      };
+    }
+
+    const form = document.querySelector<HTMLElement>('[data-calc-form]');
+    const results = document.querySelector<HTMLElement>('[data-calc-results]');
+    if (form && results) bindCalculator(form, results, compute);
+  </script>
+</CalculatorPage>
