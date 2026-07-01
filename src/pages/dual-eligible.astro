@@ -1,0 +1,91 @@
+---
+// src/pages/dual-eligible.astro — NET-NEW hub for the Dual-Eligible / Medicaid
+// silo (M6). Content adapted from AltaMedicare, rebranded to Vernal/Rocco. URL:
+// /dual-eligible.html. Built on ArticlePage; header/byline/summary/FAQ/related/
+// CTA/disclaimer + schema come from the framework.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Dual Eligible & Medicaid (D-SNP) Plans in Utah | Vernal Medicare',
+    heading: 'Dual Eligible & Medicaid Plans (D-SNP)',
+    description:
+      'Have both Medicare and Medicaid? Dual-eligible (D-SNP) plans add benefits — grocery & OTC cards, transportation, dental, vision, and $0 premiums. See if you qualify with a local Utah agent.',
+    taxonomy: { silo: 'dual-eligible', tags: ['d-snp', 'medicaid', 'extra-help', 'qmb', 'msp'], pillar: true },
+    summary:
+      'If you have both Medicare and Medicaid, you are "dual eligible" and may qualify for a D-SNP (Dual-Eligible Special Needs Plan) — a Medicare Advantage plan built for your situation, often with a $0 premium plus extras like grocery/OTC cards, transportation, and richer dental, vision, and hearing benefits.',
+    faqs: [
+      {
+        question: 'What is a D-SNP?',
+        answer:
+          'A D-SNP (Dual-Eligible Special Needs Plan) is a type of Medicare Advantage plan for people who have both Medicare and Medicaid. It coordinates both programs and typically adds benefits — like a grocery/OTC allowance, transportation, and dental/vision/hearing — beyond Original Medicare, usually at a $0 premium.',
+      },
+      {
+        question: 'Do I qualify as dual eligible?',
+        answer:
+          'You may be dual eligible if you have Medicare and also have Medicaid or a Medicare Savings Program (QMB, SLMB, or QI). Income and asset limits apply and are higher than many people expect. We can check your Medicare and Medicaid eligibility together for free.',
+      },
+      {
+        question: 'Can I change dual-eligible plans during the year?',
+        answer:
+          'Usually yes. Dual-eligible beneficiaries get a Special Enrollment Period that allows changing D-SNP plans more flexibly throughout the year, rather than only during the Annual Enrollment Period.',
+      },
+    ],
+    sources: [
+      { title: 'Special Needs Plans (SNP)', url: 'https://www.medicare.gov/health-drug-plans/health-plans/your-coverage-options/SNP', publisher: 'Medicare.gov' },
+      { title: 'Utah Medicaid', url: 'https://medicaid.utah.gov/', publisher: 'Utah Department of Health & Human Services' },
+    ],
+    nextSteps: [
+      {
+        when: 'If you have Medicare and a limited income,',
+        action: 'you may qualify for Medicaid, a Medicare Savings Program, or Extra Help — call us and we can check all three together.',
+      },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/dual-eligible.html',
+    ogType: 'article',
+    ogTitle: 'Dual Eligible & Medicaid Plans (D-SNP) — Utah',
+    ogDescription:
+      'If you have both Medicare and Medicaid, D-SNP plans offer extra benefits — grocery/OTC cards, transportation, dental, vision — often at $0 premium.',
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Dual Eligible & Medicaid', href: '/dual-eligible.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <h2>Medicare + Medicaid = More Help</h2>
+  <p>If you qualify for both Medicare and Medicaid, you're considered <strong>dual eligible</strong>. Special plans called <strong>D-SNPs (Dual-Eligible Special Needs Plans)</strong> are designed specifically for people in your situation — with extra benefits beyond what either program offers alone.</p>
+
+  <h2>Common D-SNP Benefits</h2>
+  <ul>
+    <li><strong>Grocery cards</strong> — a monthly allowance for healthy groceries at participating stores</li>
+    <li><strong>Over-the-counter (OTC) cards</strong> — an allowance for pharmacy items like vitamins, pain relievers, and first aid</li>
+    <li><strong>Transportation</strong> — rides to medical appointments, and sometimes to the pharmacy or grocery store</li>
+    <li><strong>Dental, vision, hearing</strong> — often more generous than standard Medicare Advantage plans</li>
+    <li><strong>$0 or very low premium</strong> — many D-SNPs have a $0 monthly premium</li>
+    <li><strong>$0 copays</strong> for many services</li>
+    <li><strong>Extra Help with Part D</strong> — drastically reduced prescription costs</li>
+  </ul>
+
+  <h2>Do You Qualify?</h2>
+  <p>You may be dual eligible if you're on Medicare <em>and</em> any of the following:</p>
+  <ul>
+    <li>Medicaid</li>
+    <li>Qualified Medicare Beneficiary (QMB)</li>
+    <li>Specified Low-Income Medicare Beneficiary (SLMB)</li>
+    <li>Qualifying Individual (QI)</li>
+    <li>Qualified Disabled and Working Individuals (QDWI)</li>
+  </ul>
+  <p>Income and asset limits apply. We can help you check whether you qualify and walk through the application if you're close — at no cost to you, anywhere in the Uintah Basin or by phone across Utah.</p>
+
+  <h2>You Can Switch Plans More Freely</h2>
+  <p>Most Medicare beneficiaries can only change plans during certain enrollment windows. <strong>Dual-eligible beneficiaries get a Special Enrollment Period</strong> that lets them change D-SNP plans more flexibly throughout the year — so if your needs change, you're not stuck waiting until fall.</p>
+</ArticlePage>

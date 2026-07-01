@@ -64,4 +64,11 @@
     <priority>0.7</priority>
   </url>
 
+  <url>
+    <loc>https://vernalmedicare.com/dual-eligible.html</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>

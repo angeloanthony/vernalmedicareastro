@@ -57,4 +57,10 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: '2026 Medicare IRMAA Calculator',
     taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'costs', 'part-b', 'part-d'] },
   },
+  // ── Dual-Eligible / Medicaid silo (M6) ──
+  {
+    href: '/dual-eligible.html',
+    title: 'Dual Eligible & Medicaid Plans (D-SNP)',
+    taxonomy: { silo: 'dual-eligible', tags: ['d-snp', 'medicaid', 'extra-help', 'qmb', 'msp'], pillar: true },
+  },
 ];
