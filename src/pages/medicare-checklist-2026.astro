@@ -1,132 +1,81 @@
 ---
-// src/pages/medicare-checklist-2026.astro  —  converted from medicare-checklist-2026.html
-// URL preserved: /medicare-checklist-2026.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/medicare-checklist-2026.astro — MIGRATED to the Page Framework.
+// URL, title, description, H1, publish date and gaIds preserved from the ranking
+// legacy page. Now on ArticlePage: automatic Article+FAQ+Breadcrumb schema,
+// byline, related, and the required marketing disclaimer. The inline hand-rolled
+// JSON-LD (Breadcrumb/Article/FAQ) and the inline CMS marketing-disclaimer block
+// were removed — the framework generates both. The single FAQ Q&A moved into
+// page.faqs. The figuresFor()/usd data layer is kept intact so the "Key 2026
+// Numbers" line renders live CMS figures ($202.90 / $283 / $1,736).
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 import { figuresFor } from '../data/annualMedicareData';
 import { usd } from '../lib/formatters';
 
 const f = figuresFor();
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
+const context: PageContext = {
+  page: {
+    title: 'Your 2026 Medicare Checklist — Free Vernal, Utah Guide',
+    heading: 'Your 2026 Medicare Checklist — Vernal & Uintah Basin',
+    description:
+      'Download your free 2026 Medicare checklist. Everything Vernal and Uintah Basin residents need to review before enrollment. Call 435-219-5120.',
+    taxonomy: {
+      silo: 'enrollment',
+      tags: ['checklist', 'enrollment', 'deadlines', 'turning-65'],
+    },
+    summary:
+      'A free 2026 Medicare checklist for Vernal and Uintah Basin residents: gather your doctors, prescriptions, and pharmacy, review the questions that matter, check the key 2026 cost numbers, and work through the action steps before the December 7 deadline.',
+    faqs: [
       {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://vernalmedicare.com/"
+        question: 'What should I check before Medicare enrollment in 2026?',
+        answer:
+          'Review your doctors, prescriptions, pharmacy, and current plan changes. Check the 2026 cost numbers. Call 435-219-5120 for a free personalized plan review.',
       },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Your 2026 Medicare Checklist — Vernal &amp; Uintah Basin",
-        "item": "https://vernalmedicare.com/medicare-checklist-2026.html"
-      }
-    ]
+    ],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Your 2026 Medicare Checklist — Free Vernal, Utah Guide",
-    "description": "Download your free 2026 Medicare checklist. Everything Vernal and Uintah Basin residents need to review before enrollment. Call 435-219-5120.",
-    "author": {
-      "@type": "Person",
-      "name": "Rocco DeLuca",
-      "jobTitle": "Licensed Insurance Agent"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Vernal Medicare",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://vernalmedicare.com/pictures/Rocco.webp"
-      }
-    },
-    "datePublished": "2026-04-04",
-    "dateModified": "2026-04-04",
-    "mainEntityOfPage": "https://vernalmedicare.com/medicare-checklist-2026.html"
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-checklist-2026.html',
+    ogType: 'article',
+    gaIds: ['G-NW6ENB89NF', 'G-FTDW9B2G6Q'],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What should I check before Medicare enrollment in 2026?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Review your doctors, prescriptions, pharmacy, and current plan changes. Check the 2026 cost numbers. Call 435-219-5120 for a free personalized plan review."
-        }
-      }
-    ]
-  }
-];
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: '2026 Medicare Checklist', href: '/medicare-checklist-2026.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="Your 2026 Medicare Checklist — Free Vernal, Utah Guide"
-  description="Download your free 2026 Medicare checklist. Everything Vernal and Uintah Basin residents need to review before enrollment. Call 435-219-5120."
-  canonical="https://vernalmedicare.com/medicare-checklist-2026.html"
-  ogType="article"
-  schema={schema}
-  gaIds={["G-NW6ENB89NF", "G-FTDW9B2G6Q"]}
->
-  <section class="cms-compliance" style="background:#fffbf0;border:2px solid #d97706;border-radius:8px;padding:1.5rem;margin:2rem auto;max-width:1100px;">
-    <h2 style="color:#92400e;margin-top:0;font-size:1.1rem;">Important Medicare Information</h2>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>We do not offer every plan available in your area.</strong> Any information we provide is limited to those plans we do offer in your area. Please contact <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711), 24 hours a day, 7 days a week, to get information on all of your options.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      Vernal Medicare is a licensed and certified representative of Medicare Advantage organizations and stand-alone prescription drug plans. Each of the organizations we represent has a Medicare contract. Enrollment in any plan depends on contract renewal.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>Not connected with or endorsed by the U.S. government or the federal Medicare program.</strong>
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      By calling the number above, you will be directed to a licensed insurance agent.
-    </p>
-  </section>
+<ArticlePage context={context}>
+  <p>Whether you are new to Medicare or reviewing your current plan, this checklist covers everything Uintah Basin residents should evaluate before making a decision for 2026.</p>
 
-<main>
-  <section>
-    <p style="font-size:.9rem;color:#666;margin-bottom:.5rem;">
-      <em>By <strong>Rocco DeLuca</strong>, Licensed Insurance Agent &bull; Published 2026-04-04 &bull; Last updated 2026-04-04</em>
-    </p>
-    <h1 style="text-align:center;">Your 2026 Medicare Checklist — Vernal &amp; Uintah Basin</h1>
-    
-        <p>Whether you are new to Medicare or reviewing your current plan, this checklist covers everything Uintah Basin residents should evaluate before making a decision for 2026.</p>
+  <h2>Before You Compare Plans</h2>
+  <p><strong>Gather your information:</strong> List of current doctors and specialists with addresses. List of all prescription medications with dosages and frequency. Preferred pharmacy name and location. Current Medicare card (Original Medicare, Advantage, or both). Any upcoming scheduled procedures or specialist referrals. Income information if you may qualify for Extra Help or Medicaid.</p>
 
-        <h2>Before You Compare Plans</h2>
-        <p><strong>Gather your information:</strong> List of current doctors and specialists with addresses. List of all prescription medications with dosages and frequency. Preferred pharmacy name and location. Current Medicare card (Original Medicare, Advantage, or both). Any upcoming scheduled procedures or specialist referrals. Income information if you may qualify for Extra Help or Medicaid.</p>
+  <h2>Questions to Answer</h2>
+  <p><strong>Coverage needs:</strong> Are your current doctors accepting your plan next year? Has your plan's formulary changed for any of your medications? Has your plan's premium, copay, or deductible changed? Do you need dental, vision, or hearing coverage? Do you travel or spend time outside Utah? Have you had any major health changes this year?</p>
 
-        <h2>Questions to Answer</h2>
-        <p><strong>Coverage needs:</strong> Are your current doctors accepting your plan next year? Has your plan's formulary changed for any of your medications? Has your plan's premium, copay, or deductible changed? Do you need dental, vision, or hearing coverage? Do you travel or spend time outside Utah? Have you had any major health changes this year?</p>
+  <h2>Key 2026 Numbers to Know</h2>
+  <p>Part B premium: {usd(f.partB.premium, { cents: true })}/month. Part B deductible: {usd(f.partB.deductible)}/year. Part A hospital deductible: {usd(f.partA.deductible)}. Part D annual out-of-pocket cap: $2,000. Insulin cap: $35/month. Annual Enrollment Period: October 15 – December 7.</p>
 
-        <h2>Key 2026 Numbers to Know</h2>
-        <p>Part B premium: {usd(f.partB.premium, { cents: true })}/month. Part B deductible: {usd(f.partB.deductible)}/year. Part A hospital deductible: {usd(f.partA.deductible)}. Part D annual out-of-pocket cap: $2,000. Insulin cap: $35/month. Annual Enrollment Period: October 15 – December 7.</p>
+  <h2>Action Steps</h2>
+  <p>Review your Annual Notice of Change (ANOC) letter from your current plan. Compare plans using our <a href="free-medicare-comparison-vernal.html">free comparison tool</a>. Call <a href="tel:+14352195120">435-219-5120</a> for a personalized review. Enroll in the best plan before December 7. Set a calendar reminder to review again next year.</p>
 
-        <h2>Action Steps</h2>
-        <p>Review your Annual Notice of Change (ANOC) letter from your current plan. Compare plans using our <a href="free-medicare-comparison-vernal.html">free comparison tool</a>. Call <a href="tel:+14352195120">435-219-5120</a> for a personalized review. Enroll in the best plan before December 7. Set a calendar reminder to review again next year.</p>
+  <h2>Get Help With Your Checklist</h2>
+  <p>Bring this checklist to your appointment with Rocco at Smith's Pharmacy, or go through it over the phone. We will work through every item and ensure you have the best coverage for 2026.</p>
 
-        <h2>Get Help With Your Checklist</h2>
-        <p>Bring this checklist to your appointment with Rocco at Smith's Pharmacy, or go through it over the phone. We will work through every item and ensure you have the best coverage for 2026.</p>
+  <p>Related: <a href="medicare-open-enrollment-2026.html">Open Enrollment 2026</a> | <a href="when-to-enroll-medicare-utah.html">Enrollment deadlines</a> | <a href="medicare-cost-uintah-county.html">Cost breakdown</a></p>
+  <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
 
-        <p>Related: <a href="medicare-open-enrollment-2026.html">Open Enrollment 2026</a> | <a href="when-to-enroll-medicare-utah.html">Enrollment deadlines</a> | <a href="medicare-cost-uintah-county.html">Cost breakdown</a></p>
-        <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
-        
-    <p style="text-align:center;margin-top:2rem;">
-      <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
-    </p>
-    <p style="text-align:center;margin-top:1rem;">
-      <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
-    </p>
-  </section>
-</main>
-
-
-  
-</BaseLayout>
+  <p style="text-align:center;margin-top:2rem;">
+    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
+  </p>
+  <p style="text-align:center;margin-top:1rem;">
+    <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
+  </p>
+</ArticlePage>

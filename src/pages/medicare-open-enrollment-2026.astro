@@ -1,154 +1,96 @@
 ---
-// src/pages/medicare-open-enrollment-2026.astro  —  converted from medicare-open-enrollment-2026.html
-// URL preserved: /medicare-open-enrollment-2026.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/medicare-open-enrollment-2026.astro — MIGRATED to the Page Framework.
+// URL, title, description, canonical, H1, publish date and gaIds preserved from the
+// ranking legacy page. Now on ArticlePage: automatic Article+FAQ+Breadcrumb schema,
+// byline, related, and the required marketing disclaimer. The inline hand-rolled
+// JSON-LD (Breadcrumb/Article/FAQ) and the inline CMS marketing-disclaimer block
+// were removed — the framework generates both. FAQ Q&A moved into page.faqs. The
+// existing figuresFor()/usd data layer is kept intact for the 2026 cost snapshot.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 import { figuresFor } from '../data/annualMedicareData';
 import { usd } from '../lib/formatters';
 const f = figuresFor();
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://vernalmedicare.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Medicare Open Enrollment 2026 — What Vernal Residents Need to Know",
-        "item": "https://vernalmedicare.com/medicare-open-enrollment-2026.html"
-      }
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Medicare Open Enrollment 2026 — Vernal & Uintah Basin, Utah",
-    "description": "Medicare Open Enrollment 2026 dates, deadlines, and what changes for Vernal and Uintah Basin residents. Free local help. Call 435-219-5120.",
-    "author": {
-      "@type": "Person",
-      "name": "Rocco DeLuca",
-      "jobTitle": "Licensed Insurance Agent"
+const context: PageContext = {
+  page: {
+    title: 'Medicare Open Enrollment 2026 — Vernal & Uintah Basin, Utah',
+    heading: 'Medicare Open Enrollment 2026 — What Vernal Residents Need to Know',
+    description:
+      'Medicare Open Enrollment 2026 dates, deadlines, and what changes for Vernal and Uintah Basin residents. Free local help. Call 435-219-5120.',
+    taxonomy: {
+      silo: 'enrollment',
+      tags: ['aep', 'oep', 'enrollment', 'deadlines'],
     },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Vernal Medicare",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://vernalmedicare.com/pictures/Rocco.webp"
-      }
-    },
-    "datePublished": "2026-04-04",
-    "dateModified": "2026-04-04",
-    "mainEntityOfPage": "https://vernalmedicare.com/medicare-open-enrollment-2026.html"
+    summary:
+      'Medicare enrollment periods determine when you can join, switch, or drop coverage. AEP runs October 15 – December 7, the Medicare Advantage OEP runs January 1 – March 31, and your Initial Enrollment Period is the seven-month window around your 65th birthday. Missing a deadline can lock you into the wrong plan for a year or trigger permanent premium penalties.',
+    faqs: [
+      {
+        question: 'When is Medicare Open Enrollment 2026?',
+        answer:
+          'The Annual Enrollment Period runs October 15 through December 7, 2026. The Medicare Advantage Open Enrollment Period is January 1 through March 31, 2026.',
+      },
+      {
+        question: 'What can I change during Medicare Open Enrollment 2026?',
+        answer:
+          'During AEP (Oct 15–Dec 7), you can switch Medicare Advantage plans, change Part D plans, or switch between Advantage and Original Medicare. Changes take effect January 1.',
+      },
+      {
+        question: 'What happens if I miss Medicare enrollment in 2026?',
+        answer:
+          'Missing your Initial Enrollment Period can trigger permanent premium penalties. Missing AEP means waiting until the next year to make plan changes, unless you qualify for a Special Enrollment Period.',
+      },
+    ],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "When is Medicare Open Enrollment 2026?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "The Annual Enrollment Period runs October 15 through December 7, 2026. The Medicare Advantage Open Enrollment Period is January 1 through March 31, 2026."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What can I change during Medicare Open Enrollment 2026?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "During AEP (Oct 15–Dec 7), you can switch Medicare Advantage plans, change Part D plans, or switch between Advantage and Original Medicare. Changes take effect January 1."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What happens if I miss Medicare enrollment in 2026?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Missing your Initial Enrollment Period can trigger permanent premium penalties. Missing AEP means waiting until the next year to make plan changes, unless you qualify for a Special Enrollment Period."
-        }
-      }
-    ]
-  }
-];
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-open-enrollment-2026.html',
+    ogType: 'article',
+    gaIds: ['G-NW6ENB89NF', 'G-FTDW9B2G6Q'],
+  },
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare Open Enrollment 2026', href: '/medicare-open-enrollment-2026.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="Medicare Open Enrollment 2026 — Vernal & Uintah Basin, Utah"
-  description="Medicare Open Enrollment 2026 dates, deadlines, and what changes for Vernal and Uintah Basin residents. Free local help. Call 435-219-5120."
-  canonical="https://vernalmedicare.com/medicare-open-enrollment-2026.html"
-  ogType="article"
-  schema={schema}
-  gaIds={["G-NW6ENB89NF", "G-FTDW9B2G6Q"]}
->
-  <section class="cms-compliance" style="background:#fffbf0;border:2px solid #d97706;border-radius:8px;padding:1.5rem;margin:2rem auto;max-width:1100px;">
-    <h2 style="color:#92400e;margin-top:0;font-size:1.1rem;">Important Medicare Information</h2>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>We do not offer every plan available in your area.</strong> Any information we provide is limited to those plans we do offer in your area. Please contact <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711), 24 hours a day, 7 days a week, to get information on all of your options.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      Vernal Medicare is a licensed and certified representative of Medicare Advantage organizations and stand-alone prescription drug plans. Each of the organizations we represent has a Medicare contract. Enrollment in any plan depends on contract renewal.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>Not connected with or endorsed by the U.S. government or the federal Medicare program.</strong>
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      By calling the number above, you will be directed to a licensed insurance agent.
-    </p>
-  </section>
+<ArticlePage context={context}>
+  <p>Medicare enrollment periods determine when you can join, switch, or drop coverage. Missing a deadline can lock you into the wrong plan for an entire year — or trigger permanent premium penalties. Here is everything Vernal and Uintah Basin residents need to know about Medicare enrollment in 2026.</p>
 
-<main>
-  <section>
-    <p style="font-size:.9rem;color:#666;margin-bottom:.5rem;">
-      <em>By <strong>Rocco DeLuca</strong>, Licensed Insurance Agent &bull; Published 2026-04-04 &bull; Last updated 2026-04-04</em>
-    </p>
-    <h1 style="text-align:center;">Medicare Open Enrollment 2026 — What Vernal Residents Need to Know</h1>
-    
-    <p>Medicare enrollment periods determine when you can join, switch, or drop coverage. Missing a deadline can lock you into the wrong plan for an entire year — or trigger permanent premium penalties. Here is everything Vernal and Uintah Basin residents need to know about Medicare enrollment in 2026.</p>
+  <h2>Annual Enrollment Period (AEP): October 15 – December 7, 2026</h2>
+  <p>The Annual Enrollment Period is the main window for making changes to your Medicare coverage. During AEP, you can switch from one Medicare Advantage plan to another, switch from Medicare Advantage back to Original Medicare (and add a Medigap and/or Part D plan), join a Medicare Advantage plan for the first time, or change your Part D prescription drug plan. Changes made during AEP take effect January 1 of the following year.</p>
 
-    <h2>Annual Enrollment Period (AEP): October 15 – December 7, 2026</h2>
-    <p>The Annual Enrollment Period is the main window for making changes to your Medicare coverage. During AEP, you can switch from one Medicare Advantage plan to another, switch from Medicare Advantage back to Original Medicare (and add a Medigap and/or Part D plan), join a Medicare Advantage plan for the first time, or change your Part D prescription drug plan. Changes made during AEP take effect January 1 of the following year.</p>
+  <h3>Why Review Your Plan Every Year?</h3>
+  <p>Medicare plans change annually. Premiums, copays, formularies, and provider networks can all shift from one year to the next. A plan that covered your medications cheaply last year might move them to a higher cost tier this year. Doctors and pharmacies can leave networks. The only way to know is to compare — and AEP is the time to do it.</p>
 
-    <h3>Why Review Your Plan Every Year?</h3>
-    <p>Medicare plans change annually. Premiums, copays, formularies, and provider networks can all shift from one year to the next. A plan that covered your medications cheaply last year might move them to a higher cost tier this year. Doctors and pharmacies can leave networks. The only way to know is to compare — and AEP is the time to do it.</p>
+  <h2>Medicare Advantage Open Enrollment Period (OEP): January 1 – March 31</h2>
+  <p>If you are already enrolled in a Medicare Advantage plan and want to make a change, the OEP allows one switch. You can move to a different Medicare Advantage plan or drop your Advantage plan and return to Original Medicare with a Part D plan. This is not the time to join Medicare Advantage for the first time — that happens during AEP or your Initial Enrollment Period.</p>
 
-    <h2>Medicare Advantage Open Enrollment Period (OEP): January 1 – March 31</h2>
-    <p>If you are already enrolled in a Medicare Advantage plan and want to make a change, the OEP allows one switch. You can move to a different Medicare Advantage plan or drop your Advantage plan and return to Original Medicare with a Part D plan. This is not the time to join Medicare Advantage for the first time — that happens during AEP or your Initial Enrollment Period.</p>
+  <h2>Initial Enrollment Period (IEP)</h2>
+  <p>Your IEP is a seven-month window centered on the month you turn 65: three months before, the month of your birthday, and three months after. This is when you first sign up for Medicare Part A and Part B. Delaying past this window without qualifying coverage (such as employer insurance) triggers late enrollment penalties that increase your Part B premium permanently by 10% for each full 12-month period you were eligible but not enrolled.</p>
 
-    <h2>Initial Enrollment Period (IEP)</h2>
-    <p>Your IEP is a seven-month window centered on the month you turn 65: three months before, the month of your birthday, and three months after. This is when you first sign up for Medicare Part A and Part B. Delaying past this window without qualifying coverage (such as employer insurance) triggers late enrollment penalties that increase your Part B premium permanently by 10% for each full 12-month period you were eligible but not enrolled.</p>
+  <h2>Special Enrollment Periods (SEPs)</h2>
+  <p>Certain life events qualify you for a Special Enrollment Period. These include losing employer or union coverage, moving out of your plan's service area, qualifying for Extra Help or Medicaid, or experiencing other qualifying circumstances. SEPs let you make changes outside the normal enrollment windows.</p>
 
-    <h2>Special Enrollment Periods (SEPs)</h2>
-    <p>Certain life events qualify you for a Special Enrollment Period. These include losing employer or union coverage, moving out of your plan's service area, qualifying for Extra Help or Medicaid, or experiencing other qualifying circumstances. SEPs let you make changes outside the normal enrollment windows.</p>
+  <h2>2026 Medicare Cost Snapshot for Utah</h2>
+  <p>Part B standard monthly premium: {usd(f.partB.premium, { cents: true })}. Part B annual deductible: {usd(f.partB.deductible)}. Part A hospital deductible per benefit period: {usd(f.partA.deductible)}. Medicare Advantage plans: $0 premium options available in the Uintah Basin. Medigap Plan G in Utah: approximately $120–$220/month depending on age and health factors.</p>
 
-    <h2>2026 Medicare Cost Snapshot for Utah</h2>
-    <p>Part B standard monthly premium: {usd(f.partB.premium, { cents: true })}. Part B annual deductible: {usd(f.partB.deductible)}. Part A hospital deductible per benefit period: {usd(f.partA.deductible)}. Medicare Advantage plans: $0 premium options available in the Uintah Basin. Medigap Plan G in Utah: approximately $120–$220/month depending on age and health factors.</p>
+  <h2>Free Enrollment Help in Vernal and the Uintah Basin</h2>
+  <p>Rocco DeLuca provides free Medicare enrollment assistance to residents of Vernal, Naples, Maeser, Jensen, Roosevelt, Duchesne, and all of Uintah and Duchesne Counties. We compare plans side by side, check your prescriptions and doctors, and handle the enrollment paperwork. No cost, no pressure.</p>
 
-    <h2>Free Enrollment Help in Vernal and the Uintah Basin</h2>
-    <p>Rocco DeLuca provides free Medicare enrollment assistance to residents of Vernal, Naples, Maeser, Jensen, Roosevelt, Duchesne, and all of Uintah and Duchesne Counties. We compare plans side by side, check your prescriptions and doctors, and handle the enrollment paperwork. No cost, no pressure.</p>
+  <p>Related guides: <a href="medicare-part-a-vs-part-b.html">Part A vs Part B explained</a> | <a href="when-to-enroll-medicare-utah.html">Full enrollment timeline for Utah</a> | <a href="medicare-supplement-vs-advantage.html">Medigap vs Advantage comparison</a></p>
 
-    <p>Related guides: <a href="medicare-part-a-vs-part-b.html">Part A vs Part B explained</a> | <a href="when-to-enroll-medicare-utah.html">Full enrollment timeline for Utah</a> | <a href="medicare-supplement-vs-advantage.html">Medigap vs Advantage comparison</a></p>
+  <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>. Dates and costs current as of 2026.</em></p>
 
-    <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>. Dates and costs current as of 2026.</em></p>
-    
-    <p style="text-align:center;margin-top:2rem;">
-      <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
-    </p>
-    <p style="text-align:center;margin-top:1rem;">
-      <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
-    </p>
-  </section>
-</main>
-
-
-  
-</BaseLayout>
+  <p style="text-align:center;margin-top:2rem;">
+    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
+  </p>
+  <p style="text-align:center;margin-top:1rem;">
+    <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
+  </p>
+</ArticlePage>
