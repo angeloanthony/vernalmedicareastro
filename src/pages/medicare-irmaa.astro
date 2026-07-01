@@ -1,0 +1,78 @@
+---
+// src/pages/medicare-irmaa.astro — IRMAA authority hub (M10). NET-NEW; Vernal had
+// only the IRMAA calculator. ArticlePage pillar that anchors the costs-irmaa
+// sub-silo: brackets, SSA-44 appeal, life-changing events, + the calculator.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+import type { PageContext } from '../types/Page';
+
+const f = figuresFor();
+const year = f.year;
+const single0 = f.irmaa.single[0];
+const married0 = f.irmaa.married[0];
+
+const context: PageContext = {
+  page: {
+    title: `What Is Medicare IRMAA? ${year} Income Surcharge Explained | Vernal Medicare`,
+    heading: `Medicare IRMAA: The Income-Related Surcharge, Explained`,
+    description: `IRMAA is an income-based surcharge added to Medicare Part B and Part D. Learn how the ${year - 2}-income lookback works, who pays, and how to appeal — from a local Vernal agent.`,
+    taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'costs', 'part-b', 'part-d', 'magi'], pillar: true },
+    summary: `IRMAA (the Income-Related Monthly Adjustment Amount) is an extra charge added to your Medicare Part B and Part D premiums when your income is above a threshold — ${usd(single0)} for a single filer or ${usd(married0)} for a married couple in ${year}. Social Security uses your MAGI from ${year - 2} to decide. If your income has since dropped because of a life-changing event, you can appeal.`,
+    faqs: [
+      { question: 'What income does IRMAA use?', answer: `Your Modified Adjusted Gross Income (MAGI) — adjusted gross income plus tax-exempt interest — from your tax return two years ago. For ${year}, that's your ${year - 2} return.` },
+      { question: 'Does IRMAA go away if my income drops?', answer: 'Yes. IRMAA is recalculated every year from your latest return, so a lower income eventually lowers it automatically. If the drop came from a qualifying life-changing event, you can appeal now instead of waiting two years.' },
+      { question: 'Is IRMAA the same for Part B and Part D?', answer: 'The income tiers are the same, but the dollar amounts differ. Part B IRMAA is added to your Part B premium; Part D IRMAA is billed separately by Social Security, on top of whatever your drug plan charges.' },
+    ],
+    sources: [
+      { title: 'Medicare Part B costs (IRMAA)', url: 'https://www.medicare.gov/basics/costs/medicare-costs', publisher: 'Medicare.gov' },
+      { title: 'Medicare premiums: Rules for higher-income beneficiaries', url: 'https://www.ssa.gov/benefits/medicare/medicare-premiums.html', publisher: 'Social Security Administration' },
+    ],
+    nextSteps: [
+      { when: 'If your income is near a threshold,', action: 'run the numbers in our IRMAA calculator, then call us free to plan around it.' },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-irmaa.html',
+    ogType: 'article',
+    ogTitle: 'Medicare IRMAA: The Income Surcharge, Explained',
+    ogDescription: `Who pays IRMAA in ${year}, how the ${year - 2}-income lookback works, and how to appeal.`,
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare Costs', href: '/medicare-cost-uintah-county.html' },
+    { name: 'IRMAA', href: '/medicare-irmaa.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p><strong>IRMAA</strong> — the Income-Related Monthly Adjustment Amount — is an extra charge Social Security adds to your <a href="medicare-irmaa-brackets-2026.html">Medicare Part B and Part D premiums</a> when your income is above a set threshold. Most people never pay it. But if you do, it can add hundreds of dollars a month, so it's worth understanding before it shows up.</p>
+
+  <h2>How IRMAA Works</h2>
+  <p>Every year, Social Security looks at your <strong>Modified Adjusted Gross Income (MAGI)</strong> — your adjusted gross income plus any tax-exempt interest — from <strong>two years back</strong>. For {year}, that means your {year - 2} tax return. If that number is above {usd(single0)} (single) or {usd(married0)} (married filing jointly), you fall into an IRMAA tier and pay a surcharge on top of the standard premium.</p>
+  <p>The surcharge applies to both parts:</p>
+  <ul>
+    <li><strong>Part B IRMAA</strong> is added directly to your Part B premium.</li>
+    <li><strong>Part D IRMAA</strong> is billed separately by Social Security — on top of whatever your drug plan already charges.</li>
+  </ul>
+  <p>See the full <a href="medicare-irmaa-brackets-2026.html">{year} IRMAA brackets</a> for the exact dollar amounts at each income tier, or <a href="medicare-irmaa-calculator.html">estimate your surcharge</a> from your income.</p>
+
+  <h2>The Two-Year Lookback Is the Catch</h2>
+  <p>Because IRMAA uses income from two years ago, a one-time spike — selling a home, a large Roth conversion, cashing out investments — can trigger a surcharge in a year when your income is actually much lower. The good news: IRMAA is recalculated every year, so it corrects itself as newer returns come in.</p>
+
+  <h2>If Your Income Dropped, You Can Appeal</h2>
+  <p>You don't always have to wait two years. If your income fell because of a <a href="medicare-irmaa-life-changing-events.html">qualifying life-changing event</a> — retirement, the death of a spouse, divorce, and more — you can <a href="medicare-irmaa-appeal-ssa-44.html">appeal your IRMAA with Form SSA-44</a> and have Social Security use your current income instead.</p>
+
+  <h2>Where to Go Next</h2>
+  <ul>
+    <li><a href="medicare-irmaa-brackets-2026.html">{year} IRMAA brackets</a> — the exact surcharge at every income tier.</li>
+    <li><a href="medicare-irmaa-calculator.html">IRMAA calculator</a> — estimate your Part B and Part D surcharge.</li>
+    <li><a href="medicare-irmaa-life-changing-events.html">Life-changing events</a> — the situations that let you appeal.</li>
+    <li><a href="medicare-irmaa-appeal-ssa-44.html">How to appeal (Form SSA-44)</a> — step by step.</li>
+  </ul>
+  <p>IRMAA planning is one of the most valuable things a good agent does. If you're near a threshold, <strong>call us free</strong> — a small move can save a full tier.</p>
+</ArticlePage>

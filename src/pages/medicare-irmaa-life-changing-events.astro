@@ -1,0 +1,65 @@
+---
+// src/pages/medicare-irmaa-life-changing-events.astro — IRMAA LCE guide (M10).
+// NET-NEW. ArticlePage in costs-irmaa; the "do I qualify to appeal?" companion
+// to the SSA-44 how-to. Feeds the hub and calculator.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Medicare IRMAA Life-Changing Events — Who Can Appeal | Vernal Medicare',
+    heading: 'IRMAA Life-Changing Events (When You Can Appeal)',
+    description: 'Social Security recognizes eight life-changing events that let you appeal a Medicare IRMAA surcharge based on lower current income. See whether yours qualifies.',
+    taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'appeal', 'life-changing-events', 'costs', 'part-b', 'part-d'] },
+    summary: 'Because IRMAA uses income from two years ago, Social Security lets you appeal when a specific life-changing event has lowered your income since then. There are eight recognized events — work stoppage and the death of a spouse are the most common. If one applies, you can file Form SSA-44 to use your current income instead.',
+    faqs: [
+      { question: 'Does any drop in income count?', answer: 'No. Only the eight recognized life-changing events qualify for an IRMAA appeal. A drop that isn’t tied to one of them will still lower your IRMAA automatically in a future year, but it can’t be appealed now.' },
+      { question: 'Is retirement a life-changing event?', answer: 'Yes — retiring or otherwise stopping/reducing work is the "work stoppage" or "work reduction" event, and it’s the most common reason people successfully appeal IRMAA.' },
+      { question: 'Can investment losses be appealed?', answer: 'Generally no. A fall in investment income by itself isn’t one of the eight events. The events are specific life circumstances (like retirement, marriage, or the death of a spouse), not market performance.' },
+    ],
+    sources: [
+      { title: 'Medicare IRMAA — Life-Changing Event (Form SSA-44)', url: 'https://www.ssa.gov/forms/ssa-44.pdf', publisher: 'Social Security Administration' },
+      { title: 'Medicare premiums: Rules for higher-income beneficiaries', url: 'https://www.ssa.gov/benefits/medicare/medicare-premiums.html', publisher: 'Social Security Administration' },
+    ],
+    nextSteps: [
+      { when: 'If one of these fits your situation,', action: 'file Form SSA-44 — and call us free if you’d like a hand.' },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-irmaa-life-changing-events.html',
+    ogType: 'article',
+    ogTitle: 'Medicare IRMAA Life-Changing Events',
+    ogDescription: 'The eight events that let you appeal an IRMAA surcharge based on your current income.',
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'IRMAA', href: '/medicare-irmaa.html' },
+    { name: 'Life-Changing Events', href: '/medicare-irmaa-life-changing-events.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p><a href="medicare-irmaa.html">IRMAA</a> is based on your income from two years ago — which is a problem if your income has since dropped. Social Security's answer is the <strong>life-changing event</strong>: if one of eight recognized events lowered your income, you can <a href="medicare-irmaa-appeal-ssa-44.html">appeal with Form SSA-44</a> and have your <em>current</em> income used instead.</p>
+
+  <h2>The Eight Qualifying Events</h2>
+  <ol>
+    <li><strong>Death of a spouse</strong> — losing a spouse's income (and often moving to single filing).</li>
+    <li><strong>Marriage</strong> — a new marriage that changes your filing status and income.</li>
+    <li><strong>Divorce or annulment</strong> — the end of a marriage.</li>
+    <li><strong>Work stoppage</strong> — retiring or otherwise stopping work. The most common reason people appeal.</li>
+    <li><strong>Work reduction</strong> — cutting back hours or moving to part-time.</li>
+    <li><strong>Loss of income-producing property</strong> — through disaster, theft, or other events outside your control (not ordinary investment losses).</li>
+    <li><strong>Loss of pension income</strong> — a pension that stops or is significantly reduced.</li>
+    <li><strong>Employer settlement payment</strong> — a change in income from an employer's closure or bankruptcy.</li>
+  </ol>
+
+  <h2>What Doesn't Count</h2>
+  <p>A plain year-to-year dip, capital-gains swings, or a smaller Required Minimum Distribution aren't life-changing events on their own. They'll still lower your IRMAA <em>automatically</em> when Social Security processes a newer tax return — usually within a year or two — but they can't be appealed with SSA-44 today.</p>
+
+  <h2>If One Applies to You</h2>
+  <p>Most successful IRMAA appeals come down to <strong>retirement</strong> or the <strong>death of a spouse</strong>. If either — or any of the other six — describes your last couple of years, you likely qualify. Check the <a href="medicare-irmaa-brackets-2026.html">current brackets</a> to see the tier you should land in, then <a href="medicare-irmaa-appeal-ssa-44.html">file Form SSA-44</a>. Want a second set of eyes first? <strong>Call us free</strong> — we do this all the time.</p>
+</ArticlePage>
