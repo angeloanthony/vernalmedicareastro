@@ -1,0 +1,78 @@
+---
+// src/pages/medicare-special-enrollment-period.astro — Enrollment silo spoke (M7).
+// Special Enrollment Period (SEP). Net-new; Vernal lacked a standalone SEP page.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Medicare Special Enrollment Period (SEP) — Qualifying Events & Rules | Vernal Medicare',
+    heading: 'Medicare Special Enrollment Period (SEP)',
+    description:
+      'A Special Enrollment Period lets you enroll in or change Medicare outside the normal windows — with no late penalty — after a qualifying life event like losing employer coverage, moving, or losing Medicaid.',
+    taxonomy: { silo: 'enrollment', tags: ['sep', 'special-enrollment', 'deadlines', 'part-b'] },
+    summary:
+      'A Special Enrollment Period (SEP) lets you sign up for Medicare, or change your plan, outside the usual windows — usually with no late-enrollment penalty — after a qualifying life event such as losing job-based coverage, moving, or losing Medicaid. Timing is limited, so act quickly once the event happens.',
+    faqs: [
+      {
+        question: 'What events trigger a Special Enrollment Period?',
+        answer:
+          'Common triggers include losing employer or union coverage (yours or a spouse\'s), moving out of your plan\'s service area, losing Medicaid, moving into or out of a nursing facility, or your plan leaving Medicare. Each event has its own SEP length and rules.',
+      },
+      {
+        question: 'Do I pay a penalty if I use a SEP?',
+        answer:
+          'Usually no. If you delayed Part B or Part D because you had other creditable coverage (like an employer plan) and you enroll during the SEP that follows, you generally avoid the late-enrollment penalty. That is the main advantage of a SEP over the General Enrollment Period.',
+      },
+      {
+        question: 'How long does a SEP last?',
+        answer:
+          'It varies by event. For losing employer coverage, you typically have an 8-month window for Part B (though to avoid a gap you\'ll usually want to act within the first couple of months). Because the clock is short and event-specific, it\'s worth confirming your exact deadline with us.',
+      },
+    ],
+    sources: [
+      { title: 'Special Enrollment Periods', url: 'https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      {
+        when: "If you're losing employer coverage or just moved,",
+        action: 'your SEP clock is already running — call us right away and we\'ll confirm your exact deadline so you avoid a gap or penalty.',
+      },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-special-enrollment-period.html',
+    ogType: 'article',
+    ogTitle: 'Medicare Special Enrollment Period (SEP)',
+    ogDescription: 'Enroll or change Medicare outside the normal windows, penalty-free, after a qualifying life event.',
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare Enrollment Periods', href: '/medicare-enrollment-periods.html' },
+    { name: 'Special Enrollment Period', href: '/medicare-special-enrollment-period.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>Most Medicare enrollment happens in fixed windows — but life doesn't always line up with the calendar. A <strong>Special Enrollment Period (SEP)</strong> is Medicare's built-in flexibility: after certain life events, you can enroll or change plans outside the normal windows, usually <strong>without a late-enrollment penalty</strong>. See how it fits with the other windows on our <a href="medicare-enrollment-periods.html">enrollment periods overview</a>.</p>
+
+  <h2>Common Qualifying Events</h2>
+  <ul>
+    <li><strong>Losing employer or union coverage</strong> — yours or a spouse's (the most common SEP)</li>
+    <li><strong>Moving</strong> — out of your plan's service area, or to a new area with different plans</li>
+    <li><strong>Losing Medicaid</strong> — if you were <a href="dual-eligible.html">dual eligible</a> and no longer qualify</li>
+    <li><strong>Moving into or out of a nursing facility</strong></li>
+    <li><strong>Your plan leaving Medicare</strong> or changing its contract</li>
+    <li><strong>Qualifying for Extra Help or a Medicare Savings Program</strong></li>
+  </ul>
+
+  <h2>Why the SEP Matters</h2>
+  <p>The big advantage is <strong>no penalty</strong>. If you delayed Part B or Part D because you had creditable coverage (like an active employer plan) and then enroll during the SEP that follows, you avoid the permanent <a href="missed-medicare-enrollment.html">late-enrollment penalty</a>. Without a SEP, you'd be stuck waiting for the <a href="medicare-general-enrollment-period.html">General Enrollment Period</a> and could owe that penalty for life.</p>
+
+  <h2>Act Quickly</h2>
+  <p>SEPs are time-limited and specific to each event, so the moment something changes, it's worth a quick call. We'll confirm exactly which SEP applies and how long you have — free, for anyone in the Uintah Basin or by phone across Utah.</p>
+</ArticlePage>

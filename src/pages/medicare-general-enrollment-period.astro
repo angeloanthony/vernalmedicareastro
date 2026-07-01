@@ -1,0 +1,81 @@
+---
+// src/pages/medicare-general-enrollment-period.astro — Enrollment silo spoke (M7).
+// General Enrollment Period (GEP). Net-new; penalty % from annualMedicareData.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { percent, usd } from '../lib/formatters';
+import type { PageContext } from '../types/Page';
+
+const f = figuresFor();
+const partBPenaltyPerYear = percent(f.penalties.partBPerYearPct); // 10%
+
+const context: PageContext = {
+  page: {
+    title: 'Medicare General Enrollment Period (GEP) — Jan 1–Mar 31 & Penalties | Vernal Medicare',
+    heading: 'Medicare General Enrollment Period (GEP)',
+    description:
+      'Missed your Initial Enrollment Period and have no Special Enrollment Period? The General Enrollment Period (January 1–March 31) is your way onto Part B — but late penalties usually apply. Here is how it works.',
+    taxonomy: { silo: 'enrollment', tags: ['gep', 'general-enrollment', 'part-b', 'penalties', 'deadlines'] },
+    summary:
+      `The General Enrollment Period (GEP) runs January 1–March 31 each year. It's for people who missed their Initial Enrollment Period and don't qualify for a Special Enrollment Period. Coverage starts the first of the month after you sign up — and a permanent Part B late-enrollment penalty (about ${partBPenaltyPerYear} of the premium for each full year you delayed) usually applies.`,
+    faqs: [
+      {
+        question: 'Who uses the General Enrollment Period?',
+        answer:
+          "The GEP is a safety net for people who didn't sign up for Part B (or Part A, if they have to pay for it) during their Initial Enrollment Period and don't have a Special Enrollment Period. If you had creditable employer coverage, you likely qualify for a penalty-free SEP instead — check before defaulting to the GEP.",
+      },
+      {
+        question: 'When does coverage start if I use the GEP?',
+        answer:
+          'If you enroll during the GEP (January 1–March 31), your Part B coverage begins the first day of the month after you sign up. There can be a coverage gap between when your old coverage ended and when Part B begins, which is one reason to avoid needing the GEP.',
+      },
+      {
+        question: 'How big is the late penalty?',
+        answer:
+          `The Part B late-enrollment penalty adds about ${partBPenaltyPerYear} to your premium for each full 12-month period you could have had Part B but didn't. It's permanent — you pay it for as long as you have Part B. On the ${usd(f.partB.premium, { cents: true })} standard ${f.year} premium, even one year's delay adds up over time.`,
+      },
+    ],
+    sources: [
+      { title: 'General Enrollment Period & Part B late penalty', url: 'https://www.medicare.gov/basics/costs/medicare-costs/avoid-penalties', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      {
+        when: 'If you had job-based coverage when you turned 65,',
+        action: 'don\'t assume you need the GEP — you may qualify for a penalty-free Special Enrollment Period instead. Let us check before you enroll.',
+      },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-general-enrollment-period.html',
+    ogType: 'article',
+    ogTitle: 'Medicare General Enrollment Period (GEP)',
+    ogDescription: 'January 1–March 31 enrollment for those who missed their IEP — how it works and the late penalty.',
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare Enrollment Periods', href: '/medicare-enrollment-periods.html' },
+    { name: 'General Enrollment Period', href: '/medicare-general-enrollment-period.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>The <strong>General Enrollment Period (GEP)</strong> is Medicare's yearly safety net: if you missed your <a href="when-to-enroll-medicare-utah.html">Initial Enrollment Period</a> and don't qualify for a <a href="medicare-special-enrollment-period.html">Special Enrollment Period</a>, this is how you get onto Part B. It runs <strong>January 1 through March 31</strong> every year. See where it fits among all the windows on our <a href="medicare-enrollment-periods.html">enrollment periods overview</a>.</p>
+
+  <h2>How It Works</h2>
+  <ul>
+    <li><strong>When:</strong> January 1 – March 31 each year</li>
+    <li><strong>Coverage starts:</strong> the first day of the month after you enroll</li>
+    <li><strong>Who:</strong> people who missed their IEP and have no SEP</li>
+    <li><strong>Catch:</strong> a permanent Part B late-enrollment penalty usually applies</li>
+  </ul>
+
+  <h2>The Late-Enrollment Penalty</h2>
+  <p>This is the part that stings. The Part B penalty adds about <strong>{partBPenaltyPerYear} to your premium for every full year</strong> you could have had Part B but didn't — and it's <strong>permanent</strong>. It's calculated on the standard premium ({usd(f.partB.premium, { cents: true })}/month in {f.year}) and never goes away. Our <a href="missed-medicare-enrollment.html">missed-enrollment guide</a> breaks the penalty math down further.</p>
+
+  <h2>Before You Use the GEP — Check for a SEP</h2>
+  <p>Many people who think they need the GEP actually qualify for a penalty-free <a href="medicare-special-enrollment-period.html">Special Enrollment Period</a> — especially anyone who had active employer coverage. It's worth a two-minute check with us before you enroll and accept a penalty you may not owe. Free, anywhere in the Uintah Basin or by phone.</p>
+</ArticlePage>
