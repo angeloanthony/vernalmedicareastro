@@ -27,6 +27,8 @@ const countyTag = town.county.toLowerCase().replace(/\s+/g, '-'); // "Uintah Cou
 // Roosevelt-side towns lean on the Roosevelt flagship; Vernal-side on the Vernal pillar.
 const anchorHref = town.region === 'duchesne' ? 'medicare-roosevelt-utah.html' : 'medicare-plans-vernal-utah.html';
 const anchorLabel = town.region === 'duchesne' ? 'Roosevelt' : 'Vernal';
+// The town's primary hospital's own Medicare page (part of the providers cluster).
+const hospitalHref = town.region === 'duchesne' ? 'medicare-uintah-basin-medical-center.html' : 'medicare-ashley-regional-vernal.html';
 
 const context: PageContext = {
   page: {
@@ -74,7 +76,7 @@ const context: PageContext = {
   <p>Not sure which fits? Start with <a href="medicare-supplement-vs-advantage.html">Supplement vs Advantage</a> or estimate totals in our <a href="medicare-cost-estimator.html">cost estimator</a>.</p>
 
   <h2>Local Care Near {town.name}</h2>
-  <p>Residents near {town.name} generally rely on <strong>{town.hospital}</strong> in {town.hospitalCity}. Before you choose a plan, the key question is whether it covers the providers you count on. With Medicare Advantage we verify that your {town.county} doctors and {town.hospital} are in-network; with Medigap, network isn't a concern at all, since it works with any provider that accepts Medicare.</p>
+  <p>Residents near {town.name} generally rely on <strong><a href={hospitalHref}>{town.hospital}</a></strong> in {town.hospitalCity}. Before you choose a plan, the key question is whether it covers the providers you count on. With Medicare Advantage we verify that your {town.county} doctors and {town.hospital} are in-network; with Medigap, network isn't a concern at all, since it works with any provider that accepts Medicare. See our guide to <a href="medicare-hospitals-uintah-county.html">Medicare at Uintah Basin hospitals</a>.</p>
 
   <h2>Your Pharmacy and Your Drug Plan</h2>
   <p>Part D costs swing widely depending on which pharmacy you use, because plans have "preferred" pharmacies with lower copays. We build your drug plan comparison around the pharmacy you already visit near {town.name} — so you're not forced to switch to get a good price. Struggling with drug costs? Ask about <a href="prescription-drug-assistance.html">prescription assistance</a> and <a href="medicare-extra-help-utah.html">Extra Help</a>.</p>
@@ -94,6 +96,21 @@ const context: PageContext = {
   <p>We're based in Vernal, {town.distanceFromOffice}. Our office is at {BUSINESS.street}, inside {BUSINESS.containedInPlace} ({BUSINESS.hours.humanReadable}). But you don't have to come in — most clients handle everything <strong>by phone or video</strong>. For more on the area, see our {anchorLabel}-area guide on <a href={anchorHref}>Medicare in {anchorLabel}</a>.</p>
 
   <p><strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}). We'll compare your Medicare options against the {town.name} doctors and pharmacies you already use, and help you enroll with confidence.</p>
+
+  <h2>More {town.name} Medicare Help</h2>
+  <ul>
+    <li><strong><a href="medicare-help-center.html">Medicare Help Center</a></strong> — every topic, in one place.</li>
+    <li><a href="medicare-enrollment-periods.html">When to enroll</a> · <a href="medicare-quote-vernal.html">get a free quote</a> · <a href="free-medicare-comparison-vernal.html">compare plans</a>.</li>
+    <li><a href="reviews.html">Client reviews</a> · <a href="faq.html">FAQ</a> · <a href="medicare-agent-credentials.html">our credentials</a>.</li>
+  </ul>
+
+  <h2>Local &amp; Government Resources</h2>
+  <p>Beyond us, these official resources can help {town.name}-area beneficiaries:</p>
+  <ul>
+    <li><a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711) — the official source for every plan in your area.</li>
+    <li><a href="https://www.ssa.gov/locator" target="_blank" rel="nofollow">Social Security office locator</a> — for enrollment, Part B, and IRMAA questions.</li>
+    <li><a href="https://www.ssa.gov/medicare/part-d-extra-help" target="_blank" rel="nofollow">Extra Help (Part D low-income subsidy)</a> — and our <a href="medicare-savings-programs-utah.html">Medicare Savings Programs</a> guide.</li>
+  </ul>
 
   <p style="text-align:center;margin-top:2rem;">
     <a href={BUSINESS.quoteUrl} class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
