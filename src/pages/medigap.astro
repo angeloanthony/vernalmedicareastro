@@ -1,72 +1,67 @@
 ---
-// src/pages/medigap.astro  —  converted from medigap.html
-// URL preserved: /medigap.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/medigap.astro — MIGRATED to the Page Framework.
+// The MEDIGAP SILO PILLAR. URL (/medigap.html), title, description, canonical,
+// and the intro heading preserved from the legacy page. Now on ArticlePage:
+// automatic Article+FAQ+Breadcrumb schema, byline, related, and the required
+// marketing disclaimer. The inline hand-rolled JSON-LD (InsuranceAgency + FAQPage)
+// and the inline CMS marketing-disclaimer block were removed — the framework
+// generates both; the FAQ Q&A moved into page.faqs, marketingDisclaimer:true set.
+// The YouTube <iframe> embed, the smile-badge carousel, the flip-comic, and both
+// page scripts are preserved byte-for-byte in the body slot. No stale $185/$257/
+// $1,676 figures appeared, so no figuresFor()/usd data layer is needed.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "InsuranceAgency",
-    "name": "Vernal Medicare",
-    "url": "https://vernalmedicare.com/",
-    "logo": "https://vernalmedicare.com/pictures/Rocco.webp",
-    "description": "Licensed help with Medicare Advantage, Medigap, Part D, and under-65 health insurance in Vernal and the Uintah Basin.",
-    "telephone": "+1-435-219-5120",
-    "email": "rocco@vernalmedicare.com",
-    "areaServed": "Uintah County, Utah",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Vernal",
-      "addressRegion": "UT",
-      "postalCode": "84078",
-      "addressCountry": "US"
-    }
+const context: PageContext = {
+  page: {
+    title: 'Medigap (Medicare Supplement) in Vernal, Utah | Vernal Medicare',
+    heading: 'Medigap (Medicare Supplement) — "Don\'t Be Harold" Insurance',
+    description:
+      'Compare Medigap plans in Vernal and the Uintah Basin. Local, licensed help choosing a Medicare Supplement that fits your doctors and budget.',
+    taxonomy: {
+      silo: 'medigap',
+      tags: ['medigap', 'supplement', 'overview', 'vernal', 'original-medicare'],
+      pillar: true,
+    },
+    summary:
+      "Medigap (Medicare Supplement) helps pay the costs Original Medicare doesn't — deductibles, copays, and coinsurance. You keep Original Medicare, see any provider who accepts it nationwide, and add a separate Part D plan for prescriptions. Local, licensed help comparing Medigap plans in Vernal and the Uintah Basin.",
+    faqs: [
+      {
+        question: 'What is Medigap?',
+        answer:
+          "Medigap (Medicare Supplement) helps pay the costs Original Medicare doesn't, like deductibles, copays, and coinsurance. You keep Original Medicare and can see any provider who accepts Medicare.",
+      },
+      {
+        question: 'Does Medigap include drug coverage?',
+        answer: 'No. Most people add a separate Part D plan for prescriptions.',
+      },
+      {
+        question: 'When can I enroll?',
+        answer:
+          "Your best time is the first 6 months you're 65 or older and have Part B—no health questions in most states. After that you can apply anytime, but medical underwriting may apply.",
+      },
+    ],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is Medigap?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Medigap (Medicare Supplement) helps pay the costs Original Medicare doesn't, like deductibles, copays, and coinsurance. You keep Original Medicare and can see any provider who accepts Medicare."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Does Medigap include drug coverage?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. Most people add a separate Part D plan for prescriptions."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "When can I enroll?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Your best time is the first 6 months you're 65 or older and have Part B—no health questions in most states. After that you can apply anytime, but medical underwriting may apply."
-        }
-      }
-    ]
-  }
-];
+  meta: {
+    canonical: 'https://vernalmedicare.com/medigap.html',
+    ogType: 'article',
+    ogDescription:
+      'Local, licensed help comparing Medigap plans in Vernal and the Uintah Basin.',
+  },
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medigap', href: '/medigap.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="Medigap (Medicare Supplement) in Vernal, Utah | Vernal Medicare"
-  description="Compare Medigap plans in Vernal and the Uintah Basin. Local, licensed help choosing a Medicare Supplement that fits your doctors and budget."
-  canonical="https://vernalmedicare.com/medigap.html"
-  ogDescription="Local, licensed help comparing Medigap plans in Vernal and the Uintah Basin."
-  twitterDescription="Local, licensed help comparing Medigap plans in Vernal and the Uintah Basin."
-  schema={schema}
->
+<ArticlePage context={context}>
   <section class="container" id="medigap-intro">
-    <h2 style="margin:16px 0;">Medigap (Medicare Supplement) — "Don't Be Harold" Insurance</h2>
   <p style="background:#f0f9ff; border-left:5px solid #0b6ea3; border-radius:6px; padding:1rem 1.25rem; margin:1.25rem 0;">
   <strong>Looking for the bigger picture?</strong> See <a href="medicare-plans-vernal-utah.html">everything about Medicare in Vernal, Utah</a> — covers Medicare Advantage, Medigap, Part D, costs, enrollment, and local providers.
   </p>
@@ -75,11 +70,11 @@ const schema = [
       <!-- LEFT: video card -->
       <div class="mg-card">
         <div class="mg-ratio">
-        <iframe width="560" height="315" 
-        src="https://www.youtube.com/embed/YUnuLhlyTPw?si=_vZHA79ZfRG3TnvS" 
-        title="YouTube video player" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        style="border:0;" 
+        <iframe width="560" height="315"
+        src="https://www.youtube.com/embed/YUnuLhlyTPw?si=_vZHA79ZfRG3TnvS"
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        style="border:0;"
         allowfullscreen></iframe>
         </div>
       </div>
@@ -95,26 +90,6 @@ const schema = [
       </a>
     </div>
   </section>
-
-  <section class="cms-compliance" style="background: #fffbf0; border: 2px solid #d97706; border-radius: 8px; padding: 1.5rem; margin: 2rem auto; max-width: 1100px;">
-  <h3 style="color: #92400e; margin-top: 0; font-size: 1.1rem;">Important Medicare Information</h3>
-  
-  <p style="margin: 0.75rem 0; color: #333; font-size: 0.95rem; line-height: 1.5;">
-    <strong>We do not offer every plan available in your area.</strong> Any information we provide is limited to those plans we do offer in your area. Please contact <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711), 24 hours a day, 7 days a week, to get information on all of your options.
-  </p>
-
-  <p style="margin: 0.75rem 0; color: #333; font-size: 0.95rem; line-height: 1.5;">
-    Vernal Medicare is a licensed and certified representative of Medicare Advantage organizations and stand-alone prescription drug plans. Each of the organizations we represent has a Medicare contract. Enrollment in any plan depends on contract renewal.
-  </p>
-
-  <p style="margin: 0.75rem 0; color: #333; font-size: 0.95rem; line-height: 1.5;">
-    <strong>Not connected with or endorsed by the U.S. government or the federal Medicare program.</strong>
-  </p>
-
-  <p style="margin: 0.75rem 0; color: #333; font-size: 0.95rem; line-height: 1.5;">
-    By calling the number above, you will be directed to a licensed insurance agent.
-  </p>
-</section>
 
   <!-- Smile Carousel -->
   <section class="smile" aria-label="Medicare comics carousel">
@@ -191,7 +166,7 @@ const schema = [
 </section>
   </section>
 
-  
+
 
 <script>
   (function(){
@@ -260,4 +235,4 @@ const schema = [
     });
   })();
   </script>
-</BaseLayout>
+</ArticlePage>
