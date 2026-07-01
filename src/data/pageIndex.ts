@@ -111,6 +111,33 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'What Happens If You Miss Medicare Enrollment',
     taxonomy: { silo: 'enrollment', tags: ['penalties', 'missed', 'part-b', 'part-d', 'gep'] },
   },
+  // ── Medigap silo (M9): HD Plan G gap + register Plan G vs N ──
+  {
+    href: '/medicare-plan-g-high-deductible.html',
+    title: 'High-Deductible Medicare Supplement Plan G',
+    taxonomy: { silo: 'medigap', tags: ['medigap', 'plan-g', 'high-deductible', 'costs'] },
+  },
+  {
+    href: '/plan-g-vs-plan-n-vernal.html',
+    title: 'Medicare Supplement Plan G vs Plan N',
+    taxonomy: { silo: 'medigap', tags: ['medigap', 'plan-g', 'plan-n', 'comparison'] },
+  },
+  // ── Decision Tools (M9) ──
+  {
+    href: '/medicare-cost-estimator.html',
+    title: 'Medicare Cost Estimator',
+    taxonomy: { silo: 'costs-irmaa', tags: ['costs', 'tools', 'medigap', 'advantage'] },
+  },
+  {
+    href: '/medicare-part-b-penalty-calculator.html',
+    title: 'Part B Late Enrollment Penalty Calculator',
+    taxonomy: { silo: 'enrollment', tags: ['penalties', 'part-b', 'tools', 'gep'] },
+  },
+  {
+    href: '/medicare-enrollment-timeline.html',
+    title: 'Medicare Enrollment Timeline Calculator',
+    taxonomy: { silo: 'enrollment', tags: ['iep', 'timeline', 'tools', 'turning-65'] },
+  },
   // ── Part D / Drug Assistance silo (M8) ──
   {
     href: '/prescription-drug-assistance.html',

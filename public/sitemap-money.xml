@@ -92,4 +92,32 @@
     <priority>0.8</priority>
   </url>
 
+  <url>
+    <loc>https://vernalmedicare.com/medicare-cost-estimator.html</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://vernalmedicare.com/medicare-part-b-penalty-calculator.html</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://vernalmedicare.com/medicare-enrollment-timeline.html</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://vernalmedicare.com/medicare-plan-g-high-deductible.html</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>

@@ -1,0 +1,69 @@
+---
+// src/pages/medicare-plan-g-high-deductible.astro — Medigap gap page (M9).
+// Closes the audit-flagged HD-Plan-G gap. ArticlePage; links existing Medigap pages.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'High-Deductible Plan G (HDG) — Lower-Premium Medigap in Utah | Vernal Medicare',
+    heading: 'High-Deductible Medicare Supplement Plan G',
+    description:
+      'High-Deductible Plan G gives you the same coverage as regular Plan G for a much lower premium — after you meet one annual deductible. See how it works, who it fits, and the trade-offs.',
+    taxonomy: { silo: 'medigap', tags: ['medigap', 'plan-g', 'high-deductible', 'costs'] },
+    summary:
+      'High-Deductible Plan G (HDG) covers exactly what regular Plan G covers, but you pay a high annual deductible (around $2,800 in 2026) before it starts — in exchange for a much lower monthly premium. It fits people who want catastrophic protection and predictable maximum exposure at the lowest premium.',
+    faqs: [
+      {
+        question: 'What’s the difference between Plan G and High-Deductible Plan G?',
+        answer:
+          'The benefits are identical. With regular Plan G you pay a higher premium and almost nothing else. With High-Deductible Plan G you pay a much lower premium but cover a high annual deductible (about $2,800 in 2026) yourself first; after that, it pays like regular Plan G.',
+      },
+      {
+        question: 'Who is High-Deductible Plan G good for?',
+        answer:
+          'People who are relatively healthy, want the lowest possible premium, and are comfortable paying up to the annual deductible in a bad year in exchange for strong catastrophic protection. If you expect heavy medical use, regular Plan G may cost less overall.',
+      },
+      {
+        question: 'Is the deductible the same every year?',
+        answer: 'No — Medicare sets the High-Deductible Plan G deductible each year, and it tends to rise slightly. Always check the current year’s amount before deciding.',
+      },
+    ],
+    sources: [{ title: 'Medigap (Medicare Supplement Insurance)', url: 'https://www.medicare.gov/health-drug-plans/medigap', publisher: 'Medicare.gov' }],
+    nextSteps: [
+      { when: 'If you’re healthy and premium-focused,', action: 'compare High-Deductible Plan G against regular Plan G with us — the right choice depends on your expected medical use.' },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-plan-g-high-deductible.html',
+    ogType: 'article',
+    ogTitle: 'High-Deductible Medicare Supplement Plan G',
+    ogDescription: 'Same coverage as Plan G for a lower premium — after one annual deductible.',
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medigap', href: '/medigap.html' },
+    { name: 'High-Deductible Plan G', href: '/medicare-plan-g-high-deductible.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>If you like the idea of <a href="medigap.html">Medigap</a> but want a lower premium, <strong>High-Deductible Plan G (HDG)</strong> is worth a look. It's the same coverage as <a href="plan-g-vs-plan-n-vernal.html">regular Plan G</a> — you just take on one annual deductible in exchange for a much smaller monthly bill.</p>
+
+  <h2>How It Works</h2>
+  <p>High-Deductible Plan G covers everything regular Plan G covers. The difference is timing: you pay a <strong>high annual deductible</strong> (about <strong>$2,800 in 2026</strong>, set each year by Medicare) out of pocket first. Once you hit it, the plan pays your Medicare cost-sharing exactly like standard Plan G for the rest of the year — so your worst-case exposure is capped and predictable.</p>
+
+  <h2>Who It Fits</h2>
+  <ul>
+    <li><strong>Healthy, premium-focused</strong> — you rarely hit the deductible, so the low premium is pure savings.</li>
+    <li><strong>Want catastrophic protection</strong> — a bad year is capped at the deductible plus premiums, not open-ended like Original Medicare alone.</li>
+    <li><strong>Comfortable with some risk</strong> — you're betting you'll spend less than the premium difference in most years.</li>
+  </ul>
+
+  <h2>The Trade-off</h2>
+  <p>If you expect heavy medical use, <a href="plan-g-vs-plan-n-vernal.html">regular Plan G or Plan N</a> may cost less overall, since you'd hit the deductible anyway. Weighing Medigap against a bundled plan? See <a href="medicare-supplement-vs-advantage.html">Medicare Supplement vs Medicare Advantage</a>, or run the numbers in our <a href="medicare-cost-estimator.html">cost estimator</a>. We're happy to compare all of it with you, free.</p>
+</ArticlePage>

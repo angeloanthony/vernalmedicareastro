@@ -1,0 +1,101 @@
+---
+// src/pages/medicare-part-b-penalty-calculator.astro — Decision Tools (M9).
+import CalculatorPage from '../components/layout/CalculatorPage.astro';
+import CalculatorSection from '../components/calculator/CalculatorSection.astro';
+import CalculatorInput from '../components/calculator/CalculatorInput.astro';
+import CalculatorResult from '../components/calculator/CalculatorResult.astro';
+import CalculatorPrint from '../components/calculator/CalculatorPrint.astro';
+import CalculatorShare from '../components/calculator/CalculatorShare.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+import type { PageContext } from '../types/Page';
+import type { CalculatorField } from '../types/Calculator';
+
+const f = figuresFor();
+const monthsField: CalculatorField = {
+  id: 'months',
+  label: 'Months you delayed Part B past your enrollment window',
+  type: 'number',
+  help: 'The penalty adds 10% for each FULL 12 months you could have had Part B but didn’t.',
+  min: 0,
+};
+
+const context: PageContext = {
+  page: {
+    title: `Medicare Part B Late Enrollment Penalty Calculator ${f.year} | Vernal Medicare`,
+    heading: 'Part B Late Enrollment Penalty Calculator',
+    description: `Estimate your permanent Medicare Part B late-enrollment penalty. It adds 10% to your premium for each full year you delayed. See your ${f.year} numbers.`,
+    taxonomy: { silo: 'enrollment', tags: ['penalties', 'part-b', 'gep', 'deadlines'] },
+    summary: `The Part B late-enrollment penalty is permanent: 10% added to your premium for each full 12 months you could have had Part B but didn’t. Enter how many months late you were to estimate it against the ${f.year} standard premium of ${usd(f.partB.premium, { cents: true })}.`,
+    faqs: [
+      { question: 'Is the Part B penalty permanent?', answer: 'Yes. Once it applies, you pay it for as long as you have Part B. That’s why it’s worth checking whether a Special Enrollment Period could let you avoid it entirely.' },
+      { question: 'How do I avoid the penalty?', answer: 'If you had creditable coverage (like an active employer plan), you likely qualify for a penalty-free Special Enrollment Period. Check before enrolling during the General Enrollment Period.' },
+    ],
+    sources: [{ title: 'Avoid late-enrollment penalties', url: 'https://www.medicare.gov/basics/costs/medicare-costs/avoid-penalties', publisher: 'Medicare.gov' }],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-part-b-penalty-calculator.html',
+    ogType: 'website',
+    ogTitle: 'Part B Late Enrollment Penalty Calculator',
+    ogDescription: 'Estimate your permanent Medicare Part B late-enrollment penalty.',
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  medicalDisclaimer: 'Estimate only, based on published CMS figures. Your actual penalty is set by Social Security.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare Enrollment Periods', href: '/medicare-enrollment-periods.html' },
+    { name: 'Part B Penalty Calculator', href: '/medicare-part-b-penalty-calculator.html' },
+  ],
+};
+---
+
+<CalculatorPage context={context}>
+  <p>Enrolling in Part B after your Initial Enrollment Period — without a <a href="medicare-special-enrollment-period.html">Special Enrollment Period</a> — usually triggers a permanent penalty. Estimate it below.</p>
+
+  <form class="calc-form" data-calc-form novalidate>
+    <CalculatorSection title="Your delay">
+      <CalculatorInput field={monthsField} />
+    </CalculatorSection>
+    <div class="calc-actions">
+      <CalculatorPrint />
+      <CalculatorShare />
+    </div>
+  </form>
+
+  <CalculatorResult heading="Your estimated penalty" />
+
+  <p>If you had employer coverage when you delayed, you may owe <strong>no penalty at all</strong> — see the <a href="medicare-general-enrollment-period.html">General Enrollment Period</a> and <a href="missed-medicare-enrollment.html">missed-enrollment</a> guides, or call us to check.</p>
+
+  <script>
+    import { bindCalculator } from '../lib/calculators';
+    import { computePartBPenalty } from '../lib/calculators/penalty';
+    import { figuresFor } from '../data/annualMedicareData';
+    import { usd, percent } from '../lib/formatters';
+    import type { CalculatorResult } from '../types/Calculator';
+
+    const F = figuresFor();
+    function compute(fields: Record<string, string>): CalculatorResult {
+      const months = Math.max(0, parseInt(fields.months || '0', 10) || 0);
+      const r = computePartBPenalty(months, F);
+      return {
+        summary:
+          r.penaltyPct > 0
+            ? `A ${months}-month delay is ${r.fullYearsLate} full year(s) — a permanent ${percent(r.penaltyPct)} penalty, about ${usd(r.monthlyPenalty, { cents: true })}/month extra.`
+            : 'Under 12 months late — no penalty yet, but don’t wait.',
+        rows: [
+          { label: 'Full years late', value: String(r.fullYearsLate) },
+          { label: 'Penalty', value: percent(r.penaltyPct) },
+          { label: 'Standard Part B premium', value: usd(r.standardPremium, { cents: true }) },
+          { label: 'Extra per month (penalty)', value: usd(r.monthlyPenalty, { cents: true }), emphasis: true },
+          { label: 'Extra per year', value: usd(r.annualPenalty) },
+        ],
+      };
+    }
+
+    const form = document.querySelector<HTMLElement>('[data-calc-form]');
+    const results = document.querySelector<HTMLElement>('[data-calc-results]');
+    if (form && results) bindCalculator(form, results, compute);
+  </script>
+</CalculatorPage>

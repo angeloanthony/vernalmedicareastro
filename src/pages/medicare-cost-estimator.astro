@@ -1,0 +1,109 @@
+---
+// src/pages/medicare-cost-estimator.astro — Decision Tools (M9).
+import CalculatorPage from '../components/layout/CalculatorPage.astro';
+import CalculatorSection from '../components/calculator/CalculatorSection.astro';
+import CalculatorInput from '../components/calculator/CalculatorInput.astro';
+import CalculatorResult from '../components/calculator/CalculatorResult.astro';
+import CalculatorPrint from '../components/calculator/CalculatorPrint.astro';
+import CalculatorShare from '../components/calculator/CalculatorShare.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+import type { PageContext } from '../types/Page';
+import type { CalculatorField } from '../types/Calculator';
+
+const f = figuresFor();
+const fields: CalculatorField[] = [
+  { id: 'path', label: 'Coverage path', type: 'radio', options: [
+    { label: 'Original Medicare + Medigap Plan G + Part D', value: 'medigap' },
+    { label: 'Medicare Advantage', value: 'advantage' },
+  ] },
+  { id: 'medigapMonthly', label: 'Medigap Plan G premium (per month)', type: 'currency', help: 'Typical is around $150/mo; leave blank to use that.' },
+  { id: 'partDMonthly', label: 'Part D premium (per month)', type: 'currency', help: `Blank uses the ${f.year} base of ${usd(f.partD.basePremium, { cents: true })}.` },
+  { id: 'advantageMonthly', label: 'Medicare Advantage premium (per month)', type: 'currency', help: 'Many Advantage plans are $0.' },
+  { id: 'usage', label: 'Expected medical use (Advantage only)', type: 'select', options: [
+    { label: 'Low', value: 'low' }, { label: 'Typical', value: 'typical' }, { label: 'High', value: 'high' },
+  ] },
+];
+
+const context: PageContext = {
+  page: {
+    title: `Medicare Cost Estimator ${f.year} — Original + Medigap vs Advantage | Vernal Medicare`,
+    heading: 'Medicare Cost Estimator',
+    description: `Estimate your annual Medicare cost for ${f.year}: Original Medicare + Medigap + Part D vs. a Medicare Advantage plan. Premiums, deductibles, and out-of-pocket in one place.`,
+    taxonomy: { silo: 'costs-irmaa', tags: ['costs', 'medigap', 'advantage', 'part-b', 'part-d'] },
+    summary: `This estimator adds up your yearly Medicare cost by path. Everyone pays the Part B premium (${usd(f.partB.premium, { cents: true })}/mo in ${f.year}); on top of that, Original + Medigap + Part D is predictable, while Medicare Advantage trades a lower premium for variable out-of-pocket costs. Adjust the inputs to fit your situation.`,
+    faqs: [
+      { question: 'Is this exact?', answer: 'No — it’s an estimate. Medigap premiums vary by insurer and age, and Advantage out-of-pocket depends on your care and network. Use it to compare the two paths, then call us for exact plan quotes.' },
+      { question: 'Does it include IRMAA?', answer: 'No. If your income is above the threshold, add your IRMAA surcharge from the IRMAA calculator to the Part B (and Part D) figures here.' },
+    ],
+    sources: [{ title: 'Medicare costs at a glance', url: 'https://www.medicare.gov/basics/costs/medicare-costs', publisher: 'Medicare.gov' }],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-cost-estimator.html',
+    ogType: 'website',
+    ogTitle: 'Medicare Cost Estimator',
+    ogDescription: 'Estimate your annual Medicare cost: Original + Medigap + Part D vs. Medicare Advantage.',
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  medicalDisclaimer: 'Estimate only, based on published CMS figures and typical premiums. Not a quote.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare Cost Estimator', href: '/medicare-cost-estimator.html' },
+  ],
+};
+---
+
+<CalculatorPage context={context}>
+  <p>Wondering what Medicare will actually cost you? Compare the two main paths below. Higher earners should also add their <a href="medicare-irmaa-calculator.html">IRMAA surcharge</a>.</p>
+
+  <form class="calc-form" data-calc-form novalidate>
+    <CalculatorSection title="Your situation">
+      {fields.map((field) => <CalculatorInput field={field} />)}
+    </CalculatorSection>
+    <div class="calc-actions">
+      <CalculatorPrint />
+      <CalculatorShare />
+    </div>
+  </form>
+
+  <CalculatorResult heading="Estimated annual cost" />
+
+  <p>Weighing the two paths? See <a href="medicare-supplement-vs-advantage.html">Medicare Supplement vs Medicare Advantage</a>, or the <a href="medicare-plan-g-high-deductible.html">High-Deductible Plan G</a> option for lower premiums.</p>
+
+  <script>
+    import { bindCalculator } from '../lib/calculators';
+    import { computeMedicareCost, type CoveragePath, type UsageLevel } from '../lib/calculators/cost';
+    import { figuresFor } from '../data/annualMedicareData';
+    import { usd } from '../lib/formatters';
+    import type { CalculatorResult } from '../types/Calculator';
+
+    const F = figuresFor();
+    const num = (v: string, d: number): number => {
+      const n = parseFloat((v || '').replace(/[^0-9.]/g, ''));
+      return Number.isFinite(n) ? n : d;
+    };
+    function compute(fields: Record<string, string>): CalculatorResult {
+      const path: CoveragePath = fields.path === 'advantage' ? 'advantage' : 'medigap';
+      const usage: UsageLevel = fields.usage === 'low' || fields.usage === 'high' ? fields.usage : 'typical';
+      const r = computeMedicareCost(path, {
+        medigapMonthly: num(fields.medigapMonthly, 150),
+        partDMonthly: num(fields.partDMonthly, F.partD.basePremium),
+        advantageMonthly: num(fields.advantageMonthly, 0),
+        usage,
+      }, F);
+      return {
+        summary: `Estimated ${path === 'medigap' ? 'Original + Medigap + Part D' : 'Medicare Advantage'} cost: about ${usd(r.annualTotal)}/year (${usd(r.annualTotal / 12)}/mo).`,
+        rows: [
+          ...r.breakdown.map((b) => ({ label: b.label, value: usd(b.amount) })),
+          { label: 'Estimated annual total', value: usd(r.annualTotal), emphasis: true },
+        ],
+      };
+    }
+
+    const form = document.querySelector<HTMLElement>('[data-calc-form]');
+    const results = document.querySelector<HTMLElement>('[data-calc-results]');
+    if (form && results) bindCalculator(form, results, compute);
+  </script>
+</CalculatorPage>
