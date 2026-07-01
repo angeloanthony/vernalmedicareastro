@@ -1,0 +1,80 @@
+---
+// src/pages/medicare-news/[slug].astro — per-article page (M31). One page per
+// entry in data/news.ts. Renders the four-question structure and ties into the
+// authority clusters via learn-more / calculator / related links.
+import type { GetStaticPaths } from 'astro';
+import ArticlePage from '../../components/layout/ArticlePage.astro';
+import { NEWS_ARTICLES } from '../../data/news';
+import { NEWS_CATEGORY_META } from '../../types/News';
+import { BUSINESS } from '../../data/business';
+import type { PageContext } from '../../types/Page';
+import type { NewsArticle } from '../../types/News';
+
+export const getStaticPaths = (() =>
+  NEWS_ARTICLES.map((a) => ({ params: { slug: a.slug }, props: { article: a } }))) satisfies GetStaticPaths;
+
+interface Props {
+  article: NewsArticle;
+}
+const { article: a } = Astro.props as Props;
+const catMeta = NEWS_CATEGORY_META[a.category];
+
+const context: PageContext = {
+  page: {
+    title: `${a.title} | Medicare News | Vernal Medicare`,
+    heading: a.title,
+    description: a.dek,
+    taxonomy: { silo: 'medicare-101', tags: ['news', a.category, a.slug, '2026'] },
+    summary: a.dek,
+    sources: a.source ? [{ title: a.source.title, url: a.source.url, publisher: 'Official source' }] : [],
+    nextSteps: [
+      { when: 'Wondering how this affects you?', action: `call us free at ${BUSINESS.phone} — we’ll explain it for your situation.` },
+    ],
+  },
+  meta: {
+    canonical: `https://vernalmedicare.com/medicare-news/${a.slug}.html`,
+    ogType: 'article',
+    ogTitle: a.title,
+    ogDescription: a.dek,
+  },
+  author: 'rocco',
+  datePublished: a.published,
+  lastUpdated: a.updated ?? a.published,
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare News', href: '/medicare-news.html' },
+    { name: a.title, href: `/medicare-news/${a.slug}.html` },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p class="news-cat-tag"><a href="/medicare-news.html">Medicare News</a> · {catMeta.label}</p>
+  <p class="news-dek"><strong>{a.dek}</strong></p>
+
+  <h2>What changed</h2>
+  <p>{a.whatChanged}</p>
+
+  <h2>Who it affects</h2>
+  <p>{a.whoAffected}</p>
+
+  <h2>What to do</h2>
+  <p>{a.whatToDo}</p>
+
+  <h2>Learn more</h2>
+  <ul>
+    {a.learnMoreHref && <li><a href={`/${a.learnMoreHref}`}>{a.learnMoreLabel}</a></li>}
+    {a.calculatorHref && <li><a href={`/${a.calculatorHref}`}>{a.calculatorLabel ?? 'Run the numbers'}</a></li>}
+    {a.related && a.related.map((r) => <li><a href={`/${r.href}`}>{r.label}</a></li>)}
+  </ul>
+
+  <p>Not sure what this means for you? <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) — no cost, no pressure. See more in the <a href="/medicare-news.html">Medicare News center</a> or the <a href="/medicare-help-center.html">Help Center</a>.</p>
+</ArticlePage>
+
+<style>
+  .news-cat-tag {
+    text-transform: uppercase; letter-spacing: 0.03em; font-size: 0.8rem; font-weight: 700;
+    color: var(--color-accent, #9e0853); margin: 0 0 0.5rem;
+  }
+  .news-dek { font-size: 1.15rem; margin: 0 0 1rem; }
+</style>
