@@ -26,6 +26,7 @@ Legend: ✅ complete · 🚧 in progress · 📋 planned
 | **News Center** | medicare-news + 6 (data/news.ts) | ✅ | Jul 2026 | Curated (Alta topics) |
 | **Calculators** | medicare-calculators + 6 tools | ✅ | Jul 2026 | Vernal |
 | **Search** | medicare-search (Pagefind) | ✅ | Jul 2026 | Vernal |
+| **Wayfinding** | 404 (not-found) · header "Start Here" · footer quick links · homepage hero CTA | ✅ | Jul 2026 | Vernal |
 | **E-E-A-T** | about · medicare-agent-credentials · editorial-policy · reviews · terms · privacy | ✅ | Jul 2026 | Vernal |
 | **IRMAA cluster** | medicare-irmaa (+ brackets/calc/appeal/LCE/reduce) | ✅ | Jul 2026 | Vernal |
 | **Costs** | medicare-costs (+ estimator, oop-max, uintah-county) | ✅ | Jul 2026 | Vernal |
