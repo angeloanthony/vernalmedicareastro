@@ -6,5 +6,6 @@ export * as dates from './dates';
 export * as validation from './validation';
 export * as calculators from './calculators';
 export * as schema from './schema';
+export * as related from './related';
 export * as seo from './seo';
 export * as routing from './routing';
