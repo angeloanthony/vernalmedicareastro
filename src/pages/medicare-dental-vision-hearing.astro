@@ -1,0 +1,76 @@
+---
+// src/pages/medicare-dental-vision-hearing.astro — Alta Wave 2 (M36).
+// Coverage gap Vernal lacked. Integrated (not copied): links the MA-extras path,
+// the Medigap+standalone path, the glossary, and local help. Author Rocco.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Does Medicare Cover Dental, Vision & Hearing? Your Options | Vernal Medicare',
+    heading: 'Dental, Vision & Hearing on Medicare',
+    description:
+      'Original Medicare doesn’t cover routine dental, vision, or hearing — but you have options. How Medicare Advantage extras and standalone plans fill the gap, from a local Uintah Basin agent.',
+    taxonomy: { silo: 'medicare-101', tags: ['dental', 'vision', 'hearing', 'coverage', 'advantage', 'medigap'] },
+    summary:
+      'Original Medicare (Parts A and B) doesn’t cover routine dental cleanings, eye exams for glasses, or hearing aids — a surprise to many. You can add this coverage two main ways: a Medicare Advantage plan that bundles it in (often at $0 extra premium), or a standalone dental/vision/hearing plan alongside Original Medicare and Medigap. Which is best depends on what you actually need.',
+    faqs: [
+      { question: 'Does Original Medicare cover dental?', answer: 'Not routine dental (cleanings, fillings, crowns, dentures). There are narrow exceptions — for example, dental care that’s part of a covered hospital procedure. For routine care you need a Medicare Advantage plan with dental or a standalone dental plan.' },
+      { question: 'Does Medicare cover hearing aids?', answer: 'Original Medicare doesn’t cover hearing aids or the exams to fit them (it does cover a diagnostic hearing test if your doctor orders it). Many Medicare Advantage plans include a hearing-aid allowance — amounts vary a lot by plan.' },
+      { question: 'Does Medicare cover eye exams and glasses?', answer: 'Original Medicare doesn’t cover routine eye exams or glasses (it does cover some medical eye care, like glaucoma screening for high-risk people, diabetic eye exams, and cataract surgery plus one pair of corrective lenses after it). Routine vision is added through Medicare Advantage or a standalone vision plan.' },
+      { question: 'What’s the easiest way to get dental, vision, and hearing?', answer: 'For most people, a Medicare Advantage plan that bundles these benefits is the simplest path — but the allowances vary widely. We compare plans side by side so the benefits you actually use are the strong ones.' },
+    ],
+    sources: [
+      { title: 'Medicare.gov — dental services', url: 'https://www.medicare.gov/coverage/dental-services', publisher: 'Medicare.gov' },
+      { title: 'Medicare.gov — what Medicare covers', url: 'https://www.medicare.gov/coverage', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      { when: 'If dental, hearing, or vision matter to you,', action: `call us free at ${BUSINESS.phone} — we’ll compare the plans where those benefits are actually strong.` },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-dental-vision-hearing.html',
+    ogType: 'article',
+    ogTitle: 'Dental, Vision & Hearing on Medicare',
+    ogDescription: 'Original Medicare doesn’t cover routine dental, vision, or hearing — here’s how to add it.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Dental, Vision & Hearing', href: '/medicare-dental-vision-hearing.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>One of the biggest surprises for new beneficiaries: <strong>Original Medicare doesn’t cover routine dental, vision, or hearing</strong> — the everyday care people often assume is included. The good news is there are clear ways to add it.</p>
+
+  <h2>What Original Medicare Doesn’t Cover</h2>
+  <p>Parts A and B generally don’t pay for:</p>
+  <ul>
+    <li><strong>Routine dental</strong> — cleanings, fillings, crowns, dentures.</li>
+    <li><strong>Routine vision</strong> — eye exams for glasses, and the glasses themselves.</li>
+    <li><strong>Hearing</strong> — hearing exams for fitting, and hearing aids.</li>
+  </ul>
+  <p>There are narrow medical exceptions — dental care tied to a covered hospital procedure, glaucoma screening for high-risk people, diabetic eye exams, cataract surgery (plus one pair of corrective lenses after it), and a doctor-ordered diagnostic hearing test. But for <em>routine</em> care, you add coverage one of two ways.</p>
+
+  <h2>Option 1: A Medicare Advantage Plan (the simplest path)</h2>
+  <p>Most <a href="best-medicare-advantage-vernal.html">Medicare Advantage plans</a> bundle dental, vision, and hearing in — often at <strong>$0 extra premium</strong>. Coverage varies a lot: some cover only cleanings and exams, others include crowns, dentures, and a real hearing-aid allowance. If these benefits matter to you, this is usually the easiest route — just make sure the plan is strong on the specific benefit you’ll use.</p>
+
+  <h2>Option 2: A Standalone Dental/Vision/Hearing Plan</h2>
+  <p>If you want the go-anywhere freedom of <a href="medigap.html">Original Medicare + Medigap</a>, you can add a <strong>standalone</strong> dental, vision, and/or hearing plan on top. You keep full provider flexibility and add just the ancillary coverage you want. Premiums and benefits vary widely.</p>
+
+  <h2>What to Compare</h2>
+  <ul>
+    <li><strong>Hearing-aid allowance</strong> — some plans offer $1,000+ per ear; others much less.</li>
+    <li><strong>Dental annual maximum</strong> — and whether it covers major work (crowns, dentures), not just cleanings.</li>
+    <li><strong>Vision allowance</strong> — how much toward frames and lenses each year, and the exam copay.</li>
+    <li><strong>Networks</strong> — confirm your dentist, optometrist, or audiologist is in-network.</li>
+  </ul>
+
+  <h2>Get the Benefits You’ll Actually Use — Free</h2>
+  <p>Some plans have great dental but weak hearing; others are the reverse. The right choice depends on what <em>you</em> need. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) and we’ll compare the plans where your priorities — dental work, hearing aids, or eye care — are genuinely strong. See also <a href="medicare-supplement-vs-advantage.html">Medigap vs Advantage</a>, the <a href="medicare-help-center.html">Help Center</a>, or the <a href="medicare-glossary.html">glossary</a>.</p>
+</ArticlePage>

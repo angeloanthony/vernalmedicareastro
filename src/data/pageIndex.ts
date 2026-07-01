@@ -37,6 +37,11 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Medicare Glossary',
     taxonomy: { silo: 'medicare-101', tags: ['medicare-101', 'glossary', 'reference', 'overview'] },
   },
+  {
+    href: '/medicare-dental-vision-hearing.html',
+    title: 'Dental, Vision & Hearing on Medicare',
+    taxonomy: { silo: 'medicare-101', tags: ['dental', 'vision', 'hearing', 'coverage', 'advantage', 'medigap'] },
+  },
   // ── News center (M31) — index + per-article pages ──
   {
     href: '/medicare-news.html',
