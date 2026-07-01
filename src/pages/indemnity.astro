@@ -1,79 +1,68 @@
 ---
-// src/pages/indemnity.astro  —  converted from indemnity.html
-// URL preserved: /indemnity.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/indemnity.astro — MIGRATED to the Page Framework.
+// The COPAY COVERAGE (FIXED INDEMNITY) page — under-65 / supplemental, NOT Medicare.
+// URL (/indemnity.html), title, description, canonical, and the legacy hero H1
+// preserved. Now on ArticlePage: automatic Article+FAQ+Breadcrumb schema, byline,
+// related, and the required marketing disclaimer. The inline hand-rolled JSON-LD
+// (InsuranceAgency + FAQPage) and the inline CMS marketing-disclaimer block were
+// removed — the framework generates both; the FAQ Q&A moved into page.faqs and
+// marketingDisclaimer:true set. The Vimeo <iframe> embed, the flip-comic, all
+// custom markup/prose/CTAs, and the flip-comic page script are preserved
+// byte-for-byte in the body slot. No Medicare-figures data layer is needed, so no
+// figuresFor()/usd import.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "InsuranceAgency",
-    "name": "Vernal Medicare",
-    "url": "https://vernalmedicare.com/",
-    "logo": "https://vernalmedicare.com/pictures/Rocco.webp",
-    "description": "Licensed help with Medicare and under-65 health insurance, plus supplemental options like fixed indemnity.",
-    "telephone": "+1-435-219-5120",
-    "email": "rocco@vernalmedicare.com",
-    "areaServed": "Uintah County, Utah",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Vernal",
-      "addressRegion": "UT",
-      "postalCode": "84078",
-      "addressCountry": "US"
-    }
+const context: PageContext = {
+  page: {
+    title: 'Copay Coverage (Fixed Indemnity) in Vernal, Utah | Vernal Medicare',
+    heading: 'Copay Coverage (Fixed Indemnity) — Simple Safety Net',
+    description:
+      "Simple cash benefits that help with hospital and doctor costs your main insurance doesn't fully cover. Fixed indemnity is a supplemental plan—less is more.",
+    taxonomy: {
+      silo: 'other-insurance',
+      tags: ['other-insurance', 'indemnity', 'copay', 'vernal', 'uintah-county'],
+    },
+    summary:
+      "Fixed indemnity (copay coverage) is supplemental insurance that pays fixed cash benefits for covered services — helping with hospital copays, deductibles, ER visits, and other out-of-pocket costs your main plan doesn't fully cover. It is not major medical or minimum essential coverage; it works alongside your primary plan, and benefits can be paid to you or assigned to your provider.",
+    faqs: [
+      {
+        question: 'Is fixed indemnity major medical insurance?',
+        answer:
+          'No. It is supplemental coverage. It pays fixed amounts for covered services and is not minimum essential coverage.',
+      },
+      {
+        question: 'Can it pay me or my provider?',
+        answer:
+          'Yes. Benefits can be paid to you or assigned to your hospital or provider, depending on the policy.',
+      },
+      {
+        question: 'Why consider it?',
+        answer:
+          "To help with out-of-pocket costs such as hospital copays, deductibles, ER visits, or scheduled procedures that your main plan doesn't fully cover.",
+      },
+    ],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Is fixed indemnity major medical insurance?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. It is supplemental coverage. It pays fixed amounts for covered services and is not minimum essential coverage."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can it pay me or my provider?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. Benefits can be paid to you or assigned to your hospital or provider, depending on the policy."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Why consider it?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "To help with out-of-pocket costs such as hospital copays, deductibles, ER visits, or scheduled procedures that your main plan doesn't fully cover."
-        }
-      }
-    ]
-  }
-];
+  meta: {
+    canonical: 'https://vernalmedicare.com/indemnity.html',
+    ogType: 'article',
+    ogDescription:
+      "Cash benefits paid for covered services to help with copays and deductibles. Supplemental—works with your main plan.",
+  },
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Copay Coverage (Fixed Indemnity)', href: '/indemnity.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="Copay Coverage (Fixed Indemnity) in Vernal, Utah | Vernal Medicare"
-  description="Simple cash benefits that help with hospital and doctor costs your main insurance doesn't fully cover. Fixed indemnity is a supplemental plan—less is more."
-  canonical="https://vernalmedicare.com/indemnity.html"
-  ogDescription="Cash benefits paid for covered services to help with copays and deductibles. Supplemental—works with your main plan."
-  twitterDescription="Cash benefits for covered services to help with out-of-pocket costs. Supplemental coverage."
-  schema={schema}
->
-<main id="content">
-
-<div class="cms-disclaimer-compact" style="background: #f9fafb; border-left: 4px solid #d97706; padding: 1rem 1.25rem; margin: 1.5rem auto; max-width: 1100px; font-size: 0.9rem; color: #333; line-height: 1.5;">
-  <p style="margin: 0.5rem 0; text-align: left;"><strong>We do not offer every plan available in your area.</strong> Please contact <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711) to get information on all of your options. Not connected with or endorsed by the U.S. government or the federal Medicare program.</p>
-</div>
-
+<ArticlePage context={context}>
   <section class="container" id="medigap-intro">
-      <h1 style="margin:16px 0;">Copay Coverage — Video</h1>
-
       <div class="mg-two-up">
         <!-- LEFT: video card -->
         <div class="mg-card">
@@ -98,10 +87,9 @@ const schema = [
         </a>
       </div>
       </section>
-    
+
     <!-- Hero -->
     <section>
-      <h1>Copay Coverage (Fixed Indemnity) — Simple Safety Net</h1>
       <p><strong>Cash benefits paid for covered services</strong> to help with hospital copays, deductibles, and other out-of-pocket costs your main plan doesn't fully cover.</p>
       <p style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
         <a class="button primary" href="tel:+14352195120" aria-label="Call Vernal Medicare at 435-219-5120">
@@ -168,9 +156,6 @@ const schema = [
       <p>Fixed indemnity insurance is supplemental and <strong>not</strong> minimum essential coverage. Benefits are paid in fixed amounts as defined by the policy and may have limitations, exclusions, and waiting periods. Availability and policy forms vary by state and carrier. Read the policy for details.</p>
       <p>Not connected with or endorsed by the U.S. government or the federal Medicare program.</p>
     </section>
-    </main>
-  
-  
 
 <script>
   (function(){
@@ -213,4 +198,4 @@ const schema = [
     });
   })();
   </script>
-</BaseLayout>
+</ArticlePage>

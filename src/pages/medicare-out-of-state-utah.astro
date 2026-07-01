@@ -1,128 +1,78 @@
 ---
-// src/pages/medicare-out-of-state-utah.astro  —  converted from medicare-out-of-state-utah.html
-// URL preserved: /medicare-out-of-state-utah.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/medicare-out-of-state-utah.astro — MIGRATED to the Page Framework.
+// URL, title, description, H1, publish date and gaIds preserved from the ranking
+// legacy page. Now on ArticlePage: automatic Article+FAQ+Breadcrumb schema,
+// byline, related, and the required marketing disclaimer. The inline hand-rolled
+// JSON-LD (Breadcrumb/Article/FAQ) and the inline CMS marketing-disclaimer block
+// were removed — the framework generates both. The single FAQ Q&A moved into
+// page.faqs (the legacy FAQ lived only in the JSON-LD, so nothing renders twice).
+// No $185/$257/$1,676 stale figure appeared, so no figuresFor()/usd data layer is
+// needed.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
+const context: PageContext = {
+  page: {
+    title: 'Can I Use My Medicare Plan Out of State? — Utah Guide 2026',
+    heading: 'Can I Use My Medicare Plan Out of State from Utah?',
+    description:
+      'Can Utah Medicare beneficiaries use their plan out of state? Coverage rules for Advantage vs Medigap when traveling. Vernal Medicare guide.',
+    taxonomy: {
+      silo: 'medicare-101',
+      tags: ['out-of-state', 'portability', 'coverage', 'medigap', 'advantage'],
+    },
+    summary:
+      'Whether your Medicare works out of state depends on which coverage you have. Original Medicare with a Medigap plan works nationwide at any Medicare-accepting provider. Medicare Advantage HMOs generally cover only emergencies out of area, while PPOs cover out-of-network care at higher cost. Part D works at participating pharmacies nationwide.',
+    faqs: [
       {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://vernalmedicare.com/"
+        question: 'Can I use Medicare Advantage out of state from Utah?',
+        answer:
+          'HMO plans cover only emergencies out of area. PPO plans cover out-of-network care at higher costs. Original Medicare with Medigap works nationwide at any Medicare-accepting provider.',
       },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Can I Use My Medicare Plan Out of State from Utah?",
-        "item": "https://vernalmedicare.com/medicare-out-of-state-utah.html"
-      }
-    ]
+    ],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Can I Use My Medicare Plan Out of State? — Utah Guide 2026",
-    "description": "Can Utah Medicare beneficiaries use their plan out of state? Coverage rules for Advantage vs Medigap when traveling. Vernal Medicare guide.",
-    "author": {
-      "@type": "Person",
-      "name": "Rocco DeLuca",
-      "jobTitle": "Licensed Insurance Agent"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Vernal Medicare",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://vernalmedicare.com/pictures/Rocco.webp"
-      }
-    },
-    "datePublished": "2026-04-04",
-    "dateModified": "2026-04-04",
-    "mainEntityOfPage": "https://vernalmedicare.com/medicare-out-of-state-utah.html"
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-out-of-state-utah.html',
+    ogType: 'article',
+    gaIds: ['G-NW6ENB89NF', 'G-FTDW9B2G6Q'],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Can I use Medicare Advantage out of state from Utah?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "HMO plans cover only emergencies out of area. PPO plans cover out-of-network care at higher costs. Original Medicare with Medigap works nationwide at any Medicare-accepting provider."
-        }
-      }
-    ]
-  }
-];
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Using Medicare Out of State', href: '/medicare-out-of-state-utah.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="Can I Use My Medicare Plan Out of State? — Utah Guide 2026"
-  description="Can Utah Medicare beneficiaries use their plan out of state? Coverage rules for Advantage vs Medigap when traveling. Vernal Medicare guide."
-  canonical="https://vernalmedicare.com/medicare-out-of-state-utah.html"
-  ogType="article"
-  schema={schema}
-  gaIds={["G-NW6ENB89NF", "G-FTDW9B2G6Q"]}
->
-  <section class="cms-compliance" style="background:#fffbf0;border:2px solid #d97706;border-radius:8px;padding:1.5rem;margin:2rem auto;max-width:1100px;">
-    <h2 style="color:#92400e;margin-top:0;font-size:1.1rem;">Important Medicare Information</h2>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>We do not offer every plan available in your area.</strong> Any information we provide is limited to those plans we do offer in your area. Please contact <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711), 24 hours a day, 7 days a week, to get information on all of your options.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      Vernal Medicare is a licensed and certified representative of Medicare Advantage organizations and stand-alone prescription drug plans. Each of the organizations we represent has a Medicare contract. Enrollment in any plan depends on contract renewal.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>Not connected with or endorsed by the U.S. government or the federal Medicare program.</strong>
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      By calling the number above, you will be directed to a licensed insurance agent.
-    </p>
-  </section>
+<ArticlePage context={context}>
+  <p>Whether you snowbird in Arizona, visit grandkids in another state, or travel frequently, understanding how Medicare works outside Utah is essential. The answer depends entirely on which type of Medicare coverage you have.</p>
 
-<main>
-  <section>
-    <p style="font-size:.9rem;color:#666;margin-bottom:.5rem;">
-      <em>By <strong>Rocco DeLuca</strong>, Licensed Insurance Agent &bull; Published 2026-04-04 &bull; Last updated 2026-04-04</em>
-    </p>
-    <h1 style="text-align:center;">Can I Use My Medicare Plan Out of State from Utah?</h1>
-    
-        <p>Whether you snowbird in Arizona, visit grandkids in another state, or travel frequently, understanding how Medicare works outside Utah is essential. The answer depends entirely on which type of Medicare coverage you have.</p>
+  <h2>Original Medicare + Medigap: Works Nationwide</h2>
+  <p>Original Medicare is accepted by any doctor or hospital in the country that participates in Medicare — roughly 97% of providers. If you have a Medigap supplement (Plan G or Plan N), your out-of-pocket costs are covered the same whether you are in Vernal or visiting Florida. This is the biggest advantage of Original Medicare with Medigap for Uintah Basin residents who travel.</p>
 
-        <h2>Original Medicare + Medigap: Works Nationwide</h2>
-        <p>Original Medicare is accepted by any doctor or hospital in the country that participates in Medicare — roughly 97% of providers. If you have a Medigap supplement (Plan G or Plan N), your out-of-pocket costs are covered the same whether you are in Vernal or visiting Florida. This is the biggest advantage of Original Medicare with Medigap for Uintah Basin residents who travel.</p>
+  <h2>Medicare Advantage HMO: In-Network Only</h2>
+  <p>HMO Medicare Advantage plans generally only cover care within the plan's service area and network. Out-of-area coverage is limited to emergencies and urgently needed care. If you regularly spend months in another state, an HMO may leave you without affordable non-emergency coverage during those trips.</p>
 
-        <h2>Medicare Advantage HMO: In-Network Only</h2>
-        <p>HMO Medicare Advantage plans generally only cover care within the plan's service area and network. Out-of-area coverage is limited to emergencies and urgently needed care. If you regularly spend months in another state, an HMO may leave you without affordable non-emergency coverage during those trips.</p>
+  <h2>Medicare Advantage PPO: Partial Out-of-Network Coverage</h2>
+  <p>PPO plans cover out-of-network care at higher copays/coinsurance. This provides more flexibility for travelers, but costs are significantly higher for out-of-network visits. Some PPO plans have national provider networks that reduce this gap.</p>
 
-        <h2>Medicare Advantage PPO: Partial Out-of-Network Coverage</h2>
-        <p>PPO plans cover out-of-network care at higher copays/coinsurance. This provides more flexibility for travelers, but costs are significantly higher for out-of-network visits. Some PPO plans have national provider networks that reduce this gap.</p>
+  <h2>Part D Works Nationwide</h2>
+  <p>Standalone Part D prescription drug plans work at any participating pharmacy in the country. However, preferred pharmacy pricing may only be available at specific locations. Mail-order pharmacy options typically work regardless of location.</p>
 
-        <h2>Part D Works Nationwide</h2>
-        <p>Standalone Part D prescription drug plans work at any participating pharmacy in the country. However, preferred pharmacy pricing may only be available at specific locations. Mail-order pharmacy options typically work regardless of location.</p>
+  <h2>Planning for Snowbirds and Travelers</h2>
+  <p>Vernal residents who winter in warmer states should carefully consider their Medicare choice. If you spend three or more months per year outside Utah, Medigap with Original Medicare provides the most seamless coverage. If cost is a primary concern and you are willing to use urgent care facilities while traveling, a PPO Advantage plan may work.</p>
 
-        <h2>Planning for Snowbirds and Travelers</h2>
-        <p>Vernal residents who winter in warmer states should carefully consider their Medicare choice. If you spend three or more months per year outside Utah, Medigap with Original Medicare provides the most seamless coverage. If cost is a primary concern and you are willing to use urgent care facilities while traveling, a PPO Advantage plan may work.</p>
+  <p>Related: <a href="medicare-advantage-vs-medigap-vernal.html">Advantage vs Medigap</a> | <a href="hmo-vs-ppo-medicare-advantage.html">HMO vs PPO</a> | <a href="plan-g-vs-plan-n-vernal.html">Plan G vs Plan N</a></p>
+  <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
 
-        <p>Related: <a href="medicare-advantage-vs-medigap-vernal.html">Advantage vs Medigap</a> | <a href="hmo-vs-ppo-medicare-advantage.html">HMO vs PPO</a> | <a href="plan-g-vs-plan-n-vernal.html">Plan G vs Plan N</a></p>
-        <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
-        
-    <p style="text-align:center;margin-top:2rem;">
-      <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
-    </p>
-    <p style="text-align:center;margin-top:1rem;">
-      <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
-    </p>
-  </section>
-</main>
-
-
-  
-</BaseLayout>
+  <p style="text-align:center;margin-top:2rem;">
+    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
+  </p>
+  <p style="text-align:center;margin-top:1rem;">
+    <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
+  </p>
+</ArticlePage>

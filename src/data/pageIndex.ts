@@ -25,6 +25,32 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     taxonomy: { silo: 'medicare-101', tags: ['part-a', 'part-b', 'original-medicare'] },
   },
   {
+    href: '/medicare-home-health-utah.html',
+    title: 'Medicare Home Health Coverage in Utah',
+    taxonomy: { silo: 'medicare-101', tags: ['home-health', 'coverage', 'part-a', 'utah'] },
+  },
+  {
+    href: '/medicare-out-of-state-utah.html',
+    title: 'Using Your Medicare Plan Out of State',
+    taxonomy: { silo: 'medicare-101', tags: ['out-of-state', 'portability', 'coverage', 'medigap', 'advantage'] },
+  },
+  // ── Other insurance silo (M23) — non-Medicare lines ──
+  {
+    href: '/aca.html',
+    title: 'Under-65 Health Insurance (ACA) in Vernal',
+    taxonomy: { silo: 'other-insurance', tags: ['other-insurance', 'aca', 'marketplace', 'under-65', 'vernal'] },
+  },
+  {
+    href: '/indemnity.html',
+    title: 'Copay Coverage (Fixed Indemnity) in Vernal',
+    taxonomy: { silo: 'other-insurance', tags: ['other-insurance', 'indemnity', 'copay', 'vernal', 'uintah-county'] },
+  },
+  {
+    href: '/life.html',
+    title: 'Life Insurance in Vernal, Utah',
+    taxonomy: { silo: 'other-insurance', tags: ['other-insurance', 'life-insurance', 'final-expense', 'vernal'] },
+  },
+  {
     href: '/medicare-plans-vernal-utah.html',
     title: 'Medicare Plans in Vernal, Utah — Complete Guide',
     taxonomy: { silo: 'local', tags: ['local', 'vernal', 'uintah-county', 'overview', 'original-medicare'], pillar: true },
