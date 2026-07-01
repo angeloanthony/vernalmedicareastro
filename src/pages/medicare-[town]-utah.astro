@@ -1,0 +1,103 @@
+---
+// src/pages/medicare-[town]-utah.astro — data-driven 'local' silo template (M13).
+// One page per entry in data/towns.ts → /medicare-<slug>-utah.html. Mirrors the
+// bespoke flagships (Roosevelt, Duchesne) but the per-town specifics come from
+// TownData, so each page stays genuinely distinct (own hospital, distance,
+// nearby, FAQ) — not a doorway page. Invariant content (coverage explainer,
+// cost figures, marketing disclaimer) lives here, written once.
+import type { GetStaticPaths } from 'astro';
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { TOWNS } from '../data/towns';
+import { figuresFor } from '../data/annualMedicareData';
+import { BUSINESS } from '../data/business';
+import { usd } from '../lib/formatters';
+import type { PageContext } from '../types/Page';
+import type { Town } from '../types/Town';
+
+export const getStaticPaths = (() =>
+  TOWNS.map((town) => ({ params: { town: town.slug }, props: { town } }))) satisfies GetStaticPaths;
+
+interface Props {
+  town: Town;
+}
+const { town } = Astro.props as Props;
+const f = figuresFor();
+
+const countyTag = town.county.toLowerCase().replace(/\s+/g, '-'); // "Uintah County" → "uintah-county"
+// Roosevelt-side towns lean on the Roosevelt flagship; Vernal-side on the Vernal pillar.
+const anchorHref = town.region === 'duchesne' ? 'medicare-roosevelt-utah.html' : 'medicare-plans-vernal-utah.html';
+const anchorLabel = town.region === 'duchesne' ? 'Roosevelt' : 'Vernal';
+
+const context: PageContext = {
+  page: {
+    title: `Medicare in ${town.name}, Utah — Local Help for ${town.county} | Vernal Medicare`,
+    heading: `Medicare in ${town.name}, Utah`,
+    description: `Free, local Medicare help for ${town.name}, Utah — compare Medicare Advantage, Medigap, and Part D with a licensed agent serving ${town.county}. Call ${BUSINESS.phone}.`,
+    taxonomy: { silo: 'local', tags: ['local', town.slug, countyTag, 'overview', 'original-medicare'] },
+    summary: `${town.intro} We compare Medicare Advantage, Medigap, and Part D against the doctors and pharmacy you already use — free, with no obligation.`,
+    faqs: town.faqs,
+    sources: [
+      { title: 'Find & compare plans in your area', url: 'https://www.medicare.gov/plan-compare', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      { when: `If you live in ${town.name} or nearby,`, action: `call us free at ${BUSINESS.phone} for a plan comparison built around your doctors and pharmacy.` },
+    ],
+  },
+  meta: {
+    canonical: `https://vernalmedicare.com/medicare-${town.slug}-utah.html`,
+    ogType: 'article',
+    ogTitle: `Medicare in ${town.name}, Utah`,
+    ogDescription: `Local, independent Medicare help for ${town.name} and ${town.county}.`,
+    gaIds: ['G-NW6ENB89NF', 'G-FTDW9B2G6Q'],
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: `${town.name}, Utah`, href: `/medicare-${town.slug}-utah.html` },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>{town.intro} Whether you're turning 65, retiring off an employer plan, or want to compare during Open Enrollment, you deserve guidance from an agent who knows {town.county} and the Uintah Basin.</p>
+
+  <h2>Your Coverage Options in {town.name}</h2>
+  <p>There's no single "best" plan — only the best plan for your doctors, drugs, and budget. We compare all three paths with you:</p>
+  <ul>
+    <li><strong><a href="best-medicare-advantage-vernal.html">Medicare Advantage</a></strong> — bundled all-in-one plans, often $0 premium, with a yearly out-of-pocket cap. Networks matter in rural Utah, so we check yours.</li>
+    <li><strong><a href="medigap.html">Medigap (Medicare Supplement)</a></strong> — pairs with Original Medicare for go-anywhere coverage. See <a href="plan-g-vs-plan-n-vernal.html">Plan G vs Plan N</a>.</li>
+    <li><strong><a href="best-part-d-plans-vernal.html">Part D drug plans</a></strong> — matched to your exact medication list and preferred pharmacy.</li>
+  </ul>
+  <p>Not sure which fits? Start with <a href="medicare-supplement-vs-advantage.html">Supplement vs Advantage</a> or estimate totals in our <a href="medicare-cost-estimator.html">cost estimator</a>.</p>
+
+  <h2>Local Care Near {town.name}</h2>
+  <p>Residents near {town.name} generally rely on <strong>{town.hospital}</strong> in {town.hospitalCity}. Before you choose a plan, the key question is whether it covers the providers you count on. With Medicare Advantage we verify that your {town.county} doctors and {town.hospital} are in-network; with Medigap, network isn't a concern at all, since it works with any provider that accepts Medicare.</p>
+
+  <h2>Your Pharmacy and Your Drug Plan</h2>
+  <p>Part D costs swing widely depending on which pharmacy you use, because plans have "preferred" pharmacies with lower copays. We build your drug plan comparison around the pharmacy you already visit near {town.name} — so you're not forced to switch to get a good price. Struggling with drug costs? Ask about <a href="prescription-drug-assistance.html">prescription assistance</a> and <a href="medicare-extra-help-utah.html">Extra Help</a>.</p>
+
+  <h2>{town.name} at a Glance</h2>
+  <ul>
+    <li><strong>County:</strong> {town.county}</li>
+    {town.zips && town.zips.length > 0 && <li><strong>ZIP{town.zips.length > 1 ? 's' : ''}:</strong> {town.zips.join(', ')}</li>}
+    <li><strong>Primary hospital:</strong> {town.hospital} ({town.hospitalCity})</li>
+    <li><strong>Nearby communities we serve:</strong> {town.nearby.join(', ')}</li>
+  </ul>
+
+  <h2>How Much Does Medicare Cost?</h2>
+  <p>Most people pay the standard Part B premium of <strong>{usd(f.partB.premium, { cents: true })} per month in {f.year}</strong>, plus any Part D or supplement premium. Higher earners pay an <a href="medicare-irmaa.html">income surcharge (IRMAA)</a>; lower earners may pay far less through <a href="medicare-savings-programs-utah.html">assistance programs</a>. See the full picture on our <a href="medicare-costs.html">Medicare costs</a> page.</p>
+
+  <h2>Meet With Us — In Person or From Home</h2>
+  <p>We're based in Vernal, {town.distanceFromOffice}. Our office is at {BUSINESS.street}, inside {BUSINESS.containedInPlace} ({BUSINESS.hours.humanReadable}). But you don't have to come in — most clients handle everything <strong>by phone or video</strong>. For more on the area, see our {anchorLabel}-area guide on <a href={anchorHref}>Medicare in {anchorLabel}</a>.</p>
+
+  <p><strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}). We'll compare your Medicare options against the {town.name} doctors and pharmacies you already use, and help you enroll with confidence.</p>
+
+  <p style="text-align:center;margin-top:2rem;">
+    <a href={BUSINESS.quoteUrl} class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
+  </p>
+
+  <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>. Plan availability, premiums, and benefits change annually.</em></p>
+</ArticlePage>

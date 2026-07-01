@@ -10,6 +10,7 @@
 
 import type { Taxonomy } from '../types/Page';
 import { FEATURED_DRUGS } from './drugs';
+import { TOWNS } from './towns';
 
 export interface PageIndexEntry {
   href: string;
@@ -181,6 +182,15 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Medicare Agent Serving Duchesne, Utah',
     taxonomy: { silo: 'local', tags: ['local', 'duchesne', 'duchesne-county', 'overview', 'original-medicare'] },
   },
+  // Town pages generated from data/towns.ts (M13):
+  ...TOWNS.map((t): PageIndexEntry => ({
+    href: `/medicare-${t.slug}-utah.html`,
+    title: `Medicare in ${t.name}, Utah`,
+    taxonomy: {
+      silo: 'local',
+      tags: ['local', t.slug, t.county.toLowerCase().replace(/\s+/g, '-'), 'overview', 'original-medicare'],
+    },
+  })),
   // ── Part D / Drug Assistance silo (M8) ──
   {
     href: '/prescription-drug-assistance.html',
