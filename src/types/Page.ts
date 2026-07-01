@@ -20,6 +20,12 @@ export interface Author {
   credentials?: string[];
 }
 
+/** Reference to an Author record (see data/authors.ts). Kept as a plain string
+ *  in the contract to preserve the types←data layering; data/authors.ts exports
+ *  `KnownAuthorId` (keyof typeof AUTHORS) for authoring-time safety. Pages carry
+ *  the id; the schema engine resolves it to the full Author (no stale copies). */
+export type AuthorId = string;
+
 // ── Evidence: authoritative citations as first-class data ────────────────────
 export interface Evidence {
   title: string;
@@ -121,9 +127,9 @@ export interface SchemaModule {
 export interface PageContext {
   page: PageData;
   meta: PageMeta;
-  // identity / E-E-A-T (optional, day one)
-  author?: Author;
-  reviewedBy?: Author;
+  // identity / E-E-A-T (optional, day one) — references, resolved by the schema engine
+  author?: AuthorId;
+  reviewedBy?: AuthorId;
   lastUpdated?: string;
   medicalDisclaimer?: boolean | string;
   localAvailability?: string;

@@ -22,11 +22,16 @@ export const ROCCO: Author = {
   ],
 };
 
-export const AUTHORS: Record<string, Author> = {
+export const AUTHORS = {
   rocco: ROCCO,
-};
+} satisfies Record<string, Author>;
+
+/** Stricter id type for authoring-time safety within the data/UI layers.
+ *  (PageContext uses the generic string `AuthorId` to keep types←data one-way.) */
+export type KnownAuthorId = keyof typeof AUTHORS;
 
 /** The site's default author/reviewer until more roles exist. */
 export const DEFAULT_AUTHOR = ROCCO;
 
-export const authorById = (id: string): Author | undefined => AUTHORS[id];
+export const authorById = (id: string): Author | undefined =>
+  (AUTHORS as Record<string, Author>)[id];
