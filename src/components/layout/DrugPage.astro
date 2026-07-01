@@ -1,0 +1,17 @@
+---
+// DrugPage.astro — page type for medication pages (ADR-0008). Thin specialization
+// of StandardPageLayout with primary schema MedicalWebPage. The drug-specific
+// body (assistance programs, etc.) goes in the default slot. (RecordPageLayout is
+// deferred until a second record-driven type — e.g. LocationPage — shares logic.)
+import StandardPageLayout from './StandardPageLayout.astro';
+import type { PageContext } from '../../types/Page';
+
+interface Props {
+  context: PageContext;
+}
+const { context } = Astro.props;
+---
+
+<StandardPageLayout context={context} primarySchema="MedicalWebPage">
+  <slot />
+</StandardPageLayout>
