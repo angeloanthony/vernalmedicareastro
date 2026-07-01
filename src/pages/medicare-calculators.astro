@@ -1,0 +1,71 @@
+---
+// src/pages/medicare-calculators.astro — Calculators hub (M33). The tool cluster
+// had no index; this is it. Lists every free calculator with what it answers.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const CALCS = [
+  { href: 'medicare-cost-estimator.html', name: 'Medicare Cost Estimator', desc: 'Compare a Medigap path vs a Medicare Advantage path — total yearly cost for your situation.' },
+  { href: 'medicare-part-d-cost-calculator.html', name: 'Part D Drug Cost Calculator', desc: 'Estimate your yearly drug costs with the new $2,000 out-of-pocket cap.' },
+  { href: 'medicare-irmaa-calculator.html', name: 'IRMAA Calculator', desc: 'See your income-based Part B and Part D surcharge from your MAGI.' },
+  { href: 'medicare-extra-help-calculator.html', name: 'Extra Help & Savings Program Estimator', desc: 'See if you qualify for help paying your premiums and drug costs.' },
+  { href: 'medicare-part-b-penalty-calculator.html', name: 'Part B Late Penalty Calculator', desc: 'Estimate the permanent penalty for enrolling in Part B late.' },
+  { href: 'medicare-enrollment-timeline.html', name: 'Enrollment Timeline', desc: 'Find your exact Initial Enrollment Period dates from your birthday.' },
+];
+
+const context: PageContext = {
+  page: {
+    title: 'Free Medicare Calculators — Costs, IRMAA, Penalties & More | Vernal Medicare',
+    heading: 'Free Medicare Calculators',
+    description:
+      'Free Medicare calculators: cost estimator, Part D drug costs, IRMAA, Extra Help eligibility, late-enrollment penalty, and your enrollment timeline. Fed by current CMS figures.',
+    taxonomy: { silo: 'tools', tags: ['tools', 'calculators', 'costs', 'irmaa', 'part-d'] },
+    summary:
+      `Put real numbers to your Medicare decisions. These ${CALCS.length} free calculators run right in your browser, using the current year’s official figures — estimate your costs, your income surcharge, your penalty, your enrollment dates, and whether you qualify for help. Then call us to turn the estimate into a plan.`,
+    faqs: [
+      { question: 'Are these calculators free?', answer: 'Yes — completely free, and they run in your browser. Nothing is stored or shared.' },
+      { question: 'How accurate are they?', answer: 'They use the current year’s official CMS and Social Security figures for solid estimates. Your exact numbers depend on your specific plan and situation, which is what we help with.' },
+    ],
+    nextSteps: [
+      { when: 'Want the numbers for your exact situation?', action: `call us free at ${BUSINESS.phone} — we’ll run them with you.` },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-calculators.html',
+    ogType: 'website',
+    ogTitle: 'Free Medicare Calculators',
+    ogDescription: 'Cost, Part D, IRMAA, Extra Help, penalty, and enrollment-timeline calculators.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Calculators', href: '/medicare-calculators.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>Medicare decisions come down to numbers. These {CALCS.length} free calculators help you see yours — costs, surcharges, penalties, timing, and assistance — right in your browser, using the current year’s official figures.</p>
+
+  <ul class="calc-hub">
+    {CALCS.map((c) => (
+      <li>
+        <a class="calc-hub-name" href={c.href}>{c.name}</a>
+        <p>{c.desc}</p>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Turn the Estimate Into a Plan — Free</h2>
+  <p>Calculators give you a number; we give you the plan behind it. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) and we’ll run the numbers for your exact doctors, drugs, and budget. Start anywhere in the <a href="medicare-help-center.html">Medicare Help Center</a>.</p>
+</ArticlePage>
+
+<style>
+  .calc-hub { list-style: none; padding: 0; margin: 1.5rem 0; }
+  .calc-hub li { padding: 1rem 0; border-top: 1px solid var(--color-border, #e5e9ee); }
+  .calc-hub-name { font-weight: 700; font-size: 1.1rem; }
+  .calc-hub li p { margin: 0.3rem 0 0; color: var(--color-text-muted, #667085); }
+</style>

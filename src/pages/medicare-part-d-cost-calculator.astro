@@ -1,0 +1,104 @@
+---
+// src/pages/medicare-part-d-cost-calculator.astro — Calculator Platform (M33).
+// Estimates annual Part D drug costs with the 2026 $2,000 out-of-pocket cap.
+import CalculatorPage from '../components/layout/CalculatorPage.astro';
+import CalculatorSection from '../components/calculator/CalculatorSection.astro';
+import CalculatorInput from '../components/calculator/CalculatorInput.astro';
+import CalculatorResult from '../components/calculator/CalculatorResult.astro';
+import CalculatorPrint from '../components/calculator/CalculatorPrint.astro';
+import CalculatorShare from '../components/calculator/CalculatorShare.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+import type { PageContext } from '../types/Page';
+import type { CalculatorField } from '../types/Calculator';
+
+const f = figuresFor();
+const premiumField: CalculatorField = {
+  id: 'premium', label: 'Your Part D plan’s monthly premium', type: 'currency',
+  help: `The 2026 base premium is about ${usd(f.partD.basePremium, { cents: true })}, but plans vary.`,
+};
+const drugField: CalculatorField = {
+  id: 'drugoop', label: 'Estimated yearly out-of-pocket drug spend (without the cap)', type: 'currency',
+  help: 'A rough guess is fine — the calculator applies the annual cap for you.',
+};
+
+const context: PageContext = {
+  page: {
+    title: `Medicare Part D Drug Cost Calculator ${f.year} — With the $2,000 Cap | Vernal Medicare`,
+    heading: 'Part D Drug Cost Calculator',
+    description: `Estimate your yearly Medicare Part D costs — premium plus out-of-pocket drug spending, now capped at ${usd(f.partD.annualCap)} for ${f.year}.`,
+    taxonomy: { silo: 'part-d', tags: ['part-d', 'costs', 'tools', 'drug-cap'] },
+    summary: `In ${f.year}, your out-of-pocket spending on covered Part D drugs is capped at ${usd(f.partD.annualCap)} — the old “donut hole” is gone. Enter your plan premium and rough drug spending to estimate your yearly total and see how much the cap saves you.`,
+    faqs: [
+      { question: 'What is the 2026 Part D out-of-pocket cap?', answer: `${usd(f.partD.annualCap)}. Once your out-of-pocket spending on covered drugs reaches it, you pay nothing more for covered prescriptions the rest of the year.` },
+      { question: 'Does the cap include my premium?', answer: 'No — the cap is on your out-of-pocket drug costs (deductible, copays, coinsurance). Your monthly plan premium is separate.' },
+    ],
+    sources: [{ title: 'Medicare.gov — drug coverage (Part D)', url: 'https://www.medicare.gov/drug-coverage-part-d', publisher: 'Medicare.gov' }],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-part-d-cost-calculator.html',
+    ogType: 'website',
+    ogTitle: 'Part D Drug Cost Calculator',
+    ogDescription: 'Estimate your yearly Part D costs with the new $2,000 out-of-pocket cap.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  medicalDisclaimer: 'Simplified estimate. Your actual costs depend on your plan’s formulary, tiers, and pharmacy.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Part D Plans', href: '/best-part-d-plans-vernal.html' },
+    { name: 'Drug Cost Calculator', href: '/medicare-part-d-cost-calculator.html' },
+  ],
+};
+---
+
+<CalculatorPage context={context}>
+  <p>Part D costs come in two pieces: your monthly premium, and what you pay out of pocket for your drugs — which is now capped at <strong>{usd(f.partD.annualCap)}</strong> a year. Estimate your total below, then <a href="best-part-d-plans-vernal.html">compare Part D plans</a>.</p>
+
+  <form class="calc-form" data-calc-form novalidate>
+    <CalculatorSection title="Your plan & drugs">
+      <CalculatorInput field={premiumField} />
+      <CalculatorInput field={drugField} />
+    </CalculatorSection>
+    <div class="calc-actions">
+      <CalculatorPrint />
+      <CalculatorShare />
+    </div>
+  </form>
+
+  <CalculatorResult heading="Your estimated yearly Part D cost" />
+
+  <p>Struggling with drug costs? See <a href="medicare-extra-help-calculator.html">whether you qualify for Extra Help</a> or <a href="prescription-drug-assistance.html">prescription assistance</a> — both can cut this further.</p>
+
+  <script>
+    import { bindCalculator } from '../lib/calculators';
+    import { computePartDCost } from '../lib/calculators/partDCost';
+    import { figuresFor } from '../data/annualMedicareData';
+    import { usd } from '../lib/formatters';
+    import type { CalculatorResult } from '../types/Calculator';
+
+    const F = figuresFor();
+    const num = (s: string) => Number(String(s || '').replace(/[^0-9.]/g, '')) || 0;
+
+    function compute(fields: Record<string, string>): CalculatorResult {
+      const r = computePartDCost(num(fields.premium), num(fields.drugoop), F);
+      return {
+        summary:
+          r.capSavings > 0
+            ? `The ${usd(r.cap)} cap saves you about ${usd(r.capSavings)} this year — your estimated yearly total is ${usd(r.annualTotal)}.`
+            : `Your estimated yearly Part D total is ${usd(r.annualTotal)} (you’re under the ${usd(r.cap)} drug cap).`,
+        rows: [
+          { label: 'Annual premium', value: usd(r.annualPremium) },
+          { label: 'Out-of-pocket drug cost (after cap)', value: usd(r.cappedDrugOutOfPocket) },
+          { label: 'Saved by the $2,000 cap', value: usd(r.capSavings) },
+          { label: 'Estimated yearly total', value: usd(r.annualTotal), emphasis: true },
+        ],
+      };
+    }
+
+    const form = document.querySelector<HTMLElement>('[data-calc-form]');
+    const results = document.querySelector<HTMLElement>('[data-calc-results]');
+    if (form && results) bindCalculator(form, results, compute);
+  </script>
+</CalculatorPage>
