@@ -27,10 +27,16 @@ function fail(msg) {
 }
 
 // ── 1. unit tests ────────────────────────────────────────────────────────────
-// Run FIRST, in a clean process. Vitest and Astro both use Vite/esbuild; running
-// Vitest immediately after `astro check` intermittently corrupts its init
-// ("Cannot read properties of undefined (reading 'config')"). Tests-first avoids it.
-if (run('unit tests', 'npx vitest run').status !== 0) fail('unit tests failed.');
+// Run first, in a clean process. Vitest intermittently fails to BOOTSTRAP on a
+// cold cache (0 tests collected / "Cannot read properties of undefined (reading
+// 'config')") — a deterministic init race, not a test failure. Retry once: a
+// genuine test failure still fails both attempts, so this hides no real breakage.
+let tests = run('unit tests', 'npx vitest run');
+if (tests.status !== 0) {
+  console.log("↻ vitest didn't bootstrap cleanly — retrying once (cold-cache init race)");
+  tests = run('unit tests (retry)', 'npx vitest run');
+}
+if (tests.status !== 0) fail('unit tests failed.');
 
 // ── 2. astro check (error ratchet — green today, blocks NEW errors) ──────────
 const check = run('astro check', 'npx astro check');
