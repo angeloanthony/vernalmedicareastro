@@ -38,6 +38,12 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Medicare Supplement vs Medicare Advantage',
     taxonomy: { silo: 'medigap', tags: ['comparison', 'advantage', 'original-medicare'] },
   },
+  // ── Costs pillar hub (M11) — silo head that ties the costs spokes together ──
+  {
+    href: '/medicare-costs.html',
+    title: 'How Much Does Medicare Cost?',
+    taxonomy: { silo: 'costs-irmaa', tags: ['costs', 'part-a', 'part-b', 'part-d', 'irmaa', 'overview'], pillar: true },
+  },
   {
     href: '/medicare-cost-uintah-county.html',
     title: 'How Much Does Medicare Cost in Uintah County',
