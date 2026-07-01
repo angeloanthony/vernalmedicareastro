@@ -27,7 +27,7 @@ export const PAGE_INDEX: PageIndexEntry[] = [
   {
     href: '/medicare-plans-vernal-utah.html',
     title: 'Medicare Plans in Vernal, Utah — Complete Guide',
-    taxonomy: { silo: 'medicare-101', tags: ['overview', 'original-medicare'], pillar: true },
+    taxonomy: { silo: 'local', tags: ['local', 'vernal', 'uintah-county', 'overview', 'original-medicare'], pillar: true },
   },
   {
     href: '/when-to-enroll-medicare-utah.html',
@@ -170,6 +170,27 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     href: '/medicare-enrollment-timeline.html',
     title: 'Medicare Enrollment Timeline Calculator',
     taxonomy: { silo: 'enrollment', tags: ['iep', 'timeline', 'tools', 'turning-65'] },
+  },
+  // ── Vernal home-turf cluster (M14) — migrated onto the framework ──
+  {
+    href: '/vernal.html',
+    title: 'Vernal Medicare — Local, Licensed Help',
+    taxonomy: { silo: 'local', tags: ['local', 'vernal', 'uintah-county', 'overview'] },
+  },
+  {
+    href: '/medicare-agent-vernal.html',
+    title: 'Medicare Agent in Vernal, Utah (Rocco DeLuca)',
+    taxonomy: { silo: 'local', tags: ['local', 'vernal', 'agent', 'uintah-county', 'trust'] },
+  },
+  {
+    href: '/medicare-help-vernal.html',
+    title: 'Who Helps with Medicare in Vernal, Utah?',
+    taxonomy: { silo: 'local', tags: ['local', 'vernal', 'help', 'uintah-county'] },
+  },
+  {
+    href: '/medicare-enrollment-vernal.html',
+    title: 'Medicare Enrollment Help in Vernal, Utah',
+    taxonomy: { silo: 'local', tags: ['local', 'vernal', 'enrollment', 'uintah-county'] },
   },
   // ── Local silo (M12) — flagship migrations; blueprint for future towns ──
   {

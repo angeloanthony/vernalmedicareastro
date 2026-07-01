@@ -1,150 +1,96 @@
 ---
-// src/pages/medicare-help-vernal.astro  —  converted from medicare-help-vernal.html
-// URL preserved: /medicare-help-vernal.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/medicare-help-vernal.astro — MIGRATED to the Page Framework.
+// URL, title, description, H1 and gaIds preserved from the ranking legacy page.
+// Now on ArticlePage: automatic Article+FAQ+Breadcrumb schema, byline, related.
+// No stale $185 Part B premium and no "Uintah Basin Medical Center" appeared, so
+// no correctness fixes were required. No inline CMS marketing-disclaimer block
+// existed in the body, so marketingDisclaimer is left unset.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": [
-      "LocalBusiness",
-      "InsuranceAgency",
-      "MedicalBusiness"
+const context: PageContext = {
+  page: {
+    title: 'Who Helps with Medicare in Vernal Utah? | Vernal Medicare',
+    heading: 'Who Helps with Medicare in Vernal, Utah?',
+    description:
+      'Vernal Medicare provides local licensed Medicare help in Vernal and the Uintah Basin. Call 435-219-5120 for free plan comparisons and enrollment assistance.',
+    taxonomy: { silo: 'local', tags: ['local', 'vernal', 'help', 'uintah-county'] },
+    summary:
+      'Vernal Medicare provides local, licensed Medicare help in Vernal and the Uintah Basin. Our local agent, Rocco DeLuca, compares Medicare Advantage, Medigap, and Part D plans for your doctors, prescriptions, and pharmacies at no cost to you.',
+    faqs: [
+      {
+        question: 'Who helps with Medicare in Vernal Utah?',
+        answer:
+          "Vernal Medicare provides local licensed Medicare help in Vernal and the Uintah Basin. We help you compare Medicare Advantage, Medigap, and Part D plans at no cost to you. Call 435-219-5120 or visit us at Smith's Pharmacy, 1080 West Highway 40 in Vernal.",
+      },
     ],
-    "name": "Vernal Medicare",
-    "url": "https://vernalmedicare.com/",
-    "telephone": "+1-435-219-5120",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "1080 W Hwy 40",
-      "addressLocality": "Vernal",
-      "addressRegion": "UT",
-      "postalCode": "84078",
-      "addressCountry": "US"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 40.4527277,
-      "longitude": -109.5478186
-    },
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday"
-        ],
-        "opens": "13:00",
-        "closes": "17:00"
-      }
-    ]
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Who helps with Medicare in Vernal Utah?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Vernal Medicare provides local licensed Medicare help in Vernal and the Uintah Basin. We help you compare Medicare Advantage, Medigap, and Part D plans at no cost to you. Call 435-219-5120 or visit us at Smith's Pharmacy, 1080 West Highway 40 in Vernal."
-        }
-      }
-    ]
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-help-vernal.html',
+    ogType: 'article',
+    gaIds: ['G-FTDW9B2G6Q'],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "speakable": {
-      "@type": "SpeakableSpecification",
-      "cssSelector": [
-        ".answer-content",
-        ".contact-info"
-      ]
-    }
-  }
-];
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare Help in Vernal', href: '/medicare-help-vernal.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="Who Helps with Medicare in Vernal Utah? | Vernal Medicare"
-  description="Vernal Medicare provides local licensed Medicare help in Vernal and the Uintah Basin. Call 435-219-5120 for free plan comparisons and enrollment assistance."
-  canonical="https://vernalmedicare.com/medicare-help-vernal.html"
-  schema={schema}
-  gaIds={["G-FTDW9B2G6Q"]}
->
-  <main class="voice-page">
-    <div class="container">
-      <h1>Who Helps with Medicare in Vernal, Utah?</h1>
-
-      <div class="answer-content">
+<ArticlePage context={context}>
   <div style="background:#f0f9ff; border-left:5px solid #0b6ea3; padding:1.25rem; border-radius:8px; margin-bottom:1.5rem;">
   <strong>Looking for the complete Medicare overview?</strong><br>
   Start with our <a href="medicare-plans-vernal-utah.html">Complete Medicare Guide for Vernal and the Uintah Basin</a> covering costs, enrollment, Medigap, Medicare Advantage, and Part D.
   </div>
-        <p><strong>Vernal Medicare provides local, licensed Medicare help in Vernal and the Uintah Basin.</strong></p>
+  <p><strong>Vernal Medicare provides local, licensed Medicare help in Vernal and the Uintah Basin.</strong></p>
 
-        <p>We help you compare Medicare Advantage, Medigap, and Part D plans at no cost to you. Our local agent, Rocco DeLuca, specializes in Medicare plans for Vernal, Naples, Maeser, Jensen, and all of Uintah County.</p>
+  <p>We help you compare Medicare Advantage, Medigap, and Part D plans at no cost to you. Our local agent, Rocco DeLuca, specializes in Medicare plans for Vernal, Naples, Maeser, Jensen, and all of Uintah County.</p>
 
-        <h2>How We Help</h2>
-        <p>We compare all available Medicare plans for your specific doctors, prescriptions, and pharmacies in the Uintah Basin. You get personalized recommendations without any cost or pressure.</p>
+  <h2>How We Help</h2>
+  <p>We compare all available Medicare plans for your specific doctors, prescriptions, and pharmacies in the Uintah Basin. You get personalized recommendations without any cost or pressure.</p>
 
-        <h2>Services We Provide</h2>
-        <ul>
-          <li>Medicare Advantage plan comparisons (HMO and PPO)</li>
-          <li>Medicare Supplement (Medigap) plans</li>
-          <li>Part D prescription drug plan reviews</li>
-          <li>Free enrollment assistance</li>
-          <li>Local support before and after enrollment</li>
-        </ul>
+  <h2>Services We Provide</h2>
+  <ul>
+    <li>Medicare Advantage plan comparisons (HMO and PPO)</li>
+    <li>Medicare Supplement (Medigap) plans</li>
+    <li>Part D prescription drug plan reviews</li>
+    <li>Free enrollment assistance</li>
+    <li>Local support before and after enrollment</li>
+  </ul>
 
-        <h2>Popular Medicare Topics in Vernal</h2>
+  <h2>Popular Medicare Topics in Vernal</h2>
 
-<ul style="line-height:2; background:#f8fbff; padding:1.25rem 1.5rem; border-radius:8px; border:1px solid #d9e7f5;">
-  <li><a href="medicare-supplement-vs-advantage.html">Medicare Supplement vs Medicare Advantage</a></li>
-  <li><a href="plan-g-vs-plan-n-vernal.html">Plan G vs Plan N in Vernal</a></li>
-  <li><a href="hmo-vs-ppo-medicare-advantage.html">HMO vs PPO Medicare Advantage</a></li>
-  <li><a href="best-part-d-plans-vernal.html">Best Part D Prescription Drug Plans</a></li>
-  <li><a href="when-to-enroll-medicare-utah.html">When to Enroll in Medicare in Utah</a></li>
-  <li><a href="medicare-cost-uintah-county.html">2026 Medicare Costs in Uintah County</a></li>
-</ul>
+  <ul style="line-height:2; background:#f8fbff; padding:1.25rem 1.5rem; border-radius:8px; border:1px solid #d9e7f5;">
+    <li><a href="medicare-supplement-vs-advantage.html">Medicare Supplement vs Medicare Advantage</a></li>
+    <li><a href="plan-g-vs-plan-n-vernal.html">Plan G vs Plan N in Vernal</a></li>
+    <li><a href="hmo-vs-ppo-medicare-advantage.html">HMO vs PPO Medicare Advantage</a></li>
+    <li><a href="best-part-d-plans-vernal.html">Best Part D Prescription Drug Plans</a></li>
+    <li><a href="when-to-enroll-medicare-utah.html">When to Enroll in Medicare in Utah</a></li>
+    <li><a href="medicare-cost-uintah-county.html">2026 Medicare Costs in Uintah County</a></li>
+  </ul>
 
-        <h2>Want the Full Medicare Picture?</h2>
-        <p>For a complete walkthrough of Medicare options, costs, enrollment periods, and local providers in Vernal, see our <a href="medicare-plans-vernal-utah.html">complete 2026 Medicare guide for Vernal and the Uintah Basin</a>.</p>
-      </div>
+  <h2>Want the Full Medicare Picture?</h2>
+  <p>For a complete walkthrough of Medicare options, costs, enrollment periods, and local providers in Vernal, see our <a href="medicare-plans-vernal-utah.html">complete 2026 Medicare guide for Vernal and the Uintah Basin</a>.</p>
 
-      <div class="contact-info">
-        <h2>Contact Vernal Medicare</h2>
-        <p><strong>Phone:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711)</p>
-        <p><strong>Location:</strong> Smith's Pharmacy, 1080 W Hwy 40, Vernal, UT 84078</p>
-        <p><strong>Hours:</strong> Monday–Friday, 1pm–5pm</p>
-        <p><strong>Email:</strong> <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a></p>
+  <div class="contact-info">
+    <h2>Contact Vernal Medicare</h2>
+    <p><strong>Phone:</strong> <a href={`tel:${BUSINESS.phoneTel}`}>{BUSINESS.phone}</a> (TTY: {BUSINESS.tty})</p>
+    <p><strong>Location:</strong> Smith's Pharmacy, 1080 W Hwy 40, Vernal, UT 84078</p>
+    <p><strong>Hours:</strong> Monday–Friday, 1pm–5pm</p>
+    <p><strong>Email:</strong> <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a></p>
 
-        <p class="cta-buttons">
-          <a href="tel:+14352195120" class="button">Call Now</a>
-          <a href="https://www.google.com/maps?q=Smith%27s%20Pharmacy%2C%20Vernal%2C%20UT%2084078" class="button" target="_blank">Get Directions</a>
-        </p>
-      </div>
+    <p class="cta-buttons">
+      <a href={`tel:${BUSINESS.phoneTel}`} class="button">Call Now</a>
+      <a href="https://www.google.com/maps?q=Smith%27s%20Pharmacy%2C%20Vernal%2C%20UT%2084078" class="button" target="_blank">Get Directions</a>
+    </p>
+  </div>
 
-      <div class="service-area">
-        <h3>Serving the Entire Uintah Basin</h3>
-        <p>Vernal • Naples • Maeser • Jensen • Roosevelt • Ballard • Duchesne • Uintah County</p>
-      </div>
-    </div>
-  </main>
-
-  
-
-<script>
-    (function(){
-      const y = document.getElementById('current-year');
-      if (y) y.textContent = new Date().getFullYear();
-    })();
-  </script>
-</BaseLayout>
+  <div class="service-area">
+    <h3>Serving the Entire Uintah Basin</h3>
+    <p>Vernal • Naples • Maeser • Jensen • Roosevelt • Ballard • Duchesne • Uintah County</p>
+  </div>
+</ArticlePage>

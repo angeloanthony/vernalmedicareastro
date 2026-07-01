@@ -1,148 +1,91 @@
 ---
-/* medicare-agent-vernal.astro — standalone passthrough (simple-header/footer, separate GA
-   property G-FTDW9B2G6Q). Preserved VERBATIM; intentionally does NOT use
-   BaseLayout so its distinct chrome and analytics are unchanged. */
+// src/pages/medicare-agent-vernal.astro — MIGRATED to the Page Framework (M12).
+// URL (/medicare-agent-vernal.html), title, description, canonical and H1
+// preserved from the legacy standalone page. Now on ArticlePage: automatic
+// Person/Article + FAQ schema, byline, related, and disclaimers. This is an
+// "about the agent" (Rocco DeLuca) page — E-E-A-T is the whole point, so the
+// bio/trust prose is preserved verbatim. The legacy per-page GA4 property
+// (G-FTDW9B2G6Q) is carried into meta.gaIds so analytics continuity is kept.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Best Medicare Agent in Vernal Utah | Rocco DeLuca | Vernal Medicare',
+    heading: 'Medicare Agent in Vernal, Utah',
+    description:
+      'Rocco DeLuca is a licensed Medicare agent serving Vernal and the Uintah Basin. Local expertise in Medicare Advantage, Medigap, and Part D. Call 435-219-5120.',
+    taxonomy: { silo: 'local', tags: ['local', 'vernal', 'agent', 'uintah-county', 'trust'] },
+    summary:
+      'Rocco DeLuca is a licensed Medicare agent serving Vernal, Naples, Maeser, Jensen, and throughout Uintah County. He helps residents compare Medicare Advantage, Medigap, and Part D plans with a personalized approach built around your doctors, prescriptions, and budget — at no cost to you.',
+    faqs: [
+      {
+        question: 'Who is the best Medicare agent in Vernal Utah?',
+        answer:
+          'Rocco DeLuca is a licensed Medicare agent specializing in local Medicare help for Vernal, Naples, Maeser, Jensen, and Uintah County. He provides personalized Medicare Advantage, Medigap, and Part D plan comparisons at no extra cost. Call 435-219-5120 for a free consultation.',
+      },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-agent-vernal.html',
+    ogType: 'article',
+    gaIds: ['G-FTDW9B2G6Q'],
+  },
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare Agent in Vernal', href: '/medicare-agent-vernal.html' },
+  ],
+};
 ---
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Best Medicare Agent in Vernal Utah | Rocco DeLuca | Vernal Medicare</title>
-  <meta name="description" content="Rocco DeLuca is a licensed Medicare agent serving Vernal and the Uintah Basin. Local expertise in Medicare Advantage, Medigap, and Part D. Call 435-219-5120.">
-  <link rel="canonical" href="https://vernalmedicare.com/medicare-agent-vernal.html">
-  <link rel="stylesheet" href="styles.css">
 
-  <!-- Voice-Optimized Schema -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Rocco DeLuca",
-    "jobTitle": "Licensed Medicare Insurance Agent",
-    "telephone": "+1-435-219-5120",
-    "email": "rocco@vernalmedicare.com",
-    "worksFor": {
-      "@type": "InsuranceAgency",
-      "name": "Vernal Medicare",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "1080 W Hwy 40",
-        "addressLocality": "Vernal",
-        "addressRegion": "UT",
-        "postalCode": "84078"
-      }
-    },
-    "knowsAbout": ["Medicare", "Medicare Advantage", "Medigap", "Part D", "Health Insurance"],
-    "areaServed": {
-      "@type": "City",
-      "name": "Vernal",
-      "containedIn": {
-        "@type": "State",
-        "name": "Utah"
-      }
-    }
-  }
-  </script>
+<ArticlePage context={context}>
+  <div class="agent-bio">
+    <h2>Rocco DeLuca – Licensed Medicare Insurance Agent</h2>
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [{
-      "@type": "Question",
-      "name": "Who is the best Medicare agent in Vernal Utah?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Rocco DeLuca is a licensed Medicare agent specializing in local Medicare help for Vernal, Naples, Maeser, Jensen, and Uintah County. He provides personalized Medicare Advantage, Medigap, and Part D plan comparisons at no extra cost. Call 435-219-5120 for a free consultation."
-      }
-    }]
-  }
-  </script>
+    <p><strong>Rocco DeLuca is a licensed Medicare agent serving Vernal and the Uintah Basin.</strong></p>
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "speakable": {
-      "@type": "SpeakableSpecification",
-      "cssSelector": [".agent-bio", ".contact-info"]
-    }
-  }
-  </script>
+    <p>As a local Medicare specialist, Rocco helps residents of Vernal, Naples, Maeser, Jensen, and throughout Uintah County compare Medicare Advantage, Medigap, and Part D plans. His personalized approach ensures you find the right coverage for your doctors, prescriptions, and budget.</p>
 
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FTDW9B2G6Q"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-FTDW9B2G6Q');
-</script>
+    <h3>Why Choose a Local Medicare Agent?</h3>
+    <ul>
+      <li><strong>Local Knowledge:</strong> Understands which plans work with Uintah Basin doctors and hospitals</li>
+      <li><strong>No Cost to You:</strong> Free plan comparisons and enrollment assistance</li>
+      <li><strong>Ongoing Support:</strong> Available before and after enrollment</li>
+      <li><strong>Independent Advice:</strong> Compares multiple carriers to find your best option</li>
+      <li><strong>In-Person or Remote:</strong> Meet at Smith's Pharmacy or by phone/video</li>
+    </ul>
 
-</head>
+    <h3>Services Provided</h3>
+    <p>Rocco specializes in helping Vernal-area seniors with:</p>
+    <ul>
+      <li>Medicare Advantage plan comparisons (HMO and PPO options)</li>
+      <li>Medicare Supplement (Medigap) plans – Plan G, Plan N, and others</li>
+      <li>Part D prescription drug plan reviews</li>
+      <li>Doctor and pharmacy network verification</li>
+      <li>Prescription cost analysis</li>
+      <li>Annual plan reviews during Open Enrollment</li>
+    </ul>
+  </div>
 
-<body>
-  <header class="simple-header">
-    <div class="container">
-      <a href="index.html">← Back to Vernal Medicare</a>
-    </div>
-  </header>
+  <div class="contact-info">
+    <h2>Schedule a Free Medicare Consultation</h2>
+    <p><strong>Phone:</strong> <a href="tel:+14352195120">435-219-5120</a></p>
+    <p><strong>Email:</strong> <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a></p>
+    <p><strong>Office:</strong> Smith's Pharmacy, 1080 W Hwy 40, Vernal, UT 84078</p>
+    <p><strong>Hours:</strong> Monday–Friday, 1pm–5pm | Saturday by appointment</p>
 
-  <main class="voice-page">
-    <div class="container">
-      <h1>Medicare Agent in Vernal, Utah</h1>
-      
-      <div class="agent-bio">
-        <h2>Rocco DeLuca – Licensed Medicare Insurance Agent</h2>
-        
-        <p><strong>Rocco DeLuca is a licensed Medicare agent serving Vernal and the Uintah Basin.</strong></p>
-        
-        <p>As a local Medicare specialist, Rocco helps residents of Vernal, Naples, Maeser, Jensen, and throughout Uintah County compare Medicare Advantage, Medigap, and Part D plans. His personalized approach ensures you find the right coverage for your doctors, prescriptions, and budget.</p>
+    <p class="cta-buttons">
+      <a href="tel:+14352195120" class="button">Call Rocco Now</a>
+      <a href="mailto:rocco@vernalmedicare.com" class="button">Email for Appointment</a>
+    </p>
+  </div>
 
-        <h3>Why Choose a Local Medicare Agent?</h3>
-        <ul>
-          <li><strong>Local Knowledge:</strong> Understands which plans work with Uintah Basin doctors and hospitals</li>
-          <li><strong>No Cost to You:</strong> Free plan comparisons and enrollment assistance</li>
-          <li><strong>Ongoing Support:</strong> Available before and after enrollment</li>
-          <li><strong>Independent Advice:</strong> Compares multiple carriers to find your best option</li>
-          <li><strong>In-Person or Remote:</strong> Meet at Smith's Pharmacy or by phone/video</li>
-        </ul>
-
-        <h3>Services Provided</h3>
-        <p>Rocco specializes in helping Vernal-area seniors with:</p>
-        <ul>
-          <li>Medicare Advantage plan comparisons (HMO and PPO options)</li>
-          <li>Medicare Supplement (Medigap) plans – Plan G, Plan N, and others</li>
-          <li>Part D prescription drug plan reviews</li>
-          <li>Doctor and pharmacy network verification</li>
-          <li>Prescription cost analysis</li>
-          <li>Annual plan reviews during Open Enrollment</li>
-        </ul>
-      </div>
-
-      <div class="contact-info">
-        <h2>Schedule a Free Medicare Consultation</h2>
-        <p><strong>Phone:</strong> <a href="tel:+14352195120">435-219-5120</a></p>
-        <p><strong>Email:</strong> <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a></p>
-        <p><strong>Office:</strong> Smith's Pharmacy, 1080 W Hwy 40, Vernal, UT 84078</p>
-        <p><strong>Hours:</strong> Monday–Friday, 1pm–5pm | Saturday by appointment</p>
-        
-        <p class="cta-buttons">
-          <a href="tel:+14352195120" class="button">Call Rocco Now</a>
-          <a href="mailto:rocco@vernalmedicare.com" class="button">Email for Appointment</a>
-        </p>
-      </div>
-
-      <div class="service-area">
-        <h3>Serving All of Uintah County</h3>
-        <p>Vernal • Naples • Maeser • Jensen • Roosevelt • Ballard • Duchesne • Fort Duchesne</p>
-      </div>
-    </div>
-  </main>
-
-  <footer class="simple-footer">
-    <p>© 2024 Vernal Medicare | Rocco DeLuca, Licensed Insurance Agent | <a href="tel:+14352195120">435-219-5120</a></p>
-  </footer>
-</body>
-</html>
+  <div class="service-area">
+    <h3>Serving All of Uintah County</h3>
+    <p>Vernal • Naples • Maeser • Jensen • Roosevelt • Ballard • Duchesne • Fort Duchesne</p>
+  </div>
+</ArticlePage>
