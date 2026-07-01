@@ -46,11 +46,11 @@ function fail(msg) {
 // race; the single retry remains as a belt-and-suspenders safety net.
 // TODO(workaround): revisit after a future Astro/Vite/Vitest upgrade — if the
 // bootstrap race is gone, the inherit+retry can be simplified.
-let tests = runInherit('unit tests', 'npx vitest run');
+let tests = runInherit('unit tests', 'npm test');
 for (let attempt = 1; tests.status !== 0 && attempt <= 3; attempt++) {
   sleepSync(2000);
   console.log(`↻ vitest did not bootstrap cleanly — retry ${attempt}/3 (after 2s)`);
-  tests = runInherit(`unit tests (retry ${attempt})`, 'npx vitest run');
+  tests = runInherit(`unit tests (retry ${attempt})`, 'npm test');
 }
 if (tests.status !== 0) fail('unit tests failed.');
 
