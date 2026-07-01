@@ -31,6 +31,11 @@ function runInherit(label, command) {
   return { status: r.status ?? 1 };
 }
 
+// Synchronous pause. The local (Windows) Vitest bootstrap flake is a transient
+// file lock right after fresh writes (AV/FS settling); pausing before a retry
+// lets it clear, rather than hammering the same window.
+const sleepSync = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+
 function fail(msg) {
   console.error(`\n✖ ${msg}`);
   process.exit(1);
@@ -42,8 +47,9 @@ function fail(msg) {
 // TODO(workaround): revisit after a future Astro/Vite/Vitest upgrade — if the
 // bootstrap race is gone, the inherit+retry can be simplified.
 let tests = runInherit('unit tests', 'npx vitest run');
-for (let attempt = 1; tests.status !== 0 && attempt <= 2; attempt++) {
-  console.log(`↻ vitest did not bootstrap cleanly — retry ${attempt}/2`);
+for (let attempt = 1; tests.status !== 0 && attempt <= 3; attempt++) {
+  sleepSync(2000);
+  console.log(`↻ vitest did not bootstrap cleanly — retry ${attempt}/3 (after 2s)`);
   tests = runInherit(`unit tests (retry ${attempt})`, 'npx vitest run');
 }
 if (tests.status !== 0) fail('unit tests failed.');
