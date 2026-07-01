@@ -7,18 +7,19 @@ export interface NavLink {
   label: string;
 }
 
+// Absolute (root-relative) hrefs so nav resolves from any directory depth.
 export const PRIMARY_NAV: NavLink[] = [
-  { href: 'index.html', label: 'Home' },
-  { href: 'medicare-decision-center.html', label: 'Start Here' },
-  { href: 'medicare-help-center.html', label: 'Medicare Help Center' },
-  { href: 'turning-65.html', label: 'Turning 65' },
-  { href: 'medigap.html', label: 'Medigap' },
-  { href: 'aca.html', label: 'Under-65 Health Insurance' },
-  { href: 'indemnity.html', label: 'Copay Coverage' },
-  { href: 'life.html', label: 'Life Insurance' },
-  { href: 'faq.html', label: 'FAQ' },
-  { href: 'reviews.html', label: 'Reviews' },
-  { href: 'about.html', label: 'About' },
-  { href: 'medicare-news.html', label: 'News' },
-  { href: 'medicare-search.html', label: 'Search' },
+  { href: '/', label: 'Home' },
+  { href: '/medicare-decision-center.html', label: 'Start Here' },
+  { href: '/medicare-help-center.html', label: 'Medicare Help Center' },
+  { href: '/turning-65.html', label: 'Turning 65' },
+  { href: '/medigap.html', label: 'Medigap' },
+  { href: '/aca.html', label: 'Under-65 Health Insurance' },
+  { href: '/indemnity.html', label: 'Copay Coverage' },
+  { href: '/life.html', label: 'Life Insurance' },
+  { href: '/faq.html', label: 'FAQ' },
+  { href: '/reviews.html', label: 'Reviews' },
+  { href: '/about.html', label: 'About' },
+  { href: '/medicare-news.html', label: 'News' },
+  { href: '/medicare-search.html', label: 'Search' },
 ];
