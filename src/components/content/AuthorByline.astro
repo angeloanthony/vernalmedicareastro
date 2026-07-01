@@ -1,0 +1,30 @@
+---
+// AuthorByline.astro — E-E-A-T byline. Takes author IDs and resolves them to
+// records (no stale copies). Rendered by StandardPageLayout under the H1.
+import { authorById } from '../../data/authors';
+import type { AuthorId } from '../../types/Page';
+
+interface Props {
+  authorId?: AuthorId;
+  reviewedById?: AuthorId;
+  updated?: string;
+  localAvailability?: string;
+}
+const { authorId, reviewedById, updated, localAvailability } = Astro.props;
+
+const author = authorId ? authorById(authorId) : undefined;
+const reviewerRaw = reviewedById ? authorById(reviewedById) : undefined;
+const reviewer = reviewerRaw && reviewerRaw.id !== author?.id ? reviewerRaw : undefined;
+const show = Boolean(author || reviewer || updated || localAvailability);
+---
+
+{show && (
+  <p class="byline">
+    {author && (
+      <Fragment>By <a href={author.url ?? '#'}>{author.name}</a>, {author.jobTitle}</Fragment>
+    )}
+    {reviewer && <Fragment> · Reviewed by {reviewer.name}</Fragment>}
+    {updated && <Fragment> · Updated {updated}</Fragment>}
+    {localAvailability && <Fragment> · {localAvailability}</Fragment>}
+  </p>
+)}

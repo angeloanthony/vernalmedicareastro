@@ -1,0 +1,27 @@
+---
+// PageCTA.astro — conversion block. Defaults (phone + quote) come from
+// business.ts so the CTA can never drift from the live NAP.
+import { BUSINESS } from '../../data/business';
+import type { CTAConfig } from '../../types/Page';
+
+interface Props {
+  cta?: CTAConfig;
+}
+const { cta } = Astro.props;
+
+const heading = cta?.heading ?? 'Talk to a local, licensed agent';
+const text = cta?.text ?? `${BUSINESS.legalAgent} can walk you through your options — free, no pressure.`;
+const primary = cta?.primary ?? { label: `Call ${BUSINESS.phone}`, href: `tel:${BUSINESS.phoneTel}` };
+const secondary = cta?.secondary ?? { label: 'Get a Free Quote', href: BUSINESS.quoteUrl };
+---
+
+<section class="page-cta">
+  <h2>{heading}</h2>
+  <p>{text}</p>
+  <p class="page-cta-actions">
+    <a class="button" href={primary.href}>{primary.label}</a>
+    {secondary && (
+      <a class="button" href={secondary.href} target="_blank" rel="noopener noreferrer">{secondary.label}</a>
+    )}
+  </p>
+</section>
