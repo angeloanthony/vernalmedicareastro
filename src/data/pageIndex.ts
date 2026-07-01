@@ -212,6 +212,27 @@ export const PAGE_INDEX: PageIndexEntry[] = [
       tags: ['local', t.slug, t.county.toLowerCase().replace(/\s+/g, '-'), 'overview', 'original-medicare'],
     },
   })),
+  // ── Medicare Advantage silo (M16) — high commercial intent ──
+  {
+    href: '/best-medicare-advantage-vernal.html',
+    title: 'Best Medicare Advantage Plans in Vernal, Utah',
+    taxonomy: { silo: 'medicare-advantage', tags: ['medicare-advantage', 'advantage', 'vernal', 'uintah-county', 'local'], pillar: true },
+  },
+  {
+    href: '/zero-premium-medicare-advantage.html',
+    title: '$0 Premium Medicare Advantage Plans in Uintah County',
+    taxonomy: { silo: 'medicare-advantage', tags: ['medicare-advantage', 'advantage', 'zero-premium', 'uintah-county', 'costs'] },
+  },
+  {
+    href: '/hmo-vs-ppo-medicare-advantage.html',
+    title: 'HMO vs PPO Medicare Advantage in Vernal',
+    taxonomy: { silo: 'medicare-advantage', tags: ['medicare-advantage', 'advantage', 'hmo', 'ppo', 'comparison', 'vernal'] },
+  },
+  {
+    href: '/medicare-advantage-vs-medigap-vernal.html',
+    title: 'Medicare Advantage vs Medigap in Vernal',
+    taxonomy: { silo: 'medicare-advantage', tags: ['medicare-advantage', 'advantage', 'medigap', 'comparison', 'vernal', 'local'] },
+  },
   // ── Providers silo (M15) — local hospitals & pharmacies (E-E-A-T) ──
   {
     href: '/medicare-hospitals-uintah-county.html',
