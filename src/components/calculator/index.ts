@@ -3,7 +3,8 @@
 //
 // (Re-exports of .astro components are resolved by Astro's compiler at build
 // time; full type-validation comes via `astro check`.)
-export { default as CalculatorLayout } from './CalculatorLayout.astro';
+// CalculatorLayout (Phase-1, wrapped BaseLayout) retired in favor of
+// layout/CalculatorPage.astro (composes StandardPageLayout). Content components below.
 export { default as CalculatorHeader } from './CalculatorHeader.astro';
 export { default as CalculatorSection } from './CalculatorSection.astro';
 export { default as CalculatorInput } from './CalculatorInput.astro';
