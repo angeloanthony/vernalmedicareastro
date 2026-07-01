@@ -1,125 +1,74 @@
 ---
-// src/pages/medicare-out-of-pocket-maximum-2026.astro  —  converted from medicare-out-of-pocket-maximum-2026.html
-// URL preserved: /medicare-out-of-pocket-maximum-2026.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/medicare-out-of-pocket-maximum-2026.astro — MIGRATED to the Page Framework.
+// URL, title, description, H1, publish date and gaIds preserved from the ranking
+// legacy page. Now on ArticlePage: automatic Article+FAQ+Breadcrumb schema,
+// byline, related, and the required marketing disclaimer. The inline hand-rolled
+// JSON-LD (Breadcrumb/Article/FAQ) and the inline CMS marketing-disclaimer block
+// were removed — the framework generates both. The FAQ Q&A moved into page.faqs.
+// No stale $185/$257/$1,676 figures appeared; the $9,350/$4,000 MOOP and the
+// $2,000 Part D cap are correct, so no figuresFor()/usd data layer is needed.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
+const context: PageContext = {
+  page: {
+    title: "Medicare Out-of-Pocket Maximum 2026 — What You'll Pay",
+    heading: 'What Is the Medicare Out-of-Pocket Maximum in 2026?',
+    description:
+      'Understand the 2026 Medicare out-of-pocket maximum for Advantage plans and the new Part D $2,000 cap. Vernal, Utah Medicare guide.',
+    taxonomy: {
+      silo: 'costs-irmaa',
+      tags: ['moop', 'costs', 'advantage'],
+    },
+    summary:
+      "The out-of-pocket maximum (MOOP) caps what you pay for covered Medicare Advantage services in a year before the plan pays 100%. For 2026, MA MOOP limits run up to $9,350 in-network, Part D drug spending is capped at $2,000, and Original Medicare still has no MOOP at all.",
+    faqs: [
       {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://vernalmedicare.com/"
+        question: 'What is the Medicare out-of-pocket maximum in 2026?',
+        answer:
+          'Medicare Advantage MOOP limits range from $4,000 to $9,350 for in-network care in 2026. Part D drug spending is capped at $2,000/year. Original Medicare has no MOOP.',
       },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "What Is the Medicare Out-of-Pocket Maximum in 2026?",
-        "item": "https://vernalmedicare.com/medicare-out-of-pocket-maximum-2026.html"
-      }
-    ]
+    ],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Medicare Out-of-Pocket Maximum 2026 — What You'll Pay",
-    "description": "Understand the 2026 Medicare out-of-pocket maximum for Advantage plans and the new Part D $2,000 cap. Vernal, Utah Medicare guide.",
-    "author": {
-      "@type": "Person",
-      "name": "Rocco DeLuca",
-      "jobTitle": "Licensed Insurance Agent"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Vernal Medicare",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://vernalmedicare.com/pictures/Rocco.webp"
-      }
-    },
-    "datePublished": "2026-04-04",
-    "dateModified": "2026-04-04",
-    "mainEntityOfPage": "https://vernalmedicare.com/medicare-out-of-pocket-maximum-2026.html"
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-out-of-pocket-maximum-2026.html',
+    ogType: 'article',
+    gaIds: ['G-NW6ENB89NF', 'G-FTDW9B2G6Q'],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is the Medicare out-of-pocket maximum in 2026?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Medicare Advantage MOOP limits range from $4,000 to $9,350 for in-network care in 2026. Part D drug spending is capped at $2,000/year. Original Medicare has no MOOP."
-        }
-      }
-    ]
-  }
-];
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Out-of-Pocket Maximum 2026', href: '/medicare-out-of-pocket-maximum-2026.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="Medicare Out-of-Pocket Maximum 2026 — What You'll Pay"
-  description="Understand the 2026 Medicare out-of-pocket maximum for Advantage plans and the new Part D $2,000 cap. Vernal, Utah Medicare guide."
-  canonical="https://vernalmedicare.com/medicare-out-of-pocket-maximum-2026.html"
-  ogType="article"
-  schema={schema}
-  gaIds={["G-NW6ENB89NF", "G-FTDW9B2G6Q"]}
->
-  <section class="cms-compliance" style="background:#fffbf0;border:2px solid #d97706;border-radius:8px;padding:1.5rem;margin:2rem auto;max-width:1100px;">
-    <h2 style="color:#92400e;margin-top:0;font-size:1.1rem;">Important Medicare Information</h2>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>We do not offer every plan available in your area.</strong> Any information we provide is limited to those plans we do offer in your area. Please contact <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711), 24 hours a day, 7 days a week, to get information on all of your options.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      Vernal Medicare is a licensed and certified representative of Medicare Advantage organizations and stand-alone prescription drug plans. Each of the organizations we represent has a Medicare contract. Enrollment in any plan depends on contract renewal.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>Not connected with or endorsed by the U.S. government or the federal Medicare program.</strong>
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      By calling the number above, you will be directed to a licensed insurance agent.
-    </p>
-  </section>
+<ArticlePage context={context}>
+  <p>The out-of-pocket maximum (MOOP) is the most you will pay for covered services in a year before your Medicare Advantage plan pays 100%. Understanding this limit is essential for budgeting your healthcare costs in 2026.</p>
 
-<main>
-  <section>
-    <p style="font-size:.9rem;color:#666;margin-bottom:.5rem;">
-      <em>By <strong>Rocco DeLuca</strong>, Licensed Insurance Agent &bull; Published 2026-04-04 &bull; Last updated 2026-04-04</em>
-    </p>
-    <h1 style="text-align:center;">What Is the Medicare Out-of-Pocket Maximum in 2026?</h1>
-    
-        <p>The out-of-pocket maximum (MOOP) is the most you will pay for covered services in a year before your Medicare Advantage plan pays 100%. Understanding this limit is essential for budgeting your healthcare costs in 2026.</p>
+  <h2>Medicare Advantage MOOP Limits</h2>
+  <p>In 2026, Medicare sets the maximum allowed MOOP for Medicare Advantage plans at $9,350 for in-network services. Most plans set their actual MOOP lower — typically between $4,000 and $7,500. Once you reach your plan's MOOP, the plan pays 100% of covered services for the rest of the year. Importantly, the MOOP only counts in-network costs for HMO plans. PPO plans have separate in-network and combined (in-network + out-of-network) limits.</p>
 
-        <h2>Medicare Advantage MOOP Limits</h2>
-        <p>In 2026, Medicare sets the maximum allowed MOOP for Medicare Advantage plans at $9,350 for in-network services. Most plans set their actual MOOP lower — typically between $4,000 and $7,500. Once you reach your plan's MOOP, the plan pays 100% of covered services for the rest of the year. Importantly, the MOOP only counts in-network costs for HMO plans. PPO plans have separate in-network and combined (in-network + out-of-network) limits.</p>
+  <h2>Part D Out-of-Pocket Cap</h2>
+  <p>The Inflation Reduction Act introduced a $2,000 annual cap on out-of-pocket Part D prescription drug spending starting in 2026. This is a landmark change. Previously, high-cost prescriptions could expose beneficiaries to thousands in out-of-pocket drug costs. Now, once your Part D out-of-pocket spending reaches $2,000, covered prescriptions are free for the rest of the year. The Medicare Prescription Payment Plan also lets you spread drug costs into monthly installments.</p>
 
-        <h2>Part D Out-of-Pocket Cap</h2>
-        <p>The Inflation Reduction Act introduced a $2,000 annual cap on out-of-pocket Part D prescription drug spending starting in 2026. This is a landmark change. Previously, high-cost prescriptions could expose beneficiaries to thousands in out-of-pocket drug costs. Now, once your Part D out-of-pocket spending reaches $2,000, covered prescriptions are free for the rest of the year. The Medicare Prescription Payment Plan also lets you spread drug costs into monthly installments.</p>
+  <h2>Original Medicare Has No MOOP</h2>
+  <p>A critical distinction: Original Medicare (Parts A and B) has no out-of-pocket maximum. Without Medigap, your costs are unlimited. A single hospital stay can generate thousands in coinsurance. This is why supplemental coverage — either Medigap or Medicare Advantage — is so important.</p>
 
-        <h2>Original Medicare Has No MOOP</h2>
-        <p>A critical distinction: Original Medicare (Parts A and B) has no out-of-pocket maximum. Without Medigap, your costs are unlimited. A single hospital stay can generate thousands in coinsurance. This is why supplemental coverage — either Medigap or Medicare Advantage — is so important.</p>
+  <h2>What Counts Toward the MOOP?</h2>
+  <p>Copays, coinsurance, deductibles, and other cost-sharing for covered services count toward your MOOP. Monthly premiums do not count. Non-covered services do not count.</p>
 
-        <h2>What Counts Toward the MOOP?</h2>
-        <p>Copays, coinsurance, deductibles, and other cost-sharing for covered services count toward your MOOP. Monthly premiums do not count. Non-covered services do not count.</p>
+  <p>Related: <a href="best-medicare-advantage-vernal.html">Best Advantage plans</a> | <a href="plan-g-vs-plan-n-vernal.html">Plan G vs Plan N</a> | <a href="best-part-d-plans-vernal.html">Part D plans</a></p>
+  <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
 
-        <p>Related: <a href="best-medicare-advantage-vernal.html">Best Advantage plans</a> | <a href="plan-g-vs-plan-n-vernal.html">Plan G vs Plan N</a> | <a href="best-part-d-plans-vernal.html">Part D plans</a></p>
-        <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
-        
-    <p style="text-align:center;margin-top:2rem;">
-      <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
-    </p>
-    <p style="text-align:center;margin-top:1rem;">
-      <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
-    </p>
-  </section>
-</main>
-
-
-  
-</BaseLayout>
+  <p style="text-align:center;margin-top:2rem;">
+    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
+  </p>
+  <p style="text-align:center;margin-top:1rem;">
+    <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
+  </p>
+</ArticlePage>

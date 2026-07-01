@@ -144,6 +144,11 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'What Happens If You Miss Medicare Enrollment',
     taxonomy: { silo: 'enrollment', tags: ['penalties', 'missed', 'part-b', 'part-d', 'gep'] },
   },
+  {
+    href: '/medicare-checklist-2026.html',
+    title: 'Your 2026 Medicare Checklist',
+    taxonomy: { silo: 'enrollment', tags: ['checklist', 'enrollment', 'deadlines', 'turning-65'] },
+  },
   // ── Medigap silo (M9): HD Plan G gap + register Plan G vs N ──
   {
     href: '/medicare-plan-g-high-deductible.html',

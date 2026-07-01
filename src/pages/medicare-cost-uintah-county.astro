@@ -1,126 +1,80 @@
 ---
-// src/pages/medicare-cost-uintah-county.astro  —  converted from medicare-cost-uintah-county.html
-// URL preserved: /medicare-cost-uintah-county.html. Body + page scripts VERBATIM. Metadata, header,
-// footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
-import BaseLayout from '../layouts/BaseLayout.astro';
+// src/pages/medicare-cost-uintah-county.astro — MIGRATED to the Page Framework.
+// URL, title, description, H1, publish date and gaIds preserved from the ranking
+// legacy page. Now on ArticlePage: automatic Article+FAQ+Breadcrumb schema,
+// byline, related, and the required marketing disclaimer. The inline hand-rolled
+// JSON-LD (Breadcrumb/Article/FAQ) and the inline CMS marketing-disclaimer block
+// were removed — the framework generates both. The FAQ Q&A moved into page.faqs.
+// The existing figuresFor()/usd data layer (Part A/B premium & deductible) is
+// KEPT intact, including the FAQ answer (backtick template literal).
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
 import { figuresFor } from '../data/annualMedicareData';
 import { usd } from '../lib/formatters';
 
 const f = figuresFor();
 
-// Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
-const schema = [
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
+const context: PageContext = {
+  page: {
+    title: 'How Much Does Medicare Cost in Uintah County? — 2026 Guide',
+    heading: 'How Much Does Medicare Cost in Uintah County, Utah? — 2026',
+    description:
+      'Complete breakdown of Medicare costs in Uintah County, Utah for 2026. Premiums, deductibles, copays for Advantage, Medigap, and Part D. Call 435-219-5120.',
+    taxonomy: {
+      silo: 'costs-irmaa',
+      tags: ['costs', 'part-b', 'uintah-county', 'local'],
+    },
+    summary:
+      'Medicare costs in Uintah County depend on your coverage choice, income, health, and prescriptions. Original Medicare, Medicare Advantage, Medigap, and Part D each carry different premiums, deductibles, and out-of-pocket exposure — here is the full 2026 breakdown for the Uintah Basin.',
+    faqs: [
       {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://vernalmedicare.com/"
+        question: 'How much does Medicare cost in Uintah County in 2026?',
+        answer: `Part B: ${usd(f.partB.premium, { cents: true })}/month standard. Advantage: often $0 premium. Medigap Plan G: ~$120–$180/month. Part D: $7–$80/month. Drug spending capped at $2,000/year. Call 435-219-5120 for personalized costs.`,
       },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "How Much Does Medicare Cost in Uintah County, Utah? — 2026",
-        "item": "https://vernalmedicare.com/medicare-cost-uintah-county.html"
-      }
-    ]
+    ],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "How Much Does Medicare Cost in Uintah County? — 2026 Guide",
-    "description": "Complete breakdown of Medicare costs in Uintah County, Utah for 2026. Premiums, deductibles, copays for Advantage, Medigap, and Part D. Call 435-219-5120.",
-    "author": {
-      "@type": "Person",
-      "name": "Rocco DeLuca",
-      "jobTitle": "Licensed Insurance Agent"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Vernal Medicare",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://vernalmedicare.com/pictures/Rocco.webp"
-      }
-    },
-    "datePublished": "2026-04-04",
-    "dateModified": "2026-04-04",
-    "mainEntityOfPage": "https://vernalmedicare.com/medicare-cost-uintah-county.html"
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-cost-uintah-county.html',
+    ogType: 'article',
+    gaIds: ['G-NW6ENB89NF', 'G-FTDW9B2G6Q'],
   },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How much does Medicare cost in Uintah County in 2026?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": `Part B: ${usd(f.partB.premium, { cents: true })}/month standard. Advantage: often $0 premium. Medigap Plan G: ~$120–$180/month. Part D: $7–$80/month. Drug spending capped at $2,000/year. Call 435-219-5120 for personalized costs.`
-        }
-      }
-    ]
-  }
-];
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare Cost in Uintah County', href: '/medicare-cost-uintah-county.html' },
+  ],
+};
 ---
 
-<BaseLayout
-  title="How Much Does Medicare Cost in Uintah County? — 2026 Guide"
-  description="Complete breakdown of Medicare costs in Uintah County, Utah for 2026. Premiums, deductibles, copays for Advantage, Medigap, and Part D. Call 435-219-5120."
-  canonical="https://vernalmedicare.com/medicare-cost-uintah-county.html"
-  ogType="article"
-  schema={schema}
-  gaIds={["G-NW6ENB89NF", "G-FTDW9B2G6Q"]}
->
-  <section class="cms-compliance" style="background:#fffbf0;border:2px solid #d97706;border-radius:8px;padding:1.5rem;margin:2rem auto;max-width:1100px;">
-    <h2 style="color:#92400e;margin-top:0;font-size:1.1rem;">Important Medicare Information</h2>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>We do not offer every plan available in your area.</strong> Any information we provide is limited to those plans we do offer in your area. Please contact <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711), 24 hours a day, 7 days a week, to get information on all of your options.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      Vernal Medicare is a licensed and certified representative of Medicare Advantage organizations and stand-alone prescription drug plans. Each of the organizations we represent has a Medicare contract. Enrollment in any plan depends on contract renewal.
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      <strong>Not connected with or endorsed by the U.S. government or the federal Medicare program.</strong>
-    </p>
-    <p style="margin:0.75rem 0;color:#333;font-size:0.95rem;line-height:1.5;">
-      By calling the number above, you will be directed to a licensed insurance agent.
-    </p>
-  </section>
-
-<main>
-  <section>
-    <p style="font-size:.9rem;color:#666;margin-bottom:.5rem;">
-      <em>By <strong>Rocco DeLuca</strong>, Licensed Insurance Agent &bull; Published 2026-04-04 &bull; Last updated 2026-04-04</em>
-    </p>
-    <h1 style="text-align:center;">How Much Does Medicare Cost in Uintah County, Utah? — 2026</h1>
+<ArticlePage context={context}>
   <div style="background:#f0f9ff; border-left:5px solid #0b6ea3; border-radius:8px; padding:1.25rem; margin:1.5rem 0;">
   <strong>Trying to compare all your Medicare options?</strong><br>
   Visit our <a href="medicare-plans-vernal-utah.html">Complete Medicare Guide for Vernal and the Uintah Basin</a> for Medicare Advantage, Medigap, Part D, enrollment timing, and local plan comparisons.
   </div>
-    
-        <p>Medicare costs in Uintah County depend on your coverage choice, income level, health status, and prescriptions. Here is a comprehensive breakdown for 2026.</p>
 
-        <h2>Original Medicare Costs</h2>
-        <p><strong>Part A:</strong> Premium-free for most (40+ quarters of work history). Hospital deductible: {usd(f.partA.deductible)} per benefit period. Days 61–90: $419/day coinsurance. Skilled nursing days 21–100: $209.50/day. <strong>Part B:</strong> Standard premium: {usd(f.partB.premium, { cents: true })}/month. Annual deductible: {usd(f.partB.deductible)}. After deductible: 20% coinsurance with no cap. <strong>No maximum out-of-pocket limit</strong> — this is why supplemental coverage is essential.</p>
+  <p>Medicare costs in Uintah County depend on your coverage choice, income level, health status, and prescriptions. Here is a comprehensive breakdown for 2026.</p>
 
-        <h2>Medicare Advantage Costs in the Uintah Basin</h2>
-        <p>Medicare Advantage premiums: $0 to $50+/month (many $0 options). Primary care copay: typically $0–$20. Specialist copay: typically $25–$50. Hospital admission: $200–$400/day for first few days. Maximum out-of-pocket: $4,000–$9,350/year depending on plan. Drug coverage included in most plans.</p>
+  <h2>Original Medicare Costs</h2>
+  <p><strong>Part A:</strong> Premium-free for most (40+ quarters of work history). Hospital deductible: {usd(f.partA.deductible)} per benefit period. Days 61–90: $419/day coinsurance. Skilled nursing days 21–100: $209.50/day. <strong>Part B:</strong> Standard premium: {usd(f.partB.premium, { cents: true })}/month. Annual deductible: {usd(f.partB.deductible)}. After deductible: 20% coinsurance with no cap. <strong>No maximum out-of-pocket limit</strong> — this is why supplemental coverage is essential.</p>
 
-        <h2>Medigap Costs in Utah</h2>
-        <p>Plan G: approximately $120–$180/month (age 65, non-smoker). Plan N: approximately $80–$140/month. After paying the {usd(f.partB.deductible)} Part B deductible (Plan G) or small copays (Plan N), out-of-pocket costs are essentially zero for Medicare-covered services. You must add a separate Part D plan ($7–$80/month).</p>
+  <h2>Medicare Advantage Costs in the Uintah Basin</h2>
+  <p>Medicare Advantage premiums: $0 to $50+/month (many $0 options). Primary care copay: typically $0–$20. Specialist copay: typically $25–$50. Hospital admission: $200–$400/day for first few days. Maximum out-of-pocket: $4,000–$9,350/year depending on plan. Drug coverage included in most plans.</p>
 
-        <h2>Part D Prescription Drug Costs</h2>
-        <p>Premiums: $7–$80+/month. Deductible: $0–$590 (many plans have no deductible). Out-of-pocket cap: $2,000/year (new for 2026). Insulin: capped at $35/month. Specific drug costs vary dramatically by plan and pharmacy.</p>
+  <h2>Medigap Costs in Utah</h2>
+  <p>Plan G: approximately $120–$180/month (age 65, non-smoker). Plan N: approximately $80–$140/month. After paying the {usd(f.partB.deductible)} Part B deductible (Plan G) or small copays (Plan N), out-of-pocket costs are essentially zero for Medicare-covered services. You must add a separate Part D plan ($7–$80/month).</p>
 
-        <h2>Income-Related Adjustments (IRMAA)</h2>
-        <p>If your modified adjusted gross income exceeds $106,000 (individual) or $212,000 (married filing jointly), you pay higher Part B and Part D premiums. This surcharge, called IRMAA, is based on tax returns from two years ago.</p>
+  <h2>Part D Prescription Drug Costs</h2>
+  <p>Premiums: $7–$80+/month. Deductible: $0–$590 (many plans have no deductible). Out-of-pocket cap: $2,000/year (new for 2026). Insulin: capped at $35/month. Specific drug costs vary dramatically by plan and pharmacy.</p>
 
-        <h2>Extra Help for Low-Income Beneficiaries</h2>
-        <p>Uintah County residents with limited income and resources may qualify for Extra Help, reducing Part D costs to near zero, or Medicaid (QMB, SLMB, QI programs) which can pay Part B premiums and cost-sharing.</p>
+  <h2>Income-Related Adjustments (IRMAA)</h2>
+  <p>If your modified adjusted gross income exceeds $106,000 (individual) or $212,000 (married filing jointly), you pay higher Part B and Part D premiums. This surcharge, called IRMAA, is based on tax returns from two years ago.</p>
+
+  <h2>Extra Help for Low-Income Beneficiaries</h2>
+  <p>Uintah County residents with limited income and resources may qualify for Extra Help, reducing Part D costs to near zero, or Medicaid (QMB, SLMB, QI programs) which can pay Part B premiums and cost-sharing.</p>
 
   <section style="background:#f8fbff; border:1px solid #d9e7f5; border-radius:10px; padding:1.5rem; margin:2rem 0;">
   <h2 style="margin-top:0; color:#0b2c45;">Related Medicare Cost Topics</h2>
@@ -135,16 +89,12 @@ const schema = [
     <li><a href="medicare-out-of-pocket-maximum-2026.html">2026 Medicare Out-of-Pocket Maximums</a></li>
   </ul>
  </section>
-        
-    <p style="text-align:center;margin-top:2rem;">
-      <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
-    </p>
-    <p style="text-align:center;margin-top:1rem;">
-      <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
-    </p>
-  </section>
-</main>
 
+  <p style="text-align:center;margin-top:2rem;">
+    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
+  </p>
+  <p style="text-align:center;margin-top:1rem;">
+    <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
+  </p>
+</ArticlePage>
 
-  
-</BaseLayout>
