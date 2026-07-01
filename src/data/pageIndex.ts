@@ -260,6 +260,22 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Prescription Drug Assistance on Medicare',
     taxonomy: { silo: 'part-d', tags: ['drug-assistance', 'part-d', 'extra-help', 'costs'], pillar: true },
   },
+  // Part-D commercial trio (M18):
+  {
+    href: '/best-part-d-plans-vernal.html',
+    title: 'Best Medicare Part D Plans in Vernal, Utah',
+    taxonomy: { silo: 'part-d', tags: ['part-d', 'best-plans', 'drugs', 'vernal', 'uintah-county', 'local'] },
+  },
+  {
+    href: '/cheapest-prescription-drug-plans.html',
+    title: 'Cheapest Prescription Drug Plans in Vernal',
+    taxonomy: { silo: 'part-d', tags: ['part-d', 'cheapest', 'costs', 'drugs', 'vernal', 'local'] },
+  },
+  {
+    href: '/tier-3-vs-tier-4-medicare-part-d.html',
+    title: 'Tier 3 vs Tier 4 Drugs on Medicare Part D',
+    taxonomy: { silo: 'part-d', tags: ['part-d', 'formulary', 'tiers', 'drugs', 'costs'] },
+  },
   // Drug pages generated from data/drugs.ts:
   ...FEATURED_DRUGS.map((d): PageIndexEntry => ({
     href: `/${d.slug}-assistance-program.html`,
