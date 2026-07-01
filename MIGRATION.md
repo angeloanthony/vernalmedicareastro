@@ -30,20 +30,34 @@ production.
 | M14 Vernal home-turf cluster (pillar + 4 pages) | ✅ merged | `vernal-core-v1` |
 | M15 Provider / hospital cluster | ✅ merged | `provider-cluster-v1` |
 | M16 Medicare Advantage cluster | ✅ merged | `advantage-cluster-v1` |
-| M17 Data-integrity figure sweep (7 pages → data layer) | ▶ this PR | — |
+| M17 Data-integrity figure sweep (7 pages → data layer) | ✅ merged | `figure-integrity-v1` |
+| M18 Part-D commercial trio | ✅ merged | `partd-commercial-v1` |
+| M19 Medigap silo | ✅ merged | `medigap-silo-v1` |
+| M20 Enrollment + Costs legacy | ✅ merged | `enrollment-costs-v1` |
+| M21 Trust cluster (+ reviews canonical fix) | ✅ merged | `trust-cluster-v1` |
+| M22 Local tools + office | ✅ merged | `local-tools-v1` |
+| M23 Low-priority tail — **migration complete** | ✅ merged | `other-insurance-v1` |
+| M24 Authority Architecture (Phase II blueprint, no code) | ▶ this PR | — |
 
-**Baseline:** `main` builds **85 pages**; astro-check baseline **47** (ratcheted
-59→47 as legacy pages migrate); **39 unit tests**; CI green on Node 24. All page
-types proven — `ArticlePage`, `CalculatorPage`, `DrugPage`, and the data-driven
-`[drug]` / `[town]` templates. Now in the **legacy-migration phase**: bring the
-remaining `BaseLayout` pages onto the framework, one silo per branch/PR, fixing
-stale figures via `annualMedicareData` as each page is touched.
+> ### 🏁 PHASE I (Framework Migration) — COMPLETE (M1–M23)
+> Every page that should be on the framework is. The only remaining `BaseLayout`
+> pages are **intentional-bespoke** (`index` homepage · `news` blog · `privacy`
+> legal · `reviews` testimonials) and **4 GSC-held** drug-coverage pages
+> (`does-medicare-cover-{dental,mounjaro,ozempic-wegovy}` · `insulin-cost`).
+> **Phase II** is now open — see [docs/AUTHORITY-ARCHITECTURE.md](docs/AUTHORITY-ARCHITECTURE.md).
 
-## Legacy-migration backlog (framework status)
+**Baseline:** `main` builds **85 pages** (60 on the framework); astro-check
+baseline **47** (ratcheted 59→47 as legacy pages migrated); **39 unit tests**;
+CI green on Node 24. All page types proven — `ArticlePage`, `CalculatorPage`,
+`DrugPage`, and the data-driven `[drug]` / `[town]` templates. **11 silos, 10
+pillars.** Phase II shifts from *migrating pages* to *building authority* (hub,
+E-E-A-T, local depth) — measured against the blueprint, not bulk-imported.
 
-Remaining `BaseLayout` pages to bring onto the Page Framework, ordered by
-business value. "Figures fixed" = stale 2025 premium/deductible already wired to
-`annualMedicareData` (M17), migration onto `ArticlePage` still pending.
+## Legacy-migration backlog — ✅ CLEARED (historical)
+
+_All pages below were migrated across M18–M23. Retained as a record of the
+Phase-I backlog and the order it was worked. The only `BaseLayout` pages that
+remain are intentional-bespoke or GSC-held (see the Phase I banner above)._
 
 | Page | Target silo | Priority | Status / notes |
 |---|---|---|---|
