@@ -9,7 +9,7 @@ location engine) underneath them — module by module, lowest-risk first. Nothin
 that carries Alta's brand, NAP, agent identity, analytics, or geography goes to
 production.
 
-## Milestone status (live) — updated 2026-06-30
+## Milestone status (live) — updated 2026-07-01
 
 | Milestone | Status | Tag |
 |---|---|---|
@@ -18,13 +18,69 @@ production.
 | M3 Page Framework | ✅ merged | `page-framework-proven` |
 | M4 First production migration (Part A vs B) | ✅ merged | (with M3) |
 | M5 IRMAA calculator | ✅ merged | `irmaa-v1` |
-| M6 Dual-Eligible content silo (5 pages) | ✅ merged | `dual-eligible-v1` |
-| M7 Enrollment content silo | ▶ in progress | — |
+| M6 Dual-Eligible content silo | ✅ merged | `dual-eligible-v1` |
+| M7 Enrollment content silo | ✅ merged | `enrollment-v1` |
+| M8 Part D / Drug Assistance (DrugPage + 14 drug pages) | ✅ merged | `part-d-v1` |
+| M9 Decision Tools (Cost / Penalty / Timeline calculators + HD Plan G) | ✅ merged | `decision-tools-v1` |
+| M10 IRMAA Authority Cluster (hub · brackets · SSA-44 · LCE) | ✅ merged | `irmaa-cluster-v1` |
+| M10.1 Reduce-IRMAA capstone | ✅ merged | `irmaa-reduce-v1` |
+| M11 Costs pillar hub | ✅ merged | `costs-hub-v1` |
+| M12 Local framework migration (Roosevelt + Duchesne) | ✅ merged | `local-framework-v1` |
+| M13 TownData model + 4 town pages | ✅ merged | `town-data-v1` |
+| M14 Vernal home-turf cluster (pillar + 4 pages) | ✅ merged | `vernal-core-v1` |
+| M15 Provider / hospital cluster | ✅ merged | `provider-cluster-v1` |
+| M16 Medicare Advantage cluster | ✅ merged | `advantage-cluster-v1` |
+| M17 Data-integrity figure sweep (7 pages → data layer) | ▶ this PR | — |
 
-**Baseline:** `main` builds **53 pages**; astro-check baseline **59** (legacy debt,
-ratcheting down); **30 unit tests**; CI green on Node 24. Both paths proven —
-content (`ArticlePage`) and interactive (`CalculatorPage`). Now in the
-**content-scaling phase**: one topical silo per branch/PR, reusing the framework.
+**Baseline:** `main` builds **85 pages**; astro-check baseline **47** (ratcheted
+59→47 as legacy pages migrate); **39 unit tests**; CI green on Node 24. All page
+types proven — `ArticlePage`, `CalculatorPage`, `DrugPage`, and the data-driven
+`[drug]` / `[town]` templates. Now in the **legacy-migration phase**: bring the
+remaining `BaseLayout` pages onto the framework, one silo per branch/PR, fixing
+stale figures via `annualMedicareData` as each page is touched.
+
+## Legacy-migration backlog (framework status)
+
+Remaining `BaseLayout` pages to bring onto the Page Framework, ordered by
+business value. "Figures fixed" = stale 2025 premium/deductible already wired to
+`annualMedicareData` (M17), migration onto `ArticlePage` still pending.
+
+| Page | Target silo | Priority | Status / notes |
+|---|---|---|---|
+| `medigap` | medigap | **High** | silo pillar candidate |
+| `plan-g-vs-plan-n-vernal` | medigap | **High** | figures fixed |
+| `medicare-supplement-vs-advantage` | medigap | **High** | figures fixed |
+| `best-part-d-plans-vernal` | part-d | **High** | commercial |
+| `cheapest-prescription-drug-plans` | part-d | **High** | commercial |
+| `medicare-quote-vernal` | local (tools) | **High** | conversion page |
+| `when-to-enroll-medicare-utah` | enrollment | **High** | |
+| `medicare-open-enrollment-2026` | enrollment | **High** | seasonal · figures fixed |
+| `medicare-cost-uintah-county` | costs-irmaa | **High** | figures fixed |
+| `does-medicare-cover-dental-vernal` | coverage/part-d | Med | long-tail |
+| `does-medicare-cover-mounjaro-utah` | coverage/part-d | Med | **GSC hold** (overlapping drug page) |
+| `does-medicare-cover-ozempic-wegovy` | coverage/part-d | Med | **GSC hold** |
+| `insulin-cost-medicare-vernal` | part-d | Med | **GSC hold** |
+| `tier-3-vs-tier-4-medicare-part-d` | part-d | Med | |
+| `medicare-out-of-pocket-maximum-2026` | costs-irmaa | Med | |
+| `medicare-checklist-2026` | enrollment | Med | figures fixed |
+| `missed-medicare-enrollment` | enrollment | Med | figures fixed |
+| `free-medicare-comparison-vernal` | local (tools) | Med | commercial |
+| `medicare-vernal-ut` | local | Med | |
+| `about` | trust | Med | E-E-A-T (author entity) |
+| `faq` | trust | Med | |
+| `reviews` | trust | Med | 🔴 canonical bug to fix on migrate |
+| `medicare-home-health-utah` | coverage | Low | |
+| `medicare-out-of-state-utah` | other-insurance | Low | |
+| `aca` · `indemnity` | `life` | other-insurance | Low | non-Medicare lines |
+| `news` | utility (blog index) | Low | different template — may not use `ArticlePage` |
+| `index` | homepage | N/A | bespoke homepage — special-case, not a silo page |
+| `privacy` | utility | Low | legal · 🔴 known bug; likely stays bespoke |
+
+**Proposed sequence:** M18 Coverage/Part-D commercial (`best-part-d`,
+`cheapest-prescription-drug-plans`, `tier-3-vs-tier-4`) → M19 Medigap silo
+(`medigap` pillar + the two comparisons) → M20 remaining Enrollment + Costs
+legacy → M21 Local/tools + trust (`about`/`faq`/`reviews`) → utility cleanup.
+Drug-coverage pages stay on **GSC hold** per the locked decision below.
 
 ## Locked decisions
 

@@ -3,6 +3,10 @@
 // URL preserved: /medicare-checklist-2026.html. Body + page scripts VERBATIM. Metadata, header,
 // footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+
+const f = figuresFor();
 
 // Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
 const schema = [
@@ -103,7 +107,7 @@ const schema = [
         <p><strong>Coverage needs:</strong> Are your current doctors accepting your plan next year? Has your plan's formulary changed for any of your medications? Has your plan's premium, copay, or deductible changed? Do you need dental, vision, or hearing coverage? Do you travel or spend time outside Utah? Have you had any major health changes this year?</p>
 
         <h2>Key 2026 Numbers to Know</h2>
-        <p>Part B premium: $185/month. Part B deductible: $257/year. Part A hospital deductible: $1,676. Part D annual out-of-pocket cap: $2,000. Insulin cap: $35/month. Annual Enrollment Period: October 15 – December 7.</p>
+        <p>Part B premium: {usd(f.partB.premium, { cents: true })}/month. Part B deductible: {usd(f.partB.deductible)}/year. Part A hospital deductible: {usd(f.partA.deductible)}. Part D annual out-of-pocket cap: $2,000. Insulin cap: $35/month. Annual Enrollment Period: October 15 – December 7.</p>
 
         <h2>Action Steps</h2>
         <p>Review your Annual Notice of Change (ANOC) letter from your current plan. Compare plans using our <a href="free-medicare-comparison-vernal.html">free comparison tool</a>. Call <a href="tel:+14352195120">435-219-5120</a> for a personalized review. Enroll in the best plan before December 7. Set a calendar reminder to review again next year.</p>

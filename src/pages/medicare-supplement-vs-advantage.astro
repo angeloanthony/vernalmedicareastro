@@ -3,6 +3,9 @@
 // URL preserved: /medicare-supplement-vs-advantage.html. Body + page scripts VERBATIM. Metadata, header,
 // footer, LocalBusiness schema, GA, nav/3CX scripts come from BaseLayout.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { figuresFor } from '../data/annualMedicareData';
+import { usd } from '../lib/formatters';
+const f = figuresFor();
 
 // Page-specific JSON-LD carried over verbatim (LocalBusiness is in the layout).
 const schema = [
@@ -108,7 +111,7 @@ const schema = [
       <ul style="margin:1rem 0 1rem 1.5rem; line-height:1.8;">
         <li><strong>No provider network.</strong> You can see any doctor or hospital in the country that accepts Medicare. No referrals needed.</li>
         <li><strong>Standardized plans.</strong> Medigap plans are labeled by letter (Plan G, Plan N, etc.) and cover the same benefits regardless of which insurance company sells them. The difference between carriers is price and customer service.</li>
-        <li><strong>Predictable costs.</strong> With Plan G — the most popular Medigap option — your only out-of-pocket cost after the monthly premium is the annual Part B deductible ($257 in 2026). Everything else is covered at 100%.</li>
+        <li><strong>Predictable costs.</strong> With Plan G — the most popular Medigap option — your only out-of-pocket cost after the monthly premium is the annual Part B deductible ({usd(f.partB.deductible)} in 2026). Everything else is covered at 100%.</li>
         <li><strong>Separate drug plan needed.</strong> Medigap does not include prescription drug coverage. You'll need to enroll in a standalone <a href="part-d-help-vernal.html">Part D drug plan</a> separately.</li>
       </ul>
 
