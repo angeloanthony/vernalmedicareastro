@@ -1,0 +1,80 @@
+---
+// src/pages/delaying-medicare-part-b.astro — Working Past 65 cluster spoke.
+// Hub: working-past-65.html. Integrated (not copied): links the employer-coverage,
+// COBRA, creditable-coverage, SEP, penalty-calculator, and turning-65 paths. Author Rocco.
+import ArticlePage from '../components/layout/ArticlePage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Delaying Medicare Part B — When It’s Safe (and When It’s Not) | Vernal Medicare',
+    heading: 'Delaying Medicare Part B',
+    description:
+      'You can delay Part B penalty-free only if you have active current employer coverage (20+ employees). Delay without it and the late penalty is permanent. How to enroll later with your 8-month SEP.',
+    taxonomy: { silo: 'enrollment', tags: ['delay-part-b', 'part-b', 'penalties', 'sep', 'working-past-65'] },
+    summary:
+      'Delaying Medicare Part B is safe only when you have creditable coverage from active current employment — you or your spouse still working, at an employer with 20 or more employees. Delay without that coverage and you face a permanent late-enrollment penalty: 10% added to your Part B premium for every full 12 months you could have had Part B but didn’t, for as long as you have Part B. COBRA and retiree coverage do NOT count. When your active employment ends, an 8-month Special Enrollment Period lets you enroll penalty-free.',
+    faqs: [
+      { question: 'Can I delay Part B without a penalty?', answer: 'Only if you have creditable coverage from active current employment — you or your spouse are still working and the employer has 20 or more employees. In that case you can safely delay Part B and enroll later penalty-free. Without active-employment coverage, delaying triggers a permanent late-enrollment penalty.' },
+      { question: 'How much is the Part B late-enrollment penalty?', answer: 'It adds 10% to your Part B premium for each full 12-month period you could have had Part B but didn’t sign up. It is permanent — it lasts as long as you have Part B, not just a year or two. So delaying two full years would add 20% to your premium for life.' },
+      { question: 'Does COBRA or retiree coverage let me delay Part B?', answer: 'No. COBRA and retiree coverage are NOT creditable coverage for Part B. Delaying on either one causes both a permanent penalty AND a gap in your coverage. Only coverage from active current employment protects you.' },
+    ],
+    sources: [
+      { title: 'Medicare.gov — Part B late enrollment penalty', url: 'https://www.medicare.gov/basics/costs/medicare-costs/avoid-penalties', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      { when: 'If you’re working past 65 and unsure whether it’s safe to delay Part B,', action: `call us free at ${BUSINESS.phone} — we’ll confirm your coverage counts before you skip enrollment.` },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/delaying-medicare-part-b.html',
+    ogType: 'article',
+    ogTitle: 'Delaying Medicare Part B — When It’s Safe (and When It’s Not)',
+    ogDescription: 'Delay Part B penalty-free only with active employer coverage. Without it, the late penalty is permanent.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Working Past 65', href: '/working-past-65.html' },
+    { name: 'Delaying Part B', href: '/delaying-medicare-part-b.html' },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p>If you’re <a href="working-past-65.html">working past 65</a>, one of the biggest decisions is whether to take Part B now or delay it. Delaying can be perfectly safe — or it can lock in a <strong>permanent penalty</strong>. The difference comes down to one thing: whether your coverage is from <strong>active current employment</strong>. Get it wrong and you pay more for Part B every month for the rest of your life.</p>
+
+  <h2>When Delaying Part B Is Safe</h2>
+  <p>You can delay Part B <strong>without any penalty</strong> only if you have creditable coverage from <strong>active current employment</strong>. That means:</p>
+  <ul>
+    <li>You <strong>or your spouse</strong> are still actively working, and</li>
+    <li>The coverage comes through an employer with <strong>20 or more employees</strong>.</li>
+  </ul>
+  <p>In that situation the employer plan pays primary, Medicare would pay little as a secondary, and you’re free to skip Part B and its premium until the job ends. This is the standard, safe path for people who keep working — see <a href="medicare-and-employer-coverage.html">Medicare and employer coverage</a> for how the two fit together, and <a href="medicare-creditable-coverage.html">what counts as creditable coverage</a> so you know your plan qualifies. (Part A is usually still taken at 65 because it’s premium-free — unless you contribute to an HSA, in which case Part A can complicate contributions.)</p>
+
+  <h2>When Delaying Costs You</h2>
+  <p>If you delay Part B <strong>without</strong> that active-employment coverage, you face a <strong>permanent late-enrollment penalty</strong>. Here’s exactly how it works:</p>
+  <ul>
+    <li><strong>10% added to your Part B premium</strong> for <em>each full 12 months</em> you could have had Part B but didn’t.</li>
+    <li>It’s <strong>permanent</strong> — the penalty lasts as long as you have Part B, not just a year or two.</li>
+    <li>Example: delay two full years without qualifying coverage and you pay <strong>20% more for Part B for life</strong>.</li>
+  </ul>
+  <p>You can see what a delay would cost you with our <a href="medicare-part-b-penalty-calculator.html"><strong>Part B penalty calculator</strong></a> — run your own numbers before you decide to skip enrollment.</p>
+  <h3>The COBRA and retiree-coverage trap</h3>
+  <p><strong>COBRA and retiree coverage do NOT count</strong> as creditable coverage for delaying Part B. They may feel like real insurance, but for Medicare timing they don’t protect you. Delaying Part B while you rely on either one causes <strong>both a permanent penalty and a gap in your coverage</strong>, because that coverage doesn’t trigger a Special Enrollment Period. If you’re leaving a job, read <a href="cobra-and-medicare.html">COBRA and Medicare</a> before you enroll in COBRA instead of Part B — it’s one of the most expensive mistakes we see.</p>
+
+  <h2>How to Enroll Later — the 8-Month SEP</h2>
+  <p>When your active employment (or the coverage from it) ends, you get a <strong>Special Enrollment Period</strong> to sign up for Part B <strong>penalty-free</strong>:</p>
+  <ul>
+    <li>The SEP lasts <strong>8 months</strong>, starting the month after your active employment or its coverage ends (whichever comes first).</li>
+    <li>Enroll within that window and there’s <strong>no late penalty and no gap</strong>.</li>
+    <li>Miss it and you may have to wait for the General Enrollment Period — and the penalty applies.</li>
+  </ul>
+  <p>Details on timing and how to file are in our <a href="medicare-special-enrollment-period.html">Special Enrollment Period</a> guide. If you’re approaching 65 and haven’t decided your path yet, <a href="turning-65.html">turning 65</a> walks through the full checklist.</p>
+
+  <h2>Not Sure If Your Coverage Counts? Ask First — Free</h2>
+  <p>Whether it’s safe to delay Part B depends entirely on whether your coverage is from <em>active current employment</em> — and getting it wrong is permanent. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) and we’ll confirm your situation before you skip enrollment, so you don’t end up with a lifelong penalty or a coverage gap.</p>
+</ArticlePage>
