@@ -19,4 +19,5 @@ export const PRIMARY_NAV: NavLink[] = [
   { href: 'reviews.html', label: 'Reviews' },
   { href: 'about.html', label: 'About' },
   { href: 'medicare-news.html', label: 'News' },
+  { href: 'medicare-search.html', label: 'Search' },
 ];

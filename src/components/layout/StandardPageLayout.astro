@@ -39,6 +39,12 @@ try {
   /* canonical wasn't absolute; use as-is */
 }
 const related = context.related ?? relatedFor(page.taxonomy, PAGE_INDEX, currentHref);
+
+// Search registry: a content-type + category for Pagefind results, derived from
+// the page's own schema kind and silo (so e.g. calculators are identifiable).
+const pfType =
+  primarySchema === 'HowTo' ? 'Calculator' : primarySchema === 'MedicalWebPage' ? 'Drug' : 'Guide';
+const pfCategory = page.taxonomy.silo;
 ---
 
 <BaseLayout
@@ -54,7 +60,7 @@ const related = context.related ?? relatedFor(page.taxonomy, PAGE_INDEX, current
   schema={schema}
   gaIds={meta.gaIds}
 >
-  <article class="page container">
+  <article class="page container" data-pagefind-meta={`type:${pfType}, category:${pfCategory}`}>
     {crumbs.length > 0 && (
       <nav class="breadcrumbs" aria-label="Breadcrumb">
         <ol>

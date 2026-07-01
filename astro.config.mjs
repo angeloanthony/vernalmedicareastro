@@ -1,5 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+// On-site search (M34): Pagefind indexes the built HTML at the end of
+// `astro build` — static, zero-backend, nothing leaves the site.
+import pagefind from 'astro-pagefind';
 // NOTE: @astrojs/sitemap is intentionally NOT enabled during migration.
 // Your hand-built split sitemaps (sitemap-pages/money/posts/local) live in
 // public/ and ship verbatim, so nothing changes for Search Console on launch.
@@ -37,7 +40,9 @@ export default defineConfig({
   trailingSlash: 'never',
 
   integrations: [
-    // Empty during migration. Hand-built sitemaps in public/ are authoritative.
+    // Pagefind runs after build to index dist/ → /pagefind/ assets used by
+    // the search page. Hand-built sitemaps in public/ remain authoritative.
+    pagefind(),
   ],
 
   // In-app 301 redirects. Because we are PRESERVING .html URLs, this should
