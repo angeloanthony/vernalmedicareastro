@@ -1,0 +1,36 @@
+---
+// CalculatorPage.astro — page type for calculators/tools (ADR-0008).
+// Composes StandardPageLayout (so it inherits byline, related, FAQ, CTA,
+// disclaimer, and schema) with primary schema HowTo. The specific calculator
+// form + results go in the default slot (using the calculator/ components).
+// Supersedes the Phase-1 CalculatorLayout, which wrapped BaseLayout directly.
+import StandardPageLayout from './StandardPageLayout.astro';
+import type { PageContext } from '../../types/Page';
+
+interface Props {
+  context: PageContext;
+}
+const { context } = Astro.props;
+---
+
+<StandardPageLayout context={context} primarySchema="HowTo">
+  <slot />
+</StandardPageLayout>
+
+<script>
+  // Generic calculator chrome (Print + Share) for every calculator page.
+  document.querySelectorAll('[data-calc-print]').forEach((b) =>
+    b.addEventListener('click', () => window.print()),
+  );
+  document.querySelectorAll('[data-calc-share]').forEach((b) =>
+    b.addEventListener('click', async () => {
+      const url = location.href;
+      const btn = b as HTMLElement;
+      if (navigator.share) {
+        try { await navigator.share({ url }); } catch { /* dismissed */ }
+      } else {
+        try { await navigator.clipboard.writeText(url); btn.textContent = 'Link copied'; } catch { /* no-op */ }
+      }
+    }),
+  );
+</script>
