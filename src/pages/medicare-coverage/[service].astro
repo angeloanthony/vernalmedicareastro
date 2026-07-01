@@ -1,0 +1,103 @@
+---
+// src/pages/medicare-coverage/[service].astro — per-service coverage page (M38).
+// One page per entry in data/serviceCoverage.ts → /medicare-coverage/<slug>.html.
+// Every service renders the SAME standardized structure. Lives in a subfolder,
+// so ALL cross-links are absolute (/foo.html) — a relative link would resolve
+// under /medicare-coverage/ and 404.
+import type { GetStaticPaths } from 'astro';
+import ArticlePage from '../../components/layout/ArticlePage.astro';
+import { SERVICE_COVERAGE } from '../../data/serviceCoverage';
+import { SERVICE_CATEGORY_META } from '../../types/ServiceCoverage';
+import { BUSINESS } from '../../data/business';
+import type { PageContext } from '../../types/Page';
+import type { ServiceCoverageEntry } from '../../types/ServiceCoverage';
+
+export const getStaticPaths = (() =>
+  SERVICE_COVERAGE.map((s) => ({ params: { service: s.slug }, props: { s } }))) satisfies GetStaticPaths;
+
+interface Props {
+  s: ServiceCoverageEntry;
+}
+const { s } = Astro.props as Props;
+const bySlug = new Map(SERVICE_COVERAGE.map((x) => [x.slug, x]));
+const q = s.service.toLowerCase();
+
+const context: PageContext = {
+  page: {
+    title: `Does Medicare Cover ${s.service}? — Coverage & Costs | Vernal Medicare`,
+    heading: `Does Medicare Cover ${s.service}?`,
+    description: `${s.coveredSummary} How Medicare covers ${q} — which part, what you pay, and the limits people get wrong.`,
+    taxonomy: { silo: 'medicare-101', tags: ['coverage', 'services', s.slug, s.category, 'medicare-101'] },
+    summary: s.coveredSummary,
+    faqs: [
+      { question: `Does Medicare cover ${q}?`, answer: `${s.coveredSummary} ${s.coveredWhen}` },
+      { question: `Which part of Medicare covers ${q}?`, answer: s.whichPart },
+      { question: `What do I pay for ${q}?`, answer: s.whatYouPay },
+    ],
+    sources: [{ title: s.source.title, url: s.source.url, publisher: 'Medicare.gov' }],
+    nextSteps: [
+      { when: `Not sure if ${q} is covered for you?`, action: `call us free at ${BUSINESS.phone} — we’ll check your situation.` },
+    ],
+  },
+  meta: {
+    canonical: `https://vernalmedicare.com/medicare-coverage/${s.slug}.html`,
+    ogType: 'article',
+    ogTitle: `Does Medicare Cover ${s.service}?`,
+    ogDescription: s.coveredSummary,
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Coverage', href: '/medicare-coverage.html' },
+    { name: s.service, href: `/medicare-coverage/${s.slug}.html` },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p class="sc-tag"><a href="/medicare-coverage.html">Coverage</a> · {SERVICE_CATEGORY_META[s.category].label}</p>
+  <p>This covers Medicare and <strong>{q}</strong> — {s.what}.</p>
+
+  <h2>Does Medicare cover {q}?</h2>
+  <p><strong>{s.coveredSummary}</strong> {s.coveredWhen}</p>
+
+  <h2>Which part of Medicare covers it?</h2>
+  <p>{s.whichPart}</p>
+
+  <h2>What you pay</h2>
+  <p>{s.whatYouPay}</p>
+  <p>Exact dollar amounts change every year — see <a href="/medicare-costs.html">Medicare costs for 2026</a> for the current deductibles and coinsurance, or a <a href="/medigap.html">Medigap</a> plan can cover most of this cost-sharing for you.</p>
+
+  <h2>The limits people get wrong</h2>
+  <p>{s.limits}</p>
+
+  {s.related && s.related.length > 0 && (
+    <Fragment>
+      <h2>Related services</h2>
+      <ul>
+        {s.related.map((slug) => {
+          const r = bySlug.get(slug);
+          return r ? <li><a href={`/medicare-coverage/${r.slug}.html`}>Does Medicare cover {r.service.toLowerCase()}?</a></li> : null;
+        })}
+      </ul>
+    </Fragment>
+  )}
+
+  <h2>Related Medicare guides</h2>
+  <ul>
+    <li><a href="/medicare-coverage.html">All service coverage</a> · <a href="/medicare-drug-coverage.html">drug coverage</a> · <a href="/medicare-dental-vision-hearing.html">dental, vision &amp; hearing</a>.</li>
+    <li><a href="/medicare-costs.html">Medicare costs</a> · <a href="/medicare-glossary.html">Glossary</a> · <a href="/medicare-help-center.html">Medicare Help Center</a>.</li>
+  </ul>
+
+  <h2>Get a Real Answer for Your Situation — Free</h2>
+  <p>Whether {q} is covered — and what you’ll owe — depends on the details of your care and your plan. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) and we’ll tell you what Medicare covers in your case, and whether a different plan would cover it better. No cost, no pressure.</p>
+</ArticlePage>
+
+<style>
+  .sc-tag {
+    text-transform: uppercase; letter-spacing: 0.03em; font-size: 0.8rem; font-weight: 700;
+    color: var(--color-accent, #9e0853); margin: 0 0 0.5rem;
+  }
+</style>
