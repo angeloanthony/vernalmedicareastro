@@ -1,0 +1,59 @@
+{
+  "__translation_note": "AI-translated from en/medigap.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "page": {
+    "title": "Medigap (Suplemento de Medicare) en Vernal, Utah | Vernal Medicare",
+    "heading": "Medigap (Suplemento de Medicare) — el seguro \"No sea como Harold\"",
+    "description": "Compare planes Medigap en Vernal y en Uintah Basin. Ayuda local y con licencia para elegir un Suplemento de Medicare que se ajuste a sus médicos y a su presupuesto.",
+    "summary": "Medigap (Suplemento de Medicare) ayuda a pagar los costos que Medicare Original no cubre — deducibles, copagos y coseguro. Usted conserva Medicare Original, puede ver a cualquier proveedor que lo acepte en todo el país, y agrega un plan de la Parte D por separado para sus medicamentos recetados. Ayuda local y con licencia para comparar planes Medigap en Vernal y en Uintah Basin.",
+    "faqs": [
+      {
+        "question": "¿Qué es Medigap?",
+        "answer": "Medigap (Suplemento de Medicare) ayuda a pagar los costos que Medicare Original no cubre, como deducibles, copagos y coseguro. Usted conserva Medicare Original y puede ver a cualquier proveedor que acepte Medicare."
+      },
+      {
+        "question": "¿Medigap incluye cobertura de medicamentos?",
+        "answer": "No. La mayoría de las personas agrega un plan de la Parte D por separado para sus medicamentos recetados."
+      },
+      {
+        "question": "¿Cuándo puedo inscribirme?",
+        "answer": "Su mejor momento son los primeros 6 meses en que usted tiene 65 años o más y tiene la Parte B — sin preguntas de salud en la mayoría de los estados. Después de ese período puede solicitar en cualquier momento, pero puede aplicar una evaluación médica de riesgo."
+      }
+    ]
+  },
+  "meta": {
+    "ogDescription": "Ayuda local y con licencia para comparar planes Medigap en Vernal y en Uintah Basin."
+  },
+  "breadcrumb": {
+    "home": "Inicio",
+    "self": "Medigap"
+  },
+  "body": {
+    "biggerPictureHtml": "<strong>¿Busca el panorama completo?</strong> Vea <a href=\"medicare-plans-vernal-utah.html\">todo sobre Medicare en Vernal, Utah</a> — cubre Medicare Advantage, Medigap, la Parte D, costos, inscripción y proveedores locales.",
+    "videoTitle": "Reproductor de video de YouTube",
+    "comicAlt": "Caricatura de Medicare",
+    "smileAria": "Carrusel de caricaturas de Medicare",
+    "smileTitle": "¡Sonría!",
+    "prevAria": "Caricatura anterior",
+    "nextAria": "Caricatura siguiente",
+    "slides": [
+      { "img": "pictures/joke63.webp", "alt": "Broma sobre la publicidad de Medicare — beneficios dentales adicionales" },
+      { "img": "pictures/joke61.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke55.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke53.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke51.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke50.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke58.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke59.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke60.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke62.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" }
+    ],
+    "relatedHeading": "Temas relacionados",
+    "relatedItemsHtml": [
+      "<a href=\"medicare-plans-vernal-utah.html\"><strong>Todo sobre Medicare en Vernal, Utah</strong></a> — el resumen general que conecta todos los temas",
+      "<a href=\"plan-g-vs-plan-n-vernal.html\">Plan G vs Plan N en Vernal</a>",
+      "<a href=\"medicare-supplement-vs-advantage.html\">Suplemento de Medicare vs Medicare Advantage</a>",
+      "<a href=\"medicare-advantage-vs-medigap-vernal.html\">Medicare Advantage vs Medigap en Vernal</a>",
+      "<a href=\"when-to-enroll-medicare-utah.html\">Cuándo inscribirse en Medicare en Utah</a>"
+    ]
+  }
+}

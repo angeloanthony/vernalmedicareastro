@@ -1,0 +1,99 @@
+---
+// src/components/content/WorkingPast65Page.astro — THE Working Past 65 hub
+// template (M4 extraction; playbook §4.5: one shared component per page).
+// Rendered by BOTH /working-past-65.html and /es/working-past-65.html; copy
+// from src/i18n/content/{locale}/working-past-65.json with master fallback.
+import ArticlePage from '../layout/ArticlePage.astro';
+import { BUSINESS } from '../../data/business';
+import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import type { PageContext } from '../../types/Page';
+
+interface WorkingPast65Content {
+  page: {
+    title: string;
+    heading: string;
+    description: string;
+    summary: string;
+    faqs: { question: string; answer: string }[];
+    sources: { title: string; url: string; publisher: string }[];
+    nextSteps: { when: string; action: string }[];
+  };
+  meta: { ogTitle: string; ogDescription: string };
+  breadcrumb: { home: string; self: string };
+  body: {
+    introHtml: string;
+    h2PartA: string;
+    partAHtml: string;
+    h2Tree: string;
+    treeItemsHtml: string[];
+    h2Four: string;
+    fourItemsHtml: string[];
+    h2Then: string;
+    thenHtml: string;
+    h2Free: string;
+    freeHtml: string;
+  };
+}
+
+const lang = getLangFromUrl(Astro.url);
+const c = getPageContent<WorkingPast65Content>('working-past-65', lang);
+const vars = { phone: BUSINESS.phone, tty: BUSINESS.tty };
+const pagePath = lang === 'en' ? '/working-past-65.html' : `/${lang}/working-past-65.html`;
+
+const context: PageContext = {
+  page: {
+    title: c.page.title,
+    heading: c.page.heading,
+    description: c.page.description,
+    taxonomy: { silo: 'enrollment', tags: ['working-past-65', 'employer-coverage', 'delay-part-b', 'enrollment', 'sep'], pillar: true },
+    summary: c.page.summary,
+    faqs: c.page.faqs,
+    sources: c.page.sources,
+    nextSteps: c.page.nextSteps.map((s) => ({ when: s.when, action: interp(s.action, vars) })),
+  },
+  meta: {
+    canonical: `${SITE_ORIGIN}${pagePath}`,
+    ogType: 'article',
+    ogTitle: c.meta.ogTitle,
+    ogDescription: c.meta.ogDescription,
+    lang,
+    ogLocale: getLocaleMeta(lang).ogLocale,
+    hreflang: hreflangAlternates('working-past-65'),
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: c.breadcrumb.home, href: localizeHref('/', lang) },
+    { name: c.breadcrumb.self, href: pagePath },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p set:html={c.body.introHtml} />
+
+  <h2>{c.body.h2PartA}</h2>
+  <p set:html={c.body.partAHtml} />
+
+  <h2>{c.body.h2Tree}</h2>
+  <ol class="wp65-tree">
+    {c.body.treeItemsHtml.map((item) => <li set:html={item} />)}
+  </ol>
+
+  <h2>{c.body.h2Four}</h2>
+  <ul>
+    {c.body.fourItemsHtml.map((item) => <li set:html={item} />)}
+  </ul>
+
+  <h2>{c.body.h2Then}</h2>
+  <p set:html={c.body.thenHtml} />
+
+  <h2>{c.body.h2Free}</h2>
+  <p set:html={interp(c.body.freeHtml, vars)} />
+
+  <style>
+    .wp65-tree li { margin-bottom: 0.75rem; }
+  </style>
+</ArticlePage>

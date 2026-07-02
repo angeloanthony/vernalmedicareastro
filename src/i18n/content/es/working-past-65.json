@@ -1,0 +1,62 @@
+{
+  "__translation_note": "AI-translated from en/working-past-65.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "page": {
+    "title": "Trabajar después de los 65 y Medicare — ¿Necesita inscribirse? | Vernal Medicare",
+    "heading": "Trabajar después de los 65: ¿ya necesita Medicare?",
+    "description": "¿Cumple 65 años y sigue trabajando? Tomar Medicare o no depende de su cobertura del empleador. Una guía paso a paso sobre la Parte A, retrasar la Parte B, COBRA, la cobertura acreditable y cómo evitar multas.",
+    "summary": "Si está por cumplir 65 años y sigue trabajando, quizá no necesite tomar todo Medicare todavía — pero las reglas son fáciles de malinterpretar y las multas son permanentes. Todo se reduce a su cobertura del empleador: cuántos empleados tiene la empresa y si la cobertura es \"acreditable\". Este centro lo guía paso a paso: tome la Parte A sin prima, decida si retrasa la Parte B, evite la trampa de COBRA e inscríbase sin multa cuando se jubile.",
+    "faqs": [
+      {
+        "question": "¿Tengo que inscribirme en Medicare a los 65 si todavía estoy trabajando?",
+        "answer": "No siempre. Si tiene cobertura acreditable de un empleador actual con 20 o más empleados, generalmente puede retrasar la Parte B sin multa e inscribirse más adelante durante un Período de Inscripción Especial. La mayoría de las personas igualmente toma la Parte A sin prima a los 65 (a menos que contribuya a una cuenta HSA)."
+      },
+      {
+        "question": "¿Cuál es el error más grande que comete la gente?",
+        "answer": "Confiar en COBRA o en la cobertura de jubilado para retrasar la Parte B. Por lo general, esas coberturas NO cuentan como cobertura acreditable para la Parte B, así que retrasarla con ellas genera una multa permanente por inscripción tardía. Cuando termina el empleo activo, inscríbase en la Parte B."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Medicare.gov — cómo funciona Medicare con otros seguros",
+        "url": "https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/joining-a-plan-when-you-have-other-coverage",
+        "publisher": "Medicare.gov"
+      }
+    ],
+    "nextSteps": [
+      {
+        "when": "¿No está seguro de inscribirse o esperar?",
+        "action": "llámenos gratis al {phone} — revisaremos su cobertura del empleador y le diremos exactamente qué hacer."
+      }
+    ]
+  },
+  "meta": {
+    "ogTitle": "Trabajar después de los 65 y Medicare",
+    "ogDescription": "¿Sigue trabajando a los 65? Tomar Medicare o no depende de su cobertura del empleador — así se decide."
+  },
+  "breadcrumb": {
+    "home": "Inicio",
+    "self": "Trabajar después de los 65"
+  },
+  "body": {
+    "introHtml": "Cumplir 65 años mientras todavía trabaja es uno de los momentos más confusos de Medicare — y uno de los más fáciles de malinterpretar. La buena noticia: por lo general todo se reduce a unas pocas preguntas claras sobre su <strong>cobertura del empleador</strong>. Resuélvalas aquí, o déjenos revisarlo por usted, gratis.",
+    "h2PartA": "Empiece aquí: tome la Parte A sin prima",
+    "partAHtml": "Casi todos deberían inscribirse en la <a href=\"medicare-part-a-vs-part-b.html\">Parte A</a> a los 65 — generalmente no tiene prima y puede pagar como cobertura secundaria a su plan del empleador. La única excepción: si usted contribuye a una <strong>cuenta de ahorros para gastos médicos (HSA)</strong>, inscribirse en cualquier parte de Medicare (incluida la Parte A) detiene su capacidad de contribuir, así que también retrasaría la Parte A.",
+    "h2Tree": "El árbol de decisiones",
+    "treeItemsHtml": [
+      "<strong>¿El empleador suyo (o de su cónyuge) tiene 20 o más empleados, y la cobertura está activa?</strong> Si es así, esa cobertura generalmente es <a href=\"medicare-creditable-coverage.html\">acreditable</a> — puede retrasar la Parte B sin multa. Si el empleador tiene menos de 20 empleados, Medicare generalmente es <em>primario</em>, así que debería tomar la Parte B a los 65.",
+      "<strong>¿Debería retrasar la Parte B?</strong> Si su cobertura del empleador es buena y quiere evitar la prima por ahora, retrasarla puede tener sentido — vea <a href=\"delaying-medicare-part-b.html\">retrasar la Parte B</a>. Si su cobertura del empleador es limitada o cara, tomar la Parte B puede ser mejor.",
+      "<strong>¿Va a dejar su trabajo o perder la cobertura?</strong> Tiene un <a href=\"medicare-special-enrollment-period.html\">Período de Inscripción Especial</a> de 8 meses para tomar la Parte B sin multa. No espere — y no confíe en <a href=\"cobra-and-medicare.html\">COBRA</a>."
+    ],
+    "h2Four": "Las cuatro cosas que debe entender",
+    "fourItemsHtml": [
+      "<strong><a href=\"medicare-and-employer-coverage.html\">Medicare y la cobertura del empleador</a></strong> — cómo funcionan juntos, y la regla de los 20 empleados.",
+      "<strong><a href=\"delaying-medicare-part-b.html\">Retrasar la Parte B</a></strong> — cuándo es seguro, y cuándo genera una multa permanente.",
+      "<strong><a href=\"cobra-and-medicare.html\">COBRA y Medicare</a></strong> — la trampa que le cuesta a la gente una multa de por vida.",
+      "<strong><a href=\"medicare-creditable-coverage.html\">Cobertura acreditable</a></strong> — el término que decide si puede retrasar sin riesgo."
+    ],
+    "h2Then": "¿Y después?",
+    "thenHtml": "Cuando se jubile, el resto del <a href=\"turning-65.html\">recorrido de cumplir 65</a> toma el relevo: elija <a href=\"medicare-supplement-vs-advantage.html\">Medigap o Medicare Advantage</a>, agregue la <a href=\"best-part-d-plans-vernal.html\">Parte D</a>, y revise sus <a href=\"medicare-costs.html\">costos</a>. ¿Le preocupa una multa? <a href=\"medicare-part-b-penalty-calculator.html\">Estímela aquí</a>. ¿No sabe dónde encaja? <a href=\"medicare-decision-center.html\">Comience con su situación</a>.",
+    "h2Free": "Hágalo bien desde la primera vez — gratis",
+    "freeHtml": "La decisión sobre cuándo tomar la Parte B es permanente si se equivoca, así que vale la pena una revisión de cinco minutos. <strong>Llámenos gratis al {phone}</strong> (TTY: {tty}) — cuéntenos su situación laboral y le diremos exactamente qué tomar, qué retrasar y cuándo. Sin costo, sin presión."
+  }
+}
