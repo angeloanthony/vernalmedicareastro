@@ -17,6 +17,10 @@ import MedicareCostsPage from '../../components/content/MedicareCostsPage.astro'
 import DecisionCenterPage from '../../components/content/DecisionCenterPage.astro';
 import HelpCenterPage from '../../components/content/HelpCenterPage.astro';
 import QuotePage from '../../components/content/QuotePage.astro';
+import IrmaaPage from '../../components/content/IrmaaPage.astro';
+import ExtraHelpPage from '../../components/content/ExtraHelpPage.astro';
+import SavingsProgramsPage from '../../components/content/SavingsProgramsPage.astro';
+import AboutPage from '../../components/content/AboutPage.astro';
 
 // One shared component per extracted page (content key === slug).
 const COMPONENTS: Record<string, (props: Record<string, never>) => unknown> = {
@@ -31,6 +35,10 @@ const COMPONENTS: Record<string, (props: Record<string, never>) => unknown> = {
   'medicare-decision-center': DecisionCenterPage,
   'medicare-help-center': HelpCenterPage,
   'medicare-quote-vernal': QuotePage,
+  'medicare-irmaa': IrmaaPage,
+  'medicare-extra-help-utah': ExtraHelpPage,
+  'medicare-savings-programs-utah': SavingsProgramsPage,
+  'about': AboutPage,
 };
 
 export function getStaticPaths() {

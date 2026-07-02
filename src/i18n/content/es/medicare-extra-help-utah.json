@@ -1,0 +1,70 @@
+{
+  "__translation_note": "AI-translated from en/medicare-extra-help-utah.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "page": {
+    "title": "La Ayuda Adicional (Extra Help) de Medicare (Subsidio por Bajos Ingresos de la Parte D) en Utah {year} | Vernal Medicare",
+    "heading": "La Ayuda Adicional (Extra Help) de Medicare (Subsidio por Bajos Ingresos de la Parte D)",
+    "description": "La Ayuda Adicional (Extra Help) reduce o elimina su prima, deducible y copagos de medicamentos de la Parte D de Medicare. Vea los límites de {year}, quién califica automáticamente, y cómo solicitarla — ayuda gratuita de un agente local de Utah.",
+    "summary": "La Ayuda Adicional (Extra Help) — el Subsidio por Bajos Ingresos de la Parte D — es un programa federal que puede eliminar su prima y deducible de la Parte D y poner un tope a sus copagos de medicamentos de alrededor de {maxDrugCopay}. En {year}, los recursos deben estar por debajo de {resIndividual} (soltero) o {resCouple} (casados). Muchas personas que califican nunca la solicitan.",
+    "faqs": [
+      {
+        "question": "¿Qué paga la Ayuda Adicional (Extra Help)?",
+        "answer": "La Ayuda Adicional (Extra Help) reduce o elimina su prima mensual y su deducible de la Parte D y pone un tope a sus copagos de medicamentos recetados — tan bajo como {maxDrugCopay} por medicamento para quienes tienen el subsidio completo. Funciona con su plan actual de la Parte D o de medicamentos de Medicare Advantage."
+      },
+      {
+        "question": "¿Quién califica para la Ayuda Adicional (Extra Help) en {year}?",
+        "answer": "Se basa en ingresos y recursos limitados. Para {year}, los recursos contables generalmente deben estar por debajo de {resIndividual} para una persona o {resCouple} para una pareja casada. Si tiene Medicaid, SSI o uno de los Programas de Ahorro de Medicare, califica para la Ayuda Adicional (Extra Help) automáticamente."
+      },
+      {
+        "question": "¿Cómo la solicito?",
+        "answer": "Solicítela gratis a través del Seguro Social (en línea, por teléfono o en una oficina local). Nunca hay un costo por solicitarla. Podemos ayudarle a completarla y verificar si uno de los Programas de Ahorro de Medicare lo calificaría automáticamente."
+      }
+    ],
+    "sources": [
+      { "title": "Ayuda Adicional (Extra Help) con los costos de los medicamentos recetados de Medicare", "url": "https://www.ssa.gov/medicare/part-d-extra-help", "publisher": "Administración del Seguro Social" },
+      { "title": "Obtenga ayuda con los costos de los medicamentos", "url": "https://www.medicare.gov/basics/costs/help/drug-costs", "publisher": "Medicare.gov" }
+    ],
+    "nextSteps": [
+      {
+        "when": "Si ya tiene Medicaid, SSI o uno de los Programas de Ahorro de Medicare,",
+        "action": "califica para la Ayuda Adicional (Extra Help) automáticamente — no necesita solicitarla por separado. Llámenos para confirmar que su plan de medicamentos la está aplicando."
+      }
+    ]
+  },
+  "meta": {
+    "ogTitle": "La Ayuda Adicional (Extra Help) de Medicare (Subsidio por Bajos Ingresos de la Parte D)",
+    "ogDescription": "La Ayuda Adicional (Extra Help) reduce o elimina su prima, deducible y copagos de la Parte D. Límites de {year} y cómo solicitarla."
+  },
+  "breadcrumb": {
+    "home": "Inicio",
+    "parent": "Doble elegibilidad y Medicaid",
+    "self": "Ayuda Adicional (Extra Help) (Parte D LIS)"
+  },
+  "body": {
+    "introHtml": "Los medicamentos recetados son una de las mayores preocupaciones de las personas con Medicare — pero si sus ingresos son limitados, la <strong>Ayuda Adicional (Extra Help)</strong> (oficialmente el Subsidio por Bajos Ingresos de la Parte D, o LIS) puede reducir drásticamente lo que paga. Es uno de los programas de Medicare más valiosos y menos utilizados.",
+    "h2Covers": "Qué cubre la Ayuda Adicional (Extra Help)",
+    "coverItemsHtml": [
+      "<strong>La prima de la Parte D</strong> — reducida o bajada a $0",
+      "<strong>El deducible de la Parte D</strong> — reducido o eliminado",
+      "<strong>Los copagos de medicamentos</strong> — con un tope de aproximadamente {maxDrugCopay} por receta para quienes tienen el subsidio completo",
+      "<strong>Sin período sin cobertura (\"donut hole\")</strong> — la Ayuda Adicional (Extra Help) lo elimina",
+      "<strong>Sin multa por inscripción tardía</strong> en la Parte D mientras la tenga"
+    ],
+    "layersHtml": "Se suma a las protecciones de la Parte D de {year} que todos reciben — el tope anual de {partDCap} en gastos de bolsillo y el tope de {insulinCap} al mes para la insulina.",
+    "h2Limits": "Límites de elegibilidad de {year}",
+    "limitsHtml": "La Ayuda Adicional (Extra Help) se basa en <strong>ingresos y recursos limitados</strong>. Para {year}, sus recursos contables (ahorros, inversiones — no su casa ni su carro) generalmente deben estar por debajo de:",
+    "limitItemsHtml": [
+      "<strong>{resIndividual}</strong> para una persona",
+      "<strong>{resCouple}</strong> para una pareja casada que vive junta"
+    ],
+    "limitsOutroHtml": "También aplican límites de ingresos, y son más altos de lo que muchos esperan — vale la pena verificar aunque crea que gana demasiado.",
+    "h2Auto": "Puede que ya califique automáticamente",
+    "autoHtml": "Si tiene cualquiera de los siguientes, recibe la Ayuda Adicional (Extra Help) <strong>automáticamente</strong> — sin necesidad de una solicitud separada:",
+    "autoItemsHtml": [
+      "Medicaid",
+      "Seguridad de Ingreso Suplementario (SSI)",
+      "Uno de los <a href=\"medicare-savings-programs-utah.html\">Programas de Ahorro de Medicare (QMB, SLMB o QI)</a>"
+    ],
+    "h2Apply": "Cómo solicitarla",
+    "applyHtml": "Solicítela gratis a través del Seguro Social — en línea, por teléfono o en persona. Nunca hay un costo. Si es residente de Uintah Basin, podemos sentarnos y completar la solicitud con usted, y verificar si uno de los <a href=\"medicare-savings-programs-utah.html\">Programas de Ahorro de Medicare</a> lo calificaría automáticamente. ¿No sabe por dónde empezar? Vea el <a href=\"dual-eligible.html\">resumen de doble elegibilidad</a>."
+  }
+}

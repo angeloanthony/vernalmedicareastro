@@ -1,0 +1,59 @@
+{
+  "__translation_note": "AI-translated from en/medicare-savings-programs-utah.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "page": {
+    "title": "Programas de Ahorro de Medicare en Utah {year} — QMB, SLMB, QI | Vernal Medicare",
+    "heading": "Programas de Ahorro de Medicare (QMB, SLMB, QI)",
+    "description": "Los Programas de Ahorro de Medicare pueden pagar su prima de la Parte B — y QMB paga mucho más. Vea los límites de ingresos y recursos de Utah para {year} para QMB, SLMB y QI, y cómo solicitarlos.",
+    "summary": "Los Programas de Ahorro de Medicare (MSP) son programas estatales que ayudan a pagar sus costos de Medicare. QMB paga sus primas de la Parte A y B más deducibles y coseguro; SLMB y QI pagan su prima de la Parte B ({partBPremium} al mes en {year}). Calificar también desbloquea automáticamente la Ayuda Adicional (Extra Help) para medicamentos.",
+    "faqs": [
+      {
+        "question": "¿Cuál es la diferencia entre QMB, SLMB y QI?",
+        "answer": "Los tres ayudan a pagar los costos de Medicare, con límites de ingresos crecientes. QMB es el que más paga — sus primas de la Parte A y la Parte B más deducibles, coseguro y copagos. SLMB y QI pagan su prima de la Parte B ({partBPremium} al mes en {year}). QI tiene fondos limitados, así que solicite temprano en el año."
+      },
+      {
+        "question": "¿Cuáles son los límites de ingresos de {year} en Utah?",
+        "answer": "Los límites de ingresos mensuales para {year} son aproximadamente {qmbIndividual} (QMB), {slmbIndividual} (SLMB) y {qiIndividual} (QI) para una persona sola, y más altos para parejas. Los recursos contables deben estar por debajo de unos {resIndividual} (soltero) o {resCouple} (casados). Los límites son más altos de lo que muchos esperan."
+      },
+      {
+        "question": "¿Un MSP también ayuda con los costos de los medicamentos?",
+        "answer": "Sí. Si califica para cualquiera de los Programas de Ahorro de Medicare, automáticamente califica para la Ayuda Adicional (Extra Help) — el Subsidio por Bajos Ingresos de la Parte D — que reduce o elimina su prima, deducible y copagos de medicamentos recetados."
+      }
+    ],
+    "sources": [
+      { "title": "Programas de Ahorro de Medicare", "url": "https://www.medicare.gov/basics/costs/help/medicare-savings-programs", "publisher": "Medicare.gov" },
+      { "title": "Medicaid de Utah / Departamento de Servicios Laborales", "url": "https://medicaid.utah.gov/", "publisher": "Estado de Utah" }
+    ],
+    "nextSteps": [
+      {
+        "when": "Si sus ingresos mensuales están cerca de estos límites,",
+        "action": "solicite de todos modos — los límites son más altos de lo que la mayoría espera, y calificar también desbloquea la Ayuda Adicional (Extra Help). Podemos verificar todo gratis."
+      }
+    ]
+  },
+  "meta": {
+    "ogTitle": "Programas de Ahorro de Medicare (QMB, SLMB, QI) — Utah",
+    "ogDescription": "Límites de ingresos y recursos de Utah para {year} para QMB, SLMB y QI, y cómo ayudan a pagar sus costos de Medicare."
+  },
+  "breadcrumb": {
+    "home": "Inicio",
+    "parent": "Doble elegibilidad y Medicaid",
+    "self": "Programas de Ahorro de Medicare"
+  },
+  "body": {
+    "introHtml": "Si las primas mensuales y los gastos de bolsillo de Medicare presionan su presupuesto, uno de los <strong>Programas de Ahorro de Medicare (MSP)</strong> puede cubrirlos por usted. Son programas estatales — en Utah, a través de Medicaid / el Departamento de Servicios Laborales — y calificar también desbloquea automáticamente la <a href=\"medicare-extra-help-utah.html\">Ayuda Adicional (Extra Help)</a> para medicamentos recetados.",
+    "h2Three": "Los tres programas",
+    "tableHeadProgram": "Programa",
+    "tableHeadPays": "Qué paga",
+    "tableHeadSingle": "Ingreso mensual (soltero)",
+    "tableHeadMarried": "Ingreso mensual (casados)",
+    "programs": [
+      { "key": "qmb", "program": "QMB", "name": "Beneficiario Calificado de Medicare", "pays": "Las primas de la Parte A y B, más deducibles, coseguro y copagos" },
+      { "key": "slmb", "program": "SLMB", "name": "Beneficiario de Medicare de Bajos Ingresos Especificado", "pays": "La prima de la Parte B" },
+      { "key": "qi", "program": "QI", "name": "Individuo Calificado", "pays": "La prima de la Parte B (fondos limitados — solicite temprano cada año)" }
+    ],
+    "resourceNoteHtml": "Límites de recursos (bienes) para {year}: unos {resIndividual} para una persona sola y {resCouple} para una pareja casada. Su casa y un carro generalmente no cuentan.",
+    "h2Worth": "Por qué vale la pena solicitar",
+    "worthHtml": "QMB es especialmente valioso — puede eliminar su prima de la Parte B ({partBPremium} al mes en {year}) <em>y</em> cubrir deducibles y coseguro, funcionando en la práctica como un suplemento sin costo para usted. Incluso SLMB o QI, que \"solo\" pagan la prima de la Parte B, le devuelven dinero real a su bolsillo cada mes.",
+    "outroHtml": "Como los límites de ingresos son más altos de lo que la mayoría supone — y como calificar activa automáticamente la <a href=\"medicare-extra-help-utah.html\">Ayuda Adicional (Extra Help)</a> para medicamentos — casi siempre vale la pena verificar. Empiece con el <a href=\"dual-eligible.html\">resumen de doble elegibilidad</a>, o llámenos y verificaremos de una vez todos los programas para los que podría calificar."
+  }
+}

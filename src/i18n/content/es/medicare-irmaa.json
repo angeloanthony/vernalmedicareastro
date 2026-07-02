@@ -1,0 +1,62 @@
+{
+  "__translation_note": "AI-translated from en/medicare-irmaa.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "page": {
+    "title": "¿Qué es el IRMAA de Medicare? El recargo por ingresos de {year} explicado | Vernal Medicare",
+    "heading": "El IRMAA de Medicare: el recargo por ingresos, explicado",
+    "description": "El IRMAA es un recargo basado en los ingresos que se agrega a la Parte B y la Parte D de Medicare. Aprenda cómo funciona la revisión de sus ingresos de {lookbackYear}, quién lo paga, y cómo apelar — de un agente local de Vernal.",
+    "summary": "El IRMAA (Monto de Ajuste Mensual Relacionado con los Ingresos) es un cargo adicional que se suma a sus primas de la Parte B y la Parte D de Medicare cuando sus ingresos superan un umbral — {irmaaSingle} para un declarante soltero o {irmaaMarried} para una pareja casada en {year}. El Seguro Social usa su MAGI de {lookbackYear} para decidir. Si sus ingresos bajaron desde entonces por un evento de vida importante, puede apelar.",
+    "faqs": [
+      {
+        "question": "¿Qué ingresos usa el IRMAA?",
+        "answer": "Su Ingreso Bruto Ajustado Modificado (MAGI) — el ingreso bruto ajustado más los intereses exentos de impuestos — de su declaración de impuestos de hace dos años. Para {year}, esa es su declaración de {lookbackYear}."
+      },
+      {
+        "question": "¿El IRMAA desaparece si mis ingresos bajan?",
+        "answer": "Sí. El IRMAA se recalcula cada año con su declaración más reciente, así que un ingreso más bajo eventualmente lo reduce automáticamente. Si la caída se debió a un evento de vida que califica, puede apelar ahora en lugar de esperar dos años."
+      },
+      {
+        "question": "¿El IRMAA es igual para la Parte B y la Parte D?",
+        "answer": "Los niveles de ingresos son los mismos, pero las cantidades en dólares difieren. El IRMAA de la Parte B se suma a su prima de la Parte B; el IRMAA de la Parte D lo factura por separado el Seguro Social, además de lo que cobre su plan de medicamentos."
+      }
+    ],
+    "sources": [
+      { "title": "Costos de la Parte B de Medicare (IRMAA)", "url": "https://www.medicare.gov/basics/costs/medicare-costs", "publisher": "Medicare.gov" },
+      { "title": "Primas de Medicare: reglas para beneficiarios de ingresos más altos", "url": "https://www.ssa.gov/benefits/medicare/medicare-premiums.html", "publisher": "Administración del Seguro Social" }
+    ],
+    "nextSteps": [
+      { "when": "Si sus ingresos están cerca de un umbral,", "action": "haga los números en nuestra calculadora de IRMAA, y luego llámenos gratis para planificar en torno a él." }
+    ]
+  },
+  "meta": {
+    "ogTitle": "El IRMAA de Medicare: el recargo por ingresos, explicado",
+    "ogDescription": "Quién paga el IRMAA en {year}, cómo funciona la revisión de los ingresos de {lookbackYear}, y cómo apelar."
+  },
+  "breadcrumb": {
+    "home": "Inicio",
+    "parent": "Costos de Medicare",
+    "self": "IRMAA"
+  },
+  "body": {
+    "introHtml": "El <strong>IRMAA</strong> — el Monto de Ajuste Mensual Relacionado con los Ingresos — es un cargo adicional que el Seguro Social agrega a sus <a href=\"medicare-irmaa-brackets-2026.html\">primas de la Parte B y la Parte D de Medicare</a> cuando sus ingresos superan un umbral establecido. La mayoría de las personas nunca lo paga. Pero si usted sí, puede sumar cientos de dólares al mes, así que vale la pena entenderlo antes de que aparezca.",
+    "h2How": "Cómo funciona el IRMAA",
+    "howHtml": "Cada año, el Seguro Social revisa su <strong>Ingreso Bruto Ajustado Modificado (MAGI)</strong> — su ingreso bruto ajustado más cualquier interés exento de impuestos — de <strong>hace dos años</strong>. Para {year}, eso significa su declaración de impuestos de {lookbackYear}. Si ese número supera {irmaaSingle} (soltero) o {irmaaMarried} (casados que declaran juntos), usted cae en un nivel del IRMAA y paga un recargo además de la prima estándar.",
+    "surchargeIntro": "El recargo aplica a ambas partes:",
+    "partItemsHtml": [
+      "El <strong>IRMAA de la Parte B</strong> se suma directamente a su prima de la Parte B.",
+      "El <strong>IRMAA de la Parte D</strong> lo factura por separado el Seguro Social — además de lo que su plan de medicamentos ya cobra."
+    ],
+    "seeHtml": "Vea los <a href=\"medicare-irmaa-brackets-2026.html\">tramos completos del IRMAA de {year}</a> para las cantidades exactas en dólares en cada nivel de ingresos, o <a href=\"medicare-irmaa-calculator.html\">estime su recargo</a> a partir de sus ingresos.",
+    "h2Lookback": "La revisión de dos años atrás es la trampa",
+    "lookbackHtml": "Como el IRMAA usa los ingresos de hace dos años, un pico único — vender una casa, una conversión Roth grande, retirar inversiones — puede activar un recargo en un año en que sus ingresos en realidad son mucho más bajos. La buena noticia: el IRMAA se recalcula cada año, así que se corrige solo a medida que llegan declaraciones más recientes.",
+    "h2Appeal": "Si sus ingresos bajaron, puede apelar",
+    "appealHtml": "No siempre tiene que esperar dos años. Si sus ingresos cayeron por un <a href=\"medicare-irmaa-life-changing-events.html\">evento de vida que califica</a> — la jubilación, la muerte de un cónyuge, un divorcio, y más — puede <a href=\"medicare-irmaa-appeal-ssa-44.html\">apelar su IRMAA con el Formulario SSA-44</a> y hacer que el Seguro Social use sus ingresos actuales en su lugar.",
+    "h2Next": "A dónde ir después",
+    "nextItemsHtml": [
+      "<a href=\"medicare-irmaa-brackets-2026.html\">Tramos del IRMAA de {year}</a> — el recargo exacto en cada nivel de ingresos.",
+      "<a href=\"medicare-irmaa-calculator.html\">Calculadora de IRMAA</a> — estime su recargo de la Parte B y la Parte D.",
+      "<a href=\"medicare-irmaa-life-changing-events.html\">Eventos de vida importantes</a> — las situaciones que le permiten apelar.",
+      "<a href=\"medicare-irmaa-appeal-ssa-44.html\">Cómo apelar (Formulario SSA-44)</a> — paso a paso."
+    ],
+    "outroHtml": "La planificación del IRMAA es una de las cosas más valiosas que hace un buen agente. Si está cerca de un umbral, <strong>llámenos gratis</strong> — un pequeño movimiento puede ahorrarle un nivel completo."
+  }
+}

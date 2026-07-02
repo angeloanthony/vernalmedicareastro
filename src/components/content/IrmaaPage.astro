@@ -1,0 +1,109 @@
+---
+// src/components/content/IrmaaPage.astro — IRMAA authority hub template
+// (M4 batch 3; playbook §4.5). Dynamic-data pattern: {year}, {lookbackYear},
+// and both IRMAA thresholds interpolate from annualMedicareData.
+import ArticlePage from '../layout/ArticlePage.astro';
+import { figuresFor } from '../../data/annualMedicareData';
+import { usd } from '../../lib/formatters';
+import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import type { PageContext } from '../../types/Page';
+
+const SLUG = 'medicare-irmaa';
+const f = figuresFor();
+const vars = {
+  year: f.year,
+  lookbackYear: f.year - 2,
+  irmaaSingle: usd(f.irmaa.single[0]),
+  irmaaMarried: usd(f.irmaa.married[0]),
+};
+const t9 = (s: string) => interp(s, vars);
+
+interface Content {
+  page: {
+    title: string;
+    heading: string;
+    description: string;
+    summary: string;
+    faqs: { question: string; answer: string }[];
+    sources: { title: string; url: string; publisher: string }[];
+    nextSteps: { when: string; action: string }[];
+  };
+  meta: { ogTitle: string; ogDescription: string };
+  breadcrumb: { home: string; parent: string; self: string };
+  body: {
+    introHtml: string;
+    h2How: string;
+    howHtml: string;
+    surchargeIntro: string;
+    partItemsHtml: string[];
+    seeHtml: string;
+    h2Lookback: string;
+    lookbackHtml: string;
+    h2Appeal: string;
+    appealHtml: string;
+    h2Next: string;
+    nextItemsHtml: string[];
+    outroHtml: string;
+  };
+}
+
+const lang = getLangFromUrl(Astro.url);
+const c = getPageContent<Content>(SLUG, lang);
+const b = c.body;
+const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
+
+const context: PageContext = {
+  page: {
+    title: t9(c.page.title),
+    heading: c.page.heading,
+    description: t9(c.page.description),
+    taxonomy: { silo: 'costs-irmaa', tags: ['irmaa', 'costs', 'part-b', 'part-d', 'magi'], pillar: true },
+    summary: t9(c.page.summary),
+    faqs: c.page.faqs.map((q) => ({ question: t9(q.question), answer: t9(q.answer) })),
+    sources: c.page.sources,
+    nextSteps: c.page.nextSteps,
+  },
+  meta: {
+    canonical: `${SITE_ORIGIN}${pagePath}`,
+    ogType: 'article',
+    ogTitle: c.meta.ogTitle,
+    ogDescription: t9(c.meta.ogDescription),
+    lang,
+    ogLocale: getLocaleMeta(lang).ogLocale,
+    hreflang: hreflangAlternates(SLUG),
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: c.breadcrumb.home, href: localizeHref('/', lang) },
+    { name: c.breadcrumb.parent, href: localizeHref('/medicare-cost-uintah-county.html', lang) },
+    { name: c.breadcrumb.self, href: pagePath },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p set:html={t9(b.introHtml)} />
+
+  <h2>{b.h2How}</h2>
+  <p set:html={t9(b.howHtml)} />
+  <p>{b.surchargeIntro}</p>
+  <ul>
+    {b.partItemsHtml.map((item) => <li set:html={t9(item)} />)}
+  </ul>
+  <p set:html={t9(b.seeHtml)} />
+
+  <h2>{b.h2Lookback}</h2>
+  <p set:html={t9(b.lookbackHtml)} />
+
+  <h2>{b.h2Appeal}</h2>
+  <p set:html={t9(b.appealHtml)} />
+
+  <h2>{b.h2Next}</h2>
+  <ul>
+    {b.nextItemsHtml.map((item) => <li set:html={t9(item)} />)}
+  </ul>
+  <p set:html={t9(b.outroHtml)} />
+</ArticlePage>

@@ -1,0 +1,58 @@
+{
+  "page": {
+    "title": "Medicare Savings Programs in Utah {year} — QMB, SLMB, QI | Vernal Medicare",
+    "heading": "Medicare Savings Programs (QMB, SLMB, QI)",
+    "description": "Medicare Savings Programs can pay your Part B premium — and QMB pays much more. See {year} Utah income and resource limits for QMB, SLMB, and QI, and how to apply.",
+    "summary": "Medicare Savings Programs (MSPs) are state-run programs that help pay your Medicare costs. QMB pays your Part A & B premiums plus deductibles and coinsurance; SLMB and QI pay your Part B premium ({partBPremium}/mo in {year}). Qualifying also unlocks Extra Help for drugs automatically.",
+    "faqs": [
+      {
+        "question": "What is the difference between QMB, SLMB, and QI?",
+        "answer": "All three help pay Medicare costs, with rising income limits. QMB pays the most — your Part A and Part B premiums plus deductibles, coinsurance, and copays. SLMB and QI pay your Part B premium ({partBPremium}/month in {year}). QI has limited funding, so apply early in the year."
+      },
+      {
+        "question": "What are the {year} income limits in Utah?",
+        "answer": "Monthly income limits for {year} are roughly {qmbIndividual} (QMB), {slmbIndividual} (SLMB), and {qiIndividual} (QI) for a single person, and higher for couples. Countable resources must be under about {resIndividual} (single) or {resCouple} (married). Limits are higher than many expect."
+      },
+      {
+        "question": "Does an MSP also help with drug costs?",
+        "answer": "Yes. If you qualify for any Medicare Savings Program, you automatically qualify for Extra Help (the Part D Low-Income Subsidy), which lowers or eliminates your prescription drug premium, deductible, and copays."
+      }
+    ],
+    "sources": [
+      { "title": "Medicare Savings Programs", "url": "https://www.medicare.gov/basics/costs/help/medicare-savings-programs", "publisher": "Medicare.gov" },
+      { "title": "Utah Medicaid / Department of Workforce Services", "url": "https://medicaid.utah.gov/", "publisher": "State of Utah" }
+    ],
+    "nextSteps": [
+      {
+        "when": "If your monthly income is near these limits,",
+        "action": "apply anyway — the limits are higher than most people expect, and qualifying also unlocks Extra Help. We can check all of it for free."
+      }
+    ]
+  },
+  "meta": {
+    "ogTitle": "Medicare Savings Programs (QMB, SLMB, QI) — Utah",
+    "ogDescription": "{year} Utah income & resource limits for QMB, SLMB, and QI, and how they help pay your Medicare costs."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "parent": "Dual Eligible & Medicaid",
+    "self": "Medicare Savings Programs"
+  },
+  "body": {
+    "introHtml": "If Medicare's monthly premiums and out-of-pocket costs strain your budget, a <strong>Medicare Savings Program (MSP)</strong> may cover them for you. These are state-run programs — in Utah, through Medicaid / the Department of Workforce Services — and qualifying also unlocks <a href=\"medicare-extra-help-utah.html\">Extra Help</a> for prescriptions automatically.",
+    "h2Three": "The Three Programs",
+    "tableHeadProgram": "Program",
+    "tableHeadPays": "What it pays",
+    "tableHeadSingle": "Monthly income (single)",
+    "tableHeadMarried": "Monthly income (married)",
+    "programs": [
+      { "key": "qmb", "program": "QMB", "name": "Qualified Medicare Beneficiary", "pays": "Part A & B premiums, plus deductibles, coinsurance, and copays" },
+      { "key": "slmb", "program": "SLMB", "name": "Specified Low-Income Medicare Beneficiary", "pays": "Part B premium" },
+      { "key": "qi", "program": "QI", "name": "Qualifying Individual", "pays": "Part B premium (limited funds — apply early each year)" }
+    ],
+    "resourceNoteHtml": "Resource (asset) limits for {year}: about {resIndividual} for a single person and {resCouple} for a married couple. Your home and one car generally don't count.",
+    "h2Worth": "Why It's Worth Applying",
+    "worthHtml": "QMB is especially valuable — it can eliminate your Part B premium ({partBPremium}/month in {year}) <em>and</em> cover deductibles and coinsurance, effectively acting like a supplement at no cost to you. Even SLMB or QI, which \"only\" pay the Part B premium, put real money back in your pocket every month.",
+    "outroHtml": "Because income limits are higher than most people assume — and because qualifying automatically triggers <a href=\"medicare-extra-help-utah.html\">Extra Help</a> for drugs — it's almost always worth checking. Start with the <a href=\"dual-eligible.html\">dual-eligible overview</a>, or call us and we'll check every program you might qualify for at once."
+  }
+}

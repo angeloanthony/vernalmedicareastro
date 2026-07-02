@@ -1,0 +1,108 @@
+---
+// src/components/content/AboutPage.astro — the agent bio / E-E-A-T page
+// template (M4 batch 3; playbook §4.5). The Carriers paragraph carries the
+// first-person CMS multi-plan disclosure — its Spanish mirrors the official
+// CMS wording (see es/about.json note), never free machine translation.
+import ArticlePage from '../layout/ArticlePage.astro';
+import { getPageContent, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import type { PageContext } from '../../types/Page';
+
+const SLUG = 'about';
+
+interface Content {
+  page: { title: string; heading: string; description: string; summary: string };
+  meta: { ogDescription: string };
+  breadcrumb: { home: string; self: string };
+  body: {
+    introHtml: string;
+    h2Help: string;
+    helpItemsHtml: string[];
+    noteHtml: string;
+    h2Together: string;
+    togetherItemsHtml: string[];
+    h2Local: string;
+    localHtml: string;
+    h2Carriers: string;
+    carriersHtml: string;
+    h2Credentials: string;
+    credentialsHtml: string;
+    credentialItemsHtml: string[];
+    h2Talk: string;
+    talkHtml: string;
+    callLabel: string;
+    emailLabel: string;
+    quoteText: string;
+    quoteAttribution: string;
+  };
+}
+
+const lang = getLangFromUrl(Astro.url);
+const c = getPageContent<Content>(SLUG, lang);
+const b = c.body;
+const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
+
+const context: PageContext = {
+  page: {
+    title: c.page.title,
+    heading: c.page.heading,
+    description: c.page.description,
+    taxonomy: { silo: 'trust', tags: ['trust', 'about', 'agent', 'vernal', 'uintah-county'] },
+    summary: c.page.summary,
+  },
+  meta: {
+    canonical: `${SITE_ORIGIN}${pagePath}`,
+    ogType: 'article',
+    ogDescription: c.meta.ogDescription,
+    lang,
+    ogLocale: getLocaleMeta(lang).ogLocale,
+    hreflang: hreflangAlternates(SLUG),
+  },
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: c.breadcrumb.home, href: localizeHref('/', lang) },
+    { name: c.breadcrumb.self, href: pagePath },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p set:html={b.introHtml} />
+
+  <h2>{b.h2Help}</h2>
+  <ul>
+    {b.helpItemsHtml.map((item) => <li set:html={item} />)}
+  </ul>
+  <p class="note" set:html={b.noteHtml} />
+
+  <h2>{b.h2Together}</h2>
+  <ol>
+    {b.togetherItemsHtml.map((item) => <li set:html={item} />)}
+  </ol>
+
+  <h2>{b.h2Local}</h2>
+  <p set:html={b.localHtml} />
+
+  <h2 set:html={b.h2Carriers} />
+  <p set:html={b.carriersHtml} />
+
+  <h2 set:html={b.h2Credentials} />
+  <p set:html={b.credentialsHtml} />
+  <ul>
+    {b.credentialItemsHtml.map((item) => <li set:html={item} />)}
+  </ul>
+
+  <h2>{b.h2Talk}</h2>
+  <p set:html={b.talkHtml} />
+  <p style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
+    <a class="button primary" href="tel:+14352195120">{b.callLabel}</a>
+    <a class="button" href="mailto:rocco@vernalmedicare.com">{b.emailLabel}</a>
+  </p>
+
+  <blockquote class="pull-quote" style="font-style:italic; margin: 1.5rem 0; color:#555;">
+    {b.quoteText}
+    <span style="display:block; margin-top:.5rem;">{b.quoteAttribution}</span>
+  </blockquote>
+</ArticlePage>

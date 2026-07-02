@@ -1,0 +1,50 @@
+{
+  "page": {
+    "title": "About — Vernal Medicare | Local, Licensed Help in Uintah County",
+    "heading": "About Vernal Medicare",
+    "description": "I'm Rocco DeLuca, a local, licensed agent in Vernal, Utah. Simple help with Medicare, under-65 coverage, copay coverage, and life insurance—no pressure.",
+    "summary": "I'm Rocco DeLuca, a local, licensed insurance agent based in Vernal. I help Uintah Basin residents choose Medicare Advantage, Medigap, Part D, under-65 Marketplace coverage, copay (fixed indemnity) plans, and life insurance — in plain English, at no extra cost, with year-round support."
+  },
+  "meta": {
+    "ogDescription": "Local, face-to-face help choosing Medicare and health coverage that fits your needs and budget."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "self": "About"
+  },
+  "body": {
+    "introHtml": "I'm <strong>Rocco DeLuca</strong>, a local, licensed agent based in Vernal. My job is simple: help you choose coverage that fits your needs and budget—<em>without the runaround</em>.",
+    "h2Help": "What I help with",
+    "helpItemsHtml": [
+      "<strong>Medicare Advantage</strong> and <strong>Medigap</strong>",
+      "<strong>Prescription plans (Part D)</strong>",
+      "<strong>Under-65 health insurance</strong> (Marketplace)",
+      "<strong>Copay coverage</strong> (fixed indemnity)",
+      "<strong>Life insurance</strong> (term & final expense)"
+    ],
+    "noteHtml": "There's no extra cost to you—agents are typically paid by the plan or carrier if you enroll.",
+    "h2Together": "How we'll work together",
+    "togetherItemsHtml": [
+      "<strong>Listen:</strong> your needs and budget first.",
+      "<strong>Compare:</strong> simple, side-by-side options in plain English.",
+      "<strong>Enroll & support:</strong> we get it done right—and I'm here year-round."
+    ],
+    "h2Local": "Why local matters",
+    "localHtml": "Plans perform differently by county. Because I live and work here, I know the local networks, pharmacies, and what actually works in the Basin. See <a href=\"medicare-plans-vernal-utah.html\">Medicare plans in Vernal</a> or <a href=\"medicare-agent-vernal.html\">more about working with a local agent</a>.",
+    "h2Carriers": "Carriers",
+    "carriersHtml": "I work with multiple carriers (availability varies by county). <em>We do not offer every plan available in your area.</em> Any information I provide is limited to the plans I do offer. For info on all your options, visit <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a> or call 1-800-MEDICARE (TTY: 711).",
+    "h2Credentials": "Credentials &amp; Trust",
+    "credentialsHtml": "I’m a licensed Medicare insurance agent, and — like every agent who can offer Medicare Advantage and Part D — I complete the AHIP certification and each carrier’s training every year before I can talk plans with you. Here’s what stands behind the advice on this site:",
+    "credentialItemsHtml": [
+      "<a href=\"medicare-agent-credentials.html\"><strong>My credentials &amp; certifications</strong></a> — licensing, annual training, and compliance.",
+      "<a href=\"editorial-policy.html\"><strong>How we keep this site accurate</strong></a> — official sources, single-source annual figures, and review.",
+      "<a href=\"reviews.html\"><strong>What clients say</strong></a> — reviews from local Medicare beneficiaries and their families."
+    ],
+    "h2Talk": "Ready to talk?",
+    "talkHtml": "Call or email for a friendly, no-pressure chat.",
+    "callLabel": "Call (435) 219-5120 (TTY: 711)",
+    "emailLabel": "Email us",
+    "quoteText": "\"Coverage should be simple, local, and matched to you.\"",
+    "quoteAttribution": "— Rocco DeLuca"
+  }
+}

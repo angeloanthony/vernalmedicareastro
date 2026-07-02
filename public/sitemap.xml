@@ -16,4 +16,11 @@
     <loc>https://vernalmedicare.com/sitemap-local.xml</loc>
     <lastmod>2026-04-04</lastmod>
   </sitemap>
+  <sitemap>
+    <!-- Spanish pages + hreflang alternates. GENERATED at build time from the
+         i18n registry (src/pages/sitemap-es.xml.ts) — grows automatically as
+         pages are translated; never hand-edit a copy into public/. -->
+    <loc>https://vernalmedicare.com/sitemap-es.xml</loc>
+    <lastmod>2026-07-01</lastmod>
+  </sitemap>
 </sitemapindex>

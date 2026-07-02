@@ -1,0 +1,113 @@
+---
+// src/components/content/ExtraHelpPage.astro — Extra Help (Part D LIS) spoke
+// template (M4 batch 3; playbook §4.5). Eligibility limits interpolate from
+// annualMedicareData so both languages stay synchronized with CMS figures.
+import ArticlePage from '../layout/ArticlePage.astro';
+import { figuresFor } from '../../data/annualMedicareData';
+import { usd } from '../../lib/formatters';
+import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import type { PageContext } from '../../types/Page';
+
+const SLUG = 'medicare-extra-help-utah';
+const f = figuresFor();
+const vars = {
+  year: f.year,
+  maxDrugCopay: usd(f.extraHelp.maxDrugCopay, { cents: true }),
+  resIndividual: usd(f.extraHelp.resourcesIndividual),
+  resCouple: usd(f.extraHelp.resourcesCouple),
+  partDCap: usd(f.partD.annualCap),
+  insulinCap: usd(f.partD.insulinCap),
+};
+const t9 = (s: string) => interp(s, vars);
+
+interface Content {
+  page: {
+    title: string;
+    heading: string;
+    description: string;
+    summary: string;
+    faqs: { question: string; answer: string }[];
+    sources: { title: string; url: string; publisher: string }[];
+    nextSteps: { when: string; action: string }[];
+  };
+  meta: { ogTitle: string; ogDescription: string };
+  breadcrumb: { home: string; parent: string; self: string };
+  body: {
+    introHtml: string;
+    h2Covers: string;
+    coverItemsHtml: string[];
+    layersHtml: string;
+    h2Limits: string;
+    limitsHtml: string;
+    limitItemsHtml: string[];
+    limitsOutroHtml: string;
+    h2Auto: string;
+    autoHtml: string;
+    autoItemsHtml: string[];
+    h2Apply: string;
+    applyHtml: string;
+  };
+}
+
+const lang = getLangFromUrl(Astro.url);
+const c = getPageContent<Content>(SLUG, lang);
+const b = c.body;
+const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
+
+const context: PageContext = {
+  page: {
+    title: t9(c.page.title),
+    heading: c.page.heading,
+    description: t9(c.page.description),
+    taxonomy: { silo: 'dual-eligible', tags: ['extra-help', 'lis', 'part-d', 'medicaid', 'costs'] },
+    summary: t9(c.page.summary),
+    faqs: c.page.faqs.map((q) => ({ question: t9(q.question), answer: t9(q.answer) })),
+    sources: c.page.sources,
+    nextSteps: c.page.nextSteps,
+  },
+  meta: {
+    canonical: `${SITE_ORIGIN}${pagePath}`,
+    ogType: 'article',
+    ogTitle: c.meta.ogTitle,
+    ogDescription: t9(c.meta.ogDescription),
+    lang,
+    ogLocale: getLocaleMeta(lang).ogLocale,
+    hreflang: hreflangAlternates(SLUG),
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: c.breadcrumb.home, href: localizeHref('/', lang) },
+    { name: c.breadcrumb.parent, href: localizeHref('/dual-eligible.html', lang) },
+    { name: c.breadcrumb.self, href: pagePath },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p set:html={t9(b.introHtml)} />
+
+  <h2>{b.h2Covers}</h2>
+  <ul>
+    {b.coverItemsHtml.map((item) => <li set:html={t9(item)} />)}
+  </ul>
+  <p set:html={t9(b.layersHtml)} />
+
+  <h2>{t9(b.h2Limits)}</h2>
+  <p set:html={t9(b.limitsHtml)} />
+  <ul>
+    {b.limitItemsHtml.map((item) => <li set:html={t9(item)} />)}
+  </ul>
+  <p set:html={t9(b.limitsOutroHtml)} />
+
+  <h2>{b.h2Auto}</h2>
+  <p set:html={t9(b.autoHtml)} />
+  <ul>
+    {b.autoItemsHtml.map((item) => <li set:html={item} />)}
+  </ul>
+
+  <h2>{b.h2Apply}</h2>
+  <p set:html={t9(b.applyHtml)} />
+</ArticlePage>

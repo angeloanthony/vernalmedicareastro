@@ -1,0 +1,51 @@
+{
+  "__translation_note": "AI-translated from en/about.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. The Carriers paragraph mirrors the CMS multi-plan disclosure wording in Spanish. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "page": {
+    "title": "Sobre nosotros — Vernal Medicare | Ayuda local con licencia en el Condado de Uintah",
+    "heading": "Sobre Vernal Medicare",
+    "description": "Soy Rocco DeLuca, un agente local con licencia en Vernal, Utah. Ayuda sencilla con Medicare, cobertura para menores de 65, cobertura de copagos y seguro de vida — sin presión.",
+    "summary": "Soy Rocco DeLuca, un agente de seguros local con licencia con base en Vernal. Ayudo a los residentes de Uintah Basin a elegir Medicare Advantage, Medigap, la Parte D, cobertura del Mercado para menores de 65, planes de copagos (indemnización fija) y seguro de vida — en lenguaje sencillo, sin costo adicional, con apoyo durante todo el año."
+  },
+  "meta": {
+    "ogDescription": "Ayuda local y en persona para elegir Medicare y la cobertura de salud que se ajuste a sus necesidades y su presupuesto."
+  },
+  "breadcrumb": {
+    "home": "Inicio",
+    "self": "Sobre nosotros"
+  },
+  "body": {
+    "introHtml": "Soy <strong>Rocco DeLuca</strong>, un agente local con licencia con base en Vernal. Mi trabajo es simple: ayudarle a elegir una cobertura que se ajuste a sus necesidades y su presupuesto — <em>sin vueltas</em>.",
+    "h2Help": "En qué le ayudo",
+    "helpItemsHtml": [
+      "<strong>Medicare Advantage</strong> y <strong>Medigap</strong>",
+      "<strong>Planes de medicamentos (Parte D)</strong>",
+      "<strong>Seguro de salud para menores de 65</strong> (el Mercado)",
+      "<strong>Cobertura de copagos</strong> (indemnización fija)",
+      "<strong>Seguro de vida</strong> (a término y de gastos finales)"
+    ],
+    "noteHtml": "No hay costo adicional para usted — a los agentes generalmente les paga el plan o la aseguradora si usted se inscribe.",
+    "h2Together": "Cómo trabajaremos juntos",
+    "togetherItemsHtml": [
+      "<strong>Escuchar:</strong> primero sus necesidades y su presupuesto.",
+      "<strong>Comparar:</strong> opciones simples, lado a lado, en lenguaje sencillo.",
+      "<strong>Inscribir y apoyar:</strong> lo hacemos bien — y estoy aquí durante todo el año."
+    ],
+    "h2Local": "Por qué importa lo local",
+    "localHtml": "Los planes funcionan distinto según el condado. Como vivo y trabajo aquí, conozco las redes locales, las farmacias y lo que realmente funciona en la cuenca. Vea los <a href=\"medicare-plans-vernal-utah.html\">planes de Medicare en Vernal</a> o <a href=\"medicare-agent-vernal.html\">más sobre trabajar con un agente local</a>.",
+    "h2Carriers": "Aseguradoras",
+    "carriersHtml": "Trabajo con varias aseguradoras (la disponibilidad varía según el condado). <em>No ofrecemos todos los planes disponibles en su área.</em> Cualquier información que proporciono se limita a los planes que sí ofrezco. Para información sobre todas sus opciones, visite <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a> o llame al 1-800-MEDICARE (TTY: 711).",
+    "h2Credentials": "Credenciales y confianza",
+    "credentialsHtml": "Soy un agente de seguros de Medicare con licencia, y — como todo agente que puede ofrecer Medicare Advantage y la Parte D — completo cada año la certificación AHIP y la capacitación de cada aseguradora antes de poder hablar de planes con usted. Esto es lo que respalda los consejos de este sitio:",
+    "credentialItemsHtml": [
+      "<a href=\"medicare-agent-credentials.html\"><strong>Mis credenciales y certificaciones</strong></a> — licencias, capacitación anual y cumplimiento.",
+      "<a href=\"editorial-policy.html\"><strong>Cómo mantenemos este sitio preciso</strong></a> — fuentes oficiales, cifras anuales de fuente única, y revisión.",
+      "<a href=\"reviews.html\"><strong>Lo que dicen los clientes</strong></a> — reseñas de beneficiarios locales de Medicare y sus familias."
+    ],
+    "h2Talk": "¿Listo para hablar?",
+    "talkHtml": "Llame o escriba para una conversación amigable y sin presión.",
+    "callLabel": "Llame al (435) 219-5120 (TTY: 711)",
+    "emailLabel": "Escríbanos",
+    "quoteText": "\"La cobertura debería ser simple, local y hecha a su medida.\"",
+    "quoteAttribution": "— Rocco DeLuca"
+  }
+}
