@@ -18,8 +18,10 @@ export function GET(): Response {
 
   const urls = entries
     .map(({ locale, page }) => {
-      const localized = `${SITE_ORIGIN}/${locale}/${page}.html`;
-      const master = `${SITE_ORIGIN}/${page}.html`;
+      // 'index' is the homepage: /es.html and /, matching localePageHref().
+      const localized =
+        page === 'index' ? `${SITE_ORIGIN}/${locale}.html` : `${SITE_ORIGIN}/${locale}/${page}.html`;
+      const master = page === 'index' ? `${SITE_ORIGIN}/` : `${SITE_ORIGIN}/${page}.html`;
       return [
         '  <url>',
         `    <loc>${localized}</loc>`,

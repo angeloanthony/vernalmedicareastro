@@ -23,6 +23,7 @@ export const CONTENT_PAGES = [
   'medicare-extra-help-utah',
   'medicare-savings-programs-utah',
   'about',
+  'index',
 ] as const;
 
 export type ContentKey = (typeof CONTENT_PAGES)[number];

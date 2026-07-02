@@ -1,0 +1,663 @@
+---
+// src/components/content/HomePage.astro — THE homepage template (homepage
+// milestone; playbook §4.5). Rendered by "/" and "/es.html". Every
+// human-facing string comes from src/i18n/content/{locale}/index.json; the
+// hand-rolled JSON-LD keeps its exact structure with human-facing fields
+// swapped per locale (NAP/geo/hours stay data). Carousel scripts are
+// preserved verbatim except the two runtime aria templates, which get their
+// strings injected via define:vars (playbook residual #1: lang into scripts).
+// NOTE: contactPoint.availableLanguage stays ["en"] — the phone line is
+// English; only the site is bilingual. NewsTicker (data/news.ts) is a shared
+// data module — English on /es until Phase B.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsTicker from '../NewsTicker.astro';
+import { getPageContent, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+
+interface Content {
+  meta: {
+    title: string;
+    description: string;
+    ogTitle: string;
+    ogDescription: string;
+    twitterTitle: string;
+    twitterDescription: string;
+  };
+  schema: {
+    businessDescription: string;
+    catalogName: string;
+    offers: { name: string; description: string }[];
+    navNames: string[];
+    faqs: { q: string; a: string }[];
+    videoName: string;
+    videoDescription: string;
+    breadcrumbHome: string;
+  };
+  hero: { imgAlt: string; h1: string; tagline: string; enrollLabel: string; startLabel: string };
+  welcome: { h2: string; h3: string; videoTitle: string; comicAlt: string };
+  paths: { aria: string; h2: string; introHtml: string; items: { label: string; href: string }[] };
+  reviews: {
+    aria: string; reviewFrom: string; starsAria: string; verified: string;
+    prevAria: string; nextAria: string; dotsAria: string; goToAria: string;
+    items: { name: string; initial: string; text: string }[];
+  };
+  nap: {
+    aria: string; h2: string; findHtml: string; contactHtml: string;
+    callLabel: string; directionsLabel: string; faqLabel: string;
+    points: string[]; mapAria: string; figcaptionHtml: string;
+  };
+  localInternalHtml: string;
+  help: {
+    h2: string; intro: string; h3: string;
+    items: { icon: string; html: string }[];
+    quoteLabel: string; carriersAlt: string;
+  };
+  smile: { aria: string; title: string; prevAria: string; nextAria: string; slides: { img: string; alt: string }[] };
+  spirit: { aria: string; prevAria: string; nextAria: string; dotsAria: string; goToAria: string; quotes: { text: string; by: string }[] };
+  faq: { aria: string; h2: string; items: { q: string; a: string }[] };
+  compliance: { heading: string; p1Html: string; p2Html: string; p3Html: string; p4Html: string };
+}
+
+const lang = getLangFromUrl(Astro.url);
+const c = getPageContent<Content>('index', lang);
+const canonical = lang === 'en' ? `${SITE_ORIGIN}/` : `${SITE_ORIGIN}/${lang}.html`;
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "InsuranceAgency", "MedicalBusiness"],
+    "@id": "https://vernalmedicare.com/#business",
+    "name": "Vernal Medicare",
+    "url": "https://vernalmedicare.com/",
+    "logo": "https://vernalmedicare.com/pictures/occo.webp",
+    "image": "https://vernalmedicare.com/pictures/vernalmedicare.webp",
+    "description": c.schema.businessDescription,
+    "telephone": "+1-435-219-5120",
+    "email": "rocco@vernalmedicare.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "1080 W Hwy 40",
+      "addressLocality": "Vernal",
+      "addressRegion": "UT",
+      "postalCode": "84078",
+      "addressCountry": "US"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 40.4527277, "longitude": -109.5478186 },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "13:00",
+        "closes": "17:00"
+      }
+    ],
+    "areaServed": [
+      { "@type": "City", "name": "Vernal", "containedIn": { "@type": "State", "name": "Utah" } },
+      { "@type": "City", "name": "Naples" },
+      { "@type": "City", "name": "Maeser" },
+      { "@type": "City", "name": "Jensen" }
+    ],
+    "serviceArea": {
+      "@type": "GeoCircle",
+      "geoMidpoint": { "@type": "GeoCoordinates", "latitude": 40.4527277, "longitude": -109.5478186 },
+      "geoRadius": "50000"
+    },
+    "containedInPlace": {
+      "@type": "Pharmacy",
+      "name": "Smith's Pharmacy",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "1080 W Hwy 40",
+        "addressLocality": "Vernal",
+        "addressRegion": "UT",
+        "postalCode": "84078",
+        "addressCountry": "US"
+      },
+      "hasMap": "https://www.google.com/maps/place/Smith's+Pharmacy/@40.4527277,-109.5478186,16z/data=!3m1!4b1!4m6!3m5!1s0x87456214ff035e19:0x480f8d280bd4f8b5!8m2!3d40.4527277!4d-109.5478186!16s%2Fg%2F1q5gm_y1q?entry=ttu&g_ep=EgoyMDI2MDIxMS4wIKXMDSoASAFQAw%3D%3D"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": c.schema.catalogName,
+      "itemListElement": c.schema.offers.map((o) => ({
+        "@type": "Offer",
+        "itemOffered": { "@type": "Service", "name": o.name, "description": o.description }
+      }))
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "reviewCount": "11",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Rita S." },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Rocco made Medicare simple. He compared plans, explained the fine print, and saved me money."
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Jim P." },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Honest, patient, and local. He walked me through Advantage vs. Supplement without pressure."
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Ellen M." },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Rocco was a great help to me when I was signing up for Medicare. He helped me find a supplement plan that was right for me. I have recommended him to my friends and family."
+      }
+    ],
+    "knowsAbout": [
+      "Medicare Advantage",
+      "Medicare Supplement",
+      "Medigap",
+      "Part D",
+      "Medicare enrollment",
+      "Uintah Basin providers",
+      "Healthcare insurance",
+      "Senior insurance"
+    ],
+    "priceRange": "$$",
+    "founder": { "@type": "Person", "name": "Rocco DeLuca", "jobTitle": "Licensed Insurance Agent" },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "telephone": "+1-435-219-5120",
+      "email": "rocco@vernalmedicare.com",
+      "areaServed": "US-UT",
+      "availableLanguage": ["en"],
+      "contactOption": "TollFree"
+    },
+    "sameAs": ["https://www.facebook.com/VernalMedicare"]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": c.schema.navNames,
+    "url": [
+      "https://vernalmedicare.com/",
+      "https://vernalmedicare.com/medigap.html",
+      "https://vernalmedicare.com/aca.html",
+      "https://vernalmedicare.com/indemnity.html",
+      "https://vernalmedicare.com/life.html",
+      "https://vernalmedicare.com/faq.html",
+      "https://vernalmedicare.com/reviews.html",
+      "https://vernalmedicare.com/about.html"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": "https://vernalmedicare.com/#faq",
+    "mainEntity": c.schema.faqs.map((f) => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://vernalmedicare.com/#webpage",
+    "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".local-nap", ".nap-info", "#faq"] }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": c.schema.videoName,
+    "description": c.schema.videoDescription,
+    "thumbnailUrl": "https://vernalmedicare.com/pictures/vernalmedicare.webp",
+    "uploadDate": "2026-02-04",
+    "contentUrl": "https://youtu.be/iQohQH1eakI",
+    "embedUrl": "https://www.youtube.com/embed/iQohQH1eakI"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": c.schema.breadcrumbHome, "item": canonical }
+    ]
+  }
+];
+---
+
+<BaseLayout
+  title={c.meta.title}
+  description={c.meta.description}
+  canonical={canonical}
+  ogType="website"
+  ogTitle={c.meta.ogTitle}
+  ogDescription={c.meta.ogDescription}
+  twitterTitle={c.meta.twitterTitle}
+  twitterDescription={c.meta.twitterDescription}
+  schema={schema}
+  lang={lang}
+  ogLocale={getLocaleMeta(lang).ogLocale}
+  hreflang={hreflangAlternates('index')}
+>
+  <!-- Medicare Updates ticker (data-driven from data/news.ts) -->
+  <NewsTicker />
+
+  <!-- Hero -->
+  <section class="hero-row">
+    <div class="hero-image-wrapper">
+      <img src="pictures/vernalmedicare.webp" alt={c.hero.imgAlt} width="1600" height="600" class="hero-banner" loading="eager" decoding="async" fetchpriority="high">
+      <div class="hero-text">
+        <h1>{c.hero.h1}</h1>
+        <p>{c.hero.tagline}</p>
+       <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">
+  {c.hero.enrollLabel}
+</a>
+        <a href={localizeHref('medicare-decision-center.html', lang)} class="hero-startbtn">{c.hero.startLabel}</a>
+</div>
+    </div>
+  </section>
+
+    <!-- Welcome / What We Do -->
+  <section class="welcome">
+    <h2>{c.welcome.h2}</h2>
+    <h3>{c.welcome.h3}</h3>
+  <div class="vm2-up">
+  <div class="vm">
+        <div class="vm vm--3d">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/iQohQH1eakI?si=3bbSr6ZFajhBKewb" title={c.welcome.videoTitle} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="border:0;"></iframe>
+</div>
+  </div>
+
+<a href="#" class="vm-comic">
+  <img
+    src="pictures/joke2.webp"
+    alt={c.welcome.comicAlt}
+    loading="lazy"
+    decoding="async">
+</a>
+
+</div>
+</section>
+
+<section class="vm-startpaths" aria-label={c.paths.aria}>
+  <h2>{c.paths.h2}</h2>
+  <p set:html={c.paths.introHtml} />
+  <div class="vm-startpaths__grid">
+    {c.paths.items.map((p) => (
+      <a href={localizeHref(p.href, lang)}>{p.label}</a>
+    ))}
+  </div>
+</section>
+
+<section id="vm-reviews" aria-label={c.reviews.aria}>
+ <div class="vm-reviews__track" aria-live="polite">
+  {c.reviews.items.map((r) => (
+    <article class="vm-reviews__slide" data-rating="5">
+      <h3 class="vm-reviews__name">{c.reviews.reviewFrom} {r.name}</h3>
+      <p class="vm-reviews__text">
+        {r.text}
+      </p>
+      <footer class="vm-reviews__meta">
+        <div class="vm-reviews__avatar" aria-hidden="true">{r.initial}</div>
+        <div>
+          <strong>{r.name}</strong>
+          <div class="vm-reviews__source">
+            <span class="vm-reviews__stars" role="img" aria-label={c.reviews.starsAria}>★★★★★</span>
+            <a class="vm-reviews__link" href="https://www.facebook.com/VernalMedicare/reviews" target="_blank" rel="noopener">{c.reviews.verified}</a>
+          </div>
+        </div>
+      </footer>
+    </article>
+  ))}
+</div>
+
+<button type="button" class="vm-reviews__nav vm-reviews__prev" aria-label={c.reviews.prevAria}>‹</button>
+<button type="button" class="vm-reviews__nav vm-reviews__next" aria-label={c.reviews.nextAria}>›</button>
+
+<div class="vm-reviews__dots" role="tablist" aria-label={c.reviews.dotsAria}></div>
+</section>
+
+  <!-- Local NAP + Map -->
+<section class="local-nap" aria-label={c.nap.aria}>
+  <div class="container nap-grid">
+    <!-- Left: text -->
+    <div class="nap-info">
+      <h2>{c.nap.h2}</h2>
+      <p set:html={c.nap.findHtml} />
+      <p set:html={c.nap.contactHtml} />
+      <p class="nap-ctas">
+        <a class="button" href="tel:+14352195120">{c.nap.callLabel}</a>
+        <a class="button" href="https://www.google.com/maps?q=Smith%27s%20Pharmacy%2C%20Vernal%2C%20UT%2084078" target="_blank" rel="noopener">{c.nap.directionsLabel}</a>
+        <a class="button" href="#faq">{c.nap.faqLabel}</a>
+      </p>
+      <ul class="nap-points">
+        {c.nap.points.map((p) => <li>{p}</li>)}
+      </ul>
+    </div>
+
+    <!-- Right: map -->
+    <figure class="map-wrap" aria-label={c.nap.mapAria}>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6072.036982576734!2d-109.5478186!3d40.4527277!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87456214ff035e19%3A0x480f8d280bd4f8b5!2sSmith&#39;s%20Pharmacy!5e0!3m2!1sen!2sus!4v1771307157670!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <figcaption set:html={c.nap.figcaptionHtml} />
+    </figure>
+  </div>
+</section>
+
+<p class="local-internal" set:html={c.localInternalHtml} />
+
+  <div class="vm-reviews__dots" role="tablist" aria-label={c.reviews.dotsAria}></div>
+
+
+
+<script defer src="https://player.vimeo.com/api/player.js"></script>
+<section class="help">
+    <div class="container">
+      <h2>{c.help.h2}</h2>
+      <p>{c.help.intro}</p>
+
+   <div class="help-grid">
+  <!-- LEFT: text/list -->
+  <div class="help-left">
+    <h3>{c.help.h3}</h3>
+
+    <div class="expertise-list">
+      {c.help.items.map((item) => (
+        <div class="expertise-item"><div class="icon">{item.icon}</div><p set:html={item.html} /></div>
+      ))}
+    </div>
+
+    <p>
+      <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/"
+         class="button" target="_blank" rel="noopener noreferrer">
+        {c.help.quoteLabel}
+      </a>
+    </p>
+  </div>
+
+  <!-- RIGHT: carriers image -->
+  <figure class="help-right">
+    <img src="pictures/carriers.webp"
+         alt={c.help.carriersAlt}
+         loading="lazy" decoding="async">
+  </figure>
+</div>
+  </div>
+  </section>
+
+  <!-- Smile Carousel -->
+<section class="smile" aria-label={c.smile.aria}>
+  <div class="smile-badge" aria-hidden="true" title={c.smile.title}>
+  <img src="pictures/smile.webp" alt="" width="56" height="56" decoding="async">
+</div>
+
+  <div class="smile-wrap">
+    <button class="smile-arrow prev" aria-label={c.smile.prevAria} type="button">‹</button>
+
+    <div class="smile-track" tabindex="0">
+      {c.smile.slides.map((s) => (
+        <a class="smile-slide" href={s.img} target="_blank" rel="noopener">
+          <img src={s.img} alt={s.alt}>
+        </a>
+      ))}
+    </div>
+
+    <button class="smile-arrow next" aria-label={c.smile.nextAria} type="button">›</button>
+  </div>
+</section>
+
+  <!-- Spiritual Thoughts -->
+<section id="vm-spirit" aria-label={c.spirit.aria}>
+  <div class="spirit-wrap">
+    <button class="spirit-nav spirit-prev" aria-label={c.spirit.prevAria}>‹</button>
+
+    <div class="spirit-track">
+      {c.spirit.quotes.map((q) => (
+        <figure class="spirit-quote">
+          <blockquote>
+            {q.text}
+          </blockquote>
+          <figcaption>{q.by}</figcaption>
+        </figure>
+      ))}
+    </div>
+
+   <button type="button" class="spirit-nav spirit-next" aria-label={c.spirit.nextAria}>›</button>
+  </div>
+
+  <div class="spirit-dots" role="tablist" aria-label={c.spirit.dotsAria}></div>
+</section>
+
+<section id="faq" aria-label={c.faq.aria}>
+  <h2>{c.faq.h2}</h2>
+
+  {c.faq.items.map((f) => (
+    <details>
+      <summary>{f.q}</summary>
+      <p>{f.a}</p>
+    </details>
+  ))}
+</section>
+
+<section class="cms-compliance" style="background: #fffbf0; border: 2px solid #d97706; border-radius: 8px; padding: 1.5rem; margin: 2rem auto; max-width: 1100px;">
+  <h2 style="color: #92400e; margin-top: 0; font-size: 1.1rem;">{c.compliance.heading}</h2>
+
+  <p style="margin: 0.75rem 0; color: #333; font-size: 0.95rem; line-height: 1.5;" set:html={c.compliance.p1Html} />
+
+  <p style="margin: 0.75rem 0; color: #333; font-size: 0.95rem; line-height: 1.5;" set:html={c.compliance.p2Html} />
+
+  <p style="margin: 0.75rem 0; color: #333; font-size: 0.95rem; line-height: 1.5;" set:html={c.compliance.p3Html} />
+
+  <p style="margin: 0.75rem 0; color: #333; font-size: 0.95rem; line-height: 1.5;" set:html={c.compliance.p4Html} />
+</section>
+
+  <!-- Footer -->
+
+
+<script is:inline>
+// Replace your existing vm-comic script with this enhanced version
+
+(function(){
+  document.addEventListener('click', function(e){
+    const link = e.target.closest('.vm-comic');
+    if (!link) return;
+
+    e.preventDefault();
+    const img = link.querySelector('img');
+    if (!img) return;
+
+    // Array of all 5 images to cycle through
+    const images = [
+      'pictures/joke2.webp',
+      'pictures/joke4.webp',
+      'pictures/joke49.webp',
+      'pictures/joke13.webp',  // Add your 4th image path here
+      'pictures/joke5.webp'     // Add your 5th image path here
+    ];
+
+    // Get current image
+    const currentSrc = img.getAttribute('src');
+
+    // Find current index
+    let currentIndex = images.indexOf(currentSrc);
+
+    // If not found, start from beginning
+    if (currentIndex === -1) currentIndex = 0;
+
+    // Get next image (cycle back to start after last image)
+    const nextIndex = (currentIndex + 1) % images.length;
+    const nextSrc = images[nextIndex];
+
+    // Apply flip animation
+    img.classList.add('is-flipping');
+
+    const onEnd = function(){
+      img.removeEventListener('transitionend', onEnd);
+      img.setAttribute('src', nextSrc);
+
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        img.classList.remove('is-flipping');
+      }));
+    };
+
+    img.addEventListener('transitionend', onEnd);
+  });
+})();
+</script>
+
+<script is:inline>
+(function(){
+  const wrap = document.querySelector('.smile-wrap');
+  if (!wrap) return;
+  const track = wrap.querySelector('.smile-track');
+  const prev  = wrap.querySelector('.smile-arrow.prev');
+  const next  = wrap.querySelector('.smile-arrow.next');
+
+  function slideBy(dir){
+    const firstSlide = track.querySelector('.smile-slide');
+    if (!firstSlide) return;
+    const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 16;
+    const w = firstSlide.getBoundingClientRect().width + gap;
+    track.scrollBy({ left: dir * w, behavior: 'smooth' });
+  }
+
+  prev && prev.addEventListener('click', () => slideBy(-1));
+  next && next.addEventListener('click', () => slideBy(1));
+
+  track.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); slideBy(-1); }
+    if (e.key === 'ArrowRight'){ e.preventDefault(); slideBy(1); }
+  });
+})();
+</script>
+
+
+<script is:inline define:vars={{ goToReviewAria: c.reviews.goToAria }}>
+(() => {
+  const root = document.getElementById('vm-reviews');
+  if (!root) return;
+
+  const track  = root.querySelector('.vm-reviews__track');
+  const slides = Array.from(root.querySelectorAll('.vm-reviews__slide'));
+  const prev   = root.querySelector('.vm-reviews__prev');
+  const next   = root.querySelector('.vm-reviews__next');
+  const dotsWrap = root.querySelector('.vm-reviews__dots');
+
+  const starSVG = (filled) =>
+    `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="${filled ? 'currentColor' : 'none'}" stroke="currentColor" d="M12 3.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5-4.7-4.6 6.5-.9L12 3.6z"/></svg>`;
+
+  slides.forEach(slide => {
+    const rating = Number(slide.dataset.rating || 5);
+    const starsEl = slide.querySelector('.vm-reviews__stars');
+    if (starsEl) starsEl.innerHTML = Array.from({length:5}, (_,i)=>starSVG(i < rating)).join('');
+  });
+
+  const dots = slides.map((_, i) => {
+    const b = document.createElement('button');
+    b.className = 'vm-reviews__dot';
+    b.setAttribute('aria-label', `${goToReviewAria} ${i + 1}`);
+    b.addEventListener('click', () => go(i));
+    dotsWrap.appendChild(b);
+    return b;
+  });
+
+  let index = 0;
+  const go = (i) => {
+    index = (i + slides.length) % slides.length;
+    track.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((d, di) => d.classList.toggle('is-active', di === index));
+  };
+
+  prev.addEventListener('click', () => go(index - 1));
+  next.addEventListener('click', () => go(index + 1));
+
+  let timer = setInterval(() => { if (!root.matches(':hover')) go(index + 1); }, 6000);
+  document.addEventListener('visibilitychange', () => {
+    clearInterval(timer);
+    if (!document.hidden) timer = setInterval(() => { if (!root.matches(':hover')) go(index + 1); }, 6000);
+  });
+
+  go(0);
+})();
+</script>
+
+<script is:inline define:vars={{ goToThoughtAria: c.spirit.goToAria }}>
+(() => {
+  const root = document.getElementById('vm-spirit');
+  if (!root) return;
+  const track = root.querySelector('.spirit-track');
+  const slides = Array.from(root.querySelectorAll('.spirit-quote'));
+  const prev = root.querySelector('.spirit-prev');
+  const next = root.querySelector('.spirit-next');
+  const dotsWrap = root.querySelector('.spirit-dots');
+
+  const dots = slides.map((_, i) => {
+    const b = document.createElement('button');
+    b.className = 'spirit-dot';
+    b.setAttribute('aria-label', `${goToThoughtAria} ${i+1}`);
+    b.addEventListener('click', () => go(i));
+    dotsWrap.appendChild(b);
+    return b;
+  });
+
+  let index = 0;
+  function go(i){
+    index = (i + slides.length) % slides.length;
+    track.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((d, di) => d.classList.toggle('is-active', di === index));
+  }
+
+  prev.addEventListener('click', () => go(index - 1));
+  next.addEventListener('click', () => go(index + 1));
+
+  let timer = setInterval(() => { if (!root.matches(':hover')) go(index + 1); }, 9000);
+  document.addEventListener('visibilitychange', () => {
+    clearInterval(timer);
+    if (!document.hidden) timer = setInterval(() => { if (!root.matches(':hover')) go(index + 1); }, 9000);
+  });
+
+  go(0);
+})();
+</script>
+
+<style>
+  .hero-startbtn {
+    display: inline-block;
+    margin-top: 0.6rem;
+    padding: 0.6rem 1.1rem;
+    background: rgba(255,255,255,0.92);
+    color: #0b2c45;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .hero-startbtn:hover { background: #0b2c45; color: #fff; border-color: #0b2c45; }
+
+  .vm-startpaths {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    text-align: center;
+    background: #f4f8fb;
+    border: 1px solid #dbe6ef;
+    border-radius: 12px;
+  }
+  .vm-startpaths h2 { margin: 0 0 0.35rem; }
+  .vm-startpaths p { margin: 0 0 1rem; color: #4a5568; }
+  .vm-startpaths__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem;
+  }
+  .vm-startpaths__grid a {
+    display: block;
+    padding: 0.85rem 1rem;
+    background: #fff;
+    border: 1px solid #cfdce8;
+    border-radius: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #0b2c45;
+  }
+  .vm-startpaths__grid a:hover { background: #0b2c45; color: #fff; border-color: #0b2c45; }
+</style>
+</BaseLayout>

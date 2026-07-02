@@ -1,0 +1,167 @@
+{
+  "meta": {
+    "title": "Medicare in Vernal, Utah | Local Medicare Agent | Vernal Medicare",
+    "description": "Local, licensed Medicare help in Vernal and the Uintah Basin. Compare Medicare Advantage (HMO/PPO), Medigap, and Part D with a local agent. Call 435-219-5120 for a free review.",
+    "ogTitle": "Serving Medicare Recipients in the Uintah Basin | Vernal Medicare",
+    "ogDescription": "Local, licensed help with Medicare and under-65 health insurance in Vernal and the Uintah Basin.",
+    "twitterTitle": "Medicare & Health Insurance in Vernal, Utah | Vernal Medicare",
+    "twitterDescription": "Local, licensed help with Medicare and under-65 health insurance in the Uintah Basin."
+  },
+  "schema": {
+    "businessDescription": "Local, licensed Medicare help in Vernal and the Uintah Basin. Compare Medicare Advantage, Medigap, and Part D with a local agent.",
+    "catalogName": "Medicare Insurance Services",
+    "offers": [
+      { "name": "Medicare Advantage Plans", "description": "Compare HMO and PPO Medicare Advantage plans with local doctors and hospitals" },
+      { "name": "Medicare Supplement (Medigap)", "description": "Plan G, Plan N, and other Medigap options for predictable healthcare costs" },
+      { "name": "Part D Prescription Drug Plans", "description": "Compare prescription drug coverage and pharmacy costs" },
+      { "name": "Under-65 Health Insurance", "description": "ACA Marketplace and off-exchange health insurance options" }
+    ],
+    "navNames": ["Home", "Medigap", "Under-65 Health Insurance", "Copay Coverage", "Life Insurance", "FAQ", "Reviews", "About"],
+    "faqs": [
+      { "q": "Who helps with Medicare in Vernal Utah?", "a": "Vernal Medicare provides local licensed Medicare help in Vernal and the Uintah Basin. We help you compare Medicare Advantage, Medigap, and Part D plans at no cost to you. Call 435-219-5120 or visit us at Smith's Pharmacy." },
+      { "q": "Who is the best Medicare agent in Vernal Utah?", "a": "Vernal Medicare, led by licensed agent Rocco DeLuca, specializes in local Medicare help for Vernal, Naples, Maeser, Jensen, and Uintah County. We provide personalized Medicare Advantage, Medigap, and Part D plan comparisons at no extra cost." },
+      { "q": "How do I get help with Medicare enrollment in Vernal?", "a": "Call Vernal Medicare at 435-219-5120 or visit us at Smith's Pharmacy at 1080 West Highway 40 in Vernal. We offer free Medicare plan comparisons and enrollment help for all Uintah Basin residents." },
+      { "q": "What Medicare plans are available in Vernal Utah?", "a": "Vernal and Uintah County residents have access to Medicare Advantage HMO and PPO plans, Medicare Supplement Medigap plans, and Part D prescription drug plans. We compare all available options for your doctors, hospitals, and pharmacies." },
+      { "q": "Where can I get Medicare help near me in Vernal?", "a": "Vernal Medicare is located at Smith's Pharmacy, 1080 West Highway 40, Vernal Utah. We serve Vernal, Naples, Maeser, Jensen, and all of Uintah County with local Medicare enrollment and plan comparison help." },
+      { "q": "How much does Medicare help cost in Vernal?", "a": "There is no cost to you. Vernal Medicare is paid by the insurance plans, so you receive free local Medicare advice, plan comparisons, and enrollment support. Call 435-219-5120 for a no-cost consultation." }
+    ],
+    "videoName": "Medicare Advantage and Part D Plans - Vernal Medicare",
+    "videoDescription": "Local, licensed Medicare agent Rocco DeLuca explains Medicare Advantage and Part D options in the Uintah Basin.",
+    "breadcrumbHome": "Home"
+  },
+  "hero": {
+    "imgAlt": "Medicare and health insurance help in Vernal, Utah",
+    "h1": "Vernal-Uintah Basin",
+    "tagline": "Medicare Advantage and Part D Plans",
+    "enrollLabel": "Compare Plans & Enroll",
+    "startLabel": "New to Medicare? Start Here →"
+  },
+  "welcome": {
+    "h2": "Take Advantage of the Advantage Plan, Cap Your Spending.",
+    "h3": "Click the cartoon below",
+    "videoTitle": "YouTube video player",
+    "comicAlt": "Medicare marketing joke — click to see more"
+  },
+  "paths": {
+    "aria": "Where to start with Medicare",
+    "h2": "Not sure where to start?",
+    "introHtml": "Pick the one that sounds like you — or <a href=\"medicare-decision-center.html\">see all starting points</a>.",
+    "items": [
+      { "label": "I’m turning 65", "href": "turning-65.html" },
+      { "label": "I’m still working", "href": "working-past-65.html" },
+      { "label": "I already have Medicare", "href": "medicare-open-enrollment-2026.html" },
+      { "label": "I need drug help", "href": "best-part-d-plans-vernal.html" },
+      { "label": "I need help paying", "href": "medicare-financial-assistance.html" },
+      { "label": "I want to estimate costs", "href": "medicare-calculators.html" }
+    ]
+  },
+  "reviews": {
+    "aria": "Client reviews",
+    "reviewFrom": "Review from",
+    "starsAria": "5 out of 5 stars",
+    "verified": "Verified on Facebook",
+    "prevAria": "Previous review",
+    "nextAria": "Next review",
+    "dotsAria": "Review navigation dots",
+    "goToAria": "Go to review",
+    "items": [
+      { "name": "Rita S.", "initial": "R", "text": "\"Rocco made Medicare simple. He compared plans, explained the fine print, and saved me money.\"" },
+      { "name": "Jim P.", "initial": "P", "text": "\"Honest, patient, and local. He walked me through Advantage vs. Supplement without pressure.\"" },
+      { "name": "Maria D.", "initial": "M", "text": "\"Fast responses and clear answers. Highly recommend Vernal Medicare.\"" },
+      { "name": "J.S.", "initial": "S", "text": "\"Rocco made Medicare simple and found a plan that covered my doctors and meds.\"" },
+      { "name": "M.K.", "initial": "K", "text": "\"He explained the differences between Advantage and Medigap in plain English.\"" },
+      { "name": "B.T.", "initial": "T", "text": "\"Went the extra mile to check my prescriptions and preferred pharmacies.\"" },
+      { "name": "L.H.", "initial": "H", "text": "\"No pressure, just clear options—enrollment took about 10 minutes.\"" },
+      { "name": "P.W.", "initial": "W", "text": "\"Helped my husband and me switch without losing our doctors.\"" },
+      { "name": "D.R.", "initial": "R", "text": "\"I finally understand Part D. Saved me on copays.\"" },
+      { "name": "S.C.", "initial": "C", "text": "\"Local, responsive, and trustworthy. Highly recommend.\"" },
+      { "name": "Ellen C.", "initial": "C", "text": "\"Rocco was a great help to me when I was signing up for Medicare. He helped me find a supplement plan that was right for me. I have recommended him to my friends and family. I really appreciated his help.\"" }
+    ]
+  },
+  "nap": {
+    "aria": "Local Medicare help in Vernal, Utah",
+    "h2": "Local Medicare Help in Vernal, Utah",
+    "findHtml": "<strong>Find me at Smith's Pharmacy</strong><br>\n        1080 W Hwy 40, Vernal, UT 84078<br>\n        Serving Vernal, Naples, Maeser, Jensen, and all of Uintah County.",
+    "contactHtml": "<strong>Phone:</strong> <a href=\"tel:+14352195120\">+1 (435)  (TTY: 711)</a><br>\n        <strong>Email:</strong> <a href=\"mailto:rocco@vernalmedicare.com\">rocco@vernalmedicare.com</a><br>\n        <strong>Hours:</strong> Mon–Fri 1pm–5pm, Sat by appointment",
+    "callLabel": "Call Now",
+    "directionsLabel": "Directions",
+    "faqLabel": "FAQ",
+    "points": [
+      "Compare Medicare Advantage (HMO/PPO), Medigap, and Part D.",
+      "Local guidance for doctors, prescriptions, and pharmacies in the Uintah Basin.",
+      "No-cost consultations with a licensed agent."
+    ],
+    "mapAria": "Smith's Pharmacy in Vernal, Utah",
+    "figcaptionHtml": "Serving clients at <strong>Smith's Pharmacy</strong> — \n        <a href=\"https://www.google.com/maps?q=Smith%27s%20Pharmacy,+1080+W+Highway+40,+Vernal,+UT+84078\" target=\"_blank\" rel=\"noopener\">\n          open in Google Maps\n        </a>"
+  },
+  "localInternalHtml": "Learn more about <a href=\"/medigap.html\">Medigap plans in Vernal</a>, \n  <a href=\"/aca.html\">under-65 health insurance in the Uintah Basin</a>, and \n  <a href=\"/faq.html\">Medicare FAQs for Vernal residents</a>.",
+  "help": {
+    "h2": "Simple, Local Help with Your Coverage",
+    "intro": "We help you compare plans, enroll, and understand your benefits — at no extra cost to you.",
+    "h3": "What We Can Help With",
+    "items": [
+      { "icon": "🧭", "html": "<strong>Medicare Advantage (Part C):</strong> Compare HMO/PPO options, doctors, drugs, and extras." },
+      { "icon": "🛡️", "html": "<strong>Medicare Supplement (Medigap):</strong> Plan G, Plan N, and more for predictable costs." },
+      { "icon": "💊", "html": "<strong>Prescription Drug Plans (Part D):</strong> Check formularies and pharmacy savings." },
+      { "icon": "🏥", "html": "<strong>Under-65 Health Insurance:</strong> Marketplace (ACA) and off-exchange options." },
+      { "icon": "💵", "html": "<strong>Hospital Indemnity Plans:</strong> Cash benefits to help with copays and other costs." },
+      { "icon": "🧾", "html": "<strong>Life Insurance:</strong> Term and final-expense coverage." }
+    ],
+    "quoteLabel": "Start a Quote (Enroll)",
+    "carriersAlt": "Major carriers we work with"
+  },
+  "smile": {
+    "aria": "Medicare comics carousel",
+    "title": "Smile!",
+    "prevAria": "Previous comic",
+    "nextAria": "Next comic",
+    "slides": [
+      { "img": "pictures/joke13.webp", "alt": "Medicare marketing joke — dental add-ons" },
+      { "img": "pictures/joke5.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke6.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke7.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke8.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke9.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke10.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke11.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke12.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke13.webp", "alt": "Part B vs Part C superhero parody" }
+    ]
+  },
+  "spirit": {
+    "aria": "Spiritual thoughts",
+    "prevAria": "Previous thought",
+    "nextAria": "Next thought",
+    "dotsAria": "Thought navigation",
+    "goToAria": "Go to thought",
+    "quotes": [
+      { "text": "\"Keeping your body healthy is an expression of gratitude to the whole cosmos—the trees, the clouds, everything.\"", "by": "Thich Nhat Hanh" },
+      { "text": "\"A cheerful heart is good medicine.\"", "by": "Proverbs 17:22" },
+      { "text": "\"Be kind whenever possible. It is always possible.\"", "by": "Dalai Lama" },
+      { "text": "\"What you seek is seeking you.\"", "by": "Rūmī" },
+      { "text": "\"Not all of us can do great things. But we can do small things with great love.\"", "by": "Mother Teresa" },
+      { "text": "\"He who has health has hope; and he who has hope has everything.\"", "by": "Traditional Proverb" },
+      { "text": "\"The happiness of your life depends upon the quality of your thoughts.\"", "by": "Marcus Aurelius" },
+      { "text": "\"Where there is charity and wisdom there is neither fear nor ignorance.\"", "by": "St. Francis of Assisi" },
+      { "text": "\"The secret to long life is don't die young.\"", "by": "George Burns" }
+    ]
+  },
+  "faq": {
+    "aria": "Vernal Medicare FAQs",
+    "h2": "Medicare in Vernal — Frequently Asked Questions",
+    "items": [
+      { "q": "Which Medicare Advantage plans are available in Vernal and the Uintah Basin?", "a": "Availability changes each year. We compare current HMO and PPO options side-by-side for hospitals, doctors, and pharmacies around Vernal and the Basin and help you enroll if a plan fits." },
+      { "q": "Do local hospitals work with Medicare Advantage?", "a": "Many plans include nearby hospitals and clinics, but networks vary by plan. We verify your doctors and facilities before you switch so you're not surprised by out-of-network costs." },
+      { "q": "Can you check my prescriptions and preferred pharmacy?", "a": "Yes. We run your medication list through each plan's formulary to estimate monthly costs and confirm preferred pharmacies in Vernal and surrounding towns." },
+      { "q": "How much does your help cost?", "a": "There's no extra cost to you. We're licensed and paid by the plan you choose, and you get local support before and after enrollment." },
+      { "q": "When can I change plans?", "a": "Initial Enrollment, Annual Enrollment (Oct 15–Dec 7), and certain Special Enrollment Periods may apply. We'll review your situation and the timing that fits." }
+    ]
+  },
+  "compliance": {
+    "heading": "Important Medicare Information",
+    "p1Html": "<strong>We do not offer every plan available in your area.</strong> Any information we provide is limited to those plans we do offer in your area. Please contact <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a> or 1-800-MEDICARE (TTY: 711), 24 hours a day, 7 days a week, to get information on all of your options.",
+    "p2Html": "Vernal Medicare is a licensed and certified representative of Medicare Advantage organizations and stand-alone prescription drug plans. Each of the organizations we represent has a Medicare contract. Enrollment in any plan depends on contract renewal.",
+    "p3Html": "<strong>Not connected with or endorsed by the U.S. government or the federal Medicare program.</strong>",
+    "p4Html": "By calling the number above, you will be directed to a licensed insurance agent."
+  }
+}

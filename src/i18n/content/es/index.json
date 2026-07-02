@@ -1,0 +1,168 @@
+{
+  "__translation_note": "AI-translated from en/index.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Client review quotes and spiritual quotes are translations of the originals. Compliance block mirrors the CMS Spanish wording. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "meta": {
+    "title": "Medicare en Vernal, Utah | Agente local de Medicare | Vernal Medicare",
+    "description": "Ayuda local y con licencia con Medicare en Vernal y Uintah Basin. Compare Medicare Advantage (HMO/PPO), Medigap y la Parte D con un agente local. Llame al 435-219-5120 para una revisión gratuita.",
+    "ogTitle": "Al servicio de los beneficiarios de Medicare en Uintah Basin | Vernal Medicare",
+    "ogDescription": "Ayuda local y con licencia con Medicare y seguro de salud para menores de 65 en Vernal y Uintah Basin.",
+    "twitterTitle": "Medicare y seguro de salud en Vernal, Utah | Vernal Medicare",
+    "twitterDescription": "Ayuda local y con licencia con Medicare y seguro de salud para menores de 65 en Uintah Basin."
+  },
+  "schema": {
+    "businessDescription": "Ayuda local y con licencia con Medicare en Vernal y Uintah Basin. Compare Medicare Advantage, Medigap y la Parte D con un agente local.",
+    "catalogName": "Servicios de seguros de Medicare",
+    "offers": [
+      { "name": "Planes Medicare Advantage", "description": "Compare planes Medicare Advantage HMO y PPO con médicos y hospitales locales" },
+      { "name": "Suplemento de Medicare (Medigap)", "description": "Plan G, Plan N y otras opciones de Medigap para costos de salud predecibles" },
+      { "name": "Planes de medicamentos recetados de la Parte D", "description": "Compare la cobertura de medicamentos recetados y los costos de farmacia" },
+      { "name": "Seguro de salud para menores de 65", "description": "Opciones del Mercado ACA y fuera del Mercado" }
+    ],
+    "navNames": ["Inicio", "Medigap", "Seguro de salud para menores de 65", "Cobertura de copagos", "Seguro de vida", "Preguntas frecuentes", "Reseñas", "Sobre nosotros"],
+    "faqs": [
+      { "q": "¿Quién ayuda con Medicare en Vernal, Utah?", "a": "Vernal Medicare brinda ayuda local con licencia con Medicare en Vernal y Uintah Basin. Le ayudamos a comparar planes Medicare Advantage, Medigap y de la Parte D sin costo para usted. Llame al 435-219-5120 o visítenos en Smith's Pharmacy." },
+      { "q": "¿Quién es el mejor agente de Medicare en Vernal, Utah?", "a": "Vernal Medicare, dirigido por el agente con licencia Rocco DeLuca, se especializa en ayuda local con Medicare para Vernal, Naples, Maeser, Jensen y el Condado de Uintah. Brindamos comparaciones personalizadas de planes Medicare Advantage, Medigap y de la Parte D sin costo adicional." },
+      { "q": "¿Cómo obtengo ayuda con la inscripción en Medicare en Vernal?", "a": "Llame a Vernal Medicare al 435-219-5120 o visítenos en Smith's Pharmacy en 1080 West Highway 40 en Vernal. Ofrecemos comparaciones de planes de Medicare y ayuda con la inscripción gratuitas para todos los residentes de Uintah Basin." },
+      { "q": "¿Qué planes de Medicare hay disponibles en Vernal, Utah?", "a": "Los residentes de Vernal y el Condado de Uintah tienen acceso a planes Medicare Advantage HMO y PPO, planes Medigap de Suplemento de Medicare, y planes de medicamentos recetados de la Parte D. Comparamos todas las opciones disponibles según sus médicos, hospitales y farmacias." },
+      { "q": "¿Dónde puedo obtener ayuda con Medicare cerca de mí en Vernal?", "a": "Vernal Medicare está ubicado en Smith's Pharmacy, 1080 West Highway 40, Vernal, Utah. Servimos a Vernal, Naples, Maeser, Jensen y todo el Condado de Uintah con ayuda local para la inscripción y la comparación de planes de Medicare." },
+      { "q": "¿Cuánto cuesta la ayuda con Medicare en Vernal?", "a": "No tiene ningún costo para usted. A Vernal Medicare le pagan los planes de seguro, así que usted recibe gratis asesoría local sobre Medicare, comparaciones de planes y apoyo con la inscripción. Llame al 435-219-5120 para una consulta sin costo." }
+    ],
+    "videoName": "Planes Medicare Advantage y de la Parte D - Vernal Medicare",
+    "videoDescription": "El agente local de Medicare con licencia Rocco DeLuca explica las opciones de Medicare Advantage y la Parte D en Uintah Basin.",
+    "breadcrumbHome": "Inicio"
+  },
+  "hero": {
+    "imgAlt": "Ayuda con Medicare y seguros de salud en Vernal, Utah",
+    "h1": "Vernal-Uintah Basin",
+    "tagline": "Planes Medicare Advantage y de la Parte D",
+    "enrollLabel": "Compare planes e inscríbase",
+    "startLabel": "¿Nuevo en Medicare? Empiece aquí →"
+  },
+  "welcome": {
+    "h2": "Aproveche el plan Advantage y ponga un tope a sus gastos.",
+    "h3": "Haga clic en la caricatura de abajo",
+    "videoTitle": "Reproductor de video de YouTube",
+    "comicAlt": "Broma sobre la publicidad de Medicare — haga clic para ver más"
+  },
+  "paths": {
+    "aria": "Por dónde empezar con Medicare",
+    "h2": "¿No sabe por dónde empezar?",
+    "introHtml": "Elija la que suene como usted — o <a href=\"medicare-decision-center.html\">vea todos los puntos de partida</a>.",
+    "items": [
+      { "label": "Estoy por cumplir 65", "href": "turning-65.html" },
+      { "label": "Todavía estoy trabajando", "href": "working-past-65.html" },
+      { "label": "Ya tengo Medicare", "href": "medicare-open-enrollment-2026.html" },
+      { "label": "Necesito ayuda con medicamentos", "href": "best-part-d-plans-vernal.html" },
+      { "label": "Necesito ayuda para pagar", "href": "medicare-financial-assistance.html" },
+      { "label": "Quiero estimar costos", "href": "medicare-calculators.html" }
+    ]
+  },
+  "reviews": {
+    "aria": "Reseñas de clientes",
+    "reviewFrom": "Reseña de",
+    "starsAria": "5 de 5 estrellas",
+    "verified": "Verificada en Facebook",
+    "prevAria": "Reseña anterior",
+    "nextAria": "Reseña siguiente",
+    "dotsAria": "Puntos de navegación de reseñas",
+    "goToAria": "Ir a la reseña",
+    "items": [
+      { "name": "Rita S.", "initial": "R", "text": "\"Rocco hizo que Medicare fuera simple. Comparó planes, me explicó la letra pequeña y me ahorró dinero.\"" },
+      { "name": "Jim P.", "initial": "P", "text": "\"Honesto, paciente y local. Me explicó Advantage vs. Suplemento sin presión.\"" },
+      { "name": "Maria D.", "initial": "M", "text": "\"Respuestas rápidas y claras. Recomiendo mucho a Vernal Medicare.\"" },
+      { "name": "J.S.", "initial": "S", "text": "\"Rocco hizo que Medicare fuera simple y encontró un plan que cubría a mis médicos y mis medicamentos.\"" },
+      { "name": "M.K.", "initial": "K", "text": "\"Me explicó las diferencias entre Advantage y Medigap en lenguaje sencillo.\"" },
+      { "name": "B.T.", "initial": "T", "text": "\"Hizo un esfuerzo adicional para revisar mis recetas y mis farmacias preferidas.\"" },
+      { "name": "L.H.", "initial": "H", "text": "\"Sin presión, solo opciones claras — la inscripción tomó unos 10 minutos.\"" },
+      { "name": "P.W.", "initial": "W", "text": "\"Nos ayudó a mi esposo y a mí a cambiar de plan sin perder a nuestros médicos.\"" },
+      { "name": "D.R.", "initial": "R", "text": "\"Por fin entiendo la Parte D. Me ahorró en copagos.\"" },
+      { "name": "S.C.", "initial": "C", "text": "\"Local, atento y confiable. Lo recomiendo mucho.\"" },
+      { "name": "Ellen C.", "initial": "C", "text": "\"Rocco me ayudó muchísimo cuando me estaba inscribiendo en Medicare. Me ayudó a encontrar un plan de suplemento adecuado para mí. Lo he recomendado a mis amigos y familiares. Aprecié mucho su ayuda.\"" }
+    ]
+  },
+  "nap": {
+    "aria": "Ayuda local con Medicare en Vernal, Utah",
+    "h2": "Ayuda local con Medicare en Vernal, Utah",
+    "findHtml": "<strong>Encuéntreme en Smith's Pharmacy</strong><br>\n        1080 W Hwy 40, Vernal, UT 84078<br>\n        Sirviendo a Vernal, Naples, Maeser, Jensen y todo el Condado de Uintah.",
+    "contactHtml": "<strong>Teléfono:</strong> <a href=\"tel:+14352195120\">+1 (435) 219-5120 (TTY: 711)</a><br>\n        <strong>Correo:</strong> <a href=\"mailto:rocco@vernalmedicare.com\">rocco@vernalmedicare.com</a><br>\n        <strong>Horario:</strong> lun–vie 1pm–5pm, sáb con cita",
+    "callLabel": "Llame ahora",
+    "directionsLabel": "Cómo llegar",
+    "faqLabel": "Preguntas frecuentes",
+    "points": [
+      "Compare Medicare Advantage (HMO/PPO), Medigap y la Parte D.",
+      "Orientación local sobre médicos, medicamentos recetados y farmacias en Uintah Basin.",
+      "Consultas sin costo con un agente con licencia."
+    ],
+    "mapAria": "Smith's Pharmacy en Vernal, Utah",
+    "figcaptionHtml": "Atendemos clientes en <strong>Smith's Pharmacy</strong> — \n        <a href=\"https://www.google.com/maps?q=Smith%27s%20Pharmacy,+1080+W+Highway+40,+Vernal,+UT+84078\" target=\"_blank\" rel=\"noopener\">\n          abrir en Google Maps\n        </a>"
+  },
+  "localInternalHtml": "Aprenda más sobre los <a href=\"/medigap.html\">planes Medigap en Vernal</a>, \n  el <a href=\"/aca.html\">seguro de salud para menores de 65 en Uintah Basin</a>, y las \n  <a href=\"/faq.html\">preguntas frecuentes de Medicare para residentes de Vernal</a>.",
+  "help": {
+    "h2": "Ayuda simple y local con su cobertura",
+    "intro": "Le ayudamos a comparar planes, inscribirse y entender sus beneficios — sin costo adicional para usted.",
+    "h3": "En qué podemos ayudarle",
+    "items": [
+      { "icon": "🧭", "html": "<strong>Medicare Advantage (Parte C):</strong> compare opciones HMO/PPO, médicos, medicamentos y extras." },
+      { "icon": "🛡️", "html": "<strong>Suplemento de Medicare (Medigap):</strong> Plan G, Plan N y más para costos predecibles." },
+      { "icon": "💊", "html": "<strong>Planes de medicamentos recetados (Parte D):</strong> revise formularios y ahorros de farmacia." },
+      { "icon": "🏥", "html": "<strong>Seguro de salud para menores de 65:</strong> opciones del Mercado (ACA) y fuera del Mercado." },
+      { "icon": "💵", "html": "<strong>Planes de indemnización hospitalaria:</strong> beneficios en efectivo para ayudar con copagos y otros costos." },
+      { "icon": "🧾", "html": "<strong>Seguro de vida:</strong> cobertura a término y de gastos finales." }
+    ],
+    "quoteLabel": "Comience una cotización (inscríbase)",
+    "carriersAlt": "Las principales aseguradoras con las que trabajamos"
+  },
+  "smile": {
+    "aria": "Carrusel de caricaturas de Medicare",
+    "title": "¡Sonría!",
+    "prevAria": "Caricatura anterior",
+    "nextAria": "Caricatura siguiente",
+    "slides": [
+      { "img": "pictures/joke13.webp", "alt": "Broma sobre la publicidad de Medicare — beneficios dentales adicionales" },
+      { "img": "pictures/joke5.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke6.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke7.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke8.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke9.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke10.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke11.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke12.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" },
+      { "img": "pictures/joke13.webp", "alt": "Parodia de superhéroes: Parte B vs Parte C" }
+    ]
+  },
+  "spirit": {
+    "aria": "Pensamientos espirituales",
+    "prevAria": "Pensamiento anterior",
+    "nextAria": "Pensamiento siguiente",
+    "dotsAria": "Navegación de pensamientos",
+    "goToAria": "Ir al pensamiento",
+    "quotes": [
+      { "text": "\"Mantener su cuerpo sano es una expresión de gratitud hacia todo el cosmos — los árboles, las nubes, todo.\"", "by": "Thich Nhat Hanh" },
+      { "text": "\"El corazón alegre es buena medicina.\"", "by": "Proverbios 17:22" },
+      { "text": "\"Sé amable siempre que sea posible. Siempre es posible.\"", "by": "Dalái Lama" },
+      { "text": "\"Lo que buscas te está buscando.\"", "by": "Rūmī" },
+      { "text": "\"No todos podemos hacer grandes cosas. Pero podemos hacer cosas pequeñas con gran amor.\"", "by": "Madre Teresa" },
+      { "text": "\"Quien tiene salud tiene esperanza; y quien tiene esperanza lo tiene todo.\"", "by": "Proverbio tradicional" },
+      { "text": "\"La felicidad de tu vida depende de la calidad de tus pensamientos.\"", "by": "Marco Aurelio" },
+      { "text": "\"Donde hay caridad y sabiduría no hay temor ni ignorancia.\"", "by": "San Francisco de Asís" },
+      { "text": "\"El secreto de una vida larga es no morir joven.\"", "by": "George Burns" }
+    ]
+  },
+  "faq": {
+    "aria": "Preguntas frecuentes de Vernal Medicare",
+    "h2": "Medicare en Vernal — Preguntas frecuentes",
+    "items": [
+      { "q": "¿Qué planes Medicare Advantage hay disponibles en Vernal y Uintah Basin?", "a": "La disponibilidad cambia cada año. Comparamos las opciones HMO y PPO actuales lado a lado según los hospitales, médicos y farmacias de Vernal y la cuenca, y le ayudamos a inscribirse si un plan le conviene." },
+      { "q": "¿Los hospitales locales trabajan con Medicare Advantage?", "a": "Muchos planes incluyen hospitales y clínicas cercanos, pero las redes varían según el plan. Verificamos sus médicos y centros antes de que cambie, para que no lo sorprendan costos fuera de la red." },
+      { "q": "¿Pueden revisar mis recetas y mi farmacia preferida?", "a": "Sí. Pasamos su lista de medicamentos por el formulario de cada plan para estimar los costos mensuales y confirmar las farmacias preferidas en Vernal y los pueblos cercanos." },
+      { "q": "¿Cuánto cuesta su ayuda?", "a": "No hay costo adicional para usted. Tenemos licencia y nos paga el plan que usted elija, y usted recibe apoyo local antes y después de la inscripción." },
+      { "q": "¿Cuándo puedo cambiar de plan?", "a": "Pueden aplicar la Inscripción Inicial, la Inscripción Anual (del 15 de octubre al 7 de diciembre) y, en ciertos casos, un Período de Inscripción Especial. Revisaremos su situación y el momento que le corresponde." }
+    ]
+  },
+  "compliance": {
+    "heading": "Información importante de Medicare",
+    "p1Html": "<strong>No ofrecemos todos los planes disponibles en su área.</strong> Cualquier información que proporcionemos se limita a los planes que ofrecemos en su área. Comuníquese con <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a> o llame al 1-800-MEDICARE (TTY: 711), las 24 horas del día, los 7 días de la semana, para obtener información sobre todas sus opciones.",
+    "p2Html": "Vernal Medicare es un representante con licencia y certificado de organizaciones Medicare Advantage y de planes independientes de medicamentos recetados. Cada una de las organizaciones que representamos tiene un contrato con Medicare. La inscripción en cualquier plan depende de la renovación del contrato.",
+    "p3Html": "<strong>No estamos conectados ni respaldados por el gobierno de los Estados Unidos ni por el programa federal de Medicare.</strong>",
+    "p4Html": "Al llamar al número de arriba, será dirigido a un agente de seguros con licencia."
+  }
+}
