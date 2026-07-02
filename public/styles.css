@@ -153,6 +153,88 @@ p {
   outline-offset: 2px;
 }
 
+/* Active / current-section highlight (keyed on aria-current, set server-side) */
+.nav-menu li a[aria-current] {
+  color: #9e0853;
+}
+
+/* ── Dropdown hubs (M44 nav reorg) ───────────────────────────────────────── */
+.nav-menu .has-dropdown {
+  position: relative;
+}
+
+.nav-menu .nav-hub .caret {
+  font-size: 0.7em;
+  margin-left: 0.15rem;
+  vertical-align: middle;
+}
+
+.nav-menu .dropdown {
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 0;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 240px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  z-index: 1002;
+  /* Hidden until hover/focus; opacity+visibility so it can transition and
+     stay keyboard-reachable. */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+  text-align: left;
+}
+
+/* Reveal on hover or when any descendant has focus (keyboard-accessible). */
+.nav-menu .has-dropdown:hover > .dropdown,
+.nav-menu .has-dropdown:focus-within > .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-menu .dropdown li {
+  display: block;
+}
+
+.nav-menu .dropdown li a {
+  display: block;
+  white-space: nowrap;
+  font-size: 1.05rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 0;
+  color: #002b49;
+}
+
+.nav-menu .dropdown li a:hover,
+.nav-menu .dropdown li a:focus {
+  background: #f2f6fa;
+  color: #9e0853;
+}
+
+/* Non-clickable subheading inside a dropdown (e.g. "Other Insurance"). */
+.nav-menu .dropdown .dropdown-heading {
+  padding: 0.5rem 1.1rem 0.25rem;
+  margin-top: 0.3rem;
+  border-top: 1px solid #e3eaf1;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #6b7c8c;
+}
+
+/* Featured hub (Start Here) — the site's guided front door. */
+.nav-menu .nav-hub.featured {
+  color: #9e0853;
+  font-weight: 800;
+}
+
 .nav-toggle {
   display: none;
 }
@@ -689,6 +771,58 @@ p {
   .nav-menu li a:hover {
     background-color: #9e0853; /* match brand red */
     color: white;
+  }
+
+  /* Dropdowns collapse into the vertical menu: hubs stay tappable and their
+     spokes render as an always-visible indented list (no hover on touch). */
+  .nav-menu .has-dropdown {
+    width: 100%;
+  }
+
+  .nav-menu .nav-hub .caret {
+    display: none;
+  }
+
+  .nav-menu .dropdown {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    min-width: 0;
+    padding: 0;
+    text-align: center;
+  }
+
+  .nav-menu .dropdown li a {
+    color: #cfe0ee;               /* lighter than the hub, on the dark bar */
+    font-size: 1.05rem;
+    padding: 0.6rem 1rem;
+    white-space: normal;
+  }
+
+  .nav-menu .dropdown li a:hover,
+  .nav-menu .dropdown li a:focus {
+    background-color: #9e0853;
+    color: #fff;
+  }
+
+  /* Current item stays readable on the dark mobile bar. */
+  .nav-menu li a[aria-current] {
+    color: #fff;
+  }
+
+  .nav-menu .dropdown .dropdown-heading {
+    border-top-color: rgba(255, 255, 255, 0.18);
+    color: #9fb6c9;
+    text-align: center;
+  }
+
+  /* Featured hub reads on the dark bar; brand pink would be too dark. */
+  .nav-menu .nav-hub.featured {
+    color: #ffd7e6;
   }
 
   /* Mobile layout: text below the photo (not covering it) */
