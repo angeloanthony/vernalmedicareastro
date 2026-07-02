@@ -16,6 +16,7 @@ export const NEWS_ARTICLES: NewsArticle[] = [
     category: 'part-d',
     published: '2026-01-05',
     lifecycle: 'current',
+    featured: true,
     dek: 'Out-of-pocket spending on covered prescriptions is now capped at $2,000 a year — the old “donut hole” is gone.',
     whatChanged: 'Starting in 2025 and continuing in 2026, Medicare caps what you pay out of pocket for covered Part D drugs at $2,000 for the year. Once you hit it, covered prescriptions cost you nothing for the rest of the year. The old coverage-gap “donut hole” no longer applies.',
     whoAffected: 'Anyone with high prescription costs on a Part D plan or a Medicare Advantage plan with drug coverage — especially people on specialty or brand-name drugs who used to hit the donut hole.',

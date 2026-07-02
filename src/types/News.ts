@@ -31,6 +31,8 @@ export interface NewsArticle {
   /** ISO date last reviewed/updated (optional). */
   updated?: string;
   lifecycle: NewsLifecycle;
+  /** Pin to the front of the homepage ticker regardless of date. */
+  featured?: boolean;
   /** One-line summary / dek. */
   dek: string;
   // The four questions:
