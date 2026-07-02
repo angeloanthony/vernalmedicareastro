@@ -92,6 +92,10 @@ function primaryEntity(ctx: PageContext, primary: SchemaKind): Json {
     description: page.description,
     url: abs(meta.canonical),
     mainEntityOfPage: abs(meta.canonical),
+    // i18n (M4 QA): page language — 'en' default, 'es' on localized routes.
+    // The rest of the node localizes automatically because it builds from the
+    // already-localized PageContext (headline, description, FAQ, breadcrumb).
+    inLanguage: meta.lang ?? 'en',
   };
   if (type === 'Article' || type === 'MedicalWebPage') {
     node.headline = page.heading ?? page.title;
