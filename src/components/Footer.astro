@@ -4,6 +4,7 @@
 // from the single source of truth so they can never drift across pages.
 import { BUSINESS } from '../data/business';
 const year = new Date().getFullYear();
+const { multiPlan, representative } = BUSINESS.marketingDisclaimer;
 ---
 
 <footer class="footer">
@@ -15,6 +16,12 @@ const year = new Date().getFullYear();
     </p>
     <p style="font-size:.9rem;opacity:.9">
       {BUSINESS.disclaimer}
+    </p>
+    <p style="font-size:.9rem;opacity:.9">
+      {multiPlan}
+    </p>
+    <p style="font-size:.9rem;opacity:.9">
+      {representative}
     </p>
     <p><a href="/privacy.html">Privacy</a> • <a href="/terms.html">Terms</a></p>
   </div>
