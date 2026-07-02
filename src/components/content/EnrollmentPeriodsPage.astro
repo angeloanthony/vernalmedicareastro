@@ -1,0 +1,107 @@
+---
+// src/components/content/EnrollmentPeriodsPage.astro — Enrollment silo HUB
+// template (M4 batch 2; playbook §4.5). The periods table is structured data
+// in the content JSON; hrefs go through localizeHref so table links auto-
+// upgrade to /es/ as those pages get translated.
+import ArticlePage from '../layout/ArticlePage.astro';
+import { getPageContent, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import type { PageContext } from '../../types/Page';
+
+const SLUG = 'medicare-enrollment-periods';
+
+interface Content {
+  page: {
+    title: string;
+    heading: string;
+    description: string;
+    summary: string;
+    faqs: { question: string; answer: string }[];
+    sources: { title: string; url: string; publisher: string }[];
+    nextSteps: { when: string; action: string }[];
+  };
+  meta: { ogTitle: string; ogDescription: string };
+  breadcrumb: { home: string; self: string };
+  body: {
+    introHtml: string;
+    h2Table: string;
+    tableHeadWindow: string;
+    tableHeadWhen: string;
+    tableHeadWho: string;
+    periods: { name: string; when: string; who: string; href: string }[];
+    h2New: string;
+    newHtml: string;
+    h2Missed: string;
+    missedHtml: string;
+    h2Changing: string;
+    changingHtml: string;
+  };
+}
+
+const lang = getLangFromUrl(Astro.url);
+const c = getPageContent<Content>(SLUG, lang);
+const b = c.body;
+const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
+
+const context: PageContext = {
+  page: {
+    title: c.page.title,
+    heading: c.page.heading,
+    description: c.page.description,
+    taxonomy: { silo: 'enrollment', tags: ['enrollment', 'iep', 'sep', 'gep', 'aep', 'deadlines'], pillar: true },
+    summary: c.page.summary,
+    faqs: c.page.faqs,
+    sources: c.page.sources,
+    nextSteps: c.page.nextSteps,
+  },
+  meta: {
+    canonical: `${SITE_ORIGIN}${pagePath}`,
+    ogType: 'article',
+    ogTitle: c.meta.ogTitle,
+    ogDescription: c.meta.ogDescription,
+    lang,
+    ogLocale: getLocaleMeta(lang).ogLocale,
+    hreflang: hreflangAlternates(SLUG),
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: c.breadcrumb.home, href: localizeHref('/', lang) },
+    { name: c.breadcrumb.self, href: pagePath },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p set:html={b.introHtml} />
+
+  <h2>{b.h2Table}</h2>
+  <table style="width:100%; border-collapse:collapse; margin:1.5rem 0;">
+    <thead>
+      <tr style="background:#0b2c45; color:#fff;">
+        <th style="padding:12px; text-align:left; border:1px solid #ddd;">{b.tableHeadWindow}</th>
+        <th style="padding:12px; text-align:left; border:1px solid #ddd;">{b.tableHeadWhen}</th>
+        <th style="padding:12px; text-align:left; border:1px solid #ddd;">{b.tableHeadWho}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {b.periods.map((p) => (
+        <tr>
+          <td style="padding:10px; border:1px solid #ddd;"><a href={localizeHref(p.href, lang)}>{p.name}</a></td>
+          <td style="padding:10px; border:1px solid #ddd;">{p.when}</td>
+          <td style="padding:10px; border:1px solid #ddd;">{p.who}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2>{b.h2New}</h2>
+  <p set:html={b.newHtml} />
+
+  <h2>{b.h2Missed}</h2>
+  <p set:html={b.missedHtml} />
+
+  <h2>{b.h2Changing}</h2>
+  <p set:html={b.changingHtml} />
+</ArticlePage>

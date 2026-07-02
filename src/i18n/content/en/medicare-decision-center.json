@@ -1,0 +1,50 @@
+{
+  "page": {
+    "title": "Where Do I Start With Medicare? — Medicare Decision Center | Vernal Medicare",
+    "heading": "Where Do I Start With Medicare?",
+    "description": "Not sure where to begin with Medicare? Pick your situation — turning 65, still working, already enrolled, needing drug or financial help, comparing plans, or estimating costs — and we’ll point you to the right guide. Free local help in the Uintah Basin.",
+    "summary": "Medicare has a lot of doors. This is the one that asks a single question — where are you right now? Pick the situation that sounds like you, and we’ll route you straight into the right guide, calculator, or checklist. If none fit, one call sorts it out.",
+    "faqs": [
+      {
+        "question": "I’m brand new to Medicare — where do I start?",
+        "answer": "If you’re turning 65, start with the turning-65 walkthrough — it lays out every step in order. If you’re still working past 65, start with the Working Past 65 Center instead, because your employer coverage changes the timing."
+      },
+      {
+        "question": "I already have Medicare — is this for me too?",
+        "answer": "Yes. Choose \"I already have Medicare\" to review or switch your plan during Open Enrollment, check whether a service is covered, or add dental, vision, and hearing."
+      },
+      {
+        "question": "What if none of the situations fit me?",
+        "answer": "Call us free at {phone} (TTY: {tty}). Tell us your situation in a sentence and we’ll point you to the exact right answer — no cost, no pressure."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Medicare.gov — get started with Medicare",
+        "url": "https://www.medicare.gov/basics/get-started-with-medicare",
+        "publisher": "Medicare.gov"
+      }
+    ],
+    "nextSteps": [
+      {
+        "when": "Still not sure which path is yours?",
+        "action": "call us free at {phone} — we’ll find it with you in a few minutes."
+      }
+    ]
+  },
+  "meta": {
+    "ogTitle": "Where Do I Start With Medicare?",
+    "ogDescription": "Pick your situation — turning 65, still working, already enrolled, drug help, financial help, comparing plans, or costs — and we’ll route you to the right guide."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "self": "Where Do I Start?"
+  },
+  "body": {
+    "introHtml": "Medicare is easier when you start from where you actually are. Pick the situation that sounds like you below — each one opens the right guide, calculator, or checklist. Prefer to just ask a person? <strong>Call {phone}</strong> and we’ll point you there in a couple of minutes, free.",
+    "h2Map": "Want the Whole Map Instead?",
+    "mapHtml": "If you’d rather browse everything by topic, the <a href=\"medicare-help-center.html\">Medicare Help Center</a> lists every guide, calculator, and local resource in one place. Or read the <a href=\"medicare-plans-vernal-utah.html\">complete 2026 Vernal guide</a> start to finish.",
+    "h2Person": "Or Just Start With a Person — Free",
+    "personHtml": "You don’t have to pick the perfect path. <strong>Call us free at {phone}</strong> (TTY: {tty}) or <a href=\"medicare-quote-vernal.html\">request a free quote</a>, tell us your situation in a sentence, and we’ll take it from there — comparing your options against the doctors and pharmacy you already use. No cost, no pressure."
+  }
+}

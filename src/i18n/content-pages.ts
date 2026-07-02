@@ -14,6 +14,11 @@ export const CONTENT_PAGES = [
   'best-medicare-advantage-vernal',
   'medicare-supplement-vs-advantage',
   'best-part-d-plans-vernal',
+  'medicare-enrollment-periods',
+  'medicare-costs',
+  'medicare-decision-center',
+  'medicare-help-center',
+  'medicare-quote-vernal',
 ] as const;
 
 export type ContentKey = (typeof CONTENT_PAGES)[number];

@@ -1,0 +1,121 @@
+{
+  "__translation_note": "AI-translated from en/medicare-help-center.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "page": {
+    "title": "Centro de Ayuda de Medicare — Vernal y Uintah Basin, Utah | Vernal Medicare",
+    "heading": "Centro de Ayuda de Medicare",
+    "description": "Su guía completa de Medicare en Vernal y Uintah Basin: inscripción, costos, IRMAA, Medigap, Medicare Advantage, la Parte D y ayuda con medicamentos, calculadoras, y ayuda local gratuita de Rocco DeLuca.",
+    "summary": "Todo lo que los residentes de Vernal y Uintah Basin necesitan para entender Medicare, en un solo lugar — organizado por tema. Empiece con lo básico, calcule sus costos, compare Medigap vs Medicare Advantage, resuelva la cobertura de medicamentos, haga los números en nuestras calculadoras, o vaya directo a la ayuda local gratuita. Sin costo, sin presión.",
+    "faqs": [
+      {
+        "question": "¿Por dónde debería empezar con Medicare?",
+        "answer": "Si es nuevo, empiece con los conceptos básicos de Medicare (Parte A vs Parte B) y Cuándo inscribirse. Si ya tiene Medicare y quiere comparar o reducir costos, empiece con Costos e IRMAA o Medigap vs Medicare Advantage. O simplemente llámenos — lo dirigiremos al lugar correcto para su situación, gratis."
+      },
+      {
+        "question": "¿Cuesta algo recibir ayuda?",
+        "answer": "No. Las comparaciones de planes, la ayuda con la inscripción y el apoyo durante todo el año son gratuitos — a los agentes con licencia les pagan las aseguradoras, no usted. Llame al {phone} (TTY: {tty})."
+      },
+      {
+        "question": "¿Ayudan a personas fuera de Vernal?",
+        "answer": "Sí — servimos a todo Uintah Basin, incluyendo Roosevelt, Duchesne, Naples, Maeser, Jensen y Ballard, por teléfono, video o en persona."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Medicare.gov — el sitio oficial del gobierno de los EE. UU. para Medicare",
+        "url": "https://es.medicare.gov",
+        "publisher": "Medicare.gov"
+      }
+    ],
+    "nextSteps": [
+      {
+        "when": "¿No sabe por dónde empezar?",
+        "action": "llámenos gratis al {phone} — cuéntenos su situación y lo dirigiremos a la respuesta correcta."
+      }
+    ]
+  },
+  "meta": {
+    "ogTitle": "Centro de Ayuda de Medicare — Vernal y Uintah Basin",
+    "ogDescription": "Inscripción, costos, IRMAA, Medigap, Advantage, la Parte D, calculadoras y ayuda local gratuita — todo en un solo lugar."
+  },
+  "breadcrumb": {
+    "home": "Inicio",
+    "self": "Centro de Ayuda de Medicare"
+  },
+  "body": {
+    "introHtml": "Medicare tiene muchas piezas. Este es el mapa. Todo lo de abajo está organizado por tema — elija dónde está, o <a href=\"medicare-plans-vernal-utah.html\">lea la guía completa de Vernal 2026</a> de principio a fin. Llegue como llegue, la ayuda de un agente local con licencia siempre es gratuita.",
+    "newHereHtml": "<strong>¿Nuevo por aquí?</strong> Empiece con <a href=\"medicare-decision-center.html\">¿Por dónde empiezo con Medicare?</a> — elija su situación y lo dirigiremos a la guía correcta.",
+    "sections": [
+      {
+        "h2": "Aprenda lo básico",
+        "itemsHtml": [
+          "<strong><a href=\"medicare-part-a-vs-part-b.html\">Parte A vs Parte B de Medicare</a></strong> — qué cubre Medicare Original, y qué no.",
+          "<strong><a href=\"medicare-plans-vernal-utah.html\">La guía completa de Medicare 2026</a></strong> — las cuatro partes, sus tres caminos de cobertura, los costos y los proveedores locales, en lenguaje sencillo.",
+          "<strong><a href=\"medicare-coverage.html\">¿Medicare lo cubre?</a></strong> — cobertura por servicio (terapia, enfermería especializada, hospicio, equipo médico, salud mental…).",
+          "<strong><a href=\"medicare-home-health-utah.html\">Cobertura de salud en el hogar</a></strong> y <strong><a href=\"medicare-out-of-state-utah.html\">usar Medicare fuera del estado</a></strong>.",
+          "<strong><a href=\"medicare-glossary.html\">Glosario de Medicare</a></strong> — cada término explicado en lenguaje sencillo.",
+          "<strong><a href=\"medicare-news.html\">Noticias y novedades de Medicare</a></strong> — qué cambió este año y qué hacer."
+        ]
+      },
+      {
+        "h2": "Inscripción y plazos",
+        "itemsHtml": [
+          "<strong><a href=\"turning-65.html\">¿Cumple 65 años?</a></strong> — el recorrido completo, paso a paso.",
+          "<strong><a href=\"working-past-65.html\">¿Trabaja después de los 65?</a></strong> — si tomar Medicare o esperar.",
+          "<strong><a href=\"medicare-enrollment-periods.html\">Períodos de inscripción de Medicare</a></strong> — IEP, AEP, SEP, GEP, y cuál aplica para usted.",
+          "<a href=\"when-to-enroll-medicare-utah.html\">Cuándo inscribirse en Utah</a> · <a href=\"medicare-open-enrollment-2026.html\">Inscripción Abierta 2026</a> · <a href=\"missed-medicare-enrollment.html\">¿perdió su ventana?</a>"
+        ]
+      },
+      {
+        "h2": "Costos e IRMAA",
+        "itemsHtml": [
+          "<strong><a href=\"medicare-costs.html\">¿Cuánto cuesta Medicare?</a></strong> — primas, deducibles y el panorama completo para 2026.",
+          "<strong><a href=\"medicare-irmaa.html\">IRMAA</a></strong> — el recargo por ingresos: <a href=\"medicare-irmaa-brackets-2026.html\">tramos</a>, <a href=\"how-to-reduce-medicare-irmaa.html\">cómo reducirlo</a>, y <a href=\"medicare-irmaa-appeal-ssa-44.html\">cómo apelar</a>.",
+          "<a href=\"medicare-out-of-pocket-maximum-2026.html\">Máximo de gastos de bolsillo</a> · <a href=\"medicare-cost-uintah-county.html\">costos en el Condado de Uintah</a>."
+        ]
+      },
+      {
+        "h2": "Compare coberturas",
+        "itemsHtml": [
+          "<strong><a href=\"medigap.html\">Medigap (Suplemento de Medicare)</a></strong> — <a href=\"plan-g-vs-plan-n-vernal.html\">Plan G vs Plan N</a>, <a href=\"medicare-plan-g-high-deductible.html\">Plan G de deducible alto</a>.",
+          "<strong><a href=\"best-medicare-advantage-vernal.html\">Medicare Advantage</a></strong> — <a href=\"hmo-vs-ppo-medicare-advantage.html\">HMO vs PPO</a>, <a href=\"zero-premium-medicare-advantage.html\">planes con prima de $0</a>.",
+          "<strong><a href=\"medicare-supplement-vs-advantage.html\">Medigap vs Medicare Advantage</a></strong> — la gran decisión, lado a lado.",
+          "<strong><a href=\"medicare-dental-vision-hearing.html\">Dental, visión y audición</a></strong> — lo que Medicare Original no incluye, y cómo agregarlo."
+        ]
+      },
+      {
+        "h2": "Medicamentos recetados (Parte D)",
+        "itemsHtml": [
+          "<strong><a href=\"best-part-d-plans-vernal.html\">Los mejores planes de la Parte D</a></strong> · <a href=\"cheapest-prescription-drug-plans.html\">los planes de medicamentos más baratos</a> · <a href=\"tier-3-vs-tier-4-medicare-part-d.html\">los niveles de medicamentos explicados</a>.",
+          "<strong><a href=\"prescription-drug-assistance.html\">Asistencia para medicamentos recetados</a></strong> — programas que ayudan a pagar sus medicamentos.",
+          "<strong><a href=\"medicare-drug-coverage.html\">¿Medicare cubre mi medicamento?</a></strong> — cobertura por medicamento (Eliquis, Jardiance, Humira…)."
+        ]
+      },
+      {
+        "h2": "Ayuda para pagar Medicare",
+        "itemsHtml": [
+          "<strong><a href=\"medicare-financial-assistance.html\">Ayuda para pagar Medicare</a></strong> — cada camino de asistencia en un solo lugar, ordenado por ingresos.",
+          "<strong><a href=\"medicare-income-limits-2026.html\">Límites de ingresos 2026</a></strong> — los umbrales de MSP, Ayuda Adicional (Extra Help) e IRMAA lado a lado.",
+          "<a href=\"dual-eligible.html\">Doble elegibilidad (Medicare + Medicaid)</a> · <a href=\"medicare-extra-help-utah.html\">Ayuda Adicional (Extra Help)</a> · <a href=\"medicare-savings-programs-utah.html\">Programas de Ahorro de Medicare</a> · <a href=\"d-snp-plans-utah.html\">planes D-SNP</a>."
+        ]
+      },
+      {
+        "h2": "Calculadoras gratuitas",
+        "itemsHtml": [
+          "<strong><a href=\"medicare-calculators.html\">Todas las calculadoras de Medicare</a></strong> — el kit completo en un solo lugar.",
+          "<a href=\"medicare-cost-estimator.html\">Estimador de costos</a> · <a href=\"medicare-part-d-cost-calculator.html\">costos de medicamentos de la Parte D</a> · <a href=\"medicare-irmaa-calculator.html\">IRMAA</a>.",
+          "<a href=\"medicare-extra-help-calculator.html\">Elegibilidad para la Ayuda Adicional (Extra Help)</a> · <a href=\"medicare-part-b-penalty-calculator.html\">multa de la Parte B</a> · <a href=\"medicare-enrollment-timeline.html\">cronograma de inscripción</a>."
+        ]
+      },
+      {
+        "h2": "Ayuda local con Medicare",
+        "itemsHtml": [
+          "<strong><a href=\"medicare-plans-vernal-utah.html\">Medicare en Vernal</a></strong> · <a href=\"medicare-roosevelt-utah.html\">Roosevelt</a> · <a href=\"medicare-duchesne-utah.html\">Duchesne</a> · <a href=\"medicare-naples-utah.html\">Naples</a> · <a href=\"medicare-maeser-utah.html\">Maeser</a> · <a href=\"medicare-jensen-utah.html\">Jensen</a> · <a href=\"medicare-ballard-utah.html\">Ballard</a>.",
+          "<a href=\"medicare-hospitals-uintah-county.html\">Hospitales locales</a> · <a href=\"medicare-vernal-pharmacies.html\">farmacias de Vernal</a> · <a href=\"medicare-vernal-ut.html\">visite nuestra oficina</a>.",
+          "<a href=\"medicare-agent-vernal.html\">Sobre su agente local</a> · <a href=\"faq.html\">preguntas frecuentes</a> · <a href=\"reviews.html\">reseñas</a>."
+        ]
+      }
+    ],
+    "h2Ready": "¿Listo para hablar con una persona?",
+    "readyHtml": "No tiene que resolver esto solo. <strong>Llámenos gratis al {phone}</strong> (TTY: {tty}), <a href=\"mailto:{email}\">escríbanos</a>, o <a href=\"medicare-quote-vernal.html\">solicite una cotización gratuita</a>. Compararemos sus opciones con los médicos y las farmacias que ya usa — sin costo, sin presión."
+  }
+}

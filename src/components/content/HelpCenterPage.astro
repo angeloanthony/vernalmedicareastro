@@ -1,0 +1,89 @@
+---
+// src/components/content/HelpCenterPage.astro — the MASTER HUB template
+// (M4 batch 2; playbook §4.5). The eight topic sections are a structured
+// sections[] array in the content JSON; every link auto-upgrades to /es/ as
+// its destination gets translated (this page benefits most from the network
+// effect — it links to nearly everything).
+import ArticlePage from '../layout/ArticlePage.astro';
+import { BUSINESS } from '../../data/business';
+import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import type { PageContext } from '../../types/Page';
+
+const SLUG = 'medicare-help-center';
+const vars = { phone: BUSINESS.phone, tty: BUSINESS.tty, email: BUSINESS.email };
+const t9 = (s: string) => interp(s, vars);
+
+interface Content {
+  page: {
+    title: string;
+    heading: string;
+    description: string;
+    summary: string;
+    faqs: { question: string; answer: string }[];
+    sources: { title: string; url: string; publisher: string }[];
+    nextSteps: { when: string; action: string }[];
+  };
+  meta: { ogTitle: string; ogDescription: string };
+  breadcrumb: { home: string; self: string };
+  body: {
+    introHtml: string;
+    newHereHtml: string;
+    sections: { h2: string; itemsHtml: string[] }[];
+    h2Ready: string;
+    readyHtml: string;
+  };
+}
+
+const lang = getLangFromUrl(Astro.url);
+const c = getPageContent<Content>(SLUG, lang);
+const b = c.body;
+const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
+
+const context: PageContext = {
+  page: {
+    title: c.page.title,
+    heading: c.page.heading,
+    description: c.page.description,
+    taxonomy: { silo: 'medicare-101', tags: ['medicare-101', 'hub', 'help-center', 'overview', 'vernal'], pillar: true },
+    summary: c.page.summary,
+    faqs: c.page.faqs.map((q) => ({ question: t9(q.question), answer: t9(q.answer) })),
+    sources: c.page.sources,
+    nextSteps: c.page.nextSteps.map((s) => ({ when: s.when, action: t9(s.action) })),
+  },
+  meta: {
+    canonical: `${SITE_ORIGIN}${pagePath}`,
+    ogType: 'website',
+    ogTitle: c.meta.ogTitle,
+    ogDescription: c.meta.ogDescription,
+    lang,
+    ogLocale: getLocaleMeta(lang).ogLocale,
+    hreflang: hreflangAlternates(SLUG),
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: c.breadcrumb.home, href: localizeHref('/', lang) },
+    { name: c.breadcrumb.self, href: pagePath },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p set:html={b.introHtml} />
+
+  <p style="background:#f4f8fb;border:1px solid #dbe6ef;border-radius:10px;padding:0.85rem 1.1rem;" set:html={b.newHereHtml} />
+
+  {b.sections.map((s) => (
+    <Fragment>
+      <h2 set:html={s.h2} />
+      <ul>
+        {s.itemsHtml.map((item) => <li set:html={item} />)}
+      </ul>
+    </Fragment>
+  ))}
+
+  <h2>{b.h2Ready}</h2>
+  <p set:html={t9(b.readyHtml)} />
+</ArticlePage>

@@ -1,0 +1,60 @@
+{
+  "__translation_note": "AI-translated from en/medicare-enrollment-periods.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "page": {
+    "title": "Los períodos de inscripción de Medicare explicados — IEP, GEP, SEP, AEP | Vernal Medicare",
+    "heading": "Los períodos de inscripción de Medicare explicados",
+    "description": "Todas las ventanas de inscripción de Medicare en un solo lugar: Inicial (IEP), General (GEP), Especial (SEP) y Anual (AEP) — cuándo aplica cada una, para quién es, y cómo evitar multas. Ayuda local en Utah.",
+    "summary": "Medicare tiene varias ventanas de inscripción, y usar la equivocada puede costarle. Su Período de Inscripción Inicial (IEP) son los 7 meses alrededor de cumplir 65. Si lo pierde, generalmente espera al Período General de Inscripción (del 1 de enero al 31 de marzo) — a menos que un evento de vida le dé un Período de Inscripción Especial. Los miembros actuales cambian de plan durante el Período de Inscripción Anual (del 15 de octubre al 7 de diciembre).",
+    "faqs": [
+      {
+        "question": "¿Qué período de inscripción debo usar?",
+        "answer": "Si es nuevo en Medicare, use su Período de Inscripción Inicial (los 7 meses alrededor del mes de su cumpleaños 65). Si lo perdió, normalmente usará el Período General de Inscripción (del 1 de enero al 31 de marzo), a menos que un evento de vida lo califique para un Período de Inscripción Especial. ¿Ya tiene Medicare y quiere cambiar de plan? Ese es el Período de Inscripción Anual, del 15 de octubre al 7 de diciembre."
+      },
+      {
+        "question": "¿Qué pasa si me inscribo tarde?",
+        "answer": "Inscribirse en la Parte B o la Parte D después de su Período de Inscripción Inicial (sin un Período de Inscripción Especial) puede generar una multa permanente por inscripción tardía que se suma a su prima. Vea nuestra página sobre inscripción perdida y multas."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Cuándo comienza la cobertura de Medicare / períodos de inscripción",
+        "url": "https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start",
+        "publisher": "Medicare.gov"
+      }
+    ],
+    "nextSteps": [
+      {
+        "when": "Si cumple 65 años en los próximos meses,",
+        "action": "su Período de Inscripción Inicial es el que debe vigilar — llámenos y trazaremos sus fechas exactas para que nunca toque una multa."
+      }
+    ]
+  },
+  "meta": {
+    "ogTitle": "Los períodos de inscripción de Medicare explicados",
+    "ogDescription": "IEP, GEP, SEP y AEP — cuándo aplica cada uno, para quién es, y cómo evitar multas."
+  },
+  "breadcrumb": {
+    "home": "Inicio",
+    "self": "Períodos de inscripción de Medicare"
+  },
+  "body": {
+    "introHtml": "El alfabeto de ventanas de inscripción de Medicare — IEP, GEP, SEP, AEP, OEP — confunde a mucha gente, y usar la equivocada (o perder una) puede significar interrupciones en la cobertura o multas permanentes. Aquí está cada ventana de un vistazo, con un enlace a los detalles completos.",
+    "h2Table": "Las ventanas de inscripción de un vistazo",
+    "tableHeadWindow": "Ventana",
+    "tableHeadWhen": "Cuándo",
+    "tableHeadWho": "Para quién es",
+    "periods": [
+      { "name": "Período de Inscripción Inicial (IEP)", "when": "Los 7 meses alrededor del mes de su cumpleaños 65", "who": "Nuevos en Medicare", "href": "when-to-enroll-medicare-utah.html" },
+      { "name": "Período General de Inscripción (GEP)", "when": "Del 1 de enero al 31 de marzo cada año", "who": "Perdió su IEP y no tiene SEP", "href": "medicare-general-enrollment-period.html" },
+      { "name": "Período de Inscripción Especial (SEP)", "when": "Se activa por un evento de vida (varía)", "who": "Perdió la cobertura del empleador, se mudó, perdió Medicaid, etc.", "href": "medicare-special-enrollment-period.html" },
+      { "name": "Período de Inscripción Anual (AEP)", "when": "Del 15 de octubre al 7 de diciembre", "who": "Miembros actuales que cambian de plan para el próximo año", "href": "medicare-open-enrollment-2026.html" },
+      { "name": "Inscripción Abierta de Medicare Advantage (OEP)", "when": "Del 1 de enero al 31 de marzo", "who": "Miembros de Advantage que hacen un solo cambio", "href": "medicare-open-enrollment-2026.html" }
+    ],
+    "h2New": "Nuevo en Medicare: su Período de Inscripción Inicial",
+    "newHtml": "Cuando usted es elegible por primera vez (generalmente a los 65), su <strong>Período de Inscripción Inicial</strong> es una ventana de 7 meses — los 3 meses antes del mes de su cumpleaños, el mes mismo, y los 3 meses después. Este es el momento más limpio para inscribirse, sin multas. Para conocer el momento exacto y cómo interactúa con la cobertura del empleador, vea <a href=\"when-to-enroll-medicare-utah.html\">cuándo inscribirse en Medicare en Utah</a>.",
+    "h2Missed": "¿Perdió su ventana?",
+    "missedHtml": "Si perdió su IEP y no califica para un Período de Inscripción Especial, generalmente se inscribirá durante el <a href=\"medicare-general-enrollment-period.html\">Período General de Inscripción</a> (del 1 de enero al 31 de marzo) — y puede aplicar una <a href=\"missed-medicare-enrollment.html\">multa por inscripción tardía</a>. Sin embargo, un evento de vida que califique puede abrir un <a href=\"medicare-special-enrollment-period.html\">Período de Inscripción Especial</a> sin multa.",
+    "h2Changing": "Ya tiene Medicare: cambiar de plan",
+    "changingHtml": "Si ya tiene Medicare y quiere cambiar de plan, ese es el <a href=\"medicare-open-enrollment-2026.html\">Período de Inscripción Anual</a> (del 15 de octubre al 7 de diciembre), con un período de Inscripción Abierta de Medicare Advantage (del 1 de enero al 31 de marzo) para un cambio adicional."
+  }
+}

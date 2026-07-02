@@ -12,6 +12,11 @@ import WorkingPast65Page from '../../components/content/WorkingPast65Page.astro'
 import BestMedicareAdvantagePage from '../../components/content/BestMedicareAdvantagePage.astro';
 import SupplementVsAdvantagePage from '../../components/content/SupplementVsAdvantagePage.astro';
 import BestPartDPlansPage from '../../components/content/BestPartDPlansPage.astro';
+import EnrollmentPeriodsPage from '../../components/content/EnrollmentPeriodsPage.astro';
+import MedicareCostsPage from '../../components/content/MedicareCostsPage.astro';
+import DecisionCenterPage from '../../components/content/DecisionCenterPage.astro';
+import HelpCenterPage from '../../components/content/HelpCenterPage.astro';
+import QuotePage from '../../components/content/QuotePage.astro';
 
 // One shared component per extracted page (content key === slug).
 const COMPONENTS: Record<string, (props: Record<string, never>) => unknown> = {
@@ -21,6 +26,11 @@ const COMPONENTS: Record<string, (props: Record<string, never>) => unknown> = {
   'best-medicare-advantage-vernal': BestMedicareAdvantagePage,
   'medicare-supplement-vs-advantage': SupplementVsAdvantagePage,
   'best-part-d-plans-vernal': BestPartDPlansPage,
+  'medicare-enrollment-periods': EnrollmentPeriodsPage,
+  'medicare-costs': MedicareCostsPage,
+  'medicare-decision-center': DecisionCenterPage,
+  'medicare-help-center': HelpCenterPage,
+  'medicare-quote-vernal': QuotePage,
 };
 
 export function getStaticPaths() {

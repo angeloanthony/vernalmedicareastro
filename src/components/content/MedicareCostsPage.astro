@@ -1,0 +1,121 @@
+---
+// src/components/content/MedicareCostsPage.astro — Costs pillar hub template
+// (M4 batch 2; playbook §4.5). DYNAMIC-DATA PATTERN at full scale: every
+// figure ({year}, premiums, deductibles, caps, IRMAA thresholds) comes from
+// annualMedicareData via placeholders — an annual figures update flows into
+// BOTH languages from the one data edit, and translations never go stale on
+// a dollar amount.
+import ArticlePage from '../layout/ArticlePage.astro';
+import { figuresFor } from '../../data/annualMedicareData';
+import { usd } from '../../lib/formatters';
+import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import type { PageContext } from '../../types/Page';
+
+const SLUG = 'medicare-costs';
+const f = figuresFor();
+const vars = {
+  year: f.year,
+  partADeductible: usd(f.partA.deductible),
+  partBPremium: usd(f.partB.premium, { cents: true }),
+  partBDeductible: usd(f.partB.deductible),
+  partDBase: usd(f.partD.basePremium, { cents: true }),
+  partDCap: usd(f.partD.annualCap),
+  insulinCap: usd(f.partD.insulinCap),
+  irmaaSingle: usd(f.irmaa.single[0]),
+  irmaaMarried: usd(f.irmaa.married[0]),
+};
+const t9 = (s: string) => interp(s, vars);
+
+interface Content {
+  page: {
+    title: string;
+    heading: string;
+    description: string;
+    summary: string;
+    faqs: { question: string; answer: string }[];
+    sources: { title: string; url: string; publisher: string }[];
+    nextSteps: { when: string; action: string }[];
+  };
+  meta: { ogTitle: string; ogDescription: string };
+  breadcrumb: { home: string; self: string };
+  body: {
+    introHtml: string;
+    h2Blocks: string;
+    blockItemsHtml: string[];
+    h2Estimate: string;
+    estimateHtml: string;
+    h2Irmaa: string;
+    irmaaHtml: string;
+    h2Assistance: string;
+    assistanceHtml: string;
+    h2Caps: string;
+    capItemsHtml: string[];
+    h2Local: string;
+    localHtml: string;
+    outroHtml: string;
+  };
+}
+
+const lang = getLangFromUrl(Astro.url);
+const c = getPageContent<Content>(SLUG, lang);
+const b = c.body;
+const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
+
+const context: PageContext = {
+  page: {
+    title: t9(c.page.title),
+    heading: t9(c.page.heading),
+    description: t9(c.page.description),
+    taxonomy: { silo: 'costs-irmaa', tags: ['costs', 'part-a', 'part-b', 'part-d', 'irmaa', 'overview'], pillar: true },
+    summary: t9(c.page.summary),
+    faqs: c.page.faqs.map((q) => ({ question: t9(q.question), answer: t9(q.answer) })),
+    sources: c.page.sources,
+    nextSteps: c.page.nextSteps,
+  },
+  meta: {
+    canonical: `${SITE_ORIGIN}${pagePath}`,
+    ogType: 'article',
+    ogTitle: t9(c.meta.ogTitle),
+    ogDescription: t9(c.meta.ogDescription),
+    lang,
+    ogLocale: getLocaleMeta(lang).ogLocale,
+    hreflang: hreflangAlternates(SLUG),
+  },
+  author: 'rocco',
+  datePublished: '2026-06-30',
+  lastUpdated: '2026-06-30',
+  breadcrumb: [
+    { name: c.breadcrumb.home, href: localizeHref('/', lang) },
+    { name: c.breadcrumb.self, href: pagePath },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p set:html={t9(b.introHtml)} />
+
+  <h2>{b.h2Blocks}</h2>
+  <ul>
+    {b.blockItemsHtml.map((item) => <li set:html={t9(item)} />)}
+  </ul>
+
+  <h2>{b.h2Estimate}</h2>
+  <p set:html={t9(b.estimateHtml)} />
+
+  <h2>{b.h2Irmaa}</h2>
+  <p set:html={t9(b.irmaaHtml)} />
+
+  <h2>{b.h2Assistance}</h2>
+  <p set:html={t9(b.assistanceHtml)} />
+
+  <h2>{b.h2Caps}</h2>
+  <ul>
+    {b.capItemsHtml.map((item) => <li set:html={t9(item)} />)}
+  </ul>
+
+  <h2>{b.h2Local}</h2>
+  <p set:html={t9(b.localHtml)} />
+
+  <p set:html={t9(b.outroHtml)} />
+</ArticlePage>

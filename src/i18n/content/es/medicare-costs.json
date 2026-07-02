@@ -1,0 +1,69 @@
+{
+  "__translation_note": "AI-translated from en/medicare-costs.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "page": {
+    "title": "¿Cuánto cuesta Medicare en {year}? Primas, deducibles y ayuda | Vernal Medicare",
+    "heading": "¿Cuánto cuesta Medicare en {year}?",
+    "description": "Una guía en lenguaje sencillo sobre los costos de Medicare en {year}: primas y deducibles de la Parte A, la Parte B y la Parte D, el recargo por ingresos IRMAA, los límites de gastos de bolsillo, las multas, y los programas que reducen su factura.",
+    "summary": "Medicare en {year} tiene varias piezas: la prima estándar de la Parte B es {partBPremium} al mes con un deducible de {partBDeductible}, la Parte A tiene un deducible hospitalario de {partADeductible}, y los costos de medicamentos de la Parte D tienen un tope de {partDCap} en gastos de bolsillo. Quienes ganan más pagan un recargo IRMAA; quienes ganan menos pueden pagar mucho menos a través de programas de asistencia. Este centro explica cada pieza y lo dirige a la calculadora para conocer su propio número.",
+    "faqs": [
+      {
+        "question": "¿Cuál es el costo estándar de Medicare en {year}?",
+        "answer": "La mayoría de las personas paga la prima estándar de la Parte B de {partBPremium} al mes (la Parte A generalmente no tiene prima si trabajó 10 años o más). Además, puede tener un plan de medicamentos de la Parte D y, si elige uno, una prima de Medigap o Medicare Advantage. Deducibles: {partADeductible} para estadías hospitalarias de la Parte A y {partBDeductible} para la Parte B."
+      },
+      {
+        "question": "¿Por qué mi Medicare es más caro que el de mi vecino?",
+        "answer": "Generalmente por los ingresos. Quienes ganan más pagan un recargo IRMAA en la Parte B y la Parte D según sus ingresos de hace dos años. Dos personas con la misma cobertura pueden pagar primas muy distintas puramente por el IRMAA."
+      },
+      {
+        "question": "¿Puedo reducir lo que pago por Medicare?",
+        "answer": "Muchas veces, sí. Los beneficiarios de ingresos más bajos pueden calificar para la Ayuda Adicional (Extra Help) o un Programa de Ahorro de Medicare que reduce las primas y los costos de medicamentos. Quienes ganan más pueden planificar alrededor de los tramos del IRMAA. Elegir el plan correcto de medicamentos y suplemento también importa — ahí es donde ayuda un agente local."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Costos de Medicare",
+        "url": "https://www.medicare.gov/basics/costs/medicare-costs",
+        "publisher": "Medicare.gov"
+      }
+    ],
+    "nextSteps": [
+      {
+        "when": "Para ver sus números reales,",
+        "action": "use el estimador de costos de Medicare, y luego llámenos gratis para comparar planes línea por línea."
+      }
+    ]
+  },
+  "meta": {
+    "ogTitle": "¿Cuánto cuesta Medicare en {year}?",
+    "ogDescription": "Primas, deducibles, IRMAA, límites de gastos de bolsillo, y los programas que reducen su factura."
+  },
+  "breadcrumb": {
+    "home": "Inicio",
+    "self": "Costos de Medicare"
+  },
+  "body": {
+    "introHtml": "\"¿Cuánto cuesta Medicare?\" no tiene una sola respuesta — depende de sus partes, sus ingresos y los planes que elija. Esta página es el mapa. Abajo, cada pieza de su factura de Medicare en <strong>{year}</strong>, con enlaces para profundizar o calcular sus propios números.",
+    "h2Blocks": "Las piezas básicas",
+    "blockItemsHtml": [
+      "<strong>Parte A (hospital)</strong> — generalmente sin prima si usted o su cónyuge trabajó 10 años o más. El deducible hospitalario de {year} es <strong>{partADeductible}</strong> por período de beneficios.",
+      "<strong>Parte B (médica)</strong> — una prima estándar de <strong>{partBPremium} al mes</strong> y un deducible anual de <strong>{partBDeductible}</strong>. Vea cómo encaja con la Parte A en <a href=\"medicare-part-a-vs-part-b.html\">Parte A vs Parte B</a>.",
+      "<strong>Parte D (medicamentos)</strong> — una prima del plan (la base de {year} es de unos {partDBase}) más copagos, con los gastos de bolsillo en medicamentos ahora <strong>con tope de {partDCap}</strong> al año y la insulina a {insulinCap} al mes.",
+      "<strong>Medigap o Medicare Advantage</strong> — la cobertura que agrega encima. Compare en nuestro <a href=\"medicare-cost-estimator.html\">estimador de costos</a> y en la guía <a href=\"medicare-supplement-vs-advantage.html\">Suplemento vs Advantage</a>."
+    ],
+    "h2Estimate": "Calcule su propio costo",
+    "estimateHtml": "Los números en una página solo llegan hasta cierto punto. El <a href=\"medicare-cost-estimator.html\">Estimador de Costos de Medicare</a> suma primas, deducibles y gastos de bolsillo esperados para un camino con Medigap versus un camino con Medicare Advantage, para que pueda comparar totales reales para su situación.",
+    "h2Irmaa": "Si sus ingresos son más altos: IRMAA",
+    "irmaaHtml": "Por encima de {irmaaSingle} de ingresos (soltero) o {irmaaMarried} (casados), usted paga un recargo por ingresos llamado <a href=\"medicare-irmaa.html\">IRMAA</a> en la Parte B y la Parte D. Busque la cantidad exacta en los <a href=\"medicare-irmaa-brackets-2026.html\">tramos del IRMAA de {year}</a>, <a href=\"medicare-irmaa-calculator.html\">estime el suyo</a>, y si está por encima de una línea, aprenda <a href=\"how-to-reduce-medicare-irmaa.html\">cómo reducirlo legalmente</a> o <a href=\"medicare-irmaa-appeal-ssa-44.html\">cómo apelar después de una caída de ingresos</a>.",
+    "h2Assistance": "Si sus ingresos son más bajos: asistencia",
+    "assistanceHtml": "Puede pagar mucho menos que las cantidades estándar. Empiece en el <a href=\"medicare-financial-assistance.html\">centro de ayuda para pagar Medicare</a> — organiza cada programa por ingresos — o consulte directamente los <a href=\"medicare-income-limits-2026.html\">límites de ingresos de {year}</a>. La <a href=\"medicare-extra-help-utah.html\">Ayuda Adicional (Extra Help)</a> reduce los costos de medicamentos de la Parte D, y los <a href=\"medicare-savings-programs-utah.html\">Programas de Ahorro de Medicare</a> (QMB, SLMB, QI) pueden pagar su prima de la Parte B por completo. ¿Tiene dificultades específicamente con los costos de medicamentos? Vea la <a href=\"prescription-drug-assistance.html\">asistencia para medicamentos recetados</a>.",
+    "h2Caps": "Topes y multas",
+    "capItemsHtml": [
+      "<strong><a href=\"medicare-out-of-pocket-maximum-2026.html\">Máximo de gastos de bolsillo</a></strong> — cómo Medicare Advantage pone un tope a su exposición anual (Medicare Original por sí solo no tiene tope).",
+      "<strong><a href=\"medicare-part-b-penalty-calculator.html\">Multas por inscripción tardía</a></strong> — un recargo permanente por inscribirse tarde; estime el suyo.",
+      "<strong><a href=\"medicare-plan-g-high-deductible.html\">Plan G de deducible alto</a></strong> — una forma de comprar la protección de Medigap con una prima más baja."
+    ],
+    "h2Local": "Costos locales",
+    "localHtml": "Las primas y la disponibilidad de los planes son locales. Vea <a href=\"medicare-cost-uintah-county.html\">cuánto cuesta Medicare en el Condado de Uintah</a> para conocer los planes que realmente se ofrecen aquí.",
+    "outroHtml": "Las piezas de Medicare suman distinto para cada persona. La forma más rápida de llegar a su número real es una conversación breve — <strong>llámenos gratis</strong> y lo calcularemos con usted, sin compromiso."
+  }
+}

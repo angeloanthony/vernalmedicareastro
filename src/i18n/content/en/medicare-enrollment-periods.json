@@ -1,0 +1,59 @@
+{
+  "page": {
+    "title": "Medicare Enrollment Periods Explained — IEP, GEP, SEP, AEP | Vernal Medicare",
+    "heading": "Medicare Enrollment Periods Explained",
+    "description": "Every Medicare enrollment window in one place: Initial (IEP), General (GEP), Special (SEP), and Annual (AEP) enrollment — when each applies, who it is for, and how to avoid penalties. Local Utah help.",
+    "summary": "Medicare has several enrollment windows, and using the wrong one can cost you. Your Initial Enrollment Period (IEP) is the 7 months around turning 65. Miss it and you generally wait for the General Enrollment Period (Jan 1–Mar 31) — unless a life event gives you a Special Enrollment Period. Current members change plans during the Annual Enrollment Period (Oct 15–Dec 7).",
+    "faqs": [
+      {
+        "question": "Which enrollment period do I use?",
+        "answer": "If you're new to Medicare, use your Initial Enrollment Period (the 7 months around your 65th-birthday month). If you missed it, you'll usually use the General Enrollment Period (January 1–March 31) unless a life event qualifies you for a Special Enrollment Period. Already on Medicare and want to change plans? That's the Annual Enrollment Period, October 15–December 7."
+      },
+      {
+        "question": "What happens if I enroll late?",
+        "answer": "Enrolling in Part B or Part D after your Initial Enrollment Period (without a Special Enrollment Period) can trigger a permanent late-enrollment penalty added to your premium. See our page on missed enrollment and penalties."
+      }
+    ],
+    "sources": [
+      {
+        "title": "When does Medicare coverage start / enrollment periods",
+        "url": "https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start",
+        "publisher": "Medicare.gov"
+      }
+    ],
+    "nextSteps": [
+      {
+        "when": "If you're turning 65 in the next few months,",
+        "action": "your Initial Enrollment Period is the one to watch — call us and we'll map your exact dates so you never touch a penalty."
+      }
+    ]
+  },
+  "meta": {
+    "ogTitle": "Medicare Enrollment Periods Explained",
+    "ogDescription": "IEP, GEP, SEP, and AEP — when each applies, who it is for, and how to avoid penalties."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "self": "Medicare Enrollment Periods"
+  },
+  "body": {
+    "introHtml": "Medicare's alphabet of enrollment windows — IEP, GEP, SEP, AEP, OEP — trips a lot of people up, and using the wrong one (or missing one) can mean gaps in coverage or permanent penalties. Here's each window at a glance, with a link to the full details.",
+    "h2Table": "The Enrollment Windows at a Glance",
+    "tableHeadWindow": "Window",
+    "tableHeadWhen": "When",
+    "tableHeadWho": "Who it's for",
+    "periods": [
+      { "name": "Initial Enrollment Period (IEP)", "when": "The 7 months around your 65th-birthday month", "who": "New to Medicare", "href": "when-to-enroll-medicare-utah.html" },
+      { "name": "General Enrollment Period (GEP)", "when": "January 1 – March 31 each year", "who": "Missed your IEP and have no SEP", "href": "medicare-general-enrollment-period.html" },
+      { "name": "Special Enrollment Period (SEP)", "when": "Triggered by a life event (varies)", "who": "Lost employer coverage, moved, lost Medicaid, etc.", "href": "medicare-special-enrollment-period.html" },
+      { "name": "Annual Enrollment Period (AEP)", "when": "October 15 – December 7", "who": "Current members changing plans for next year", "href": "medicare-open-enrollment-2026.html" },
+      { "name": "Medicare Advantage Open Enrollment (OEP)", "when": "January 1 – March 31", "who": "Advantage members making one switch", "href": "medicare-open-enrollment-2026.html" }
+    ],
+    "h2New": "New to Medicare: Your Initial Enrollment Period",
+    "newHtml": "When you first become eligible (usually at 65), your <strong>Initial Enrollment Period</strong> is a 7-month window — the 3 months before your birthday month, the month itself, and the 3 months after. This is the cleanest time to enroll, with no penalties. For the exact timing and how it interacts with employer coverage, see <a href=\"when-to-enroll-medicare-utah.html\">when to enroll in Medicare in Utah</a>.",
+    "h2Missed": "Missed Your Window?",
+    "missedHtml": "If you missed your IEP and don't qualify for a Special Enrollment Period, you'll generally enroll during the <a href=\"medicare-general-enrollment-period.html\">General Enrollment Period</a> (January 1–March 31) — and a <a href=\"missed-medicare-enrollment.html\">late-enrollment penalty</a> may apply. A qualifying life event, though, may open a <a href=\"medicare-special-enrollment-period.html\">Special Enrollment Period</a> with no penalty.",
+    "h2Changing": "Already on Medicare: Changing Plans",
+    "changingHtml": "If you already have Medicare and want to switch plans, that's the <a href=\"medicare-open-enrollment-2026.html\">Annual Enrollment Period</a> (October 15–December 7), with a Medicare Advantage Open Enrollment Period (January 1–March 31) for one additional switch."
+  }
+}

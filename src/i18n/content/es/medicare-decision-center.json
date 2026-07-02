@@ -1,0 +1,51 @@
+{
+  "__translation_note": "AI-translated from en/medicare-decision-center.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate. NOTE: DECISION_PATHS card copy is a shared data module (Phase B boundary) and remains English on this page for now.",
+  "page": {
+    "title": "¿Por dónde empiezo con Medicare? — Centro de Decisiones de Medicare | Vernal Medicare",
+    "heading": "¿Por dónde empiezo con Medicare?",
+    "description": "¿No sabe por dónde empezar con Medicare? Elija su situación — cumple 65, sigue trabajando, ya está inscrito, necesita ayuda con medicamentos o financiera, compara planes, o calcula costos — y lo dirigiremos a la guía correcta. Ayuda local gratuita en Uintah Basin.",
+    "summary": "Medicare tiene muchas puertas. Esta es la que hace una sola pregunta — ¿dónde está usted ahora mismo? Elija la situación que suene como la suya, y lo llevaremos directo a la guía, la calculadora o la lista de verificación correcta. Si ninguna encaja, una llamada lo resuelve.",
+    "faqs": [
+      {
+        "question": "Soy completamente nuevo en Medicare — ¿por dónde empiezo?",
+        "answer": "Si está por cumplir 65, empiece con el recorrido de cumplir 65 — presenta cada paso en orden. Si sigue trabajando después de los 65, empiece en cambio con el Centro de Trabajar después de los 65, porque su cobertura del empleador cambia los tiempos."
+      },
+      {
+        "question": "Ya tengo Medicare — ¿esto también es para mí?",
+        "answer": "Sí. Elija \"Ya tengo Medicare\" para revisar o cambiar su plan durante la Inscripción Abierta, verificar si un servicio está cubierto, o agregar dental, visión y audición."
+      },
+      {
+        "question": "¿Y si ninguna de las situaciones encaja conmigo?",
+        "answer": "Llámenos gratis al {phone} (TTY: {tty}). Cuéntenos su situación en una frase y lo dirigiremos a la respuesta exacta — sin costo, sin presión."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Medicare.gov — comience con Medicare",
+        "url": "https://es.medicare.gov/basics/get-started-with-medicare",
+        "publisher": "Medicare.gov"
+      }
+    ],
+    "nextSteps": [
+      {
+        "when": "¿Todavía no sabe cuál es su camino?",
+        "action": "llámenos gratis al {phone} — lo encontraremos con usted en unos minutos."
+      }
+    ]
+  },
+  "meta": {
+    "ogTitle": "¿Por dónde empiezo con Medicare?",
+    "ogDescription": "Elija su situación — cumple 65, sigue trabajando, ya está inscrito, ayuda con medicamentos, ayuda financiera, comparar planes, o costos — y lo dirigiremos a la guía correcta."
+  },
+  "breadcrumb": {
+    "home": "Inicio",
+    "self": "¿Por dónde empiezo?"
+  },
+  "body": {
+    "introHtml": "Medicare es más fácil cuando empieza desde donde realmente está. Elija abajo la situación que suene como la suya — cada una abre la guía, la calculadora o la lista de verificación correcta. ¿Prefiere simplemente preguntarle a una persona? <strong>Llame al {phone}</strong> y lo orientaremos en un par de minutos, gratis.",
+    "h2Map": "¿Prefiere ver el mapa completo?",
+    "mapHtml": "Si prefiere explorar todo por tema, el <a href=\"medicare-help-center.html\">Centro de Ayuda de Medicare</a> presenta cada guía, calculadora y recurso local en un solo lugar. O lea la <a href=\"medicare-plans-vernal-utah.html\">guía completa de Vernal 2026</a> de principio a fin.",
+    "h2Person": "O simplemente empiece con una persona — gratis",
+    "personHtml": "No tiene que elegir el camino perfecto. <strong>Llámenos gratis al {phone}</strong> (TTY: {tty}) o <a href=\"medicare-quote-vernal.html\">solicite una cotización gratuita</a>, cuéntenos su situación en una frase, y nosotros nos encargamos desde ahí — comparando sus opciones con los médicos y la farmacia que ya usa. Sin costo, sin presión."
+  }
+}

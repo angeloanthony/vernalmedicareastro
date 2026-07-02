@@ -1,0 +1,68 @@
+{
+  "page": {
+    "title": "How Much Does Medicare Cost in {year}? Premiums, Deductibles & Help | Vernal Medicare",
+    "heading": "How Much Does Medicare Cost in {year}?",
+    "description": "A plain-English guide to Medicare costs in {year}: Part A, B, and D premiums and deductibles, the IRMAA income surcharge, out-of-pocket limits, penalties, and the programs that lower your bill.",
+    "summary": "Medicare in {year} has a few moving parts: the standard Part B premium is {partBPremium}/month with a {partBDeductible} deductible, Part A has a {partADeductible} hospital deductible, and Part D drug costs are capped at {partDCap} out of pocket. Higher earners pay an IRMAA surcharge; lower earners may pay far less through assistance programs. This hub walks through each piece and points you to the calculator for your own number.",
+    "faqs": [
+      {
+        "question": "What is the standard Medicare cost in {year}?",
+        "answer": "Most people pay the standard Part B premium of {partBPremium}/month (Part A is usually premium-free if you worked 10+ years). On top of that you may have a Part D drug plan and, if you choose one, a Medigap or Medicare Advantage premium. Deductibles: {partADeductible} for Part A hospital stays and {partBDeductible} for Part B."
+      },
+      {
+        "question": "Why is my Medicare more expensive than my neighbor’s?",
+        "answer": "Usually income. Higher earners pay an IRMAA surcharge on Part B and Part D based on their income from two years ago. Two people with the same coverage can pay very different premiums purely because of IRMAA."
+      },
+      {
+        "question": "Can I lower what I pay for Medicare?",
+        "answer": "Often, yes. Lower-income beneficiaries may qualify for Extra Help or a Medicare Savings Program that cuts premiums and drug costs. Higher earners can plan around IRMAA brackets. Choosing the right drug and supplement plan also matters — that’s where a local agent helps."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Medicare costs",
+        "url": "https://www.medicare.gov/basics/costs/medicare-costs",
+        "publisher": "Medicare.gov"
+      }
+    ],
+    "nextSteps": [
+      {
+        "when": "To see your real numbers,",
+        "action": "run the Medicare cost estimator, then call us free to compare plans line by line."
+      }
+    ]
+  },
+  "meta": {
+    "ogTitle": "How Much Does Medicare Cost in {year}?",
+    "ogDescription": "Premiums, deductibles, IRMAA, out-of-pocket limits, and the programs that lower your bill."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "self": "Medicare Costs"
+  },
+  "body": {
+    "introHtml": "\"How much does Medicare cost?\" doesn't have one answer — it depends on your parts, your income, and your plan choices. This page is the map. Below, each piece of your Medicare bill in <strong>{year}</strong>, with links to go deeper or run your own numbers.",
+    "h2Blocks": "The Building Blocks",
+    "blockItemsHtml": [
+      "<strong>Part A (hospital)</strong> — usually premium-free if you or a spouse worked 10+ years. The {year} hospital deductible is <strong>{partADeductible}</strong> per benefit period.",
+      "<strong>Part B (medical)</strong> — a standard premium of <strong>{partBPremium}/month</strong> and a <strong>{partBDeductible}</strong> annual deductible. See how it fits with Part A in <a href=\"medicare-part-a-vs-part-b.html\">Part A vs Part B</a>.",
+      "<strong>Part D (drugs)</strong> — a plan premium (the {year} base is about {partDBase}) plus copays, with out-of-pocket drug costs now <strong>capped at {partDCap}</strong> a year and insulin at {insulinCap}/month.",
+      "<strong>Medigap or Medicare Advantage</strong> — the coverage you add on top. Compare in our <a href=\"medicare-cost-estimator.html\">cost estimator</a> and <a href=\"medicare-supplement-vs-advantage.html\">Supplement vs Advantage</a> guide."
+    ],
+    "h2Estimate": "Estimate Your Own Cost",
+    "estimateHtml": "Numbers on a page only go so far. The <a href=\"medicare-cost-estimator.html\">Medicare Cost Estimator</a> adds up premiums, deductibles, and expected out-of-pocket for a Medigap path versus a Medicare Advantage path, so you can compare real totals for your situation.",
+    "h2Irmaa": "If Your Income Is Higher: IRMAA",
+    "irmaaHtml": "Above {irmaaSingle} in income (single) or {irmaaMarried} (married), you pay an income surcharge called <a href=\"medicare-irmaa.html\">IRMAA</a> on Part B and Part D. Look up the exact amount in the <a href=\"medicare-irmaa-brackets-2026.html\">{year} IRMAA brackets</a>, <a href=\"medicare-irmaa-calculator.html\">estimate yours</a>, and if you're over a line, learn <a href=\"how-to-reduce-medicare-irmaa.html\">how to reduce it legally</a> or <a href=\"medicare-irmaa-appeal-ssa-44.html\">appeal after an income drop</a>.",
+    "h2Assistance": "If Your Income Is Lower: Assistance",
+    "assistanceHtml": "You may pay far less than the standard amounts. Start at the <a href=\"medicare-financial-assistance.html\">help-paying-for-Medicare hub</a> — it sorts every program by income — or check the <a href=\"medicare-income-limits-2026.html\">{year} income limits</a> directly. <a href=\"medicare-extra-help-utah.html\">Extra Help</a> lowers Part D drug costs, and the <a href=\"medicare-savings-programs-utah.html\">Medicare Savings Programs</a> (QMB, SLMB, QI) can pay your Part B premium outright. Struggling with drug costs specifically? See <a href=\"prescription-drug-assistance.html\">prescription drug assistance</a>.",
+    "h2Caps": "Caps and Penalties",
+    "capItemsHtml": [
+      "<strong><a href=\"medicare-out-of-pocket-maximum-2026.html\">Out-of-pocket maximum</a></strong> — how Medicare Advantage caps your yearly exposure (Original Medicare alone has no cap).",
+      "<strong><a href=\"medicare-part-b-penalty-calculator.html\">Late-enrollment penalties</a></strong> — a permanent surcharge for signing up late; estimate yours.",
+      "<strong><a href=\"medicare-plan-g-high-deductible.html\">High-Deductible Plan G</a></strong> — a lower-premium way to buy Medigap protection."
+    ],
+    "h2Local": "Local Costs",
+    "localHtml": "Plan premiums and availability are local. See <a href=\"medicare-cost-uintah-county.html\">what Medicare costs in Uintah County</a> for the plans actually offered here.",
+    "outroHtml": "Medicare's pieces add up differently for everyone. The fastest way to your real number is a quick conversation — <strong>call us free</strong> and we'll price it out with you, no obligation."
+  }
+}

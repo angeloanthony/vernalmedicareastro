@@ -56,7 +56,11 @@ const isUrl = (s) => /^https?:\/\//i.test(s);
 // not copy — never send them to translation (genuine bug found extracting the
 // medigap carousel: "pictures/joke63.webp" is a flattened string segment).
 const isAsset = (s) => /^[\w\-./]+\.(webp|png|jpe?g|svg|gif|ico|pdf|mp4|css|js)$/i.test(s);
-const isNonTranslatable = (s) => isUrl(s) || isAsset(s);
+// Bare page-slug fields ("when-to-enroll-medicare-utah.html" in a link table)
+// are routing data, not copy (genuine bug found extracting the enrollment-
+// periods table: href fields are flattened string segments).
+const isPageSlug = (s) => /^[\w-]+\.html$/i.test(s);
+const isNonTranslatable = (s) => isUrl(s) || isAsset(s) || isPageSlug(s);
 const placeholders = (s) => [...s.matchAll(/\{[a-zA-Z0-9_]+\}/g)].map((m) => m[0]).sort();
 const tagSequence = (s) => [...s.matchAll(/<\/?[a-zA-Z0-9-]+/g)].map((m) => m[0].toLowerCase());
 

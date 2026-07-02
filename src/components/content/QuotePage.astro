@@ -1,0 +1,86 @@
+---
+// src/components/content/QuotePage.astro — the free-quote conversion page
+// template (M4 batch 2; playbook §4.5). SunfireMatrix quote links preserved
+// verbatim (external tool; English-language — a known limitation until
+// Sunfire offers a Spanish flow).
+import ArticlePage from '../layout/ArticlePage.astro';
+import { getPageContent, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import type { PageContext } from '../../types/Page';
+
+const SLUG = 'medicare-quote-vernal';
+
+interface Content {
+  page: {
+    title: string;
+    heading: string;
+    description: string;
+    summary: string;
+    faqs: { question: string; answer: string }[];
+  };
+  breadcrumb: { home: string; self: string };
+  body: Record<string, string>;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const c = getPageContent<Content>(SLUG, lang);
+const b = c.body;
+const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
+
+const context: PageContext = {
+  page: {
+    title: c.page.title,
+    heading: c.page.heading,
+    description: c.page.description,
+    taxonomy: {
+      silo: 'local',
+      tags: ['local', 'quote', 'tools', 'vernal', 'uintah-county'],
+    },
+    summary: c.page.summary,
+    faqs: c.page.faqs,
+  },
+  meta: {
+    canonical: `${SITE_ORIGIN}${pagePath}`,
+    ogType: 'article',
+    gaIds: ['G-NW6ENB89NF', 'G-FTDW9B2G6Q'],
+    lang,
+    ogLocale: getLocaleMeta(lang).ogLocale,
+    hreflang: hreflangAlternates(SLUG),
+  },
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: c.breadcrumb.home, href: localizeHref('/', lang) },
+    { name: c.breadcrumb.self, href: pagePath },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p set:html={b.introHtml} />
+
+  <h2>{b.h2Online}</h2>
+  <p set:html={b.onlineHtml} />
+  <p style="text-align:center;margin:1.5rem 0;">
+    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">{b.quoteLabel}</a>
+  </p>
+
+  <h2>{b.h2See}</h2>
+  <p set:html={b.seeHtml} />
+
+  <h2>{b.h2Talk}</h2>
+  <p set:html={b.talkHtml} />
+
+  <h2>{b.h2Free}</h2>
+  <p set:html={b.freeHtml} />
+
+  <p set:html={b.relatedHtml} />
+  <p set:html={b.sourceHtml} />
+
+  <p style="text-align:center;margin-top:2rem;">
+    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer" set:html={b.enrollLabel} />
+  </p>
+  <p style="text-align:center;margin-top:1rem;" set:html={b.callHtml} />
+</ArticlePage>
