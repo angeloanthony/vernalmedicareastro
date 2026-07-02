@@ -51,7 +51,7 @@ const durationS = Math.max(32, items.length * 8);
   <section class="vm-ticker" aria-label="Medicare updates">
     <div class="vm-ticker__inner">
       <a class="vm-ticker__label" href="/medicare-news.html">
-        <span aria-hidden="true">📢</span> Medicare Updates
+        <span aria-hidden="true">📢</span> <span class="vm-ticker__label-word">Medicare </span>Updates
       </a>
 
       <div class="vm-ticker__viewport">
@@ -91,7 +91,7 @@ const durationS = Math.max(32, items.length * 8);
   .vm-ticker__inner {
     display: flex;
     align-items: stretch;
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
   }
 
@@ -195,6 +195,8 @@ const durationS = Math.max(32, items.length * 8);
   @media (max-width: 640px) {
     .vm-ticker__all { display: none; }
     .vm-ticker__label { font-size: 0.8rem; padding: 0.6rem 0.75rem; }
+    /* Shorten "Medicare Updates" → "UPDATES" to free up room for headlines. */
+    .vm-ticker__label-word { display: none; }
   }
 
   /* No motion: freeze the track and let visitors scroll it manually. */
