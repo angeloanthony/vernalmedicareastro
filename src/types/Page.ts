@@ -90,6 +90,14 @@ export interface PageMeta {
   /** Extra per-page GA4 property IDs (in addition to the always-on global one).
    *  Preserves per-page analytics when migrating legacy pages onto the framework. */
   gaIds?: string[];
+  // ── i18n (Phase A.5) — set by locale-aware shared page components only ─────
+  /** Page language ('en' | 'es' | …). Omitted → 'en'; drives <html lang>. */
+  lang?: string;
+  /** Existence-aware hreflang alternates (absolute, incl. self + x-default),
+   *  from i18n/content.ts hreflangAlternates(). Omitted/empty → no tags. */
+  hreflang?: { code: string; href: string }[];
+  /** og:locale (e.g. 'es_US'). Omitted → tag not emitted. */
+  ogLocale?: string;
 }
 
 export interface CTAConfig {

@@ -76,6 +76,41 @@ export const BUSINESS = {
     representative:
       'Vernal Medicare is a licensed and certified representative of Medicare Advantage organizations and stand-alone prescription drug plans. Each of the organizations we represent has a Medicare contract. Enrollment in any plan depends on contract renewal.',
   },
+
+  // ── i18n (M3) — compliance text per locale ─────────────────────────────────
+  // Compliance copy is NEVER machine-translated: these are the CMS-published
+  // Spanish wordings of the required TPMO / multi-plan disclaimers (the same
+  // text beneficiaries see in CMS's own Spanish materials), kept HERE — next
+  // to their English source of truth — not in the t() dictionary. Access via
+  // businessDisclaimers(locale) below; English is the fallback.
+  i18n: {
+    es: {
+      disclaimer:
+        'No estamos conectados ni respaldados por el gobierno de los Estados Unidos ni por el programa federal de Medicare. Al llamar a este número, será conectado con un agente/productor de seguros con licencia.',
+      marketingDisclaimer: {
+        multiPlan:
+          'No ofrecemos todos los planes disponibles en su área. Cualquier información que proporcionemos se limita a los planes que ofrecemos en su área. Comuníquese con Medicare.gov o llame al 1-800-MEDICARE (TTY: 711), las 24 horas del día, los 7 días de la semana, para obtener información sobre todas sus opciones.',
+        representative:
+          'Vernal Medicare es un representante con licencia y certificado de organizaciones Medicare Advantage y de planes independientes de medicamentos recetados. Cada una de las organizaciones que representamos tiene un contrato con Medicare. La inscripción en cualquier plan depende de la renovación del contrato.',
+      },
+    },
+  },
 } as const;
 
 export type Business = typeof BUSINESS;
+
+/** Locale-aware compliance text (TPMO + multi-plan) with English fallback. */
+export function businessDisclaimers(locale: string): {
+  disclaimer: string;
+  multiPlan: string;
+  representative: string;
+} {
+  const loc =
+    locale !== 'en' ? BUSINESS.i18n[locale as keyof typeof BUSINESS.i18n] : undefined;
+  return {
+    disclaimer: loc?.disclaimer ?? BUSINESS.disclaimer,
+    multiPlan: loc?.marketingDisclaimer.multiPlan ?? BUSINESS.marketingDisclaimer.multiPlan,
+    representative:
+      loc?.marketingDisclaimer.representative ?? BUSINESS.marketingDisclaimer.representative,
+  };
+}

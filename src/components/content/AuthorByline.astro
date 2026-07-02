@@ -1,7 +1,11 @@
 ---
 // AuthorByline.astro — E-E-A-T byline. Takes author IDs and resolves them to
 // records (no stale copies). Rendered by StandardPageLayout under the H1.
+// i18n (M3): labels via t(), job title via localizeLabel, month name via the
+// locale-aware Intl formatter. English output is byte-identical.
 import { authorById } from '../../data/authors';
+import { getLangFromUrl, t, localizeLabel } from '../../i18n/locales';
+import { localizeHref } from '../../i18n/content';
 import type { AuthorId } from '../../types/Page';
 
 interface Props {
@@ -12,27 +16,34 @@ interface Props {
 }
 const { authorId, reviewedById, updated, localAvailability } = Astro.props;
 
+const lang = getLangFromUrl(Astro.url);
 const author = authorId ? authorById(authorId) : undefined;
 const reviewerRaw = reviewedById ? authorById(reviewedById) : undefined;
 const reviewer = reviewerRaw && reviewerRaw.id !== author?.id ? reviewerRaw : undefined;
 const show = Boolean(author || reviewer || updated || localAvailability);
 
-// Display an ISO date as "Month YYYY"; pass other strings through unchanged.
+// Display an ISO date as "Month YYYY" in the page language ("June 2026" /
+// "junio de 2026"); pass other strings through unchanged.
 const parsed = updated ? new Date(updated) : null;
 const updatedDisplay =
   parsed && !Number.isNaN(parsed.getTime())
-    ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long' }).format(parsed)
+    ? new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : lang, {
+        year: 'numeric',
+        month: 'long',
+      }).format(parsed)
     : updated;
 ---
 
 {show && (
   <p class="byline">
+    {/* Astro collapses whitespace between an expression and an adjacent
+        element/expression — the separating spaces must be explicit {' '}. */}
     {author && (
-      <Fragment>By <a href={author.url ?? '#'}>{author.name}</a>, {author.jobTitle}</Fragment>
+      <Fragment>{t('byline.by', lang)}{' '}<a href={author.url ?? '#'}>{author.name}</a>, {localizeLabel(author.jobTitle, lang)}</Fragment>
     )}
-    {reviewer && <Fragment> · Reviewed by {reviewer.name}</Fragment>}
-    {updated && <Fragment> · Updated {updatedDisplay}</Fragment>}
+    {reviewer && <Fragment> · {t('byline.reviewedBy', lang)}{' '}{reviewer.name}</Fragment>}
+    {updated && <Fragment> · {t('byline.updated', lang)}{' '}{updatedDisplay}</Fragment>}
     {localAvailability && <Fragment> · {localAvailability}</Fragment>}
-    {author && <Fragment> · <a href="/editorial-policy.html">How we keep this accurate</a></Fragment>}
+    {author && <Fragment> · <a href={localizeHref('/editorial-policy.html', lang)}>{t('byline.editorial', lang)}</a></Fragment>}
   </p>
 )}

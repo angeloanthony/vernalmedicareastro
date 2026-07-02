@@ -1,0 +1,61 @@
+{
+  "__translation_note": "AI-translated from en/turning-65.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary.",
+  "page": {
+    "title": "Cumplir 65 años y Medicare — Su guía paso a paso | Vernal Medicare",
+    "heading": "Cumplir 65 años: su Medicare paso a paso",
+    "description": "¿Cumple 65 años? Esto es exactamente lo que debe hacer, en orden — cuándo inscribirse, si conviene esperar por tener cobertura del empleador, Medigap vs Advantage, la Parte D, costos e IRMAA. Ayuda local gratuita en Uintah Basin.",
+    "summary": "Cumplir 65 años es cuando comienza Medicare — y las decisiones que tome ahora son de las más difíciles de deshacer. Este es el recorrido completo en {stepCount} pasos: cuándo se abre su ventana de inscripción, si debe esperar por tener cobertura del empleador, cómo inscribirse, la gran decisión entre Medigap y Medicare Advantage, la cobertura de medicamentos y cuánto cuesta todo. Avance paso a paso aquí, o permítanos guiarlo gratis.",
+    "faqs": [
+      {
+        "question": "¿Cuándo debo inscribirme en Medicare si estoy por cumplir 65 años?",
+        "answer": "Su Período de Inscripción Inicial son los 7 meses alrededor de su cumpleaños número 65 — los 3 meses antes del mes de su cumpleaños, ese mes, y los 3 meses después. Inscríbase en los primeros 3 meses para que su cobertura comience lo antes posible."
+      },
+      {
+        "question": "¿Tengo que inscribirme a los 65 si todavía estoy trabajando?",
+        "answer": "No siempre. Si tiene cobertura activa y acreditable de un empleador, puede retrasar la Parte B sin multa y obtener un Período de Inscripción Especial más adelante. La cobertura de jubilado y COBRA generalmente no cuentan — verifíquelo antes de esperar."
+      },
+      {
+        "question": "¿Medigap o Medicare Advantage — cuál debo elegir a los 65?",
+        "answer": "No hay una única respuesta correcta. Medigap ofrece cobertura donde usted vaya y costos predecibles con un plan de la Parte D por separado; Medicare Advantage lo agrupa todo con una red y un límite de gastos de bolsillo. Es la decisión más importante (y la más difícil de revertir) — la comparamos con usted gratis."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Medicare.gov — Comience con Medicare",
+        "url": "https://es.medicare.gov/basics/get-started-with-medicare",
+        "publisher": "Medicare.gov"
+      }
+    ],
+    "nextSteps": [
+      {
+        "when": "¿Cumple 65 años el próximo año?",
+        "action": "llámenos gratis al {phone} — crearemos su plan y su cronograma personal, sin presión."
+      }
+    ]
+  },
+  "meta": {
+    "ogTitle": "Cumplir 65 años: su Medicare paso a paso",
+    "ogDescription": "Exactamente qué hacer, en orden, cuando cumple 65 años — con un agente local de Uintah Basin."
+  },
+  "breadcrumb": {
+    "home": "Inicio",
+    "self": "Cumplir 65 años"
+  },
+  "body": {
+    "introHtml": "\"Estoy por cumplir 65 años — ¿qué hago exactamente?\" Aquí está todo, en orden. Cada paso lleva a una guía más completa o a una calculadora, y puede pedirnos que hagamos cualquier parte junto con usted, gratis.",
+    "sixtySecondHtml": "<strong>La versión de 60 segundos:</strong> su ventana de inscripción se abre 3 meses antes del mes de su cumpleaños. Inscríbase en la Parte A y la Parte B (a menos que tenga cobertura acreditable de un empleador). Luego tome la gran decisión — <a href=\"medicare-supplement-vs-advantage.html\" style=\"color:#9fd0ff;\">Medigap o Medicare Advantage</a> — agregue la <a href=\"best-part-d-plans-vernal.html\" style=\"color:#9fd0ff;\">cobertura de medicamentos de la Parte D</a>, y revise sus <a href=\"medicare-costs.html\" style=\"color:#9fd0ff;\">costos y el IRMAA</a>. ¿No está seguro? <strong>Llame al {phone}.</strong>",
+    "timelineHeading": "Su cronograma paso a paso",
+    "nextLabel": "Qué sigue:",
+    "everythingHeading": "Todo lo que podría necesitar",
+    "everythingItemsHtml": [
+      "<strong>¿No está seguro de que este sea su camino?</strong> <a href=\"medicare-decision-center.html\">Comience con su situación</a> — lo dirigiremos al centro correcto.",
+      "<strong>¿Todavía trabaja?</strong> <a href=\"working-past-65.html\">Trabajar después de los 65</a> — si conviene tomar Medicare ahora o esperar.",
+      "<strong>Entiéndalo:</strong> <a href=\"medicare-help-center.html\">Centro de Ayuda de Medicare</a> · <a href=\"medicare-glossary.html\">Glosario</a> · <a href=\"medicare-part-a-vs-part-b.html\">Parte A vs Parte B</a>.",
+      "<strong>Haga los números:</strong> <a href=\"medicare-cost-estimator.html\">Estimador de costos</a> · <a href=\"medicare-irmaa-calculator.html\">Calculadora de IRMAA</a> · <a href=\"medicare-enrollment-timeline.html\">cronograma de inscripción</a> · <a href=\"medicare-part-b-penalty-calculator.html\">calculadora de multa por inscripción tardía</a>.",
+      "<strong>Compare coberturas:</strong> <a href=\"medigap.html\">Medigap</a> · <a href=\"best-medicare-advantage-vernal.html\">Medicare Advantage</a> · <a href=\"best-part-d-plans-vernal.html\">Parte D</a>.",
+      "<strong>Obtenga ayuda para pagar:</strong> <a href=\"medicare-extra-help-utah.html\">Ayuda Adicional (Extra Help)</a> · <a href=\"medicare-savings-programs-utah.html\">Programas de Ahorro de Medicare</a>."
+    ],
+    "localHeading": "Hágalo con una persona local — gratis",
+    "localHelpHtml": "Cumplir 65 años es mucho de una sola vez, y la decisión entre Medigap y Advantage es difícil de revertir. No tiene que adivinar. <strong>Llámenos gratis al {phone}</strong> (TTY: {tty}) o <a href=\"medicare-quote-vernal.html\">solicite una cotización gratuita</a>, y crearemos su cronograma personal y compararemos cada opción con los médicos y la farmacia que usted ya usa — sin costo, sin presión."
+  }
+}

@@ -1,22 +1,27 @@
 ---
 // Disclaimer.astro — optional medical/general disclaimer + the TPMO disclaimer
 // (from business.ts, required sitewide).
-import { BUSINESS } from '../../data/business';
+// i18n (M3): TPMO text via businessDisclaimers() (CMS-published Spanish, never
+// machine-translated); default medical text via t(). A custom string prop
+// passes through unchanged (page content arrives already localized).
+import { businessDisclaimers } from '../../data/business';
+import { getLangFromUrl, t } from '../../i18n/locales';
 
 interface Props {
   medical?: boolean | string;
 }
 const { medical } = Astro.props;
 
+const lang = getLangFromUrl(Astro.url);
 const medicalText =
   typeof medical === 'string'
     ? medical
     : medical
-      ? 'This page is general information, not medical or financial advice. Confirm details for your own situation before acting.'
+      ? t('disclaimer.medical', lang)
       : undefined;
 ---
 
 <footer class="page-disclaimer">
   {medicalText && <p>{medicalText}</p>}
-  <p>{BUSINESS.disclaimer}</p>
+  <p>{businessDisclaimers(lang).disclaimer}</p>
 </footer>

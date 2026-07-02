@@ -37,6 +37,11 @@ interface Props {
   extraStylesheet?: string;
   // GA property IDs to fire. Defaults to primary; dual-tracked pages pass both.
   gaIds?: string[];
+  // i18n (Phase A.5): page language, hreflang alternates, og:locale. All
+  // optional — pages that don't pass them render exactly as before.
+  lang?: string;
+  hreflang?: { code: string; href: string }[];
+  ogLocale?: string;
 }
 
 const {
@@ -58,6 +63,10 @@ const {
   gaIds = [B.gaId],
   // Optional per-page robots directive (e.g. "noindex,follow" for search/privacy).
   robots,
+  // i18n — defaults preserve the pre-i18n output on every untouched page.
+  lang = 'en',
+  hreflang = [],
+  ogLocale,
 } = Astro.props;
 
 // The always-on global property fires on every page; the per-page `gaIds`
@@ -76,7 +85,7 @@ const STYLES_VERSION = '20260701-nav-m44';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -84,6 +93,11 @@ const STYLES_VERSION = '20260701-nav-m44';
     <meta name="description" content={description} />
 
     <link rel="canonical" href={canonical} />
+    {/* Existence-aware hreflang alternates (i18n/content.ts) — empty on
+        untranslated pages, so nothing here can advertise a 404. */}
+    {hreflang.map((a) => (
+      <link rel="alternate" hreflang={a.code} href={a.href} />
+    ))}
     {robots && <meta name="robots" content={robots} />}
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
@@ -100,6 +114,7 @@ const STYLES_VERSION = '20260701-nav-m44';
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content={B.name} />
+    {ogLocale && <meta property="og:locale" content={ogLocale} />}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />

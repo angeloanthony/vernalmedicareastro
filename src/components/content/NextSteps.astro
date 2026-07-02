@@ -1,19 +1,24 @@
 ---
 // NextSteps.astro — contextual "if X, do Y next" guidance blocks.
+// i18n (M3): aria + default CTA label via t(); step text itself is page
+// content and arrives already localized from the page's JSON.
+import { getLangFromUrl, t } from '../../i18n/locales';
+import { localizeHref } from '../../i18n/content';
 import type { NextStep } from '../../types/Page';
 
 interface Props {
   steps: NextStep[];
 }
 const { steps } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
 ---
 
 {steps.length > 0 && (
-  <section class="next-steps" aria-label="Next steps">
+  <section class="next-steps" aria-label={t('nextSteps.aria', lang)}>
     {steps.map((s) => (
       <aside class="next-step" role="note">
         <strong class="next-step-when">{s.when}</strong> {s.action}
-        {s.href && <Fragment> <a href={s.href}>{s.cta ?? 'Learn more'}</a></Fragment>}
+        {s.href && <Fragment> <a href={localizeHref(s.href, lang)}>{s.cta ?? t('nextSteps.learnMore', lang)}</a></Fragment>}
       </aside>
     ))}
   </section>

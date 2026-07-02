@@ -16,6 +16,7 @@ import MarketingDisclaimer from '../content/MarketingDisclaimer.astro';
 import { assembleSchema } from '../../lib/schema';
 import { relatedFor } from '../../lib/related';
 import { PAGE_INDEX } from '../../data/pageIndex';
+import { t } from '../../i18n/locales';
 import type { PageContext, SchemaKind } from '../../types/Page';
 
 interface Props {
@@ -27,6 +28,8 @@ const { context, primarySchema = 'WebPage' } = Astro.props;
 const { page, meta } = context;
 
 const schema = assembleSchema(context, primarySchema);
+// i18n: page language for chrome strings rendered by THIS layout (t() dict).
+const lang = meta.lang ?? 'en';
 const crumbs = context.breadcrumb ?? [];
 const faqs = page.faqs ?? [];
 const nextSteps = page.nextSteps ?? [];
@@ -60,10 +63,13 @@ const pfCategory = page.taxonomy.silo;
   twitterDescription={meta.ogDescription ?? page.description}
   schema={schema}
   gaIds={meta.gaIds}
+  lang={meta.lang}
+  hreflang={meta.hreflang}
+  ogLocale={meta.ogLocale}
 >
   <article class="page container" data-pagefind-meta={`type:${pfType}, category:${pfCategory}`}>
     {crumbs.length > 0 && (
-      <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <nav class="breadcrumbs" aria-label={t('breadcrumb.aria', lang)}>
         <ol>
           {crumbs.map((c, i) => (
             <li>
@@ -94,7 +100,7 @@ const pfCategory = page.taxonomy.silo;
 
     {faqs.length > 0 && (
       <section class="faq" aria-label="Frequently asked questions">
-        <h2>Frequently Asked Questions</h2>
+        <h2>{t('faq.heading', lang)}</h2>
         {faqs.map((f) => (
           <details>
             <summary set:html={f.question} />

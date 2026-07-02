@@ -1,0 +1,198 @@
+---
+// src/components/content/MedigapPage.astro — THE Medigap pillar template
+// (M4 extraction; playbook §4.5: one shared component per page). Rendered by
+// BOTH /medigap.html and /es/medigap.html; copy from
+// src/i18n/content/{locale}/medigap.json with master fallback. The YouTube
+// embed, flip-comic, smile carousel, and both inline scripts are preserved
+// verbatim (scripts contain no human-facing strings).
+import ArticlePage from '../layout/ArticlePage.astro';
+import { getPageContent, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import type { PageContext } from '../../types/Page';
+
+interface MedigapContent {
+  page: {
+    title: string;
+    heading: string;
+    description: string;
+    summary: string;
+    faqs: { question: string; answer: string }[];
+  };
+  meta: { ogDescription: string };
+  breadcrumb: { home: string; self: string };
+  body: {
+    biggerPictureHtml: string;
+    videoTitle: string;
+    comicAlt: string;
+    smileAria: string;
+    smileTitle: string;
+    prevAria: string;
+    nextAria: string;
+    slides: { img: string; alt: string }[];
+    relatedHeading: string;
+    relatedItemsHtml: string[];
+  };
+}
+
+const lang = getLangFromUrl(Astro.url);
+const c = getPageContent<MedigapContent>('medigap', lang);
+const pagePath = lang === 'en' ? '/medigap.html' : `/${lang}/medigap.html`;
+
+const context: PageContext = {
+  page: {
+    title: c.page.title,
+    heading: c.page.heading,
+    description: c.page.description,
+    taxonomy: {
+      silo: 'medigap',
+      tags: ['medigap', 'supplement', 'overview', 'vernal', 'original-medicare'],
+      pillar: true,
+    },
+    summary: c.page.summary,
+    faqs: c.page.faqs,
+  },
+  meta: {
+    canonical: `${SITE_ORIGIN}${pagePath}`,
+    ogType: 'article',
+    ogDescription: c.meta.ogDescription,
+    lang,
+    ogLocale: getLocaleMeta(lang).ogLocale,
+    hreflang: hreflangAlternates('medigap'),
+  },
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-07-01',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: c.breadcrumb.home, href: localizeHref('/', lang) },
+    { name: c.breadcrumb.self, href: pagePath },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <section class="container" id="medigap-intro">
+  <p style="background:#f0f9ff; border-left:5px solid #0b6ea3; border-radius:6px; padding:1rem 1.25rem; margin:1.25rem 0;" set:html={c.body.biggerPictureHtml} />
+
+    <div class="mg-two-up">
+      <!-- LEFT: video card -->
+      <div class="mg-card">
+        <div class="mg-ratio">
+        <iframe width="560" height="315"
+        src="https://www.youtube.com/embed/YUnuLhlyTPw?si=_vZHA79ZfRG3TnvS"
+        title={c.body.videoTitle}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        style="border:0;"
+        allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <!-- RIGHT: flip-on-click comic (3 images) -->
+      <a class="vm-comic" href="pictures/joke23.webp" target="_blank" rel="noopener">
+        <img
+          src="pictures/joke23.webp"
+          data-alt="pictures/joke21.webp"
+          data-alt2="pictures/joke11.webp"
+          alt={c.body.comicAlt}
+          loading="lazy" decoding="async">
+      </a>
+    </div>
+  </section>
+
+  <!-- Smile Carousel -->
+  <section class="smile" aria-label={c.body.smileAria}>
+    <div class="smile-badge" aria-hidden="true" title={c.body.smileTitle}>
+      <img src="pictures/smile.webp" alt="" width="56" height="56" decoding="async">
+    </div>
+
+    <div class="smile-wrap">
+      <button class="smile-arrow prev" aria-label={c.body.prevAria} type="button">‹</button>
+
+      <div class="smile-track" tabindex="0">
+        {c.body.slides.map((s) => (
+          <a class="smile-slide" href={s.img} target="_blank" rel="noopener">
+            <img src={s.img} alt={s.alt}>
+          </a>
+        ))}
+      </div>
+
+      <button class="smile-arrow next" aria-label={c.body.nextAria} type="button">›</button>
+    </div>
+    <section style="margin:4rem auto 2rem auto; padding:2rem; background:#f0f8ff; border-radius:12px; max-width:1100px; width:90%; box-shadow:0 2px 10px rgba(0,0,0,0.08);">
+  <h2 style="margin-top:0; color:#0b2c45;">{c.body.relatedHeading}</h2>
+  <ul style="line-height:2; margin-left:1.2rem;">
+    {c.body.relatedItemsHtml.map((item) => <li set:html={item} />)}
+  </ul>
+</section>
+  </section>
+
+
+
+<script is:inline>
+  (function(){
+    document.addEventListener('click', function(e){
+      const link = e.target.closest('.vm-comic');
+      if (!link) return;
+
+      e.preventDefault();
+      const img = link.querySelector('img');
+      if (!img) return;
+
+      img.classList.add('is-flipping');
+
+      const onEnd = function(){
+        img.removeEventListener('transitionend', onEnd);
+
+        const a = img.getAttribute('src');
+        const b = img.getAttribute('data-alt');
+        const c = img.getAttribute('data-alt2');
+
+        if (c) {
+          // 3-image rotation: a -> b -> c -> a
+          img.setAttribute('src', b || a);
+          img.setAttribute('data-alt', c || a);
+          img.setAttribute('data-alt2', a);
+        } else if (b) {
+          // 2-image swap: a <-> b
+          img.setAttribute('src', b);
+          img.setAttribute('data-alt', a);
+        }
+
+        link.setAttribute('href', img.getAttribute('src'));
+
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          img.classList.remove('is-flipping');
+        }));
+      };
+
+      img.addEventListener('transitionend', onEnd);
+    });
+  })();
+  </script>
+
+<script is:inline>
+  (function(){
+    const wrap = document.querySelector('.smile-wrap');
+    if (!wrap) return;
+    const track = wrap.querySelector('.smile-track');
+    const prev  = wrap.querySelector('.smile-arrow.prev');
+    const next  = wrap.querySelector('.smile-arrow.next');
+
+    function slideBy(dir){
+      const firstSlide = track.querySelector('.smile-slide');
+      if (!firstSlide) return;
+      const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 16;
+      const w = firstSlide.getBoundingClientRect().width + gap;
+      track.scrollBy({ left: dir * w, behavior: 'smooth' });
+    }
+
+    prev && prev.addEventListener('click', () => slideBy(-1));
+    next && next.addEventListener('click', () => slideBy(1));
+
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); slideBy(-1); }
+      if (e.key === 'ArrowRight'){ e.preventDefault(); slideBy(1); }
+    });
+  })();
+  </script>
+</ArticlePage>

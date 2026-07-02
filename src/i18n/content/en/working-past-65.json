@@ -1,0 +1,61 @@
+{
+  "page": {
+    "title": "Working Past 65 & Medicare — Do You Need to Enroll? | Vernal Medicare",
+    "heading": "Working Past 65: Do You Need Medicare Yet?",
+    "description": "Turning 65 but still working? Whether to take Medicare depends on your employer coverage. A step-by-step guide to Part A, delaying Part B, COBRA, creditable coverage, and avoiding penalties.",
+    "summary": "If you’re turning 65 and still working, you may not need to take all of Medicare yet — but the rules are easy to get wrong, and the penalties are permanent. It comes down to your employer coverage: how many employees, and whether it’s \"creditable.\" This center walks you through it: take premium-free Part A, decide whether to delay Part B, avoid the COBRA trap, and enroll penalty-free when you retire.",
+    "faqs": [
+      {
+        "question": "Do I have to sign up for Medicare at 65 if I’m still working?",
+        "answer": "Not always. If you have creditable coverage from a current employer with 20+ employees, you can usually delay Part B without penalty and enroll later during a Special Enrollment Period. Most people still take premium-free Part A at 65 (unless they contribute to an HSA)."
+      },
+      {
+        "question": "What’s the biggest mistake people make?",
+        "answer": "Relying on COBRA or retiree coverage to delay Part B. Those generally do NOT count as creditable coverage for Part B, so delaying on them triggers a permanent late penalty. When active employment ends, enroll in Part B."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Medicare.gov — how Medicare works with other insurance",
+        "url": "https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/joining-a-plan-when-you-have-other-coverage",
+        "publisher": "Medicare.gov"
+      }
+    ],
+    "nextSteps": [
+      {
+        "when": "Not sure whether to enroll or delay?",
+        "action": "call us free at {phone} — we’ll look at your employer coverage and tell you exactly what to do."
+      }
+    ]
+  },
+  "meta": {
+    "ogTitle": "Working Past 65 & Medicare",
+    "ogDescription": "Still working at 65? Whether to take Medicare depends on your employer coverage — here’s how to decide."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "self": "Working Past 65"
+  },
+  "body": {
+    "introHtml": "Turning 65 while you’re still working is one of the most confusing moments in Medicare — and one of the easiest to get wrong. The good news: it usually comes down to a few clear questions about your <strong>employer coverage</strong>. Work through them here, or hand it to us to check, free.",
+    "h2PartA": "Start Here: Take Premium-Free Part A",
+    "partAHtml": "Almost everyone should enroll in <a href=\"medicare-part-a-vs-part-b.html\">Part A</a> at 65 — it’s usually premium-free and can pay secondary to your employer plan. The one exception: if you contribute to a <strong>Health Savings Account (HSA)</strong>, enrolling in any part of Medicare (including Part A) stops your ability to contribute, so you’d delay Part A too.",
+    "h2Tree": "The Decision Tree",
+    "treeItemsHtml": [
+      "<strong>Does your (or your spouse’s) employer have 20+ employees, and is the coverage active?</strong> If yes, that coverage is usually <a href=\"medicare-creditable-coverage.html\">creditable</a> — you can delay Part B without penalty. If the employer has fewer than 20 employees, Medicare is usually <em>primary</em>, so you should take Part B at 65.",
+      "<strong>Should you delay Part B?</strong> If your employer coverage is good and you want to avoid the premium for now, delaying can make sense — see <a href=\"delaying-medicare-part-b.html\">delaying Part B</a>. If your employer coverage is thin or expensive, taking Part B may be better.",
+      "<strong>Leaving your job or losing the coverage?</strong> You get an 8-month <a href=\"medicare-special-enrollment-period.html\">Special Enrollment Period</a> to take Part B penalty-free. Don’t wait — and don’t rely on <a href=\"cobra-and-medicare.html\">COBRA</a>."
+    ],
+    "h2Four": "The Four Things to Understand",
+    "fourItemsHtml": [
+      "<strong><a href=\"medicare-and-employer-coverage.html\">Medicare &amp; employer coverage</a></strong> — how they work together, and the 20-employee rule.",
+      "<strong><a href=\"delaying-medicare-part-b.html\">Delaying Part B</a></strong> — when it’s safe, and when it triggers a permanent penalty.",
+      "<strong><a href=\"cobra-and-medicare.html\">COBRA &amp; Medicare</a></strong> — the trap that costs people a lifelong penalty.",
+      "<strong><a href=\"medicare-creditable-coverage.html\">Creditable coverage</a></strong> — the term that decides whether you can delay safely."
+    ],
+    "h2Then": "Then What?",
+    "thenHtml": "When you do retire, the rest of the <a href=\"turning-65.html\">turning-65 journey</a> takes over: choose <a href=\"medicare-supplement-vs-advantage.html\">Medigap or Medicare Advantage</a>, add <a href=\"best-part-d-plans-vernal.html\">Part D</a>, and check your <a href=\"medicare-costs.html\">costs</a>. Worried about a penalty? <a href=\"medicare-part-b-penalty-calculator.html\">Estimate it here</a>. Not sure where you fit? <a href=\"medicare-decision-center.html\">Start with your situation</a>.",
+    "h2Free": "Get It Right the First Time — Free",
+    "freeHtml": "The Part B timing decision is permanent if you get it wrong, so it’s worth a five-minute check. <strong>Call us free at {phone}</strong> (TTY: {tty}) — tell us your employer situation and we’ll tell you exactly what to take, what to delay, and when. No cost, no pressure."
+  }
+}

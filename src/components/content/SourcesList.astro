@@ -1,18 +1,22 @@
 ---
 // SourcesList.astro — authoritative citations (Evidence). Visible list; the
 // machine-readable citations are emitted by assembleSchema.
+// i18n (M3): default heading + aria via t(); an explicit heading prop wins.
+import { getLangFromUrl, t } from '../../i18n/locales';
 import type { Evidence } from '../../types/Page';
 
 interface Props {
   sources: Evidence[];
   heading?: string;
 }
-const { sources, heading = 'Sources' } = Astro.props;
+const { sources, heading } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const headingText = heading ?? t('sources.heading', lang);
 ---
 
 {sources.length > 0 && (
-  <section class="sources" aria-label="Sources">
-    <h2>{heading}</h2>
+  <section class="sources" aria-label={t('sources.aria', lang)}>
+    <h2>{headingText}</h2>
     <ul>
       {sources.map((s) => (
         <li>

@@ -1,0 +1,41 @@
+---
+// src/components/LanguageSwitcher.astro — existence-aware switcher (Phase A.5).
+//
+// Derives everything from the current URL, so it needs no props and can sit in
+// the shared Header. It renders NOTHING unless the current page has ≥2 locales
+// committed (i18n/content.ts is the single existence authority) — untranslated
+// pages stay byte-identical, and no link emitted here can 404.
+//
+// The current language renders as plain text, other languages as links. On a
+// localized page the master option points back to the English page (that's
+// correct master-fallback behavior, not a leak — playbook §6).
+import { LOCALES, getLangFromUrl, pageSlugFromUrl, t } from '../i18n/locales';
+import { getAvailableLocales, localePageHref } from '../i18n/content';
+
+const lang = getLangFromUrl(Astro.url);
+const slug = pageSlugFromUrl(Astro.url);
+const available = getAvailableLocales(slug);
+const options = LOCALES.filter((l) => available.includes(l.code));
+---
+
+{options.length >= 2 && (
+  <span class="lang-switcher" aria-label={t('switcher.label', lang)}>
+    🌐{' '}
+    {options.map((l, i) => (
+      <Fragment>
+        {i > 0 && <span aria-hidden="true"> · </span>}
+        {l.code === lang ? (
+          <span class="lang-current" aria-current="true" lang={l.code}>{l.name}</span>
+        ) : (
+          <a href={localePageHref(slug, l.code)} lang={l.code} hreflang={l.code}>{l.name}</a>
+        )}
+      </Fragment>
+    ))}
+  </span>
+)}
+
+<style>
+  .lang-current {
+    font-weight: 700;
+  }
+</style>

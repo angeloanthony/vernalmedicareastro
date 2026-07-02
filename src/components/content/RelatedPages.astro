@@ -1,21 +1,28 @@
 ---
 // RelatedPages.astro — renders the (already computed + scored) related list.
+// i18n (M3): heading/aria via t(); hrefs existence-aware. Card labels/blurbs
+// come from PAGE_INDEX (a shared data module) and remain English until that
+// module gets its own translation source (Phase B shared-module milestone).
+import { getLangFromUrl, t } from '../../i18n/locales';
+import { localizeHref } from '../../i18n/content';
 import type { RelatedPage } from '../../types/Page';
 
 interface Props {
   related: RelatedPage[];
   heading?: string;
 }
-const { related, heading = 'Related' } = Astro.props;
+const { related, heading } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const headingText = heading ?? t('related.heading', lang);
 ---
 
 {related.length > 0 && (
-  <nav class="related" aria-label="Related pages">
-    <h2>{heading}</h2>
+  <nav class="related" aria-label={t('related.aria', lang)}>
+    <h2>{headingText}</h2>
     <ul>
       {related.map((r) => (
         <li>
-          <a href={r.href}>{r.label}</a>{r.blurb && <span class="related-blurb"> — {r.blurb}</span>}
+          <a href={localizeHref(r.href, lang)}>{r.label}</a>{r.blurb && <span class="related-blurb"> — {r.blurb}</span>}
         </li>
       ))}
     </ul>

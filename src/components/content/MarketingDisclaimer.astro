@@ -4,12 +4,17 @@
 // business.ts so the text can never drift. Opt-in via context.marketingDisclaimer
 // on any page that markets specific MA/PDP plans. The TPMO "not connected"
 // statement is handled separately by Disclaimer.astro.
-import { BUSINESS } from '../../data/business';
-const { multiPlan, representative } = BUSINESS.marketingDisclaimer;
+// i18n (M3): text via businessDisclaimers() — the CMS-published Spanish wording,
+// never machine-translated; heading via t().
+import { businessDisclaimers } from '../../data/business';
+import { getLangFromUrl, t } from '../../i18n/locales';
+
+const lang = getLangFromUrl(Astro.url);
+const { multiPlan, representative } = businessDisclaimers(lang);
 ---
 
-<section class="marketing-disclaimer" aria-label="Important Medicare information">
-  <h2>Important Medicare Information</h2>
+<section class="marketing-disclaimer" aria-label={t('marketing.aria', lang)}>
+  <h2>{t('marketing.heading', lang)}</h2>
   <p>{multiPlan}</p>
   <p>{representative}</p>
 </section>

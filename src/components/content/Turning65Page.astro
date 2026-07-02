@@ -1,0 +1,141 @@
+---
+// src/components/content/Turning65Page.astro — THE Turning-65 template
+// (playbook §4.5: one shared component per page). Rendered by BOTH the master
+// route (/turning-65.html) and the localized dynamic route (/es/turning-65.html);
+// the locale is derived from the URL and every human-facing string comes from
+// src/i18n/content/{locale}/turning-65.json with master fallback.
+//
+// Page body copy extraction was 3-diff verified glyph-for-glyph against the
+// pre-extraction output (tag structure / visible text / entity leaks).
+// NOTE: TURNING_65_STEPS (data/turning65.ts) is a SHARED DATA MODULE — its
+// strings are a separate translation boundary, scheduled for Phase B.
+import ArticlePage from '../layout/ArticlePage.astro';
+import { TURNING_65_STEPS } from '../../data/turning65';
+import { BUSINESS } from '../../data/business';
+import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import type { PageContext } from '../../types/Page';
+
+interface Turning65Content {
+  page: {
+    title: string;
+    heading: string;
+    description: string;
+    summary: string;
+    faqs: { question: string; answer: string }[];
+    sources: { title: string; url: string; publisher: string }[];
+    nextSteps: { when: string; action: string }[];
+  };
+  meta: { ogTitle: string; ogDescription: string };
+  breadcrumb: { home: string; self: string };
+  body: {
+    introHtml: string;
+    sixtySecondHtml: string;
+    timelineHeading: string;
+    nextLabel: string;
+    everythingHeading: string;
+    everythingItemsHtml: string[];
+    localHeading: string;
+    localHelpHtml: string;
+  };
+}
+
+const lang = getLangFromUrl(Astro.url);
+const c = getPageContent<Turning65Content>('turning-65', lang);
+const vars = { phone: BUSINESS.phone, tty: BUSINESS.tty, stepCount: TURNING_65_STEPS.length };
+
+const pagePath = lang === 'en' ? '/turning-65.html' : `/${lang}/turning-65.html`;
+
+const context: PageContext = {
+  page: {
+    title: c.page.title,
+    heading: c.page.heading,
+    description: c.page.description,
+    taxonomy: { silo: 'enrollment', tags: ['turning-65', 'enrollment', 'iep', 'journey', 'deadlines'], pillar: true },
+    summary: interp(c.page.summary, vars),
+    faqs: c.page.faqs,
+    sources: c.page.sources,
+    nextSteps: c.page.nextSteps.map((s) => ({ when: s.when, action: interp(s.action, vars) })),
+  },
+  meta: {
+    canonical: `${SITE_ORIGIN}${pagePath}`,
+    ogType: 'article',
+    ogTitle: c.meta.ogTitle,
+    ogDescription: c.meta.ogDescription,
+    lang,
+    ogLocale: getLocaleMeta(lang).ogLocale,
+    hreflang: hreflangAlternates('turning-65'),
+  },
+  author: 'rocco',
+  datePublished: '2026-07-01',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: c.breadcrumb.home, href: localizeHref('/', lang) },
+    { name: c.breadcrumb.self, href: pagePath },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p set:html={c.body.introHtml} />
+
+  <div style="background:#0b2c45;color:#fff;padding:1.25rem 1.5rem;border-radius:12px;margin:1.5rem 0 2rem;" set:html={interp(c.body.sixtySecondHtml, vars)} />
+
+  <h2>{c.body.timelineHeading}</h2>
+  <ol class="t65-steps">
+    {TURNING_65_STEPS.map((s) => (
+      <li id={s.id} class="t65-step">
+        <p class="t65-when">{s.when}</p>
+        <h3>{s.title}</h3>
+        <p>{s.task}</p>
+        <p class="t65-links">
+          {s.relatedHref && <a href={localizeHref(s.relatedHref, lang)}>{s.relatedLabel} →</a>}
+          {s.calculatorHref && <Fragment> · <a href={localizeHref(s.calculatorHref, lang)}>{s.calculatorLabel}</a></Fragment>}
+        </p>
+        {s.nextStep && <p class="t65-next"><strong>{c.body.nextLabel}</strong> {s.nextStep}</p>}
+      </li>
+    ))}
+  </ol>
+
+  <h2>{c.body.everythingHeading}</h2>
+  <ul>
+    {c.body.everythingItemsHtml.map((item) => <li set:html={item} />)}
+  </ul>
+
+  <h2>{c.body.localHeading}</h2>
+  <p set:html={interp(c.body.localHelpHtml, vars)} />
+</ArticlePage>
+
+<style>
+  .t65-steps { list-style: none; counter-reset: t65; padding: 0; margin: 1.5rem 0; }
+  .t65-step {
+    counter-increment: t65;
+    position: relative;
+    padding: 1rem 0 1rem 3rem;
+    border-top: 1px solid var(--color-border, #e5e9ee);
+  }
+  .t65-step::before {
+    content: counter(t65);
+    position: absolute;
+    left: 0; top: 1rem;
+    width: 2rem; height: 2rem;
+    display: flex; align-items: center; justify-content: center;
+    background: #0b2c45; color: #fff;
+    border-radius: 999px; font-weight: 700;
+  }
+  .t65-step h3 { margin: 0.25rem 0 0.5rem; }
+  .t65-when {
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-accent, #9e0853);
+    margin: 0;
+  }
+  .t65-links { font-size: 0.95rem; margin: 0.5rem 0; }
+  .t65-next {
+    font-size: 0.9rem;
+    color: var(--color-text-muted, #667085);
+    margin: 0.5rem 0 0;
+  }
+</style>

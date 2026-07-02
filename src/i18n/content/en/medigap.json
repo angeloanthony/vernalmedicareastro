@@ -1,0 +1,58 @@
+{
+  "page": {
+    "title": "Medigap (Medicare Supplement) in Vernal, Utah | Vernal Medicare",
+    "heading": "Medigap (Medicare Supplement) — \"Don't Be Harold\" Insurance",
+    "description": "Compare Medigap plans in Vernal and the Uintah Basin. Local, licensed help choosing a Medicare Supplement that fits your doctors and budget.",
+    "summary": "Medigap (Medicare Supplement) helps pay the costs Original Medicare doesn't — deductibles, copays, and coinsurance. You keep Original Medicare, see any provider who accepts it nationwide, and add a separate Part D plan for prescriptions. Local, licensed help comparing Medigap plans in Vernal and the Uintah Basin.",
+    "faqs": [
+      {
+        "question": "What is Medigap?",
+        "answer": "Medigap (Medicare Supplement) helps pay the costs Original Medicare doesn't, like deductibles, copays, and coinsurance. You keep Original Medicare and can see any provider who accepts Medicare."
+      },
+      {
+        "question": "Does Medigap include drug coverage?",
+        "answer": "No. Most people add a separate Part D plan for prescriptions."
+      },
+      {
+        "question": "When can I enroll?",
+        "answer": "Your best time is the first 6 months you're 65 or older and have Part B—no health questions in most states. After that you can apply anytime, but medical underwriting may apply."
+      }
+    ]
+  },
+  "meta": {
+    "ogDescription": "Local, licensed help comparing Medigap plans in Vernal and the Uintah Basin."
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "self": "Medigap"
+  },
+  "body": {
+    "biggerPictureHtml": "<strong>Looking for the bigger picture?</strong> See <a href=\"medicare-plans-vernal-utah.html\">everything about Medicare in Vernal, Utah</a> — covers Medicare Advantage, Medigap, Part D, costs, enrollment, and local providers.",
+    "videoTitle": "YouTube video player",
+    "comicAlt": "Medicare comic",
+    "smileAria": "Medicare comics carousel",
+    "smileTitle": "Smile!",
+    "prevAria": "Previous comic",
+    "nextAria": "Next comic",
+    "slides": [
+      { "img": "pictures/joke63.webp", "alt": "Medicare marketing joke — dental add-ons" },
+      { "img": "pictures/joke61.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke55.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke53.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke51.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke50.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke58.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke59.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke60.webp", "alt": "Part B vs Part C superhero parody" },
+      { "img": "pictures/joke62.webp", "alt": "Part B vs Part C superhero parody" }
+    ],
+    "relatedHeading": "Related Topics",
+    "relatedItemsHtml": [
+      "<a href=\"medicare-plans-vernal-utah.html\"><strong>Everything about medicare in vernal, utah</strong></a> — the master overview that ties everything together",
+      "<a href=\"plan-g-vs-plan-n-vernal.html\">Plan G vs Plan N in Vernal</a>",
+      "<a href=\"medicare-supplement-vs-advantage.html\">Medicare Supplement vs Medicare Advantage</a>",
+      "<a href=\"medicare-advantage-vs-medigap-vernal.html\">Medicare Advantage vs Medigap in Vernal</a>",
+      "<a href=\"when-to-enroll-medicare-utah.html\">When to Enroll in Medicare in Utah</a>"
+    ]
+  }
+}

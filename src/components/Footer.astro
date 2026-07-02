@@ -2,28 +2,48 @@
 // src/components/Footer.astro
 // Lifted verbatim from the existing site footer. Contact + disclaimer come
 // from the single source of truth so they can never drift across pages.
-import { BUSINESS } from '../data/business';
+// i18n (M3): chrome strings via t()/localizeLabel; compliance text via
+// businessDisclaimers() (CMS-published Spanish, never machine-translated).
+// English output is byte-identical to the pre-i18n footer.
+import { BUSINESS, businessDisclaimers } from '../data/business';
+import { getLangFromUrl, t, localizeLabel } from '../i18n/locales';
+import { localizeHref } from '../i18n/content';
+
+const lang = getLangFromUrl(Astro.url);
+const d = businessDisclaimers(lang);
 const year = new Date().getFullYear();
-const { multiPlan, representative } = BUSINESS.marketingDisclaimer;
+
+// Footer resource links: labels localized, hrefs existence-aware (fall back
+// to the English page until a translation exists — never a 404).
+const RESOURCES = [
+  { href: '/medicare-decision-center.html', label: 'Start Here' },
+  { href: '/medicare-help-center.html', label: 'Help Center' },
+  { href: '/medicare-financial-assistance.html', label: 'Help Paying' },
+  { href: '/medicare-help-vernal.html', label: 'Local Help' },
+  { href: '/medicare-agent-vernal.html', label: 'About Rocco' },
+  { href: '/part-d-help-vernal.html', label: 'Part D' },
+  { href: '/medicare-enrollment-vernal.html', label: 'Enrollment' },
+];
 ---
 
 <footer class="footer">
   <div class="container">
-    <p>© {year} {BUSINESS.name}. All rights reserved.</p>
+    <p>© {year} {BUSINESS.name}. {t('footer.rights', lang)}</p>
     <p>
-      Email: <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a> | Phone:
+      {/* explicit {' '} — Astro drops whitespace after an expression */}
+      {t('footer.email', lang)}{' '}<a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a> | {t('footer.phone', lang)}{' '}
       <a href={`tel:${BUSINESS.phoneTel}`}>{BUSINESS.phone}</a> (TTY: {BUSINESS.tty})
     </p>
     <p style="font-size:.9rem;opacity:.9">
-      {BUSINESS.disclaimer}
+      {d.disclaimer}
     </p>
     <p style="font-size:.9rem;opacity:.9">
-      {multiPlan}
+      {d.multiPlan}
     </p>
     <p style="font-size:.9rem;opacity:.9">
-      {representative}
+      {d.representative}
     </p>
-    <p><a href="/privacy.html">Privacy</a> • <a href="/terms.html">Terms</a></p>
+    <p><a href={localizeHref('/privacy.html', lang)}>{t('footer.privacy', lang)}</a> • <a href={localizeHref('/terms.html', lang)}>{t('footer.terms', lang)}</a></p>
   </div>
   <p class="powered-by">
     Powered by cozelosdata
@@ -47,16 +67,15 @@ const { multiPlan, representative } = BUSINESS.marketingDisclaimer;
       </picture>
     </a>
   </p>
-  <nav aria-label="Medicare Resources">
+  <nav aria-label={t('footer.resourcesAria', lang)}>
     <p>
-      <strong>Medicare Help:</strong>
-      <a href="/medicare-decision-center.html">Start Here</a> |
-      <a href="/medicare-help-center.html">Help Center</a> |
-      <a href="/medicare-financial-assistance.html">Help Paying</a> |
-      <a href="/medicare-help-vernal.html">Local Help</a> |
-      <a href="/medicare-agent-vernal.html">About Rocco</a> |
-      <a href="/part-d-help-vernal.html">Part D</a> |
-      <a href="/medicare-enrollment-vernal.html">Enrollment</a>
+      <strong>{t('footer.helpLabel', lang)}</strong>{' '}
+      {RESOURCES.map((r, i) => (
+        <Fragment>
+          {i > 0 && ' | '}
+          <a href={localizeHref(r.href, lang)}>{localizeLabel(r.label, lang)}</a>
+        </Fragment>
+      ))}
     </p>
   </nav>
 </footer>

@@ -6,12 +6,15 @@
 //
 // Usage:  <SummaryBlock>Short plain-language summary of the page.</SummaryBlock>
 // or:     <SummaryBlock text="..." />
+import { getLangFromUrl, t } from '../i18n/locales';
+
 interface Props {
   text?: string;
 }
 const { text } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
 ---
 
-<div class="summary-block" role="note" aria-label="Quick summary">
+<div class="summary-block" role="note" aria-label={t('summary.aria', lang)}>
   {text ? <p>{text}</p> : <slot />}
 </div>
