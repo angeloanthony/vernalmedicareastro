@@ -1,0 +1,50 @@
+{
+  "__translation_note": "AI-translated from en/best-part-d-plans-vernal.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "page": {
+    "title": "Los mejores planes de la Parte D de Medicare en Vernal, Utah 2026",
+    "heading": "Los mejores planes de medicamentos recetados de la Parte D de Medicare — Vernal, Utah 2026",
+    "description": "Compare los planes de medicamentos recetados de la Parte D en Vernal, UT para 2026. Encuentre el costo más bajo para sus medicamentos en Smith's Pharmacy y farmacias locales. Llame al 435-219-5120.",
+    "summary": "El plan de la Parte D correcto puede ahorrarles a los residentes de Vernal cientos o incluso miles de dólares al año en medicamentos recetados. Con docenas de planes de medicamentos independientes disponibles en Utah para 2026, compararlos según sus medicamentos específicos y su farmacia preferida es la única manera de encontrar el mejor valor.",
+    "faqs": [
+      {
+        "question": "¿Cuáles son los mejores planes de la Parte D en Vernal, Utah para 2026?",
+        "answer": "El mejor plan depende de sus medicamentos específicos y su farmacia. Comparamos todos los planes de la Parte D disponibles para 2026 con su lista de medicamentos. Llame al 435-219-5120 para una comparación gratuita."
+      },
+      {
+        "question": "¿La Parte D cubre la insulina en Vernal?",
+        "answer": "Sí. En 2026, el costo de la insulina tiene un tope de $35 al mes en todos los planes de la Parte D, gracias a la Ley de Reducción de la Inflación. El gasto total anual de bolsillo en medicamentos tiene un tope de $2,000."
+      }
+    ]
+  },
+  "breadcrumb": {
+    "home": "Inicio",
+    "self": "Los mejores planes de la Parte D en Vernal"
+  },
+  "body": {
+    "needHtml": "<strong>¿Necesita el panorama completo de Medicare?</strong><br>\n  Visite nuestra <a href=\"medicare-plans-vernal-utah.html\">Guía completa de Medicare para Vernal y Uintah Basin</a> que cubre Medigap, Medicare Advantage, la Parte D, la inscripción y los costos de Medicare para 2026.",
+    "introHtml": "El plan de la Parte D correcto puede ahorrarles a los residentes de Vernal cientos o incluso miles de dólares al año en medicamentos recetados. Con docenas de planes de medicamentos independientes disponibles en Utah para 2026, compararlos según sus medicamentos específicos y su farmacia preferida es la única manera de encontrar el mejor valor.",
+    "h2How": "Cómo funcionan los planes de la Parte D",
+    "howHtml": "La Parte D de Medicare cubre los medicamentos recetados ambulatorios. Los planes independientes de la Parte D se combinan con Medicare Original y Medigap. Si tiene un plan Medicare Advantage, la cobertura de medicamentos generalmente ya viene incluida (MAPD). Cada plan de la Parte D tiene su propio formulario (lista de medicamentos cubiertos), estructura de niveles (que determina su copago) y red de farmacias (que afecta los precios).",
+    "h2Key": "Factores clave para los residentes de Vernal",
+    "keyHtml": "<strong>La farmacia importa:</strong> los costos de los medicamentos varían según la farmacia, incluso dentro del mismo plan. Smith's Pharmacy en 1080 W Hwy 40 es donde muchos residentes de Vernal surten sus recetas. Verificamos si su plan ofrece precios preferidos en Smith's en comparación con Walgreens u otras opciones. <strong>Cobertura del formulario:</strong> no todos los planes cubren todos los medicamentos. Algunos requieren autorización previa o terapia escalonada. Verificamos que sus medicamentos específicos estén en el formulario del plan en un nivel razonable. <strong>El período sin cobertura (donut hole):</strong> después de que usted y su plan gastan una cantidad combinada en medicamentos cubiertos, puede entrar en un período sin cobertura. La Ley de Reducción de la Inflación ha cambiado significativamente estos costos — en 2026, la insulina tiene un tope de $35 al mes y el gasto total de bolsillo en medicamentos tiene un tope de $2,000 al año.",
+    "h2Costs": "Costos de la Parte D en 2026",
+    "costsHtml": "Las primas de la Parte D van desde aproximadamente $7 hasta más de $80 al mes. La prima base nacional del beneficiario es de alrededor de $36 al mes. Algunos planes no tienen deducible de la Parte D; otros cobran hasta $590. Después del tope de $2,000 en gastos de bolsillo, usted no paga nada por los medicamentos cubiertos durante el resto del año. Los beneficiarios de bajos ingresos pueden calificar para la Ayuda Adicional (Extra Help), que reduce drásticamente los costos de la Parte D.",
+    "h2Common": "Medicamentos comunes y la cobertura de la Parte D",
+    "commonHtml": "Comparamos regularmente planes para los medicamentos que más usan las personas mayores del área de Vernal: medicamentos para la presión arterial (lisinopril, amlodipina, metoprolol), medicamentos para la diabetes (metformina, insulina, Ozempic, Mounjaro), medicamentos para el colesterol (atorvastatina, rosuvastatina), anticoagulantes (Eliquis, warfarina) e inhaladores respiratorios. La cobertura y los copagos varían significativamente entre planes para el mismo medicamento.",
+    "h2When": "Cuándo cambiar su plan de la Parte D",
+    "whenHtml": "Revise su plan de la Parte D todos los años durante la Inscripción Anual (del 15 de octubre al 7 de diciembre). Los planes cambian sus formularios, farmacias preferidas y precios cada año. Un plan que fue el más barato el año pasado puede no ser el más barato este año para sus medicamentos.",
+    "relatedHeading": "Temas relacionados de Medicare",
+    "relatedItemsHtml": [
+      "<a href=\"medicare-plans-vernal-utah.html\"><strong>Guía completa de Medicare para Vernal</strong></a> — el centro principal de recursos de Medicare",
+      "<a href=\"cheapest-prescription-drug-plans.html\">Los planes de medicamentos recetados más baratos en Vernal</a>",
+      "<a href=\"insulin-cost-medicare-vernal.html\">El costo de la insulina con Medicare</a>",
+      "<a href=\"does-medicare-cover-mounjaro-utah.html\">¿Medicare cubre Mounjaro?</a>",
+      "<a href=\"medicare-cost-uintah-county.html\">Costos de Medicare 2026 en el Condado de Uintah</a>",
+      "<a href=\"when-to-enroll-medicare-utah.html\">Cuándo inscribirse en Medicare en Utah</a>",
+      "<a href=\"medicare-supplement-vs-advantage.html\">Suplemento de Medicare vs Medicare Advantage</a>"
+    ],
+    "sourceHtml": "<em>Fuente: <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a>.</em>",
+    "enrollLabel": "Compare planes e inscríbase",
+    "callHtml": "<strong>Llame a Rocco:</strong> <a href=\"tel:+14352195120\">435-219-5120</a> (TTY: 711) &bull; <a href=\"mailto:rocco@vernalmedicare.com\">rocco@vernalmedicare.com</a>"
+  }
+}

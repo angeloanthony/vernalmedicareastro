@@ -1,0 +1,173 @@
+---
+// src/components/content/SupplementVsAdvantagePage.astro — the Medigap-vs-
+// Advantage comparison template (M4; playbook §4.5). Rendered by BOTH
+// /medicare-supplement-vs-advantage.html and its /es/ sibling.
+// DATA-LAYER PATTERN: the annual Part B deductible comes from figuresFor()/usd
+// and is interpolated into the copy via the {partBDeductible} placeholder —
+// figures stay in the data layer, never in translated JSON.
+import ArticlePage from '../layout/ArticlePage.astro';
+import { figuresFor } from '../../data/annualMedicareData';
+import { usd } from '../../lib/formatters';
+import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import type { PageContext } from '../../types/Page';
+
+const SLUG = 'medicare-supplement-vs-advantage';
+const f = figuresFor();
+const vars = { partBDeductible: usd(f.partB.deductible) };
+
+interface Content {
+  page: {
+    title: string;
+    heading: string;
+    description: string;
+    summary: string;
+    faqs: { question: string; answer: string }[];
+  };
+  meta: { ogTitle: string; ogDescription: string };
+  breadcrumb: { home: string; self: string };
+  body: {
+    quickSummaryHtml: string;
+    biggerPictureHtml: string;
+    introHtml: string;
+    h2Medigap: string;
+    medigapIntroHtml: string;
+    medigapItemsHtml: string[];
+    medigapOutroHtml: string;
+    h2Advantage: string;
+    advantageIntroHtml: string;
+    advantageItemsHtml: string[];
+    h2Table: string;
+    tableHeadMedigap: string;
+    tableHeadAdvantage: string;
+    tableRows: { label: string; medigap: string; advantage: string }[];
+    h2Rural: string;
+    ruralHtml1: string;
+    ruralHtml2: string;
+    h2Switching: string;
+    switchingHtml1: string;
+    switchingHtml2: string;
+    switchingHtml3: string;
+    h2Help: string;
+    helpHtml1: string;
+    helpHtml2: string;
+    callCtaLabel: string;
+    relatedHeading: string;
+    relatedItemsHtml: string[];
+  };
+}
+
+const lang = getLangFromUrl(Astro.url);
+const c = getPageContent<Content>(SLUG, lang);
+const b = c.body;
+const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
+
+const context: PageContext = {
+  page: {
+    title: c.page.title,
+    heading: c.page.heading,
+    description: c.page.description,
+    taxonomy: { silo: 'medigap', tags: ['medigap', 'advantage', 'comparison', 'original-medicare'] },
+    summary: c.page.summary,
+    faqs: c.page.faqs,
+  },
+  meta: {
+    canonical: `${SITE_ORIGIN}${pagePath}`,
+    ogType: 'article',
+    ogTitle: c.meta.ogTitle,
+    ogDescription: c.meta.ogDescription,
+    lang,
+    ogLocale: getLocaleMeta(lang).ogLocale,
+    hreflang: hreflangAlternates(SLUG),
+  },
+  author: 'rocco',
+  datePublished: '2026-03-27',
+  lastUpdated: '2026-07-01',
+  breadcrumb: [
+    { name: c.breadcrumb.home, href: localizeHref('/', lang) },
+    { name: c.breadcrumb.self, href: pagePath },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <!-- AI-First Summary Block -->
+  <div style="background:#e8f4f8; border-left:4px solid #0b2c45; padding:1.2rem 1.5rem; border-radius:6px; margin-bottom:2rem;">
+    <p style="margin:0; font-size:1.05rem; line-height:1.6;" set:html={b.quickSummaryHtml} />
+  </div>
+
+  <p style="background:#f0f9ff; border-left:5px solid #0b6ea3; border-radius:6px; padding:1rem 1.25rem; margin:1.25rem 0;" set:html={b.biggerPictureHtml} />
+
+  <p set:html={b.introHtml} />
+
+  <h2 style="margin-top:2rem;">{b.h2Medigap}</h2>
+
+  <p set:html={b.medigapIntroHtml} />
+
+  <ul style="margin:1rem 0 1rem 1.5rem; line-height:1.8;">
+    {b.medigapItemsHtml.map((item) => <li set:html={interp(item, vars)} />)}
+  </ul>
+
+  <p set:html={b.medigapOutroHtml} />
+
+  <h2 style="margin-top:2rem;">{b.h2Advantage}</h2>
+
+  <p set:html={b.advantageIntroHtml} />
+
+  <ul style="margin:1rem 0 1rem 1.5rem; line-height:1.8;">
+    {b.advantageItemsHtml.map((item) => <li set:html={item} />)}
+  </ul>
+
+  <h2 style="margin-top:2rem;">{b.h2Table}</h2>
+
+  <table style="width:100%; border-collapse:collapse; margin:1.5rem 0;">
+    <thead>
+      <tr style="background:#0b2c45; color:#fff;">
+        <th style="padding:12px; text-align:left; border:1px solid #ddd;"></th>
+        <th style="padding:12px; text-align:left; border:1px solid #ddd;">{b.tableHeadMedigap}</th>
+        <th style="padding:12px; text-align:left; border:1px solid #ddd;">{b.tableHeadAdvantage}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {b.tableRows.map((row, i) => (
+        <tr style={i % 2 === 1 ? 'background:#f9f9f9;' : undefined}>
+          <td style="padding:10px; border:1px solid #ddd; font-weight:bold;">{row.label}</td>
+          <td style="padding:10px; border:1px solid #ddd;">{row.medigap}</td>
+          <td style="padding:10px; border:1px solid #ddd;">{row.advantage}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2 style="margin-top:2rem;">{b.h2Rural}</h2>
+
+  <p set:html={b.ruralHtml1} />
+
+  <p set:html={b.ruralHtml2} />
+
+  <h2 style="margin-top:2rem;">{b.h2Switching}</h2>
+
+  <p set:html={b.switchingHtml1} />
+
+  <p set:html={b.switchingHtml2} />
+
+  <p set:html={b.switchingHtml3} />
+
+  <h2 style="margin-top:2rem;">{b.h2Help}</h2>
+
+  <p set:html={b.helpHtml1} />
+
+  <p set:html={b.helpHtml2} />
+
+  <p style="text-align:center; margin:2rem 0;">
+    <a href="tel:+14352195120" class="btn" style="font-size:1.1rem;">{b.callCtaLabel}</a>
+  </p>
+
+  <!-- Related Articles -->
+  <section>
+    <h2>{b.relatedHeading}</h2>
+    <ul>
+      {b.relatedItemsHtml.map((item) => <li set:html={item} />)}
+    </ul>
+  </section>
+</ArticlePage>

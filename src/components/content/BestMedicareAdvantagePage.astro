@@ -1,0 +1,91 @@
+---
+// src/components/content/BestMedicareAdvantagePage.astro — Medicare Advantage
+// pillar template (M4; playbook §4.5). Rendered by BOTH
+// /best-medicare-advantage-vernal.html and its /es/ sibling; copy from
+// src/i18n/content/{locale}/best-medicare-advantage-vernal.json.
+import ArticlePage from '../layout/ArticlePage.astro';
+import { getPageContent, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import type { PageContext } from '../../types/Page';
+
+const SLUG = 'best-medicare-advantage-vernal';
+
+interface Content {
+  page: {
+    title: string;
+    heading: string;
+    description: string;
+    summary: string;
+    faqs: { question: string; answer: string }[];
+  };
+  breadcrumb: { home: string; self: string };
+  body: Record<string, string>;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const c = getPageContent<Content>(SLUG, lang);
+const b = c.body;
+const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
+
+const context: PageContext = {
+  page: {
+    title: c.page.title,
+    heading: c.page.heading,
+    description: c.page.description,
+    taxonomy: {
+      silo: 'medicare-advantage',
+      tags: ['medicare-advantage', 'advantage', 'vernal', 'uintah-county', 'local'],
+      pillar: true,
+    },
+    summary: c.page.summary,
+    faqs: c.page.faqs,
+  },
+  meta: {
+    canonical: `${SITE_ORIGIN}${pagePath}`,
+    ogType: 'article',
+    gaIds: ['G-NW6ENB89NF', 'G-FTDW9B2G6Q'],
+    lang,
+    ogLocale: getLocaleMeta(lang).ogLocale,
+    hreflang: hreflangAlternates(SLUG),
+  },
+  author: 'rocco',
+  datePublished: '2026-04-04',
+  lastUpdated: '2026-06-30',
+  marketingDisclaimer: true,
+  breadcrumb: [
+    { name: c.breadcrumb.home, href: localizeHref('/', lang) },
+    { name: c.breadcrumb.self, href: pagePath },
+  ],
+};
+---
+
+<ArticlePage context={context}>
+  <p set:html={b.introHtml} />
+
+  <h2>{b.h2What}</h2>
+  <p set:html={b.whatHtml} />
+
+  <h2>{b.h2Types}</h2>
+  <h3>{b.h3Hmo}</h3>
+  <p set:html={b.hmoHtml} />
+  <h3>{b.h3Ppo}</h3>
+  <p set:html={b.ppoHtml} />
+
+  <h2>{b.h2Zero}</h2>
+  <p set:html={b.zeroHtml} />
+
+  <h2>{b.h2Compare}</h2>
+  <p set:html={b.compareHtml} />
+
+  <h2>{b.h2Rural}</h2>
+  <p set:html={b.ruralHtml} />
+
+  <p set:html={b.compareLinksHtml} />
+
+  <p set:html={b.sourceHtml} />
+
+  <p style="text-align:center;margin-top:2rem;">
+    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer" set:html={b.enrollLabel} />
+  </p>
+  <p style="text-align:center;margin-top:1rem;" set:html={b.callHtml} />
+</ArticlePage>

@@ -1,0 +1,49 @@
+{
+  "page": {
+    "title": "Best Medicare Part D Plans in Vernal, Utah 2026",
+    "heading": "Best Medicare Part D Prescription Drug Plans — Vernal, Utah 2026",
+    "description": "Compare Part D prescription drug plans in Vernal, UT for 2026. Find the lowest cost for your medications at Smith's Pharmacy and local pharmacies. Call 435-219-5120.",
+    "summary": "The right Part D plan can save Vernal residents hundreds or even thousands of dollars per year on prescriptions. With dozens of standalone drug plans available in Utah for 2026, comparing them based on your specific medications and preferred pharmacy is the only way to find the best value.",
+    "faqs": [
+      {
+        "question": "What are the best Part D plans in Vernal, Utah for 2026?",
+        "answer": "The best plan depends on your specific medications and pharmacy. We compare all available Part D plans for 2026 against your drug list. Call 435-219-5120 for a free comparison."
+      },
+      {
+        "question": "Does Part D cover insulin in Vernal?",
+        "answer": "Yes. In 2026, insulin costs are capped at $35 per month under all Part D plans, thanks to the Inflation Reduction Act. Total annual out-of-pocket drug spending is capped at $2,000."
+      }
+    ]
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "self": "Best Part D Plans in Vernal"
+  },
+  "body": {
+    "needHtml": "<strong>Need the complete Medicare overview?</strong><br>\n  Visit our <a href=\"medicare-plans-vernal-utah.html\">Complete Medicare Guide for Vernal and the Uintah Basin</a> covering Medigap, Medicare Advantage, Part D, enrollment, and 2026 Medicare costs.",
+    "introHtml": "The right Part D plan can save Vernal residents hundreds or even thousands of dollars per year on prescriptions. With dozens of standalone drug plans available in Utah for 2026, comparing them based on your specific medications and preferred pharmacy is the only way to find the best value.",
+    "h2How": "How Part D Plans Work",
+    "howHtml": "Medicare Part D covers outpatient prescription drugs. Standalone Part D plans pair with Original Medicare and Medigap. If you have a Medicare Advantage plan, drug coverage is usually built in (MAPD). Each Part D plan has its own formulary (list of covered drugs), tier structure (which determines your copay), and pharmacy network (which affects pricing).",
+    "h2Key": "Key Factors for Vernal Residents",
+    "keyHtml": "<strong>Pharmacy matters:</strong> Drug costs vary by pharmacy, even within the same plan. Smith's Pharmacy at 1080 W Hwy 40 is where many Vernal residents fill prescriptions. We check whether your plan offers preferred pricing at Smith's versus Walgreens or other options. <strong>Formulary coverage:</strong> Not all plans cover every drug. Some require prior authorization or step therapy. We verify that your specific medications are on the plan's formulary at a reasonable tier. <strong>The donut hole:</strong> After you and your plan spend a combined amount on covered drugs, you may enter a coverage gap. The Inflation Reduction Act has changed donut hole costs significantly — in 2026, insulin is capped at $35/month and total out-of-pocket drug costs are capped at $2,000 annually.",
+    "h2Costs": "Part D Costs in 2026",
+    "costsHtml": "Part D premiums range from approximately $7 to $80+ per month. The national base beneficiary premium is around $36/month. There is no Part D deductible for some plans; others charge up to $590. After the $2,000 out-of-pocket cap, you pay nothing for covered prescriptions for the rest of the year. Low-income beneficiaries may qualify for Extra Help, which dramatically reduces Part D costs.",
+    "h2Common": "Common Medications and Part D Coverage",
+    "commonHtml": "We regularly compare plans for medications commonly used by Vernal-area seniors: blood pressure medications (lisinopril, amlodipine, metoprolol), diabetes drugs (metformin, insulin, Ozempic, Mounjaro), cholesterol medications (atorvastatin, rosuvastatin), blood thinners (Eliquis, warfarin), and respiratory inhalers. Coverage and copays vary significantly between plans for the same drug.",
+    "h2When": "When to Change Your Part D Plan",
+    "whenHtml": "Review your Part D plan every year during Annual Enrollment (October 15 – December 7). Plans change formularies, preferred pharmacies, and pricing annually. A plan that was cheapest last year may not be cheapest this year for your medications.",
+    "relatedHeading": "Related Medicare Topics",
+    "relatedItemsHtml": [
+      "<a href=\"medicare-plans-vernal-utah.html\"><strong>Complete Medicare Guide for Vernal</strong></a> — the main Medicare resource hub",
+      "<a href=\"cheapest-prescription-drug-plans.html\">Cheapest Prescription Drug Plans in Vernal</a>",
+      "<a href=\"insulin-cost-medicare-vernal.html\">Insulin Costs with Medicare</a>",
+      "<a href=\"does-medicare-cover-mounjaro-utah.html\">Does Medicare Cover Mounjaro?</a>",
+      "<a href=\"medicare-cost-uintah-county.html\">2026 Medicare Costs in Uintah County</a>",
+      "<a href=\"when-to-enroll-medicare-utah.html\">When to Enroll in Medicare in Utah</a>",
+      "<a href=\"medicare-supplement-vs-advantage.html\">Medicare Supplement vs Medicare Advantage</a>"
+    ],
+    "sourceHtml": "<em>Source: <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a>.</em>",
+    "enrollLabel": "Compare Plans &amp; Enroll",
+    "callHtml": "<strong>Call Rocco:</strong> <a href=\"tel:+14352195120\">435-219-5120</a> (TTY: 711) &bull; <a href=\"mailto:rocco@vernalmedicare.com\">rocco@vernalmedicare.com</a>"
+  }
+}

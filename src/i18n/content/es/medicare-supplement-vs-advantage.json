@@ -1,0 +1,88 @@
+{
+  "__translation_note": "AI-translated from en/medicare-supplement-vs-advantage.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "page": {
+    "title": "Suplemento de Medicare vs Medicare Advantage | ¿Cuál es el adecuado para usted? | Vernal Medicare",
+    "heading": "Suplemento de Medicare vs Medicare Advantage — ¿Cuál es el adecuado para usted?",
+    "description": "Compare los planes Medigap (Suplemento de Medicare) y Medicare Advantage lado a lado. Conozca las ventajas, desventajas y costos de cada uno para elegir la cobertura de Medicare correcta en Vernal, UT. Llame al 435-219-5120.",
+    "summary": "El Suplemento de Medicare (Medigap) funciona junto con Medicare Original para cubrir sus gastos de bolsillo, y le permite ver a cualquier proveedor de Medicare en todo el país. Medicare Advantage reemplaza a Medicare Original con un plan privado que a menudo combina cobertura de medicamentos y dental, pero usa una red de proveedores. Para los residentes rurales de Uintah Basin, Medigap a menudo ofrece más flexibilidad. Vernal Medicare compara ambas opciones gratis.",
+    "faqs": [
+      {
+        "question": "¿Cuál es la diferencia principal entre el Suplemento de Medicare y Medicare Advantage?",
+        "answer": "Medigap funciona junto con Medicare Original para cubrir sus gastos de bolsillo — deducibles, coseguro, copagos — sin restricciones de red de proveedores. Medicare Advantage reemplaza a Medicare Original con un plan privado que combina la cobertura (a menudo incluyendo medicamentos y dental), pero usa una red de proveedores y cobra copagos por cada uso."
+      },
+      {
+        "question": "¿Cuál es mejor para las personas en las zonas rurales de Utah?",
+        "answer": "Para los residentes de Vernal, Naples, Jensen y toda la región de Uintah Basin, Medigap suele ser la opción más sólida porque le permite ver a cualquier proveedor que acepte Medicare en todo el país — sin restricciones de red. Los planes Advantage en áreas rurales pueden tener redes limitadas, lo que puede ser un problema cuando necesita especialistas en Salt Lake City o Grand Junction."
+      },
+      {
+        "question": "¿Puedo cambiar entre Medigap y Medicare Advantage más adelante?",
+        "answer": "Cambiar de Medigap a Advantage es fácil durante el Período de Inscripción Anual. Cambiar de Advantage de regreso a Medigap es más difícil — en Utah, normalmente tendrá que pasar una evaluación médica de riesgo y pueden negarle la cobertura o cobrarle más según sus condiciones de salud. Esta puerta de un solo sentido es uno de los factores más importantes a considerar antes de elegir Advantage."
+      },
+      {
+        "question": "¿Vernal Medicare ayuda a comparar ambas opciones?",
+        "answer": "Sí. Rocco DeLuca de Vernal Medicare tiene licencia para ofrecer tanto planes Medigap como Medicare Advantage. Brinda comparaciones gratuitas e imparciales según sus médicos, sus medicamentos y sus necesidades de salud. Llame al 435-219-5120 para agendar una consulta."
+      }
+    ]
+  },
+  "meta": {
+    "ogTitle": "Suplemento de Medicare vs Medicare Advantage — ¿Cuál es el adecuado para usted?",
+    "ogDescription": "Una comparación lado a lado de Medigap y Medicare Advantage para los residentes de Vernal y Uintah Basin. Entienda las primas, la cobertura y la flexibilidad antes de elegir."
+  },
+  "breadcrumb": {
+    "home": "Inicio",
+    "self": "Suplemento vs Advantage"
+  },
+  "body": {
+    "quickSummaryHtml": "<strong>Resumen rápido:</strong> el Suplemento de Medicare (Medigap) funciona junto con Medicare Original para cubrir sus gastos de bolsillo — puede ver a cualquier proveedor de Medicare en todo el país. Medicare Advantage reemplaza a Medicare Original con un plan privado que a menudo combina cobertura de medicamentos y dental, pero usa una red de proveedores. Para los residentes rurales de Uintah Basin, Medigap a menudo ofrece más flexibilidad. <a href=\"index.html\">Vernal Medicare</a> compara ambas opciones gratis — llame al <a href=\"tel:+14352195120\">435-219-5120</a>.",
+    "biggerPictureHtml": "<strong>¿Busca el panorama completo?</strong> Vea <a href=\"medicare-plans-vernal-utah.html\">nuestra guía completa de Medicare para residentes de Vernal</a> — cubre Medicare Advantage, Medigap, la Parte D, costos, inscripción y proveedores locales.",
+    "introHtml": "Esta es la pregunta más común que hacen los beneficiarios de Medicare: ¿debería tener un suplemento Medigap o un plan Medicare Advantage? Ambos llenan los vacíos que deja <a href=\"medicare-part-a-vs-part-b.html\">Medicare Original (Parte A y Parte B)</a>, pero funcionan de maneras fundamentalmente distintas. La elección correcta depende de su salud, su presupuesto, dónde vive, y qué médicos y hospitales usa.",
+    "h2Medigap": "Cómo funciona el Suplemento de Medicare (Medigap)",
+    "medigapIntroHtml": "Una póliza Medigap es un seguro suplementario que se combina con Medicare Original. Usted conserva sus beneficios de la Parte A y la Parte B — Medicare paga su parte primero, y luego su plan Medigap cubre parte o la totalidad de los costos restantes (deducibles, coseguro, copagos). Esto es lo que significa en la práctica:",
+    "medigapItemsHtml": [
+      "<strong>Sin red de proveedores.</strong> Puede ver a cualquier médico u hospital del país que acepte Medicare. No se necesitan referencias.",
+      "<strong>Planes estandarizados.</strong> Los planes Medigap se identifican por letra (Plan G, Plan N, etc.) y cubren los mismos beneficios sin importar qué compañía de seguros los venda. La diferencia entre aseguradoras es el precio y el servicio al cliente.",
+      "<strong>Costos predecibles.</strong> Con el Plan G — la opción Medigap más popular — su único gasto de bolsillo después de la prima mensual es el deducible anual de la Parte B ({partBDeductible} en 2026). Todo lo demás está cubierto al 100%.",
+      "<strong>Se necesita un plan de medicamentos por separado.</strong> Medigap no incluye cobertura de medicamentos recetados. Tendrá que inscribirse por separado en un <a href=\"part-d-help-vernal.html\">plan de medicamentos de la Parte D</a> independiente."
+    ],
+    "medigapOutroHtml": "Para los residentes del área de Vernal que ven regularmente a especialistas en Salt Lake City o Grand Junction, el acceso a proveedores en todo el país que ofrece Medigap es una ventaja significativa. Nunca está atado a una red, y nunca recibirá una factura sorpresa por haber ido fuera de la red.",
+    "h2Advantage": "Cómo funciona Medicare Advantage",
+    "advantageIntroHtml": "Medicare Advantage (Parte C) es una alternativa a Medicare Original que ofrecen compañías de seguros privadas aprobadas por Medicare. Cuando se une a un plan Advantage, recibe sus beneficios de la Parte A y la Parte B a través de ese plan en lugar de directamente de Medicare. La mayoría de los planes Advantage también combinan la cobertura de medicamentos de la Parte D y pueden incluir extras como dental, visión, audición y beneficios de gimnasio.",
+    "advantageItemsHtml": [
+      "<strong>Red de proveedores.</strong> La mayoría de los planes Advantage usan redes HMO o PPO. Puede necesitar referencias para ver a especialistas, e ir fuera de la red puede costar mucho más (o no estar cubierto en absoluto con los HMO).",
+      "<strong>Primas más bajas, costos por uso más altos.</strong> Muchos planes Advantage tienen primas mensuales de $0 (usted igualmente paga la prima de la Parte B). Sin embargo, paga copagos y coseguro cada vez que usa los servicios, hasta un máximo anual de gastos de bolsillo.",
+      "<strong>Tope anual de gastos de bolsillo.</strong> A diferencia de Medicare Original, los planes Advantage ponen un límite a su gasto. En 2026, el límite máximo de gastos de bolsillo para servicios dentro de la red es de $8,850.",
+      "<strong>Beneficios adicionales.</strong> Exámenes dentales, anteojos, audífonos, membresías de gimnasio, e incluso transporte a citas médicas — beneficios que Medicare Original y Medigap no ofrecen."
+    ],
+    "h2Table": "Comparación lado a lado",
+    "tableHeadMedigap": "Medigap (Suplemento)",
+    "tableHeadAdvantage": "Medicare Advantage",
+    "tableRows": [
+      { "label": "Funciona con", "medigap": "Medicare Original (Parte A + B)", "advantage": "Reemplaza a Medicare Original" },
+      { "label": "Prima mensual", "medigap": "$100–$250+ (varía según el plan, la edad y la aseguradora)", "advantage": "$0–$50 en la mayoría de los planes (más la prima de la Parte B)" },
+      { "label": "Red de proveedores", "medigap": "Cualquier proveedor que acepte Medicare en todo el país", "advantage": "Red HMO o PPO; fuera de la red es limitado" },
+      { "label": "Máximo de gastos de bolsillo", "medigap": "Prácticamente $0 con el Plan G (después del deducible de la Parte B)", "advantage": "Hasta $8,850 dentro de la red (2026)" },
+      { "label": "Cobertura de medicamentos", "medigap": "Se requiere un plan de la Parte D por separado", "advantage": "Generalmente incluida" },
+      { "label": "Dental / Visión / Audición", "medigap": "No incluido", "advantage": "A menudo incluido" },
+      { "label": "Ideal para", "medigap": "Personas que quieren costos predecibles y libertad de proveedores", "advantage": "Personas que quieren primas más bajas y beneficios adicionales" }
+    ],
+    "h2Rural": "El factor rural de Utah",
+    "ruralHtml1": "Dónde vive juega un papel importante en esta decisión. En áreas urbanas como Salt Lake City, los planes Medicare Advantage ofrecen redes sólidas con docenas de proveedores. En Uintah Basin — que abarca Vernal, Naples, Maeser, Jensen y las comunidades cercanas — las redes son más pequeñas. Si la red de su plan Advantage no incluye al especialista que necesita, puede enfrentar costos más altos o demoras para recibir atención.",
+    "ruralHtml2": "Con Medigap y Medicare Original, puede entrar a cualquier centro que acepte Medicare, desde el Uintah Valley Medical Center en Vernal hasta el Huntsman Cancer Institute en Salt Lake City — la misma cobertura, sin dolores de cabeza por autorizaciones previas. Para las personas del este rural de Utah que a veces necesitan viajar para recibir atención, ese acceso a nivel nacional es una ventaja práctica y real.",
+    "h2Switching": "La trampa del cambio — lea esto antes de elegir",
+    "switchingHtml1": "Esto es algo que muchas personas no descubren hasta que es demasiado tarde: cambiar de Medigap a Medicare Advantage es fácil. Puede hacerlo durante el Período de Inscripción Anual (del 15 de octubre al 7 de diciembre) sin preguntas de salud.",
+    "switchingHtml2": "Cambiar de Medicare Advantage de regreso a Medigap es otra historia. En la mayoría de los estados, incluido Utah, tendrá que pasar por una evaluación médica de riesgo. Eso significa que la compañía de seguros puede preguntar sobre su historial de salud y negarle la cobertura — o cobrarle primas mucho más altas — según sus condiciones preexistentes. Si su salud ha cambiado desde que se inscribió por primera vez, regresar a Medigap puede no ser posible a un precio asequible.",
+    "switchingHtml3": "Esta puerta de un solo sentido es una de las consideraciones más importantes en la decisión entre Medigap y Advantage. Hable de esto con un agente con licencia antes de comprometerse.",
+    "h2Help": "Deje que Rocco le ayude a comparar — gratis",
+    "helpHtml1": "No hay una única respuesta correcta para todos. El mejor plan depende de sus médicos específicos, sus medicamentos, con qué frecuencia viaja para recibir atención, y cuánto puede pagar cada mes. Para eso es exactamente una consulta personalizada.",
+    "helpHtml2": "Rocco DeLuca de <a href=\"index.html\">Vernal Medicare</a> tiene licencia para ofrecer tanto planes Medigap como Medicare Advantage. Le mostrará sus opciones lado a lado — sin presión de venta, sin costo para usted — para que pueda tomar una decisión informada. Disponible en Smith's Pharmacy en Vernal, por teléfono o en su casa.",
+    "callCtaLabel": "📞 Llame al 435-219-5120 — Comparación de planes gratuita",
+    "relatedHeading": "Temas relacionados",
+    "relatedItemsHtml": [
+      "<a href=\"medicare-plans-vernal-utah.html\"><strong>Nuestra guía completa de Medicare para residentes de Vernal</strong></a> — el resumen general que conecta todos los temas",
+      "<a href=\"medicare-advantage-vs-medigap-vernal.html\">Medicare Advantage vs Medigap (enfocado en Vernal)</a>",
+      "<a href=\"plan-g-vs-plan-n-vernal.html\">Plan G vs Plan N en Vernal</a>",
+      "<a href=\"hmo-vs-ppo-medicare-advantage.html\">HMO vs PPO Medicare Advantage</a>",
+      "<a href=\"medicare-out-of-state-utah.html\">Usar Medicare fuera del estado desde Utah</a>"
+    ]
+  }
+}

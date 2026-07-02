@@ -7,6 +7,13 @@
 // The dynamic [locale] route's getStaticPaths filters on THIS list — never on
 // its component map. getStaticPaths runs in an isolated prerender chunk that
 // cannot see .astro component imports (playbook §4.4 gotcha).
-export const CONTENT_PAGES = ['turning-65', 'medigap', 'working-past-65'] as const;
+export const CONTENT_PAGES = [
+  'turning-65',
+  'medigap',
+  'working-past-65',
+  'best-medicare-advantage-vernal',
+  'medicare-supplement-vs-advantage',
+  'best-part-d-plans-vernal',
+] as const;
 
 export type ContentKey = (typeof CONTENT_PAGES)[number];
