@@ -66,6 +66,13 @@ const {
 const allGaIds = [B.gaGlobalId, ...gaIds].filter(
   (id, i, arr) => id && arr.indexOf(id) === i,
 );
+
+// Cache-busting version for the hand-authored public/styles.css. Astro does NOT
+// fingerprint files in public/, so browsers cache /styles.css aggressively and
+// can keep serving a stale copy after we edit it (this is what made the M44 nav
+// dropdowns render expanded — old CSS had no .dropdown rule). Bump this token
+// whenever styles.css changes so the URL — and thus the cache key — changes.
+const STYLES_VERSION = '20260701-nav-m44';
 ---
 
 <!doctype html>
@@ -115,7 +122,7 @@ const allGaIds = [B.gaGlobalId, ...gaIds].filter(
         rel="stylesheet"
       /></noscript
     >
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href={`/styles.css?v=${STYLES_VERSION}`} />
     {extraStylesheet && <link rel="stylesheet" href={extraStylesheet} />}
 
     <!-- Google tag (gtag.js) — global sitewide property + each per-page property -->

@@ -5,6 +5,7 @@
 // 3CX chat come from BaseLayout. ALL original JSON-LD blocks are preserved here
 // verbatim (including the sitewide LocalBusiness block) for strict fidelity.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsTicker from '../components/NewsTicker.astro';
 
 const schema = [
   {
@@ -338,6 +339,9 @@ const schema = [
   twitterDescription="Local, licensed help with Medicare and under-65 health insurance in the Uintah Basin."
   schema={schema}
 >
+  <!-- Medicare Updates ticker (data-driven from data/news.ts) -->
+  <NewsTicker />
+
   <!-- Hero -->
   <section class="hero-row">
     <div class="hero-image-wrapper">
