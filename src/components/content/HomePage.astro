@@ -13,6 +13,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import NewsTicker from '../NewsTicker.astro';
 import { getPageContent, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
 import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import { BUSINESS } from '../../data/business';
 
 interface Content {
   meta: {
@@ -302,7 +303,7 @@ const schema = [
           <strong>{r.name}</strong>
           <div class="vm-reviews__source">
             <span class="vm-reviews__stars" role="img" aria-label={c.reviews.starsAria}>★★★★★</span>
-            <a class="vm-reviews__link" href="https://www.facebook.com/VernalMedicare/reviews" target="_blank" rel="noopener">{c.reviews.verified}</a>
+            <a class="vm-reviews__link" href={BUSINESS.googleReviews} target="_blank" rel="noopener">{c.reviews.verified}</a>
           </div>
         </div>
       </footer>
@@ -437,19 +438,8 @@ const schema = [
   ))}
 </section>
 
-<section class="cms-compliance" style="background: #fffbf0; border: 2px solid #d97706; border-radius: 8px; padding: 1.5rem; margin: 2rem auto; max-width: 1100px;">
-  <h2 style="color: #92400e; margin-top: 0; font-size: 1.1rem;">{c.compliance.heading}</h2>
-
-  <p style="margin: 0.75rem 0; color: #333; font-size: 0.95rem; line-height: 1.5;" set:html={c.compliance.p1Html} />
-
-  <p style="margin: 0.75rem 0; color: #333; font-size: 0.95rem; line-height: 1.5;" set:html={c.compliance.p2Html} />
-
-  <p style="margin: 0.75rem 0; color: #333; font-size: 0.95rem; line-height: 1.5;" set:html={c.compliance.p3Html} />
-
-  <p style="margin: 0.75rem 0; color: #333; font-size: 0.95rem; line-height: 1.5;" set:html={c.compliance.p4Html} />
-</section>
-
-  <!-- Footer -->
+  <!-- Marketing disclaimer intentionally omitted from page body; the full
+       CMS multi-plan + TPMO disclaimer lives in the shared Footer. -->
 
 
 <script is:inline>
@@ -645,7 +635,7 @@ const schema = [
   .vm-startpaths p { margin: 0 0 1rem; color: #4a5568; }
   .vm-startpaths__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 0.75rem;
   }
   .vm-startpaths__grid a {

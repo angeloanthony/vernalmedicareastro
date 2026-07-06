@@ -12,7 +12,6 @@ import SourcesList from '../content/SourcesList.astro';
 import RelatedPages from '../content/RelatedPages.astro';
 import PageCTA from '../content/PageCTA.astro';
 import Disclaimer from '../content/Disclaimer.astro';
-import MarketingDisclaimer from '../content/MarketingDisclaimer.astro';
 import { assembleSchema } from '../../lib/schema';
 import { relatedFor } from '../../lib/related';
 import { PAGE_INDEX } from '../../data/pageIndex';
@@ -116,7 +115,8 @@ const pfCategory = page.taxonomy.silo;
 
     <PageCTA cta={context.cta} />
 
-    {context.marketingDisclaimer && <MarketingDisclaimer />}
+    {/* Marketing disclaimer intentionally not rendered in the page body; the
+        full CMS multi-plan + TPMO disclaimer lives in the shared Footer. */}
     <Disclaimer medical={context.medicalDisclaimer} />
   </article>
 </BaseLayout>

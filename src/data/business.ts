@@ -16,7 +16,7 @@ export const BUSINESS = {
   url: 'https://vernalmedicare.com/',
   logo: 'https://vernalmedicare.com/pictures/Rocco.webp',
   image: 'https://vernalmedicare.com/pictures/vernalmedicare.webp',
-  ogImage: 'https://vernalmedicare.com/pictures/og-1200x630.jpg',
+  ogImage: 'https://vernalmedicare.com/pictures/opengraph.webp',
 
   // Contact
   phone: '435-219-5120',
@@ -62,6 +62,10 @@ export const BUSINESS = {
   quoteUrl:
     'https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/',
   facebookReviews: 'https://www.facebook.com/VernalMedicare/reviews',
+  // Google Business Profile reviews. Interim = a Google search that reliably
+  // surfaces the profile + reviews panel; swap for the exact "Share → copy
+  // link" URL from the Google Business Profile when available.
+  googleReviews: 'https://www.google.com/search?q=Vernal+Medicare+Rocco+DeLuca+reviews',
 
   // Compliance disclaimer (must appear in footer on every page, verbatim)
   disclaimer:

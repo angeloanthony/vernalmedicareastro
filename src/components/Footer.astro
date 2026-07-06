@@ -34,15 +34,6 @@ const RESOURCES = [
       {t('footer.email', lang)}{' '}<a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a> | {t('footer.phone', lang)}{' '}
       <a href={`tel:${BUSINESS.phoneTel}`}>{BUSINESS.phone}</a> (TTY: {BUSINESS.tty})
     </p>
-    <p style="font-size:.9rem;opacity:.9">
-      {d.disclaimer}
-    </p>
-    <p style="font-size:.9rem;opacity:.9">
-      {d.multiPlan}
-    </p>
-    <p style="font-size:.9rem;opacity:.9">
-      {d.representative}
-    </p>
     <p><a href={localizeHref('/privacy.html', lang)}>{t('footer.privacy', lang)}</a> • <a href={localizeHref('/terms.html', lang)}>{t('footer.terms', lang)}</a></p>
   </div>
   <p class="powered-by">
@@ -78,4 +69,28 @@ const RESOURCES = [
       ))}
     </p>
   </nav>
+
+  {/* Required CMS multi-plan + TPMO disclaimer — boxed at the very bottom */}
+  <div class="footer-disclaimer">
+    <p>{d.disclaimer}</p>
+    <p>{d.multiPlan}</p>
+    <p>{d.representative}</p>
+  </div>
 </footer>
+
+<style>
+  .footer-disclaimer {
+    max-width: 1100px;
+    margin: 1.5rem auto 0;
+    padding: 1rem 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+  }
+  .footer-disclaimer p {
+    font-size: 0.8rem;
+    opacity: 0.85;
+    line-height: 1.5;
+    margin: 0 0 0.6rem;
+  }
+  .footer-disclaimer p:last-child { margin-bottom: 0; }
+</style>
