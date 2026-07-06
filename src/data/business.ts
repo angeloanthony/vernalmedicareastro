@@ -62,10 +62,9 @@ export const BUSINESS = {
   quoteUrl:
     'https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/',
   facebookReviews: 'https://www.facebook.com/VernalMedicare/reviews',
-  // Google Business Profile reviews. Interim = a Google search that reliably
-  // surfaces the profile + reviews panel; swap for the exact "Share → copy
-  // link" URL from the Google Business Profile when available.
-  googleReviews: 'https://www.google.com/search?q=Vernal+Medicare+Rocco+DeLuca+reviews',
+  // Google Business Profile reviews — direct link to the profile.
+  googleReviews:
+    'https://www.google.com/maps/place/vernalmedicare.com/data=!4m2!3m1!1s0x0:0x6dd77439aee69843?sa=X&ved=1t:2428&ictx=111',
 
   // Compliance disclaimer (must appear in footer on every page, verbatim)
   disclaimer:
