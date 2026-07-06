@@ -41,6 +41,23 @@ const c = getPageContent<Content>(SLUG, lang);
 const b = c.body;
 const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
 
+// Per-path colour + icon, keyed by the shared data-module id (so the shared
+// DECISION_PATHS module stays presentation-free / translation-clean). Colours
+// echo the signpost hero; the icon is a glyph shown in the card's circle.
+const PATH_STYLE: Record<string, { icon: string; color: string; tint: string }> = {
+  'turning-65':     { icon: '65', color: '#0d9488', tint: '#d8f2ee' },
+  'still-working':  { icon: '💼', color: '#2563eb', tint: '#e6effe' },
+  'already-have':   { icon: '🛡️', color: '#16a34a', tint: '#e6f6ec' },
+  'drug-help':      { icon: '💊', color: '#7c3aed', tint: '#f1e9fd' },
+  'financial-help': { icon: '👛', color: '#ea580c', tint: '#fdece0' },
+  'compare-plans':  { icon: '⚖️', color: '#0d9488', tint: '#d8f2ee' },
+  'estimate-costs': { icon: '🧮', color: '#2563eb', tint: '#e6effe' },
+};
+const FALLBACK_STYLE = { icon: '➜', color: '#0b2c45', tint: '#eef3f8' };
+
+// Feature reassurance pills shown in the hero.
+const HERO_BADGES = ['Local Utah expert', 'Plain English', 'Free — no pressure'];
+
 const context: PageContext = {
   page: {
     title: c.page.title,
@@ -72,45 +89,216 @@ const context: PageContext = {
 ---
 
 <ArticlePage context={context}>
-  <p set:html={t9(b.introHtml)} />
-
-  <div class="dec-grid">
-    {DECISION_PATHS.map((p) => (
-      <section class="dec-card" id={p.id}>
-        <h2><a href={localizeHref(p.primary.href, lang)}>{p.situation}</a></h2>
-        <p class="dec-blurb">{p.blurb}</p>
-        <p class="dec-primary"><a href={localizeHref(p.primary.href, lang)}>{p.primary.label} →</a></p>
-        <ul class="dec-links">
-          {p.links.map((l) => <li><a href={localizeHref(l.href, lang)}>{l.label}</a></li>)}
-        </ul>
-      </section>
-    ))}
+  <!-- Hero: short lede + reassurance pills + phone. The H1 + AI summary sit
+       above this (rendered by the layout); this band breaks up the text. -->
+  <div class="dc-hero">
+    <div class="dc-badges">
+      {HERO_BADGES.map((label) => <span class="dc-badge">✓ {label}</span>)}
+    </div>
+    <a class="dc-phone" href={`tel:${BUSINESS.phoneTel}`}>
+      <span class="dc-phone__icon" aria-hidden="true">📞</span>
+      <span class="dc-phone__num">{BUSINESS.phone}</span>
+      <span class="dc-phone__tag">— we’ll guide you</span>
+    </a>
   </div>
 
-  <h2>{b.h2Map}</h2>
-  <p set:html={t9(b.mapHtml)} />
+  <div class="dc-divider"><span>Choose the path that fits you</span></div>
 
-  <h2>{b.h2Person}</h2>
-  <p set:html={t9(b.personHtml)} />
+  <div class="dc-grid">
+    {DECISION_PATHS.map((p) => {
+      const s = PATH_STYLE[p.id] ?? FALLBACK_STYLE;
+      return (
+        <section class="dc-card" id={p.id} style={`--accent:${s.color};--tint:${s.tint}`}>
+          <div class="dc-card__icon" aria-hidden="true">{s.icon}</div>
+          <h2 class="dc-card__title"><a href={localizeHref(p.primary.href, lang)}>{p.situation}</a></h2>
+          <p class="dc-card__blurb">{p.blurb}</p>
+          <a class="dc-card__cta" href={localizeHref(p.primary.href, lang)}>{p.primary.label} →</a>
+          <ul class="dc-card__links">
+            {p.links.map((l) => <li><a href={localizeHref(l.href, lang)}>{l.label}</a></li>)}
+          </ul>
+        </section>
+      );
+    })}
+  </div>
+
+  <!-- Closing CTA: talk to a person -->
+  <div class="dc-cta">
+    <div class="dc-cta__text">
+      <h2>{b.h2Person}</h2>
+      <p set:html={t9(b.personHtml)} />
+    </div>
+    <a class="dc-cta__phone" href={`tel:${BUSINESS.phoneTel}`}>
+      <span aria-hidden="true">📞</span> {BUSINESS.phone}
+    </a>
+  </div>
+
+  <p class="dc-map"><strong>{b.h2Map}</strong> <span set:html={t9(b.mapHtml)} /></p>
 </ArticlePage>
 
 <style>
-  .dec-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  /* ---- Hero band --------------------------------------------------------- */
+  .dc-hero {
+    text-align: center;
+    max-width: 760px;
+    margin: 0.5rem auto 2.5rem;
+  }
+  .dc-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin: 0 0 1.5rem;
+  }
+  .dc-badge {
+    background: #fff;
+    padding: 0.55rem 1.05rem;
+    border-radius: 999px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 6px 18px rgba(11, 44, 69, 0.08);
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: #0b2c45;
+  }
+  .dc-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #0b2c45;
+    color: #fff;
+    text-decoration: none;
+    padding: 0.85rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    box-shadow: 0 10px 24px rgba(11, 44, 69, 0.22);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .dc-phone:hover { transform: translateY(-1px); box-shadow: 0 14px 28px rgba(11, 44, 69, 0.28); }
+  .dc-phone__num { font-size: 1.2rem; letter-spacing: 0.2px; }
+  .dc-phone__tag { font-weight: 500; opacity: 0.85; font-size: 0.92rem; }
+
+  /* ---- Section divider --------------------------------------------------- */
+  .dc-divider {
+    display: flex;
+    align-items: center;
     gap: 1rem;
-    margin: 1.5rem 0 2rem;
+    margin: 0 0 1.75rem;
   }
-  .dec-card {
-    border: 1px solid var(--color-border, #e5e9ee);
-    border-radius: 12px;
-    padding: 1.1rem 1.25rem;
-    background: var(--color-surface, #fbfcfd);
+  .dc-divider::before,
+  .dc-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #dbe4ee;
   }
-  .dec-card h2 { margin: 0 0 0.35rem; font-size: 1.15rem; }
-  .dec-card h2 a { text-decoration: none; }
-  .dec-blurb { color: var(--color-text-muted, #667085); font-size: 0.92rem; margin: 0 0 0.6rem; }
-  .dec-primary { font-weight: 700; margin: 0 0 0.6rem; }
-  .dec-links { list-style: none; padding: 0; margin: 0; }
-  .dec-links li { padding: 0.2rem 0; font-size: 0.92rem; border-top: 1px solid var(--color-border, #eef1f4); }
+  .dc-divider span {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #0b2c45;
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+
+  /* ---- Cards ------------------------------------------------------------- */
+  .dc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 0 0 3rem;
+  }
+  .dc-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e8edf3;
+    border-top: 4px solid var(--accent);
+    border-radius: 16px;
+    padding: 1.75rem 1.5rem;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(11, 44, 69, 0.06);
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .dc-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(11, 44, 69, 0.12); }
+  .dc-card__icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--accent);
+    background: var(--tint);
+    margin: 0 auto 1rem;
+  }
+  .dc-card__title { text-align: center; margin: 0 0 0.5rem; font-size: 1.25rem; }
+  .dc-card__title a { text-decoration: none; color: var(--accent); }
+  .dc-card__title a:hover { text-decoration: underline; }
+  .dc-card__blurb { text-align: center; color: #5b6b7d; font-size: 0.95rem; line-height: 1.5; margin: 0 0 1.25rem; }
+  .dc-card__cta {
+    display: block;
+    text-align: center;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    margin: 0 0 1.1rem;
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  .dc-card__cta:hover { filter: brightness(1.07); }
+  .dc-card__links { list-style: none; padding: 0; margin: auto 0 0; }
+  .dc-card__links li { padding: 0.5rem 0; border-top: 1px solid #eef2f6; }
+  .dc-card__links li:first-child { border-top: none; }
+  .dc-card__links a {
+    text-decoration: none;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.92rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .dc-card__links a::before { content: "›"; font-weight: 800; }
+  .dc-card__links a:hover { text-decoration: underline; }
+
+  /* ---- Closing CTA ------------------------------------------------------- */
+  .dc-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    background: #eef6ff;
+    border: 1px solid #d5e6f7;
+    border-radius: 20px;
+    padding: 2rem 2.25rem;
+    margin: 0 0 1.5rem;
+  }
+  .dc-cta__text { flex: 1 1 340px; }
+  .dc-cta__text h2 { margin: 0 0 0.5rem; color: #0b2c45; }
+  .dc-cta__text p { margin: 0; color: #475569; line-height: 1.6; }
+  .dc-cta__phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #0b2c45;
+    color: #fff;
+    text-decoration: none;
+    padding: 0.95rem 1.75rem;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 1.25rem;
+    white-space: nowrap;
+    box-shadow: 0 10px 24px rgba(11, 44, 69, 0.22);
+  }
+  .dc-cta__phone:hover { filter: brightness(1.08); }
+
+  .dc-map { font-size: 0.95rem; color: #64748b; text-align: center; }
+  .dc-map strong { color: #0b2c45; }
+
+  @media (max-width: 640px) {
+    .dc-cta { flex-direction: column; align-items: stretch; text-align: center; }
+    .dc-cta__phone { justify-content: center; }
+  }
 </style>
