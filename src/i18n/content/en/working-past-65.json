@@ -36,6 +36,57 @@
     "home": "Home",
     "self": "Working Past 65"
   },
+  "hero": {
+    "lede": "If you’re turning 65 and still working, you may not need to take all of Medicare yet — but the rules are easy to get wrong, and the penalties are permanent. This guide will walk you through it in plain English.",
+    "goodNewsTitle": "The good news:",
+    "goodNewsText": "It usually comes down to a few clear questions about your employer coverage."
+  },
+  "ctaBanner": {
+    "title": "Get It Right the First Time — Free",
+    "text": "The Part B timing decision is permanent. It’s worth a five-minute check. <strong>Call us free at {phone}</strong> (TTY: {tty}) — we’ll tell you exactly what to take, what to delay, and when.",
+    "call": "Call {phone}",
+    "quote": "Get a Free Quote"
+  },
+  "cards": {
+    "partAKicker": "Start Here:",
+    "partATitle": "Take Premium-Free Part A",
+    "partALead": "Almost everyone should enroll in <a href=\"medicare-part-a-vs-part-b.html\">Part A</a> at 65 — it’s usually premium-free and can pay secondary to your employer plan.",
+    "partAException": "<strong>One exception:</strong> If you contribute to a Health Savings Account (HSA), enrolling in any part of Medicare (including Part A) stops your ability to contribute.",
+    "treeTitle": "The Decision Tree",
+    "treeKicker": "3 simple questions",
+    "treeLead": "Answer 3 quick questions to know if you should delay Part B, enroll now, or take another step.",
+    "treeQuestions": [
+      "Is your (or your spouse’s) employer coverage active with 20+ employees?",
+      "Should you delay Part B?",
+      "Leaving your job or losing coverage?"
+    ],
+    "treeButton": "See the Decision Tree",
+    "fourTitle": "The Four Things to Understand"
+  },
+  "then": {
+    "heading": "Then What?",
+    "lead": "When you do retire, the rest of the <a href=\"turning-65.html\">turning-65 journey</a> takes over: choose <a href=\"medicare-supplement-vs-advantage.html\">Medigap or Medicare Advantage</a>, add <a href=\"best-part-d-plans-vernal.html\">Part D</a>, and check your costs.",
+    "links": [
+      { "label": "Special Enrollment Period", "sub": "Take Part B penalty-free.", "href": "medicare-special-enrollment-period.html" },
+      { "label": "Estimate it here", "sub": "Check your costs.", "href": "medicare-part-b-penalty-calculator.html" },
+      { "label": "Start with your situation", "sub": "We’ll guide you step-by-step.", "href": "medicare-decision-center.html" }
+    ]
+  },
+  "related": {
+    "heading": "Related Guides",
+    "items": [
+      { "label": "Medicare & Employer Coverage After 65", "href": "medicare-and-employer-coverage.html" },
+      { "label": "Delaying Medicare Part B", "href": "delaying-medicare-part-b.html" },
+      { "label": "Medicare Enrollment Periods Explained", "href": "medicare-enrollment-periods.html" },
+      { "label": "COBRA and Medicare", "href": "cobra-and-medicare.html" }
+    ]
+  },
+  "trust": [
+    { "title": "Local & Trusted", "sub": "Licensed in Utah" },
+    { "title": "No Cost, No Obligation", "sub": "Honest, helpful guidance" },
+    { "title": "Medicare Specialists", "sub": "We focus on Medicare" },
+    { "title": "Here When You Need Us", "sub": "Call, email, or meet locally" }
+  ],
   "body": {
     "introHtml": "Turning 65 while you’re still working is one of the most confusing moments in Medicare — and one of the easiest to get wrong. The good news: it usually comes down to a few clear questions about your <strong>employer coverage</strong>. Work through them here, or hand it to us to check, free.",
     "h2PartA": "Start Here: Take Premium-Free Part A",

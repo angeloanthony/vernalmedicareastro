@@ -37,6 +37,57 @@
     "home": "Inicio",
     "self": "Trabajar después de los 65"
   },
+  "hero": {
+    "lede": "Si está por cumplir 65 años y sigue trabajando, quizá no necesite tomar todo Medicare todavía — pero las reglas son fáciles de malinterpretar y las multas son permanentes. Esta guía se lo explica en palabras sencillas.",
+    "goodNewsTitle": "La buena noticia:",
+    "goodNewsText": "Por lo general todo se reduce a unas pocas preguntas claras sobre su cobertura del empleador."
+  },
+  "ctaBanner": {
+    "title": "Hágalo bien desde la primera vez — gratis",
+    "text": "La decisión sobre cuándo tomar la Parte B es permanente. Vale la pena una revisión de cinco minutos. <strong>Llámenos gratis al {phone}</strong> (TTY: {tty}) — le diremos exactamente qué tomar, qué retrasar y cuándo.",
+    "call": "Llame al {phone}",
+    "quote": "Obtenga una cotización gratuita"
+  },
+  "cards": {
+    "partAKicker": "Empiece aquí:",
+    "partATitle": "Tome la Parte A sin prima",
+    "partALead": "Casi todos deberían inscribirse en la <a href=\"medicare-part-a-vs-part-b.html\">Parte A</a> a los 65 — generalmente no tiene prima y puede pagar como cobertura secundaria a su plan del empleador.",
+    "partAException": "<strong>Una excepción:</strong> si usted contribuye a una cuenta de ahorros para gastos médicos (HSA), inscribirse en cualquier parte de Medicare (incluida la Parte A) detiene su capacidad de contribuir.",
+    "treeTitle": "El árbol de decisiones",
+    "treeKicker": "3 preguntas sencillas",
+    "treeLead": "Responda 3 preguntas rápidas para saber si debería retrasar la Parte B, inscribirse ahora o dar otro paso.",
+    "treeQuestions": [
+      "¿La cobertura del empleador suyo (o de su cónyuge) está activa y tiene 20 o más empleados?",
+      "¿Debería retrasar la Parte B?",
+      "¿Va a dejar su trabajo o perder la cobertura?"
+    ],
+    "treeButton": "Ver el árbol de decisiones",
+    "fourTitle": "Las cuatro cosas que debe entender"
+  },
+  "then": {
+    "heading": "¿Y después?",
+    "lead": "Cuando se jubile, el resto del <a href=\"turning-65.html\">recorrido de cumplir 65</a> toma el relevo: elija <a href=\"medicare-supplement-vs-advantage.html\">Medigap o Medicare Advantage</a>, agregue la <a href=\"best-part-d-plans-vernal.html\">Parte D</a>, y revise sus costos.",
+    "links": [
+      { "label": "Período de Inscripción Especial", "sub": "Tome la Parte B sin multa.", "href": "medicare-special-enrollment-period.html" },
+      { "label": "Estímelo aquí", "sub": "Revise sus costos.", "href": "medicare-part-b-penalty-calculator.html" },
+      { "label": "Comience con su situación", "sub": "Lo guiaremos paso a paso.", "href": "medicare-decision-center.html" }
+    ]
+  },
+  "related": {
+    "heading": "Guías relacionadas",
+    "items": [
+      { "label": "Medicare y la cobertura del empleador después de los 65", "href": "medicare-and-employer-coverage.html" },
+      { "label": "Retrasar la Parte B de Medicare", "href": "delaying-medicare-part-b.html" },
+      { "label": "Períodos de inscripción de Medicare explicados", "href": "medicare-enrollment-periods.html" },
+      { "label": "COBRA y Medicare", "href": "cobra-and-medicare.html" }
+    ]
+  },
+  "trust": [
+    { "title": "Local y de confianza", "sub": "Con licencia en Utah" },
+    { "title": "Sin costo, sin compromiso", "sub": "Orientación honesta y útil" },
+    { "title": "Especialistas en Medicare", "sub": "Nos enfocamos en Medicare" },
+    { "title": "Aquí cuando nos necesite", "sub": "Llame, escriba o visítenos" }
+  ],
   "body": {
     "introHtml": "Cumplir 65 años mientras todavía trabaja es uno de los momentos más confusos de Medicare — y uno de los más fáciles de malinterpretar. La buena noticia: por lo general todo se reduce a unas pocas preguntas claras sobre su <strong>cobertura del empleador</strong>. Resuélvalas aquí, o déjenos revisarlo por usted, gratis.",
     "h2PartA": "Empiece aquí: tome la Parte A sin prima",

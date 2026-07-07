@@ -3,12 +3,22 @@
 // template (M4 extraction; playbook §4.5: one shared component per page).
 // Rendered by BOTH /working-past-65.html and /es/working-past-65.html; copy
 // from src/i18n/content/{locale}/working-past-65.json with master fallback.
+//
+// Redesign: the old single-column "wall of text" became a Turning-65-style
+// layout — a two-column hero (copy + byline + illustration with a "good news"
+// card), a dark "get it right" CTA banner, a three-card intro row (Part A /
+// Decision Tree / Four Things), the full Decision Tree as numbered cards, a
+// "Then What?" strip, an FAQ + Related-Guides + agent-CTA footer, and a
+// trust-badge strip. Presentation only: all copy comes from the content JSON.
 import ArticlePage from '../layout/ArticlePage.astro';
+import AuthorByline from './AuthorByline.astro';
 import { BUSINESS } from '../../data/business';
+import { authorById } from '../../data/authors';
 import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
-import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import { getLangFromUrl, getLocaleMeta, t } from '../../i18n/locales';
 import type { PageContext } from '../../types/Page';
 
+interface LinkCard { label: string; sub?: string; href: string }
 interface WorkingPast65Content {
   page: {
     title: string;
@@ -21,6 +31,23 @@ interface WorkingPast65Content {
   };
   meta: { ogTitle: string; ogDescription: string };
   breadcrumb: { home: string; self: string };
+  hero: { lede: string; goodNewsTitle: string; goodNewsText: string };
+  ctaBanner: { title: string; text: string; call: string; quote: string };
+  cards: {
+    partAKicker: string;
+    partATitle: string;
+    partALead: string;
+    partAException: string;
+    treeTitle: string;
+    treeKicker: string;
+    treeLead: string;
+    treeQuestions: string[];
+    treeButton: string;
+    fourTitle: string;
+  };
+  then: { heading: string; lead: string; links: LinkCard[] };
+  related: { heading: string; items: LinkCard[] };
+  trust: { title: string; sub: string }[];
   body: {
     introHtml: string;
     h2PartA: string;
@@ -39,7 +66,57 @@ interface WorkingPast65Content {
 const lang = getLangFromUrl(Astro.url);
 const c = getPageContent<WorkingPast65Content>('working-past-65', lang);
 const vars = { phone: BUSINESS.phone, tty: BUSINESS.tty };
+const t9 = (s: string) => interp(s, vars);
 const pagePath = lang === 'en' ? '/working-past-65.html' : `/${lang}/working-past-65.html`;
+
+const agent = authorById('rocco');
+const quoteHref = localizeHref('/medicare-quote-vernal.html', lang);
+
+// Icon glyphs for the three intro cards (people · decision-tree · grad-cap)
+// and the four small "Then What?" links — inline SVG for crispness, echoing the
+// reference mockup's filled-circle icon tiles.
+const ICON = {
+  people:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M15.5 14.2c2.6.3 4.5 2.5 4.5 5.3"/></svg>',
+  tree:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9.5" y="3" width="5" height="4" rx="1"/><rect x="3.5" y="17" width="5" height="4" rx="1"/><rect x="15.5" y="17" width="5" height="4" rx="1"/><path d="M12 7v4M6 17v-2.5a1.5 1.5 0 0 1 1.5-1.5h9a1.5 1.5 0 0 1 1.5 1.5V17"/></svg>',
+  cap:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 9L12 5l9.5 4L12 13z"/><path d="M6 11v4c0 1.3 2.7 2.5 6 2.5s6-1.2 6-2.5v-4"/><path d="M21.5 9v4.5"/></svg>',
+  clock:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>',
+  phone:
+    '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg>',
+  chat:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20.5l1.3-5A8 8 0 1 1 21 12z"/></svg>',
+  calendar:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><path d="M3.5 9h17M8 3v3M16 3v3"/></svg>',
+  calc:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15v3M8 18h4"/></svg>',
+  user:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6.4 7-6.4s7 2.8 7 6.4"/></svg>',
+};
+
+// Trust-strip tiles — one filled-circle icon per position (pin · shield · people
+// · bell), matching trust[] order.
+const TRUST_STYLE = [
+  {
+    color: '#16a34a',
+    svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.4 7-11a7 7 0 0 0-14 0c0 5.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+  },
+  {
+    color: '#7c3aed',
+    svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 11.5l2 2 4-4"/></svg>',
+  },
+  {
+    color: '#ea580c',
+    svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M15.5 14.2c2.6.3 4.5 2.5 4.5 5.3"/></svg>',
+  },
+  {
+    color: '#2563eb',
+    svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>',
+  },
+];
+const THEN_ICONS = [ICON.calendar, ICON.calc, ICON.user];
 
 const context: PageContext = {
   page: {
@@ -71,29 +148,616 @@ const context: PageContext = {
 };
 ---
 
-<ArticlePage context={context}>
-  <p set:html={c.body.introHtml} />
+<ArticlePage context={context} bareHeader bareFooter>
+  <!-- Hero: heading + byline + lede on the left; a flat "working at 65"
+       illustration with a "good news" callout on the right. -->
+  <section class="wp65-hero">
+    <div class="wp65-hero__copy">
+      <h1 class="wp65-hero__title" set:html={c.page.heading.replace(/Medicare/g, '<span class="wp65-accent">Medicare</span>')} />
+      <AuthorByline authorId="rocco" updated={context.lastUpdated} />
+      <p class="wp65-hero__lede">{c.hero.lede}</p>
+    </div>
 
-  <h2>{c.body.h2PartA}</h2>
-  <p set:html={c.body.partAHtml} />
+    <div class="wp65-hero__art">
+      <div class="wp65-scene" aria-hidden="true">
+        <svg viewBox="0 0 480 340" role="img" width="480" height="340">
+          <defs>
+            <linearGradient id="wp65Bg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#e7f0fb" />
+              <stop offset="1" stop-color="#d7e6f8" />
+            </linearGradient>
+          </defs>
+          <!-- soft backdrop -->
+          <ellipse cx="240" cy="168" rx="168" ry="150" fill="url(#wp65Bg)" />
+          <!-- floating calendar chip -->
+          <g transform="translate(52 60)">
+            <rect x="0" y="0" width="66" height="60" rx="12" fill="#fff" stroke="#dbe6f2" />
+            <rect x="0" y="0" width="66" height="18" rx="12" fill="#2563eb" />
+            <rect x="0" y="10" width="66" height="8" fill="#2563eb" />
+            <g fill="#c7d6ea"><circle cx="16" cy="34" r="4"/><circle cx="33" cy="34" r="4"/><circle cx="50" cy="34" r="4"/><circle cx="16" cy="48" r="4"/><circle cx="33" cy="48" r="4"/></g>
+            <circle cx="50" cy="48" r="6" fill="#16a34a"/>
+          </g>
+          <!-- floating shield-check chip -->
+          <g transform="translate(372 52)">
+            <path d="M28 0l26 10v16c0 18-13 27-26 32-13-5-26-14-26-32V10z" fill="#fff" stroke="#dbe6f2"/>
+            <path d="M28 6l20 8v12c0 14-10 21-20 25-10-4-20-11-20-25V14z" fill="#e6f6ec"/>
+            <path d="M19 30l6 6 12-12" fill="none" stroke="#16a34a" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <!-- desk -->
+          <rect x="86" y="266" width="308" height="16" rx="6" fill="#c6d3e4" />
+          <rect x="86" y="266" width="308" height="7" rx="3.5" fill="#d8e2f0" />
+          <!-- person -->
+          <g>
+            <!-- torso / shirt -->
+            <path d="M175 268c0-40 29-64 65-64s65 24 65 64z" fill="#3b7dd8" />
+            <path d="M240 204c-10 0-19 2-27 6l27 34 27-34c-8-4-17-6-27-6z" fill="#2f66b5" />
+            <!-- collar -->
+            <path d="M228 210l12 16 12-16-6-4h-12z" fill="#f4f7fb" />
+            <!-- neck -->
+            <rect x="230" y="182" width="20" height="26" rx="9" fill="#e8b48c" />
+            <!-- head -->
+            <circle cx="240" cy="150" r="34" fill="#f1c49b" />
+            <!-- ears -->
+            <circle cx="207" cy="152" r="6" fill="#f1c49b" />
+            <circle cx="273" cy="152" r="6" fill="#f1c49b" />
+            <!-- hair (grey, mature) -->
+            <path d="M208 146c-2-24 16-38 32-38s34 14 32 38c-3-10-8-16-8-16-6 6-16 8-24 8s-18-2-24-8c0 0-5 6-8 16z" fill="#9aa6b4" />
+            <!-- glasses -->
+            <g fill="none" stroke="#33415c" stroke-width="2.4">
+              <rect x="220" y="144" width="17" height="13" rx="4" />
+              <rect x="243" y="144" width="17" height="13" rx="4" />
+              <path d="M237 150h6" stroke-linecap="round" />
+            </g>
+            <!-- laptop -->
+            <g>
+              <rect x="196" y="238" width="88" height="58" rx="6" fill="#cfd9e6" />
+              <rect x="204" y="246" width="72" height="42" rx="3" fill="#eef3fa" />
+              <circle cx="240" cy="291" r="4" fill="#aebdce" />
+              <path d="M182 296h116l8 12H174z" fill="#dbe4ef" />
+              <path d="M182 296h116l3 5H179z" fill="#c6d2e2" />
+            </g>
+          </g>
+          <!-- little plant -->
+          <g transform="translate(360 234)">
+            <path d="M14 32h20l-3 18H17z" fill="#e08a4a" />
+            <path d="M24 30c0-10-8-14-8-14s2 12 8 14zM24 30c0-12 9-18 9-18s-1 14-9 18z" fill="#3aa564" />
+          </g>
+        </svg>
+      </div>
 
-  <h2>{c.body.h2Tree}</h2>
-  <ol class="wp65-tree">
-    {c.body.treeItemsHtml.map((item) => <li set:html={item} />)}
-  </ol>
+      <aside class="wp65-goodnews">
+        <span class="wp65-goodnews__tick" aria-hidden="true">✓</span>
+        <div>
+          <strong>{c.hero.goodNewsTitle}</strong>
+          <p>{c.hero.goodNewsText}</p>
+        </div>
+      </aside>
+    </div>
+  </section>
 
-  <h2>{c.body.h2Four}</h2>
-  <ul>
-    {c.body.fourItemsHtml.map((item) => <li set:html={item} />)}
-  </ul>
+  <!-- Dark "get it right the first time" CTA banner -->
+  <section class="wp65-banner">
+    <span class="wp65-banner__icon" aria-hidden="true" set:html={ICON.phone} />
+    <div class="wp65-banner__copy">
+      <h2>{c.ctaBanner.title}</h2>
+      <p set:html={t9(c.ctaBanner.text)} />
+    </div>
+    <div class="wp65-banner__actions">
+      <a class="wp65-banner__call" href={`tel:${BUSINESS.phoneTel}`}>
+        <span aria-hidden="true" set:html={ICON.phone} /> {t9(c.ctaBanner.call)}
+      </a>
+      <a class="wp65-banner__quote" href={quoteHref}>
+        <span aria-hidden="true" set:html={ICON.chat} /> {c.ctaBanner.quote}
+      </a>
+    </div>
+  </section>
 
-  <h2>{c.body.h2Then}</h2>
-  <p set:html={c.body.thenHtml} />
+  <!-- Three-card intro row: Part A · Decision Tree · Four Things -->
+  <div class="wp65-cards">
+    <!-- Part A (green) -->
+    <section class="wp65-card wp65-card--a">
+      <header class="wp65-card__head">
+        <span class="wp65-card__icon" aria-hidden="true" set:html={ICON.people} />
+        <h2><span class="wp65-card__kicker">{c.cards.partAKicker}</span>{c.cards.partATitle}</h2>
+      </header>
+      <p class="wp65-card__lead" set:html={c.cards.partALead} />
+      <div class="wp65-note">
+        <span class="wp65-note__tick" aria-hidden="true">✓</span>
+        <p set:html={c.cards.partAException} />
+      </div>
+    </section>
 
-  <h2>{c.body.h2Free}</h2>
-  <p set:html={interp(c.body.freeHtml, vars)} />
+    <!-- Decision Tree (orange) -->
+    <section class="wp65-card wp65-card--tree">
+      <header class="wp65-card__head">
+        <span class="wp65-card__icon" aria-hidden="true" set:html={ICON.tree} />
+        <h2>{c.cards.treeTitle}<span class="wp65-card__kicker wp65-card__kicker--after">{c.cards.treeKicker}</span></h2>
+      </header>
+      <p class="wp65-card__lead">{c.cards.treeLead}</p>
+      <ol class="wp65-qlist">
+        {c.cards.treeQuestions.map((q, i) => (
+          <li><span class="wp65-qlist__num">{i + 1}</span>{q}</li>
+        ))}
+      </ol>
+      <a class="wp65-card__btn" href="#decision-tree">{c.cards.treeButton} <span aria-hidden="true">→</span></a>
+    </section>
+
+    <!-- Four Things (blue) -->
+    <section class="wp65-card wp65-card--four">
+      <header class="wp65-card__head">
+        <span class="wp65-card__icon" aria-hidden="true" set:html={ICON.cap} />
+        <h2>{c.cards.fourTitle}</h2>
+      </header>
+      <ul class="wp65-flist">
+        {c.body.fourItemsHtml.map((item) => {
+          const m = item.match(/<a href="([^"]+)">([\s\S]*?)<\/a>/);
+          return (
+            <li>
+              <span class="wp65-flist__dot" aria-hidden="true"></span>
+              {m ? <a href={m[1]} set:html={m[2]} /> : <span set:html={item} />}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  </div>
+
+  <!-- Full Decision Tree — numbered cards (target of "See the Decision Tree") -->
+  <section id="decision-tree" class="wp65-tree">
+    <h2>{c.body.h2Tree}</h2>
+    <ol class="wp65-tree__list">
+      {c.body.treeItemsHtml.map((item, i) => (
+        <li class="wp65-tree__card">
+          <span class="wp65-tree__num" aria-hidden="true">{i + 1}</span>
+          <div set:html={item} />
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- "Then What?" strip -->
+  <section class="wp65-then">
+    <div class="wp65-then__intro">
+      <span class="wp65-then__icon" aria-hidden="true" set:html={ICON.clock} />
+      <div>
+        <h2>{c.then.heading}</h2>
+        <p set:html={c.then.lead} />
+      </div>
+    </div>
+    <ul class="wp65-then__links">
+      {c.then.links.map((l, i) => (
+        <li>
+          <a href={l.href}>
+            <span class="wp65-then__linkicon" aria-hidden="true" set:html={THEN_ICONS[i] ?? ICON.calendar} />
+            <span>
+              <strong>{l.label}</strong>
+              {l.sub && <small>{l.sub}</small>}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- Footer: FAQ + Sources · Related Guides · agent CTA -->
+  <div class="wp65-foot">
+    <section class="wp65-faq">
+      <h2>{t('faq.heading', lang)}</h2>
+      <div class="wp65-faq__list">
+        {c.page.faqs.map((f) => (
+          <details class="wp65-faq__item">
+            <summary set:html={f.question} />
+            <p set:html={f.answer} />
+          </details>
+        ))}
+      </div>
+      <h2 class="wp65-foot__sub">{t('sources.heading', lang)}</h2>
+      <ul class="wp65-sources">
+        {c.page.sources.map((s) => (
+          <li>
+            <a href={s.url} target="_blank" rel="noopener noreferrer">🔗 {s.title}</a>
+            <span class="wp65-sources__pub"> ({s.publisher})</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="wp65-related">
+      <h2>{c.related.heading}</h2>
+      <ul>
+        {c.related.items.map((l) => (
+          <li>
+            <span class="wp65-related__icon" aria-hidden="true">📄</span>
+            <a href={l.href}>{l.label}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <aside class="wp65-agent">
+      <figure class="wp65-agent__photo">
+        <img
+          src="/pictures/rocco.webp"
+          alt={`${agent?.name ?? BUSINESS.legalAgent}, licensed Medicare agent in Vernal, Utah`}
+          width="150"
+          height="150"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+      <h2>{t('cta.heading', lang)}</h2>
+      <p>{t9(interp(t('cta.text', lang), { agent: agent?.name ?? BUSINESS.legalAgent }))}</p>
+      <a class="wp65-agent__call" href={`tel:${BUSINESS.phoneTel}`}>
+        <span aria-hidden="true" set:html={ICON.phone} /> {t9(t('cta.call', lang))}
+      </a>
+    </aside>
+  </div>
+
+  <!-- Trust-badge strip -->
+  <section class="wp65-trust">
+    <ul>
+      {c.trust.map((tItem, i) => {
+        const s = TRUST_STYLE[i] ?? TRUST_STYLE[0];
+        return (
+          <li>
+            <span class="wp65-trust__icon" style={`--accent:${s.color}`} aria-hidden="true" set:html={s.svg} />
+            <span class="wp65-trust__text">
+              <strong>{tItem.title}</strong>
+              <small>{tItem.sub}</small>
+            </span>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
 
   <style>
-    .wp65-tree li { margin-bottom: 0.75rem; }
+    /* ---- Hero -------------------------------------------------------------- */
+    .wp65-hero {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      align-items: center;
+      gap: 2.5rem;
+      margin: 0.25rem 0 2rem;
+    }
+    .wp65-hero__title {
+      font-size: clamp(2rem, 4.2vw, 3.15rem);
+      line-height: 1.06;
+      color: #0b2c45;
+      margin: 0 0 0.6rem;
+      font-weight: 800;
+    }
+    .wp65-accent { color: #ea580c; }
+    .wp65-hero :global(.byline) { margin: 0 0 1rem; font-size: 0.88rem; color: #64748b; }
+    .wp65-hero__lede { font-size: 1.05rem; color: #475569; line-height: 1.6; margin: 0; max-width: 52ch; }
+
+    .wp65-hero__art { position: relative; }
+    .wp65-scene {
+      background: linear-gradient(180deg, #f2f7fd 0%, #e7f0fb 100%);
+      border: 1px solid #dbe6f2;
+      border-radius: 22px 22px 22px 22px;
+      padding: 0.75rem;
+      box-shadow: 0 18px 44px rgba(11, 44, 69, 0.12);
+    }
+    .wp65-scene svg { display: block; width: 100%; height: auto; }
+
+    .wp65-goodnews {
+      position: relative;
+      z-index: 2;
+      margin: -1.75rem 1rem 0 auto;
+      width: calc(100% - 2rem);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background: #fff;
+      border: 1px solid #d7ecdd;
+      border-left: 5px solid #16a34a;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 14px 32px rgba(11, 44, 69, 0.14);
+    }
+    .wp65-goodnews__tick {
+      flex: none; width: 26px; height: 26px; border-radius: 50%;
+      background: #16a34a; color: #fff; display: grid; place-items: center;
+      font-size: 0.85rem; font-weight: 800;
+    }
+    .wp65-goodnews strong { display: block; color: #0b2c45; font-size: 1rem; margin-bottom: 0.15rem; }
+    .wp65-goodnews p { margin: 0; color: #4b5b6b; font-size: 0.9rem; line-height: 1.45; }
+
+    @media (max-width: 860px) {
+      .wp65-hero { grid-template-columns: 1fr; gap: 1.75rem; }
+      .wp65-hero__lede { max-width: none; }
+      .wp65-scene { max-width: 480px; }
+    }
+
+    /* ---- Dark CTA banner --------------------------------------------------- */
+    .wp65-banner {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 1.5rem;
+      background: linear-gradient(135deg, #0b2c45 0%, #123a5c 100%);
+      border-radius: 20px;
+      padding: 1.6rem 2rem;
+      margin: 0 0 2.25rem;
+      box-shadow: 0 20px 44px rgba(11, 44, 69, 0.22);
+    }
+    .wp65-banner__icon {
+      flex: none; width: 56px; height: 56px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: rgba(255, 255, 255, 0.12); color: #fff;
+    }
+    .wp65-banner__icon :global(svg) { width: 26px; height: 26px; }
+    .wp65-banner__copy h2 { margin: 0 0 0.3rem; color: #fff; font-size: 1.3rem; }
+    .wp65-banner__copy p { margin: 0; color: #c7d8e8; font-size: 0.95rem; line-height: 1.5; }
+    .wp65-banner__copy :global(strong) { color: #fff; }
+    .wp65-banner__actions { display: flex; gap: 0.75rem; flex: none; }
+    .wp65-banner__call, .wp65-banner__quote {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      text-decoration: none; font-weight: 800; font-size: 0.98rem;
+      padding: 0.85rem 1.3rem; border-radius: 12px; white-space: nowrap;
+      transition: transform 0.12s ease, filter 0.12s ease, box-shadow 0.12s ease;
+    }
+    .wp65-banner__call :global(svg), .wp65-banner__quote :global(svg) { width: 18px; height: 18px; }
+    .wp65-banner__call {
+      background: linear-gradient(180deg, #f97316 0%, #ea580c 100%);
+      color: #fff; box-shadow: 0 12px 24px rgba(234, 88, 12, 0.36);
+    }
+    .wp65-banner__call:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    .wp65-banner__quote { background: #fff; color: #0b2c45; }
+    .wp65-banner__quote:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16); }
+
+    @media (max-width: 820px) {
+      .wp65-banner { grid-template-columns: 1fr; text-align: center; gap: 1.1rem; }
+      .wp65-banner__icon { justify-self: center; }
+      .wp65-banner__actions { flex-direction: column; }
+      .wp65-banner__call, .wp65-banner__quote { justify-content: center; }
+    }
+
+    /* ---- Three intro cards ------------------------------------------------- */
+    .wp65-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin: 0 0 2.5rem;
+    }
+    .wp65-card {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border: 1px solid #e8edf3;
+      border-top: 4px solid var(--accent, #2563eb);
+      border-radius: 16px;
+      padding: 1.5rem 1.5rem 1.6rem;
+      box-shadow: 0 12px 30px rgba(11, 44, 69, 0.07);
+    }
+    .wp65-card--a { --accent: #16a34a; }
+    .wp65-card--tree { --accent: #ea580c; }
+    .wp65-card--four { --accent: #2563eb; }
+    .wp65-card__head { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+    .wp65-card__icon {
+      flex: none; width: 48px; height: 48px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: color-mix(in srgb, var(--accent) 14%, #fff); color: var(--accent);
+    }
+    .wp65-card__icon :global(svg) { width: 26px; height: 26px; }
+    .wp65-card__head h2 { margin: 0; font-size: 1.18rem; line-height: 1.2; color: var(--accent); }
+    .wp65-card__kicker { display: block; font-size: 0.98rem; color: var(--accent); }
+    .wp65-card__kicker--after { display: block; font-size: 0.85rem; font-weight: 600; color: #64748b; margin-top: 0.1rem; }
+    .wp65-card__lead { margin: 0 0 1rem; color: #4b5b6b; font-size: 0.94rem; line-height: 1.6; }
+    .wp65-card__lead :global(a) { color: var(--accent); font-weight: 700; }
+
+    /* Part A exception note */
+    .wp65-note {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      margin-top: auto; padding: 0.9rem 1rem;
+      background: #edfaf1;
+      border: 1px solid #cdeed6; border-radius: 12px;
+    }
+    .wp65-note__tick {
+      flex: none; width: 22px; height: 22px; border-radius: 50%;
+      background: #16a34a; color: #fff; display: grid; place-items: center;
+      font-size: 0.72rem; font-weight: 800; margin-top: 0.05rem;
+    }
+    .wp65-note p { margin: 0; font-size: 0.86rem; line-height: 1.5; color: #3f5647; }
+    .wp65-note :global(strong) { color: #15803d; }
+
+    /* Decision-tree preview question list */
+    .wp65-qlist { list-style: none; padding: 0; margin: 0 0 1.2rem; display: grid; gap: 0.7rem; }
+    .wp65-qlist li {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      font-size: 0.9rem; line-height: 1.4; color: #3f4b58;
+    }
+    .wp65-qlist__num {
+      flex: none; width: 22px; height: 22px; border-radius: 50%;
+      background: #ea580c; color: #fff; display: grid; place-items: center;
+      font-size: 0.75rem; font-weight: 800; margin-top: 0.05rem;
+    }
+    .wp65-card__btn {
+      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+      margin-top: auto;
+      background: linear-gradient(180deg, #f97316 0%, #ea580c 100%);
+      color: #fff; text-decoration: none; font-weight: 800; font-size: 0.95rem;
+      padding: 0.8rem 1rem; border-radius: 12px;
+      box-shadow: 0 10px 22px rgba(234, 88, 12, 0.28);
+      transition: transform 0.12s ease, filter 0.12s ease;
+    }
+    .wp65-card__btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
+    /* Four-things link list */
+    .wp65-flist { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
+    .wp65-flist li { display: flex; align-items: center; gap: 0.6rem; }
+    .wp65-flist__dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #2563eb; }
+    .wp65-flist :global(a) { color: #1f4e8c; font-weight: 700; text-decoration: none; font-size: 0.95rem; }
+    .wp65-flist :global(a:hover) { text-decoration: underline; }
+
+    @media (max-width: 900px) {
+      .wp65-cards { grid-template-columns: 1fr; }
+    }
+
+    /* ---- Full Decision Tree ------------------------------------------------ */
+    .wp65-tree { scroll-margin-top: 5rem; margin: 0 0 2.5rem; }
+    .wp65-tree > h2 {
+      text-align: center; margin: 0 0 1.5rem;
+      font-size: clamp(1.5rem, 3vw, 2rem); color: #0b2c45;
+    }
+    .wp65-tree__list {
+      list-style: none; padding: 0; margin: 0;
+      display: grid; gap: 1rem;
+    }
+    .wp65-tree__card {
+      display: flex; align-items: flex-start; gap: 1.1rem;
+      background: #fff; border: 1px solid #e8edf3;
+      border-left: 5px solid #ea580c; border-radius: 14px;
+      padding: 1.3rem 1.5rem;
+      box-shadow: 0 8px 22px rgba(11, 44, 69, 0.06);
+    }
+    .wp65-tree__num {
+      flex: none; width: 38px; height: 38px; border-radius: 50%;
+      background: #ea580c; color: #fff; display: grid; place-items: center;
+      font-size: 1.1rem; font-weight: 800;
+    }
+    .wp65-tree__card > div { color: #46586a; line-height: 1.6; font-size: 0.98rem; }
+    .wp65-tree__card :global(strong) { color: #0b2c45; }
+    .wp65-tree__card :global(a) { color: #ea580c; font-weight: 700; }
+
+    /* ---- "Then What?" strip ------------------------------------------------ */
+    .wp65-then {
+      background: linear-gradient(180deg, #fff8ec 0%, #fef3df 100%);
+      border: 1px solid #f6e2bd;
+      border-radius: 20px;
+      padding: 1.6rem 1.9rem;
+      margin: 0 0 2.5rem;
+      display: grid;
+      grid-template-columns: 1.1fr 1.4fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    .wp65-then__intro { display: flex; align-items: flex-start; gap: 1rem; }
+    .wp65-then__icon {
+      flex: none; width: 52px; height: 52px; border-radius: 50%;
+      display: grid; place-items: center; background: #fbbf24; color: #7c4a03;
+    }
+    .wp65-then__icon :global(svg) { width: 26px; height: 26px; }
+    .wp65-then__intro h2 { margin: 0 0 0.35rem; color: #7c4a03; font-size: 1.35rem; }
+    .wp65-then__intro p { margin: 0; color: #6b5a3c; font-size: 0.94rem; line-height: 1.55; }
+    .wp65-then__intro p :global(a) { color: #b45309; font-weight: 700; }
+    .wp65-then__links { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+    .wp65-then__links a {
+      display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem;
+      height: 100%;
+      background: #fff; border: 1px solid #f0e0c0; border-radius: 12px;
+      padding: 0.9rem 0.7rem; text-decoration: none;
+      box-shadow: 0 6px 16px rgba(124, 74, 3, 0.08);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .wp65-then__links a:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(124, 74, 3, 0.14); }
+    .wp65-then__linkicon { color: #b45309; }
+    .wp65-then__linkicon :global(svg) { width: 24px; height: 24px; }
+    .wp65-then__links strong { display: block; color: #0b2c45; font-size: 0.88rem; line-height: 1.25; }
+    .wp65-then__links small { display: block; color: #6b7280; font-size: 0.76rem; margin-top: 0.15rem; }
+
+    @media (max-width: 780px) {
+      .wp65-then { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px) {
+      .wp65-then__links { grid-template-columns: 1fr; }
+      .wp65-then__links a { flex-direction: row; text-align: left; }
+    }
+
+    /* ---- Footer: FAQ · Related · Agent ------------------------------------- */
+    .wp65-foot {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 0.9fr;
+      gap: 2rem;
+      margin: 0 0 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e8edf3;
+    }
+    .wp65-foot h2 { font-size: 1.25rem; color: #0b2c45; margin: 0 0 1rem; }
+    .wp65-foot__sub { margin-top: 1.75rem !important; }
+
+    .wp65-faq__list { display: grid; gap: 0.6rem; }
+    .wp65-faq__item {
+      border: 1px solid #e4ecf5; border-radius: 12px;
+      padding: 0.75rem 1rem; background: #fff;
+    }
+    .wp65-faq__item summary {
+      display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+      cursor: pointer; list-style: none;
+      font-weight: 700; color: #1f3a52; font-size: 0.95rem; line-height: 1.35;
+    }
+    .wp65-faq__item summary::-webkit-details-marker { display: none; }
+    .wp65-faq__item summary::after { content: "⌄"; color: #2563eb; font-weight: 800; transition: transform 0.15s ease; }
+    .wp65-faq__item[open] summary::after { transform: rotate(180deg); }
+    .wp65-faq__item p { margin: 0.7rem 0 0; color: #5b6b7d; font-size: 0.9rem; line-height: 1.6; }
+
+    .wp65-sources { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+    .wp65-sources a { color: #2563eb; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+    .wp65-sources a:hover { text-decoration: underline; }
+    .wp65-sources__pub { color: #94a3b8; font-size: 0.85rem; }
+
+    .wp65-related ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; }
+    .wp65-related li { display: flex; align-items: center; gap: 0.6rem; }
+    .wp65-related__icon { flex: none; font-size: 1rem; }
+    .wp65-related a { color: #2563eb; text-decoration: none; font-weight: 600; font-size: 0.95rem; line-height: 1.35; }
+    .wp65-related a:hover { text-decoration: underline; }
+
+    .wp65-agent {
+      background: linear-gradient(180deg, #eef5fe 0%, #f7fbff 100%);
+      border: 1px solid #d8e6f6; border-radius: 18px;
+      padding: 1.5rem 1.4rem; text-align: center;
+      box-shadow: 0 14px 32px rgba(11, 44, 69, 0.08);
+    }
+    .wp65-agent__photo { margin: 0 0 0.9rem; }
+    .wp65-agent__photo img {
+      width: 96px; height: 96px; border-radius: 50%;
+      object-fit: cover; object-position: top center;
+      border: 4px solid #fff; box-shadow: 0 10px 24px rgba(11, 44, 69, 0.18);
+    }
+    .wp65-agent h2 { font-size: 1.15rem; margin: 0 0 0.5rem; }
+    .wp65-agent p { margin: 0 0 1.2rem; color: #475569; font-size: 0.9rem; line-height: 1.55; }
+    .wp65-agent__call {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      width: 100%;
+      background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%); color: #fff;
+      text-decoration: none; font-weight: 800; font-size: 1rem;
+      padding: 0.8rem 1rem; border-radius: 12px;
+      box-shadow: 0 12px 26px rgba(37, 99, 235, 0.3);
+      transition: transform 0.12s ease, filter 0.12s ease;
+    }
+    .wp65-agent__call :global(svg) { width: 18px; height: 18px; }
+    .wp65-agent__call:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
+    @media (max-width: 900px) {
+      .wp65-foot { grid-template-columns: 1fr; }
+    }
+
+    /* ---- Trust-badge strip ------------------------------------------------- */
+    .wp65-trust {
+      background: #fff; border: 1px solid #e8edf3; border-radius: 18px;
+      padding: 1.4rem 1.6rem; margin: 0 0 1rem;
+      box-shadow: 0 10px 26px rgba(11, 44, 69, 0.06);
+    }
+    .wp65-trust ul {
+      list-style: none; padding: 0; margin: 0;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
+    }
+    .wp65-trust li { display: flex; align-items: center; gap: 0.8rem; }
+    .wp65-trust__icon {
+      flex: none; width: 46px; height: 46px; border-radius: 50%;
+      display: grid; place-items: center; color: #fff; background: var(--accent);
+      box-shadow: 0 8px 18px color-mix(in srgb, var(--accent) 38%, transparent);
+    }
+    .wp65-trust__icon :global(svg) { width: 24px; height: 24px; }
+    .wp65-trust__text strong { display: block; color: #0b2c45; font-size: 0.92rem; }
+    .wp65-trust__text small { display: block; color: #6b7280; font-size: 0.8rem; margin-top: 0.1rem; }
+
+    @media (max-width: 820px) {
+      .wp65-trust ul { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 460px) {
+      .wp65-trust ul { grid-template-columns: 1fr; }
+    }
   </style>
 </ArticlePage>
