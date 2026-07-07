@@ -7,8 +7,9 @@
 import ArticlePage from '../layout/ArticlePage.astro';
 import { DECISION_PATHS } from '../../data/decisionPaths';
 import { BUSINESS } from '../../data/business';
+import { authorById } from '../../data/authors';
 import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
-import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import { getLangFromUrl, getLocaleMeta, localizeLabel } from '../../i18n/locales';
 import type { PageContext } from '../../types/Page';
 
 const SLUG = 'medicare-decision-center';
