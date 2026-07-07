@@ -1,16 +1,22 @@
 ---
-// src/pages/vernal.astro — MIGRATED to the Page Framework.
-// URL, title, description, canonical and H1 preserved from the legacy page.
-// Now on ArticlePage: automatic Article+FAQ+Breadcrumb schema, byline, related,
-// and the required marketing disclaimer (was an inline "Disclosures" block).
-// Inline InsuranceAgency JSON-LD dropped (framework auto-generates schema).
+// src/pages/vernal.astro — the Vernal, Utah local hub.
+// Redesigned from a plain-prose ArticlePage into a custom landing page
+// (bareHeader + bareFooter) themed around the Uintah Basin's red-rock desert:
+// an illustrated hero, a "what we do" card grid, a how-it-works timeline paired
+// with a local-focus stat card, colored enrollment-window pills, and a person
+// CTA banner. URL, title, description, canonical, H1 and schema are unchanged;
+// the ArticlePage framework still auto-generates Article+Breadcrumb schema and
+// the byline is preserved inline for E-E-A-T.
 import ArticlePage from '../components/layout/ArticlePage.astro';
 import { figuresFor } from '../data/annualMedicareData';
 import { usd } from '../lib/formatters';
+import { BUSINESS } from '../data/business';
+import { authorById } from '../data/authors';
 import type { PageContext } from '../types/Page';
 
 const f = figuresFor();
 const partB = usd(f.partB.premium, { cents: true });
+const agent = authorById('rocco');
 
 const context: PageContext = {
   page: {
@@ -38,46 +44,436 @@ const context: PageContext = {
     { name: 'Vernal, Utah', href: '/vernal.html' },
   ],
 };
+
+const updated = new Date(context.lastUpdated + 'T00:00:00').toLocaleDateString('en-US', {
+  month: 'long',
+  year: 'numeric',
+});
+
+// ── "What we do in Vernal" — each card links to the relevant local page. ──────
+const SERVICES = [
+  {
+    accent: '#2563eb', tint: '#e6effe',
+    title: 'Compare plans',
+    blurb: 'Advantage, Medigap & Part D checked against your doctors, clinics, and pharmacies.',
+    href: 'medicare-plans-vernal-utah.html',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 3v18"/><path d="M12.5 8h4M12.5 12h4M12.5 16h4"/></svg>',
+  },
+  {
+    accent: '#0d9488', tint: '#d8f2ee',
+    title: 'Medigap + Part D',
+    blurb: 'Plan G, Plan N, and drug plans built for predictable, steady monthly costs.',
+    href: 'medigap.html',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 11.5l2 2 4-4"/></svg>',
+  },
+  {
+    accent: '#ea580c', tint: '#fdece0',
+    title: 'Drug review',
+    blurb: 'Formularies, prior authorization, and preferred pharmacies matched to your meds.',
+    href: 'medicare-drug-coverage.html',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 13.5l-4 4a3.5 3.5 0 0 1-5-5l4-4"/><path d="M13.5 10.5l4-4a3.5 3.5 0 0 0-5-5l-4 4"/><path d="M8.5 15.5l7-7"/></svg>',
+  },
+  {
+    accent: '#7c3aed', tint: '#f1e9fd',
+    title: 'Savings programs',
+    blurb: 'Extra Help & Medicare Savings Programs — we check every dollar you qualify for.',
+    href: 'medicare-savings-programs-utah.html',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6A5 5 0 0 0 12 5.6a5 5 0 0 0-8.8 3c0 4 4.8 7.4 8.8 9.8 4-2.4 8.8-5.8 8.8-9.8z"/></svg>',
+  },
+  {
+    accent: '#c2571f', tint: '#fbe6d6',
+    title: 'Annual checkups',
+    blurb: 'We recheck your plan each year so it still fits when your life or meds change.',
+    href: 'medicare-quote-vernal.html',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><path d="M8.5 14l2 2 3.5-3.5"/></svg>',
+  },
+];
+
+// ── How it works — a connected 4-step timeline. ───────────────────────────────
+const STEPS = [
+  { title: 'Quick chat', blurb: 'Tell us your doctors, meds, and must-haves.' },
+  { title: 'Side-by-side options', blurb: 'We narrow the choices to what actually fits you.' },
+  { title: 'Enroll when ready', blurb: 'By phone or online, with a licensed agent.' },
+  { title: 'We stay with you', blurb: 'Year-round help for questions and changes.' },
+];
+
+// ── Enrollment windows — colored quick-reference pills. ───────────────────────
+const WINDOWS = [
+  { c: '#0d9488', bg: '#d8f2ee', label: 'AEP', dates: 'Oct 15 – Dec 7', note: 'Change plans; starts Jan 1' },
+  { c: '#7c3aed', bg: '#f1e9fd', label: 'OEP (MA)', dates: 'Jan 1 – Mar 31', note: 'One switch if you’re on MA' },
+  { c: '#2563eb', bg: '#e6effe', label: 'IEP / ICEP', dates: 'Around 65', note: 'Your first eligibility' },
+  { c: '#d6455f', bg: '#fbe0e6', label: 'SEPs', dates: 'Life events', note: 'Moving, losing coverage, Extra Help' },
+];
 ---
 
-<ArticlePage context={context}>
-  <p><strong>Local, licensed help</strong> comparing Medicare Advantage (Part C), Medigap, and Part D—right here in Vernal. We’ll check your doctors, prescriptions, and budget so you can choose with confidence.</p>
-  <p>
-    <a class="button primary" href="tel:+14352195120">Call 435-219-5120 (TTY: 711)</a>
-    <a class="button" href="about.html">Email us</a>
-  </p>
+<ArticlePage context={context} bareHeader bareFooter>
+  {/* ─── Hero ─────────────────────────────────────────────────────────── */}
+  <section class="vh-hero">
+    <div class="vh-hero__copy">
+      <h1 class="vh-hero__title">Medicare Help in <span>Vernal, Utah</span></h1>
 
-  <h2>What we do in Vernal</h2>
-  <ul>
-    <li><strong>Compare plans</strong> for your doctors, clinics, and pharmacies.</li>
-    <li><strong>Medigap + Part D</strong> (Plan G, Plan N, and drug plans) for predictable costs.</li>
-    <li><strong>Drug review</strong>: formularies, prior auth, and preferred pharmacies.</li>
-    <li><strong>Savings programs</strong>: Extra Help & Medicare Savings Programs.</li>
-    <li><strong>Annual checkups</strong> so your plan still fits when things change.</li>
-  </ul>
+      <div class="vh-byline">
+        <img class="vh-byline__photo" src="/pictures/rocco.webp" alt={`${agent?.name ?? 'Rocco DeLuca'}, licensed Medicare agent in Vernal, Utah`} width="52" height="52" loading="eager" decoding="async" />
+        <span class="vh-byline__text">
+          By <strong>{agent?.name ?? 'Rocco DeLuca'}</strong>, {agent?.jobTitle ?? 'Licensed Medicare Insurance Agent'}
+          <em>Updated {updated}</em>
+        </span>
+      </div>
 
-  <h2>How it works</h2>
-  <ol>
-    <li><strong>Quick chat</strong> — tell us your doctors, meds, and must-haves.</li>
-    <li><strong>Side-by-side options</strong> — we narrow choices to what fits you.</li>
-    <li><strong>Enroll when ready</strong> — by phone or online, with a licensed agent.</li>
-    <li><strong>We stay with you</strong> — year-round help for questions and changes.</li>
-  </ol>
+      <p class="vh-hero__lede"><strong>Local, licensed help</strong> comparing Medicare Advantage (Part C), Medigap, and Part D — right here in Vernal. We check your doctors, prescriptions, and budget so you can choose with confidence.</p>
 
-  <h2>Local focus: Vernal & the Basin</h2>
-  <p>We help neighbors across Vernal and nearby communities. We coordinate around the clinics and pharmacies you already use, and we’re easy to reach when you need us. Most beneficiaries pay <strong>{partB} per month for Original Medicare Part B in {f.year}</strong>.</p>
+      <div class="vh-hero__actions">
+        <a class="vh-btn vh-btn--call" href={`tel:${BUSINESS.phoneTel}`}>
+          <span class="vh-btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
+          <span>Call {BUSINESS.phone}<em>(TTY: {BUSINESS.tty})</em></span>
+        </a>
+        <a class="vh-btn vh-btn--ghost" href="about.html">
+          <span class="vh-btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg></span>
+          Email us
+        </a>
+      </div>
+    </div>
 
-  <h2>Enrollment windows (quick guide)</h2>
-  <ul>
-    <li><strong>AEP:</strong> Oct 15–Dec 7 (changes start Jan 1).</li>
-    <li><strong>OEP (MA):</strong> Jan 1–Mar 31 (one change if you’re on an MA plan).</li>
-    <li><strong>IEP/ICEP:</strong> around your 65th birthday or first eligibility.</li>
-    <li><strong>SEPs:</strong> moving, losing coverage, Extra Help/Medicaid, and more.</li>
-  </ul>
+    {/* Illustrated Uintah Basin red-rock scene (inline, self-contained). */}
+    <div class="vh-hero__art" aria-hidden="true">
+      <svg class="vh-scene" viewBox="0 0 520 420" role="img" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="vhSky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#bfe6f7"/>
+            <stop offset="1" stop-color="#eaf6fb"/>
+          </linearGradient>
+          <linearGradient id="vhRockA" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#e58a4d"/>
+            <stop offset="1" stop-color="#c2571f"/>
+          </linearGradient>
+          <linearGradient id="vhRockB" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#d9642e"/>
+            <stop offset="1" stop-color="#a8451a"/>
+          </linearGradient>
+          <linearGradient id="vhSand" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f3dca8"/>
+            <stop offset="1" stop-color="#e7c98a"/>
+          </linearGradient>
+          <clipPath id="vhClip"><rect x="0" y="0" width="520" height="420" rx="24"/></clipPath>
+        </defs>
 
-  <h2>Talk with a local, licensed agent</h2>
-  <p>
-    <a class="button primary" href="tel:+14352195120">Call 435-219-5120 (TTY: 711)</a>
-    <a class="button" href="about.html">Email us</a>
-  </p>
+        <g clip-path="url(#vhClip)">
+          <rect x="0" y="0" width="520" height="420" fill="url(#vhSky)"/>
+          <circle cx="410" cy="92" r="46" fill="#ffd98a" opacity="0.85"/>
+          <circle cx="410" cy="92" r="30" fill="#ffe9b8"/>
+
+          {/* distant mesa */}
+          <path d="M0 250 L70 250 L90 214 L180 214 L200 250 L300 250 L300 300 L0 300 Z" fill="#e79a6b" opacity="0.65"/>
+          {/* main buttes */}
+          <path d="M120 300 L120 150 L150 150 L150 130 L185 130 L185 150 L215 150 L215 300 Z" fill="url(#vhRockB)"/>
+          <path d="M300 300 L300 120 L330 120 L330 100 L360 100 L360 120 L392 120 L392 300 Z" fill="url(#vhRockA)"/>
+          <path d="M40 300 L40 200 L64 200 L64 184 L96 184 L96 300 Z" fill="url(#vhRockA)"/>
+          {/* rock strata lines */}
+          <path d="M300 175 H392 M300 205 H392 M120 205 H215 M120 235 H215" stroke="#8f3b16" stroke-width="3" opacity="0.28" stroke-linecap="round"/>
+
+          {/* winding river */}
+          <path d="M-10 330 C 120 312, 180 372, 300 344 C 400 320, 470 372, 540 350 L540 420 L-10 420 Z" fill="#7cc4e6"/>
+          {/* sand foreground */}
+          <path d="M-10 356 C 120 340, 200 392, 320 366 C 430 344, 480 392, 540 372 L540 420 L-10 420 Z" fill="url(#vhSand)"/>
+
+          {/* saguaro-style cactus */}
+          <g stroke="#5c8a4a" stroke-width="12" stroke-linecap="round" fill="none">
+            <path d="M78 372 V322"/>
+            <path d="M78 344 q-16 0 -16 -18 v-8"/>
+            <path d="M78 336 q16 0 16 -18 v-4"/>
+          </g>
+        </g>
+
+        {/* floating medical-icon badges */}
+        <g>
+          <circle cx="250" cy="70" r="26" fill="#ffffff" stroke="#e2edf6"/>
+          <path d="M250 58 v24 M238 70 h24" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="150" cy="118" r="21" fill="#ffffff" stroke="#e2edf6"/>
+          <path d="M141 118 q9 -12 9 4 q0 -16 9 -4" fill="none" stroke="#d6455f" stroke-width="4" stroke-linecap="round"/>
+          <path d="M141 118 h4 l2 5 l3 -9 l2 4 h6" fill="none" stroke="#d6455f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="368" cy="150" r="19" fill="#ffffff" stroke="#e2edf6"/>
+          <path d="M361 150 h14 M368 143 v14" stroke="#0d9488" stroke-width="4" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  {/* ─── What we do ───────────────────────────────────────────────────── */}
+  <section class="vh-sec" aria-labelledby="vh-do-h">
+    <h2 id="vh-do-h" class="vh-h2">What we do <span>in Vernal</span></h2>
+    <div class="vh-cards">
+      {SERVICES.map((s) => (
+        <a class="vh-card" href={s.href} style={`--accent:${s.accent};--tint:${s.tint}`}>
+          <span class="vh-card__icon" aria-hidden="true" set:html={s.icon} />
+          <h3 class="vh-card__title">{s.title}</h3>
+          <p class="vh-card__blurb">{s.blurb}</p>
+          <span class="vh-card__more" aria-hidden="true">Learn more ›</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {/* ─── How it works + Local focus ───────────────────────────────────── */}
+  <section class="vh-sec vh-work">
+    <div class="vh-work__steps">
+      <h2 class="vh-h2">How it <span>works</span></h2>
+      <ol class="vh-timeline">
+        {STEPS.map((s, i) => (
+          <li class="vh-step">
+            <span class="vh-step__dot">{i + 1}</span>
+            <div class="vh-step__body">
+              <strong>{s.title}</strong>
+              <span>{s.blurb}</span>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <aside class="vh-local">
+      <svg class="vh-local__map" viewBox="0 0 140 120" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="140" height="120" rx="12" fill="#eef6fb"/>
+        <path d="M14 20 h112 v80 h-112 z" fill="#dbeef7"/>
+        <path d="M0 64 C 40 54, 90 82, 140 66" stroke="#9cc9e0" stroke-width="4" fill="none"/>
+        <path d="M52 0 V120 M96 0 V120 M0 42 H140 M0 86 H140" stroke="#c3ddec" stroke-width="2"/>
+        <g fill="#d6455f"><path d="M44 40 c0 8 -8 12 -8 12 s-8 -4 -8 -12 a8 8 0 0 1 16 0z"/></g>
+        <circle cx="36" cy="40" r="3" fill="#fff"/>
+        <g fill="#2563eb"><path d="M92 58 c0 8 -8 12 -8 12 s-8 -4 -8 -12 a8 8 0 0 1 16 0z"/></g>
+        <circle cx="84" cy="58" r="3" fill="#fff"/>
+        <g fill="#0d9488"><path d="M114 34 c0 7 -7 11 -7 11 s-7 -4 -7 -11 a7 7 0 0 1 14 0z"/></g>
+        <circle cx="107" cy="34" r="2.6" fill="#fff"/>
+      </svg>
+      <div class="vh-local__body">
+        <p class="vh-local__eyebrow">Local focus: Vernal &amp; the Basin</p>
+        <p class="vh-local__stat">{partB}<em>/mo</em></p>
+        <p class="vh-local__cap">What most beneficiaries pay for Original Medicare Part&nbsp;B in {f.year}.</p>
+        <p class="vh-local__note">We coordinate around the clinics and pharmacies you already use across Vernal, Naples, Maeser, and Jensen — and we’re easy to reach when you need us.</p>
+      </div>
+    </aside>
+  </section>
+
+  {/* ─── Enrollment windows ───────────────────────────────────────────── */}
+  <section class="vh-sec">
+    <h2 class="vh-h2">Enrollment windows <span>(quick guide)</span></h2>
+    <div class="vh-windows">
+      {WINDOWS.map((w) => (
+        <div class="vh-win" style={`--c:${w.c};--bg:${w.bg}`}>
+          <span class="vh-win__label">{w.label}</span>
+          <span class="vh-win__dates">{w.dates}</span>
+          <span class="vh-win__note">{w.note}</span>
+        </div>
+      ))}
+    </div>
+    <p class="vh-windows__foot">Not sure which window is yours? <a href="medicare-enrollment-periods.html">See how the enrollment periods work</a> — or just call and we’ll tell you in a minute.</p>
+  </section>
+
+  {/* ─── Person CTA banner ────────────────────────────────────────────── */}
+  <section class="vh-cta">
+    <img class="vh-cta__photo" src="/pictures/rocco.webp" alt={`${agent?.name ?? 'Rocco DeLuca'}, licensed Medicare agent in Vernal, Utah`} width="92" height="92" loading="lazy" decoding="async" />
+    <div class="vh-cta__msg">
+      <h2 class="vh-cta__title">Talk with a local, licensed agent</h2>
+      <p>Free, no-pressure guidance from someone who lives and works in the Basin. Call, email, or request a quote — we’ll do the rest.</p>
+    </div>
+    <div class="vh-cta__actions">
+      <a class="vh-btn vh-btn--call" href={`tel:${BUSINESS.phoneTel}`}>
+        <span class="vh-btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
+        <span>Call {BUSINESS.phone}<em>(TTY: {BUSINESS.tty})</em></span>
+      </a>
+      <a class="vh-btn vh-btn--quote" href="medicare-quote-vernal.html">Get a Free Quote</a>
+    </div>
+  </section>
 </ArticlePage>
+
+<style>
+  /* Palette: site navy #0b2c45 + blue #2563eb, warmed with Uintah Basin
+     red-rock tones (#c2571f / #ea580c) and desert sky blues. */
+
+  .vh-sec { margin: 0 0 2.75rem; }
+
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .vh-hero {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    align-items: center;
+    gap: 2.5rem;
+    background: linear-gradient(180deg, #eaf4fb 0%, #f5fafd 100%);
+    border: 1px solid #dbe6f2;
+    border-radius: 26px;
+    padding: 2.5rem 2.75rem;
+    margin: 0.25rem 0 2.75rem;
+  }
+  .vh-hero__title {
+    font-size: clamp(2.1rem, 4.8vw, 3.3rem);
+    line-height: 1.06;
+    font-weight: 800;
+    color: #0b2c45;
+    margin: 0 0 1rem;
+  }
+  .vh-hero__title span { color: #c2571f; }
+
+  .vh-byline { display: flex; align-items: center; gap: 0.7rem; margin: 0 0 1.15rem; }
+  .vh-byline__photo { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; object-position: top center; border: 2px solid #fff; box-shadow: 0 5px 14px rgba(11,44,69,0.16); flex: none; }
+  .vh-byline__text { color: #475569; font-size: 0.92rem; line-height: 1.35; }
+  .vh-byline__text strong { color: #0b2c45; }
+  .vh-byline__text em { display: block; font-style: normal; font-size: 0.82rem; color: #7c8a99; }
+
+  .vh-hero__lede { font-size: 1.06rem; color: #47566a; line-height: 1.6; margin: 0 0 1.6rem; max-width: 46ch; }
+  .vh-hero__lede strong { color: #0b2c45; }
+  .vh-hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+  .vh-hero__art { display: flex; justify-content: center; }
+  .vh-scene {
+    width: 100%; height: auto; max-width: 520px; display: block;
+    border-radius: 24px;
+    box-shadow: 0 20px 46px rgba(11, 44, 69, 0.20);
+  }
+
+  /* ── Buttons (shared) ─────────────────────────────────────────────────── */
+  .vh-btn {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    text-decoration: none; font-weight: 800; border-radius: 14px;
+    padding: 0.8rem 1.25rem; font-size: 1rem;
+    transition: transform 0.12s ease, filter 0.12s ease, box-shadow 0.12s ease;
+  }
+  .vh-btn:hover { transform: translateY(-2px); }
+  .vh-btn__icon { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.22); }
+  .vh-btn__icon svg { width: 18px; height: 18px; }
+  .vh-btn--call {
+    background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+    color: #fff; box-shadow: 0 12px 26px rgba(37, 99, 235, 0.34);
+  }
+  .vh-btn--call span:last-child { display: flex; flex-direction: column; line-height: 1.15; text-align: left; }
+  .vh-btn--call em { font-style: normal; font-weight: 600; font-size: 0.76rem; opacity: 0.9; }
+  .vh-btn--ghost { background: #fff; color: #0b2c45; border: 1.5px solid #cdd9e6; }
+  .vh-btn--ghost .vh-btn__icon { background: #eef4fb; color: #2563eb; }
+  .vh-btn--quote { background: #fff; color: #0b2c45; }
+  .vh-btn--call, .vh-btn--quote { will-change: transform; }
+
+  /* ── Section headings ─────────────────────────────────────────────────── */
+  .vh-h2 { color: #0b2c45; font-size: clamp(1.45rem, 3vw, 2rem); font-weight: 800; margin: 0 0 1.5rem; }
+  .vh-h2 span { color: #c2571f; }
+
+  /* ── What we do — cards ───────────────────────────────────────────────── */
+  .vh-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1.25rem;
+  }
+  .vh-card {
+    display: flex; flex-direction: column;
+    background: #fff; text-decoration: none;
+    border: 1px solid #e8edf3;
+    border-top: 4px solid var(--accent);
+    border-radius: 16px;
+    padding: 1.5rem 1.35rem;
+    box-shadow: 0 10px 28px rgba(11, 44, 69, 0.06);
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .vh-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(11, 44, 69, 0.13); }
+  .vh-card__icon {
+    width: 54px; height: 54px; border-radius: 14px;
+    display: grid; place-items: center;
+    background: var(--tint); color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .vh-card__icon svg { width: 28px; height: 28px; }
+  .vh-card__title { margin: 0 0 0.45rem; font-size: 1.14rem; color: #0b2c45; }
+  .vh-card__blurb { margin: 0 0 1rem; color: #5b6b7d; font-size: 0.93rem; line-height: 1.5; }
+  .vh-card__more { margin-top: auto; color: var(--accent); font-weight: 800; font-size: 0.9rem; }
+
+  /* ── How it works + Local focus ───────────────────────────────────────── */
+  .vh-work {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 1.75rem;
+    align-items: start;
+  }
+  .vh-timeline { list-style: none; margin: 0; padding: 0; position: relative; }
+  .vh-timeline::before {
+    content: ""; position: absolute; left: 18px; top: 12px; bottom: 12px;
+    width: 3px; background: linear-gradient(180deg, #2563eb, #c2571f); border-radius: 2px;
+  }
+  .vh-step { display: flex; align-items: flex-start; gap: 1rem; padding: 0.55rem 0; position: relative; }
+  .vh-step__dot {
+    flex: none; width: 38px; height: 38px; border-radius: 50%;
+    display: grid; place-items: center; z-index: 1;
+    background: #2563eb; color: #fff; font-weight: 800;
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3); border: 3px solid #f5fafd;
+  }
+  .vh-step:nth-child(2) .vh-step__dot { background: #0d9488; box-shadow: 0 6px 16px rgba(13,148,136,0.3); }
+  .vh-step:nth-child(3) .vh-step__dot { background: #ea580c; box-shadow: 0 6px 16px rgba(234,88,12,0.3); }
+  .vh-step:nth-child(4) .vh-step__dot { background: #c2571f; box-shadow: 0 6px 16px rgba(194,87,31,0.3); }
+  .vh-step__body { padding-top: 0.15rem; }
+  .vh-step__body strong { display: block; color: #0b2c45; font-size: 1.05rem; }
+  .vh-step__body span { color: #5b6b7d; font-size: 0.93rem; line-height: 1.45; }
+
+  .vh-local {
+    display: flex; gap: 1.1rem; align-items: flex-start;
+    background: linear-gradient(180deg, #fff6ef 0%, #fdfbf8 100%);
+    border: 1px solid #f0dcc9;
+    border-radius: 18px;
+    padding: 1.5rem 1.6rem;
+    box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06);
+  }
+  .vh-local__map { flex: none; width: 120px; height: auto; border-radius: 12px; }
+  .vh-local__eyebrow { margin: 0 0 0.35rem; color: #c2571f; font-weight: 800; font-size: 0.9rem; }
+  .vh-local__stat { margin: 0; color: #0b2c45; font-size: 2.1rem; font-weight: 800; line-height: 1; }
+  .vh-local__stat em { font-style: normal; font-size: 1rem; font-weight: 700; color: #7c8a99; }
+  .vh-local__cap { margin: 0.35rem 0 0.75rem; color: #5b6b7d; font-size: 0.88rem; line-height: 1.4; }
+  .vh-local__note { margin: 0; color: #5b6b7d; font-size: 0.9rem; line-height: 1.5; }
+
+  /* ── Enrollment windows ───────────────────────────────────────────────── */
+  .vh-windows {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .vh-win {
+    background: var(--bg);
+    border: 1px solid color-mix(in srgb, var(--c) 22%, #fff);
+    border-left: 5px solid var(--c);
+    border-radius: 14px;
+    padding: 1.05rem 1.2rem;
+    display: flex; flex-direction: column; gap: 0.15rem;
+  }
+  .vh-win__label { color: var(--c); font-weight: 800; font-size: 1.05rem; }
+  .vh-win__dates { color: #0b2c45; font-weight: 700; font-size: 0.95rem; }
+  .vh-win__note { color: #5b6b7d; font-size: 0.85rem; line-height: 1.35; }
+  .vh-windows__foot { margin: 1.1rem 0 0; color: #5b6b7d; font-size: 0.95rem; }
+  .vh-windows__foot a { color: #2563eb; font-weight: 700; text-decoration: none; }
+  .vh-windows__foot a:hover { text-decoration: underline; }
+
+  /* ── Person CTA banner ────────────────────────────────────────────────── */
+  .vh-cta {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.75rem;
+    background: linear-gradient(120deg, #0b2c45 0%, #123a5c 100%);
+    border-radius: 22px;
+    padding: 1.9rem 2.25rem;
+    margin: 0 0 1.5rem;
+    box-shadow: 0 22px 50px rgba(11, 44, 69, 0.28);
+  }
+  .vh-cta__photo { width: 92px; height: 92px; border-radius: 50%; object-fit: cover; object-position: top center; border: 3px solid rgba(255,255,255,0.85); flex: none; }
+  .vh-cta__title { margin: 0 0 0.35rem; color: #fff; font-size: clamp(1.3rem, 2.4vw, 1.7rem); line-height: 1.15; }
+  .vh-cta__msg p { margin: 0; color: #cfe0f0; line-height: 1.5; font-size: 0.98rem; max-width: 48ch; }
+  .vh-cta__actions { display: flex; flex-direction: column; gap: 0.7rem; width: 250px; flex: none; }
+  .vh-cta__actions .vh-btn { justify-content: center; }
+  .vh-cta__actions .vh-btn--call { background: linear-gradient(180deg, #f97316 0%, #ea580c 100%); box-shadow: 0 12px 26px rgba(234, 88, 12, 0.4); }
+  .vh-cta__actions .vh-btn--quote { background: #fff; }
+
+  /* ── Responsive ───────────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .vh-hero { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+    .vh-hero__lede { max-width: none; }
+    .vh-hero__art { order: -1; }
+    .vh-work { grid-template-columns: 1fr; }
+    .vh-cta { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .vh-cta__msg p { max-width: none; }
+    .vh-cta__actions { width: 100%; max-width: 320px; }
+  }
+  @media (max-width: 480px) {
+    .vh-local { flex-direction: column; align-items: center; text-align: center; }
+  }
+</style>
