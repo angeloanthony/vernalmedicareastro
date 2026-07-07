@@ -5,15 +5,29 @@
 // Medicaid, IRMAA, calculators) into ONE income-based journey. Pure routing +
 // framing over existing content — the Decision Center's "I need help paying"
 // path lands here.
+//
+// Design: custom landing-page layout (bareHeader + bareFooter) — a hero, a
+// 3-step ladder, a "programs that can help" card grid, a person CTA banner,
+// an FAQ/resources/agent trio, and a trust bar. Prose links are preserved
+// inside the cards so every internal path the hub used to expose still ships.
 import ArticlePage from '../components/layout/ArticlePage.astro';
 import { figuresFor } from '../data/annualMedicareData';
 import { usd } from '../lib/formatters';
 import { BUSINESS } from '../data/business';
+import { authorById } from '../data/authors';
 import type { PageContext } from '../types/Page';
 
 const f = figuresFor();
 const year = f.year;
 const msp = f.medicareSavingsPrograms;
+const agent = authorById('rocco');
+const partB = usd(f.partB.premium, { cents: true });
+
+const FAQS = [
+  { question: 'What help is there to pay for Medicare?', answer: `Several layers: Medicare Savings Programs pay your Part B premium (${partB}/mo in ${year}) and, for QMB, your deductibles and coinsurance too; Extra Help lowers drug costs; and if your income is low enough, Medicaid can coordinate with Medicare to cover most out-of-pocket costs. Which one fits depends on your income and assets.` },
+  { question: 'How do I know if I qualify?', answer: `Compare your income and assets to the ${year} limits — start with our income-limits page, or use the Extra Help calculator. Qualifying for a Medicare Savings Program automatically qualifies you for Extra Help, so it’s worth checking even if you think you earn too much.` },
+  { question: 'What if I don’t qualify for any program?', answer: 'You can still lower costs by choosing the right plan — a $0-premium Medicare Advantage plan, a lower-cost Part D plan matched to your drugs, or a high-deductible Medigap plan. And the Part D $2,000 out-of-pocket cap now protects everyone. We can walk through the options free.' },
+];
 
 const context: PageContext = {
   page: {
@@ -24,11 +38,7 @@ const context: PageContext = {
     taxonomy: { silo: 'dual-eligible', tags: ['financial-assistance', 'costs', 'msp', 'extra-help', 'premium-assistance', 'dual-eligible'], pillar: true },
     summary:
       `Medicare isn’t free, but far more people qualify for help than use it. This hub pulls every assistance path into one place and sorts it by income: programs that pay your premiums (and more), help with drug costs, full Medicaid coordination, and — if you don’t qualify for a program — the plan choices that lower costs anyway. Start by finding where you fall.`,
-    faqs: [
-      { question: 'What help is there to pay for Medicare?', answer: `Several layers: Medicare Savings Programs pay your Part B premium (${usd(f.partB.premium, { cents: true })}/mo in ${year}) and, for QMB, your deductibles and coinsurance too; Extra Help lowers drug costs; and if your income is low enough, Medicaid can coordinate with Medicare to cover most out-of-pocket costs. Which one fits depends on your income and assets.` },
-      { question: 'How do I know if I qualify?', answer: `Compare your income and assets to the ${year} limits — start with our income-limits page, or use the Extra Help calculator. Qualifying for a Medicare Savings Program automatically qualifies you for Extra Help, so it’s worth checking even if you think you earn too much.` },
-      { question: 'What if I don’t qualify for any program?', answer: 'You can still lower costs by choosing the right plan — a $0-premium Medicare Advantage plan, a lower-cost Part D plan matched to your drugs, or a high-deductible Medigap plan. And the Part D $2,000 out-of-pocket cap now protects everyone. We can walk through the options free.' },
-    ],
+    faqs: FAQS,
     sources: [
       { title: 'Medicare.gov — get help with costs', url: 'https://www.medicare.gov/basics/costs/help', publisher: 'Medicare.gov' },
     ],
@@ -50,61 +60,568 @@ const context: PageContext = {
     { name: 'Help Paying for Medicare', href: '/medicare-financial-assistance.html' },
   ],
 };
+
+// The three-step ladder. Each step reuses the hub's existing internal links.
+const STEPS = [
+  {
+    n: '1',
+    title: 'Find Where You Fall',
+    blurb: 'Compare your income and assets to this year’s limits.',
+    links: [
+      { label: `${year} Medicare income limits`, href: 'medicare-income-limits-2026.html' },
+      { label: 'Extra Help eligibility calculator', href: 'medicare-extra-help-calculator.html' },
+      { label: 'How much does Medicare cost?', href: 'medicare-costs.html' },
+    ],
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+  },
+  {
+    n: '2',
+    title: 'Explore Your Options',
+    blurb: 'From full Medicaid to Extra Help, see the programs you may qualify for.',
+    links: [
+      { label: 'Medicaid &amp; Medicare (dual-eligible)', href: 'dual-eligible.html' },
+      { label: 'Medicare Savings Programs', href: 'medicare-savings-programs-utah.html' },
+      { label: 'Extra Help for drug costs', href: 'medicare-extra-help-utah.html' },
+    ],
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5"/><path d="M3 16.5l9 5 9-5"/></svg>',
+  },
+  {
+    n: '3',
+    title: 'Apply &amp; Save',
+    blurb: 'Lower premiums, deductibles, and drug costs — starting now.',
+    links: [
+      { label: 'Part D cost calculator', href: 'medicare-part-d-cost-calculator.html' },
+      { label: 'Check drug coverage', href: 'medicare-drug-coverage.html' },
+      { label: 'Browse the Help Center', href: 'medicare-help-center.html' },
+    ],
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+  },
+];
+
+// "Programs that can help" — from most help to least, then the no-program path.
+const PROGRAMS = [
+  {
+    id: 'medicaid',
+    accent: '#2563eb', tint: '#e6effe',
+    title: 'Full Medicaid + Medicare',
+    tag: '(Dual-Eligible)',
+    blurb: 'Covers most costs so you pay little or nothing out of pocket.',
+    href: 'dual-eligible.html',
+    pill: 'For eligible individuals',
+    links: [
+      { label: 'Medicare &amp; Medicaid in Utah', href: 'medicare-medicaid-utah.html' },
+      { label: 'D-SNP plans for dual-eligibles', href: 'd-snp-plans-utah.html' },
+    ],
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.2c2.5.5 4.5 2.7 4.5 5.8"/></svg>',
+  },
+  {
+    id: 'msp',
+    accent: '#0d9488', tint: '#d8f2ee',
+    title: 'Medicare Savings Programs',
+    tag: '(QMB, SLMB, QI)',
+    blurb: `Help pay your Part B premium (${partB}/mo), deductibles, and coinsurance.`,
+    href: 'medicare-savings-programs-utah.html',
+    pill: `${year} income limits apply`,
+    links: [
+      { label: `Single limits up to ~${usd(msp.qi.individual)}/mo`, href: 'medicare-income-limits-2026.html' },
+    ],
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8c0-2 3-3.5 8-3.5S20 6 20 8v8c0 2-3 3.5-8 3.5S4 18 4 16z"/><path d="M4 8c0 2 3 3.5 8 3.5S20 10 20 8"/><circle cx="16.5" cy="12" r="1"/></svg>',
+  },
+  {
+    id: 'extra-help',
+    accent: '#ea580c', tint: '#fdece0',
+    title: 'Extra Help',
+    tag: '(Low-Income Subsidy)',
+    blurb: `Lowers your Part D drug costs — as low as $0 premiums and low copays.`,
+    href: 'medicare-extra-help-utah.html',
+    pill: 'Higher income limits',
+    links: [
+      { label: 'Other prescription assistance', href: 'prescription-drug-assistance.html' },
+    ],
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 13.5l-4 4a3.5 3.5 0 0 1-5-5l4-4"/><path d="M13.5 10.5l4-4a3.5 3.5 0 0 0-5-5l-4 4"/><path d="M8.5 15.5l7-7"/></svg>',
+  },
+  {
+    id: 'no-program',
+    accent: '#7c3aed', tint: '#f1e9fd',
+    title: 'No Program? Lower Costs Anyway',
+    tag: '',
+    blurb: `Even without a program, smart choices still save money — and the ${usd(f.partD.annualCap)} Part D cap protects everyone.`,
+    href: 'zero-premium-medicare-advantage.html',
+    pill: 'See cost-saving tips →',
+    links: [
+      { label: '$0-premium Medicare Advantage', href: 'zero-premium-medicare-advantage.html' },
+      { label: 'High-deductible Medigap', href: 'medicare-plan-g-high-deductible.html' },
+      { label: 'Match a Part D plan to your drugs', href: 'best-part-d-plans-vernal.html' },
+    ],
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M12 8v5"/><path d="M9.5 10.5h5"/></svg>',
+  },
+];
+
+// Helpful external + internal resources for the footer trio.
+const RESOURCES = [
+  { label: 'Medicare.gov — Get Help with Costs', sub: 'Official Medicare resource', href: 'https://www.medicare.gov/basics/costs/help', external: true },
+  { label: 'Medicare Extra Help (Part D LIS)', sub: 'Lower your prescription drug costs', href: 'medicare-extra-help-utah.html' },
+  { label: 'Dual Eligible & Medicaid Plans (D-SNP)', sub: 'Plans built for dual-eligible individuals', href: 'd-snp-plans-utah.html' },
+  { label: 'Extra Help & Savings Program Estimator', sub: 'See if you might qualify', href: 'medicare-extra-help-calculator.html' },
+];
+
+// Trust bar.
+const TRUST = [
+  { color: '#16a34a', title: 'Local & Trusted', sub: 'Licensed in Utah', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>' },
+  { color: '#7c3aed', title: 'No Cost, No Obligation', sub: 'Honest guidance, always', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.2"/></svg>' },
+  { color: '#ea580c', title: 'We Work for You', sub: 'We help you save', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13l3 3 5-5 4 4"/><path d="M2 9l4-4 4 3 4-3 4 4"/></svg>' },
+  { color: '#2563eb', title: 'Here When You Need Us', sub: 'Call, email, or meet locally', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 16 0"/><rect x="3" y="12" width="4" height="6" rx="1.5"/><rect x="17" y="12" width="4" height="6" rx="1.5"/><path d="M20 18v1a3 3 0 0 1-3 3h-3"/></svg>' },
+];
 ---
 
-<ArticlePage context={context}>
-  <p>Medicare isn’t free — but far more people qualify for help than ever use it. This is the whole picture in one place, sorted by income. Don’t rule yourself out: the limits are higher than most people expect, and qualifying for one program often unlocks another. If it’s easier, just <strong>call {BUSINESS.phone}</strong> and we’ll check everything for you, free.</p>
+<ArticlePage context={context} bareHeader bareFooter>
+  {/* ─── Hero ─────────────────────────────────────────────────────────── */}
+  <section class="fa-hero">
+    <div class="fa-hero__copy">
+      <h1 class="fa-hero__title">Help Paying <span>for Medicare</span></h1>
+      <p class="fa-hero__lede">Medicare isn’t free, but help is available. Find programs and savings that can lower your costs and stretch your budget.</p>
 
-  <h2>Step 1: Find Where You Fall</h2>
-  <p>Almost all help depends on your income and assets. Start by comparing them to this year’s limits.</p>
-  <ul>
-    <li><strong><a href="medicare-income-limits-2026.html">Medicare income limits for {year}</a></strong> — every MSP, Extra Help, and IRMAA threshold, side by side.</li>
-    <li><strong><a href="medicare-extra-help-calculator.html">Extra Help eligibility calculator</a></strong> — estimate whether you qualify in a minute.</li>
-    <li><a href="medicare-costs.html">How much does Medicare cost?</a> — the {year} premiums and deductibles you’re trying to lower.</li>
-  </ul>
+      <ul class="fa-hero__points">
+        <li>
+          <span class="fa-hero__pt-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8c0-2 3-3.5 8-3.5S20 6 20 8v8c0 2-3 3.5-8 3.5S4 18 4 16z"/><path d="M4 8c0 2 3 3.5 8 3.5S20 10 20 8"/></svg></span>
+          <span><strong>Lower Costs</strong><em>Find programs that save you money</em></span>
+        </li>
+        <li>
+          <span class="fa-hero__pt-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6a1 1 0 0 1 1 1v1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h1V5a1 1 0 0 1 1-1z"/><path d="M9 13l2 2 3.5-3.5"/></svg></span>
+          <span><strong>See If You Qualify</strong><em>Quick tools to check eligibility</em></span>
+        </li>
+        <li>
+          <span class="fa-hero__pt-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5C9.5 8 10.7 7.3 12 7.3s2.5.7 2.5 2-1.2 2-2.5 2-2.5.7-2.5 2 1.2 2 2.5 2 2.5-.7 2.5-2"/></svg></span>
+          <span><strong>No Cost, No Pressure</strong><em>It’s free, and we check everything</em></span>
+        </li>
+      </ul>
+    </div>
 
-  <h2>Step 2: The Programs, From Most Help to Least</h2>
+    <aside class="fa-hero__art" aria-hidden="true">
+      <div class="fa-hero__coins">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v5c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 11v5c0 1.7 3.1 3 7 3s7-1.3 7-3v-5"/></svg>
+      </div>
+      <div class="fa-hero__reassure">
+        <span class="fa-hero__shield">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        </span>
+        <strong>Get the help you deserve.</strong>
+        <span>We’ll search programs, compare options, and help you apply.</span>
+      </div>
+    </aside>
+  </section>
 
-  <h3>Full Medicaid + Medicare (dual-eligible)</h3>
-  <p>If your income is low enough, Medicaid works alongside Medicare to cover most of what Medicare doesn’t — often leaving little or nothing out of pocket.</p>
-  <ul>
-    <li><strong><a href="dual-eligible.html">Dual-eligible (Medicare + Medicaid)</a></strong> — how the two work together.</li>
-    <li><a href="medicare-medicaid-utah.html">Medicare &amp; Medicaid in Utah</a> · <a href="d-snp-plans-utah.html">D-SNP plans</a> built for dual-eligibles.</li>
-  </ul>
+  {/* ─── 3-step ladder ────────────────────────────────────────────────── */}
+  <section class="fa-steps" aria-labelledby="fa-steps-h">
+    <h2 id="fa-steps-h" class="fa-h2 fa-h2--center">3 Easy Steps to <span>Lower Your Medicare Costs</span></h2>
+    <div class="fa-steps__grid">
+      {STEPS.map((s, i) => (
+        <>
+          <article class="fa-step">
+            <span class="fa-step__num">{s.n}</span>
+            <span class="fa-step__icon" aria-hidden="true" set:html={s.icon} />
+            <h3 class="fa-step__title" set:html={s.title} />
+            <p class="fa-step__blurb" set:html={s.blurb} />
+            <ul class="fa-step__links">
+              {s.links.map((l) => <li><a href={l.href} set:html={l.label} /></li>)}
+            </ul>
+          </article>
+          {i < STEPS.length - 1 && <span class="fa-step__arrow" aria-hidden="true">›</span>}
+        </>
+      ))}
+    </div>
+  </section>
 
-  <h3>Medicare Savings Programs (QMB, SLMB, QI)</h3>
-  <p>These pay your Part B premium ({usd(f.partB.premium, { cents: true })}/month in {year}) — and QMB pays your deductibles and coinsurance too, acting like a free supplement. Single-person income limits run up to about {usd(msp.qi.individual)}/month.</p>
-  <ul>
-    <li><strong><a href="medicare-savings-programs-utah.html">Medicare Savings Programs</a></strong> — QMB, SLMB, and QI explained, with {year} limits.</li>
-  </ul>
+  {/* ─── Programs grid ────────────────────────────────────────────────── */}
+  <section class="fa-programs" aria-labelledby="fa-programs-h">
+    <h2 id="fa-programs-h" class="fa-h2 fa-h2--center">Programs That Can Help</h2>
+    <div class="fa-programs__grid">
+      {PROGRAMS.map((p) => (
+        <article class="fa-prog" style={`--accent:${p.accent};--tint:${p.tint}`}>
+          <span class="fa-prog__icon" aria-hidden="true" set:html={p.icon} />
+          <h3 class="fa-prog__title"><a href={p.href}>{p.title}</a>{p.tag && <span class="fa-prog__tag">{p.tag}</span>}</h3>
+          <p class="fa-prog__blurb">{p.blurb}</p>
+          <ul class="fa-prog__links">
+            {p.links.map((l) => <li><a href={l.href} set:html={l.label} /></li>)}
+          </ul>
+          <a class="fa-prog__pill" href={p.href}>{p.pill}</a>
+        </article>
+      ))}
+    </div>
+  </section>
 
-  <h3>Extra Help for drug costs</h3>
-  <p>Extra Help (the Part D Low-Income Subsidy) can drop your drug premiums to as little as $0 and cap copays. Its income limit reaches higher than the MSPs — and an MSP qualifies you for it automatically.</p>
-  <ul>
-    <li><strong><a href="medicare-extra-help-utah.html">Extra Help</a></strong> — what it covers and how to apply.</li>
-    <li><a href="prescription-drug-assistance.html">Other prescription assistance</a> — manufacturer and foundation programs.</li>
-  </ul>
+  {/* ─── Higher-income (IRMAA) note ───────────────────────────────────── */}
+  <aside class="fa-irmaa">
+    <span class="fa-irmaa__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 15l3-4 3 2 4-6"/></svg>
+    </span>
+    <p class="fa-irmaa__text"><strong>Higher income?</strong> Your issue isn’t assistance — it’s the IRMAA surcharge added to your premiums. It can often be reduced or appealed. <a href="medicare-irmaa.html">Understand IRMAA</a> · <a href="how-to-reduce-medicare-irmaa.html">how to reduce it</a> · <a href="medicare-irmaa-appeal-ssa-44.html">appeal (SSA-44)</a>.</p>
+  </aside>
 
-  <h2>Step 3: No Program? Lower Costs Anyway</h2>
-  <p>Even without a program, the right plan choices save real money — and the {year} <a href="medicare-out-of-pocket-maximum-2026.html">out-of-pocket maximum</a> (including the {usd(f.partD.annualCap)} Part D cap) protects everyone.</p>
-  <ul>
-    <li><a href="zero-premium-medicare-advantage.html">$0-premium Medicare Advantage</a> · <a href="medicare-plan-g-high-deductible.html">high-deductible Medigap</a>.</li>
-    <li><a href="best-part-d-plans-vernal.html">Match a Part D plan to your drugs</a> · <a href="medicare-part-d-cost-calculator.html">Part D cost calculator</a> · <a href="cheapest-prescription-drug-plans.html">cheapest drug plans</a>.</li>
-  </ul>
+  {/* ─── Person CTA banner ────────────────────────────────────────────── */}
+  <section class="fa-cta">
+    <img class="fa-cta__photo" src="/pictures/rocco.webp" alt={`${agent?.name ?? 'Rocco DeLuca'}, licensed Medicare agent in Vernal, Utah`} width="88" height="88" loading="lazy" decoding="async" />
+    <div class="fa-cta__msg">
+      <h2 class="fa-cta__title">Let’s Find Every Dollar of Help — <em>Free</em></h2>
+      <p>We’ll review your situation at no cost, check every program you qualify for, and help you enroll — no pressure, just answers.</p>
+    </div>
+    <div class="fa-cta__actions">
+      <a class="fa-cta__phone" href={`tel:${BUSINESS.phoneTel}`}>
+        <span class="fa-cta__phone-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
+        <span>Call {BUSINESS.phone}<em>(TTY: {BUSINESS.tty})</em></span>
+      </a>
+      <a class="fa-cta__quote" href="medicare-quote-vernal.html">
+        <span class="fa-cta__quote-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span>
+        Request a Free Review
+      </a>
+    </div>
+  </section>
 
-  <h2>Higher Income? A Different Problem</h2>
-  <p>If your income is high, the issue isn’t assistance — it’s the IRMAA surcharge added to your premiums. It can often be reduced or appealed.</p>
-  <ul>
-    <li><a href="medicare-irmaa.html">Understand IRMAA</a> · <a href="how-to-reduce-medicare-irmaa.html">how to reduce it</a> · <a href="medicare-irmaa-appeal-ssa-44.html">how to appeal (SSA-44)</a>.</li>
-  </ul>
+  {/* ─── FAQ · Resources · Agent trio ─────────────────────────────────── */}
+  <div class="fa-trio">
+    <section class="fa-panel">
+      <h2 class="fa-panel__h">Frequently Asked Questions</h2>
+      {FAQS.map((q) => (
+        <details class="fa-faq">
+          <summary>{q.question}</summary>
+          <p set:html={q.answer} />
+        </details>
+      ))}
+    </section>
 
-  <h2>Where to Next?</h2>
-  <ul>
-    <li><a href="medicare-income-limits-2026.html">Check the {year} income limits</a> · <a href="medicare-extra-help-calculator.html">run the Extra Help calculator</a>.</li>
-    <li><a href="best-part-d-plans-vernal.html">Match a Part D plan to your drugs</a> · <a href="medicare-drug-coverage.html">check drug coverage</a>.</li>
-    <li><a href="medicare-decision-center.html">Start with your situation</a> · <a href="medicare-help-center.html">browse the Help Center</a>.</li>
-  </ul>
+    <section class="fa-panel">
+      <h2 class="fa-panel__h">Helpful Resources</h2>
+      <ul class="fa-res">
+        {RESOURCES.map((r) => (
+          <li>
+            <span class="fa-res__doc" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg></span>
+            <span>
+              <a href={r.href} {...(r.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{r.label}</a>
+              <em>{r.sub}</em>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
 
-  <h2>Let’s Find Every Dollar of Help — Free</h2>
-  <p>Sorting out which programs you qualify for — and applying — is exactly what we do, at no cost. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) or <a href="medicare-quote-vernal.html">request a free review</a>. We’ll check your income and assets against every {year} program and help you enroll in whatever you qualify for. No cost, no pressure.</p>
+    <section class="fa-panel fa-panel--agent">
+      <img class="fa-agent__photo" src="/pictures/rocco.webp" alt={`${agent?.name ?? 'Rocco DeLuca'}, licensed Medicare agent`} width="96" height="96" loading="lazy" decoding="async" />
+      <h2 class="fa-panel__h">Talk to a Local, Licensed Agent</h2>
+      <p class="fa-agent__blurb">{agent?.name ?? 'Rocco DeLuca'} can walk you through your options — free, no pressure.</p>
+      <a class="fa-agent__cta" href={`tel:${BUSINESS.phoneTel}`}>Call {BUSINESS.phone} →</a>
+      <span class="fa-agent__sig">— {agent?.name ?? 'Rocco DeLuca'}</span>
+    </section>
+  </div>
+
+  {/* ─── Trust bar ────────────────────────────────────────────────────── */}
+  <section class="fa-trust">
+    {TRUST.map((t) => (
+      <div class="fa-trust__item">
+        <span class="fa-trust__icon" style={`--c:${t.color}`} aria-hidden="true" set:html={t.icon} />
+        <span class="fa-trust__text"><strong>{t.title}</strong><em>{t.sub}</em></span>
+      </div>
+    ))}
+  </section>
 </ArticlePage>
+
+<style>
+  /* Palette echoes the Decision Center: navy #0b2c45, blue #2563eb/#1f4e8c,
+     red accent #d6455f. */
+
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .fa-hero {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: center;
+    gap: 2.5rem;
+    background: linear-gradient(180deg, #eaf3fb 0%, #f4f9fd 100%);
+    border: 1px solid #dbe6f2;
+    border-radius: 24px;
+    padding: 2.5rem 2.75rem;
+    margin: 0.25rem 0 2.5rem;
+  }
+  .fa-hero__title {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: 1.05;
+    font-weight: 800;
+    color: #0b2c45;
+    margin: 0 0 0.75rem;
+  }
+  .fa-hero__title span { color: #2563eb; }
+  .fa-hero__lede { font-size: 1.08rem; color: #475569; line-height: 1.55; margin: 0 0 1.75rem; max-width: 42ch; }
+  .fa-hero__points { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+  .fa-hero__points li { display: flex; align-items: center; gap: 0.85rem; }
+  .fa-hero__points strong { display: block; color: #0b2c45; font-size: 1rem; }
+  .fa-hero__points em { color: #5b6b7d; font-size: 0.88rem; font-style: normal; }
+  .fa-hero__pt-icon {
+    flex: none; width: 46px; height: 46px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: #e2edfb; color: #1f4e8c;
+  }
+  .fa-hero__pt-icon svg { width: 24px; height: 24px; }
+
+  .fa-hero__art { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 240px; }
+  .fa-hero__coins {
+    display: grid; place-items: center;
+    width: 130px; height: 130px; border-radius: 50%;
+    background: radial-gradient(circle at 50% 38%, #dcebfb 0%, #eef5fe 72%);
+    color: #2563eb;
+    box-shadow: 0 18px 40px rgba(11, 44, 69, 0.14);
+  }
+  .fa-hero__coins svg { width: 68px; height: 68px; }
+  .fa-hero__reassure {
+    margin-top: -1.6rem;
+    background: #fff;
+    border: 1px solid #e4ecf5;
+    border-radius: 16px;
+    padding: 1.4rem 1.4rem 1.2rem;
+    box-shadow: 0 16px 34px rgba(11, 44, 69, 0.14);
+    text-align: center;
+    max-width: 280px;
+    position: relative; z-index: 1;
+  }
+  .fa-hero__shield {
+    display: grid; place-items: center;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: #e6f6ec; color: #16a34a;
+    margin: 0 auto 0.6rem;
+  }
+  .fa-hero__shield svg { width: 22px; height: 22px; }
+  .fa-hero__reassure strong { display: block; color: #0b2c45; font-size: 1.05rem; margin-bottom: 0.3rem; }
+  .fa-hero__reassure span { color: #5b6b7d; font-size: 0.9rem; line-height: 1.45; }
+
+  /* ── Section headings ─────────────────────────────────────────────────── */
+  .fa-h2 { color: #0b2c45; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin: 0 0 1.75rem; }
+  .fa-h2--center { text-align: center; }
+  .fa-h2 span { color: #2563eb; }
+
+  /* ── 3-step ladder ────────────────────────────────────────────────────── */
+  .fa-steps { margin: 0 0 3rem; }
+  .fa-steps__grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .fa-step {
+    display: flex; flex-direction: column;
+    position: relative;
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-radius: 16px;
+    padding: 2.25rem 1.5rem 1.5rem;
+    box-shadow: 0 10px 30px rgba(11, 44, 69, 0.06);
+  }
+  .fa-step__num {
+    position: absolute; top: -18px; left: 1.5rem;
+    width: 38px; height: 38px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: #2563eb; color: #fff; font-weight: 800; font-size: 1.05rem;
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+  }
+  .fa-step__icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: #e6effe; color: #2563eb;
+    margin: 0.25rem 0 1rem;
+  }
+  .fa-step__icon svg { width: 32px; height: 32px; }
+  .fa-step__title { margin: 0 0 0.5rem; font-size: 1.2rem; color: #0b2c45; }
+  .fa-step__blurb { margin: 0 0 1rem; color: #5b6b7d; font-size: 0.95rem; line-height: 1.5; }
+  .fa-step__links { list-style: none; padding: 0; margin: auto 0 0; display: grid; gap: 0.5rem; }
+  .fa-step__links a {
+    color: #2563eb; text-decoration: none; font-weight: 600; font-size: 0.92rem;
+    display: inline-flex; align-items: center; gap: 0.35rem;
+  }
+  .fa-step__links a::before { content: "›"; font-weight: 800; }
+  .fa-step__links a:hover { text-decoration: underline; }
+  .fa-step__arrow { display: grid; place-items: center; color: #93b4d8; font-size: 2rem; font-weight: 800; }
+
+  /* ── Programs grid ────────────────────────────────────────────────────── */
+  .fa-programs { margin: 0 0 2rem; }
+  .fa-programs__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.5rem;
+  }
+  .fa-prog {
+    display: flex; flex-direction: column;
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-top: 4px solid var(--accent);
+    border-radius: 16px;
+    padding: 1.6rem 1.4rem;
+    box-shadow: 0 10px 30px rgba(11, 44, 69, 0.06);
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .fa-prog:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(11, 44, 69, 0.12); }
+  .fa-prog__icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: grid; place-items: center;
+    background: var(--tint); color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .fa-prog__icon svg { width: 28px; height: 28px; }
+  .fa-prog__title { margin: 0 0 0.5rem; font-size: 1.12rem; line-height: 1.25; }
+  .fa-prog__title a { color: var(--accent); text-decoration: none; }
+  .fa-prog__title a:hover { text-decoration: underline; }
+  .fa-prog__tag { display: block; color: #64748b; font-size: 0.82rem; font-weight: 600; margin-top: 0.15rem; }
+  .fa-prog__blurb { margin: 0 0 1rem; color: #5b6b7d; font-size: 0.92rem; line-height: 1.5; }
+  .fa-prog__links { list-style: none; padding: 0; margin: 0 0 1.1rem; display: grid; gap: 0.4rem; }
+  .fa-prog__links a {
+    color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.86rem;
+    display: inline-flex; align-items: center; gap: 0.3rem;
+  }
+  .fa-prog__links a::before { content: "›"; font-weight: 800; }
+  .fa-prog__links a:hover { text-decoration: underline; }
+  .fa-prog__pill {
+    margin: auto 0 0; text-align: center;
+    background: var(--tint); color: var(--accent);
+    font-weight: 700; font-size: 0.85rem;
+    padding: 0.55rem 0.9rem; border-radius: 999px;
+    text-decoration: none;
+  }
+  .fa-prog__pill:hover { filter: brightness(0.97); }
+
+  /* ── IRMAA note ───────────────────────────────────────────────────────── */
+  .fa-irmaa {
+    display: flex; align-items: center; gap: 1.1rem;
+    background: linear-gradient(180deg, #f7fbff 0%, #eef5fe 100%);
+    border: 1px solid #dbe6f2;
+    border-radius: 16px;
+    padding: 1.1rem 1.5rem;
+    margin: 0 0 2.5rem;
+  }
+  .fa-irmaa__icon { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #e2edfb; color: #1f4e8c; }
+  .fa-irmaa__icon svg { width: 24px; height: 24px; }
+  .fa-irmaa__text { margin: 0; color: #475569; line-height: 1.55; font-size: 0.95rem; }
+  .fa-irmaa__text strong { color: #0b2c45; }
+  .fa-irmaa__text a { color: #2563eb; text-decoration: none; font-weight: 600; }
+  .fa-irmaa__text a:hover { text-decoration: underline; }
+
+  /* ── Person CTA banner ────────────────────────────────────────────────── */
+  .fa-cta {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.75rem;
+    background: linear-gradient(120deg, #0b2c45 0%, #123a5c 100%);
+    border-radius: 22px;
+    padding: 1.9rem 2.25rem;
+    margin: 0 0 2.5rem;
+    box-shadow: 0 22px 50px rgba(11, 44, 69, 0.28);
+  }
+  .fa-cta__photo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; object-position: top center; border: 3px solid rgba(255,255,255,0.85); flex: none; }
+  .fa-cta__title { margin: 0 0 0.35rem; color: #fff; font-size: clamp(1.3rem, 2.4vw, 1.7rem); line-height: 1.15; }
+  .fa-cta__title em { font-style: italic; color: #ffd6a0; }
+  .fa-cta__msg p { margin: 0; color: #cfe0f0; line-height: 1.5; font-size: 0.98rem; max-width: 46ch; }
+  .fa-cta__actions { display: flex; flex-direction: column; gap: 0.7rem; width: 240px; flex: none; }
+  .fa-cta__phone {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: linear-gradient(180deg, #f97316 0%, #ea580c 100%);
+    color: #fff; text-decoration: none;
+    padding: 0.85rem 1.1rem; border-radius: 14px; font-weight: 800;
+    box-shadow: 0 12px 26px rgba(234, 88, 12, 0.4);
+    transition: transform 0.12s ease, filter 0.12s ease;
+  }
+  .fa-cta__phone:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .fa-cta__phone-icon { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.22); }
+  .fa-cta__phone-icon svg { width: 20px; height: 20px; }
+  .fa-cta__phone span { display: flex; flex-direction: column; line-height: 1.15; font-size: 1.02rem; }
+  .fa-cta__phone em { font-style: normal; font-weight: 600; font-size: 0.78rem; opacity: 0.9; }
+  .fa-cta__quote {
+    display: flex; align-items: center; justify-content: center; gap: 0.55rem;
+    background: #fff; color: #0b2c45; text-decoration: none;
+    padding: 0.8rem 1.1rem; border-radius: 14px; font-weight: 800; font-size: 0.95rem;
+    transition: transform 0.12s ease;
+  }
+  .fa-cta__quote:hover { transform: translateY(-2px); }
+  .fa-cta__quote-icon { display: grid; place-items: center; color: #2563eb; }
+  .fa-cta__quote-icon svg { width: 20px; height: 20px; }
+
+  /* ── FAQ · Resources · Agent trio ─────────────────────────────────────── */
+  .fa-trio {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr 0.9fr;
+    gap: 1.5rem;
+    margin: 0 0 2.5rem;
+    align-items: start;
+  }
+  .fa-panel {
+    background: #fff; border: 1px solid #e8edf3; border-radius: 18px;
+    padding: 1.6rem 1.6rem;
+    box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06);
+  }
+  .fa-panel__h { margin: 0 0 1.1rem; font-size: 1.2rem; color: #0b2c45; }
+
+  .fa-faq { border-top: 1px solid #eef2f6; padding: 0.7rem 0; }
+  .fa-faq:first-of-type { border-top: none; padding-top: 0; }
+  .fa-faq summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+    cursor: pointer; list-style: none;
+    font-weight: 600; color: #334155; font-size: 0.95rem; line-height: 1.35;
+  }
+  .fa-faq summary::-webkit-details-marker { display: none; }
+  .fa-faq summary::after { content: "⌄"; color: #2563eb; font-weight: 800; font-size: 1.1rem; transition: transform 0.15s ease; }
+  .fa-faq[open] summary::after { transform: rotate(180deg); }
+  .fa-faq p { margin: 0.6rem 0 0; color: #5b6b7d; font-size: 0.9rem; line-height: 1.55; }
+
+  .fa-res { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+  .fa-res li { display: flex; align-items: flex-start; gap: 0.6rem; }
+  .fa-res__doc { flex: none; color: #2563eb; margin-top: 0.1rem; }
+  .fa-res__doc svg { width: 18px; height: 18px; }
+  .fa-res a { color: #2563eb; text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+  .fa-res a:hover { text-decoration: underline; }
+  .fa-res em { display: block; color: #94a3b8; font-style: normal; font-size: 0.82rem; margin-top: 0.1rem; }
+
+  .fa-panel--agent { text-align: center; background: linear-gradient(180deg, #eef5fe 0%, #f7fbff 100%); }
+  .fa-agent__photo { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; object-position: top center; border: 4px solid #fff; box-shadow: 0 12px 26px rgba(11, 44, 69, 0.18); margin: 0 auto 0.85rem; }
+  .fa-panel--agent .fa-panel__h { font-size: 1.15rem; }
+  .fa-agent__blurb { color: #5b6b7d; font-size: 0.93rem; line-height: 1.5; margin: 0 0 1.1rem; }
+  .fa-agent__cta {
+    display: inline-block; background: #2563eb; color: #fff; text-decoration: none;
+    font-weight: 800; padding: 0.7rem 1.3rem; border-radius: 12px;
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.3);
+    transition: transform 0.12s ease, filter 0.12s ease;
+  }
+  .fa-agent__cta:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .fa-agent__sig { display: block; margin-top: 0.85rem; color: #1f4e8c; font-weight: 700; font-style: italic; font-size: 0.9rem; }
+
+  /* ── Trust bar ────────────────────────────────────────────────────────── */
+  .fa-trust {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    background: #f7fafd;
+    border: 1px solid #e8edf3;
+    border-radius: 18px;
+    padding: 1.5rem 1.75rem;
+    margin: 0 0 1.5rem;
+  }
+  .fa-trust__item { display: flex; align-items: center; gap: 0.8rem; }
+  .fa-trust__icon {
+    flex: none; width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: color-mix(in srgb, var(--c) 14%, #fff); color: var(--c);
+  }
+  .fa-trust__icon svg { width: 23px; height: 23px; }
+  .fa-trust__text strong { display: block; color: #0b2c45; font-size: 0.95rem; }
+  .fa-trust__text em { color: #64748b; font-style: normal; font-size: 0.82rem; }
+
+  /* ── Responsive ───────────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .fa-hero { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+    .fa-hero__lede { max-width: none; }
+    .fa-hero__art { min-height: 0; margin-top: 0.5rem; }
+    .fa-steps__grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .fa-step__arrow { display: none; }
+    .fa-cta { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .fa-cta__msg p { max-width: none; }
+    .fa-cta__actions { width: 100%; max-width: 320px; }
+    .fa-trio { grid-template-columns: 1fr; }
+    .fa-trust { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .fa-trust { grid-template-columns: 1fr; }
+  }
+</style>
