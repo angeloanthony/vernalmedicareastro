@@ -86,6 +86,7 @@ export const strings = {
     // Header
     'header.homeAria': 'Medicare Simplified — Home',
     'header.toggleAria': 'Toggle navigation',
+    'header.searchAria': 'Search the site',
     // Footer
     'footer.rights': 'All rights reserved.',
     'footer.email': 'Email:',
@@ -123,6 +124,7 @@ export const strings = {
     'marketing.aria': 'Información importante de Medicare',
     'header.homeAria': 'Medicare Simplified — Inicio',
     'header.toggleAria': 'Abrir o cerrar la navegación',
+    'header.searchAria': 'Buscar en el sitio',
     'footer.rights': 'Todos los derechos reservados.',
     'footer.email': 'Correo:',
     'footer.phone': 'Teléfono:',

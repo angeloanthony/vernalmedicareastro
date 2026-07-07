@@ -71,6 +71,9 @@ p {
 .top-bar a:visited { color:#fff; }          /* ← add this line */
 .top-bar a:hover,
 .top-bar a:focus { text-decoration: underline; }
+.top-bar a.top-search { text-decoration: none; }
+.top-bar a.top-search:hover,
+.top-bar a.top-search:focus { text-decoration: none; opacity: .8; }
 
 .container.header-top {
   display: flex;

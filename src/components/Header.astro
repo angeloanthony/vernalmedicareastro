@@ -35,6 +35,11 @@ const navLinks = PRIMARY_NAV;
   <div class="container">
     <span>📧 <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a></span>
     <span>📞 <a href={`tel:${BUSINESS.phoneTel}`}>{BUSINESS.phone}</a> (TTY: {BUSINESS.tty})</span>
+    <a
+      href={localizeHref('/medicare-search.html', lang)}
+      class="top-search"
+      aria-label={t('header.searchAria', lang)}
+    >🔍</a>
     <LanguageSwitcher />
   </div>
 </div>
