@@ -4,17 +4,46 @@
 // by the kind of care, each service a node with the same standardized "does
 // Medicare cover it?" structure. Interlinks with drug coverage, dental/vision/
 // hearing, and the costs pillar — different intent, not duplicate content.
+//
+// Design: custom landing-page layout (bareHeader + bareFooter) matching the
+// financial-assistance hub — a hero, a color-coded "explore coverage by type of
+// care" card grid (each service a link with a covered/conditional/limited
+// badge), a person CTA banner, an FAQ/centers/agent trio, and a trust bar. Every
+// internal link the old text hub exposed still ships, inside the cards.
 import ArticlePage from '../components/layout/ArticlePage.astro';
 import { SERVICE_COVERAGE } from '../data/serviceCoverage';
 import { SERVICE_CATEGORY_META, type ServiceCategory, type ServiceStatus } from '../types/ServiceCoverage';
 import { BUSINESS } from '../data/business';
+import { authorById } from '../data/authors';
 import type { PageContext } from '../types/Page';
+
+const agent = authorById('rocco');
 
 const ORDER: ServiceCategory[] = ['preventive', 'therapy', 'facility', 'equipment'];
 const STATUS_LABEL: Record<ServiceStatus, string> = { covered: 'Covered', conditional: 'Covered with conditions', limited: 'Limited coverage' };
 const groups = ORDER
   .map((c) => ({ c, meta: SERVICE_CATEGORY_META[c], services: SERVICE_COVERAGE.filter((s) => s.category === c).sort((a, b) => a.service.localeCompare(b.service)) }))
   .filter((g) => g.services.length > 0);
+
+// Per-category accent + tint + icon for the card grid and the centers list.
+const CAT_STYLE: Record<ServiceCategory, { accent: string; tint: string; icon: string }> = {
+  preventive: {
+    accent: '#16a34a', tint: '#e4f5ea',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-6.5-4.4-6.5-9.4A3.9 3.9 0 0 1 12 7.2a3.9 3.9 0 0 1 6.5 3.4"/><path d="M4 13h3.2l1.4-3 2.2 5.5 1.6-3.3H19"/></svg>',
+  },
+  therapy: {
+    accent: '#7c3aed', tint: '#f0e9fd',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v6a5 5 0 0 0 10 0V3"/><path d="M3.5 3H6M13 3h2.5"/><path d="M10 18.5a4 4 0 0 0 8 0V16"/><circle cx="18" cy="13" r="2.3"/></svg>',
+  },
+  facility: {
+    accent: '#2563eb', tint: '#e5edfe',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16"/><path d="M14 9h5a1 1 0 0 1 1 1v11"/><path d="M2.5 21h19"/><path d="M8 8v3M8 8h.01M7 9.5h2"/></svg>',
+  },
+  equipment: {
+    accent: '#ea580c', tint: '#fdeadd',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v9H2z"/><path d="M13 10h4l3 3v3h-3"/><path d="M9 16H6.6M2 16h1.2"/><circle cx="6" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/><path d="M6.5 3.8v2.4M5.3 5h2.4"/></svg>',
+  },
+};
 
 const context: PageContext = {
   page: {
@@ -51,59 +80,436 @@ const context: PageContext = {
     { name: 'Coverage', href: '/medicare-coverage.html' },
   ],
 };
+
+const FAQS = context.page.faqs ?? [];
+
+// Two non-data cards that round out the grid: cross-links to the other coverage
+// surfaces, and a "where to next" router. Each carries an accent + icon.
+const RELATED_CARD = {
+  accent: '#db2777', tint: '#fce7f1',
+  title: 'Related Services',
+  blurb: 'Vision, hearing, and dental coverage basics — and what it all costs.',
+  icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.2C10.2 3.4 7.2 3.2 5.7 4.9 4 6.8 4.3 9.6 5.2 13c.6 2.3 1 4.6 1.9 5.6.8.9 1.5-.4 1.8-1.9.3-1.5.5-3 1.1-3s.8 1.5 1.1 3c.3 1.5 1 2.8 1.8 1.9.9-1 1.3-3.3 1.9-5.6.9-3.4 1.2-6.2-.5-8.1C15.6 3.2 13.8 3.4 12 5.2z"/></svg>',
+  links: [
+    { label: 'Dental, vision & hearing', href: 'medicare-dental-vision-hearing.html' },
+    { label: 'What it all costs', href: 'medicare-costs.html' },
+  ],
+};
+const NEXT_CARD = {
+  accent: '#0d9488', tint: '#d7f0ec',
+  title: 'Where to Next?',
+  blurb: 'Not sure if Medicare covers a service or item? Start here.',
+  icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.4 9.3a2.6 2.6 0 0 1 4.7 1.5c0 1.8-2.1 2.1-2.1 3.7"/><circle cx="12" cy="17.2" r="0.7" fill="currentColor" stroke="none"/></svg>',
+  links: [
+    { label: 'Does Medicare cover my drug?', href: 'medicare-drug-coverage.html' },
+    { label: 'Help paying for Medicare', href: 'medicare-financial-assistance.html' },
+    { label: 'Start with your situation', href: 'medicare-decision-center.html' },
+  ],
+};
+
+// Trust bar.
+const TRUST = [
+  { color: '#16a34a', title: 'Local & Trusted', sub: 'Licensed in Utah', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>' },
+  { color: '#7c3aed', title: 'No Cost, No Obligation', sub: 'Honest guidance', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.2"/></svg>' },
+  { color: '#ea580c', title: 'We Work for You', sub: 'We help you save', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13l3 3 5-5 4 4"/><path d="M2 9l4-4 4 3 4-3 4 4"/></svg>' },
+  { color: '#2563eb', title: 'Here When You Need Us', sub: 'Call, email, or meet locally', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 16 0"/><rect x="3" y="12" width="4" height="6" rx="1.5"/><rect x="17" y="12" width="4" height="6" rx="1.5"/><path d="M20 18v1a3 3 0 0 1-3 3h-3"/></svg>' },
+];
 ---
 
-<ArticlePage context={context}>
-  <p>"Does Medicare cover ___?" It depends on the service, whether it’s medically necessary, and how you get it. Below, {SERVICE_COVERAGE.length} common services by type of care — each with the same answers: is it covered, when, which part, what you pay, and the limits. This is about <em>services</em>; for medications, see <a href="medicare-drug-coverage.html">does Medicare cover my drug?</a>, and for <a href="medicare-dental-vision-hearing.html">dental, vision &amp; hearing</a> start there.</p>
+<ArticlePage context={context} bareHeader bareFooter>
+  {/* ─── Hero ─────────────────────────────────────────────────────────── */}
+  <section class="cov-hero">
+    <div class="cov-hero__copy">
+      <h1 class="cov-hero__title">Does Medicare <span>Cover It?</span></h1>
+      <p class="cov-hero__lede">Medicare coverage isn’t one-size-fits-all. This center answers the most common “Does Medicare cover…” questions — so you know what to expect, and what to do next.</p>
 
-  <nav class="sc-nav" aria-label="Categories">
-    {groups.map((g) => <a href={`#${g.c}`}>{g.meta.label}</a>)}
-  </nav>
+      <ul class="cov-hero__points">
+        <li>
+          <span class="cov-hero__pt-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+          <span><strong>Clear Answers</strong><em>Plain language you can trust</em></span>
+        </li>
+        <li>
+          <span class="cov-hero__pt-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/><path d="M9 10h6M9 14h6M9 18h4"/></svg></span>
+          <span><strong>{SERVICE_COVERAGE.length} Common Services</strong><em>Organized by type of care</em></span>
+        </li>
+        <li>
+          <span class="cov-hero__pt-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7-4.9-7-10.4A4 4 0 0 1 12 7a4 4 0 0 1 7 3.1c0 5.5-7 10.4-7 10.4z"/></svg></span>
+          <span><strong>Know Before You Go</strong><em>Avoid surprises and extra costs</em></span>
+        </li>
+      </ul>
+    </div>
 
-  {groups.map((g) => (
-    <section id={g.c} class="sc-category">
-      <h2>{g.meta.label}</h2>
-      <p class="sc-blurb">{g.meta.blurb}</p>
-      <ul class="sc-list">
-        {g.services.map((s) => (
-          <li class="sc-item">
-            <a class="sc-service" href={`medicare-coverage/${s.slug}.html`}>Does Medicare cover {s.service.toLowerCase()}?</a>
-            <span class={`sc-status sc-${s.status}`}>{STATUS_LABEL[s.status]}</span>
-            <p class="sc-what">{s.coveredSummary}</p>
+    <div class="cov-hero__art">
+      <img
+        class="cov-hero__img"
+        src="/pictures/help-you-deserve.webp"
+        alt="A man reviews what Medicare covers on a tablet at home."
+        width="1536"
+        height="1024"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="cov-hero__callout">
+        <span class="cov-hero__callout-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.4 9.3a2.6 2.6 0 0 1 4.7 1.5c0 1.8-2.1 2.1-2.1 3.7"/><circle cx="12" cy="17.2" r="0.7" fill="currentColor" stroke="none"/></svg></span>
+        <p>Not sure about a service or item? Call us free at <a href={`tel:${BUSINESS.phoneTel}`}>{BUSINESS.phone}</a> (TTY: {BUSINESS.tty}) and we’ll check it for you.</p>
+      </div>
+    </div>
+  </section>
+
+  {/* ─── Coverage-by-type card grid ───────────────────────────────────── */}
+  <section class="cov-cats" aria-labelledby="cov-cats-h">
+    <h2 id="cov-cats-h" class="cov-h2 cov-h2--center">Explore Coverage by <span>Type of Care</span></h2>
+    <div class="cov-cats__grid">
+      {groups.map((g) => (
+        <article class="cov-card" id={g.c} style={`--accent:${CAT_STYLE[g.c].accent};--tint:${CAT_STYLE[g.c].tint}`}>
+          <div class="cov-card__head">
+            <span class="cov-card__icon" aria-hidden="true" set:html={CAT_STYLE[g.c].icon} />
+            <div>
+              <h3 class="cov-card__title">{g.meta.label}</h3>
+              <p class="cov-card__blurb">{g.meta.blurb}</p>
+            </div>
+          </div>
+          <ul class="cov-card__list">
+            {g.services.map((s) => (
+              <li>
+                <a href={`medicare-coverage/${s.slug}.html`}>{s.service}</a>
+                <span class={`cov-badge cov-badge--${s.status}`}>{STATUS_LABEL[s.status]}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+
+      {[RELATED_CARD, NEXT_CARD].map((card) => (
+        <article class="cov-card cov-card--links" style={`--accent:${card.accent};--tint:${card.tint}`}>
+          <div class="cov-card__head">
+            <span class="cov-card__icon" aria-hidden="true" set:html={card.icon} />
+            <div>
+              <h3 class="cov-card__title">{card.title}</h3>
+              <p class="cov-card__blurb">{card.blurb}</p>
+            </div>
+          </div>
+          <ul class="cov-card__list cov-card__list--plain">
+            {card.links.map((l) => (
+              <li><a href={l.href}>{l.label}</a></li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  {/* ─── Person CTA banner ────────────────────────────────────────────── */}
+  <section class="cov-cta">
+    <img class="cov-cta__photo" src="/pictures/rocco.webp" alt={`${agent?.name ?? 'Rocco DeLuca'}, licensed Medicare agent in Vernal, Utah`} width="88" height="88" loading="lazy" decoding="async" />
+    <div class="cov-cta__msg">
+      <h2 class="cov-cta__title">Check Your Situation With a Local Person — <em>Free</em></h2>
+      <p>Whether a service is covered often comes down to the details — medical necessity, which provider, inpatient vs. observation. We’ll tell you what to expect, and what a bill should look like.</p>
+    </div>
+    <div class="cov-cta__actions">
+      <a class="cov-cta__phone" href={`tel:${BUSINESS.phoneTel}`}>
+        <span class="cov-cta__phone-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
+        <span>Call {BUSINESS.phone}<em>(TTY: {BUSINESS.tty})</em></span>
+      </a>
+      <a class="cov-cta__quote" href="medicare-quote-vernal.html">
+        <span class="cov-cta__quote-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span>
+        Get a Free Quote
+      </a>
+    </div>
+  </section>
+
+  {/* ─── FAQ · Coverage centers · Agent trio ──────────────────────────── */}
+  <div class="cov-trio">
+    <section class="cov-panel">
+      <h2 class="cov-panel__h">Frequently Asked Questions</h2>
+      {FAQS.map((q) => (
+        <details class="cov-faq">
+          <summary>{q.question}</summary>
+          <p set:html={q.answer} />
+        </details>
+      ))}
+      <p class="cov-panel__src"><strong>Sources:</strong> <a href="https://www.medicare.gov/coverage" target="_blank" rel="noopener noreferrer">Medicare.gov — what Medicare covers</a></p>
+    </section>
+
+    <section class="cov-panel">
+      <h2 class="cov-panel__h">Common Coverage Centers</h2>
+      <ul class="cov-centers">
+        {groups.map((g) => (
+          <li style={`--accent:${CAT_STYLE[g.c].accent};--tint:${CAT_STYLE[g.c].tint}`}>
+            <span class="cov-centers__icon" aria-hidden="true" set:html={CAT_STYLE[g.c].icon} />
+            <a href={`#${g.c}`}>{g.meta.label}</a>
           </li>
         ))}
+        <li style={`--accent:${RELATED_CARD.accent};--tint:${RELATED_CARD.tint}`}>
+          <span class="cov-centers__icon" aria-hidden="true" set:html={RELATED_CARD.icon} />
+          <a href="medicare-dental-vision-hearing.html">{RELATED_CARD.title}</a>
+        </li>
       </ul>
     </section>
-  ))}
 
-  <h2>Where to Next?</h2>
-  <ul>
-    <li><a href="medicare-drug-coverage.html">Does Medicare cover my drug?</a> · <a href="medicare-dental-vision-hearing.html">Dental, vision &amp; hearing</a> — the other coverage centers.</li>
-    <li><a href="medicare-costs.html">What it all costs</a> · <a href="medicare-financial-assistance.html">Help paying for Medicare</a> — if a covered service still costs too much.</li>
-    <li><a href="medicare-decision-center.html">Start with your situation</a> — not sure which center you need.</li>
-  </ul>
+    <section class="cov-panel cov-panel--agent">
+      <img class="cov-agent__photo" src="/pictures/rocco.webp" alt={`${agent?.name ?? 'Rocco DeLuca'}, licensed Medicare agent`} width="96" height="96" loading="lazy" decoding="async" />
+      <h2 class="cov-panel__h">Talk to a Local, Licensed Agent</h2>
+      <p class="cov-agent__blurb">{agent?.name ?? 'Rocco DeLuca'} can walk you through your options — free, no pressure.</p>
+      <a class="cov-agent__cta" href={`tel:${BUSINESS.phoneTel}`}>Call {BUSINESS.phone} →</a>
+      <span class="cov-agent__sig">— {agent?.name ?? 'Rocco DeLuca'}</span>
+    </section>
+  </div>
 
-  <h2>Check Your Situation With a Local Person — Free</h2>
-  <p>Whether a service is covered often comes down to the details — medical necessity, which provider, inpatient vs. observation. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) and we’ll tell you what Medicare covers for your situation, and what a bill should look like. No cost, no pressure.</p>
+  {/* ─── Trust bar ────────────────────────────────────────────────────── */}
+  <section class="cov-trust">
+    {TRUST.map((t) => (
+      <div class="cov-trust__item">
+        <span class="cov-trust__icon" style={`--c:${t.color}`} aria-hidden="true" set:html={t.icon} />
+        <span class="cov-trust__text"><strong>{t.title}</strong><em>{t.sub}</em></span>
+      </div>
+    ))}
+  </section>
 </ArticlePage>
 
 <style>
-  .sc-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.25rem 0 2rem; }
-  .sc-nav a {
-    padding: 0.35rem 0.75rem; background: var(--color-surface, #f4f6f8);
-    border: 1px solid var(--color-border, #d8dee4); border-radius: 999px;
-    font-size: 0.9rem; text-decoration: none;
+  /* Palette echoes the financial-assistance hub: navy #0b2c45, blue #2563eb,
+     with per-category accents (green/purple/blue/orange/pink/teal). */
+
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .cov-hero {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    align-items: center;
+    gap: 2.5rem;
+    background: linear-gradient(180deg, #eaf3fb 0%, #f4f9fd 100%);
+    border: 1px solid #dbe6f2;
+    border-radius: 24px;
+    padding: 2.5rem 2.75rem;
+    margin: 0.25rem 0 2.5rem;
   }
-  .sc-blurb { color: var(--color-text-muted, #667085); margin-top: -0.35rem; }
-  .sc-list { list-style: none; padding: 0; margin: 0; }
-  .sc-item { padding: 0.8rem 0; border-top: 1px solid var(--color-border, #e5e9ee); }
-  .sc-service { font-weight: 700; font-size: 1.05rem; }
-  .sc-status {
-    display: inline-block; margin-left: 0.5rem; padding: 0.1rem 0.55rem;
-    border-radius: 999px; font-size: 0.75rem; font-weight: 700; vertical-align: middle;
+  .cov-hero__title {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: 1.05;
+    font-weight: 800;
+    color: #0b2c45;
+    margin: 0 0 0.75rem;
   }
-  .sc-covered { background: #e6f4ea; color: #1b7a3d; }
-  .sc-conditional { background: #fff4e5; color: #a5610a; }
-  .sc-limited { background: #fdecea; color: #b42318; }
-  .sc-what { color: var(--color-text-muted, #667085); margin: 0.25rem 0 0; font-size: 0.92rem; }
+  .cov-hero__title span { color: #2563eb; }
+  .cov-hero__lede { font-size: 1.08rem; color: #475569; line-height: 1.55; margin: 0 0 1.75rem; max-width: 44ch; }
+  .cov-hero__points { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+  .cov-hero__points li { display: flex; align-items: center; gap: 0.85rem; }
+  .cov-hero__points strong { display: block; color: #0b2c45; font-size: 1rem; }
+  .cov-hero__points em { color: #5b6b7d; font-size: 0.88rem; font-style: normal; }
+  .cov-hero__pt-icon {
+    flex: none; width: 46px; height: 46px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: #e2edfb; color: #1f4e8c;
+  }
+  .cov-hero__pt-icon svg { width: 24px; height: 24px; }
+
+  .cov-hero__art { position: relative; display: flex; justify-content: center; }
+  .cov-hero__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 18px;
+    box-shadow: 0 18px 44px rgba(11, 44, 69, 0.18);
+  }
+  .cov-hero__callout {
+    position: absolute; left: 1.25rem; right: 1.25rem; bottom: -0.75rem;
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    background: #fff; border: 1px solid #e1e9f2; border-radius: 14px;
+    padding: 0.9rem 1.1rem;
+    box-shadow: 0 14px 34px rgba(11, 44, 69, 0.16);
+  }
+  .cov-hero__callout-icon { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #e6effe; color: #2563eb; }
+  .cov-hero__callout-icon svg { width: 20px; height: 20px; }
+  .cov-hero__callout p { margin: 0; color: #475569; font-size: 0.86rem; line-height: 1.45; }
+  .cov-hero__callout a { color: #2563eb; font-weight: 700; text-decoration: none; white-space: nowrap; }
+  .cov-hero__callout a:hover { text-decoration: underline; }
+
+  /* ── Section headings ─────────────────────────────────────────────────── */
+  .cov-h2 { color: #0b2c45; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin: 0 0 1.75rem; }
+  .cov-h2--center { text-align: center; }
+  .cov-h2 span { color: #2563eb; }
+
+  /* ── Coverage card grid ───────────────────────────────────────────────── */
+  .cov-cats { margin: 1.25rem 0 3rem; }
+  .cov-cats__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .cov-card {
+    display: flex; flex-direction: column;
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-top: 4px solid var(--accent);
+    border-radius: 16px;
+    padding: 1.6rem 1.5rem;
+    box-shadow: 0 10px 30px rgba(11, 44, 69, 0.06);
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .cov-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(11, 44, 69, 0.12); }
+  .cov-card__head { display: flex; align-items: flex-start; gap: 0.9rem; margin-bottom: 1.1rem; }
+  .cov-card__icon {
+    flex: none; width: 52px; height: 52px; border-radius: 14px;
+    display: grid; place-items: center;
+    background: var(--tint); color: var(--accent);
+  }
+  .cov-card__icon svg { width: 28px; height: 28px; }
+  .cov-card__title { margin: 0.15rem 0 0.35rem; font-size: 1.15rem; line-height: 1.2; color: var(--accent); }
+  .cov-card__blurb { margin: 0; color: #5b6b7d; font-size: 0.9rem; line-height: 1.45; }
+
+  .cov-card__list { list-style: none; padding: 0; margin: 0.25rem 0 0; display: grid; gap: 0.15rem; }
+  .cov-card__list li {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
+    padding: 0.55rem 0; border-top: 1px solid #eef2f6;
+  }
+  .cov-card__list a {
+    color: #1f2d3d; text-decoration: none; font-weight: 600; font-size: 0.94rem;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+  }
+  .cov-card__list a::before { content: "›"; color: var(--accent); font-weight: 800; }
+  .cov-card__list a:hover { color: var(--accent); text-decoration: underline; }
+  .cov-card__list--plain li { justify-content: flex-start; }
+
+  .cov-badge {
+    flex: none; padding: 0.1rem 0.55rem; border-radius: 999px;
+    font-size: 0.7rem; font-weight: 700; white-space: nowrap; line-height: 1.5;
+  }
+  .cov-badge--covered { background: #e6f4ea; color: #1b7a3d; }
+  .cov-badge--conditional { background: #fff4e5; color: #a5610a; }
+  .cov-badge--limited { background: #fdecea; color: #b42318; }
+
+  /* ── Person CTA banner ────────────────────────────────────────────────── */
+  .cov-cta {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.75rem;
+    background: linear-gradient(120deg, #0b2c45 0%, #123a5c 100%);
+    border-radius: 22px;
+    padding: 1.9rem 2.25rem;
+    margin: 0 0 2.5rem;
+    box-shadow: 0 22px 50px rgba(11, 44, 69, 0.28);
+  }
+  .cov-cta__photo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; object-position: top center; border: 3px solid rgba(255,255,255,0.85); flex: none; }
+  .cov-cta__title { margin: 0 0 0.35rem; color: #fff; font-size: clamp(1.3rem, 2.4vw, 1.7rem); line-height: 1.15; }
+  .cov-cta__title em { font-style: italic; color: #ffd6a0; }
+  .cov-cta__msg p { margin: 0; color: #cfe0f0; line-height: 1.5; font-size: 0.98rem; max-width: 52ch; }
+  .cov-cta__actions { display: flex; flex-direction: column; gap: 0.7rem; width: 240px; flex: none; }
+  .cov-cta__phone {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: linear-gradient(180deg, #f97316 0%, #ea580c 100%);
+    color: #fff; text-decoration: none;
+    padding: 0.85rem 1.1rem; border-radius: 14px; font-weight: 800;
+    box-shadow: 0 12px 26px rgba(234, 88, 12, 0.4);
+    transition: transform 0.12s ease, filter 0.12s ease;
+  }
+  .cov-cta__phone:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .cov-cta__phone-icon { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.22); }
+  .cov-cta__phone-icon svg { width: 20px; height: 20px; }
+  .cov-cta__phone span { display: flex; flex-direction: column; line-height: 1.15; font-size: 1.02rem; }
+  .cov-cta__phone em { font-style: normal; font-weight: 600; font-size: 0.78rem; opacity: 0.9; }
+  .cov-cta__quote {
+    display: flex; align-items: center; justify-content: center; gap: 0.55rem;
+    background: #fff; color: #0b2c45; text-decoration: none;
+    padding: 0.8rem 1.1rem; border-radius: 14px; font-weight: 800; font-size: 0.95rem;
+    transition: transform 0.12s ease;
+  }
+  .cov-cta__quote:hover { transform: translateY(-2px); }
+  .cov-cta__quote-icon { display: grid; place-items: center; color: #2563eb; }
+  .cov-cta__quote-icon svg { width: 20px; height: 20px; }
+
+  /* ── FAQ · Centers · Agent trio ───────────────────────────────────────── */
+  .cov-trio {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr 0.9fr;
+    gap: 1.5rem;
+    margin: 0 0 2.5rem;
+    align-items: start;
+  }
+  .cov-panel {
+    background: #fff; border: 1px solid #e8edf3; border-radius: 18px;
+    padding: 1.6rem 1.6rem;
+    box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06);
+  }
+  .cov-panel__h { margin: 0 0 1.1rem; font-size: 1.2rem; color: #0b2c45; }
+
+  .cov-faq { border-top: 1px solid #eef2f6; padding: 0.7rem 0; }
+  .cov-faq:first-of-type { border-top: none; padding-top: 0; }
+  .cov-faq summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+    cursor: pointer; list-style: none;
+    font-weight: 600; color: #334155; font-size: 0.95rem; line-height: 1.35;
+  }
+  .cov-faq summary::-webkit-details-marker { display: none; }
+  .cov-faq summary::after { content: "⌄"; color: #2563eb; font-weight: 800; font-size: 1.1rem; transition: transform 0.15s ease; }
+  .cov-faq[open] summary::after { transform: rotate(180deg); }
+  .cov-faq p { margin: 0.6rem 0 0; color: #5b6b7d; font-size: 0.9rem; line-height: 1.55; }
+  .cov-panel__src { margin: 1.1rem 0 0; padding-top: 0.9rem; border-top: 1px solid #eef2f6; color: #64748b; font-size: 0.85rem; }
+  .cov-panel__src strong { color: #334155; }
+  .cov-panel__src a { color: #2563eb; text-decoration: none; font-weight: 600; }
+  .cov-panel__src a:hover { text-decoration: underline; }
+
+  .cov-centers { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.85rem; }
+  .cov-centers li { display: flex; align-items: center; gap: 0.7rem; }
+  .cov-centers__icon {
+    flex: none; width: 34px; height: 34px; border-radius: 10px;
+    display: grid; place-items: center;
+    background: var(--tint); color: var(--accent);
+  }
+  .cov-centers__icon svg { width: 20px; height: 20px; }
+  .cov-centers a { color: #1f4e8c; text-decoration: none; font-weight: 700; font-size: 0.95rem; }
+  .cov-centers a:hover { text-decoration: underline; }
+
+  .cov-panel--agent { text-align: center; background: linear-gradient(180deg, #eef5fe 0%, #f7fbff 100%); }
+  .cov-agent__photo { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; object-position: top center; border: 4px solid #fff; box-shadow: 0 12px 26px rgba(11, 44, 69, 0.18); margin: 0 auto 0.85rem; }
+  .cov-panel--agent .cov-panel__h { font-size: 1.15rem; }
+  .cov-agent__blurb { color: #5b6b7d; font-size: 0.93rem; line-height: 1.5; margin: 0 0 1.1rem; }
+  .cov-agent__cta {
+    display: inline-block; background: #2563eb; color: #fff; text-decoration: none;
+    font-weight: 800; padding: 0.7rem 1.3rem; border-radius: 12px;
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.3);
+    transition: transform 0.12s ease, filter 0.12s ease;
+  }
+  .cov-agent__cta:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .cov-agent__sig { display: block; margin-top: 0.85rem; color: #1f4e8c; font-weight: 700; font-style: italic; font-size: 0.9rem; }
+
+  /* ── Trust bar ────────────────────────────────────────────────────────── */
+  .cov-trust {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    background: #f7fafd;
+    border: 1px solid #e8edf3;
+    border-radius: 18px;
+    padding: 1.5rem 1.75rem;
+    margin: 0 0 1.5rem;
+  }
+  .cov-trust__item { display: flex; align-items: center; gap: 0.8rem; }
+  .cov-trust__icon {
+    flex: none; width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: color-mix(in srgb, var(--c) 14%, #fff); color: var(--c);
+  }
+  .cov-trust__icon svg { width: 23px; height: 23px; }
+  .cov-trust__text strong { display: block; color: #0b2c45; font-size: 0.95rem; }
+  .cov-trust__text em { color: #64748b; font-style: normal; font-size: 0.82rem; }
+
+  /* ── Responsive ───────────────────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .cov-cats__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 900px) {
+    .cov-hero { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+    .cov-hero__lede { max-width: none; }
+    .cov-hero__callout { position: static; margin-top: 1rem; left: auto; right: auto; bottom: auto; }
+    .cov-cta { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .cov-cta__msg p { max-width: none; }
+    .cov-cta__actions { width: 100%; max-width: 320px; }
+    .cov-trio { grid-template-columns: 1fr; }
+    .cov-trust { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .cov-cats__grid { grid-template-columns: 1fr; }
+    .cov-trust { grid-template-columns: 1fr; }
+  }
 </style>
