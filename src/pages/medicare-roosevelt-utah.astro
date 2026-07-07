@@ -1,16 +1,17 @@
 ---
-// src/pages/medicare-roosevelt-utah.astro — MIGRATED to the Page Framework (M12).
-// URL, title, description, H1 and publish date preserved from the ranking legacy
-// page. Now on ArticlePage: automatic Article+FAQ+Breadcrumb schema, byline,
-// related, and the required marketing disclaimer. Correctness fixes applied:
-//   • removed the literal {YEAR} template bug
-//   • stale $185 Part B premium → figuresFor() data layer
-//   • "Uintah Basin Medical Center" → "Uintah Basin Healthcare"
-// This is the FLAGSHIP for the 'local' silo — the blueprint for every town page.
+// src/pages/medicare-roosevelt-utah.astro — MIGRATED to the Page Framework (M12),
+// then REDESIGNED (visual pass) from a text-wall into a scannable landing page:
+// custom desert/basin hero, "How We Help You" tiles, Local Focus split, plan-option
+// cards, Enrollment Windows quick-guide cards, and a dark CTA band. All SEO prose,
+// internal links, figures and schema are preserved — only the presentation changed.
+// bareHeader lets us render the custom hero; the default FAQ/sources/related/CTA/
+// disclaimer footer still renders from context. FLAGSHIP for the 'local' silo.
 import ArticlePage from '../components/layout/ArticlePage.astro';
 import { figuresFor } from '../data/annualMedicareData';
 import { BUSINESS } from '../data/business';
 import { usd } from '../lib/formatters';
+import { relatedFor } from '../lib/related';
+import { PAGE_INDEX } from '../data/pageIndex';
 import type { PageContext } from '../types/Page';
 
 const f = figuresFor();
@@ -64,43 +65,555 @@ const context: PageContext = {
     { name: 'Roosevelt, Utah', href: '/medicare-roosevelt-utah.html' },
   ],
 };
+
+const tel = `tel:${BUSINESS.phoneTel}`;
+const partB = usd(f.partB.premium, { cents: true });
+// Same related-links computation the layout uses, so our custom card stays in sync.
+const related = relatedFor(context.page.taxonomy, PAGE_INDEX, '/medicare-roosevelt-utah.html').slice(0, 4);
 ---
 
-<ArticlePage context={context}>
-  <p>Roosevelt, Utah residents turning 65 or already on Medicare have more plan options than many realize. Whether you live in Roosevelt proper, near the Duchesne County line, or anywhere along the Highway 40 corridor, you deserve personalized guidance from an agent who understands rural Utah healthcare.</p>
+<ArticlePage context={context} bareHeader bareFooter>
+  <div class="rz">
 
-  <h2>Medicare Options Available in Roosevelt, Utah</h2>
-  <p>Roosevelt falls within a Medicare service area that includes several plan types. The right choice depends on your doctors, prescriptions, preferred pharmacy, and budget.</p>
+    <!-- ================= HERO ================= -->
+    <section class="rz-hero">
+      <img src="pictures/rooselvelt-hero.webp" alt="" class="rz-hero__bg" width="1600" height="700" loading="eager" decoding="async" fetchpriority="high" />
+      <span class="rz-hero__scrim" aria-hidden="true"></span>
+      <div class="rz-hero__inner">
+        <div class="rz-hero__copy">
+          <span class="rz-eyebrow">Roosevelt, UT · The Uintah Basin</span>
+          <h1>Medicare Plans in <span class="rz-hl">Roosevelt, Utah</span></h1>
+          <p class="rz-hero__lead">
+            Local, licensed help comparing Medicare Advantage (Part C), Medigap, and Part D —
+            so you can choose with confidence. <strong>2026 Guide.</strong>
+          </p>
+          <div class="rz-hero__btns">
+            <a href={tel} class="rz-btn rz-btn--primary">📞 Call {BUSINESS.phone} <span>(TTY {BUSINESS.tty})</span></a>
+            <a href={`mailto:${BUSINESS.email}`} class="rz-btn rz-btn--ghost">✉️ Email Us</a>
+          </div>
+          <ul class="rz-hero__trust">
+            <li>📍 Roosevelt &amp; the Uintah Basin</li>
+            <li>✓ Local · Licensed · No Cost</li>
+          </ul>
+        </div>
 
-  <h3>Medicare Advantage (Part C) in Roosevelt</h3>
-  <p>Medicare Advantage plans replace Original Medicare with bundled coverage. In Roosevelt and Duchesne County, HMO and PPO options are available. These plans often include prescription drug coverage, dental, vision, hearing, and fitness benefits at low or $0 monthly premiums. However, network restrictions matter — especially in rural areas. Before enrolling, verify that your preferred doctors, the nearest urgent care, and <strong>Uintah Basin Healthcare</strong> accept the plan.</p>
+        <aside class="rz-hero__card">
+          <div class="rz-card-badge" aria-hidden="true">👤</div>
+          <h2>Talk to a Local, Licensed Agent</h2>
+          <p>Get clear answers and guidance tailored to your doctors, prescriptions, and budget.</p>
+          <a href={tel} class="rz-btn rz-btn--primary rz-btn--block">Call {BUSINESS.phone} (TTY {BUSINESS.tty})</a>
+          <a href={BUSINESS.quoteUrl} class="rz-btn rz-btn--outline rz-btn--block" target="_blank" rel="noopener noreferrer">Get a Free Quote</a>
+        </aside>
+      </div>
+    </section>
 
-  <h3>Medicare Supplement (Medigap) Plans</h3>
-  <p>Medigap policies — particularly <a href="plan-g-vs-plan-n-vernal.html">Plan G and Plan N</a> — pair with Original Medicare to cover out-of-pocket costs like copays, coinsurance, and deductibles. For Roosevelt residents who travel frequently or see specialists in Salt Lake City, Medigap offers nationwide provider freedom without network restrictions. This flexibility is especially valuable in Duchesne County where specialist access can require travel.</p>
+    <!-- ================= HOW WE HELP ================= -->
+    <section class="rz-help">
+      <h2 class="rz-h2 rz-h2--center">How We Help You</h2>
+      <div class="rz-help__grid">
+        <div class="rz-help__item">
+          <span class="rz-ic rz-ic--blue">🩺</span>
+          <h3>Compare</h3>
+          <p>Plans for your doctors, clinics, and pharmacies.</p>
+        </div>
+        <div class="rz-help__item">
+          <span class="rz-ic rz-ic--green">℞</span>
+          <h3>Medigap + Part D</h3>
+          <p>Find the right plan for predictable costs.</p>
+        </div>
+        <div class="rz-help__item">
+          <span class="rz-ic rz-ic--purple">📋</span>
+          <h3>Drug Review</h3>
+          <p>Check formularies and preferred pharmacies.</p>
+        </div>
+        <div class="rz-help__item">
+          <span class="rz-ic rz-ic--orange">🐷</span>
+          <h3>Savings Programs</h3>
+          <p>Extra Help, Medicare Savings Programs &amp; more.</p>
+        </div>
+        <div class="rz-help__item">
+          <span class="rz-ic rz-ic--teal">📅</span>
+          <h3>Annual Checkups</h3>
+          <p>We make sure your plan still fits when things change.</p>
+        </div>
+      </div>
+    </section>
 
-  <h3>Part D Prescription Drug Plans</h3>
-  <p>If you take regular medications, a standalone Part D plan (paired with Medigap) or a Medicare Advantage plan with drug coverage is essential. We compare formularies against your specific medication list and check costs at Roosevelt-area pharmacies including Smith's, Walmart, and local independent pharmacies.</p>
+    <!-- ================= LOCAL FOCUS ================= -->
+    <section class="rz-local">
+      <figure class="rz-postcard">
+        <img src="pictures/roosevelt-welcome.webp" alt="Welcome to Roosevelt, Utah — gateway to the Uintah Basin" class="rz-postcard__img" width="640" height="440" loading="lazy" decoding="async" />
+        <figcaption>Gateway to the Uintah Basin</figcaption>
+      </figure>
+      <div class="rz-local__body">
+        <h2 class="rz-h2">Local Focus: Roosevelt &amp; the Basin</h2>
+        <p>
+          We help neighbors across Roosevelt and nearby communities — coordinating around the clinics
+          and pharmacies you already use, and staying easy to reach when you need us. Roosevelt sits
+          roughly 30 miles west of Vernal along US-40, and a plan that works in Salt Lake City may not
+          serve you well out here.
+        </p>
+        <div class="rz-figure">
+          <span class="rz-figure__icon" aria-hidden="true">👥</span>
+          <p>Most beneficiaries pay <strong>{partB} per month</strong> for Original Medicare Part B in {f.year}.</p>
+        </div>
+      </div>
+    </section>
 
-  <h2>Why Roosevelt Residents Need Local Medicare Guidance</h2>
-  <p>Roosevelt is roughly 30 miles west of Vernal along Highway 40. Healthcare access here involves a mix of local clinics, Uintah Basin Healthcare, and occasional trips to larger facilities. A Medicare plan that works in Salt Lake City may not serve you well in Duchesne County. Factors that matter locally include whether the plan covers telehealth for specialist visits, whether your pharmacy is in-network at preferred pricing, and whether emergency transport to regional hospitals is covered without surprise billing.</p>
+    <!-- ================= PLAN OPTIONS ================= -->
+    <section class="rz-plans">
+      <h2 class="rz-h2 rz-h2--center">Medicare Options Available in Roosevelt</h2>
+      <p class="rz-sub">The right choice depends on your doctors, prescriptions, preferred pharmacy, and budget.</p>
+      <div class="rz-plans__grid">
+        <article class="rz-plan">
+          <span class="rz-plan__tag rz-plan__tag--blue">Part C</span>
+          <h3>Medicare Advantage</h3>
+          <p>
+            Bundled HMO/PPO coverage that often includes drug, dental, vision, hearing and fitness benefits
+            at low or $0 premiums. Network access matters in rural areas — before enrolling we verify your
+            doctors, the nearest urgent care, and <strong>Uintah Basin Healthcare</strong> accept the plan.
+          </p>
+        </article>
+        <article class="rz-plan">
+          <span class="rz-plan__tag rz-plan__tag--green">Medigap</span>
+          <h3>Medicare Supplement</h3>
+          <p>
+            Policies like <a href="plan-g-vs-plan-n-vernal.html">Plan G and Plan N</a> pair with Original
+            Medicare to cover copays, coinsurance and deductibles — with nationwide provider freedom and no
+            networks. Valuable in Duchesne County when specialist access means travel to Salt Lake City.
+          </p>
+        </article>
+        <article class="rz-plan">
+          <span class="rz-plan__tag rz-plan__tag--purple">Part D</span>
+          <h3>Prescription Drug Plans</h3>
+          <p>
+            A standalone Part D plan (paired with Medigap) or an Advantage plan with drug coverage keeps
+            medications affordable. We compare formularies against your exact drug list and check costs at
+            Roosevelt-area pharmacies including Smith's, Walmart and local independents.
+          </p>
+        </article>
+      </div>
+    </section>
 
-  <h2>How Much Does Medicare Cost in Roosevelt?</h2>
-  <p>Medicare costs in Roosevelt depend on the plan type you choose. Original Medicare Part B costs <strong>{usd(f.partB.premium, { cents: true })} per month in {f.year}</strong> for most beneficiaries. Medicare Advantage plans are available with $0 monthly premiums beyond your Part B premium. Medigap Plan G premiums in Utah typically range from $120 to $220 per month depending on age and tobacco use. Part D plans range from approximately $7 to $80 per month. We run a full <a href="medicare-cost-estimator.html">cost comparison</a> based on your specific health situation.</p>
+    <!-- ================= COST ================= -->
+    <section class="rz-cost">
+      <h2 class="rz-h2">How Much Does Medicare Cost in Roosevelt?</h2>
+      <p>
+        Costs depend on the plan type you choose. Original Medicare Part B is
+        <strong>{partB} per month in {f.year}</strong> for most beneficiaries. Medicare Advantage plans are
+        available with $0 premiums beyond Part B. Medigap Plan G premiums in Utah typically run $120–$220 per
+        month depending on age and tobacco use, and Part D plans range from roughly $7 to $80 per month. We run
+        a full <a href="medicare-cost-estimator.html">cost comparison</a> based on your specific situation.
+      </p>
+    </section>
 
-  <h2>Enrollment Periods for Roosevelt Residents</h2>
-  <p>The same federal enrollment windows apply in Roosevelt as everywhere else. Your <a href="medicare-enrollment-periods.html">Initial Enrollment Period</a> begins three months before you turn 65. Annual Enrollment runs October 15 through December 7 each year. Special Enrollment Periods may apply if you're losing employer coverage, moving, or qualifying for Extra Help. Missing these windows can result in <a href="medicare-part-b-penalty-calculator.html">permanent premium penalties</a> — particularly for Part B and Part D.</p>
+    <!-- ================= ENROLLMENT WINDOWS ================= -->
+    <section class="rz-enroll">
+      <h2 class="rz-h2 rz-h2--center">Enrollment Windows (Quick Guide)</h2>
+      <div class="rz-enroll__grid">
+        <div class="rz-win rz-win--blue">
+          <span class="rz-win__icon" aria-hidden="true">🗓️</span>
+          <h3>AEP</h3>
+          <p>Oct 15 – Dec 7 <span>(changes start Jan 1)</span></p>
+        </div>
+        <div class="rz-win rz-win--green">
+          <span class="rz-win__icon" aria-hidden="true">🔁</span>
+          <h3>OEP (MA)</h3>
+          <p>Jan 1 – Mar 31 <span>(one change if you're on an MA plan)</span></p>
+        </div>
+        <div class="rz-win rz-win--purple">
+          <span class="rz-win__icon" aria-hidden="true">🎂</span>
+          <h3>IEP / ICEP</h3>
+          <p>Around your 65th birthday <span>or first eligibility</span></p>
+        </div>
+        <div class="rz-win rz-win--orange">
+          <span class="rz-win__icon" aria-hidden="true">🛡️</span>
+          <h3>SEPs</h3>
+          <p>Moving, losing coverage, <span>Extra Help / Medicaid &amp; more</span></p>
+        </div>
+      </div>
+      <p class="rz-note">
+        Your <a href="medicare-enrollment-periods.html">Initial Enrollment Period</a> begins three months
+        before you turn 65. Missing these windows can mean
+        <a href="medicare-part-b-penalty-calculator.html">permanent premium penalties</a> — especially for
+        Part B and Part D.
+      </p>
+    </section>
 
-  <h2>Free Medicare Help for Roosevelt and Duchesne County</h2>
-  <p>Rocco DeLuca is a licensed Medicare agent serving Roosevelt, Duchesne, Myton, Tabiona, and the entire Duchesne County area. There is no cost for plan comparisons, enrollment help, or ongoing support — agents are compensated by insurance carriers, not by you. Whether you prefer a phone call, video meeting, or in-person visit to our Vernal office ({BUSINESS.hours.humanReadable}), help is available year-round.</p>
+    <!-- ================= CTA BAND ================= -->
+    <!-- ================= WHY LOCAL (icon + image bleed) ================= -->
+    <section class="rz-why">
+      <div class="rz-why__body">
+        <span class="rz-badge rz-badge--blue" aria-hidden="true">👥</span>
+        <div>
+          <h2 class="rz-h2 rz-h2--rule">Why Roosevelt Residents Need Local Guidance</h2>
+          <p>
+            Healthcare access in the Basin mixes local clinics, Uintah Basin Healthcare, and occasional trips
+            to larger facilities. Locally, it matters whether a plan covers telehealth for specialist visits,
+            whether your pharmacy is in-network at preferred pricing, and whether emergency transport to
+            regional hospitals is covered without surprise billing.
+          </p>
+        </div>
+      </div>
+      <img src="pictures/rooselvelt-hero.webp" alt="" class="rz-why__img" width="720" height="480" loading="lazy" decoding="async" />
+    </section>
 
-  <p>For more information about Medicare basics, see our guides on <a href="medicare-part-a-vs-part-b.html">Part A vs Part B</a>, <a href="medicare-supplement-vs-advantage.html">Medigap vs Medicare Advantage</a>, and <a href="when-to-enroll-medicare-utah.html">when to enroll in Utah</a>.</p>
+    <!-- ================= FREE HELP + AGENT CARD ================= -->
+    <section class="rz-freehelp">
+      <div class="rz-freehelp__main">
+        <span class="rz-badge rz-badge--green" aria-hidden="true">🤝</span>
+        <div>
+          <h2 class="rz-h2 rz-h2--rule">Free Medicare Help for Roosevelt &amp; Duchesne County</h2>
+          <p>
+            Rocco DeLuca is a licensed Medicare agent serving Roosevelt, Duchesne, Myton, Tabiona, and the
+            entire Duchesne County area.
+          </p>
 
-  <p style="text-align:center;margin-top:2rem;">
-    <a href={BUSINESS.quoteUrl} class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
-  </p>
-  <p style="text-align:center;margin-top:1rem;">
-    <strong>Call Rocco:</strong> <a href={`tel:${BUSINESS.phoneTel}`}>{BUSINESS.phone}</a> (TTY: {BUSINESS.tty}) &bull; <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
-  </p>
+          <div class="rz-mini">
+            <div class="rz-mini__item">
+              <span class="rz-mini__ic" aria-hidden="true">$</span>
+              <p>No cost for plan comparisons, enrollment help, or ongoing support.</p>
+            </div>
+            <div class="rz-mini__item">
+              <span class="rz-mini__ic" aria-hidden="true">📞</span>
+              <p>Prefer a phone call, video meeting, or in-person visit? We come to you.</p>
+            </div>
+            <div class="rz-mini__item">
+              <span class="rz-mini__ic" aria-hidden="true">📅</span>
+              <p>Help is available year-round ({BUSINESS.hours.humanReadable}).</p>
+            </div>
+          </div>
 
-  <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>. Plan availability, premiums, and benefits change annually. Verify current options during enrollment periods.</em></p>
+          <div class="rz-basics">
+            <span class="rz-basics__ic" aria-hidden="true">📄</span>
+            <p>
+              For Medicare basics, see our guides on
+              <a href="medicare-part-a-vs-part-b.html">Part A vs Part B</a>,
+              <a href="medicare-supplement-vs-advantage.html">Medigap vs Medicare Advantage</a>, and
+              <a href="when-to-enroll-medicare-utah.html">when to enroll in Utah</a>.
+            </p>
+          </div>
+
+          <p class="rz-src">
+            <em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.
+            Plan availability, premiums, and benefits change annually. Verify current options during
+            enrollment periods.</em>
+          </p>
+        </div>
+      </div>
+
+      <aside class="rz-agentcard">
+        <div class="rz-agentcard__head">
+          <span class="rz-agentcard__badge" aria-hidden="true">👤</span>
+          <h2>Talk to a Local, Licensed Agent</h2>
+        </div>
+        <p>Rocco DeLuca can walk you through your options — free, no pressure.</p>
+        <a href={tel} class="rz-btn rz-btn--primary rz-btn--block">📞 Call {BUSINESS.phone} <span>(TTY {BUSINESS.tty})</span></a>
+        <a href={BUSINESS.quoteUrl} class="rz-btn rz-btn--light rz-btn--block" target="_blank" rel="noopener noreferrer">Get a Free Quote</a>
+      </aside>
+    </section>
+
+    <!-- ================= FOOTER CARD ROW ================= -->
+    <section class="rz-cards">
+      <article class="rz-fcard">
+        <div class="rz-fcard__head"><span class="rz-fcard__ic rz-fcard__ic--orange" aria-hidden="true">❓</span><h3>Frequently Asked Questions</h3></div>
+        <ul class="rz-fcard__list">
+          {context.page.faqs?.map((q) => <li>{q.question}</li>)}
+        </ul>
+        <a href="faq.html" class="rz-fcard__more">View all FAQs →</a>
+      </article>
+
+      <article class="rz-fcard">
+        <div class="rz-fcard__head"><span class="rz-fcard__ic rz-fcard__ic--blue" aria-hidden="true">🌐</span><h3>Sources</h3></div>
+        <ul class="rz-fcard__list rz-fcard__list--links">
+          {context.page.sources?.map((s) => <li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a> — {s.publisher}</li>)}
+        </ul>
+      </article>
+
+      <article class="rz-fcard">
+        <div class="rz-fcard__head"><span class="rz-fcard__ic rz-fcard__ic--purple" aria-hidden="true">🔗</span><h3>Related</h3></div>
+        <ul class="rz-fcard__list rz-fcard__list--links">
+          {related.map((r) => <li><a href={r.href}>{r.label}</a></li>)}
+        </ul>
+      </article>
+
+      <article class="rz-fcard rz-fcard--agent">
+        <div class="rz-fcard__head"><span class="rz-fcard__ic rz-fcard__ic--green" aria-hidden="true">👤</span><h3>Local. Licensed. Here for You.</h3></div>
+        <div class="rz-fcard__agent">
+          <img src="pictures/rocco.webp" alt="Rocco DeLuca, licensed Medicare agent" width="72" height="72" loading="lazy" decoding="async" />
+          <div>
+            <strong>Rocco DeLuca</strong>
+            <span>Licensed Medicare Agent</span>
+            <span>Roosevelt, Duchesne &amp; the Uintah Basin</span>
+            <em>Local help. Real answers.</em>
+          </div>
+        </div>
+        <div class="rz-fcard__btns">
+          <a href={tel} class="rz-btn rz-btn--primary">📞 Call {BUSINESS.phone}</a>
+          <a href={BUSINESS.quoteUrl} class="rz-btn rz-btn--outline" target="_blank" rel="noopener noreferrer">Get a Free Quote</a>
+        </div>
+      </article>
+    </section>
+
+  </div>
 </ArticlePage>
+
+<style>
+  /* ============ Roosevelt landing page (scoped) ============ */
+  .rz {
+    --navy: #0b2c45;
+    --navy-2: #002b49;
+    --orange: #e07817;
+    --orange-2: #f4922e;
+    --ink: #223140;
+    --muted: #5a6b7b;
+    --line: #e2e8f0;
+    --sky-1: #cfe4f2;
+    --sky-2: #eaf3fa;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .rz * { box-sizing: border-box; }
+  .rz section { margin: 3rem 0; }
+
+  .rz .rz-h2 {
+    font-size: clamp(1.5rem, 1rem + 1.4vw, 2rem);
+    color: var(--navy);
+    margin: 0 0 .5rem;
+    line-height: 1.2;
+  }
+  .rz .rz-h2--center { text-align: center; }
+  .rz .rz-h2--center::after {
+    content: "";
+    display: block;
+    width: 64px; height: 4px;
+    margin: .6rem auto 0;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--orange), var(--orange-2));
+  }
+  .rz .rz-sub { text-align: center; color: var(--muted); margin: 0 auto 1.8rem; max-width: 640px; }
+
+  /* Links inside the design → brand navy, not the global magenta */
+  .rz a:not(.rz-btn) { color: var(--navy); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+  .rz a:not(.rz-btn):hover { color: var(--orange); }
+
+  /* ---------- Buttons ---------- */
+  .rz .rz-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+    padding: .8rem 1.2rem; border-radius: 12px; font-weight: 800; text-decoration: none;
+    font-size: 1rem; line-height: 1.15; border: 2px solid transparent; transition: transform .12s ease, box-shadow .12s ease, background .2s ease;
+  }
+  .rz .rz-btn span { font-weight: 600; opacity: .9; font-size: .85em; }
+  .rz .rz-btn:hover { transform: translateY(-1px); }
+  .rz .rz-btn--block { display: flex; width: 100%; }
+  .rz .rz-btn--primary { background: linear-gradient(180deg, var(--orange-2), var(--orange)); color: #fff; box-shadow: 0 8px 20px rgba(224,120,23,.30); }
+  .rz .rz-btn--ghost { background: #fff; color: var(--navy); border-color: #fff; }
+  .rz .rz-btn--outline { background: #fff; color: var(--navy); border-color: var(--line); box-shadow: 0 4px 12px rgba(11,44,69,.08); }
+  .rz .rz-btn--light { background: #fff; color: var(--navy); }
+  .rz .rz-btn--outline-light { background: transparent; color: #fff; border-color: rgba(255,255,255,.55); }
+
+  /* ---------- HERO ---------- */
+  .rz-hero {
+    position: relative; overflow: hidden; border-radius: 20px;
+    background: #0b2c45;
+    box-shadow: 0 20px 50px rgba(11,44,69,.18);
+    margin-top: 1rem !important;
+  }
+  .rz-hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+  .rz-hero__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(90deg, rgba(6,26,43,.62) 0%, rgba(6,26,43,.28) 45%, rgba(6,26,43,0) 72%),
+      linear-gradient(180deg, rgba(6,26,43,0) 55%, rgba(6,26,43,.22) 100%);
+  }
+
+  .rz-hero__inner {
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: 1.35fr .85fr; gap: 1.5rem; align-items: start;
+    padding: clamp(1.4rem, 3vw, 3rem);
+  }
+  .rz-eyebrow {
+    display: inline-block; background: rgba(11,44,69,.9); color: #fff; font-weight: 700;
+    font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; padding: .3rem .7rem; border-radius: 999px;
+  }
+  .rz-hero__copy h1 {
+    color: #fff; font-size: clamp(2rem, 1.2rem + 3vw, 3.2rem); line-height: 1.08;
+    margin: .8rem 0 .6rem; max-width: 14ch; text-shadow: 0 2px 12px rgba(0,0,0,.45);
+  }
+  .rz .rz-hl { color: var(--orange-2); }
+  .rz-hero__lead { color: #eaf1f7; font-size: 1.08rem; max-width: 40ch; margin: 0 0 1.1rem; text-shadow: 0 1px 8px rgba(0,0,0,.4); }
+  .rz-hero__btns { display: flex; flex-wrap: wrap; gap: .7rem; }
+  .rz-hero__trust { list-style: none; padding: 0; margin: 1.1rem 0 0; display: flex; flex-wrap: wrap; gap: .5rem 1.4rem; color: #fff; font-weight: 700; font-size: .95rem; text-shadow: 0 1px 8px rgba(0,0,0,.45); }
+
+  .rz-hero__card {
+    background: rgba(255,255,255,.96); border-radius: 16px; padding: 1.4rem;
+    box-shadow: 0 16px 36px rgba(11,44,69,.22); backdrop-filter: blur(2px);
+  }
+  .rz-card-badge {
+    width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-size: 1.4rem;
+    background: linear-gradient(180deg, var(--orange-2), var(--orange)); margin-bottom: .6rem;
+  }
+  .rz-hero__card h2 { color: var(--orange); font-size: 1.25rem; margin: 0 0 .4rem; }
+  .rz-hero__card p { color: var(--muted); margin: 0 0 1rem; font-size: .98rem; }
+  .rz-hero__card .rz-btn { margin-top: .6rem; }
+
+  /* ---------- HOW WE HELP ---------- */
+  .rz-help__grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-top: 2rem; }
+  .rz-help__item { text-align: center; padding: 1rem .6rem; border-radius: 14px; transition: background .2s ease, transform .15s ease; }
+  .rz-help__item:hover { background: #f5f9fc; transform: translateY(-3px); }
+  .rz-ic {
+    width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center;
+    font-size: 1.7rem; margin: 0 auto .7rem; border: 3px solid; background: #fff;
+  }
+  .rz-ic--blue   { color: var(--navy);   border-color: #cfe0ee; }
+  .rz-ic--green  { color: #1f8a4c; border-color: #c9ecd6; font-weight: 800; }
+  .rz-ic--purple { color: #7c3aed; border-color: #e4d7fb; }
+  .rz-ic--orange { color: var(--orange); border-color: #f7ddbe; }
+  .rz-ic--teal   { color: #0d9488; border-color: #bfeae6; }
+  .rz-help__item h3 { color: var(--navy); font-size: 1.05rem; margin: 0 0 .3rem; }
+  .rz-help__item p { color: var(--muted); font-size: .9rem; margin: 0; }
+
+  /* ---------- LOCAL FOCUS ---------- */
+  .rz-local { display: grid; grid-template-columns: .8fr 1.2fr; gap: 1.8rem; align-items: center; }
+  .rz-postcard { margin: 0; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 34px rgba(11,44,69,.18); }
+  .rz-postcard__img { display: block; width: 100%; height: 260px; object-fit: cover; }
+  .rz-postcard figcaption { background: var(--navy); color: #dbe9f4; text-align: center; padding: .7rem; font-size: .9rem; letter-spacing: .02em; }
+  .rz-local__body p { color: var(--ink); font-size: 1.02rem; }
+  .rz-figure {
+    display: flex; align-items: center; gap: .8rem; margin-top: 1.1rem; padding: 1rem 1.2rem;
+    background: #eef4fa; border: 1px solid #d8e6f2; border-left: 5px solid var(--orange); border-radius: 12px;
+  }
+  .rz-figure__icon { font-size: 1.5rem; }
+  .rz-figure p { margin: 0; }
+  .rz-figure strong { color: var(--orange); }
+
+  /* ---------- PLAN OPTION CARDS ---------- */
+  .rz-plans__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .rz-plan {
+    background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 1.5rem;
+    box-shadow: 0 8px 24px rgba(11,44,69,.06); transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .rz-plan:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(11,44,69,.12); }
+  .rz-plan__tag { display: inline-block; font-size: .72rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #fff; padding: .25rem .6rem; border-radius: 999px; margin-bottom: .7rem; }
+  .rz-plan__tag--blue { background: var(--navy); }
+  .rz-plan__tag--green { background: #1f8a4c; }
+  .rz-plan__tag--purple { background: #7c3aed; }
+  .rz-plan h3 { color: var(--navy); margin: 0 0 .5rem; font-size: 1.25rem; }
+  .rz-plan p { color: var(--muted); margin: 0; font-size: .98rem; }
+
+  /* ---------- COST prose ---------- */
+  .rz-cost { max-width: 900px; margin-left: auto; margin-right: auto; }
+  .rz-cost p { color: var(--ink); font-size: 1.04rem; }
+  .rz-src { color: var(--muted); font-size: .9rem; }
+
+  /* ---------- ENROLLMENT WINDOWS ---------- */
+  .rz-enroll__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2rem; }
+  .rz-win { background: #fff; border: 1px solid var(--line); border-top: 5px solid; border-radius: 14px; padding: 1.2rem; box-shadow: 0 8px 22px rgba(11,44,69,.06); }
+  .rz-win--blue { border-top-color: var(--navy); }
+  .rz-win--green { border-top-color: #1f8a4c; }
+  .rz-win--purple { border-top-color: #7c3aed; }
+  .rz-win--orange { border-top-color: var(--orange); }
+  .rz-win__icon { font-size: 1.6rem; }
+  .rz-win h3 { color: var(--navy); margin: .5rem 0 .3rem; font-size: 1.15rem; }
+  .rz-win p { margin: 0; color: var(--ink); font-weight: 700; }
+  .rz-win p span { display: block; color: var(--muted); font-weight: 500; font-size: .88rem; margin-top: .2rem; }
+  .rz-note { text-align: center; color: var(--muted); max-width: 720px; margin: 1.5rem auto 0; }
+
+  /* ---------- Section heading with left rule + round badge ---------- */
+  .rz .rz-h2--rule { margin-bottom: .7rem; }
+  .rz .rz-h2--rule::after { content: ""; display: block; width: 56px; height: 4px; margin: .55rem 0 0; border-radius: 4px; background: linear-gradient(90deg, var(--orange), var(--orange-2)); }
+  .rz-badge {
+    flex: 0 0 auto; width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center;
+    font-size: 2rem; border: 2px solid; box-shadow: 0 8px 20px rgba(11,44,69,.10);
+  }
+  .rz-badge--blue { color: var(--navy); background: #eef4fb; border-color: #d5e6f4; }
+  .rz-badge--green { color: #1f8a4c; background: #eef7f1; border-color: #cdebd8; }
+
+  /* ---------- WHY LOCAL (text + image bleed) ---------- */
+  .rz-why { display: grid; grid-template-columns: 1.15fr .85fr; gap: 1.5rem; align-items: center; }
+  .rz-why__body { display: flex; gap: 1.1rem; align-items: flex-start; }
+  .rz-why__body p { color: var(--ink); font-size: 1.02rem; margin: 0; }
+  .rz-why__img {
+    width: 100%; height: 340px; object-fit: cover; border-radius: 16px;
+    box-shadow: 0 14px 34px rgba(11,44,69,.16);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 16%);
+  }
+
+  /* ---------- FREE HELP + AGENT CARD ---------- */
+  .rz-freehelp { display: grid; grid-template-columns: 1.5fr .9fr; gap: 1.8rem; align-items: start; }
+  .rz-freehelp__main { display: flex; gap: 1.1rem; align-items: flex-start; }
+  .rz-freehelp__main > div { min-width: 0; }
+  .rz-freehelp__main > div > p { color: var(--ink); font-size: 1.02rem; }
+  .rz-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.2rem 0; }
+  .rz-mini__item { display: flex; gap: .6rem; align-items: flex-start; }
+  .rz-mini__ic {
+    flex: 0 0 auto; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+    background: #1f8a4c; color: #fff; font-weight: 800; font-size: 1.05rem;
+  }
+  .rz-mini__item p { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.4; }
+  .rz-basics { display: flex; gap: .7rem; align-items: flex-start; background: #f4f8f4; border: 1px solid #dfeee2; border-radius: 12px; padding: .9rem 1.1rem; }
+  .rz-basics__ic { font-size: 1.3rem; }
+  .rz-basics p { margin: 0; color: var(--ink); font-size: .98rem; }
+  .rz-freehelp .rz-src { margin-top: 1rem; }
+
+  .rz-agentcard {
+    background: linear-gradient(160deg, var(--navy) 0%, #123f60 100%); color: #fff;
+    border-radius: 18px; padding: 1.6rem; box-shadow: 0 18px 40px rgba(11,44,69,.28);
+  }
+  .rz-agentcard__head { display: flex; align-items: center; gap: .8rem; margin-bottom: .7rem; }
+  .rz-agentcard__badge { flex: 0 0 auto; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; border: 2px solid rgba(255,255,255,.55); font-size: 1.5rem; }
+  .rz-agentcard__head h2 { color: #fff; font-size: 1.4rem; margin: 0; line-height: 1.12; }
+  .rz-agentcard > p { color: #cfe0ee; margin: 0 0 1.1rem; }
+  .rz-agentcard .rz-btn { margin-top: .7rem; }
+
+  /* ---------- FOOTER CARD ROW ---------- */
+  .rz-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
+  .rz-fcard { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 1.3rem; box-shadow: 0 8px 24px rgba(11,44,69,.06); }
+  .rz-fcard__head { display: flex; align-items: center; gap: .6rem; margin-bottom: .9rem; }
+  .rz-fcard__head h3 { margin: 0; font-size: 1.05rem; color: var(--navy); line-height: 1.15; }
+  .rz-fcard__ic { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-size: 1.2rem; color: #fff; }
+  .rz-fcard__ic--orange { background: var(--orange); }
+  .rz-fcard__ic--blue { background: var(--navy); }
+  .rz-fcard__ic--purple { background: #7c3aed; }
+  .rz-fcard__ic--green { background: #1f8a4c; }
+  .rz-fcard__list { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+  .rz-fcard__list li { position: relative; padding-left: 1rem; color: var(--muted); font-size: .92rem; line-height: 1.35; }
+  .rz-fcard__list li::before { content: "‣"; position: absolute; left: 0; color: var(--orange); font-weight: 800; }
+  .rz-fcard__list--links li { color: var(--navy); }
+  .rz-fcard__more { display: inline-block; margin-top: 1rem; color: var(--orange) !important; font-weight: 800; text-decoration: none !important; }
+  .rz-fcard__more:hover { text-decoration: underline !important; }
+
+  .rz-fcard__agent { display: flex; gap: .8rem; align-items: center; margin-bottom: 1rem; }
+  .rz-fcard__agent img { width: 68px; height: 68px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; }
+  .rz-fcard__agent > div { display: grid; gap: .1rem; }
+  .rz-fcard__agent strong { color: var(--navy); font-size: 1rem; }
+  .rz-fcard__agent span { color: var(--muted); font-size: .82rem; }
+  .rz-fcard__agent em { color: var(--muted); font-size: .82rem; }
+  .rz-fcard__btns { display: grid; gap: .5rem; }
+  .rz-fcard__btns .rz-btn { padding: .6rem .8rem; font-size: .9rem; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1100px) {
+    .rz-cards { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 960px) {
+    .rz-hero__inner { grid-template-columns: 1fr; }
+    .rz-hero__card { max-width: 420px; }
+    .rz-help__grid { grid-template-columns: repeat(3, 1fr); }
+    .rz-plans__grid { grid-template-columns: 1fr; }
+    .rz-enroll__grid { grid-template-columns: repeat(2, 1fr); }
+    .rz-local { grid-template-columns: 1fr; }
+    .rz-why { grid-template-columns: 1fr; }
+    .rz-why__img { height: 240px; -webkit-mask-image: none; mask-image: none; }
+    .rz-freehelp { grid-template-columns: 1fr; }
+    .rz-mini { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .rz-help__grid { grid-template-columns: repeat(2, 1fr); }
+    .rz-enroll__grid { grid-template-columns: 1fr; }
+    .rz-cards { grid-template-columns: 1fr; }
+    .rz-hero__btns .rz-btn { width: 100%; }
+    .rz-badge { width: 60px; height: 60px; font-size: 1.5rem; }
+  }
+</style>

@@ -109,6 +109,8 @@ const WINDOWS = [
 <ArticlePage context={context} bareHeader bareFooter>
   {/* ─── Hero ─────────────────────────────────────────────────────────── */}
   <section class="vh-hero">
+    <img class="vh-hero__bg" src="/pictures/medicarevernal.webp" alt="" width="1600" height="720" loading="eager" decoding="async" fetchpriority="high" />
+    <span class="vh-hero__scrim" aria-hidden="true"></span>
     <div class="vh-hero__copy">
       <h1 class="vh-hero__title">Medicare Help in <span>Vernal, Utah</span></h1>
 
@@ -134,68 +136,6 @@ const WINDOWS = [
       </div>
     </div>
 
-    {/* Illustrated Uintah Basin red-rock scene (inline, self-contained). */}
-    <div class="vh-hero__art" aria-hidden="true">
-      <svg class="vh-scene" viewBox="0 0 520 420" role="img" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="vhSky" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#bfe6f7"/>
-            <stop offset="1" stop-color="#eaf6fb"/>
-          </linearGradient>
-          <linearGradient id="vhRockA" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#e58a4d"/>
-            <stop offset="1" stop-color="#c2571f"/>
-          </linearGradient>
-          <linearGradient id="vhRockB" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#d9642e"/>
-            <stop offset="1" stop-color="#a8451a"/>
-          </linearGradient>
-          <linearGradient id="vhSand" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#f3dca8"/>
-            <stop offset="1" stop-color="#e7c98a"/>
-          </linearGradient>
-          <clipPath id="vhClip"><rect x="0" y="0" width="520" height="420" rx="24"/></clipPath>
-        </defs>
-
-        <g clip-path="url(#vhClip)">
-          <rect x="0" y="0" width="520" height="420" fill="url(#vhSky)"/>
-          <circle cx="410" cy="92" r="46" fill="#ffd98a" opacity="0.85"/>
-          <circle cx="410" cy="92" r="30" fill="#ffe9b8"/>
-
-          {/* distant mesa */}
-          <path d="M0 250 L70 250 L90 214 L180 214 L200 250 L300 250 L300 300 L0 300 Z" fill="#e79a6b" opacity="0.65"/>
-          {/* main buttes */}
-          <path d="M120 300 L120 150 L150 150 L150 130 L185 130 L185 150 L215 150 L215 300 Z" fill="url(#vhRockB)"/>
-          <path d="M300 300 L300 120 L330 120 L330 100 L360 100 L360 120 L392 120 L392 300 Z" fill="url(#vhRockA)"/>
-          <path d="M40 300 L40 200 L64 200 L64 184 L96 184 L96 300 Z" fill="url(#vhRockA)"/>
-          {/* rock strata lines */}
-          <path d="M300 175 H392 M300 205 H392 M120 205 H215 M120 235 H215" stroke="#8f3b16" stroke-width="3" opacity="0.28" stroke-linecap="round"/>
-
-          {/* winding river */}
-          <path d="M-10 330 C 120 312, 180 372, 300 344 C 400 320, 470 372, 540 350 L540 420 L-10 420 Z" fill="#7cc4e6"/>
-          {/* sand foreground */}
-          <path d="M-10 356 C 120 340, 200 392, 320 366 C 430 344, 480 392, 540 372 L540 420 L-10 420 Z" fill="url(#vhSand)"/>
-
-          {/* saguaro-style cactus */}
-          <g stroke="#5c8a4a" stroke-width="12" stroke-linecap="round" fill="none">
-            <path d="M78 372 V322"/>
-            <path d="M78 344 q-16 0 -16 -18 v-8"/>
-            <path d="M78 336 q16 0 16 -18 v-4"/>
-          </g>
-        </g>
-
-        {/* floating medical-icon badges */}
-        <g>
-          <circle cx="250" cy="70" r="26" fill="#ffffff" stroke="#e2edf6"/>
-          <path d="M250 58 v24 M238 70 h24" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
-          <circle cx="150" cy="118" r="21" fill="#ffffff" stroke="#e2edf6"/>
-          <path d="M141 118 q9 -12 9 4 q0 -16 9 -4" fill="none" stroke="#d6455f" stroke-width="4" stroke-linecap="round"/>
-          <path d="M141 118 h4 l2 5 l3 -9 l2 4 h6" fill="none" stroke="#d6455f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="368" cy="150" r="19" fill="#ffffff" stroke="#e2edf6"/>
-          <path d="M361 150 h14 M368 143 v14" stroke="#0d9488" stroke-width="4" stroke-linecap="round"/>
-        </g>
-      </svg>
-    </div>
   </section>
 
   {/* ─── What we do ───────────────────────────────────────────────────── */}
@@ -292,41 +232,42 @@ const WINDOWS = [
 
   /* ── Hero ─────────────────────────────────────────────────────────────── */
   .vh-hero {
-    display: grid;
-    grid-template-columns: 1.05fr 1fr;
-    align-items: center;
-    gap: 2.5rem;
-    background: linear-gradient(180deg, #eaf4fb 0%, #f5fafd 100%);
-    border: 1px solid #dbe6f2;
+    position: relative;
+    overflow: hidden;
     border-radius: 26px;
-    padding: 2.5rem 2.75rem;
+    background: #0b2c45;
+    padding: clamp(2rem, 4vw, 3.75rem) clamp(1.5rem, 3.5vw, 3rem);
     margin: 0.25rem 0 2.75rem;
+    box-shadow: 0 20px 50px rgba(11, 44, 69, 0.20);
   }
+  .vh-hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+  .vh-hero__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(90deg, rgba(6,26,43,.6) 0%, rgba(6,26,43,.3) 45%, rgba(6,26,43,0) 74%),
+      linear-gradient(180deg, rgba(6,26,43,0) 60%, rgba(6,26,43,.2) 100%);
+  }
+  .vh-hero__copy { position: relative; z-index: 2; max-width: 46rem; }
+
   .vh-hero__title {
     font-size: clamp(2.1rem, 4.8vw, 3.3rem);
     line-height: 1.06;
     font-weight: 800;
-    color: #0b2c45;
+    color: #fff;
     margin: 0 0 1rem;
+    text-shadow: 0 2px 14px rgba(0,0,0,.45);
   }
-  .vh-hero__title span { color: #c2571f; }
+  .vh-hero__title span { color: #f4922e; }
 
   .vh-byline { display: flex; align-items: center; gap: 0.7rem; margin: 0 0 1.15rem; }
-  .vh-byline__photo { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; object-position: top center; border: 2px solid #fff; box-shadow: 0 5px 14px rgba(11,44,69,0.16); flex: none; }
-  .vh-byline__text { color: #475569; font-size: 0.92rem; line-height: 1.35; }
-  .vh-byline__text strong { color: #0b2c45; }
-  .vh-byline__text em { display: block; font-style: normal; font-size: 0.82rem; color: #7c8a99; }
+  .vh-byline__photo { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; object-position: top center; border: 2px solid #fff; box-shadow: 0 5px 14px rgba(0,0,0,0.35); flex: none; }
+  .vh-byline__text { color: #e6eef6; font-size: 0.92rem; line-height: 1.35; text-shadow: 0 1px 8px rgba(0,0,0,.4); }
+  .vh-byline__text strong { color: #fff; }
+  .vh-byline__text em { display: block; font-style: normal; font-size: 0.82rem; color: #c3d3e2; }
 
-  .vh-hero__lede { font-size: 1.06rem; color: #47566a; line-height: 1.6; margin: 0 0 1.6rem; max-width: 46ch; }
-  .vh-hero__lede strong { color: #0b2c45; }
+  .vh-hero__lede { font-size: 1.06rem; color: #eaf1f7; line-height: 1.6; margin: 0 0 1.6rem; max-width: 46ch; text-shadow: 0 1px 10px rgba(0,0,0,.4); }
+  .vh-hero__lede strong { color: #fff; }
   .vh-hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-
-  .vh-hero__art { display: flex; justify-content: center; }
-  .vh-scene {
-    width: 100%; height: auto; max-width: 520px; display: block;
-    border-radius: 24px;
-    box-shadow: 0 20px 46px rgba(11, 44, 69, 0.20);
-  }
 
   /* ── Buttons (shared) ─────────────────────────────────────────────────── */
   .vh-btn {
@@ -465,9 +406,7 @@ const WINDOWS = [
 
   /* ── Responsive ───────────────────────────────────────────────────────── */
   @media (max-width: 900px) {
-    .vh-hero { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
     .vh-hero__lede { max-width: none; }
-    .vh-hero__art { order: -1; }
     .vh-work { grid-template-columns: 1fr; }
     .vh-cta { grid-template-columns: 1fr; text-align: center; justify-items: center; }
     .vh-cta__msg p { max-width: none; }
