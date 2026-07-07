@@ -1,13 +1,18 @@
 ---
-// src/pages/medicare-duchesne-utah.astro — MIGRATED to the Page Framework (M12).
-// URL, title, description, H1 and publish date preserved from the ranking legacy
-// page. Now on ArticlePage: automatic schema, byline, related, marketing
-// disclaimer. Correctness fixes: removed two literal {YEAR} bugs and the stale
-// $257 Part B deductible → figuresFor() data layer. Second 'local' silo page.
+// src/pages/medicare-duchesne-utah.astro — MIGRATED to the Page Framework (M12),
+// then REDESIGNED (visual pass) from a text-wall into a scannable landing page to
+// match the Roosevelt flagship: golden-hour Basin hero with trust band, "Medicare
+// Coverage Options" plan cards, a "Why Work With a Local Agent" split with agent
+// card, and a dark CTA band. All SEO prose, internal links, the Part B deductible
+// figure, FAQs and schema are preserved — only the presentation changed. bareHeader
+// renders the custom hero; the default FAQ/sources/related/CTA/disclaimer footer
+// still renders from context.
 import ArticlePage from '../components/layout/ArticlePage.astro';
 import { figuresFor } from '../data/annualMedicareData';
 import { BUSINESS } from '../data/business';
 import { usd } from '../lib/formatters';
+import { relatedFor } from '../lib/related';
+import { PAGE_INDEX } from '../data/pageIndex';
 import type { PageContext } from '../types/Page';
 
 const f = figuresFor();
@@ -61,40 +66,489 @@ const context: PageContext = {
     { name: 'Duchesne, Utah', href: '/medicare-duchesne-utah.html' },
   ],
 };
+
+const tel = `tel:${BUSINESS.phoneTel}`;
+const partBDeductible = usd(f.partB.deductible);
+// Same related-links computation the layout uses, so our custom card stays in sync.
+const related = relatedFor(context.page.taxonomy, PAGE_INDEX, '/medicare-duchesne-utah.html').slice(0, 4);
 ---
 
-<ArticlePage context={context}>
-  <p>If you live in or near Duchesne, Utah, finding the right Medicare plan can feel overwhelming — especially with limited local resources. Vernal Medicare provides free, licensed Medicare guidance to Duchesne residents, helping you navigate Advantage plans, Medigap supplements, and Part D drug coverage without leaving the Basin.</p>
+<ArticlePage context={context} bareHeader bareFooter>
+  <div class="dz">
 
-  <h2>Medicare Coverage Options in Duchesne</h2>
-  <p>Duchesne sits at the western edge of the Uintah Basin, about 60 miles from Vernal. Healthcare access here depends heavily on having the right plan. The wrong Medicare choice can mean unexpected out-of-network bills, uncovered prescriptions, or gaps in specialist access.</p>
+    <!-- ================= HERO ================= -->
+    <section class="dz-hero">
+      <img src="pictures/medicareduchesne.webp" alt="" class="dz-hero__bg" width="1600" height="700" loading="eager" decoding="async" fetchpriority="high" />
+      <span class="dz-hero__scrim" aria-hidden="true"></span>
+      <div class="dz-hero__inner">
+        <div class="dz-hero__copy">
+          <span class="dz-eyebrow">Duchesne, UT · The Uintah Basin</span>
+          <h1>Medicare Agent Serving <span class="dz-hl">Duchesne, Utah</span> — <span class="dz-year">2026</span></h1>
+          <p class="dz-hero__lead">
+            Local, licensed help you can trust. We make Medicare simple so you can choose the
+            right plan with confidence.
+          </p>
+          <div class="dz-hero__btns">
+            <a href={tel} class="dz-btn dz-btn--primary">📞 Call {BUSINESS.phone} <span>(TTY {BUSINESS.tty})</span></a>
+            <a href={`mailto:${BUSINESS.email}`} class="dz-btn dz-btn--ghost">✉️ Email Us</a>
+          </div>
+        </div>
 
-  <h3>Medicare Advantage in Duchesne County</h3>
-  <p>Medicare Advantage plans bundle hospital, medical, and usually prescription drug coverage into one plan. Some include dental, vision, hearing, and over-the-counter allowances. For Duchesne residents, the critical question is network coverage — does the plan include local clinics, the providers you trust, and regional hospitals? We verify all of this before enrollment.</p>
+        <ul class="dz-hero__trust">
+          <li><span class="dz-trust__ic" aria-hidden="true">📍</span><strong>Local Agent</strong><span>Duchesne, UT</span></li>
+          <li><span class="dz-trust__ic" aria-hidden="true">🛡️</span><strong>Trusted Guidance</strong><span>Year-Round Support</span></li>
+          <li><span class="dz-trust__ic" aria-hidden="true">$</span><strong>No Cost</strong><span>To You</span></li>
+        </ul>
+      </div>
+    </section>
 
-  <h3>Medigap for Rural Duchesne Residents</h3>
-  <p>Medicare Supplement plans (Medigap) work with Original Medicare and let you see any Medicare-accepting provider nationwide. For Duchesne residents who regularly travel to Provo, Salt Lake City, or other areas for specialist care, Medigap eliminates network worries. <a href="plan-g-vs-plan-n-vernal.html">Plan G</a> covers everything except the annual Part B deductible ({usd(f.partB.deductible)} in {f.year}). Plan N offers lower premiums with small copays for office visits.</p>
+    <!-- ================= COVERAGE OPTIONS ================= -->
+    <section class="dz-plans">
+      <h2 class="dz-h2 dz-h2--center">Medicare Coverage Options in Duchesne</h2>
+      <p class="dz-sub">The right choice depends on your doctors, prescriptions, preferred pharmacy, and budget — we compare all of it with you.</p>
+      <div class="dz-plans__grid">
+        <article class="dz-plan dz-plan--blue">
+          <span class="dz-plan__ic dz-plan__ic--blue" aria-hidden="true">🛡️</span>
+          <h3>Medicare Advantage (Part C)</h3>
+          <p>All-in-one plans that may include dental, vision, hearing, and more.</p>
+          <a href="best-medicare-advantage-vernal.html" class="dz-plan__link dz-plan__link--blue">Explore Advantage Plans →</a>
+        </article>
+        <article class="dz-plan dz-plan--green">
+          <span class="dz-plan__ic dz-plan__ic--green" aria-hidden="true">💊</span>
+          <h3>Medigap</h3>
+          <p>Help pay your out-of-pocket costs with predictable coverage options.</p>
+          <a href="plan-g-vs-plan-n-vernal.html" class="dz-plan__link dz-plan__link--green">View Medigap Plans →</a>
+        </article>
+        <article class="dz-plan dz-plan--purple">
+          <span class="dz-plan__ic dz-plan__ic--purple" aria-hidden="true">℞</span>
+          <h3>Part D Prescription Drug Plans</h3>
+          <p>Compare drug coverage and find the lowest cost for your medications.</p>
+          <a href="best-part-d-plans-vernal.html" class="dz-plan__link dz-plan__link--purple">Compare Drug Plans →</a>
+        </article>
+        <article class="dz-plan dz-plan--orange">
+          <span class="dz-plan__ic dz-plan__ic--orange" aria-hidden="true">👥</span>
+          <h3>Medigap for Rural Residents</h3>
+          <p>Special care for rural Duchesne residents who travel for care.</p>
+          <a href="medicare-supplement-vs-advantage.html" class="dz-plan__link dz-plan__link--orange">Learn More →</a>
+        </article>
+      </div>
+    </section>
 
-  <h3>Prescription Drug Coverage</h3>
-  <p>Part D drug plans vary significantly in formulary coverage and pharmacy pricing. We compare your specific medications against available plans and check pricing at Duchesne-area pharmacies to find the lowest total cost.</p>
+    <!-- ================= WHY LOCAL + AGENT CARD ================= -->
+    <section class="dz-why">
+      <div class="dz-why__body">
+        <h2 class="dz-h2 dz-h2--rule">Why Work With a Local Agent?</h2>
+        <p>
+          Rocco DeLuca understands the unique healthcare needs of Duchesne residents. He compares
+          plans from top providers, explains your options clearly, and supports you year-round —
+          not just during enrollment. National call centers and online tools can’t account for the
+          realities of healthcare in rural Utah.
+        </p>
 
-  <h2>Why Work With a Local Agent?</h2>
-  <p>National call centers and online tools cannot account for the realities of healthcare in rural Utah. A local agent understands which providers serve Duchesne, which plans have reliable networks in the Basin, and which coverage gaps catch rural beneficiaries off guard. Rocco DeLuca provides year-round support — not just during enrollment season.</p>
+        <div class="dz-mini">
+          <div class="dz-mini__item">
+            <span class="dz-mini__ic dz-mini__ic--blue" aria-hidden="true">👥</span>
+            <div><strong>Local expertise</strong><span>In Duchesne &amp; the Uintah Basin</span></div>
+          </div>
+          <div class="dz-mini__item">
+            <span class="dz-mini__ic dz-mini__ic--green" aria-hidden="true">🤝</span>
+            <div><strong>Top-rated plans</strong><span>From providers you can trust</span></div>
+          </div>
+          <div class="dz-mini__item">
+            <span class="dz-mini__ic dz-mini__ic--purple" aria-hidden="true">📅</span>
+            <div><strong>Year-round support</strong><span>By phone, video, or in person</span></div>
+          </div>
+          <div class="dz-mini__item">
+            <span class="dz-mini__ic dz-mini__ic--orange" aria-hidden="true">$</span>
+            <div><strong>Always free</strong><span>No cost for our services — ever</span></div>
+          </div>
+        </div>
+      </div>
 
-  <h2>Service Area Beyond Duchesne</h2>
-  <p>Vernal Medicare serves the entire Uintah Basin including Duchesne, <a href="medicare-roosevelt-utah.html">Roosevelt</a>, Myton, Tabiona, Altamont, Neola, and surrounding communities. We also serve Vernal, Naples, Maeser, Jensen, and all of Uintah County. Whether by phone, video call, or in-person meeting, help is available at no cost to you.</p>
+      <aside class="dz-agentcard">
+        <div class="dz-agentcard__head">
+          <img src="pictures/rocco.webp" alt="Rocco DeLuca, licensed Medicare agent" width="60" height="60" loading="lazy" decoding="async" />
+          <h2>Talk to a Local, Licensed Agent</h2>
+        </div>
+        <p>Get answers, compare plans, and enroll with confidence.</p>
+        <a href={tel} class="dz-btn dz-btn--primary dz-btn--block">📞 Call {BUSINESS.phone} <span>(TTY {BUSINESS.tty})</span></a>
+        <a href={BUSINESS.quoteUrl} class="dz-btn dz-btn--light dz-btn--block" target="_blank" rel="noopener noreferrer">📋 Get a Free Quote</a>
+      </aside>
+    </section>
 
-  <h2>Getting Started</h2>
-  <p>Call <a href={`tel:${BUSINESS.phoneTel}`}>{BUSINESS.phone}</a> for a free Medicare consultation. We will review your current coverage, compare available plans for {f.year}, check your prescriptions and doctors, and help you enroll if a better option exists. There is never a cost for our services.</p>
+    <!-- ================= LOCAL FOCUS (scannable) ================= -->
+    <section class="dz-focus">
+      <h2 class="dz-h2 dz-h2--center">Medicare in Duchesne County</h2>
+      <p class="dz-sub">
+        Duchesne sits at the western edge of the Uintah Basin, about 60 miles from Vernal. Out here,
+        the right plan is the one that actually covers your doctors, your pharmacy, and the hospitals
+        you’d travel to.
+      </p>
 
-  <p>Learn more: <a href="medicare-supplement-vs-advantage.html">Medigap vs Medicare Advantage</a> | <a href="medicare-part-a-vs-part-b.html">Part A vs Part B</a> | <a href="when-to-enroll-medicare-utah.html">Enrollment timing in Utah</a></p>
+      <div class="dz-focus__grid">
+        <div class="dz-infocard">
+          <span class="dz-infocard__ic dz-infocard__ic--blue" aria-hidden="true">✓</span>
+          <h3>What we check before you enroll</h3>
+          <ul class="dz-check">
+            <li>Your local clinics are in-network</li>
+            <li>The providers you trust accept the plan</li>
+            <li>Regional hospitals are covered — no surprise bills</li>
+          </ul>
+        </div>
 
-  <p style="text-align:center;margin-top:2rem;">
-    <a href={BUSINESS.quoteUrl} class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
-  </p>
-  <p style="text-align:center;margin-top:1rem;">
-    <strong>Call Rocco:</strong> <a href={`tel:${BUSINESS.phoneTel}`}>{BUSINESS.phone}</a> (TTY: {BUSINESS.tty}) &bull; <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
-  </p>
+        <div class="dz-infocard">
+          <span class="dz-infocard__ic dz-infocard__ic--green" aria-hidden="true">🩺</span>
+          <h3>Medigap for rural residents</h3>
+          <p>
+            <a href="plan-g-vs-plan-n-vernal.html">Plan G</a> pairs with Original Medicare and lets
+            you see any Medicare-accepting provider nationwide — ideal when specialist care means a
+            trip to Provo or Salt Lake City. It covers everything except the annual Part B deductible
+            (<strong>{partBDeductible} in {f.year}</strong>); Plan N trades small office-visit copays
+            for a lower premium.
+          </p>
+        </div>
 
-  <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>. Plan availability and costs change annually.</em></p>
+        <div class="dz-infocard">
+          <span class="dz-infocard__ic dz-infocard__ic--purple" aria-hidden="true">℞</span>
+          <h3>Part D drug coverage</h3>
+          <p>
+            We compare your exact medications against every available plan and check pricing at
+            Duchesne-area pharmacies to find the lowest total cost for the year — not just the lowest
+            premium.
+          </p>
+        </div>
+      </div>
+
+      <div class="dz-area">
+        <span class="dz-area__label">📍 We serve the whole Basin</span>
+        <ul class="dz-chips">
+          <li>Duchesne</li>
+          <li><a href="medicare-roosevelt-utah.html" class="dz-chip__link">Roosevelt</a></li>
+          <li>Myton</li>
+          <li>Tabiona</li>
+          <li>Altamont</li>
+          <li>Neola</li>
+          <li>+ surrounding communities</li>
+        </ul>
+        <p class="dz-area__note">By phone, video, or in person — at no cost to you.</p>
+      </div>
+
+      <p class="dz-basics">
+        New to Medicare? Start with
+        <a href="medicare-supplement-vs-advantage.html">Medigap vs Medicare Advantage</a> ·
+        <a href="medicare-part-a-vs-part-b.html">Part A vs Part B</a> ·
+        <a href="when-to-enroll-medicare-utah.html">when to enroll in Utah</a>.
+      </p>
+    </section>
+
+    <!-- ================= FOOTER CARD ROW ================= -->
+    <section class="dz-cards">
+      <article class="dz-fcard">
+        <div class="dz-fcard__head"><span class="dz-fcard__ic dz-fcard__ic--orange" aria-hidden="true">❓</span><h3>Frequently Asked Questions</h3></div>
+        <ul class="dz-fcard__list">
+          {context.page.faqs?.map((q) => <li>{q.question}</li>)}
+        </ul>
+        <a href="faq.html" class="dz-fcard__more">View all FAQs →</a>
+      </article>
+
+      <article class="dz-fcard">
+        <div class="dz-fcard__head"><span class="dz-fcard__ic dz-fcard__ic--blue" aria-hidden="true">🌐</span><h3>Sources</h3></div>
+        <ul class="dz-fcard__list dz-fcard__list--links">
+          {context.page.sources?.map((s) => <li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a> — {s.publisher}</li>)}
+        </ul>
+      </article>
+
+      <article class="dz-fcard">
+        <div class="dz-fcard__head"><span class="dz-fcard__ic dz-fcard__ic--purple" aria-hidden="true">🔗</span><h3>Related</h3></div>
+        <ul class="dz-fcard__list dz-fcard__list--links">
+          {related.map((r) => <li><a href={r.href}>{r.label}</a></li>)}
+        </ul>
+      </article>
+
+      <article class="dz-fcard dz-fcard--photo">
+        <img src="pictures/help-you-deserve.webp" alt="Local, trusted Medicare help for Duchesne residents" class="dz-fcard__photo" width="480" height="320" loading="lazy" decoding="async" />
+        <div class="dz-fcard__photobody">
+          <h3>We’re here for Duchesne.</h3>
+          <p>Local help. Real answers. No pressure.</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- ================= CTA BAND ================= -->
+    <section class="dz-cta">
+      <div class="dz-cta__copy">
+        <span class="dz-cta__ic" aria-hidden="true">📅</span>
+        <div>
+          <h2>Ready to Compare Plans or Enroll?</h2>
+          <p>Call Rocco DeLuca for a free Medicare consultation.</p>
+        </div>
+      </div>
+      <div class="dz-cta__btns">
+        <a href={tel} class="dz-btn dz-btn--primary">📞 Call {BUSINESS.phone} (TTY {BUSINESS.tty})</a>
+        <a href={BUSINESS.quoteUrl} class="dz-btn dz-btn--light" target="_blank" rel="noopener noreferrer">Get a Free Quote</a>
+      </div>
+    </section>
+
+  </div>
 </ArticlePage>
+
+<style>
+  /* ============ Duchesne landing page (scoped) ============ */
+  .dz {
+    --navy: #0b2c45;
+    --navy-2: #002b49;
+    --orange: #e07817;
+    --orange-2: #f4922e;
+    --ink: #223140;
+    --muted: #5a6b7b;
+    --line: #e2e8f0;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .dz * { box-sizing: border-box; }
+  .dz section { margin: 3rem 0; }
+
+  .dz .dz-h2 {
+    font-size: clamp(1.5rem, 1rem + 1.4vw, 2rem);
+    color: var(--navy);
+    margin: 0 0 .5rem;
+    line-height: 1.2;
+  }
+  .dz .dz-h2--center { text-align: center; }
+  .dz .dz-h2--center::after {
+    content: "";
+    display: block;
+    width: 64px; height: 4px;
+    margin: .6rem auto 0;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--orange), var(--orange-2));
+  }
+  .dz .dz-sub { text-align: center; color: var(--muted); margin: 0 auto 1.8rem; max-width: 640px; }
+
+  /* Links inside the design → brand navy, not the global magenta */
+  .dz a:not(.dz-btn):not(.dz-plan__link):not(.dz-fcard__more):not(.dz-chip__link) {
+    color: var(--navy); font-weight: 700; text-decoration: underline; text-underline-offset: 2px;
+  }
+  .dz a:not(.dz-btn):not(.dz-plan__link):not(.dz-fcard__more):not(.dz-chip__link):hover { color: var(--orange); }
+
+  /* ---------- Buttons ---------- */
+  .dz .dz-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+    padding: .8rem 1.2rem; border-radius: 12px; font-weight: 800; text-decoration: none;
+    font-size: 1rem; line-height: 1.15; border: 2px solid transparent;
+    transition: transform .12s ease, box-shadow .12s ease, background .2s ease;
+  }
+  .dz .dz-btn span { font-weight: 600; opacity: .9; font-size: .85em; }
+  .dz .dz-btn:hover { transform: translateY(-1px); }
+  .dz .dz-btn--block { display: flex; width: 100%; }
+  .dz .dz-btn--primary { background: linear-gradient(180deg, var(--orange-2), var(--orange)); color: #fff; box-shadow: 0 8px 20px rgba(224,120,23,.30); }
+  .dz .dz-btn--ghost { background: #fff; color: var(--navy); border-color: #fff; }
+  .dz .dz-btn--light { background: #fff; color: var(--navy); }
+
+  /* ---------- HERO ---------- */
+  .dz-hero {
+    position: relative; overflow: hidden; border-radius: 20px;
+    background: #0b2c45;
+    box-shadow: 0 20px 50px rgba(11,44,69,.18);
+    margin-top: 1rem !important;
+  }
+  .dz-hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+  .dz-hero__scrim {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(90deg, rgba(6,26,43,.60) 0%, rgba(6,26,43,.32) 42%, rgba(6,26,43,0) 70%),
+      linear-gradient(180deg, rgba(6,26,43,0) 55%, rgba(6,26,43,.22) 100%);
+  }
+  .dz-hero__inner {
+    position: relative; z-index: 2;
+    padding: clamp(1.4rem, 3vw, 3rem);
+  }
+  .dz-eyebrow {
+    display: inline-block; background: rgba(11,44,69,.9); color: #fff; font-weight: 700;
+    font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; padding: .3rem .7rem; border-radius: 999px;
+  }
+  .dz-hero__copy h1 {
+    color: #fff; font-size: clamp(2rem, 1.2rem + 3vw, 3.2rem); line-height: 1.08;
+    margin: .8rem 0 .6rem; max-width: 16ch; text-shadow: 0 2px 12px rgba(0,0,0,.45);
+  }
+  .dz .dz-hl { color: #fff; }
+  .dz .dz-year { color: var(--orange-2); }
+  .dz-hero__lead { color: #eaf1f7; font-size: 1.08rem; max-width: 42ch; margin: 0 0 1.2rem; text-shadow: 0 1px 8px rgba(0,0,0,.4); }
+  .dz-hero__btns { display: flex; flex-wrap: wrap; gap: .7rem; }
+
+  .dz-hero__trust {
+    list-style: none; margin: 1.8rem 0 0; padding: 1rem 1.2rem;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+    background: rgba(11,44,69,.72); border: 1px solid rgba(255,255,255,.14);
+    border-radius: 16px; backdrop-filter: blur(3px); max-width: 720px;
+  }
+  .dz-hero__trust li { display: grid; grid-template-columns: auto 1fr; column-gap: .7rem; align-items: center; color: #fff; }
+  .dz-trust__ic {
+    grid-row: span 2; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+    font-size: 1.15rem; font-weight: 800; border: 2px solid rgba(255,255,255,.55);
+  }
+  .dz-hero__trust strong { font-size: 1rem; align-self: end; }
+  .dz-hero__trust li > span:last-child { color: #c7d7e5; font-size: .82rem; align-self: start; }
+
+  /* ---------- PLAN OPTION CARDS ---------- */
+  .dz-plans__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
+  .dz-plan {
+    background: #fff; border: 1px solid var(--line); border-top: 4px solid var(--line);
+    border-radius: 16px; padding: 1.6rem 1.4rem; text-align: center;
+    box-shadow: 0 8px 24px rgba(11,44,69,.06); transition: transform .15s ease, box-shadow .15s ease;
+    display: flex; flex-direction: column;
+  }
+  .dz-plan:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(11,44,69,.12); }
+  .dz-plan--blue { border-top-color: var(--navy); }
+  .dz-plan--green { border-top-color: #1f8a4c; }
+  .dz-plan--purple { border-top-color: #7c3aed; }
+  .dz-plan--orange { border-top-color: var(--orange); }
+  .dz-plan__ic {
+    width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center;
+    font-size: 1.6rem; margin: 0 auto 1rem; background: #f5f9fc;
+  }
+  .dz-plan__ic--blue { color: var(--navy); background: #eef4fb; }
+  .dz-plan__ic--green { color: #1f8a4c; background: #eef7f1; }
+  .dz-plan__ic--purple { color: #7c3aed; background: #f2ecfd; }
+  .dz-plan__ic--orange { color: var(--orange); background: #fdf1e4; }
+  .dz-plan h3 { color: var(--navy); margin: 0 0 .5rem; font-size: 1.12rem; line-height: 1.2; }
+  .dz-plan p { color: var(--muted); margin: 0 0 1.1rem; font-size: .95rem; flex: 1; }
+  .dz-plan__link {
+    display: block; margin: 0 -1.4rem -1.6rem; padding: .9rem; font-weight: 800; text-decoration: none;
+    border-top: 1px solid var(--line); border-radius: 0 0 15px 15px;
+  }
+  .dz-plan__link--blue { color: var(--navy); background: #eef4fb; }
+  .dz-plan__link--green { color: #1f8a4c; background: #eef7f1; }
+  .dz-plan__link--purple { color: #7c3aed; background: #f2ecfd; }
+  .dz-plan__link--orange { color: var(--orange); background: #fdf1e4; }
+  .dz-plan__link:hover { filter: brightness(.97); }
+
+  /* ---------- WHY LOCAL + AGENT CARD ---------- */
+  .dz-why { display: grid; grid-template-columns: 1.5fr .9fr; gap: 1.8rem; align-items: start; }
+  .dz .dz-h2--rule { margin-bottom: .7rem; }
+  .dz .dz-h2--rule::after { content: ""; display: block; width: 56px; height: 4px; margin: .55rem 0 0; border-radius: 4px; background: linear-gradient(90deg, var(--orange), var(--orange-2)); }
+  .dz-why__body > p { color: var(--ink); font-size: 1.04rem; }
+  .dz-mini { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; }
+  .dz-mini__item {
+    display: flex; gap: .85rem; align-items: center;
+    background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: .95rem 1.05rem;
+    box-shadow: 0 6px 18px rgba(11,44,69,.05); transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .dz-mini__item:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(11,44,69,.11); }
+  .dz-mini__ic {
+    flex: 0 0 auto; width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center;
+    font-weight: 800; font-size: 1.15rem;
+  }
+  .dz-mini__ic--blue { background: #eef4fb; color: var(--navy); }
+  .dz-mini__ic--green { background: #eef7f1; color: #1f8a4c; }
+  .dz-mini__ic--purple { background: #f2ecfd; color: #7c3aed; }
+  .dz-mini__ic--orange { background: #fdf1e4; color: var(--orange); }
+  .dz-mini__item > div { display: grid; gap: .1rem; min-width: 0; }
+  .dz-mini__item strong { color: var(--navy); font-size: .98rem; line-height: 1.2; }
+  .dz-mini__item span { color: var(--muted); font-size: .86rem; line-height: 1.35; }
+
+  .dz-agentcard {
+    background: linear-gradient(160deg, var(--navy) 0%, #123f60 100%); color: #fff;
+    border-radius: 18px; padding: 1.6rem; box-shadow: 0 18px 40px rgba(11,44,69,.28);
+  }
+  .dz-agentcard__head { display: flex; align-items: center; gap: .8rem; margin-bottom: .7rem; }
+  .dz-agentcard__head img { flex: 0 0 auto; width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,.5); }
+  .dz-agentcard__head h2 { color: #fff; font-size: 1.3rem; margin: 0; line-height: 1.15; }
+  .dz-agentcard > p { color: #cfe0ee; margin: 0 0 1.1rem; }
+  .dz-agentcard .dz-btn { margin-top: .7rem; }
+
+  /* ---------- LOCAL FOCUS (info cards + chips) ---------- */
+  .dz-focus__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 1.6rem; }
+  .dz-infocard {
+    background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 1.5rem;
+    box-shadow: 0 8px 24px rgba(11,44,69,.06); transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .dz-infocard:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(11,44,69,.12); }
+  .dz-infocard__ic {
+    width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
+    font-size: 1.4rem; font-weight: 800; margin-bottom: .9rem;
+  }
+  .dz-infocard__ic--blue { color: var(--navy); background: #eef4fb; }
+  .dz-infocard__ic--green { color: #1f8a4c; background: #eef7f1; }
+  .dz-infocard__ic--purple { color: #7c3aed; background: #f2ecfd; }
+  .dz-infocard h3 { color: var(--navy); margin: 0 0 .7rem; font-size: 1.15rem; line-height: 1.2; }
+  .dz-infocard p { color: var(--muted); margin: 0; font-size: .96rem; line-height: 1.5; }
+  .dz-check { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+  .dz-check li { position: relative; padding-left: 1.7rem; color: var(--ink); font-size: .96rem; line-height: 1.4; }
+  .dz-check li::before {
+    content: "✓"; position: absolute; left: 0; top: -.05rem;
+    width: 1.2rem; height: 1.2rem; border-radius: 50%; display: grid; place-items: center;
+    background: #eef7f1; color: #1f8a4c; font-weight: 900; font-size: .72rem;
+  }
+
+  /* service-area chips */
+  .dz-area {
+    text-align: center; background: #eef4fa; border: 1px solid #d8e6f2;
+    border-radius: 16px; padding: 1.5rem;
+  }
+  .dz-area__label { display: block; font-weight: 800; color: var(--navy); margin-bottom: 1rem; font-size: 1.05rem; }
+  .dz-chips { list-style: none; margin: 0 0 .9rem; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .55rem; }
+  .dz-chips li {
+    background: #fff; border: 1px solid #cfe0ee; border-radius: 999px; padding: .42rem .95rem;
+    font-weight: 700; color: var(--navy); font-size: .92rem;
+  }
+  .dz-chips li:last-child { background: transparent; border-color: transparent; color: var(--muted); font-weight: 600; }
+  .dz-chip__link { color: var(--navy); text-decoration: none; }
+  .dz-chip__link:hover { color: var(--orange); }
+  .dz-area__note { margin: 0; color: var(--muted); font-size: .95rem; }
+
+  .dz-basics { text-align: center; color: var(--muted); font-size: .96rem; margin-top: 1.6rem; }
+
+  /* ---------- FOOTER CARD ROW ---------- */
+  .dz-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
+  .dz-fcard { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 1.3rem; box-shadow: 0 8px 24px rgba(11,44,69,.06); }
+  .dz-fcard__head { display: flex; align-items: center; gap: .6rem; margin-bottom: .9rem; }
+  .dz-fcard__head h3 { margin: 0; font-size: 1.02rem; color: var(--navy); line-height: 1.15; }
+  .dz-fcard__ic { flex: 0 0 auto; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-size: 1.15rem; color: #fff; }
+  .dz-fcard__ic--orange { background: var(--orange); }
+  .dz-fcard__ic--blue { background: var(--navy); }
+  .dz-fcard__ic--purple { background: #7c3aed; }
+  .dz-fcard__list { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+  .dz-fcard__list li { position: relative; padding-left: 1rem; color: var(--muted); font-size: .9rem; line-height: 1.35; }
+  .dz-fcard__list li::before { content: "‣"; position: absolute; left: 0; color: var(--orange); font-weight: 800; }
+  .dz-fcard__list--links li { color: var(--navy); }
+  .dz-fcard__more { display: inline-block; margin-top: 1rem; color: var(--orange); font-weight: 800; text-decoration: none; }
+  .dz-fcard__more:hover { text-decoration: underline; }
+
+  .dz-fcard--photo { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+  .dz-fcard__photo { width: 100%; height: 150px; object-fit: cover; display: block; }
+  .dz-fcard__photobody { padding: 1.1rem 1.3rem; }
+  .dz-fcard__photobody h3 { margin: 0 0 .3rem; color: var(--navy); font-size: 1.1rem; }
+  .dz-fcard__photobody p { margin: 0; color: var(--muted); font-size: .92rem; }
+
+  /* ---------- CTA BAND ---------- */
+  .dz-cta {
+    display: flex; flex-wrap: wrap; gap: 1.2rem; align-items: center; justify-content: space-between;
+    background: linear-gradient(160deg, var(--navy) 0%, #123f60 100%); color: #fff;
+    border-radius: 18px; padding: 1.6rem 1.8rem; box-shadow: 0 18px 40px rgba(11,44,69,.28);
+  }
+  .dz-cta__copy { display: flex; align-items: center; gap: 1rem; }
+  .dz-cta__ic { flex: 0 0 auto; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-size: 1.4rem; border: 2px solid rgba(255,255,255,.5); }
+  .dz-cta__copy h2 { color: #fff; margin: 0 0 .2rem; font-size: 1.35rem; line-height: 1.15; }
+  .dz-cta__copy p { color: #cfe0ee; margin: 0; }
+  .dz-cta__btns { display: flex; flex-wrap: wrap; gap: .7rem; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1100px) {
+    .dz-plans__grid { grid-template-columns: repeat(2, 1fr); }
+    .dz-cards { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 860px) {
+    .dz-why { grid-template-columns: 1fr; }
+    .dz-focus__grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .dz-hero__trust { grid-template-columns: 1fr; }
+    .dz-plans__grid { grid-template-columns: 1fr; }
+    .dz-cards { grid-template-columns: 1fr; }
+    .dz-mini { grid-template-columns: 1fr; }
+    .dz-hero__btns .dz-btn { width: 100%; }
+    .dz-cta { flex-direction: column; align-items: flex-start; }
+    .dz-cta__btns .dz-btn { width: 100%; }
+  }
+</style>
