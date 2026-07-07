@@ -40,6 +40,38 @@
     "home": "Home",
     "self": "Turning 65"
   },
+  "hero": {
+    "lede": "The choices you make now are some of the hardest to undo. This {stepCount}-step journey helps you sign up the right way and avoid costly mistakes.",
+    "badges": [
+      "3-Month Enrollment Window",
+      "Avoid Late Penalties",
+      "Make the Right Choices",
+      "Personal, Local Help"
+    ],
+    "glanceHeading": "At a Glance",
+    "glance": [
+      "Follow {stepCount} simple steps",
+      "Get clear, plain-English guidance",
+      "Know what to do and when",
+      "Local help when you need it"
+    ]
+  },
+  "helpfulLinks": {
+    "heading": "Helpful Links & Tools",
+    "items": [
+      { "label": "Medicare.gov — Get started with Medicare", "href": "https://www.medicare.gov/basics/get-started-with-medicare", "external": true },
+      { "label": "Medicare Enrollment Periods Explained", "href": "medicare-enrollment-periods.html" },
+      { "label": "2026 Medicare Checklist", "href": "medicare-checklist-2026.html" },
+      { "label": "When to Enroll in Medicare in Utah", "href": "when-to-enroll-medicare-utah.html" },
+      { "label": "Medicare Open Enrollment 2026 (AEP)", "href": "medicare-open-enrollment-2026.html" }
+    ]
+  },
+  "personCta": {
+    "title": "Talk to a local, licensed agent",
+    "blurb": "Rocco DeLuca can walk you through your options — free, no pressure.",
+    "callLabel": "Call {phone}",
+    "quoteLabel": "Get a Free Quote"
+  },
   "body": {
     "introHtml": "\"I'm turning 65 — what do I actually do?\" Here's the whole thing, in order. Each step links to a deeper guide or a calculator, and you can hand any of it to us to do together, free.",
     "sixtySecondHtml": "<strong>The 60-second version:</strong> your enrollment window opens 3 months before your birthday month. Enroll in Part A &amp; B (unless you have creditable employer coverage). Then make the big choice — <a href=\"medicare-supplement-vs-advantage.html\" style=\"color:#9fd0ff;\">Medigap or Medicare Advantage</a> — add <a href=\"best-part-d-plans-vernal.html\" style=\"color:#9fd0ff;\">Part D drug coverage</a>, and check your <a href=\"medicare-costs.html\" style=\"color:#9fd0ff;\">costs and IRMAA</a>. Not sure? <strong>Call {phone}.</strong>",
