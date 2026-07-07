@@ -57,23 +57,95 @@ const context: PageContext = {
 
   <p>Medicare costs in Uintah County depend on your coverage choice, income level, health status, and prescriptions. Here is a comprehensive breakdown for 2026.</p>
 
-  <h2>Original Medicare Costs</h2>
-  <p><strong>Part A:</strong> Premium-free for most (40+ quarters of work history). Hospital deductible: {usd(f.partA.deductible)} per benefit period. Days 61–90: $419/day coinsurance. Skilled nursing days 21–100: $209.50/day. <strong>Part B:</strong> Standard premium: {usd(f.partB.premium, { cents: true })}/month. Annual deductible: {usd(f.partB.deductible)}. After deductible: 20% coinsurance with no cap. <strong>No maximum out-of-pocket limit</strong> — this is why supplemental coverage is essential.</p>
+  <!-- QUICK SNAPSHOT STAT ROW -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1rem; margin:1.75rem 0;">
+    <div style="background:linear-gradient(160deg,#0b2c45,#0b6ea3); color:#fff; border-radius:12px; padding:1.25rem 1rem; text-align:center; box-shadow:0 4px 14px rgba(11,44,69,.18);">
+      <div style="font-size:1.9rem; font-weight:800; line-height:1;">{usd(f.partB.premium, { cents: true })}</div>
+      <div style="font-size:.8rem; opacity:.9; margin-top:.4rem; letter-spacing:.02em;">Part B premium / mo</div>
+    </div>
+    <div style="background:linear-gradient(160deg,#0b2c45,#0b6ea3); color:#fff; border-radius:12px; padding:1.25rem 1rem; text-align:center; box-shadow:0 4px 14px rgba(11,44,69,.18);">
+      <div style="font-size:1.9rem; font-weight:800; line-height:1;">$0</div>
+      <div style="font-size:.8rem; opacity:.9; margin-top:.4rem; letter-spacing:.02em;">Many Advantage plans</div>
+    </div>
+    <div style="background:linear-gradient(160deg,#0b2c45,#0b6ea3); color:#fff; border-radius:12px; padding:1.25rem 1rem; text-align:center; box-shadow:0 4px 14px rgba(11,44,69,.18);">
+      <div style="font-size:1.9rem; font-weight:800; line-height:1;">$2,000</div>
+      <div style="font-size:.8rem; opacity:.9; margin-top:.4rem; letter-spacing:.02em;">Part D drug cap / yr</div>
+    </div>
+    <div style="background:linear-gradient(160deg,#0b2c45,#0b6ea3); color:#fff; border-radius:12px; padding:1.25rem 1rem; text-align:center; box-shadow:0 4px 14px rgba(11,44,69,.18);">
+      <div style="font-size:1.9rem; font-weight:800; line-height:1;">$35</div>
+      <div style="font-size:.8rem; opacity:.9; margin-top:.4rem; letter-spacing:.02em;">Insulin cap / mo</div>
+    </div>
+  </div>
 
-  <h2>Medicare Advantage Costs in the Uintah Basin</h2>
-  <p>Medicare Advantage premiums: $0 to $50+/month (many $0 options). Primary care copay: typically $0–$20. Specialist copay: typically $25–$50. Hospital admission: $200–$400/day for first few days. Maximum out-of-pocket: $4,000–$9,350/year depending on plan. Drug coverage included in most plans.</p>
+  <!-- COST CARD GRID -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.25rem; margin:1.5rem 0;">
 
-  <h2>Medigap Costs in Utah</h2>
-  <p>Plan G: approximately $120–$180/month (age 65, non-smoker). Plan N: approximately $80–$140/month. After paying the {usd(f.partB.deductible)} Part B deductible (Plan G) or small copays (Plan N), out-of-pocket costs are essentially zero for Medicare-covered services. You must add a separate Part D plan ($7–$80/month).</p>
+    <div style="background:#fff; border:1px solid #dbe7f2; border-top:5px solid #0b6ea3; border-radius:12px; padding:1.4rem; box-shadow:0 3px 10px rgba(11,44,69,.06);">
+      <h3 style="margin:0 0 .75rem; color:#0b2c45; font-size:1.15rem;">🏥 Original Medicare</h3>
+      <ul style="list-style:none; margin:0; padding:0; line-height:1.75; font-size:.95rem;">
+        <li><strong>Part A:</strong> $0 for most (40+ work quarters)</li>
+        <li>Hospital deductible: <strong>{usd(f.partA.deductible)}</strong> / benefit period</li>
+        <li>Days 61–90: $419/day &bull; SNF 21–100: $209.50/day</li>
+        <li><strong>Part B premium:</strong> {usd(f.partB.premium, { cents: true })}/mo</li>
+        <li>Part B deductible: <strong>{usd(f.partB.deductible)}</strong>, then 20% coinsurance</li>
+        <li style="color:#b3261e; font-weight:600;">⚠ No out-of-pocket limit — supplemental coverage is essential</li>
+      </ul>
+    </div>
 
-  <h2>Part D Prescription Drug Costs</h2>
-  <p>Premiums: $7–$80+/month. Deductible: $0–$590 (many plans have no deductible). Out-of-pocket cap: $2,000/year (new for 2026). Insulin: capped at $35/month. Specific drug costs vary dramatically by plan and pharmacy.</p>
+    <div style="background:#fff; border:1px solid #dbe7f2; border-top:5px solid #1a9e6f; border-radius:12px; padding:1.4rem; box-shadow:0 3px 10px rgba(11,44,69,.06);">
+      <h3 style="margin:0 0 .75rem; color:#0b2c45; font-size:1.15rem;">💳 Medicare Advantage</h3>
+      <ul style="list-style:none; margin:0; padding:0; line-height:1.75; font-size:.95rem;">
+        <li>Premiums: <strong>$0–$50+/mo</strong> (many $0 options)</li>
+        <li>Primary care copay: $0–$20</li>
+        <li>Specialist copay: $25–$50</li>
+        <li>Hospital: $200–$400/day for first few days</li>
+        <li>Max out-of-pocket: <strong>$4,000–$9,350/yr</strong></li>
+        <li style="color:#1a7a56; font-weight:600;">✓ Drug coverage included in most plans</li>
+      </ul>
+    </div>
 
-  <h2>Income-Related Adjustments (IRMAA)</h2>
-  <p>If your modified adjusted gross income exceeds $106,000 (individual) or $212,000 (married filing jointly), you pay higher Part B and Part D premiums. This surcharge, called IRMAA, is based on tax returns from two years ago.</p>
+    <div style="background:#fff; border:1px solid #dbe7f2; border-top:5px solid #7a3fd1; border-radius:12px; padding:1.4rem; box-shadow:0 3px 10px rgba(11,44,69,.06);">
+      <h3 style="margin:0 0 .75rem; color:#0b2c45; font-size:1.15rem;">🛡️ Medigap (Supplement)</h3>
+      <ul style="list-style:none; margin:0; padding:0; line-height:1.75; font-size:.95rem;">
+        <li>Plan G: <strong>~$120–$180/mo</strong> (age 65, non-smoker)</li>
+        <li>Plan N: <strong>~$80–$140/mo</strong></li>
+        <li>After the {usd(f.partB.deductible)} Part B deductible, covered costs are essentially $0</li>
+        <li>Add a separate Part D plan: $7–$80/mo</li>
+      </ul>
+    </div>
 
-  <h2>Extra Help for Low-Income Beneficiaries</h2>
-  <p>Uintah County residents with limited income and resources may qualify for Extra Help, reducing Part D costs to near zero, or Medicaid (QMB, SLMB, QI programs) which can pay Part B premiums and cost-sharing.</p>
+    <div style="background:#fff; border:1px solid #dbe7f2; border-top:5px solid #e07b00; border-radius:12px; padding:1.4rem; box-shadow:0 3px 10px rgba(11,44,69,.06);">
+      <h3 style="margin:0 0 .75rem; color:#0b2c45; font-size:1.15rem;">💊 Part D Prescriptions</h3>
+      <ul style="list-style:none; margin:0; padding:0; line-height:1.75; font-size:.95rem;">
+        <li>Premiums: <strong>$7–$80+/mo</strong></li>
+        <li>Deductible: $0–$590 (many plans $0)</li>
+        <li>Out-of-pocket cap: <strong>$2,000/yr</strong> (new for 2026)</li>
+        <li>Insulin: capped at <strong>$35/mo</strong></li>
+        <li>Drug costs vary by plan &amp; pharmacy</li>
+      </ul>
+    </div>
+
+    <div style="background:#fff; border:1px solid #dbe7f2; border-top:5px solid #c2410c; border-radius:12px; padding:1.4rem; box-shadow:0 3px 10px rgba(11,44,69,.06);">
+      <h3 style="margin:0 0 .75rem; color:#0b2c45; font-size:1.15rem;">📈 Income Adjustments (IRMAA)</h3>
+      <ul style="list-style:none; margin:0; padding:0; line-height:1.75; font-size:.95rem;">
+        <li>Kicks in above <strong>$106,000</strong> (individual)</li>
+        <li>Or <strong>$212,000</strong> (married filing jointly)</li>
+        <li>Adds a surcharge to Part B &amp; Part D premiums</li>
+        <li>Based on your tax return from two years ago</li>
+      </ul>
+    </div>
+
+    <div style="background:#fff; border:1px solid #dbe7f2; border-top:5px solid #1a9e6f; border-radius:12px; padding:1.4rem; box-shadow:0 3px 10px rgba(11,44,69,.06);">
+      <h3 style="margin:0 0 .75rem; color:#0b2c45; font-size:1.15rem;">🤝 Extra Help &amp; Medicaid</h3>
+      <ul style="list-style:none; margin:0; padding:0; line-height:1.75; font-size:.95rem;">
+        <li>Limited income &amp; resources may qualify you</li>
+        <li>Extra Help cuts Part D costs to <strong>near $0</strong></li>
+        <li>Medicaid (QMB, SLMB, QI) can pay Part B premiums</li>
+        <li>Helps cover cost-sharing too</li>
+      </ul>
+    </div>
+
+  </div>
 
   <section style="background:#f8fbff; border:1px solid #d9e7f5; border-radius:10px; padding:1.5rem; margin:2rem 0;">
   <h2 style="margin-top:0; color:#0b2c45;">Related Medicare Cost Topics</h2>
