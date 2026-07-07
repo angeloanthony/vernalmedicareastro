@@ -57,5 +57,41 @@
       "<a href=\"medicare-irmaa-appeal-ssa-44.html\">How to appeal (Form SSA-44)</a> — step by step."
     ],
     "outroHtml": "IRMAA planning is one of the most valuable things a good agent does. If you're near a threshold, <strong>call us free</strong> — a small move can save a full tier."
+  },
+  "ui": {
+    "byline": "By {name}, Licensed Medicare Insurance Agent",
+    "updated": "Updated June {year}",
+    "accuracyLink": "How we keep this accurate",
+    "heroCalloutTitle": "Income above a threshold?",
+    "heroCalloutBody": "IRMAA may add to your monthly premiums.",
+    "features": [
+      { "title": "Extra Charge", "sub": "Added to Part B and Part D premiums" },
+      { "title": "Based on MAGI", "sub": "Your Modified Adjusted Gross Income" },
+      { "title": "Looks Back 2 Years", "sub": "Uses income from two years ago" },
+      { "title": "We Can Help", "sub": "Plan, estimate, and explore your options" }
+    ],
+    "seeBracketsCta": "See the full {year} IRMAA brackets",
+    "lookbackLead": "Because IRMAA uses income from two years ago, a one-time spike — selling a home, a large Roth conversion, cashing out investments — can trigger a surcharge in a year when your income is actually much lower.",
+    "lookbackNoteTitle": "Good news",
+    "lookbackNote": "IRMAA is recalculated every year, so it corrects itself as newer returns come in.",
+    "appealCta": "Learn about Form SSA-44",
+    "nextSub": "Take the next step to understand your surcharges and options.",
+    "callTitle": "Call us free",
+    "callSub": "A small change can save you a full tier.",
+    "relatedHeading": "Related",
+    "related": [
+      { "label": "{year} Medicare IRMAA Brackets", "href": "medicare-irmaa-brackets-2026.html" },
+      { "label": "How to Reduce Medicare IRMAA (Legally)", "href": "how-to-reduce-medicare-irmaa.html" },
+      { "label": "How Much Does Medicare Cost?", "href": "medicare-costs.html" },
+      { "label": "{year} Medicare IRMAA Calculator", "href": "medicare-irmaa-calculator.html" }
+    ],
+    "ctaTitle": "Talk to a Local, Licensed Agent",
+    "ctaButtonQuote": "Get a Free Quote",
+    "trust": [
+      { "title": "Local & Trusted", "sub": "Licensed in Utah" },
+      { "title": "No Cost, No Obligation", "sub": "Honest guidance" },
+      { "title": "We Work for You", "sub": "We help you save" },
+      { "title": "Here When You Need Us", "sub": "Call, email, or meet locally" }
+    ]
   }
 }

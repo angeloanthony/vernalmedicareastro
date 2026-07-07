@@ -1,38 +1,43 @@
 ---
-// src/components/LanguageSwitcher.astro — existence-aware switcher (Phase A.5).
+// src/components/LanguageSwitcher.astro — always-on switcher (Phase A.5).
 //
 // Derives everything from the current URL, so it needs no props and can sit in
-// the shared Header. It renders NOTHING unless the current page has ≥2 locales
-// committed (i18n/content.ts is the single existence authority) — untranslated
-// pages stay byte-identical, and no link emitted here can 404.
+// the shared Header. It renders on EVERY page so the language toggle lives in
+// every upper header. The current language renders as plain text, the others as
+// links; no link emitted here can 404.
 //
-// The current language renders as plain text, other languages as links. On a
-// localized page the master option points back to the English page (that's
-// correct master-fallback behavior, not a leak — playbook §6).
-import { LOCALES, getLangFromUrl, pageSlugFromUrl, t } from '../i18n/locales';
+// Per-locale target: if THIS page has a committed translation in that locale we
+// link to it (i18n/content.ts is the existence authority); otherwise we fall
+// back to that locale's homepage — a genuine switch, never a no-op reload of
+// the same English page. (Note: the SEO <link rel="alternate" hreflang> tags in
+// BaseLayout stay existence-aware and are unaffected by this UI element.)
+import { LOCALES, DEFAULT_LOCALE, getLangFromUrl, pageSlugFromUrl, t } from '../i18n/locales';
 import { getAvailableLocales, localePageHref } from '../i18n/content';
 
 const lang = getLangFromUrl(Astro.url);
 const slug = pageSlugFromUrl(Astro.url);
 const available = getAvailableLocales(slug);
-const options = LOCALES.filter((l) => available.includes(l.code));
+
+// A locale's homepage: '/' for the English master, '/es.html' etc. otherwise.
+const localeHome = (code: string) => (code === DEFAULT_LOCALE ? '/' : `/${code}.html`);
+// Target for a locale: the localized page when it exists, else that locale home.
+const hrefFor = (code: string) =>
+  available.includes(code) ? localePageHref(slug, code) : localeHome(code);
 ---
 
-{options.length >= 2 && (
-  <span class="lang-switcher" aria-label={t('switcher.label', lang)}>
-    🌐{' '}
-    {options.map((l, i) => (
-      <Fragment>
-        {i > 0 && <span aria-hidden="true"> · </span>}
-        {l.code === lang ? (
-          <span class="lang-current" aria-current="true" lang={l.code}>{l.name}</span>
-        ) : (
-          <a href={localePageHref(slug, l.code)} lang={l.code} hreflang={l.code}>{l.name}</a>
-        )}
-      </Fragment>
-    ))}
-  </span>
-)}
+<span class="lang-switcher" aria-label={t('switcher.label', lang)}>
+  🌐{' '}
+  {LOCALES.map((l, i) => (
+    <Fragment>
+      {i > 0 && <span aria-hidden="true"> · </span>}
+      {l.code === lang ? (
+        <span class="lang-current" aria-current="true" lang={l.code}>{l.name}</span>
+      ) : (
+        <a href={hrefFor(l.code)} lang={l.code} hreflang={l.code}>{l.name}</a>
+      )}
+    </Fragment>
+  ))}
+</span>
 
 <style>
   .lang-current {

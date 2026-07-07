@@ -47,6 +47,8 @@
     "sections": [
       {
         "h2": "Aprenda lo básico",
+        "blurb": "Entienda las partes de Medicare, la cobertura y cómo funciona todo.",
+        "cta": "Empiece con lo básico",
         "itemsHtml": [
           "<strong><a href=\"medicare-part-a-vs-part-b.html\">Parte A vs Parte B de Medicare</a></strong> — qué cubre Medicare Original, y qué no.",
           "<strong><a href=\"medicare-plans-vernal-utah.html\">La guía completa de Medicare 2026</a></strong> — las cuatro partes, sus tres caminos de cobertura, los costos y los proveedores locales, en lenguaje sencillo.",
@@ -58,6 +60,8 @@
       },
       {
         "h2": "Inscripción y plazos",
+        "blurb": "Sepa cuándo y cómo inscribirse (o esperar) sin multas.",
+        "cta": "Acierte con los plazos",
         "itemsHtml": [
           "<strong><a href=\"turning-65.html\">¿Cumple 65 años?</a></strong> — el recorrido completo, paso a paso.",
           "<strong><a href=\"working-past-65.html\">¿Trabaja después de los 65?</a></strong> — si tomar Medicare o esperar.",
@@ -67,6 +71,8 @@
       },
       {
         "h2": "Costos e IRMAA",
+        "blurb": "Primas, deducibles y el recargo por ingresos (IRMAA) explicados.",
+        "cta": "Vea costos e IRMAA",
         "itemsHtml": [
           "<strong><a href=\"medicare-costs.html\">¿Cuánto cuesta Medicare?</a></strong> — primas, deducibles y el panorama completo para 2026.",
           "<strong><a href=\"medicare-irmaa.html\">IRMAA</a></strong> — el recargo por ingresos: <a href=\"medicare-irmaa-brackets-2026.html\">tramos</a>, <a href=\"how-to-reduce-medicare-irmaa.html\">cómo reducirlo</a>, y <a href=\"medicare-irmaa-appeal-ssa-44.html\">cómo apelar</a>.",
@@ -75,6 +81,8 @@
       },
       {
         "h2": "Compare coberturas",
+        "blurb": "Medigap vs Advantage — vea los pros, los contras y las diferencias reales.",
+        "cta": "Compare sus opciones",
         "itemsHtml": [
           "<strong><a href=\"medigap.html\">Medigap (Suplemento de Medicare)</a></strong> — <a href=\"plan-g-vs-plan-n-vernal.html\">Plan G vs Plan N</a>, <a href=\"medicare-plan-g-high-deductible.html\">Plan G de deducible alto</a>.",
           "<strong><a href=\"best-medicare-advantage-vernal.html\">Medicare Advantage</a></strong> — <a href=\"hmo-vs-ppo-medicare-advantage.html\">HMO vs PPO</a>, <a href=\"zero-premium-medicare-advantage.html\">planes con prima de $0</a>.",
@@ -84,6 +92,8 @@
       },
       {
         "h2": "Medicamentos recetados (Parte D)",
+        "blurb": "Encuentre el plan de medicamentos adecuado y reduzca sus costos.",
+        "cta": "Ahorre en medicamentos",
         "itemsHtml": [
           "<strong><a href=\"best-part-d-plans-vernal.html\">Los mejores planes de la Parte D</a></strong> · <a href=\"cheapest-prescription-drug-plans.html\">los planes de medicamentos más baratos</a> · <a href=\"tier-3-vs-tier-4-medicare-part-d.html\">los niveles de medicamentos explicados</a>.",
           "<strong><a href=\"prescription-drug-assistance.html\">Asistencia para medicamentos recetados</a></strong> — programas que ayudan a pagar sus medicamentos.",
@@ -92,6 +102,8 @@
       },
       {
         "h2": "Ayuda para pagar Medicare",
+        "blurb": "Programas y ahorros que pueden ayudar a reducir lo que paga.",
+        "cta": "Explore los ahorros",
         "itemsHtml": [
           "<strong><a href=\"medicare-financial-assistance.html\">Ayuda para pagar Medicare</a></strong> — cada camino de asistencia en un solo lugar, ordenado por ingresos.",
           "<strong><a href=\"medicare-income-limits-2026.html\">Límites de ingresos 2026</a></strong> — los umbrales de MSP, Ayuda Adicional (Extra Help) e IRMAA lado a lado.",
@@ -100,6 +112,8 @@
       },
       {
         "h2": "Calculadoras gratuitas",
+        "blurb": "Use nuestras herramientas para estimar costos y verificar elegibilidad.",
+        "cta": "Use nuestras calculadoras",
         "itemsHtml": [
           "<strong><a href=\"medicare-calculators.html\">Todas las calculadoras de Medicare</a></strong> — el kit completo en un solo lugar.",
           "<a href=\"medicare-cost-estimator.html\">Estimador de costos</a> · <a href=\"medicare-part-d-cost-calculator.html\">costos de medicamentos de la Parte D</a> · <a href=\"medicare-irmaa-calculator.html\">IRMAA</a>.",
@@ -108,6 +122,8 @@
       },
       {
         "h2": "Ayuda local con Medicare",
+        "blurb": "Recursos, oficinas y proveedores cerca de usted.",
+        "cta": "Encuentre ayuda local",
         "itemsHtml": [
           "<strong><a href=\"medicare-plans-vernal-utah.html\">Medicare en Vernal</a></strong> · <a href=\"medicare-roosevelt-utah.html\">Roosevelt</a> · <a href=\"medicare-duchesne-utah.html\">Duchesne</a> · <a href=\"medicare-naples-utah.html\">Naples</a> · <a href=\"medicare-maeser-utah.html\">Maeser</a> · <a href=\"medicare-jensen-utah.html\">Jensen</a> · <a href=\"medicare-ballard-utah.html\">Ballard</a>.",
           "<a href=\"medicare-hospitals-uintah-county.html\">Hospitales locales</a> · <a href=\"medicare-vernal-pharmacies.html\">farmacias de Vernal</a> · <a href=\"medicare-vernal-ut.html\">visite nuestra oficina</a>.",
@@ -116,6 +132,46 @@
       }
     ],
     "h2Ready": "¿Listo para hablar con una persona?",
-    "readyHtml": "No tiene que resolver esto solo. <strong>Llámenos gratis al {phone}</strong> (TTY: {tty}), <a href=\"mailto:{email}\">escríbanos</a>, o <a href=\"medicare-quote-vernal.html\">solicite una cotización gratuita</a>. Compararemos sus opciones con los médicos y las farmacias que ya usa — sin costo, sin presión."
+    "readyHtml": "No tiene que resolver esto solo. <strong>Llámenos gratis al {phone}</strong> (TTY: {tty}), <a href=\"mailto:{email}\">escríbanos</a>, o <a href=\"medicare-quote-vernal.html\">solicite una cotización gratuita</a>. Compararemos sus opciones con los médicos y las farmacias que ya usa — sin costo, sin presión.",
+    "hub": {
+      "browsePre": "Explore la ayuda por",
+      "browseEm": "tema",
+      "heroImageAlt": "Un beneficiario de Medicare revisa su cobertura en una laptop en casa, en Vernal, Utah.",
+      "features": [
+        { "title": "Guías y conceptos básicos", "sub": "Respuestas claras a sus preguntas" },
+        { "title": "Calculadoras gratuitas", "sub": "IRMAA, Ayuda Adicional y más" },
+        { "title": "Ayuda local", "sub": "Vernal, Uintah Basin y áreas cercanas" },
+        { "title": "Sin costo, sin presión", "sub": "Estamos aquí para ayudar — no para vender" }
+      ],
+      "calloutTitle": "Ayuda local de Rocco DeLuca",
+      "calloutHtml": "Llámenos gratis al <a href=\"tel:{phoneTel}\">{phone}</a> (TTY: {tty}) o <a href=\"medicare-quote-vernal.html\">solicite una cotización gratuita</a>.",
+      "faqHeading": "Preguntas frecuentes",
+      "faqAllLabel": "Ver todas las preguntas frecuentes",
+      "faqAllHref": "faq.html",
+      "resourcesHeading": "Recursos principales",
+      "resources": [
+        { "label": "Medicare.gov — el sitio oficial del gobierno de los EE. UU.", "href": "https://es.medicare.gov", "external": true },
+        { "label": "Cobertura y costos de Medicare (Parte B)", "href": "https://es.medicare.gov/basics/costs", "external": true },
+        { "label": "Primas de Medicare: reglas para beneficiarios de ingresos altos (IRMAA) — SSA", "href": "https://www.ssa.gov/benefits/medicare/medicare-premiums.html", "external": true },
+        { "label": "Tramos de IRMAA de Medicare 2026", "href": "medicare-irmaa-brackets-2026.html", "external": false }
+      ],
+      "relatedHeading": "Lecturas relacionadas",
+      "related": [
+        { "label": "¿Por dónde empiezo con Medicare?", "href": "medicare-decision-center.html" },
+        { "label": "Glosario de Medicare", "href": "medicare-glossary.html" },
+        { "label": "¿Medicare lo cubre?", "href": "medicare-coverage.html" },
+        { "label": "Noticias y novedades de Medicare", "href": "medicare-news.html" }
+      ],
+      "ctaBlurb": "Compararemos sus opciones, verificaremos sus médicos y farmacias, y le ayudaremos a ahorrar — sin costo, sin presión.",
+      "callBtn": "Llame al {phone}",
+      "quoteBtn": "Solicite una cotización gratuita",
+      "quoteHref": "medicare-quote-vernal.html",
+      "trust": [
+        { "title": "Local y de confianza", "sub": "Con licencia en Utah" },
+        { "title": "Sin costo, sin presión", "sub": "Le ayudamos, no vendemos" },
+        { "title": "Trabajamos para usted", "sub": "Sus intereses primero" },
+        { "title": "Aquí cuando nos necesite", "sub": "Llame, escriba o reúnase localmente" }
+      ]
+    }
   }
 }

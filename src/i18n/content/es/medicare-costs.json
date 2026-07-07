@@ -65,5 +65,34 @@
     "h2Local": "Costos locales",
     "localHtml": "Las primas y la disponibilidad de los planes son locales. Vea <a href=\"medicare-cost-uintah-county.html\">cuánto cuesta Medicare en el Condado de Uintah</a> para conocer los planes que realmente se ofrecen aquí.",
     "outroHtml": "Las piezas de Medicare suman distinto para cada persona. La forma más rápida de llegar a su número real es una conversación breve — <strong>llámenos gratis</strong> y lo calcularemos con usted, sin compromiso."
+  },
+  "ui": {
+    "heroLede": "\"¿Cuánto cuesta Medicare?\" no tiene una sola respuesta — depende de sus partes, sus ingresos y los planes que elija. Esta página desglosa cada pieza, con enlaces para calcular sus propios números.",
+    "heroPoints": [
+      { "title": "Cada pieza explicada", "sub": "Parte A, B, D y extras" },
+      { "title": "Cifras de {year}", "sub": "Primas, deducibles, topes" },
+      { "title": "Formas de pagar menos", "sub": "IRMAA y asistencia" }
+    ],
+    "heroCallout": "¿No sabe cuánto pagará? Llámenos gratis al {phoneLink} (TTY: {tty}) y lo calcularemos con usted.",
+    "blocksSub": "Las piezas que suman su factura mensual y anual.",
+    "blockTitles": ["Parte A · Hospital", "Parte B · Médica", "Parte D · Medicamentos", "Cobertura adicional"],
+    "estimateCta": "Abrir el estimador de costos",
+    "incomeHeading": "Sus ingresos cambian el cálculo",
+    "irmaaTag": "Ingresos más altos",
+    "assistanceTag": "Ingresos más bajos",
+    "capsSub": "Los límites y recargos que la gente malentiende.",
+    "localCta": "Ver costos del Condado de Uintah",
+    "ctaTitle": "Obtenga su número real — <em>gratis</em>",
+    "ctaButtonQuote": "Obtenga una cotización gratis",
+    "centersHeading": "Ir a una sección",
+    "agentHeading": "Hable con un agente local con licencia",
+    "agentBlurb": "{name} puede explicarle sus opciones — gratis, sin presión.",
+    "agentCta": "Llame al {phone} →",
+    "trust": [
+      { "title": "Local y de confianza", "sub": "Con licencia en Utah" },
+      { "title": "Sin costo ni compromiso", "sub": "Orientación honesta" },
+      { "title": "Trabajamos para usted", "sub": "Le ayudamos a ahorrar" },
+      { "title": "Aquí cuando nos necesite", "sub": "Llame, escriba o visítenos" }
+    ]
   }
 }

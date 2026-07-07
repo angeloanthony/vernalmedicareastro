@@ -5,11 +5,21 @@
 // annualMedicareData via placeholders — an annual figures update flows into
 // BOTH languages from the one data edit, and translations never go stale on
 // a dollar amount.
+//
+// Design (M45): the old stacked-prose page was a text wall. Rebuilt as a
+// custom landing layout (bareHeader + bareFooter) matching the coverage hub —
+// a hero, a color-coded "building blocks" card grid, a Cost Estimator feature
+// strip, a higher-income/lower-income split (IRMAA vs assistance), caps cards,
+// a local strip, a person CTA banner, an FAQ/jump/agent trio, and a trust bar.
+// All display copy (chrome included) still comes from the localized JSON so
+// both languages stay in sync — the .astro only owns icons, accents, layout.
 import ArticlePage from '../layout/ArticlePage.astro';
 import { figuresFor } from '../../data/annualMedicareData';
 import { usd } from '../../lib/formatters';
 import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
-import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import { getLangFromUrl, getLocaleMeta, t } from '../../i18n/locales';
+import { BUSINESS } from '../../data/business';
+import { authorById } from '../../data/authors';
 import type { PageContext } from '../../types/Page';
 
 const SLUG = 'medicare-costs';
@@ -55,12 +65,45 @@ interface Content {
     localHtml: string;
     outroHtml: string;
   };
+  ui: {
+    heroLede: string;
+    heroPoints: { title: string; sub: string }[];
+    heroCallout: string;
+    blocksSub: string;
+    blockTitles: string[];
+    estimateCta: string;
+    incomeHeading: string;
+    irmaaTag: string;
+    assistanceTag: string;
+    capsSub: string;
+    localCta: string;
+    ctaTitle: string;
+    ctaButtonQuote: string;
+    centersHeading: string;
+    agentHeading: string;
+    agentBlurb: string;
+    agentCta: string;
+    trust: { title: string; sub: string }[];
+  };
 }
 
 const lang = getLangFromUrl(Astro.url);
 const c = getPageContent<Content>(SLUG, lang);
 const b = c.body;
+const ui = c.ui;
 const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
+
+const agent = authorById('rocco');
+const agentName = agent?.name ?? 'Rocco DeLuca';
+const phoneLink = `<a href="tel:${BUSINESS.phoneTel}">${BUSINESS.phone}</a>`;
+// interp() leaves unknown {tokens} untouched, so we can layer chrome tokens on
+// top of the figure tokens t9() already resolved.
+const fill = (s: string) =>
+  t9(s)
+    .replaceAll('{phoneLink}', phoneLink)
+    .replaceAll('{tty}', BUSINESS.tty)
+    .replaceAll('{phone}', BUSINESS.phone)
+    .replaceAll('{name}', agentName);
 
 const context: PageContext = {
   page: {
@@ -90,32 +133,536 @@ const context: PageContext = {
     { name: c.breadcrumb.self, href: pagePath },
   ],
 };
+
+const FAQS = context.page.faqs ?? [];
+
+// Wrap the trailing year in the heading so it can be accented (e.g. "…in 2026?").
+const heroTitleHtml = t9(c.page.heading).replace(/(\d{4}\??)\s*$/, '<span>$1</span>');
+
+// Pull the leading "<strong>Title</strong> — body" out of a content blob so it
+// can render as a card title + body. The pattern is identical across both
+// languages, so this works for en and es without per-locale branching.
+const splitLead = (html: string): { title: string; body: string } => {
+  const m = html.match(/^\s*<strong>([\s\S]*?)<\/strong>\s*[—–-]?\s*([\s\S]*)$/);
+  return m ? { title: m[1], body: m[2] } : { title: '', body: html };
+};
+
+// Per-block accent + tint + icon for the "building blocks" grid. Order matches
+// blockItemsHtml: Part A, Part B, Part D, Medigap/Advantage.
+const BLOCK_STYLE = [
+  { accent: '#2563eb', tint: '#e5edfe', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V6a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v15"/><path d="M2.5 21h19"/><path d="M12 8v5M9.5 10.5h5"/><path d="M9 21v-3.5h6V21"/></svg>' },
+  { accent: '#0d9488', tint: '#d7f0ec', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v6a5 5 0 0 0 10 0V3"/><path d="M3.5 3H6M13 3h2.5"/><path d="M10 18.5a4 4 0 0 0 8 0V16"/><circle cx="18" cy="13" r="2.3"/></svg>' },
+  { accent: '#7c3aed', tint: '#f0e9fd', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5a5 5 0 0 1-7-7l7-7a5 5 0 0 1 7 7l-7 7z"/><path d="M8 6l10 10"/></svg>' },
+  { accent: '#ea580c', tint: '#fdeadd', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M12 9v5M9.5 11.5h5"/></svg>' },
+];
+const blocks = b.blockItemsHtml.map((raw, i) => ({
+  ...splitLead(t9(raw)),
+  label: ui.blockTitles[i] ?? '',
+  ...BLOCK_STYLE[i % BLOCK_STYLE.length],
+}));
+
+// Caps & penalties cards (3): out-of-pocket max, late-enrollment penalty, HD Plan G.
+const CAP_STYLE = [
+  { accent: '#16a34a', tint: '#e4f5ea', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>' },
+  { accent: '#dc2626', tint: '#fdeaea', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21 19H3z"/><path d="M12 10v4M12 17h.01"/></svg>' },
+  { accent: '#2563eb', tint: '#e5edfe', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 12.4 12.4 4.2a1.5 1.5 0 0 0-1-.4H5.3A1.3 1.3 0 0 0 4 5v6.1c0 .4.2.8.4 1l8.2 8.2a1.4 1.4 0 0 0 2 0l6-6a1.4 1.4 0 0 0 0-1.9z"/><circle cx="8.2" cy="8.2" r="1.3" fill="currentColor" stroke="none"/></svg>' },
+];
+const caps = b.capItemsHtml.map((raw, i) => ({ ...splitLead(t9(raw)), ...CAP_STYLE[i % CAP_STYLE.length] }));
+
+// Hero value-prop icons.
+const HERO_ICONS = [
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3.5 12 12 17l8.5-5"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.2a2.8 2.8 0 0 0-5.2 1.3c0 2.6 4.9 1.6 4.9 4.1a2.8 2.8 0 0 1-5.2 1.3"/><path d="M12 6.5v1.5M12 16v1.5"/></svg>',
+];
+
+// Icons for the estimate, income-split, and local strips.
+const ICON_CALC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8"/><path d="M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15v3"/></svg>';
+const ICON_UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>';
+const ICON_DOWN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6 6 4-4 8 8"/><path d="M15 17h6v-6"/></svg>';
+const ICON_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+const ICON_ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+// Jump-to-section list for the trio panel.
+const JUMPS = [
+  { label: t9(b.h2Blocks), href: '#cst-blocks', ...BLOCK_STYLE[0] },
+  { label: t9(b.h2Estimate), href: '#cst-estimate', accent: '#0d9488', tint: '#d7f0ec', icon: ICON_CALC },
+  { label: t9(ui.incomeHeading), href: '#cst-income', accent: '#ea580c', tint: '#fdeadd', icon: ICON_UP },
+  { label: t9(b.h2Caps), href: '#cst-caps', ...CAP_STYLE[0] },
+  { label: t9(b.h2Local), href: '#cst-local', accent: '#db2777', tint: '#fce7f1', icon: ICON_PIN },
+];
+
+// Trust bar.
+const TRUST_STYLE = [
+  { color: '#16a34a', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>' },
+  { color: '#7c3aed', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.2"/></svg>' },
+  { color: '#ea580c', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13l3 3 5-5 4 4"/><path d="M2 9l4-4 4 3 4-3 4 4"/></svg>' },
+  { color: '#2563eb', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 16 0"/><rect x="3" y="12" width="4" height="6" rx="1.5"/><rect x="17" y="12" width="4" height="6" rx="1.5"/><path d="M20 18v1a3 3 0 0 1-3 3h-3"/></svg>' },
+];
+const trust = ui.trust.map((t, i) => ({ ...t, ...TRUST_STYLE[i % TRUST_STYLE.length] }));
 ---
 
-<ArticlePage context={context}>
-  <p set:html={t9(b.introHtml)} />
+<ArticlePage context={context} bareHeader bareFooter>
+  {/* ─── Hero ─────────────────────────────────────────────────────────── */}
+  <section class="cst-hero">
+    <div class="cst-hero__copy">
+      <h1 class="cst-hero__title" set:html={heroTitleHtml} />
+      <p class="cst-hero__lede">{t9(ui.heroLede)}</p>
 
-  <h2>{b.h2Blocks}</h2>
-  <ul>
-    {b.blockItemsHtml.map((item) => <li set:html={t9(item)} />)}
-  </ul>
+      <ul class="cst-hero__points">
+        {ui.heroPoints.map((p, i) => (
+          <li>
+            <span class="cst-hero__pt-icon" aria-hidden="true" set:html={HERO_ICONS[i % HERO_ICONS.length]} />
+            <span><strong>{t9(p.title)}</strong><em>{t9(p.sub)}</em></span>
+          </li>
+        ))}
+      </ul>
+    </div>
 
-  <h2>{b.h2Estimate}</h2>
-  <p set:html={t9(b.estimateHtml)} />
+    <div class="cst-hero__art">
+      <img
+        class="cst-hero__img"
+        src="/pictures/help-you-deserve.webp"
+        alt="A person reviews what Medicare costs on a tablet at home."
+        width="1536"
+        height="1024"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="cst-hero__callout">
+        <span class="cst-hero__callout-icon" aria-hidden="true" set:html={ICON_CALC} />
+        <p set:html={fill(ui.heroCallout)} />
+      </div>
+    </div>
+  </section>
 
-  <h2>{b.h2Irmaa}</h2>
-  <p set:html={t9(b.irmaaHtml)} />
+  {/* ─── Building blocks card grid ────────────────────────────────────── */}
+  <section class="cst-section" id="cst-blocks" aria-labelledby="cst-blocks-h">
+    <h2 id="cst-blocks-h" class="cst-h2 cst-h2--center">{t9(b.h2Blocks)}</h2>
+    <p class="cst-sub cst-sub--center">{t9(ui.blocksSub)}</p>
+    <div class="cst-blocks__grid">
+      {blocks.map((blk) => (
+        <article class="cst-card" style={`--accent:${blk.accent};--tint:${blk.tint}`}>
+          <div class="cst-card__head">
+            <span class="cst-card__icon" aria-hidden="true" set:html={blk.icon} />
+            <span class="cst-card__eyebrow">{blk.label}</span>
+          </div>
+          <h3 class="cst-card__title" set:html={blk.title} />
+          <p class="cst-card__body" set:html={blk.body} />
+        </article>
+      ))}
+    </div>
+  </section>
 
-  <h2>{b.h2Assistance}</h2>
-  <p set:html={t9(b.assistanceHtml)} />
+  {/* ─── Cost Estimator feature strip ─────────────────────────────────── */}
+  <section class="cst-estimate" id="cst-estimate">
+    <span class="cst-estimate__icon" aria-hidden="true" set:html={ICON_CALC} />
+    <div class="cst-estimate__msg">
+      <h2 class="cst-estimate__title">{t9(b.h2Estimate)}</h2>
+      <p set:html={t9(b.estimateHtml)} />
+    </div>
+    <a class="cst-estimate__cta" href="medicare-cost-estimator.html">
+      {t9(ui.estimateCta)}
+      <span aria-hidden="true" set:html={ICON_ARROW} />
+    </a>
+  </section>
 
-  <h2>{b.h2Caps}</h2>
-  <ul>
-    {b.capItemsHtml.map((item) => <li set:html={t9(item)} />)}
-  </ul>
+  {/* ─── Higher income vs lower income ────────────────────────────────── */}
+  <section class="cst-income" id="cst-income" aria-labelledby="cst-income-h">
+    <h2 id="cst-income-h" class="cst-h2 cst-h2--center">{t9(ui.incomeHeading)}</h2>
+    <div class="cst-income__grid">
+      <article class="cst-income__panel cst-income__panel--up">
+        <div class="cst-income__head">
+          <span class="cst-income__icon" aria-hidden="true" set:html={ICON_UP} />
+          <span class="cst-income__tag">{t9(ui.irmaaTag)}</span>
+        </div>
+        <h3 class="cst-income__title">{t9(b.h2Irmaa)}</h3>
+        <p class="cst-income__body" set:html={t9(b.irmaaHtml)} />
+      </article>
+      <article class="cst-income__panel cst-income__panel--down">
+        <div class="cst-income__head">
+          <span class="cst-income__icon" aria-hidden="true" set:html={ICON_DOWN} />
+          <span class="cst-income__tag">{t9(ui.assistanceTag)}</span>
+        </div>
+        <h3 class="cst-income__title">{t9(b.h2Assistance)}</h3>
+        <p class="cst-income__body" set:html={t9(b.assistanceHtml)} />
+      </article>
+    </div>
+  </section>
 
-  <h2>{b.h2Local}</h2>
-  <p set:html={t9(b.localHtml)} />
+  {/* ─── Caps & penalties cards ───────────────────────────────────────── */}
+  <section class="cst-section" id="cst-caps" aria-labelledby="cst-caps-h">
+    <h2 id="cst-caps-h" class="cst-h2 cst-h2--center">{t9(b.h2Caps)}</h2>
+    <p class="cst-sub cst-sub--center">{t9(ui.capsSub)}</p>
+    <div class="cst-caps__grid">
+      {caps.map((cap) => (
+        <article class="cst-card cst-card--cap" style={`--accent:${cap.accent};--tint:${cap.tint}`}>
+          <span class="cst-card__icon" aria-hidden="true" set:html={cap.icon} />
+          <h3 class="cst-card__title" set:html={cap.title} />
+          <p class="cst-card__body" set:html={cap.body} />
+        </article>
+      ))}
+    </div>
+  </section>
 
-  <p set:html={t9(b.outroHtml)} />
+  {/* ─── Local costs strip ────────────────────────────────────────────── */}
+  <section class="cst-local" id="cst-local">
+    <span class="cst-local__icon" aria-hidden="true" set:html={ICON_PIN} />
+    <div class="cst-local__msg">
+      <h2 class="cst-local__title">{t9(b.h2Local)}</h2>
+      <p set:html={t9(b.localHtml)} />
+    </div>
+    <a class="cst-local__cta" href="medicare-cost-uintah-county.html">
+      {t9(ui.localCta)}
+      <span aria-hidden="true" set:html={ICON_ARROW} />
+    </a>
+  </section>
+
+  {/* ─── Person CTA banner ────────────────────────────────────────────── */}
+  <section class="cst-cta">
+    <img class="cst-cta__photo" src="/pictures/rocco.webp" alt={`${agentName}, licensed Medicare agent in Vernal, Utah`} width="88" height="88" loading="lazy" decoding="async" />
+    <div class="cst-cta__msg">
+      <h2 class="cst-cta__title" set:html={t9(ui.ctaTitle)} />
+      <p set:html={t9(b.outroHtml)} />
+    </div>
+    <div class="cst-cta__actions">
+      <a class="cst-cta__phone" href={`tel:${BUSINESS.phoneTel}`}>
+        <span class="cst-cta__phone-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
+        <span>{BUSINESS.phone}<em>(TTY: {BUSINESS.tty})</em></span>
+      </a>
+      <a class="cst-cta__quote" href="medicare-quote-vernal.html">
+        <span class="cst-cta__quote-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span>
+        {t9(ui.ctaButtonQuote)}
+      </a>
+    </div>
+  </section>
+
+  {/* ─── FAQ · Jump-to · Agent trio ───────────────────────────────────── */}
+  <div class="cst-trio">
+    <section class="cst-panel">
+      <h2 class="cst-panel__h">{t('faq.heading', lang)}</h2>
+      {FAQS.map((q) => (
+        <details class="cst-faq">
+          <summary>{q.question}</summary>
+          <p set:html={q.answer} />
+        </details>
+      ))}
+      <p class="cst-panel__src"><strong>{t('sources.heading', lang)}:</strong> <a href={c.page.sources[0]?.url} target="_blank" rel="noopener noreferrer">{c.page.sources[0]?.title} — {c.page.sources[0]?.publisher}</a></p>
+    </section>
+
+    <section class="cst-panel">
+      <h2 class="cst-panel__h">{t9(ui.centersHeading)}</h2>
+      <ul class="cst-centers">
+        {JUMPS.map((j) => (
+          <li style={`--accent:${j.accent};--tint:${j.tint}`}>
+            <span class="cst-centers__icon" aria-hidden="true" set:html={j.icon} />
+            <a href={j.href}>{j.label}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="cst-panel cst-panel--agent">
+      <img class="cst-agent__photo" src="/pictures/rocco.webp" alt={`${agentName}, licensed Medicare agent`} width="96" height="96" loading="lazy" decoding="async" />
+      <h2 class="cst-panel__h">{t9(ui.agentHeading)}</h2>
+      <p class="cst-agent__blurb">{fill(ui.agentBlurb)}</p>
+      <a class="cst-agent__cta" href={`tel:${BUSINESS.phoneTel}`}>{fill(ui.agentCta)}</a>
+      <span class="cst-agent__sig">— {agentName}</span>
+    </section>
+  </div>
+
+  {/* ─── Trust bar ────────────────────────────────────────────────────── */}
+  <section class="cst-trust">
+    {trust.map((t) => (
+      <div class="cst-trust__item">
+        <span class="cst-trust__icon" style={`--c:${t.color}`} aria-hidden="true" set:html={t.icon} />
+        <span class="cst-trust__text"><strong>{t9(t.title)}</strong><em>{t9(t.sub)}</em></span>
+      </div>
+    ))}
+  </section>
 </ArticlePage>
+
+<style>
+  /* Palette echoes the coverage hub: navy #0b2c45, blue #2563eb, with
+     per-block accents (blue/teal/purple/orange) and semantic accents for the
+     income split (amber up / green down) and caps. */
+
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .cst-hero {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    align-items: center;
+    gap: 2.5rem;
+    background: linear-gradient(180deg, #eaf3fb 0%, #f4f9fd 100%);
+    border: 1px solid #dbe6f2;
+    border-radius: 24px;
+    padding: 2.5rem 2.75rem;
+    margin: 0.25rem 0 2.5rem;
+  }
+  .cst-hero__title {
+    font-size: clamp(2.1rem, 4.6vw, 3.2rem);
+    line-height: 1.06;
+    font-weight: 800;
+    color: #0b2c45;
+    margin: 0 0 0.75rem;
+  }
+  .cst-hero__title :global(span) { color: #2563eb; }
+  .cst-hero__lede { font-size: 1.08rem; color: #475569; line-height: 1.55; margin: 0 0 1.75rem; max-width: 46ch; }
+  .cst-hero__points { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+  .cst-hero__points li { display: flex; align-items: center; gap: 0.85rem; }
+  .cst-hero__points strong { display: block; color: #0b2c45; font-size: 1rem; }
+  .cst-hero__points em { color: #5b6b7d; font-size: 0.88rem; font-style: normal; }
+  .cst-hero__pt-icon {
+    flex: none; width: 46px; height: 46px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: #e2edfb; color: #1f4e8c;
+  }
+  .cst-hero__pt-icon :global(svg) { width: 24px; height: 24px; }
+
+  .cst-hero__art { position: relative; display: flex; justify-content: center; }
+  .cst-hero__img {
+    width: 100%; height: auto; display: block;
+    border-radius: 18px;
+    box-shadow: 0 18px 44px rgba(11, 44, 69, 0.18);
+  }
+  .cst-hero__callout {
+    position: absolute; left: 1.25rem; right: 1.25rem; bottom: -0.75rem;
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    background: #fff; border: 1px solid #e1e9f2; border-radius: 14px;
+    padding: 0.9rem 1.1rem;
+    box-shadow: 0 14px 34px rgba(11, 44, 69, 0.16);
+  }
+  .cst-hero__callout-icon { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #e6effe; color: #2563eb; }
+  .cst-hero__callout-icon :global(svg) { width: 20px; height: 20px; }
+  .cst-hero__callout p { margin: 0; color: #475569; font-size: 0.86rem; line-height: 1.45; }
+  .cst-hero__callout :global(a) { color: #2563eb; font-weight: 700; text-decoration: none; white-space: nowrap; }
+  .cst-hero__callout :global(a:hover) { text-decoration: underline; }
+
+  /* ── Section headings ─────────────────────────────────────────────────── */
+  .cst-h2 { color: #0b2c45; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin: 0 0 0.4rem; }
+  .cst-h2--center { text-align: center; }
+  .cst-sub { color: #5b6b7d; font-size: 1rem; margin: 0 0 1.75rem; }
+  .cst-sub--center { text-align: center; }
+  .cst-section { margin: 1.25rem 0 3rem; scroll-margin-top: 1.5rem; }
+
+  /* ── Building blocks / caps cards ─────────────────────────────────────── */
+  .cst-blocks__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+  .cst-caps__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .cst-card {
+    display: flex; flex-direction: column;
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-top: 4px solid var(--accent);
+    border-radius: 16px;
+    padding: 1.5rem 1.4rem;
+    box-shadow: 0 10px 30px rgba(11, 44, 69, 0.06);
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .cst-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(11, 44, 69, 0.12); }
+  .cst-card__head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.9rem; }
+  .cst-card--cap .cst-card__head { margin-bottom: 0; }
+  .cst-card__icon {
+    flex: none; width: 50px; height: 50px; border-radius: 14px;
+    display: grid; place-items: center;
+    background: var(--tint); color: var(--accent);
+  }
+  .cst-card--cap .cst-card__icon { margin-bottom: 0.9rem; }
+  .cst-card__icon :global(svg) { width: 27px; height: 27px; }
+  .cst-card__eyebrow {
+    font-size: 0.72rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .cst-card__title { margin: 0 0 0.4rem; font-size: 1.08rem; line-height: 1.25; color: #0b2c45; }
+  .cst-card__title :global(a) { color: var(--accent); text-decoration: none; }
+  .cst-card__title :global(a:hover) { text-decoration: underline; }
+  .cst-card__body { margin: 0; color: #5b6b7d; font-size: 0.92rem; line-height: 1.55; }
+  .cst-card__body :global(a) { color: var(--accent); font-weight: 600; text-decoration: none; }
+  .cst-card__body :global(a:hover) { text-decoration: underline; }
+  .cst-card__body :global(strong) { color: #334155; }
+
+  /* ── Cost Estimator feature strip ─────────────────────────────────────── */
+  .cst-estimate {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.5rem;
+    background: linear-gradient(120deg, #ecfbf7 0%, #f2fbfe 100%);
+    border: 1px solid #cdeae3; border-left: 5px solid #0d9488;
+    border-radius: 20px; padding: 1.6rem 1.9rem; margin: 0 0 3rem;
+    scroll-margin-top: 1.5rem;
+  }
+  .cst-estimate__icon { flex: none; width: 58px; height: 58px; border-radius: 16px; display: grid; place-items: center; background: #d7f0ec; color: #0d9488; }
+  .cst-estimate__icon :global(svg) { width: 32px; height: 32px; }
+  .cst-estimate__title { margin: 0 0 0.3rem; color: #0b2c45; font-size: 1.3rem; }
+  .cst-estimate__msg p { margin: 0; color: #4b5b6b; font-size: 0.96rem; line-height: 1.5; max-width: 60ch; }
+  .cst-estimate__msg :global(a) { color: #0d9488; font-weight: 700; text-decoration: none; }
+  .cst-estimate__msg :global(a:hover) { text-decoration: underline; }
+  .cst-estimate__cta {
+    flex: none; display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap;
+    background: linear-gradient(180deg, #0d9488 0%, #0b7d73 100%); color: #fff; text-decoration: none;
+    font-weight: 800; padding: 0.8rem 1.4rem; border-radius: 13px;
+    box-shadow: 0 12px 26px rgba(13, 148, 136, 0.32);
+    transition: transform 0.12s ease, filter 0.12s ease;
+  }
+  .cst-estimate__cta:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .cst-estimate__cta :global(svg) { width: 18px; height: 18px; }
+
+  /* ── Higher / lower income split ──────────────────────────────────────── */
+  .cst-income { margin: 0 0 3rem; scroll-margin-top: 1.5rem; }
+  .cst-income__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .cst-income__panel {
+    background: #fff; border: 1px solid #e8edf3; border-radius: 18px;
+    padding: 1.7rem 1.7rem; box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06);
+    border-top: 4px solid var(--edge);
+  }
+  .cst-income__panel--up { --edge: #ea580c; --ink: #b4530c; --wash: #fdeadd; }
+  .cst-income__panel--down { --edge: #16a34a; --ink: #157a3a; --wash: #e4f5ea; }
+  .cst-income__head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.9rem; }
+  .cst-income__icon { flex: none; width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: var(--wash); color: var(--ink); }
+  .cst-income__icon :global(svg) { width: 25px; height: 25px; }
+  .cst-income__tag {
+    font-size: 0.74rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--ink); background: var(--wash); padding: 0.28rem 0.7rem; border-radius: 999px;
+  }
+  .cst-income__title { margin: 0 0 0.5rem; font-size: 1.2rem; color: #0b2c45; line-height: 1.25; }
+  .cst-income__body { margin: 0; color: #5b6b7d; font-size: 0.94rem; line-height: 1.6; }
+  .cst-income__body :global(a) { color: var(--ink); font-weight: 600; text-decoration: none; }
+  .cst-income__body :global(a:hover) { text-decoration: underline; }
+
+  /* ── Local strip ──────────────────────────────────────────────────────── */
+  .cst-local {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.5rem;
+    background: linear-gradient(120deg, #fdf1f7 0%, #fbf4f9 100%);
+    border: 1px solid #f3d5e6; border-left: 5px solid #db2777;
+    border-radius: 20px; padding: 1.6rem 1.9rem; margin: 0 0 3rem;
+    scroll-margin-top: 1.5rem;
+  }
+  .cst-local__icon { flex: none; width: 58px; height: 58px; border-radius: 16px; display: grid; place-items: center; background: #fce7f1; color: #db2777; }
+  .cst-local__icon :global(svg) { width: 32px; height: 32px; }
+  .cst-local__title { margin: 0 0 0.3rem; color: #0b2c45; font-size: 1.3rem; }
+  .cst-local__msg p { margin: 0; color: #4b5b6b; font-size: 0.96rem; line-height: 1.5; max-width: 60ch; }
+  .cst-local__msg :global(a) { color: #db2777; font-weight: 700; text-decoration: none; }
+  .cst-local__msg :global(a:hover) { text-decoration: underline; }
+  .cst-local__cta {
+    flex: none; display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap;
+    background: #fff; color: #0b2c45; text-decoration: none; font-weight: 800;
+    padding: 0.8rem 1.4rem; border-radius: 13px; border: 1px solid #f0cfe1;
+    box-shadow: 0 10px 22px rgba(219, 39, 119, 0.15);
+    transition: transform 0.12s ease;
+  }
+  .cst-local__cta:hover { transform: translateY(-2px); }
+  .cst-local__cta :global(svg) { width: 18px; height: 18px; color: #db2777; }
+
+  /* ── Person CTA banner ────────────────────────────────────────────────── */
+  .cst-cta {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.75rem;
+    background: linear-gradient(120deg, #0b2c45 0%, #123a5c 100%);
+    border-radius: 22px; padding: 1.9rem 2.25rem; margin: 0 0 2.5rem;
+    box-shadow: 0 22px 50px rgba(11, 44, 69, 0.28);
+  }
+  .cst-cta__photo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; object-position: top center; border: 3px solid rgba(255,255,255,0.85); flex: none; }
+  .cst-cta__title { margin: 0 0 0.35rem; color: #fff; font-size: clamp(1.3rem, 2.4vw, 1.7rem); line-height: 1.15; }
+  .cst-cta__title :global(em) { font-style: italic; color: #ffd6a0; }
+  .cst-cta__msg p { margin: 0; color: #cfe0f0; line-height: 1.5; font-size: 0.98rem; max-width: 56ch; }
+  .cst-cta__msg :global(strong) { color: #fff; }
+  .cst-cta__actions { display: flex; flex-direction: column; gap: 0.7rem; width: 240px; flex: none; }
+  .cst-cta__phone {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: linear-gradient(180deg, #f97316 0%, #ea580c 100%);
+    color: #fff; text-decoration: none;
+    padding: 0.85rem 1.1rem; border-radius: 14px; font-weight: 800;
+    box-shadow: 0 12px 26px rgba(234, 88, 12, 0.4);
+    transition: transform 0.12s ease, filter 0.12s ease;
+  }
+  .cst-cta__phone:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .cst-cta__phone-icon { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.22); }
+  .cst-cta__phone-icon :global(svg) { width: 20px; height: 20px; }
+  .cst-cta__phone span { display: flex; flex-direction: column; line-height: 1.15; font-size: 1.02rem; }
+  .cst-cta__phone em { font-style: normal; font-weight: 600; font-size: 0.78rem; opacity: 0.9; }
+  .cst-cta__quote {
+    display: flex; align-items: center; justify-content: center; gap: 0.55rem;
+    background: #fff; color: #0b2c45; text-decoration: none;
+    padding: 0.8rem 1.1rem; border-radius: 14px; font-weight: 800; font-size: 0.95rem;
+    transition: transform 0.12s ease;
+  }
+  .cst-cta__quote:hover { transform: translateY(-2px); }
+  .cst-cta__quote-icon { display: grid; place-items: center; color: #2563eb; }
+  .cst-cta__quote-icon :global(svg) { width: 20px; height: 20px; }
+
+  /* ── FAQ · Jump · Agent trio ──────────────────────────────────────────── */
+  .cst-trio { display: grid; grid-template-columns: 1.1fr 1fr 0.9fr; gap: 1.5rem; margin: 0 0 2.5rem; align-items: start; }
+  .cst-panel { background: #fff; border: 1px solid #e8edf3; border-radius: 18px; padding: 1.6rem 1.6rem; box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06); }
+  .cst-panel__h { margin: 0 0 1.1rem; font-size: 1.2rem; color: #0b2c45; }
+
+  .cst-faq { border-top: 1px solid #eef2f6; padding: 0.7rem 0; }
+  .cst-faq:first-of-type { border-top: none; padding-top: 0; }
+  .cst-faq summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+    cursor: pointer; list-style: none;
+    font-weight: 600; color: #334155; font-size: 0.95rem; line-height: 1.35;
+  }
+  .cst-faq summary::-webkit-details-marker { display: none; }
+  .cst-faq summary::after { content: "⌄"; color: #2563eb; font-weight: 800; font-size: 1.1rem; transition: transform 0.15s ease; }
+  .cst-faq[open] summary::after { transform: rotate(180deg); }
+  .cst-faq p { margin: 0.6rem 0 0; color: #5b6b7d; font-size: 0.9rem; line-height: 1.55; }
+  .cst-panel__src { margin: 1.1rem 0 0; padding-top: 0.9rem; border-top: 1px solid #eef2f6; color: #64748b; font-size: 0.85rem; }
+  .cst-panel__src strong { color: #334155; }
+  .cst-panel__src a { color: #2563eb; text-decoration: none; font-weight: 600; }
+  .cst-panel__src a:hover { text-decoration: underline; }
+
+  .cst-centers { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.85rem; }
+  .cst-centers li { display: flex; align-items: center; gap: 0.7rem; }
+  .cst-centers__icon { flex: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--tint); color: var(--accent); }
+  .cst-centers__icon :global(svg) { width: 20px; height: 20px; }
+  .cst-centers a { color: #1f4e8c; text-decoration: none; font-weight: 700; font-size: 0.95rem; }
+  .cst-centers a:hover { text-decoration: underline; }
+
+  .cst-panel--agent { text-align: center; background: linear-gradient(180deg, #eef5fe 0%, #f7fbff 100%); }
+  .cst-agent__photo { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; object-position: top center; border: 4px solid #fff; box-shadow: 0 12px 26px rgba(11, 44, 69, 0.18); margin: 0 auto 0.85rem; }
+  .cst-panel--agent .cst-panel__h { font-size: 1.15rem; }
+  .cst-agent__blurb { color: #5b6b7d; font-size: 0.93rem; line-height: 1.5; margin: 0 0 1.1rem; }
+  .cst-agent__cta {
+    display: inline-block; background: #2563eb; color: #fff; text-decoration: none;
+    font-weight: 800; padding: 0.7rem 1.3rem; border-radius: 12px;
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.3);
+    transition: transform 0.12s ease, filter 0.12s ease;
+  }
+  .cst-agent__cta:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .cst-agent__sig { display: block; margin-top: 0.85rem; color: #1f4e8c; font-weight: 700; font-style: italic; font-size: 0.9rem; }
+
+  /* ── Trust bar ────────────────────────────────────────────────────────── */
+  .cst-trust {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
+    background: #f7fafd; border: 1px solid #e8edf3; border-radius: 18px;
+    padding: 1.5rem 1.75rem; margin: 0 0 1.5rem;
+  }
+  .cst-trust__item { display: flex; align-items: center; gap: 0.8rem; }
+  .cst-trust__icon {
+    flex: none; width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: color-mix(in srgb, var(--c) 14%, #fff); color: var(--c);
+  }
+  .cst-trust__icon :global(svg) { width: 23px; height: 23px; }
+  .cst-trust__text strong { display: block; color: #0b2c45; font-size: 0.95rem; }
+  .cst-trust__text em { color: #64748b; font-style: normal; font-size: 0.82rem; }
+
+  /* ── Responsive ───────────────────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .cst-blocks__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 900px) {
+    .cst-hero { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+    .cst-hero__lede { max-width: none; }
+    .cst-hero__callout { position: static; margin-top: 1rem; left: auto; right: auto; bottom: auto; }
+    .cst-estimate, .cst-local { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .cst-estimate__msg p, .cst-local__msg p { max-width: none; }
+    .cst-income__grid { grid-template-columns: 1fr; }
+    .cst-caps__grid { grid-template-columns: 1fr; }
+    .cst-cta { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .cst-cta__msg p { max-width: none; }
+    .cst-cta__actions { width: 100%; max-width: 320px; }
+    .cst-trio { grid-template-columns: 1fr; }
+    .cst-trust { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .cst-blocks__grid { grid-template-columns: 1fr; }
+    .cst-trust { grid-template-columns: 1fr; }
+  }
+</style>

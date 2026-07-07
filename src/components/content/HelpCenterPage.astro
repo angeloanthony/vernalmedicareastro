@@ -1,9 +1,16 @@
 ---
 // src/components/content/HelpCenterPage.astro — the MASTER HUB template
-// (M4 batch 2; playbook §4.5). The eight topic sections are a structured
-// sections[] array in the content JSON; every link auto-upgrades to /es/ as
-// its destination gets translated (this page benefits most from the network
-// effect — it links to nearly everything).
+// (M4 batch 2; playbook §4.5). Redesigned (M44) from a plain link list into a
+// polished landing hub (bareHeader + bareFooter) matching the coverage /
+// financial-assistance hubs: a hero with feature chips + photo callout, a
+// "Browse Help by Topic" card grid (one card per content section, each with an
+// accent, icon, blurb and a CTA), a person CTA banner, an FAQ / resources /
+// related trio, and a trust bar.
+//
+// The eight topic sections stay a structured sections[] array in the content
+// JSON; every internal link the old text hub exposed still ships inside the
+// cards. Relative hrefs auto-upgrade to /es/ because the /es page resolves them
+// against its own path — so keep every internal link relative.
 import ArticlePage from '../layout/ArticlePage.astro';
 import { BUSINESS } from '../../data/business';
 import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
@@ -11,9 +18,16 @@ import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
 import type { PageContext } from '../../types/Page';
 
 const SLUG = 'medicare-help-center';
-const vars = { phone: BUSINESS.phone, tty: BUSINESS.tty, email: BUSINESS.email };
+const vars = { phone: BUSINESS.phone, tty: BUSINESS.tty, email: BUSINESS.email, phoneTel: BUSINESS.phoneTel };
 const t9 = (s: string) => interp(s, vars);
 
+interface Section {
+  h2: string;
+  blurb: string;
+  cta: string;
+  itemsHtml: string[];
+}
+interface LinkItem { label: string; href: string; external?: boolean }
 interface Content {
   page: {
     title: string;
@@ -29,15 +43,36 @@ interface Content {
   body: {
     introHtml: string;
     newHereHtml: string;
-    sections: { h2: string; itemsHtml: string[] }[];
+    sections: Section[];
     h2Ready: string;
     readyHtml: string;
+    hub: {
+      browsePre: string;
+      browseEm: string;
+      heroImageAlt: string;
+      features: { title: string; sub: string }[];
+      calloutTitle: string;
+      calloutHtml: string;
+      faqHeading: string;
+      faqAllLabel: string;
+      faqAllHref: string;
+      resourcesHeading: string;
+      resources: LinkItem[];
+      relatedHeading: string;
+      related: LinkItem[];
+      ctaBlurb: string;
+      callBtn: string;
+      quoteBtn: string;
+      quoteHref: string;
+      trust: { title: string; sub: string }[];
+    };
   };
 }
 
 const lang = getLangFromUrl(Astro.url);
 const c = getPageContent<Content>(SLUG, lang);
 const b = c.body;
+const hub = b.hub;
 const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
 
 const context: PageContext = {
@@ -68,22 +103,433 @@ const context: PageContext = {
     { name: c.breadcrumb.self, href: pagePath },
   ],
 };
+
+const FAQS = context.page.faqs ?? [];
+
+// Presentation metadata for the topic cards — language-neutral (icon, accent,
+// tint, CTA destination), zipped by index with the translated sections[]. Order
+// MUST match the content JSON's sections order.
+const SECTION_STYLE = [
+  { accent: '#2563eb', tint: '#e5edfe', href: 'medicare-part-a-vs-part-b.html',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg>' },
+  { accent: '#16a34a', tint: '#e4f5ea', href: 'turning-65.html',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M7.5 13h2M11 13h2M14.5 13h2M7.5 16.5h2M11 16.5h2"/></svg>' },
+  { accent: '#7c3aed', tint: '#f0e9fd', href: 'medicare-costs.html',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M14.6 9a2.7 2.7 0 0 0-2.6-1.6c-1.5 0-2.5.8-2.5 1.9 0 2.5 5 1.4 5 4 0 1.1-1 2-2.6 2A2.8 2.8 0 0 1 9.2 15"/></svg>' },
+  { accent: '#ea580c', tint: '#fdeadd', href: 'medicare-supplement-vs-advantage.html',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M6.5 6h11"/><path d="M5 21h14"/><path d="M6.5 6 3.5 12.5h6z"/><path d="M17.5 6l-3 6.5h6z"/></svg>' },
+  { accent: '#dc2626', tint: '#fdeaea', href: 'best-part-d-plans-vernal.html',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.6 3.4 3.4 10.6a5 5 0 0 0 7.1 7.1l7.1-7.1a5 5 0 1 0-7-7.1z"/><path d="M7 7l7 7"/></svg>' },
+  { accent: '#0d9488', tint: '#d7f0ec', href: 'medicare-financial-assistance.html',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 5.6a4 4 0 0 0-6-.3l-.4.5-.5-.5a4 4 0 1 0-5.7 5.6l.5.5L14 17l5.7-5.9.7-.7a4 4 0 0 0 0-4.8z"/><path d="M4 13h3l1.5 2.2L11 11l1.5 2h3"/></svg>' },
+  { accent: '#16a34a', tint: '#e4f5ea', href: 'medicare-calculators.html',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><rect x="8" y="6" width="8" height="3" rx="0.6"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01M15.5 16.5v2"/></svg>' },
+  { accent: '#2563eb', tint: '#e5edfe', href: 'medicare-plans-vernal-utah.html',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.3-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.7 12 21 12 21z"/><circle cx="12" cy="10.3" r="2.4"/></svg>' },
+];
+const groups = b.sections.map((s, i) => ({ s, st: SECTION_STYLE[i] ?? SECTION_STYLE[0] }));
+
+// Hero feature chips — icons parallel to hub.features.
+const FEATURE_ICONS = [
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><rect x="8" y="6" width="8" height="3" rx="0.6"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01M15.5 16.5v2"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.3-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.7 12 21 12 21z"/><circle cx="12" cy="10.3" r="2.4"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-4 4v-4H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/><path d="M8 9h8M8 12h5"/></svg>',
+];
+
+// Trust bar — icons parallel to hub.trust.
+const TRUST = [
+  { color: '#16a34a', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>' },
+  { color: '#7c3aed', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.2"/></svg>' },
+  { color: '#ea580c', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13l3 3 5-5 4 4"/><path d="M2 9l4-4 4 3 4-3 4 4"/></svg>' },
+  { color: '#2563eb', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 16 0"/><rect x="3" y="12" width="4" height="6" rx="1.5"/><rect x="17" y="12" width="4" height="6" rx="1.5"/><path d="M20 18v1a3 3 0 0 1-3 3h-3"/></svg>' },
+];
+const trust = hub.trust.map((t, i) => ({ ...t, ...TRUST[i] }));
+
+const phoneTel = `tel:${BUSINESS.phoneTel}`;
 ---
 
-<ArticlePage context={context}>
-  <p set:html={b.introHtml} />
+<ArticlePage context={context} bareHeader bareFooter>
+  {/* ─── Hero ─────────────────────────────────────────────────────────── */}
+  <section class="hc-hero">
+    <div class="hc-hero__copy">
+      <h1 class="hc-hero__title">{c.page.heading}</h1>
+      <p class="hc-hero__lede" set:html={b.introHtml} />
 
-  <p style="background:#f4f8fb;border:1px solid #dbe6ef;border-radius:10px;padding:0.85rem 1.1rem;" set:html={b.newHereHtml} />
-
-  {b.sections.map((s) => (
-    <Fragment>
-      <h2 set:html={s.h2} />
-      <ul>
-        {s.itemsHtml.map((item) => <li set:html={item} />)}
+      <ul class="hc-hero__features">
+        {hub.features.map((f, i) => (
+          <li>
+            <span class="hc-hero__feat-icon" aria-hidden="true" set:html={FEATURE_ICONS[i]} />
+            <span><strong>{f.title}</strong><em>{f.sub}</em></span>
+          </li>
+        ))}
       </ul>
-    </Fragment>
-  ))}
+    </div>
 
-  <h2>{b.h2Ready}</h2>
-  <p set:html={t9(b.readyHtml)} />
+    <div class="hc-hero__art">
+      <img
+        class="hc-hero__img"
+        src="/pictures/help-you-deserve.webp"
+        alt={hub.heroImageAlt}
+        width="1536"
+        height="1024"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="hc-hero__callout">
+        <span class="hc-hero__callout-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3-6.5 7-6.5s7 2.9 7 6.5"/></svg></span>
+        <p><strong>{hub.calloutTitle}</strong><span set:html={t9(hub.calloutHtml)} /></p>
+      </div>
+    </div>
+  </section>
+
+  {/* ─── New-here router ──────────────────────────────────────────────── */}
+  <p class="hc-newhere">
+    <span class="hc-newhere__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg></span>
+    <span set:html={b.newHereHtml} />
+  </p>
+
+  {/* ─── Browse Help by Topic ─────────────────────────────────────────── */}
+  <section class="hc-cats" aria-labelledby="hc-cats-h">
+    <h2 id="hc-cats-h" class="hc-h2 hc-h2--center">{hub.browsePre} <span>{hub.browseEm}</span></h2>
+    <div class="hc-cats__grid">
+      {groups.map(({ s, st }) => (
+        <article class="hc-card" style={`--accent:${st.accent};--tint:${st.tint}`}>
+          <div class="hc-card__head">
+            <span class="hc-card__icon" aria-hidden="true" set:html={st.icon} />
+            <div>
+              <h3 class="hc-card__title" set:html={s.h2} />
+              <p class="hc-card__blurb">{s.blurb}</p>
+            </div>
+          </div>
+          <ul class="hc-card__list">
+            {s.itemsHtml.map((item) => <li set:html={item} />)}
+          </ul>
+          <a class="hc-card__cta" href={st.href}>
+            <span set:html={s.cta} />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  {/* ─── Person CTA banner ────────────────────────────────────────────── */}
+  <section class="hc-cta">
+    <img class="hc-cta__photo" src="/pictures/rocco.webp" alt="Rocco DeLuca, licensed Medicare agent in Vernal, Utah" width="88" height="88" loading="lazy" decoding="async" />
+    <div class="hc-cta__msg">
+      <h2 class="hc-cta__title">{b.h2Ready}</h2>
+      <p>{hub.ctaBlurb}</p>
+    </div>
+    <div class="hc-cta__actions">
+      <a class="hc-cta__phone" href={phoneTel}>
+        <span class="hc-cta__phone-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
+        <span>{t9(hub.callBtn)}<em>(TTY: {BUSINESS.tty})</em></span>
+      </a>
+      <a class="hc-cta__quote" href={hub.quoteHref}>
+        <span class="hc-cta__quote-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span>
+        {hub.quoteBtn}
+      </a>
+    </div>
+  </section>
+
+  {/* ─── FAQ · Resources · Related trio ───────────────────────────────── */}
+  <div class="hc-trio">
+    <section class="hc-panel">
+      <h2 class="hc-panel__h"><span class="hc-panel__hicon hc-panel__hicon--blue" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.4 9.3a2.6 2.6 0 0 1 4.7 1.4c0 1.7-2.1 2.1-2.1 3.6"/><circle cx="12" cy="17.1" r="0.6" fill="currentColor" stroke="none"/></svg></span>{hub.faqHeading}</h2>
+      {FAQS.map((q) => (
+        <details class="hc-faq">
+          <summary set:html={q.question} />
+          <p set:html={q.answer} />
+        </details>
+      ))}
+      <a class="hc-panel__more" href={hub.faqAllHref}>{hub.faqAllLabel} →</a>
+    </section>
+
+    <section class="hc-panel">
+      <h2 class="hc-panel__h"><span class="hc-panel__hicon hc-panel__hicon--green" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14a0 0 0 0 1 0 0H6a0 0 0 0 1 0 0z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 16.5h4"/></svg></span>{hub.resourcesHeading}</h2>
+      <ul class="hc-links">
+        {hub.resources.map((r) => (
+          <li>
+            <a href={r.href} {...(r.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} set:html={r.label} />
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="hc-panel">
+      <h2 class="hc-panel__h"><span class="hc-panel__hicon hc-panel__hicon--purple" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H13v15H6.5A2.5 2.5 0 0 0 4 20z"/><path d="M20 6.5A2.5 2.5 0 0 0 17.5 4H13v14h4.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg></span>{hub.relatedHeading}</h2>
+      <ul class="hc-links hc-links--related">
+        {hub.related.map((r) => (
+          <li><a href={r.href} set:html={r.label} /></li>
+        ))}
+      </ul>
+    </section>
+  </div>
+
+  {/* ─── Trust bar ────────────────────────────────────────────────────── */}
+  <section class="hc-trust">
+    {trust.map((t) => (
+      <div class="hc-trust__item">
+        <span class="hc-trust__icon" style={`--c:${t.color}`} aria-hidden="true" set:html={t.icon} />
+        <span class="hc-trust__text"><strong>{t.title}</strong><em>{t.sub}</em></span>
+      </div>
+    ))}
+  </section>
 </ArticlePage>
+
+<style>
+  /* Palette echoes the coverage / financial-assistance hubs: navy #0b2c45,
+     blue #2563eb, with per-topic accents (blue/green/purple/orange/red/teal). */
+
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .hc-hero {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    align-items: center;
+    gap: 2.5rem;
+    background: linear-gradient(180deg, #eaf3fb 0%, #f4f9fd 100%);
+    border: 1px solid #dbe6f2;
+    border-radius: 24px;
+    padding: 2.5rem 2.75rem;
+    margin: 0.25rem 0 1.5rem;
+  }
+  .hc-hero__title {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: 1.05;
+    font-weight: 800;
+    color: #0b2c45;
+    margin: 0 0 0.75rem;
+  }
+  .hc-hero__lede { font-size: 1.06rem; color: #475569; line-height: 1.55; margin: 0 0 1.6rem; max-width: 46ch; }
+  .hc-hero__lede :global(a) { color: #2563eb; font-weight: 700; text-decoration: none; }
+  .hc-hero__lede :global(a:hover) { text-decoration: underline; }
+
+  .hc-hero__features {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.25rem;
+  }
+  .hc-hero__features li { display: flex; align-items: center; gap: 0.7rem; }
+  .hc-hero__features strong { display: block; color: #0b2c45; font-size: 0.95rem; line-height: 1.2; }
+  .hc-hero__features em { color: #5b6b7d; font-size: 0.82rem; font-style: normal; line-height: 1.3; display: block; margin-top: 0.1rem; }
+  .hc-hero__feat-icon {
+    flex: none; width: 42px; height: 42px; border-radius: 12px;
+    display: grid; place-items: center;
+    background: #e2edfb; color: #1f4e8c;
+  }
+  .hc-hero__feat-icon svg { width: 22px; height: 22px; }
+
+  .hc-hero__art { position: relative; display: flex; justify-content: center; }
+  .hc-hero__img {
+    width: 100%; height: auto; display: block;
+    border-radius: 18px;
+    box-shadow: 0 18px 44px rgba(11, 44, 69, 0.18);
+  }
+  .hc-hero__callout {
+    position: absolute; left: 1.25rem; right: 1.25rem; bottom: -1rem;
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    background: #fff; border: 1px solid #e1e9f2; border-radius: 14px;
+    padding: 0.9rem 1.1rem;
+    box-shadow: 0 14px 34px rgba(11, 44, 69, 0.16);
+  }
+  .hc-hero__callout-icon { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #e6effe; color: #2563eb; }
+  .hc-hero__callout-icon svg { width: 22px; height: 22px; }
+  .hc-hero__callout p { margin: 0; color: #475569; font-size: 0.85rem; line-height: 1.45; }
+  .hc-hero__callout strong { display: block; color: #0b2c45; font-size: 0.92rem; margin-bottom: 0.1rem; }
+  .hc-hero__callout :global(a) { color: #2563eb; font-weight: 700; text-decoration: none; }
+  .hc-hero__callout :global(a:hover) { text-decoration: underline; }
+
+  /* ── New-here router ──────────────────────────────────────────────────── */
+  .hc-newhere {
+    display: flex; align-items: center; gap: 0.85rem;
+    background: #f4f8fb; border: 1px solid #dbe6ef; border-radius: 12px;
+    padding: 0.9rem 1.25rem; margin: 0 0 2.5rem;
+    color: #334155; font-size: 0.98rem; line-height: 1.45;
+  }
+  .hc-newhere__icon { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #e2edfb; color: #2563eb; }
+  .hc-newhere__icon svg { width: 19px; height: 19px; }
+  .hc-newhere :global(a) { color: #2563eb; font-weight: 700; text-decoration: none; }
+  .hc-newhere :global(a:hover) { text-decoration: underline; }
+
+  /* ── Section heading ──────────────────────────────────────────────────── */
+  .hc-h2 { color: #0b2c45; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin: 0 0 1.75rem; }
+  .hc-h2--center { text-align: center; }
+  .hc-h2 span { color: #2563eb; }
+
+  /* ── Browse card grid ─────────────────────────────────────────────────── */
+  .hc-cats { margin: 0 0 3rem; }
+  .hc-cats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.4rem;
+  }
+  .hc-card {
+    display: flex; flex-direction: column;
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-top: 4px solid var(--accent);
+    border-radius: 16px;
+    padding: 1.5rem 1.4rem 1.3rem;
+    box-shadow: 0 10px 30px rgba(11, 44, 69, 0.06);
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .hc-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(11, 44, 69, 0.12); }
+  .hc-card__head { display: flex; align-items: flex-start; gap: 0.85rem; margin-bottom: 1rem; }
+  .hc-card__icon {
+    flex: none; width: 50px; height: 50px; border-radius: 14px;
+    display: grid; place-items: center;
+    background: var(--tint); color: var(--accent);
+  }
+  .hc-card__icon svg { width: 27px; height: 27px; }
+  .hc-card__title { margin: 0.1rem 0 0.3rem; font-size: 1.1rem; line-height: 1.2; color: var(--accent); }
+  .hc-card__blurb { margin: 0; color: #5b6b7d; font-size: 0.86rem; line-height: 1.4; }
+
+  .hc-card__list { list-style: none; padding: 0; margin: 0 0 1.1rem; display: grid; gap: 0; flex: 1; }
+  .hc-card__list li {
+    padding: 0.5rem 0; border-top: 1px solid #eef2f6;
+    font-size: 0.88rem; line-height: 1.4; color: #64748b;
+  }
+  .hc-card__list li:first-child { border-top: none; }
+  .hc-card__list :global(a) {
+    color: #1f2d3d; text-decoration: none; font-weight: 600;
+  }
+  .hc-card__list :global(strong a) { color: #1f2d3d; }
+  .hc-card__list :global(a:hover) { color: var(--accent); text-decoration: underline; }
+
+  .hc-card__cta {
+    margin-top: auto;
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+    background: var(--tint); color: var(--accent);
+    text-decoration: none; font-weight: 800; font-size: 0.9rem;
+    padding: 0.6rem 0.9rem; border-radius: 11px;
+    transition: filter 0.12s ease, transform 0.12s ease;
+  }
+  .hc-card__cta svg { width: 16px; height: 16px; transition: transform 0.14s ease; }
+  .hc-card__cta:hover { filter: brightness(0.97); }
+  .hc-card__cta:hover svg { transform: translateX(3px); }
+
+  /* ── Person CTA banner ────────────────────────────────────────────────── */
+  .hc-cta {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.75rem;
+    background: linear-gradient(120deg, #0b2c45 0%, #123a5c 100%);
+    border-radius: 22px;
+    padding: 1.9rem 2.25rem;
+    margin: 0 0 2.5rem;
+    box-shadow: 0 22px 50px rgba(11, 44, 69, 0.28);
+  }
+  .hc-cta__photo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; object-position: top center; border: 3px solid rgba(255,255,255,0.85); flex: none; }
+  .hc-cta__title { margin: 0 0 0.35rem; color: #fff; font-size: clamp(1.3rem, 2.4vw, 1.7rem); line-height: 1.15; }
+  .hc-cta__msg p { margin: 0; color: #cfe0f0; line-height: 1.5; font-size: 0.98rem; max-width: 54ch; }
+  .hc-cta__actions { display: flex; flex-direction: column; gap: 0.7rem; width: 250px; flex: none; }
+  .hc-cta__phone {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: linear-gradient(180deg, #f97316 0%, #ea580c 100%);
+    color: #fff; text-decoration: none;
+    padding: 0.85rem 1.1rem; border-radius: 14px; font-weight: 800;
+    box-shadow: 0 12px 26px rgba(234, 88, 12, 0.4);
+    transition: transform 0.12s ease, filter 0.12s ease;
+  }
+  .hc-cta__phone:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .hc-cta__phone-icon { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.22); }
+  .hc-cta__phone-icon svg { width: 20px; height: 20px; }
+  .hc-cta__phone > span { display: flex; flex-direction: column; line-height: 1.15; font-size: 1.02rem; }
+  .hc-cta__phone em { font-style: normal; font-weight: 600; font-size: 0.78rem; opacity: 0.9; }
+  .hc-cta__quote {
+    display: flex; align-items: center; justify-content: center; gap: 0.55rem;
+    background: #fff; color: #0b2c45; text-decoration: none;
+    padding: 0.8rem 1.1rem; border-radius: 14px; font-weight: 800; font-size: 0.93rem;
+    transition: transform 0.12s ease;
+  }
+  .hc-cta__quote:hover { transform: translateY(-2px); }
+  .hc-cta__quote-icon { display: grid; place-items: center; color: #2563eb; }
+  .hc-cta__quote-icon svg { width: 20px; height: 20px; }
+
+  /* ── FAQ · Resources · Related trio ───────────────────────────────────── */
+  .hc-trio {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr 0.9fr;
+    gap: 1.5rem;
+    margin: 0 0 2.5rem;
+    align-items: start;
+  }
+  .hc-panel {
+    background: #fff; border: 1px solid #e8edf3; border-radius: 18px;
+    padding: 1.6rem 1.6rem;
+    box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06);
+  }
+  .hc-panel__h { display: flex; align-items: center; gap: 0.6rem; margin: 0 0 1.1rem; font-size: 1.15rem; color: #0b2c45; }
+  .hc-panel__hicon { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; }
+  .hc-panel__hicon svg { width: 19px; height: 19px; }
+  .hc-panel__hicon--blue { background: #e5edfe; color: #2563eb; }
+  .hc-panel__hicon--green { background: #e4f5ea; color: #16a34a; }
+  .hc-panel__hicon--purple { background: #f0e9fd; color: #7c3aed; }
+
+  .hc-faq { border-top: 1px solid #eef2f6; padding: 0.7rem 0; }
+  .hc-faq:first-of-type { border-top: none; padding-top: 0; }
+  .hc-faq summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+    cursor: pointer; list-style: none;
+    font-weight: 600; color: #334155; font-size: 0.94rem; line-height: 1.35;
+  }
+  .hc-faq summary::-webkit-details-marker { display: none; }
+  .hc-faq summary::after { content: "⌄"; color: #2563eb; font-weight: 800; font-size: 1.1rem; transition: transform 0.15s ease; }
+  .hc-faq[open] summary::after { transform: rotate(180deg); }
+  .hc-faq p { margin: 0.6rem 0 0; color: #5b6b7d; font-size: 0.88rem; line-height: 1.55; }
+  .hc-panel__more { display: inline-block; margin-top: 1rem; color: #2563eb; font-weight: 700; font-size: 0.9rem; text-decoration: none; }
+  .hc-panel__more:hover { text-decoration: underline; }
+
+  .hc-links { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.15rem; }
+  .hc-links li { border-top: 1px solid #eef2f6; padding: 0.6rem 0; }
+  .hc-links li:first-child { border-top: none; padding-top: 0; }
+  .hc-links :global(a) {
+    color: #1f4e8c; text-decoration: none; font-weight: 600; font-size: 0.9rem; line-height: 1.4;
+    display: inline-flex; gap: 0.4rem;
+  }
+  .hc-links :global(a::before) { content: "›"; color: #2563eb; font-weight: 800; flex: none; }
+  .hc-links :global(a:hover) { text-decoration: underline; }
+  .hc-links--related :global(a::before) { content: "→"; }
+
+  /* ── Trust bar ────────────────────────────────────────────────────────── */
+  .hc-trust {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    background: #f7fafd;
+    border: 1px solid #e8edf3;
+    border-radius: 18px;
+    padding: 1.5rem 1.75rem;
+    margin: 0 0 1.5rem;
+  }
+  .hc-trust__item { display: flex; align-items: center; gap: 0.8rem; }
+  .hc-trust__icon {
+    flex: none; width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: color-mix(in srgb, var(--c) 14%, #fff); color: var(--c);
+  }
+  .hc-trust__icon svg { width: 23px; height: 23px; }
+  .hc-trust__text strong { display: block; color: #0b2c45; font-size: 0.95rem; }
+  .hc-trust__text em { color: #64748b; font-style: normal; font-size: 0.82rem; }
+
+  /* ── Responsive ───────────────────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .hc-cats__grid { grid-template-columns: repeat(2, 1fr); }
+    .hc-trio { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 900px) {
+    .hc-hero { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+    .hc-hero__lede { max-width: none; }
+    .hc-hero__callout { position: static; margin-top: 1rem; left: auto; right: auto; bottom: auto; }
+    .hc-cta { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .hc-cta__msg p { max-width: none; }
+    .hc-cta__actions { width: 100%; max-width: 320px; }
+    .hc-trust { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .hc-cats__grid { grid-template-columns: 1fr; }
+    .hc-hero__features { grid-template-columns: 1fr; }
+    .hc-trust { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,9 +1,13 @@
 ---
-// src/pages/medicare-glossary.astro — Medicare Glossary (M29). A categorized
-// knowledge system rendered from data/glossary.ts: each term leads with a
-// plain-language answer (people + AI search), then the detail, then a link to
-// the Vernal page that OWNS the topic (reinforces pillars, never competes).
-// The data model supports promoting a term to its own page later.
+// src/pages/medicare-glossary.astro — Medicare Glossary (M29, redesigned M45).
+// A categorized knowledge system rendered from data/glossary.ts, now presented
+// as a polished landing hub (bareHeader + bareFooter) that matches the Help
+// Center / Costs / IRMAA hubs: an illustrated hero with feature chips + a
+// new-here router, an A–Z letter index, a "Browse Terms by Topic" card grid,
+// then the full term definitions restyled from a <dl> wall into per-category
+// term cards, a person CTA banner, an FAQ / resources / related trio, and a
+// trust bar. Each term still leads with a plain-language answer, then the
+// detail, then a link to the Vernal page that OWNS the topic.
 import ArticlePage from '../components/layout/ArticlePage.astro';
 import { GLOSSARY } from '../data/glossary';
 import { CATEGORY_META, type GlossaryCategory } from '../types/Glossary';
@@ -12,11 +16,65 @@ import type { PageContext } from '../types/Page';
 
 const CATEGORY_ORDER: GlossaryCategory[] = ['enrollment', 'costs', 'plans', 'assistance', 'coverage'];
 const bySlug = new Map(GLOSSARY.map((t) => [t.slug, t]));
+
+// Language-neutral presentation metadata per category (accent, tint, icon),
+// zipped with the translated CATEGORY_META by key.
+const CAT_STYLE: Record<GlossaryCategory, { accent: string; tint: string; icon: string }> = {
+  enrollment: { accent: '#2563eb', tint: '#e5edfe',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M7.5 13h2M11 13h2M14.5 13h2M7.5 16.5h2M11 16.5h2"/></svg>' },
+  costs: { accent: '#16a34a', tint: '#e4f5ea',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M14.6 9a2.7 2.7 0 0 0-2.6-1.6c-1.5 0-2.5.8-2.5 1.9 0 2.5 5 1.4 5 4 0 1.1-1 2-2.6 2A2.8 2.8 0 0 1 9.2 15"/></svg>' },
+  plans: { accent: '#7c3aed', tint: '#f0e9fd',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg>' },
+  assistance: { accent: '#0d9488', tint: '#d7f0ec',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 5.6a4 4 0 0 0-6-.3l-.4.5-.5-.5a4 4 0 1 0-5.7 5.6l.5.5L14 17l5.7-5.9.7-.7a4 4 0 0 0 0-4.8z"/><path d="M4 13h3l1.5 2.2L11 11l1.5 2h3"/></svg>' },
+  coverage: { accent: '#ea580c', tint: '#fdeadd',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.6 3.4 3.4 10.6a5 5 0 0 0 7.1 7.1l7.1-7.1a5 5 0 1 0-7-7.1z"/><path d="M7 7l7 7"/></svg>' },
+};
+
 const groups = CATEGORY_ORDER.map((cat) => ({
   cat,
   meta: CATEGORY_META[cat],
+  st: CAT_STYLE[cat],
   terms: GLOSSARY.filter((t) => t.category === cat).sort((a, b) => a.term.localeCompare(b.term)),
 }));
+
+// A–Z index → each active letter jumps to the first term that starts with it.
+const ALPHABET = '#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const sortedAll = [...GLOSSARY].sort((a, b) => a.term.localeCompare(b.term));
+const letterTarget = new Map<string, string>();
+for (const t of sortedAll) {
+  const first = t.term[0].toUpperCase();
+  const key = /[A-Z]/.test(first) ? first : '#';
+  if (!letterTarget.has(key)) letterTarget.set(key, t.slug);
+}
+
+// Hero feature chips — icons parallel to FEATURES.
+const FEATURES = [
+  { title: 'Plain English', sub: 'No jargon',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg>' },
+  { title: 'Trusted & Local', sub: 'Vernal & Uintah Basin',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.3-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.7 12 21 12 21z"/><circle cx="12" cy="10.3" r="2.4"/></svg>' },
+  { title: 'Always Current', sub: '2026 rules & figures',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg>' },
+  { title: '100% Free', sub: 'No signup required',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>' },
+];
+
+// Trust bar.
+const TRUST = [
+  { title: 'Local & Trusted', sub: 'Licensed in Utah', color: '#16a34a',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>' },
+  { title: 'No Cost, No Pressure', sub: 'We’re here to help', color: '#7c3aed',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.2"/></svg>' },
+  { title: 'We Work for You', sub: 'Your best interests first', color: '#ea580c',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 5.6a4 4 0 0 0-6-.3l-.4.5-.5-.5a4 4 0 1 0-5.7 5.6L12 17l6-6.1.4-.5a4 4 0 0 0 0-4.8z"/></svg>' },
+  { title: 'Here When You Need Us', sub: 'Call, email, or meet locally', color: '#2563eb',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 16 0"/><rect x="3" y="12" width="4" height="6" rx="1.5"/><rect x="17" y="12" width="4" height="6" rx="1.5"/><path d="M20 18v1a3 3 0 0 1-3 3h-3"/></svg>' },
+];
+
+const arrowSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>';
+const phoneTel = `tel:${BUSINESS.phoneTel}`;
 
 const context: PageContext = {
   page: {
@@ -53,88 +111,533 @@ const context: PageContext = {
     { name: 'Medicare Glossary', href: '/medicare-glossary.html' },
   ],
 };
+
+const FAQS = context.page.faqs ?? [];
 ---
 
-<ArticlePage context={context}>
-  <p>Medicare comes with a lot of jargon. Below, {GLOSSARY.length} of the terms that come up most — in plain English first, then the detail — grouped by topic. Each term links to the guide that covers it in depth.</p>
+<ArticlePage context={context} bareHeader bareFooter>
+  {/* ─── Hero ─────────────────────────────────────────────────────────── */}
+  <section class="gl-hero">
+    <div class="gl-hero__copy">
+      <h1 class="gl-hero__title">Medicare Glossary</h1>
+      <p class="gl-hero__tag">Understand Medicare with confidence.</p>
+      <p class="gl-hero__lede">
+        Plain-English definitions of the terms that matter most — from A to Z.
+        Learn the basics, compare your options, and make the best decisions for
+        your health and your wallet. {GLOSSARY.length} terms, grouped by topic.
+      </p>
 
-  <nav class="glossary-nav" aria-label="Glossary categories">
-    {groups.map((g) => <a href={`#${g.cat}`}>{g.meta.label}</a>)}
-  </nav>
-
-  {groups.map((g) => (
-    <section id={g.cat} class="glossary-category">
-      <h2>{g.meta.label}</h2>
-      <p class="glossary-cat-blurb">{g.meta.blurb}</p>
-      <dl class="glossary-list">
-        {g.terms.map((t) => (
-          <div id={t.slug} class="glossary-term">
-            <dt>{t.term}</dt>
-            <dd>
-              <p><strong>{t.short}</strong></p>
-              <p>{t.full}</p>
-              <p class="glossary-links">
-                {t.authorityHref && <a href={t.authorityHref}>Learn more: {t.authorityLabel}</a>}
-                {t.calculatorHref && t.calculatorHref !== t.authorityHref && (
-                  <Fragment> · <a href={t.calculatorHref}>calculator</a></Fragment>
-                )}
-                {t.related && t.related.length > 0 && (
-                  <Fragment>
-                    {' · Related: '}
-                    {t.related
-                      .map((slug) => bySlug.get(slug))
-                      .filter(Boolean)
-                      .map((r, i) => (
-                        <Fragment>{i > 0 ? ', ' : ''}<a href={`#${r!.slug}`}>{r!.term.replace(/\s*\(.*\)$/, '')}</a></Fragment>
-                      ))}
-                  </Fragment>
-                )}
-              </p>
-            </dd>
-          </div>
+      <ul class="gl-hero__features">
+        {FEATURES.map((f) => (
+          <li>
+            <span class="gl-hero__feat-icon" aria-hidden="true" set:html={f.icon} />
+            <span><strong>{f.title}</strong><em>{f.sub}</em></span>
+          </li>
         ))}
-      </dl>
+      </ul>
+    </div>
+
+    <div class="gl-hero__art">
+      <img
+        class="gl-hero__img"
+        src="/pictures/medicareglossary.webp"
+        alt="An open Medicare Glossary book — your guide to Medicare made simple."
+        width="1536"
+        height="1024"
+        loading="eager"
+        decoding="async"
+      />
+    </div>
+  </section>
+
+  {/* ─── New-here router ──────────────────────────────────────────────── */}
+  <div class="gl-newhere">
+    <p class="gl-newhere__msg">
+      <span class="gl-newhere__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15"/><path d="M13 6l6 6-6 6"/></svg></span>
+      <span><strong>New here?</strong> Start with <a href="medicare-help-center.html">Where do I start with Medicare?</a> and we’ll guide you step by step.</span>
+    </p>
+    <a class="gl-newhere__call" href={phoneTel}>
+      <span class="gl-newhere__call-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
+      <span>Call {BUSINESS.phone}<em>We’ll point you the right direction</em></span>
+    </a>
+  </div>
+
+  {/* ─── A–Z letter index ─────────────────────────────────────────────── */}
+  <section class="gl-az" aria-label="Find a term by letter">
+    <h2 class="gl-az__h">Find a Term by Letter</h2>
+    <div class="gl-az__row">
+      {ALPHABET.map((L) => (
+        letterTarget.has(L)
+          ? <a class="gl-az__key" href={`#${letterTarget.get(L)}`}>{L}</a>
+          : <span class="gl-az__key gl-az__key--off">{L}</span>
+      ))}
+    </div>
+  </section>
+
+  {/* ─── Browse Terms by Topic ────────────────────────────────────────── */}
+  <section class="gl-cats" aria-labelledby="gl-cats-h">
+    <h2 id="gl-cats-h" class="gl-h2 gl-h2--center">Browse Terms <span>by Topic</span></h2>
+    <div class="gl-cats__grid">
+      {groups.map((g) => (
+        <article class="gl-card" style={`--accent:${g.st.accent};--tint:${g.st.tint}`}>
+          <div class="gl-card__head">
+            <span class="gl-card__icon" aria-hidden="true" set:html={g.st.icon} />
+            <div>
+              <h3 class="gl-card__title">{g.meta.label}</h3>
+              <p class="gl-card__blurb">{g.meta.blurb}</p>
+            </div>
+          </div>
+          <ul class="gl-card__list">
+            {g.terms.slice(0, 3).map((t) => (
+              <li><a href={`#${t.slug}`}>{t.term.replace(/\s*\(.*\)$/, '')}</a></li>
+            ))}
+          </ul>
+          <a class="gl-card__cta" href={`#${g.cat}`}>
+            <span>View all {g.terms.length} terms</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </article>
+      ))}
+
+      {/* Calculators cross-link card — mirrors the hub design, links to the tools. */}
+      <article class="gl-card" style="--accent:#dc2626;--tint:#fdeaea">
+        <div class="gl-card__head">
+          <span class="gl-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><rect x="8" y="6" width="8" height="3" rx="0.6"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01M15.5 16.5v2"/></svg></span>
+          <div>
+            <h3 class="gl-card__title">Calculators &amp; Tools</h3>
+            <p class="gl-card__blurb">Put the terms to work — estimate your real costs.</p>
+          </div>
+        </div>
+        <ul class="gl-card__list">
+          <li><a href="medicare-cost-estimator.html">Medicare Cost Estimator</a></li>
+          <li><a href="medicare-part-d-cost-calculator.html">Part D Drug Cost Calculator</a></li>
+          <li><a href="medicare-irmaa-calculator.html">IRMAA Calculator</a></li>
+        </ul>
+        <a class="gl-card__cta" href="medicare-calculators.html">
+          <span>Explore all calculators</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </a>
+      </article>
+    </div>
+  </section>
+
+  {/* ─── Full definitions, by category ────────────────────────────────── */}
+  {groups.map((g) => (
+    <section id={g.cat} class="gl-sec" style={`--accent:${g.st.accent};--tint:${g.st.tint}`}>
+      <header class="gl-sec__head">
+        <span class="gl-sec__icon" aria-hidden="true" set:html={g.st.icon} />
+        <div class="gl-sec__heading">
+          <h2>{g.meta.label}</h2>
+          <p>{g.meta.blurb}</p>
+        </div>
+        <span class="gl-sec__count">{g.terms.length} terms</span>
+      </header>
+
+      <div class="gl-terms">
+        {g.terms.map((t) => (
+          <article id={t.slug} class="gl-term">
+            <h3 class="gl-term__name">{t.term}</h3>
+            <p class="gl-term__short">{t.short}</p>
+            <p class="gl-term__full">{t.full}</p>
+            <p class="gl-term__links">
+              {t.authorityHref && (
+                <a class="gl-term__learn" href={t.authorityHref}>{t.authorityLabel} <span aria-hidden="true">→</span></a>
+              )}
+              {t.calculatorHref && t.calculatorHref !== t.authorityHref && (
+                <a class="gl-term__learn" href={t.calculatorHref}>Calculator <span aria-hidden="true">→</span></a>
+              )}
+              {t.related && t.related.length > 0 && (
+                <span class="gl-term__related">
+                  {'Related: '}
+                  {t.related
+                    .map((slug) => bySlug.get(slug))
+                    .filter(Boolean)
+                    .map((r, i) => (
+                      <Fragment>{i > 0 ? ', ' : ''}<a href={`#${r!.slug}`}>{r!.term.replace(/\s*\(.*\)$/, '')}</a></Fragment>
+                    ))}
+                </span>
+              )}
+            </p>
+          </article>
+        ))}
+      </div>
     </section>
   ))}
 
-  <h2>Still Have Questions?</h2>
-  <p>A glossary can only go so far. If a term on your Medicare mail or a plan document has you stuck, <strong>call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) — we’ll walk through it in plain English, no pressure. Start anywhere in the <a href="medicare-help-center.html">Medicare Help Center</a>.</p>
+  {/* ─── Person CTA banner ────────────────────────────────────────────── */}
+  <section class="gl-cta">
+    <img class="gl-cta__photo" src="/pictures/rocco.webp" alt="Rocco DeLuca, licensed Medicare agent in Vernal, Utah" width="88" height="88" loading="lazy" decoding="async" />
+    <div class="gl-cta__msg">
+      <h2 class="gl-cta__title">A term still not clicking?</h2>
+      <p>A glossary can only go so far. If something on your Medicare mail or a plan document has you stuck, we’ll walk through it in plain English — local, licensed, no pressure.</p>
+    </div>
+    <div class="gl-cta__actions">
+      <a class="gl-cta__phone" href={phoneTel}>
+        <span class="gl-cta__phone-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
+        <span>Call {BUSINESS.phone}<em>(TTY: {BUSINESS.tty})</em></span>
+      </a>
+      <a class="gl-cta__quote" href="medicare-quote-vernal.html">
+        <span class="gl-cta__quote-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span>
+        Request a Free Quote
+      </a>
+    </div>
+  </section>
+
+  {/* ─── FAQ · Resources · Related trio ───────────────────────────────── */}
+  <div class="gl-trio">
+    <section class="gl-panel">
+      <h2 class="gl-panel__h"><span class="gl-panel__hicon gl-panel__hicon--blue" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.4 9.3a2.6 2.6 0 0 1 4.7 1.4c0 1.7-2.1 2.1-2.1 3.6"/><circle cx="12" cy="17.1" r="0.6" fill="currentColor" stroke="none"/></svg></span>Common Questions</h2>
+      {FAQS.map((q) => (
+        <details class="gl-faq">
+          <summary set:html={q.question} />
+          <p set:html={q.answer} />
+        </details>
+      ))}
+      <a class="gl-panel__more" href="faq.html">View all FAQs →</a>
+    </section>
+
+    <section class="gl-panel">
+      <h2 class="gl-panel__h"><span class="gl-panel__hicon gl-panel__hicon--green" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 16.5h4"/></svg></span>Helpful Resources</h2>
+      <ul class="gl-links">
+        <li><a href="https://www.medicare.gov/glossary" target="_blank" rel="noopener noreferrer">Medicare.gov — official glossary</a></li>
+        <li><a href="medicare-costs.html">Medicare coverage &amp; costs</a></li>
+        <li><a href="medicare-irmaa.html">Medicare premiums &amp; IRMAA rules</a></li>
+        <li><a href="medicare-irmaa-brackets-2026.html">2026 Medicare IRMAA brackets</a></li>
+      </ul>
+    </section>
+
+    <section class="gl-panel">
+      <h2 class="gl-panel__h"><span class="gl-panel__hicon gl-panel__hicon--purple" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H13v15H6.5A2.5 2.5 0 0 0 4 20z"/><path d="M20 6.5A2.5 2.5 0 0 0 17.5 4H13v14h4.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg></span>Related Reads</h2>
+      <ul class="gl-links gl-links--related">
+        <li><a href="medicare-help-center.html">Where Do I Start With Medicare?</a></li>
+        <li><a href="medicare-part-a-vs-part-b.html">The 4 Parts of Medicare</a></li>
+        <li><a href="medicare-supplement-vs-advantage.html">Medigap vs Medicare Advantage</a></li>
+        <li><a href="medicare-news.html">Medicare News &amp; Updates</a></li>
+      </ul>
+    </section>
+  </div>
+
+  {/* ─── Trust bar ────────────────────────────────────────────────────── */}
+  <section class="gl-trust">
+    {TRUST.map((t) => (
+      <div class="gl-trust__item">
+        <span class="gl-trust__icon" style={`--c:${t.color}`} aria-hidden="true" set:html={t.icon} />
+        <span class="gl-trust__text"><strong>{t.title}</strong><em>{t.sub}</em></span>
+      </div>
+    ))}
+  </section>
 </ArticlePage>
 
 <style>
-  .glossary-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 1.25rem 0 2rem;
+  /* Palette echoes the Help Center / Costs / IRMAA hubs: navy #0b2c45,
+     blue #2563eb, with per-topic accents. */
+
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .gl-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 2.5rem;
+    background: linear-gradient(180deg, #eaf3fb 0%, #f4f9fd 100%);
+    border: 1px solid #dbe6f2;
+    border-radius: 24px;
+    padding: 2.5rem 2.75rem;
+    margin: 0.25rem 0 1.5rem;
   }
-  .glossary-nav a {
-    display: inline-block;
-    padding: 0.35rem 0.75rem;
-    background: var(--color-surface, #f4f6f8);
-    border: 1px solid var(--color-border, #d8dee4);
-    border-radius: 999px;
-    font-size: 0.9rem;
-    text-decoration: none;
+  .gl-hero__title {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: 1.05;
+    font-weight: 800;
+    color: #0b2c45;
+    margin: 0 0 0.35rem;
   }
-  .glossary-cat-blurb {
-    color: var(--color-text-muted, #667085);
-    margin-top: -0.35rem;
+  .gl-hero__tag { color: #2563eb; font-weight: 700; font-size: 1.15rem; margin: 0 0 0.9rem; }
+  .gl-hero__lede { font-size: 1.02rem; color: #475569; line-height: 1.55; margin: 0 0 1.6rem; max-width: 46ch; }
+
+  .gl-hero__features {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.25rem;
   }
-  .glossary-list { margin: 0; }
-  .glossary-term {
-    padding: 1rem 0;
-    border-top: 1px solid var(--color-border, #e5e9ee);
+  .gl-hero__features li { display: flex; align-items: center; gap: 0.7rem; }
+  .gl-hero__features strong { display: block; color: #0b2c45; font-size: 0.95rem; line-height: 1.2; }
+  .gl-hero__features em { color: #5b6b7d; font-size: 0.82rem; font-style: normal; line-height: 1.3; display: block; margin-top: 0.1rem; }
+  .gl-hero__feat-icon {
+    flex: none; width: 42px; height: 42px; border-radius: 12px;
+    display: grid; place-items: center;
+    background: #e2edfb; color: #1f4e8c;
   }
-  .glossary-term dt {
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-bottom: 0.35rem;
+  .gl-hero__feat-icon svg { width: 22px; height: 22px; }
+
+  .gl-hero__art { display: flex; justify-content: center; }
+  .gl-hero__img {
+    width: 100%; height: auto; display: block;
+    border-radius: 18px;
+    box-shadow: 0 18px 44px rgba(11, 44, 69, 0.22);
   }
-  .glossary-term dd { margin: 0; }
-  .glossary-term dd p { margin: 0.35rem 0; }
-  .glossary-links {
-    font-size: 0.9rem;
-    color: var(--color-text-muted, #667085);
+
+  /* ── New-here router ──────────────────────────────────────────────────── */
+  .gl-newhere {
+    display: flex; align-items: center; justify-content: space-between; gap: 1.25rem; flex-wrap: wrap;
+    background: #f4f8fb; border: 1px solid #dbe6ef; border-radius: 14px;
+    padding: 1rem 1.4rem; margin: 0 0 2.5rem;
+  }
+  .gl-newhere__msg { display: flex; align-items: center; gap: 0.85rem; margin: 0; color: #334155; font-size: 0.98rem; line-height: 1.45; }
+  .gl-newhere__icon { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #e2edfb; color: #2563eb; }
+  .gl-newhere__icon svg { width: 19px; height: 19px; }
+  .gl-newhere :global(a) { color: #2563eb; font-weight: 700; text-decoration: none; }
+  .gl-newhere__msg :global(a:hover) { text-decoration: underline; }
+  .gl-newhere__call {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+    color: #fff !important; text-decoration: none;
+    padding: 0.65rem 1.1rem; border-radius: 12px; font-weight: 800; white-space: nowrap;
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.32);
+    transition: transform 0.12s ease, filter 0.12s ease;
+  }
+  .gl-newhere__call:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .gl-newhere__call-icon { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.22); }
+  .gl-newhere__call-icon svg { width: 17px; height: 17px; }
+  .gl-newhere__call > span { display: flex; flex-direction: column; line-height: 1.15; }
+  .gl-newhere__call em { font-style: normal; font-weight: 600; font-size: 0.74rem; opacity: 0.92; }
+
+  /* ── A–Z index ────────────────────────────────────────────────────────── */
+  .gl-az {
+    background: #fff; border: 1px solid #e8edf3; border-radius: 16px;
+    padding: 1.4rem 1.6rem; margin: 0 0 3rem;
+    box-shadow: 0 10px 30px rgba(11, 44, 69, 0.06);
+  }
+  .gl-az__h { text-align: center; color: #0b2c45; font-size: 1.15rem; font-weight: 800; margin: 0 0 1rem; }
+  .gl-az__row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+  .gl-az__key {
+    display: grid; place-items: center; min-width: 36px; height: 36px; padding: 0 0.35rem;
+    border-radius: 9px; font-weight: 800; font-size: 0.98rem; text-decoration: none;
+    color: #2563eb; background: #eef4fd; border: 1px solid #dce8f8;
+    transition: transform 0.1s ease, background 0.12s ease, color 0.12s ease;
+  }
+  .gl-az__key:hover { background: #2563eb; color: #fff; transform: translateY(-2px); }
+  .gl-az__key--off { color: #b6c2d0; background: #f5f7fa; border-color: #eef1f5; pointer-events: none; }
+
+  /* ── Section heading ──────────────────────────────────────────────────── */
+  .gl-h2 { color: #0b2c45; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin: 0 0 1.75rem; }
+  .gl-h2--center { text-align: center; }
+  .gl-h2 span { color: #2563eb; }
+
+  /* ── Browse card grid ─────────────────────────────────────────────────── */
+  .gl-cats { margin: 0 0 3.25rem; }
+  .gl-cats__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem;
+  }
+  .gl-card {
+    display: flex; flex-direction: column;
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-top: 4px solid var(--accent);
+    border-radius: 16px;
+    padding: 1.5rem 1.4rem 1.3rem;
+    box-shadow: 0 10px 30px rgba(11, 44, 69, 0.06);
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .gl-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(11, 44, 69, 0.12); }
+  .gl-card__head { display: flex; align-items: flex-start; gap: 0.85rem; margin-bottom: 1rem; }
+  .gl-card__icon {
+    flex: none; width: 50px; height: 50px; border-radius: 14px;
+    display: grid; place-items: center;
+    background: var(--tint); color: var(--accent);
+  }
+  .gl-card__icon svg { width: 27px; height: 27px; }
+  .gl-card__title { margin: 0.1rem 0 0.3rem; font-size: 1.1rem; line-height: 1.2; color: var(--accent); }
+  .gl-card__blurb { margin: 0; color: #5b6b7d; font-size: 0.86rem; line-height: 1.4; }
+
+  .gl-card__list { list-style: none; padding: 0; margin: 0 0 1.1rem; flex: 1; }
+  .gl-card__list li { padding: 0.5rem 0; border-top: 1px solid #eef2f6; font-size: 0.9rem; line-height: 1.4; }
+  .gl-card__list li:first-child { border-top: none; }
+  .gl-card__list a { color: #1f2d3d; text-decoration: none; font-weight: 600; }
+  .gl-card__list a:hover { color: var(--accent); text-decoration: underline; }
+
+  .gl-card__cta {
+    margin-top: auto;
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+    background: var(--tint); color: var(--accent);
+    text-decoration: none; font-weight: 800; font-size: 0.9rem;
+    padding: 0.6rem 0.9rem; border-radius: 11px;
+    transition: filter 0.12s ease;
+  }
+  .gl-card__cta svg { width: 16px; height: 16px; transition: transform 0.14s ease; }
+  .gl-card__cta:hover { filter: brightness(0.97); }
+  .gl-card__cta:hover svg { transform: translateX(3px); }
+
+  /* ── Definition sections ──────────────────────────────────────────────── */
+  .gl-sec { scroll-margin-top: 1.5rem; margin: 0 0 2.75rem; }
+  .gl-sec__head {
+    display: flex; align-items: center; gap: 1rem;
+    padding-bottom: 1rem; margin-bottom: 1.4rem;
+    border-bottom: 2px solid var(--tint);
+  }
+  .gl-sec__icon {
+    flex: none; width: 48px; height: 48px; border-radius: 13px;
+    display: grid; place-items: center; background: var(--tint); color: var(--accent);
+  }
+  .gl-sec__icon svg { width: 26px; height: 26px; }
+  .gl-sec__heading { flex: 1; }
+  .gl-sec__heading h2 { margin: 0; color: #0b2c45; font-size: clamp(1.3rem, 2.4vw, 1.7rem); line-height: 1.15; }
+  .gl-sec__heading p { margin: 0.15rem 0 0; color: #5b6b7d; font-size: 0.92rem; }
+  .gl-sec__count {
+    flex: none; align-self: flex-start;
+    background: var(--tint); color: var(--accent);
+    font-weight: 800; font-size: 0.78rem; padding: 0.3rem 0.7rem; border-radius: 999px;
+  }
+
+  .gl-terms { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .gl-term {
+    scroll-margin-top: 1.5rem;
+    background: #fff; border: 1px solid #e8edf3;
+    border-left: 4px solid var(--accent);
+    border-radius: 14px; padding: 1.25rem 1.4rem;
+    box-shadow: 0 8px 24px rgba(11, 44, 69, 0.05);
+    transition: box-shadow 0.14s ease, transform 0.14s ease;
+  }
+  .gl-term:target { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, #fff), 0 12px 30px rgba(11,44,69,0.12); transform: translateY(-2px); }
+  .gl-term__name { margin: 0 0 0.5rem; color: #0b2c45; font-size: 1.12rem; line-height: 1.2; }
+  .gl-term__short { margin: 0 0 0.6rem; color: #1f2d3d; font-weight: 600; font-size: 0.95rem; line-height: 1.45; }
+  .gl-term__full { margin: 0 0 0.9rem; color: #5b6b7d; font-size: 0.9rem; line-height: 1.55; }
+  .gl-term__links { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.9rem; font-size: 0.85rem; }
+  .gl-term__learn {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    color: var(--accent); font-weight: 700; text-decoration: none;
+    background: var(--tint); padding: 0.28rem 0.6rem; border-radius: 8px;
+  }
+  .gl-term__learn:hover { filter: brightness(0.97); }
+  .gl-term__related { color: #8595a6; }
+  .gl-term__related a { color: #1f4e8c; text-decoration: none; font-weight: 600; }
+  .gl-term__related a:hover { text-decoration: underline; }
+
+  /* ── Person CTA banner ────────────────────────────────────────────────── */
+  .gl-cta {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.75rem;
+    background: linear-gradient(120deg, #0b2c45 0%, #123a5c 100%);
+    border-radius: 22px;
+    padding: 1.9rem 2.25rem;
+    margin: 0.5rem 0 2.5rem;
+    box-shadow: 0 22px 50px rgba(11, 44, 69, 0.28);
+  }
+  .gl-cta__photo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; object-position: top center; border: 3px solid rgba(255,255,255,0.85); flex: none; }
+  .gl-cta__title { margin: 0 0 0.35rem; color: #fff; font-size: clamp(1.3rem, 2.4vw, 1.7rem); line-height: 1.15; }
+  .gl-cta__msg p { margin: 0; color: #cfe0f0; line-height: 1.5; font-size: 0.98rem; max-width: 54ch; }
+  .gl-cta__actions { display: flex; flex-direction: column; gap: 0.7rem; width: 250px; flex: none; }
+  .gl-cta__phone {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: linear-gradient(180deg, #f97316 0%, #ea580c 100%);
+    color: #fff; text-decoration: none;
+    padding: 0.85rem 1.1rem; border-radius: 14px; font-weight: 800;
+    box-shadow: 0 12px 26px rgba(234, 88, 12, 0.4);
+    transition: transform 0.12s ease, filter 0.12s ease;
+  }
+  .gl-cta__phone:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .gl-cta__phone-icon { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.22); }
+  .gl-cta__phone-icon svg { width: 20px; height: 20px; }
+  .gl-cta__phone > span { display: flex; flex-direction: column; line-height: 1.15; font-size: 1.02rem; }
+  .gl-cta__phone em { font-style: normal; font-weight: 600; font-size: 0.78rem; opacity: 0.9; }
+  .gl-cta__quote {
+    display: flex; align-items: center; justify-content: center; gap: 0.55rem;
+    background: #fff; color: #0b2c45; text-decoration: none;
+    padding: 0.8rem 1.1rem; border-radius: 14px; font-weight: 800; font-size: 0.93rem;
+    transition: transform 0.12s ease;
+  }
+  .gl-cta__quote:hover { transform: translateY(-2px); }
+  .gl-cta__quote-icon { display: grid; place-items: center; color: #2563eb; }
+  .gl-cta__quote-icon svg { width: 20px; height: 20px; }
+
+  /* ── FAQ · Resources · Related trio ───────────────────────────────────── */
+  .gl-trio {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr 0.9fr;
+    gap: 1.5rem;
+    margin: 0 0 2.5rem;
+    align-items: start;
+  }
+  .gl-panel {
+    background: #fff; border: 1px solid #e8edf3; border-radius: 18px;
+    padding: 1.6rem 1.6rem;
+    box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06);
+  }
+  .gl-panel__h { display: flex; align-items: center; gap: 0.6rem; margin: 0 0 1.1rem; font-size: 1.15rem; color: #0b2c45; }
+  .gl-panel__hicon { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; }
+  .gl-panel__hicon svg { width: 19px; height: 19px; }
+  .gl-panel__hicon--blue { background: #e5edfe; color: #2563eb; }
+  .gl-panel__hicon--green { background: #e4f5ea; color: #16a34a; }
+  .gl-panel__hicon--purple { background: #f0e9fd; color: #7c3aed; }
+
+  .gl-faq { border-top: 1px solid #eef2f6; padding: 0.7rem 0; }
+  .gl-faq:first-of-type { border-top: none; padding-top: 0; }
+  .gl-faq summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+    cursor: pointer; list-style: none;
+    font-weight: 600; color: #334155; font-size: 0.94rem; line-height: 1.35;
+  }
+  .gl-faq summary::-webkit-details-marker { display: none; }
+  .gl-faq summary::after { content: "⌄"; color: #2563eb; font-weight: 800; font-size: 1.1rem; transition: transform 0.15s ease; }
+  .gl-faq[open] summary::after { transform: rotate(180deg); }
+  .gl-faq p { margin: 0.6rem 0 0; color: #5b6b7d; font-size: 0.88rem; line-height: 1.55; }
+  .gl-panel__more { display: inline-block; margin-top: 1rem; color: #2563eb; font-weight: 700; font-size: 0.9rem; text-decoration: none; }
+  .gl-panel__more:hover { text-decoration: underline; }
+
+  .gl-links { list-style: none; padding: 0; margin: 0; }
+  .gl-links li { border-top: 1px solid #eef2f6; padding: 0.6rem 0; }
+  .gl-links li:first-child { border-top: none; padding-top: 0; }
+  .gl-links a {
+    color: #1f4e8c; text-decoration: none; font-weight: 600; font-size: 0.9rem; line-height: 1.4;
+    display: inline-flex; gap: 0.4rem;
+  }
+  .gl-links a::before { content: "›"; color: #2563eb; font-weight: 800; flex: none; }
+  .gl-links a:hover { text-decoration: underline; }
+  .gl-links--related a::before { content: "→"; }
+
+  /* ── Trust bar ────────────────────────────────────────────────────────── */
+  .gl-trust {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    background: #f7fafd;
+    border: 1px solid #e8edf3;
+    border-radius: 18px;
+    padding: 1.5rem 1.75rem;
+    margin: 0 0 1.5rem;
+  }
+  .gl-trust__item { display: flex; align-items: center; gap: 0.8rem; }
+  .gl-trust__icon {
+    flex: none; width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: color-mix(in srgb, var(--c) 14%, #fff); color: var(--c);
+  }
+  .gl-trust__icon svg { width: 23px; height: 23px; }
+  .gl-trust__text strong { display: block; color: #0b2c45; font-size: 0.95rem; }
+  .gl-trust__text em { color: #64748b; font-style: normal; font-size: 0.82rem; }
+
+  /* ── Responsive ───────────────────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .gl-cats__grid { grid-template-columns: repeat(2, 1fr); }
+    .gl-trio { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 900px) {
+    .gl-hero { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+    .gl-hero__lede { max-width: none; }
+    .gl-hero__art { order: -1; }
+    .gl-terms { grid-template-columns: 1fr; }
+    .gl-cta { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .gl-cta__msg p { max-width: none; }
+    .gl-cta__actions { width: 100%; max-width: 320px; }
+    .gl-trust { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .gl-cats__grid { grid-template-columns: 1fr; }
+    .gl-hero__features { grid-template-columns: 1fr; }
+    .gl-trust { grid-template-columns: 1fr; }
+    .gl-newhere { flex-direction: column; align-items: stretch; }
+    .gl-newhere__call { justify-content: center; }
   }
 </style>

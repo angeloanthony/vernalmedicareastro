@@ -46,6 +46,8 @@
     "sections": [
       {
         "h2": "Learn the Basics",
+        "blurb": "Understand Medicare parts, coverage, and how it all works.",
+        "cta": "Start with the basics",
         "itemsHtml": [
           "<strong><a href=\"medicare-part-a-vs-part-b.html\">Medicare Part A vs Part B</a></strong> — what Original Medicare covers, and what it doesn't.",
           "<strong><a href=\"medicare-plans-vernal-utah.html\">The complete 2026 Medicare guide</a></strong> — the four parts, your three coverage paths, costs, and local providers, in plain English.",
@@ -57,6 +59,8 @@
       },
       {
         "h2": "Enrollment &amp; Timing",
+        "blurb": "Know when and how to enroll (or delay) without penalties.",
+        "cta": "Get the timing right",
         "itemsHtml": [
           "<strong><a href=\"turning-65.html\">Turning 65?</a></strong> — the whole journey, step by step.",
           "<strong><a href=\"working-past-65.html\">Working past 65?</a></strong> — whether to take Medicare or delay it.",
@@ -66,6 +70,8 @@
       },
       {
         "h2": "Costs &amp; IRMAA",
+        "blurb": "Premiums, deductibles, and the Income-Related Surcharge explained.",
+        "cta": "See costs &amp; IRMAA",
         "itemsHtml": [
           "<strong><a href=\"medicare-costs.html\">How much does Medicare cost?</a></strong> — premiums, deductibles, and the whole picture for 2026.",
           "<strong><a href=\"medicare-irmaa.html\">IRMAA</a></strong> — the income surcharge: <a href=\"medicare-irmaa-brackets-2026.html\">brackets</a>, <a href=\"how-to-reduce-medicare-irmaa.html\">how to reduce it</a>, and <a href=\"medicare-irmaa-appeal-ssa-44.html\">how to appeal</a>.",
@@ -74,6 +80,8 @@
       },
       {
         "h2": "Compare Coverage",
+        "blurb": "Medigap vs Advantage — see the pros, cons, and real differences.",
+        "cta": "Compare your options",
         "itemsHtml": [
           "<strong><a href=\"medigap.html\">Medigap (Medicare Supplement)</a></strong> — <a href=\"plan-g-vs-plan-n-vernal.html\">Plan G vs Plan N</a>, <a href=\"medicare-plan-g-high-deductible.html\">High-Deductible Plan G</a>.",
           "<strong><a href=\"best-medicare-advantage-vernal.html\">Medicare Advantage</a></strong> — <a href=\"hmo-vs-ppo-medicare-advantage.html\">HMO vs PPO</a>, <a href=\"zero-premium-medicare-advantage.html\">$0-premium plans</a>.",
@@ -83,6 +91,8 @@
       },
       {
         "h2": "Prescription Drugs (Part D)",
+        "blurb": "Find the right drug plan and lower your costs.",
+        "cta": "Find drug savings",
         "itemsHtml": [
           "<strong><a href=\"best-part-d-plans-vernal.html\">Best Part D plans</a></strong> · <a href=\"cheapest-prescription-drug-plans.html\">cheapest drug plans</a> · <a href=\"tier-3-vs-tier-4-medicare-part-d.html\">drug tiers explained</a>.",
           "<strong><a href=\"prescription-drug-assistance.html\">Prescription drug assistance</a></strong> — programs that help pay for your medications.",
@@ -91,6 +101,8 @@
       },
       {
         "h2": "Help Paying for Medicare",
+        "blurb": "Programs and savings that can help lower what you pay.",
+        "cta": "Explore savings",
         "itemsHtml": [
           "<strong><a href=\"medicare-financial-assistance.html\">Help paying for Medicare</a></strong> — every assistance path in one place, sorted by income.",
           "<strong><a href=\"medicare-income-limits-2026.html\">2026 income limits</a></strong> — MSP, Extra Help, and IRMAA thresholds side by side.",
@@ -99,6 +111,8 @@
       },
       {
         "h2": "Free Calculators",
+        "blurb": "Use our tools to estimate costs and check eligibility.",
+        "cta": "Use our calculators",
         "itemsHtml": [
           "<strong><a href=\"medicare-calculators.html\">All Medicare calculators</a></strong> — the full toolkit in one place.",
           "<a href=\"medicare-cost-estimator.html\">Cost Estimator</a> · <a href=\"medicare-part-d-cost-calculator.html\">Part D drug costs</a> · <a href=\"medicare-irmaa-calculator.html\">IRMAA</a>.",
@@ -107,6 +121,8 @@
       },
       {
         "h2": "Local Medicare Help",
+        "blurb": "Resources, offices, and providers near you.",
+        "cta": "Find local help",
         "itemsHtml": [
           "<strong><a href=\"medicare-plans-vernal-utah.html\">Medicare in Vernal</a></strong> · <a href=\"medicare-roosevelt-utah.html\">Roosevelt</a> · <a href=\"medicare-duchesne-utah.html\">Duchesne</a> · <a href=\"medicare-naples-utah.html\">Naples</a> · <a href=\"medicare-maeser-utah.html\">Maeser</a> · <a href=\"medicare-jensen-utah.html\">Jensen</a> · <a href=\"medicare-ballard-utah.html\">Ballard</a>.",
           "<a href=\"medicare-hospitals-uintah-county.html\">Local hospitals</a> · <a href=\"medicare-vernal-pharmacies.html\">Vernal pharmacies</a> · <a href=\"medicare-vernal-ut.html\">visit our office</a>.",
@@ -115,6 +131,46 @@
       }
     ],
     "h2Ready": "Ready to Talk to a Person?",
-    "readyHtml": "You don't have to figure this out alone. <strong>Call us free at {phone}</strong> (TTY: {tty}), <a href=\"mailto:{email}\">email us</a>, or <a href=\"medicare-quote-vernal.html\">request a free quote</a>. We'll compare your options against the doctors and pharmacies you already use — no cost, no pressure."
+    "readyHtml": "You don't have to figure this out alone. <strong>Call us free at {phone}</strong> (TTY: {tty}), <a href=\"mailto:{email}\">email us</a>, or <a href=\"medicare-quote-vernal.html\">request a free quote</a>. We'll compare your options against the doctors and pharmacies you already use — no cost, no pressure.",
+    "hub": {
+      "browsePre": "Browse Help by",
+      "browseEm": "Topic",
+      "heroImageAlt": "A Medicare beneficiary reviews his coverage on a laptop at home in Vernal, Utah.",
+      "features": [
+        { "title": "Guides & Basics", "sub": "Plain-English answers to your questions" },
+        { "title": "Free Calculators", "sub": "IRMAA, Extra Help, and more" },
+        { "title": "Local Help", "sub": "Vernal, Uintah Basin & nearby areas" },
+        { "title": "No Cost, No Pressure", "sub": "We're here to help — not sell" }
+      ],
+      "calloutTitle": "Local help from Rocco DeLuca",
+      "calloutHtml": "Call us free at <a href=\"tel:{phoneTel}\">{phone}</a> (TTY: {tty}) or <a href=\"medicare-quote-vernal.html\">request a free quote</a>.",
+      "faqHeading": "Frequently Asked Questions",
+      "faqAllLabel": "View all FAQs",
+      "faqAllHref": "faq.html",
+      "resourcesHeading": "Top Resources",
+      "resources": [
+        { "label": "Medicare.gov — the official U.S. government site", "href": "https://www.medicare.gov", "external": true },
+        { "label": "Medicare coverage & costs (Part B)", "href": "https://www.medicare.gov/basics/costs", "external": true },
+        { "label": "Medicare premiums: rules for higher-income beneficiaries (IRMAA) — SSA", "href": "https://www.ssa.gov/benefits/medicare/medicare-premiums.html", "external": true },
+        { "label": "2026 Medicare IRMAA brackets", "href": "medicare-irmaa-brackets-2026.html", "external": false }
+      ],
+      "relatedHeading": "Related Reads",
+      "related": [
+        { "label": "Where Do I Start With Medicare?", "href": "medicare-decision-center.html" },
+        { "label": "Medicare Glossary", "href": "medicare-glossary.html" },
+        { "label": "Does Medicare Cover It?", "href": "medicare-coverage.html" },
+        { "label": "Medicare News & Updates", "href": "medicare-news.html" }
+      ],
+      "ctaBlurb": "We'll compare your options, check your doctors and pharmacies, and help you save — at no cost, no pressure.",
+      "callBtn": "Call {phone}",
+      "quoteBtn": "Request a Free Quote",
+      "quoteHref": "medicare-quote-vernal.html",
+      "trust": [
+        { "title": "Local & Trusted", "sub": "Licensed in Utah" },
+        { "title": "No Cost, No Pressure", "sub": "We help you, not sell" },
+        { "title": "We Work for You", "sub": "Your best interests first" },
+        { "title": "Here When You Need Us", "sub": "Call, email, or meet locally" }
+      ]
+    }
   }
 }

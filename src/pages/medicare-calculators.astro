@@ -1,18 +1,110 @@
 ---
-// src/pages/medicare-calculators.astro — Calculators hub (M33). The tool cluster
-// had no index; this is it. Lists every free calculator with what it answers.
+// src/pages/medicare-calculators.astro — Calculators hub (M33; redesigned M45).
+// The tool cluster had no real index — just a plain link list (a text wall).
+// Rebuilt into a polished landing hub (bareHeader + bareFooter) matching the
+// help-center / coverage hubs: a hero with feature chips + photo callout, a
+// "Choose a Calculator" card grid (one accent-topped card per calculator with
+// icon, blurb and CTA), a "turn the estimate into a plan" banner, an
+// FAQ · Resources · Related trio, a person CTA, and a trust bar. English-only
+// page (no i18n content JSON) — copy lives inline.
 import ArticlePage from '../components/layout/ArticlePage.astro';
 import { BUSINESS } from '../data/business';
 import type { PageContext } from '../types/Page';
 
+// Per-calculator card data. icon/accent/tint are presentation; the rest is copy.
 const CALCS = [
-  { href: 'medicare-cost-estimator.html', name: 'Medicare Cost Estimator', desc: 'Compare a Medigap path vs a Medicare Advantage path — total yearly cost for your situation.' },
-  { href: 'medicare-part-d-cost-calculator.html', name: 'Part D Drug Cost Calculator', desc: 'Estimate your yearly drug costs with the new $2,000 out-of-pocket cap.' },
-  { href: 'medicare-irmaa-calculator.html', name: 'IRMAA Calculator', desc: 'See your income-based Part B and Part D surcharge from your MAGI.' },
-  { href: 'medicare-extra-help-calculator.html', name: 'Extra Help & Savings Program Estimator', desc: 'See if you qualify for help paying your premiums and drug costs.' },
-  { href: 'medicare-part-b-penalty-calculator.html', name: 'Part B Late Penalty Calculator', desc: 'Estimate the permanent penalty for enrolling in Part B late.' },
-  { href: 'medicare-enrollment-timeline.html', name: 'Enrollment Timeline', desc: 'Find your exact Initial Enrollment Period dates from your birthday.' },
+  {
+    href: 'medicare-cost-estimator.html',
+    name: 'Medicare Cost Estimator',
+    desc: 'Compare a Medigap path vs a Medicare Advantage path and see your total yearly cost.',
+    cta: 'Estimate Your Costs',
+    accent: '#2563eb', tint: '#e5edfe',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M14.6 9a2.7 2.7 0 0 0-2.6-1.6c-1.5 0-2.5.8-2.5 1.9 0 2.5 5 1.4 5 4 0 1.1-1 2-2.6 2A2.8 2.8 0 0 1 9.2 15"/></svg>',
+  },
+  {
+    href: 'medicare-part-d-cost-calculator.html',
+    name: 'Part D Drug Cost Calculator',
+    desc: 'Estimate your yearly drug costs with the new $2,000 out-of-pocket cap.',
+    cta: 'Calculate Drug Costs',
+    accent: '#16a34a', tint: '#e4f5ea',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.6" y="8.4" width="18.8" height="7.2" rx="3.6" transform="rotate(-45 12 12)"/><path d="M8.7 8.7l6.6 6.6"/></svg>',
+  },
+  {
+    href: 'medicare-irmaa-calculator.html',
+    name: 'IRMAA Calculator',
+    desc: 'See your income-based Part B and Part D surcharge from your MAGI.',
+    cta: 'Check Your IRMAA',
+    accent: '#7c3aed', tint: '#f0e9fd',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 3v9h9a9 9 0 0 0-9-9z"/></svg>',
+  },
+  {
+    href: 'medicare-extra-help-calculator.html',
+    name: 'Extra Help & Savings Estimator',
+    desc: 'See if you qualify for programs that can help with premiums and drug costs.',
+    cta: 'See If You Qualify',
+    accent: '#ea580c', tint: '#fdeadd',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4.5 15.2 4.5 9.7A4.2 4.2 0 0 1 12 7a4.2 4.2 0 0 1 7.5 2.7C19.5 15.2 12 20.5 12 20.5z"/></svg>',
+  },
+  {
+    href: 'medicare-part-b-penalty-calculator.html',
+    name: 'Part B Late Penalty Calculator',
+    desc: 'Estimate the permanent penalty for enrolling in Part B late.',
+    cta: 'Calculate Penalty',
+    accent: '#0d9488', tint: '#d7f0ec',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M11.5 14.5l1.4 1.4 3-3"/></svg>',
+  },
+  {
+    href: 'medicare-enrollment-timeline.html',
+    name: 'Enrollment Timeline',
+    desc: 'Find your exact Initial Enrollment Period dates from your birthday.',
+    cta: 'Find My Dates',
+    accent: '#db2777', tint: '#fce7f0',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21h16"/><path d="M5 21v-7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v7"/><path d="M4 15.7c1.2 0 1.2 1 2.4 1s1.2-1 2.4-1 1.2 1 2.4 1 1.2-1 2.4-1 1.2 1 2.4 1 1.2-1 2.4-1"/><path d="M12 8.5V5.5"/><path d="M12 4.2a0.7 0.7 0 1 0 0-.01"/></svg>',
+  },
 ];
+
+// Hero feature chips.
+const FEATURES = [
+  { title: '100% Free', sub: 'No signup required',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>' },
+  { title: 'Up-to-Date', sub: '2026 official numbers',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v3.5h-3.5"/><path d="M12 8v4l2.5 1.5"/></svg>' },
+  { title: 'Made for You', sub: 'Your situation, your results',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.2"/><path d="M15 20c0-2 .8-3.6 2.5-4.6"/></svg>' },
+];
+
+// FAQ · Resources · Related.
+const FAQS = [
+  { q: 'Are these calculators free?', a: 'Yes — completely free, and they run right in your browser. Nothing is stored or shared.' },
+  { q: 'How accurate are they?', a: 'They use the current year’s official CMS and Social Security figures for solid estimates. Your exact numbers depend on your specific plan and situation — which is what we help with.' },
+  { q: 'Where do the numbers come from?', a: 'Official published sources: CMS Medicare premiums and deductibles, the Social Security IRMAA brackets, and the current Part D coverage rules.' },
+];
+const RESOURCES = [
+  { label: 'How Much Does Medicare Cost?', href: 'medicare-costs.html' },
+  { label: 'Medicare IRMAA Explained', href: 'medicare-irmaa.html' },
+  { label: '2026 Medicare IRMAA Brackets', href: 'medicare-irmaa-brackets-2026.html' },
+  { label: '2026 Medicare IRMAA Calculator', href: 'medicare-irmaa-calculator.html' },
+];
+const RELATED = [
+  { label: 'Medicare Costs Overview', href: 'medicare-costs.html' },
+  { label: 'Medicare Glossary', href: 'medicare-glossary.html' },
+  { label: 'Medicare News & Updates', href: 'medicare-news.html' },
+  { label: 'Where Do I Start With Medicare?', href: 'medicare-help-center.html' },
+];
+
+// Trust bar.
+const TRUST = [
+  { title: 'Local & Trusted', sub: 'Licensed in Utah', color: '#16a34a',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>' },
+  { title: 'No Cost, No Pressure', sub: 'We’re here to help', color: '#7c3aed',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.2"/></svg>' },
+  { title: 'We Work for You', sub: 'Your best interests first', color: '#ea580c',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4.5 15.2 4.5 9.7A4.2 4.2 0 0 1 12 7a4.2 4.2 0 0 1 7.5 2.7C19.5 15.2 12 20.5 12 20.5z"/></svg>' },
+  { title: 'Here When You Need Us', sub: 'Call, email, or meet locally', color: '#2563eb',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 16 0"/><rect x="3" y="12" width="4" height="6" rx="1.5"/><rect x="17" y="12" width="4" height="6" rx="1.5"/><path d="M20 18v1a3 3 0 0 1-3 3h-3"/></svg>' },
+];
+
+const phoneTel = `tel:${BUSINESS.phoneTel}`;
 
 const context: PageContext = {
   page: {
@@ -23,10 +115,7 @@ const context: PageContext = {
     taxonomy: { silo: 'tools', tags: ['tools', 'calculators', 'costs', 'irmaa', 'part-d'] },
     summary:
       `Put real numbers to your Medicare decisions. These ${CALCS.length} free calculators run right in your browser, using the current year’s official figures — estimate your costs, your income surcharge, your penalty, your enrollment dates, and whether you qualify for help. Then call us to turn the estimate into a plan.`,
-    faqs: [
-      { question: 'Are these calculators free?', answer: 'Yes — completely free, and they run in your browser. Nothing is stored or shared.' },
-      { question: 'How accurate are they?', answer: 'They use the current year’s official CMS and Social Security figures for solid estimates. Your exact numbers depend on your specific plan and situation, which is what we help with.' },
-    ],
+    faqs: FAQS.map((f) => ({ question: f.q, answer: f.a })),
     nextSteps: [
       { when: 'Want the numbers for your exact situation?', action: `call us free at ${BUSINESS.phone} — we’ll run them with you.` },
     ],
@@ -47,25 +136,368 @@ const context: PageContext = {
 };
 ---
 
-<ArticlePage context={context}>
-  <p>Medicare decisions come down to numbers. These {CALCS.length} free calculators help you see yours — costs, surcharges, penalties, timing, and assistance — right in your browser, using the current year’s official figures.</p>
+<ArticlePage context={context} bareHeader bareFooter>
+  {/* ─── Hero ─────────────────────────────────────────────────────────── */}
+  <section class="cx-hero">
+    <div class="cx-hero__copy">
+      <h1 class="cx-hero__title">Free Medicare<br />Calculators</h1>
+      <p class="cx-hero__tag">Accurate. Current. Easy to Use.</p>
+      <p class="cx-hero__lede">Get personalized estimates for your costs, surcharges, penalties, and important Medicare dates — all using this year’s official figures.</p>
 
-  <ul class="calc-hub">
-    {CALCS.map((c) => (
-      <li>
-        <a class="calc-hub-name" href={c.href}>{c.name}</a>
-        <p>{c.desc}</p>
-      </li>
+      <ul class="cx-hero__features">
+        {FEATURES.map((f) => (
+          <li>
+            <span class="cx-hero__feat-icon" aria-hidden="true" set:html={f.icon} />
+            <span><strong>{f.title}</strong><em>{f.sub}</em></span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="cx-hero__art">
+      <img
+        class="cx-hero__img"
+        src="/pictures/calc-hero.webp"
+        alt="An older man using a Medicare cost calculator on his laptop at home"
+        width="792"
+        height="900"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="cx-hero__callout">
+        <span class="cx-hero__callout-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><rect x="8" y="6" width="8" height="3" rx="0.6"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01M15.5 16.5v2"/></svg></span>
+        <p><strong>Get your numbers in minutes!</strong>Call us free at <a href={phoneTel}>{BUSINESS.phone}</a> (TTY: {BUSINESS.tty}) and we’ll help you understand them.</p>
+      </div>
+    </div>
+  </section>
+
+  {/* ─── Choose a Calculator ──────────────────────────────────────────── */}
+  <section class="cx-cats" aria-labelledby="cx-cats-h">
+    <h2 id="cx-cats-h" class="cx-h2 cx-h2--center cx-h2--ruled"><span>Choose a Calculator</span></h2>
+    <div class="cx-cats__grid">
+      {CALCS.map((c) => (
+        <a class="cx-card" href={c.href} style={`--accent:${c.accent};--tint:${c.tint}`}>
+          <span class="cx-card__icon" aria-hidden="true" set:html={c.icon} />
+          <h3 class="cx-card__title">{c.name}</h3>
+          <p class="cx-card__blurb">{c.desc}</p>
+          <span class="cx-card__cta">
+            {c.cta}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {/* ─── Turn the estimate into a plan ────────────────────────────────── */}
+  <section class="cx-plan">
+    <span class="cx-plan__art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="12" height="16" rx="2"/><path d="M8 3.2V2.6a1.4 1.4 0 0 1 1.4-1.4h1.2A1.4 1.4 0 0 1 12 2.6v.6"/><path d="M7.5 9l1.4 1.4 3-3M7.5 14l1.4 1.4 3-3"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><path d="M16 15h3M16 17.5h3M16 20h1.5"/></svg></span>
+    <div class="cx-plan__msg">
+      <h2 class="cx-plan__title">Turn Your Estimate Into a Plan — Free</h2>
+      <p>Calculators give you a number; we give you the plan behind it. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) and we’ll run the numbers for your exact doctors, drugs, and budget.</p>
+    </div>
+    <div class="cx-plan__actions">
+      <a class="cx-plan__phone" href={phoneTel}>
+        <span class="cx-plan__phone-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
+        <span>Call {BUSINESS.phone}<em>(TTY: {BUSINESS.tty})</em></span>
+      </a>
+      <a class="cx-plan__quote" href={BUSINESS.quoteUrl} target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
+        Request a Free Quote
+      </a>
+    </div>
+  </section>
+
+  {/* ─── FAQ · Resources · Related trio ───────────────────────────────── */}
+  <div class="cx-trio">
+    <section class="cx-panel">
+      <h2 class="cx-panel__h"><span class="cx-panel__hicon cx-panel__hicon--blue" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.4 9.3a2.6 2.6 0 0 1 4.7 1.4c0 1.7-2.1 2.1-2.1 3.6"/><circle cx="12" cy="17.1" r="0.6" fill="currentColor" stroke="none"/></svg></span>Frequently Asked Questions</h2>
+      {FAQS.map((f) => (
+        <details class="cx-faq">
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+      <a class="cx-panel__more" href="faq.html">View all FAQs →</a>
+    </section>
+
+    <section class="cx-panel">
+      <h2 class="cx-panel__h"><span class="cx-panel__hicon cx-panel__hicon--green" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 16.5h4"/></svg></span>Helpful Resources</h2>
+      <ul class="cx-links">
+        {RESOURCES.map((r) => <li><a href={r.href}>{r.label}</a></li>)}
+      </ul>
+    </section>
+
+    <section class="cx-panel">
+      <h2 class="cx-panel__h"><span class="cx-panel__hicon cx-panel__hicon--purple" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5 5.5.8-4 3.9 1 5.5-5-2.7-5 2.7 1-5.5-4-3.9 5.5-.8z"/></svg></span>Related</h2>
+      <ul class="cx-links cx-links--related">
+        {RELATED.map((r) => <li><a href={r.href}>{r.label}</a></li>)}
+      </ul>
+    </section>
+  </div>
+
+  {/* ─── Person CTA banner ────────────────────────────────────────────── */}
+  <section class="cx-cta">
+    <img class="cx-cta__photo" src="/pictures/rocco.webp" alt="Rocco DeLuca, licensed Medicare agent in Vernal, Utah" width="88" height="88" loading="lazy" decoding="async" />
+    <div class="cx-cta__msg">
+      <h2 class="cx-cta__title">Talk to a local, licensed agent</h2>
+      <p>Rocco DeLuca can walk you through your options — free, no pressure.</p>
+    </div>
+    <div class="cx-cta__actions">
+      <a class="cx-cta__phone" href={phoneTel}>
+        <span class="cx-cta__phone-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
+        <span>Call {BUSINESS.phone}<em>(TTY: {BUSINESS.tty})</em></span>
+      </a>
+      <a class="cx-cta__quote" href={BUSINESS.quoteUrl} target="_blank" rel="noopener noreferrer">
+        <span class="cx-cta__quote-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span>
+        Get a Free Quote
+      </a>
+    </div>
+  </section>
+
+  {/* ─── Trust bar ────────────────────────────────────────────────────── */}
+  <section class="cx-trust">
+    {TRUST.map((t) => (
+      <div class="cx-trust__item">
+        <span class="cx-trust__icon" style={`--c:${t.color}`} aria-hidden="true" set:html={t.icon} />
+        <span class="cx-trust__text"><strong>{t.title}</strong><em>{t.sub}</em></span>
+      </div>
     ))}
-  </ul>
-
-  <h2>Turn the Estimate Into a Plan — Free</h2>
-  <p>Calculators give you a number; we give you the plan behind it. <strong>Call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}) and we’ll run the numbers for your exact doctors, drugs, and budget. Start anywhere in the <a href="medicare-help-center.html">Medicare Help Center</a>.</p>
+  </section>
 </ArticlePage>
 
 <style>
-  .calc-hub { list-style: none; padding: 0; margin: 1.5rem 0; }
-  .calc-hub li { padding: 1rem 0; border-top: 1px solid var(--color-border, #e5e9ee); }
-  .calc-hub-name { font-weight: 700; font-size: 1.1rem; }
-  .calc-hub li p { margin: 0.3rem 0 0; color: var(--color-text-muted, #667085); }
+  /* Palette echoes the help-center / coverage hubs: navy #0b2c45, blue #2563eb,
+     per-tool accents (blue/green/purple/orange/teal/pink). */
+
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .cx-hero {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    align-items: center;
+    gap: 2.5rem;
+    background: linear-gradient(180deg, #eaf3fb 0%, #f4f9fd 100%);
+    border: 1px solid #dbe6f2;
+    border-radius: 24px;
+    padding: 2.5rem 2.75rem;
+    margin: 0.25rem 0 1.5rem;
+  }
+  .cx-hero__title {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: 1.05;
+    font-weight: 800;
+    color: #0b2c45;
+    margin: 0 0 0.5rem;
+  }
+  .cx-hero__tag { margin: 0 0 0.9rem; font-size: clamp(1.05rem, 2.2vw, 1.35rem); font-weight: 800; color: #2563eb; }
+  .cx-hero__lede { font-size: 1.02rem; color: #475569; line-height: 1.55; margin: 0 0 1.6rem; max-width: 46ch; }
+
+  .cx-hero__features { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+  .cx-hero__features li { display: flex; align-items: center; gap: 0.7rem; }
+  .cx-hero__features strong { display: block; color: #0b2c45; font-size: 0.95rem; line-height: 1.2; }
+  .cx-hero__features em { color: #5b6b7d; font-size: 0.82rem; font-style: normal; line-height: 1.3; display: block; margin-top: 0.1rem; }
+  .cx-hero__feat-icon {
+    flex: none; width: 42px; height: 42px; border-radius: 12px;
+    display: grid; place-items: center; background: #e2edfb; color: #1f4e8c;
+  }
+  .cx-hero__feat-icon svg { width: 22px; height: 22px; }
+
+  .cx-hero__art { position: relative; display: flex; justify-content: center; }
+  .cx-hero__img {
+    width: 100%; height: auto; display: block;
+    aspect-ratio: 5 / 4; object-fit: cover; object-position: 60% 22%;
+    border-radius: 18px; box-shadow: 0 18px 44px rgba(11, 44, 69, 0.18);
+  }
+  .cx-hero__callout {
+    position: absolute; left: 1.25rem; right: 1.25rem; bottom: -1rem;
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    background: #fff; border: 1px solid #e1e9f2; border-radius: 14px;
+    padding: 0.9rem 1.1rem; box-shadow: 0 14px 34px rgba(11, 44, 69, 0.16);
+  }
+  .cx-hero__callout-icon { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #e6effe; color: #2563eb; }
+  .cx-hero__callout-icon svg { width: 22px; height: 22px; }
+  .cx-hero__callout p { margin: 0; color: #475569; font-size: 0.85rem; line-height: 1.45; }
+  .cx-hero__callout strong { display: block; color: #0b2c45; font-size: 0.92rem; margin-bottom: 0.1rem; }
+  .cx-hero__callout :global(a) { color: #2563eb; font-weight: 700; text-decoration: none; }
+  .cx-hero__callout :global(a:hover) { text-decoration: underline; }
+
+  /* ── Section heading ──────────────────────────────────────────────────── */
+  .cx-h2 { color: #0b2c45; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin: 0 0 1.75rem; }
+  .cx-h2--center { text-align: center; }
+  .cx-h2--ruled { display: flex; align-items: center; justify-content: center; gap: 1rem; }
+  .cx-h2--ruled::before, .cx-h2--ruled::after {
+    content: ""; height: 3px; width: clamp(1.5rem, 8vw, 4.5rem);
+    background: linear-gradient(90deg, transparent, #2563eb); border-radius: 3px;
+  }
+  .cx-h2--ruled::after { background: linear-gradient(90deg, #2563eb, transparent); }
+
+  /* ── Card grid ────────────────────────────────────────────────────────── */
+  .cx-cats { margin: 2.5rem 0 3rem; }
+  .cx-cats__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+  .cx-card {
+    display: flex; flex-direction: column;
+    background: #fff; border: 1px solid #e8edf3; border-top: 4px solid var(--accent);
+    border-radius: 16px; padding: 1.6rem 1.5rem 1.4rem;
+    box-shadow: 0 10px 30px rgba(11, 44, 69, 0.06);
+    text-decoration: none;
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .cx-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(11, 44, 69, 0.13); }
+  .cx-card__icon {
+    flex: none; width: 54px; height: 54px; border-radius: 15px;
+    display: grid; place-items: center; margin-bottom: 1rem;
+    background: var(--tint); color: var(--accent);
+  }
+  .cx-card__icon svg { width: 29px; height: 29px; }
+  .cx-card__title { margin: 0 0 0.45rem; font-size: 1.18rem; line-height: 1.2; color: var(--accent); }
+  .cx-card__blurb { margin: 0 0 1.2rem; color: #5b6b7d; font-size: 0.9rem; line-height: 1.5; flex: 1; }
+  .cx-card__cta {
+    margin-top: auto; align-self: flex-start;
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    background: var(--tint); color: var(--accent);
+    font-weight: 800; font-size: 0.9rem;
+    padding: 0.6rem 1rem; border-radius: 11px;
+    transition: filter 0.12s ease;
+  }
+  .cx-card__cta svg { width: 16px; height: 16px; transition: transform 0.14s ease; }
+  .cx-card:hover .cx-card__cta { filter: brightness(0.97); }
+  .cx-card:hover .cx-card__cta svg { transform: translateX(3px); }
+
+  /* ── Turn-into-a-plan banner ──────────────────────────────────────────── */
+  .cx-plan {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.75rem;
+    background: linear-gradient(120deg, #eaf3fb 0%, #f4f9fd 100%);
+    border: 1px solid #dbe6f2; border-radius: 22px;
+    padding: 1.8rem 2.25rem; margin: 0 0 3rem;
+  }
+  .cx-plan__art { flex: none; display: grid; place-items: center; width: 72px; height: 72px; border-radius: 18px; background: #dbeafe; color: #2563eb; }
+  .cx-plan__art svg { width: 40px; height: 40px; }
+  .cx-plan__title { margin: 0 0 0.35rem; color: #0b2c45; font-size: clamp(1.25rem, 2.4vw, 1.6rem); line-height: 1.15; }
+  .cx-plan__msg p { margin: 0; color: #475569; line-height: 1.5; font-size: 0.98rem; max-width: 60ch; }
+  .cx-plan__actions { display: flex; flex-direction: column; gap: 0.7rem; width: 250px; flex: none; }
+  .cx-plan__phone {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: linear-gradient(180deg, #f97316 0%, #ea580c 100%);
+    color: #fff; text-decoration: none;
+    padding: 0.85rem 1.1rem; border-radius: 14px; font-weight: 800;
+    box-shadow: 0 12px 26px rgba(234, 88, 12, 0.4);
+    transition: transform 0.12s ease, filter 0.12s ease;
+  }
+  .cx-plan__phone:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .cx-plan__phone-icon { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.22); }
+  .cx-plan__phone-icon svg { width: 20px; height: 20px; }
+  .cx-plan__phone > span { display: flex; flex-direction: column; line-height: 1.15; font-size: 1.02rem; }
+  .cx-plan__phone em { font-style: normal; font-weight: 600; font-size: 0.78rem; opacity: 0.9; }
+  .cx-plan__quote {
+    display: flex; align-items: center; justify-content: center; gap: 0.55rem;
+    background: #fff; color: #0b2c45; text-decoration: none; border: 1px solid #cdddec;
+    padding: 0.8rem 1.1rem; border-radius: 14px; font-weight: 800; font-size: 0.93rem;
+    transition: transform 0.12s ease;
+  }
+  .cx-plan__quote:hover { transform: translateY(-2px); }
+  .cx-plan__quote svg { width: 20px; height: 20px; color: #2563eb; }
+
+  /* ── FAQ · Resources · Related trio ───────────────────────────────────── */
+  .cx-trio { display: grid; grid-template-columns: 1.1fr 1fr 0.9fr; gap: 1.5rem; margin: 0 0 2.5rem; align-items: start; }
+  .cx-panel { background: #fff; border: 1px solid #e8edf3; border-radius: 18px; padding: 1.6rem; box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06); }
+  .cx-panel__h { display: flex; align-items: center; gap: 0.6rem; margin: 0 0 1.1rem; font-size: 1.15rem; color: #0b2c45; }
+  .cx-panel__hicon { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; }
+  .cx-panel__hicon svg { width: 19px; height: 19px; }
+  .cx-panel__hicon--blue { background: #e5edfe; color: #2563eb; }
+  .cx-panel__hicon--green { background: #e4f5ea; color: #16a34a; }
+  .cx-panel__hicon--purple { background: #f0e9fd; color: #7c3aed; }
+
+  .cx-faq { border-top: 1px solid #eef2f6; padding: 0.7rem 0; }
+  .cx-faq:first-of-type { border-top: none; padding-top: 0; }
+  .cx-faq summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+    cursor: pointer; list-style: none; font-weight: 600; color: #334155; font-size: 0.94rem; line-height: 1.35;
+  }
+  .cx-faq summary::-webkit-details-marker { display: none; }
+  .cx-faq summary::after { content: "⌄"; color: #2563eb; font-weight: 800; font-size: 1.1rem; transition: transform 0.15s ease; }
+  .cx-faq[open] summary::after { transform: rotate(180deg); }
+  .cx-faq p { margin: 0.6rem 0 0; color: #5b6b7d; font-size: 0.88rem; line-height: 1.55; }
+  .cx-panel__more { display: inline-block; margin-top: 1rem; color: #2563eb; font-weight: 700; font-size: 0.9rem; text-decoration: none; }
+  .cx-panel__more:hover { text-decoration: underline; }
+
+  .cx-links { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.15rem; }
+  .cx-links li { border-top: 1px solid #eef2f6; padding: 0.6rem 0; }
+  .cx-links li:first-child { border-top: none; padding-top: 0; }
+  .cx-links a { color: #1f4e8c; text-decoration: none; font-weight: 600; font-size: 0.9rem; line-height: 1.4; display: inline-flex; gap: 0.4rem; }
+  .cx-links a::before { content: "›"; color: #2563eb; font-weight: 800; flex: none; }
+  .cx-links a:hover { text-decoration: underline; }
+  .cx-links--related a::before { content: "→"; }
+
+  /* ── Person CTA banner ────────────────────────────────────────────────── */
+  .cx-cta {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.75rem;
+    background: linear-gradient(120deg, #0b2c45 0%, #123a5c 100%);
+    border-radius: 22px; padding: 1.9rem 2.25rem; margin: 0 0 2.5rem;
+    box-shadow: 0 22px 50px rgba(11, 44, 69, 0.28);
+  }
+  .cx-cta__photo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; object-position: top center; border: 3px solid rgba(255,255,255,0.85); flex: none; }
+  .cx-cta__title { margin: 0 0 0.35rem; color: #fff; font-size: clamp(1.3rem, 2.4vw, 1.7rem); line-height: 1.15; }
+  .cx-cta__msg p { margin: 0; color: #cfe0f0; line-height: 1.5; font-size: 0.98rem; max-width: 54ch; }
+  .cx-cta__actions { display: flex; flex-direction: column; gap: 0.7rem; width: 250px; flex: none; }
+  .cx-cta__phone {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: linear-gradient(180deg, #f97316 0%, #ea580c 100%);
+    color: #fff; text-decoration: none;
+    padding: 0.85rem 1.1rem; border-radius: 14px; font-weight: 800;
+    box-shadow: 0 12px 26px rgba(234, 88, 12, 0.4);
+    transition: transform 0.12s ease, filter 0.12s ease;
+  }
+  .cx-cta__phone:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .cx-cta__phone-icon { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.22); }
+  .cx-cta__phone-icon svg { width: 20px; height: 20px; }
+  .cx-cta__phone > span { display: flex; flex-direction: column; line-height: 1.15; font-size: 1.02rem; }
+  .cx-cta__phone em { font-style: normal; font-weight: 600; font-size: 0.78rem; opacity: 0.9; }
+  .cx-cta__quote {
+    display: flex; align-items: center; justify-content: center; gap: 0.55rem;
+    background: #fff; color: #0b2c45; text-decoration: none;
+    padding: 0.8rem 1.1rem; border-radius: 14px; font-weight: 800; font-size: 0.93rem;
+    transition: transform 0.12s ease;
+  }
+  .cx-cta__quote:hover { transform: translateY(-2px); }
+  .cx-cta__quote-icon { display: grid; place-items: center; color: #2563eb; }
+  .cx-cta__quote-icon svg { width: 20px; height: 20px; }
+
+  /* ── Trust bar ────────────────────────────────────────────────────────── */
+  .cx-trust {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
+    background: #f7fafd; border: 1px solid #e8edf3; border-radius: 18px;
+    padding: 1.5rem 1.75rem; margin: 0 0 1.5rem;
+  }
+  .cx-trust__item { display: flex; align-items: center; gap: 0.8rem; }
+  .cx-trust__icon {
+    flex: none; width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: color-mix(in srgb, var(--c) 14%, #fff); color: var(--c);
+  }
+  .cx-trust__icon svg { width: 23px; height: 23px; }
+  .cx-trust__text strong { display: block; color: #0b2c45; font-size: 0.95rem; }
+  .cx-trust__text em { color: #64748b; font-style: normal; font-size: 0.82rem; }
+
+  /* ── Responsive ───────────────────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .cx-cats__grid { grid-template-columns: repeat(2, 1fr); }
+    .cx-trio { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 900px) {
+    .cx-hero { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+    .cx-hero__lede { max-width: none; }
+    .cx-hero__callout { position: static; margin-top: 1rem; left: auto; right: auto; bottom: auto; }
+    .cx-plan { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .cx-plan__msg p { max-width: none; }
+    .cx-plan__actions { width: 100%; max-width: 320px; }
+    .cx-cta { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .cx-cta__msg p { max-width: none; }
+    .cx-cta__actions { width: 100%; max-width: 320px; }
+    .cx-trust { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .cx-cats__grid { grid-template-columns: 1fr; }
+    .cx-hero__features { grid-template-columns: 1fr; }
+    .cx-trust { grid-template-columns: 1fr; }
+  }
 </style>

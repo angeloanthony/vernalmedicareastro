@@ -58,5 +58,41 @@
       "<a href=\"medicare-irmaa-appeal-ssa-44.html\">Cómo apelar (Formulario SSA-44)</a> — paso a paso."
     ],
     "outroHtml": "La planificación del IRMAA es una de las cosas más valiosas que hace un buen agente. Si está cerca de un umbral, <strong>llámenos gratis</strong> — un pequeño movimiento puede ahorrarle un nivel completo."
+  },
+  "ui": {
+    "byline": "Por {name}, agente de seguros de Medicare con licencia",
+    "updated": "Actualizado en junio de {year}",
+    "accuracyLink": "Cómo mantenemos esto preciso",
+    "heroCalloutTitle": "¿Ingresos por encima de un umbral?",
+    "heroCalloutBody": "El IRMAA puede aumentar sus primas mensuales.",
+    "features": [
+      { "title": "Cargo adicional", "sub": "Se suma a las primas de la Parte B y la Parte D" },
+      { "title": "Basado en el MAGI", "sub": "Su Ingreso Bruto Ajustado Modificado" },
+      { "title": "Revisa 2 años atrás", "sub": "Usa los ingresos de hace dos años" },
+      { "title": "Podemos ayudar", "sub": "Planifique, estime y explore sus opciones" }
+    ],
+    "seeBracketsCta": "Vea los tramos completos del IRMAA de {year}",
+    "lookbackLead": "Como el IRMAA usa los ingresos de hace dos años, un pico único — vender una casa, una conversión Roth grande, retirar inversiones — puede activar un recargo en un año en que sus ingresos en realidad son mucho más bajos.",
+    "lookbackNoteTitle": "Buena noticia",
+    "lookbackNote": "El IRMAA se recalcula cada año, así que se corrige solo a medida que llegan declaraciones más recientes.",
+    "appealCta": "Conozca el Formulario SSA-44",
+    "nextSub": "Dé el siguiente paso para entender sus recargos y opciones.",
+    "callTitle": "Llámenos gratis",
+    "callSub": "Un pequeño cambio puede ahorrarle un nivel completo.",
+    "relatedHeading": "Relacionado",
+    "related": [
+      { "label": "Tramos del IRMAA de Medicare de {year}", "href": "medicare-irmaa-brackets-2026.html" },
+      { "label": "Cómo reducir el IRMAA de Medicare (legalmente)", "href": "how-to-reduce-medicare-irmaa.html" },
+      { "label": "¿Cuánto cuesta Medicare?", "href": "medicare-costs.html" },
+      { "label": "Calculadora del IRMAA de Medicare de {year}", "href": "medicare-irmaa-calculator.html" }
+    ],
+    "ctaTitle": "Hable con un agente local con licencia",
+    "ctaButtonQuote": "Obtenga una cotización gratis",
+    "trust": [
+      { "title": "Local y de confianza", "sub": "Con licencia en Utah" },
+      { "title": "Sin costo, sin obligación", "sub": "Orientación honesta" },
+      { "title": "Trabajamos para usted", "sub": "Le ayudamos a ahorrar" },
+      { "title": "Aquí cuando nos necesite", "sub": "Llame, escriba o reúnase localmente" }
+    ]
   }
 }

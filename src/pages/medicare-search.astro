@@ -2,15 +2,47 @@
 // src/pages/medicare-search.astro — on-site search (M34). Uses Pagefind, which
 // indexes the built HTML (data-pagefind-body in BaseLayout). Static, no backend,
 // nothing leaves the site. Results carry a content type (Calculator/Guide/Drug).
+//
+// Redesigned (M45) from a plain paragraph + bare search box into a polished
+// "Find What You Need" hub (bareHeader + bareFooter) matching the news /
+// help-center hubs: a hero with the search box front-and-centre + a photo, a
+// "Popular Tools & Guides" card grid beside a local-agent CTA card, and a
+// trust bar. The Pagefind searchbox is enlarged in place by overriding its
+// --pf-* custom properties, so search stays fully functional.
 import ArticlePage from '../components/layout/ArticlePage.astro';
 import Search from 'astro-pagefind/components/Search.astro';
 import { BUSINESS } from '../data/business';
 import type { PageContext } from '../types/Page';
 
+// Popular tools — each links to a real hub/calculator page. accent/tint drive
+// the coloured icon chip per card (blue/green/purple/orange), echoing the hubs.
+const TOOLS = [
+  {
+    href: 'medicare-calculators.html', accent: '#2563eb', tint: '#e5edfe',
+    title: 'Free Medicare Calculators', blurb: 'Estimate costs, penalties, and enrollment dates.',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><rect x="7.5" y="5.5" width="9" height="3.5" rx="1"/><path d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01M16 17h.01"/></svg>',
+  },
+  {
+    href: 'medicare-cost-estimator.html', accent: '#16a34a', tint: '#e4f5ea',
+    title: 'Medicare Cost Estimator', blurb: 'See your estimated costs based on your situation.',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M14.6 9a2.7 2.7 0 0 0-2.6-1.6c-1.5 0-2.5.8-2.5 1.9 0 2.5 5 1.4 5 4 0 1.1-1 2-2.6 2A2.8 2.8 0 0 1 9.2 15"/></svg>',
+  },
+  {
+    href: 'medicare-enrollment-timeline.html', accent: '#7c3aed', tint: '#f0e9fd',
+    title: 'Enrollment Timeline Calculator', blurb: 'Know when and how to enroll with confidence.',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M8 14l2.5 2.5L16 12"/></svg>',
+  },
+  {
+    href: 'medicare-help-center.html', accent: '#ea580c', tint: '#fdeadd',
+    title: 'Medicare Help Center', blurb: 'Browse all guides, FAQs, and helpful resources.',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9" r="2.2"/><path d="M17.5 13.2c2.3 0 3.9 1.6 3.9 3.8"/></svg>',
+  },
+];
+
 const context: PageContext = {
   page: {
     title: 'Search Vernal Medicare',
-    heading: 'Search',
+    heading: 'Find What You Need',
     description: 'Search every Vernal Medicare guide, calculator, glossary term, and news update.',
     taxonomy: { silo: 'tools', tags: ['search', 'tools', 'discovery'] },
     summary: 'Looking for something specific? Search all of Vernal Medicare — guides, calculators, drug coverage, the glossary, and news — right here.',
@@ -28,12 +60,311 @@ const context: PageContext = {
     { name: 'Search', href: '/medicare-search.html' },
   ],
 };
+
+const phoneTel = `tel:${BUSINESS.phoneTel}`;
 ---
 
-<ArticlePage context={context}>
-  <p>Search everything on the site — guides, calculators, drug coverage, glossary terms, and news. Not sure what to search for? <a href="medicare-decision-center.html">Start with your situation</a> or browse the <a href="medicare-help-center.html">Medicare Help Center</a>.</p>
+<ArticlePage context={context} bareHeader bareFooter>
+  {/* ─── Hero ─────────────────────────────────────────────────────────── */}
+  <section class="sr-hero">
+    <div class="sr-hero__copy">
+      <span class="sr-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        Search
+      </span>
+      <h1 class="sr-hero__title">Find What You Need</h1>
+      <p class="sr-hero__lede">
+        Search guides, calculators, drug coverage, the glossary,
+        and the latest news — all in one place.
+      </p>
 
-  <Search className="pagefind-ui" />
+      <div class="sr-search">
+        <Search className="sr-searchbox" />
+        <span class="sr-search__kbd" aria-hidden="true"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+      </div>
 
-  <p style="margin-top:2rem;">Can’t find it? <a href="medicare-decision-center.html">Pick your situation</a> and we’ll point you to the right guide — or <strong>call us free at {BUSINESS.phone}</strong> (TTY: {BUSINESS.tty}), a real person, no phone tree.</p>
+      <div class="sr-help">
+        <a class="sr-help__item" href="medicare-decision-center.html">
+          <span class="sr-help__icon sr-help__icon--pink" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg></span>
+          <span class="sr-help__text">Not sure what to search for?<strong>Start with your situation</strong></span>
+        </a>
+        <span class="sr-help__divider" aria-hidden="true"></span>
+        <div class="sr-help__item sr-help__item--static">
+          <span class="sr-help__icon sr-help__icon--blue" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
+          <span class="sr-help__text">Can’t find it? <a class="sr-help__phone" href={phoneTel}>Call us free at {BUSINESS.phone}</a> (TTY: {BUSINESS.tty})<em>— a real person, no phone tree.</em></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sr-hero__art">
+      <img
+        class="sr-hero__img"
+        src="/pictures/calc-hero.webp"
+        alt="A man searching Vernal Medicare guides and tools on his laptop"
+        width="798"
+        height="912"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="sr-hero__callout">
+        <span class="sr-hero__callout-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+        <p><strong>Everything in one place</strong><span>Guides, calculators, drug coverage &amp; news.</span></p>
+      </div>
+    </div>
+  </section>
+
+  {/* ─── Popular Tools & Guides + agent CTA ───────────────────────────── */}
+  <section class="sr-tools" aria-label="Popular tools and guides">
+    <div class="sr-tools__main">
+      <h2 class="sr-tools__h">Popular Tools &amp; Guides</h2>
+      <div class="sr-tools__grid">
+        {TOOLS.map((t) => (
+          <a class="sr-tool" href={t.href} style={`--accent:${t.accent};--tint:${t.tint}`}>
+            <span class="sr-tool__icon" aria-hidden="true" set:html={t.icon} />
+            <span class="sr-tool__title">{t.title}</span>
+            <span class="sr-tool__blurb">{t.blurb}</span>
+            <span class="sr-tool__arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <aside class="sr-agent">
+      <span class="sr-agent__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
+      <h2 class="sr-agent__title">Talk to a Local,<br />Licensed Agent</h2>
+      <p class="sr-agent__body">Rocco DeLuca can walk you through your options — free, no pressure.</p>
+      <a class="sr-agent__call" href={phoneTel}>Call {BUSINESS.phone} (TTY: {BUSINESS.tty})</a>
+      <a class="sr-agent__quote" href="medicare-quote-vernal.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
+        Get a Free Quote
+      </a>
+    </aside>
+  </section>
+
+  {/* ─── Trust bar ────────────────────────────────────────────────────── */}
+  <section class="sr-trust">
+    <span class="sr-trust__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+    <p><strong>Local. Trusted. Here for You.</strong> Proudly helping Vernal and Uintah Basin residents with Medicare, Medicaid, Extra Help, and more.</p>
+  </section>
 </ArticlePage>
+
+<script>
+  // Ctrl/Cmd+K focuses the search box; hide the shortcut badge once the field
+  // is focused or has text so it never sits over what the visitor is typing.
+  // Pagefind creates its <input> client-side, so wire up once it exists.
+  const wrap = document.querySelector('.sr-search');
+  const wire = (input: HTMLInputElement) => {
+    const sync = () =>
+      wrap!.classList.toggle('is-active', document.activeElement === input || input.value.length > 0);
+    input.addEventListener('focus', sync);
+    input.addEventListener('blur', sync);
+    input.addEventListener('input', sync);
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        input.focus();
+      }
+    });
+  };
+  if (wrap) {
+    const existing = wrap.querySelector('input');
+    if (existing) {
+      wire(existing as HTMLInputElement);
+    } else {
+      const obs = new MutationObserver(() => {
+        const input = wrap.querySelector('input');
+        if (input) {
+          obs.disconnect();
+          wire(input as HTMLInputElement);
+        }
+      });
+      obs.observe(wrap, { childList: true, subtree: true });
+    }
+  }
+</script>
+
+<style>
+  /* Palette echoes the news / help-center hubs: navy #0b2c45, blue #2563eb,
+     with per-tool accents (blue/green/purple/orange). */
+
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .sr-hero {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 2.75rem;
+    background: linear-gradient(180deg, #eaf3fb 0%, #f4f9fd 100%);
+    border: 1px solid #dbe6f2;
+    border-radius: 24px;
+    padding: 2.75rem 3rem;
+    margin: 0.25rem 0 1.75rem;
+  }
+  .sr-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: #e11d74; color: #fff;
+    padding: 0.32rem 0.85rem; border-radius: 999px;
+    font-size: 0.82rem; font-weight: 800; letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+  }
+  .sr-badge svg { width: 15px; height: 15px; }
+  .sr-hero__title {
+    font-size: clamp(2.3rem, 5.2vw, 3.5rem);
+    line-height: 1.03; font-weight: 800; color: #0b2c45;
+    margin: 0 0 0.75rem;
+  }
+  .sr-hero__lede {
+    font-size: 1.08rem; color: #475569; line-height: 1.55;
+    margin: 0 0 1.6rem; max-width: 44ch;
+  }
+
+  /* Search box — enlarge the Pagefind searchbox in place via its --pf-* vars. */
+  .sr-search {
+    position: relative;
+    --pf-input-height: 62px;
+    --pf-input-font-size: 1.05rem;
+    --pf-border-radius: 15px;
+    --pf-searchbox-max-width: none;
+    --pf-border: #cddcee;
+    --pf-background: #fff;
+    --pf-shadow-md: 0 16px 38px rgba(11, 44, 69, 0.14);
+    margin-bottom: 1.5rem;
+  }
+  .sr-search :global(.pf-searchbox-input) {
+    box-shadow: 0 10px 30px rgba(11, 44, 69, 0.10);
+    font-weight: 500;
+  }
+  /* The faux keyboard-shortcut badge (real focus wired up in the script). */
+  .sr-search__kbd {
+    position: absolute; top: 50%; right: 16px; transform: translateY(-50%);
+    display: inline-flex; gap: 0.3rem; pointer-events: none;
+    transition: opacity 0.12s ease;
+  }
+  .sr-search.is-active .sr-search__kbd { opacity: 0; }
+  .sr-search__kbd kbd {
+    font-family: inherit; font-size: 0.72rem; font-weight: 700; color: #64748b;
+    background: #eef3f9; border: 1px solid #d7e2ee; border-bottom-width: 2px;
+    border-radius: 7px; padding: 0.18rem 0.5rem; line-height: 1;
+  }
+
+  .sr-help { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem 1.4rem; }
+  .sr-help__divider { width: 1px; align-self: stretch; background: #d3e0ee; }
+  .sr-help__item {
+    display: flex; align-items: center; gap: 0.7rem;
+    text-decoration: none; color: #475569;
+  }
+  .sr-help__icon {
+    flex: none; width: 40px; height: 40px; border-radius: 50%;
+    display: grid; place-items: center;
+  }
+  .sr-help__icon svg { width: 20px; height: 20px; }
+  .sr-help__icon--pink { background: #fde4f0; color: #e11d74; }
+  .sr-help__icon--blue { background: #e2edfb; color: #1f4e8c; }
+  .sr-help__text { font-size: 0.9rem; line-height: 1.3; }
+  .sr-help__text strong { display: block; color: #e11d74; font-weight: 800; }
+  .sr-help__item:hover .sr-help__text strong { text-decoration: underline; }
+  .sr-help__phone { color: #e11d74; font-weight: 800; text-decoration: none; }
+  .sr-help__phone:hover { text-decoration: underline; }
+  .sr-help__text em { display: block; font-style: normal; color: #64748b; font-size: 0.82rem; margin-top: 0.1rem; }
+
+  .sr-hero__art { position: relative; }
+  .sr-hero__img {
+    width: 100%; height: auto; display: block;
+    border-radius: 20px;
+    box-shadow: 0 20px 48px rgba(11, 44, 69, 0.20);
+  }
+  .sr-hero__callout {
+    position: absolute; left: 1.1rem; bottom: -1rem;
+    display: flex; align-items: center; gap: 0.7rem;
+    background: #fff; border: 1px solid #e1e9f2; border-radius: 14px;
+    padding: 0.8rem 1rem;
+    box-shadow: 0 14px 34px rgba(11, 44, 69, 0.16);
+  }
+  .sr-hero__callout-icon { flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; background: #e5edfe; color: #2563eb; }
+  .sr-hero__callout-icon svg { width: 20px; height: 20px; }
+  .sr-hero__callout p { margin: 0; color: #64748b; font-size: 0.8rem; line-height: 1.35; }
+  .sr-hero__callout strong { display: block; color: #0b2c45; font-size: 0.9rem; margin-bottom: 0.05rem; }
+
+  /* ── Popular Tools & Guides + agent CTA ───────────────────────────────── */
+  .sr-tools {
+    display: grid; grid-template-columns: 1.85fr 1fr; gap: 1.5rem;
+    align-items: stretch; margin: 0 0 1.75rem;
+  }
+  .sr-tools__h { margin: 0 0 1.1rem; font-size: 1.35rem; color: #0b2c45; font-weight: 800; }
+  .sr-tools__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  .sr-tool {
+    display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto auto;
+    column-gap: 0.9rem; row-gap: 0.3rem;
+    background: #fff; border: 1px solid #e8edf3; border-radius: 16px;
+    padding: 1.35rem 1.4rem; text-decoration: none;
+    box-shadow: 0 10px 26px rgba(11, 44, 69, 0.06);
+    transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
+  }
+  .sr-tool:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(11, 44, 69, 0.12); border-color: color-mix(in srgb, var(--accent) 35%, #e8edf3); }
+  .sr-tool__icon {
+    grid-row: 1 / 3; grid-column: 1;
+    flex: none; width: 50px; height: 50px; border-radius: 14px;
+    display: grid; place-items: center;
+    background: var(--tint); color: var(--accent);
+  }
+  .sr-tool__icon svg { width: 27px; height: 27px; }
+  .sr-tool__title { grid-column: 2; align-self: center; font-weight: 800; font-size: 1.05rem; line-height: 1.2; color: #0b2c45; }
+  .sr-tool__blurb { grid-column: 2; color: #5b6b7d; font-size: 0.88rem; line-height: 1.4; }
+  .sr-tool__arrow { grid-column: 1 / 3; margin-top: 0.55rem; color: var(--accent); }
+  .sr-tool__arrow svg { width: 20px; height: 20px; transition: transform 0.14s ease; }
+  .sr-tool:hover .sr-tool__arrow svg { transform: translateX(4px); }
+
+  .sr-agent {
+    display: flex; flex-direction: column;
+    background: linear-gradient(150deg, #123a5c 0%, #0b2c45 100%);
+    border-radius: 20px; padding: 1.75rem 1.7rem;
+    box-shadow: 0 22px 50px rgba(11, 44, 69, 0.28);
+  }
+  .sr-agent__icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: #fff; margin-bottom: 1rem; }
+  .sr-agent__icon svg { width: 24px; height: 24px; }
+  .sr-agent__title { margin: 0 0 0.55rem; color: #fff; font-size: 1.3rem; line-height: 1.2; font-weight: 800; }
+  .sr-agent__body { margin: 0 0 1.35rem; color: #cfe0f0; font-size: 0.95rem; line-height: 1.5; }
+  .sr-agent__call {
+    display: block; text-align: center;
+    background: #fff; color: #0b2c45; text-decoration: none;
+    padding: 0.85rem 1rem; border-radius: 13px; font-weight: 800; font-size: 0.98rem;
+    margin-bottom: 0.7rem;
+    transition: transform 0.12s ease, filter 0.12s ease;
+  }
+  .sr-agent__call:hover { transform: translateY(-2px); filter: brightness(0.97); }
+  .sr-agent__quote {
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    background: transparent; color: #fff; text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,0.55);
+    padding: 0.8rem 1rem; border-radius: 13px; font-weight: 800; font-size: 0.95rem;
+    transition: background 0.12s ease, transform 0.12s ease;
+  }
+  .sr-agent__quote:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); }
+  .sr-agent__quote svg { width: 19px; height: 19px; }
+  .sr-agent__title br { display: inline; }
+
+  /* ── Trust bar ────────────────────────────────────────────────────────── */
+  .sr-trust {
+    display: flex; align-items: center; gap: 1rem;
+    background: #f7fafd; border: 1px solid #e8edf3; border-radius: 16px;
+    padding: 1.1rem 1.5rem; margin: 0 0 1.5rem;
+  }
+  .sr-trust__icon { flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: #e5edfe; color: #2563eb; }
+  .sr-trust__icon svg { width: 23px; height: 23px; }
+  .sr-trust p { margin: 0; color: #475569; font-size: 0.95rem; line-height: 1.45; }
+  .sr-trust strong { color: #0b2c45; }
+
+  /* ── Responsive ───────────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .sr-hero { grid-template-columns: 1fr; padding: 2rem 1.6rem; }
+    .sr-hero__lede { max-width: none; }
+    .sr-hero__art { max-width: 480px; margin: 0.5rem auto 0; }
+    .sr-tools { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 620px) {
+    .sr-tools__grid { grid-template-columns: 1fr; }
+    .sr-help__divider { display: none; }
+    .sr-trust { align-items: flex-start; }
+  }
+</style>

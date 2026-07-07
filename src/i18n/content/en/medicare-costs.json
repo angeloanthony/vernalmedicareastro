@@ -64,5 +64,34 @@
     "h2Local": "Local Costs",
     "localHtml": "Plan premiums and availability are local. See <a href=\"medicare-cost-uintah-county.html\">what Medicare costs in Uintah County</a> for the plans actually offered here.",
     "outroHtml": "Medicare's pieces add up differently for everyone. The fastest way to your real number is a quick conversation — <strong>call us free</strong> and we'll price it out with you, no obligation."
+  },
+  "ui": {
+    "heroLede": "\"How much does Medicare cost?\" has no single answer — it depends on your parts, your income, and your plan choices. This page breaks every piece down, with links to run your own numbers.",
+    "heroPoints": [
+      { "title": "Every Piece Explained", "sub": "Part A, B, D, and extras" },
+      { "title": "{year} Figures", "sub": "Premiums, deductibles, caps" },
+      { "title": "Ways to Pay Less", "sub": "IRMAA planning & assistance" }
+    ],
+    "heroCallout": "Not sure what you'll pay? Call us free at {phoneLink} (TTY: {tty}) and we'll price it out with you.",
+    "blocksSub": "The pieces that add up to your monthly and yearly bill.",
+    "blockTitles": ["Part A · Hospital", "Part B · Medical", "Part D · Drugs", "Extra Coverage"],
+    "estimateCta": "Open the Cost Estimator",
+    "incomeHeading": "Your Income Changes the Math",
+    "irmaaTag": "Higher income",
+    "assistanceTag": "Lower income",
+    "capsSub": "The limits and surcharges people get wrong.",
+    "localCta": "See Uintah County costs",
+    "ctaTitle": "Get Your Real Number — <em>Free</em>",
+    "ctaButtonQuote": "Get a Free Quote",
+    "centersHeading": "Jump to a Section",
+    "agentHeading": "Talk to a Local, Licensed Agent",
+    "agentBlurb": "{name} can walk you through your options — free, no pressure.",
+    "agentCta": "Call {phone} →",
+    "trust": [
+      { "title": "Local & Trusted", "sub": "Licensed in Utah" },
+      { "title": "No Cost, No Obligation", "sub": "Honest guidance" },
+      { "title": "We Work for You", "sub": "We help you save" },
+      { "title": "Here When You Need Us", "sub": "Call, email, or meet locally" }
+    ]
   }
 }
