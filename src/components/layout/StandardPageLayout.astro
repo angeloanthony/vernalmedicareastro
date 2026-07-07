@@ -29,8 +29,15 @@ interface Props {
    * related, CTA and disclaimer render as usual. Default: false.
    */
   bareHeader?: boolean;
+  /**
+   * Opt-out of the default FAQ + sources + related + CTA footer sections so a
+   * page can render its own custom versions in the slot. Schema (incl. FAQPage)
+   * is unaffected — it is built from context, not the visible HTML. The
+   * disclaimer still renders. Default: false.
+   */
+  bareFooter?: boolean;
 }
-const { context, primarySchema = 'WebPage', bareHeader = false } = Astro.props;
+const { context, primarySchema = 'WebPage', bareHeader = false, bareFooter = false } = Astro.props;
 const { page, meta } = context;
 
 const schema = assembleSchema(context, primarySchema);
@@ -106,7 +113,7 @@ const pfCategory = page.taxonomy.silo;
       <slot />
     </div>
 
-    {faqs.length > 0 && (
+    {!bareFooter && faqs.length > 0 && (
       <section class="faq" aria-label="Frequently asked questions">
         <h2>{t('faq.heading', lang)}</h2>
         {faqs.map((f) => (
@@ -118,11 +125,11 @@ const pfCategory = page.taxonomy.silo;
       </section>
     )}
 
-    {sources.length > 0 && <SourcesList sources={sources} />}
+    {!bareFooter && sources.length > 0 && <SourcesList sources={sources} />}
 
-    <RelatedPages related={related} />
+    {!bareFooter && <RelatedPages related={related} />}
 
-    <PageCTA cta={context.cta} />
+    {!bareFooter && <PageCTA cta={context.cta} />}
 
     {/* Marketing disclaimer intentionally not rendered in the page body; the
         full CMS multi-plan + TPMO disclaimer lives in the shared Footer. */}

@@ -9,10 +9,12 @@ interface Props {
   context: PageContext;
   /** Render a custom hero instead of the default H1 header block. */
   bareHeader?: boolean;
+  /** Render custom FAQ/sources/related/CTA instead of the default footer. */
+  bareFooter?: boolean;
 }
-const { context, bareHeader = false } = Astro.props;
+const { context, bareHeader = false, bareFooter = false } = Astro.props;
 ---
 
-<StandardPageLayout context={context} primarySchema="Article" bareHeader={bareHeader}>
+<StandardPageLayout context={context} primarySchema="Article" bareHeader={bareHeader} bareFooter={bareFooter}>
   <slot />
 </StandardPageLayout>

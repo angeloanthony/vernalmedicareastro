@@ -52,6 +52,18 @@
     "ctaText": "Call us at {phone} — we’ll guide you.",
     "signpostAria": "Pick a starting point"
   },
+  "personCta": {
+    "letsTalk": "Let’s Talk!",
+    "quoteLabel": "Request a Free Quote",
+    "secureTitle": "Your information is always secure",
+    "secureSub": "We respect your privacy.",
+    "features": [
+      "Local & Personal",
+      "No Cost, No Pressure",
+      "Plain English Answers",
+      "Here to Help You Decide"
+    ]
+  },
   "body": {
     "introHtml": "Medicare is easier when you start from where you actually are. Pick the situation that sounds like you below — each one opens the right guide, calculator, or checklist. Prefer to just ask a person? <strong>Call {phone}</strong> and we’ll point you there in a couple of minutes, free.",
     "h2Map": "Want the Whole Map Instead?",

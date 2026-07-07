@@ -9,7 +9,9 @@ import { DECISION_PATHS } from '../../data/decisionPaths';
 import { BUSINESS } from '../../data/business';
 import { authorById } from '../../data/authors';
 import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
-import { getLangFromUrl, getLocaleMeta, localizeLabel } from '../../i18n/locales';
+import { getLangFromUrl, getLocaleMeta, localizeLabel, t } from '../../i18n/locales';
+import { relatedFor } from '../../lib/related';
+import { PAGE_INDEX } from '../../data/pageIndex';
 import type { PageContext } from '../../types/Page';
 
 const SLUG = 'medicare-decision-center';
@@ -28,6 +30,13 @@ interface Content {
   };
   meta: { ogTitle: string; ogDescription: string };
   breadcrumb: { home: string; self: string };
+  personCta: {
+    letsTalk: string;
+    quoteLabel: string;
+    secureTitle: string;
+    secureSub: string;
+    features: string[];
+  };
   hero: {
     subtitle: string;
     lede: string;
@@ -49,6 +58,33 @@ const lang = getLangFromUrl(Astro.url);
 const c = getPageContent<Content>(SLUG, lang);
 const b = c.body;
 const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
+
+// Agent (for the "start with a person" CTA photo + caption).
+const agent = authorById('rocco');
+const quoteHref = localizeHref('/medicare-quote-vernal.html', lang);
+
+// Related resources for the footer card (same scoring the layout would use).
+const relatedPages = relatedFor(
+  { silo: 'medicare-101', tags: ['medicare-101', 'hub', 'decision-center', 'start-here', 'overview'], pillar: true },
+  PAGE_INDEX,
+  pagePath,
+).slice(0, 4);
+
+// Split "…— Free" so the trailing word can be accented (works for EN "Free"
+// and ES "gratis"; both keep the em-dash).
+const [personTitleMain, personTitleAccent] = b.h2Person.split('—');
+
+// Inline SVGs for the four trust features, aligned to personCta.features order.
+const FEATURE_ICONS = [
+  // Local & Personal — person
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>',
+  // No Cost, No Pressure — shield check
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+  // Plain English Answers — chat
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>',
+  // Here to Help You Decide — handshake
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13l3 3 5-5 4 4"/><path d="M2 9l4-4 4 3 4-3 4 4"/></svg>',
+];
 
 // Per-path colour + icon, keyed by the shared data-module id (so the shared
 // DECISION_PATHS module stays presentation-free / translation-clean). Colours
@@ -94,7 +130,7 @@ const context: PageContext = {
 };
 ---
 
-<ArticlePage context={context} bareHeader>
+<ArticlePage context={context} bareHeader bareFooter>
   <!-- Two-column hero: message + reassurance on the left, a signpost of the
        seven starting points on the right. The signs are real links. -->
   <section class="dc-hero">
@@ -153,18 +189,144 @@ const context: PageContext = {
     })}
   </div>
 
-  <!-- Closing CTA: talk to a person -->
-  <div class="dc-cta">
-    <div class="dc-cta__text">
-      <h2>{b.h2Person}</h2>
-      <p set:html={t9(b.personHtml)} />
-    </div>
-    <a class="dc-cta__phone" href={`tel:${BUSINESS.phoneTel}`}>
-      <span aria-hidden="true">📞</span> {BUSINESS.phone}
-    </a>
+  <!-- "Whole map" banner -->
+  <aside class="dc-mapbanner">
+    <span class="dc-mapbanner__icon dc-mapbanner__icon--map" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>
+    </span>
+    <p class="dc-mapbanner__text"><strong>{b.h2Map}</strong> <span set:html={t9(b.mapHtml)} /></p>
+    <span class="dc-mapbanner__icon dc-mapbanner__icon--compass" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/></svg>
+    </span>
+  </aside>
+
+  <!-- Resources: FAQ · Sources · Related -->
+  <div class="dc-resources">
+    <section class="dc-rcard dc-rcard--faq">
+      <header class="dc-rcard__head">
+        <span class="dc-rcard__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.9.4-1.5 1-1.5 2"/><circle cx="11.5" cy="16.5" r="0.6" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <h2>{t('faq.heading', lang)}</h2>
+      </header>
+      <div class="dc-rcard__body">
+        {c.page.faqs.map((f) => (
+          <details class="dc-faq">
+            <summary set:html={t9(f.question)} />
+            <p set:html={t9(f.answer)} />
+          </details>
+        ))}
+      </div>
+      <a class="dc-rcard__more dc-rcard__more--faq" href={localizeHref('/faq.html', lang)}>{t('faq.viewAll', lang)} →</a>
+    </section>
+
+    <section class="dc-rcard dc-rcard--sources">
+      <header class="dc-rcard__head">
+        <span class="dc-rcard__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 12h5M10 15h5"/></svg>
+        </span>
+        <h2>{t('sources.heading', lang)}</h2>
+      </header>
+      <ul class="dc-rlist">
+        {c.page.sources.map((s) => (
+          <li>
+            <span class="dc-rlist__tick" aria-hidden="true">✓</span>
+            <span><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a><span class="dc-rlist__pub">{s.publisher}</span></span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="dc-rcard dc-rcard--related">
+      <header class="dc-rcard__head">
+        <span class="dc-rcard__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a3 3 0 0 0 3 3h3a3 3 0 0 0 0-6h-1"/><path d="M15 12a3 3 0 0 0-3-3H9a3 3 0 0 0 0 6h1"/></svg>
+        </span>
+        <h2>{t('related.resourcesTitle', lang)}</h2>
+      </header>
+      <ul class="dc-rlist dc-rlist--links">
+        {relatedPages.map((r) => (
+          <li>
+            <span class="dc-rlist__doc" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg>
+            </span>
+            <a href={localizeHref(r.href, lang)}>{r.label}</a>
+          </li>
+        ))}
+      </ul>
+      <a class="dc-rcard__more dc-rcard__more--related" href={localizeHref('/medicare-help-center.html', lang)}>{t('related.explore', lang)} →</a>
+    </section>
   </div>
 
-  <p class="dc-map"><strong>{b.h2Map}</strong> <span set:html={t9(b.mapHtml)} /></p>
+  <!-- Closing CTA: talk to a person -->
+  <section class="dc-cta">
+    <!-- Left: agent -->
+    <figure class="dc-cta__agent">
+      <span class="dc-cta__dots" aria-hidden="true"></span>
+      <span class="dc-cta__photo-wrap">
+        <img
+          class="dc-cta__photo"
+          src="/pictures/rocco.webp"
+          alt={`${agent?.name ?? 'Rocco DeLuca'}, licensed Medicare agent in Vernal, Utah`}
+          width="132"
+          height="132"
+          loading="lazy"
+          decoding="async"
+        />
+      </span>
+      <figcaption>
+        <strong>{agent?.name ?? 'Rocco DeLuca'}</strong>
+        <span>{agent ? localizeLabel(agent.jobTitle, lang) : 'Licensed Medicare Insurance Agent'}</span>
+        <span class="dc-cta__rule" aria-hidden="true"></span>
+      </figcaption>
+    </figure>
+
+    <!-- Middle: message + trust features -->
+    <div class="dc-cta__main">
+      <h2 class="dc-cta__title">{personTitleMain}{personTitleAccent && <><span class="dc-cta__dash">—</span><em class="dc-cta__free">{personTitleAccent.trim()}</em></>}</h2>
+      <p class="dc-cta__lead" set:html={t9(b.personHtml)} />
+      <ul class="dc-cta__features">
+        {c.personCta.features.map((f, i) => (
+          <li>
+            <span class="dc-cta__ficon" aria-hidden="true" set:html={FEATURE_ICONS[i] ?? ''} />
+            <span>{f}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Right: actions -->
+    <div class="dc-cta__actions">
+      <span class="dc-cta__letstalk">{c.personCta.letsTalk}</span>
+      <a class="dc-cta__phone" href={`tel:${BUSINESS.phoneTel}`}>
+        <span class="dc-cta__phone-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg>
+        </span>
+        <span class="dc-cta__phone-body">
+          <span class="dc-cta__phone-num">{BUSINESS.phone}</span>
+          <span class="dc-cta__phone-tty">TTY: {BUSINESS.tty}</span>
+        </span>
+      </a>
+      <a class="dc-cta__quote" href={quoteHref}>
+        <span class="dc-cta__quote-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6v3H9z"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><path d="M9 12l1.5 1.5L14 10"/></svg>
+        </span>
+        {c.personCta.quoteLabel} <span aria-hidden="true">›</span>
+      </a>
+      <div class="dc-cta__secure">
+        <span class="dc-cta__secure-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        </span>
+        <span class="dc-cta__secure-text">
+          <strong>{c.personCta.secureTitle}</strong>
+          <span>{c.personCta.secureSub}</span>
+        </span>
+        <span class="dc-cta__lock" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        </span>
+      </div>
+    </div>
+  </section>
 </ArticlePage>
 
 <style>
@@ -374,43 +536,267 @@ const context: PageContext = {
   .dc-card__links a::before { content: "›"; font-weight: 800; }
   .dc-card__links a:hover { text-decoration: underline; }
 
-  /* ---- Closing CTA ------------------------------------------------------- */
+  /* ---- Closing CTA (three-column trust card) ----------------------------- */
   .dc-cta {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    background: #eef6ff;
-    border: 1px solid #d5e6f7;
-    border-radius: 20px;
-    padding: 2rem 2.25rem;
+    gap: 2.25rem;
+    background: linear-gradient(180deg, #eef5fe 0%, #f7fbff 100%);
+    border: 1px solid #d8e6f6;
+    border-radius: 24px;
+    padding: 2.5rem;
     margin: 0 0 1.5rem;
+    box-shadow: 0 22px 50px rgba(11, 44, 69, 0.10);
   }
-  .dc-cta__text { flex: 1 1 340px; }
-  .dc-cta__text h2 { margin: 0 0 0.5rem; color: #0b2c45; }
-  .dc-cta__text p { margin: 0; color: #475569; line-height: 1.6; }
-  .dc-cta__phone {
-    display: inline-flex;
+  .dc-cta > * + * { position: relative; }
+  .dc-cta__main::before,
+  .dc-cta__actions::before {
+    content: "";
+    position: absolute;
+    left: -1.15rem;
+    top: 8%;
+    bottom: 8%;
+    width: 1px;
+    background: #d8e6f6;
+  }
+
+  /* Left — agent */
+  .dc-cta__agent {
+    position: relative;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-    background: #0b2c45;
+    text-align: center;
+    gap: 0.4rem;
+    padding: 0 0.5rem;
+  }
+  .dc-cta__dots {
+    position: absolute;
+    top: -0.5rem; left: -0.25rem;
+    width: 70px; height: 55px;
+    background-image: radial-gradient(#9cc2ee 1.6px, transparent 1.7px);
+    background-size: 11px 11px;
+    opacity: 0.7;
+    z-index: 0;
+  }
+  .dc-cta__photo-wrap {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    padding: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 40%, #dcebfb 0%, #eef5fe 70%);
+  }
+  .dc-cta__photo {
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top center;
+    background: #fff;
+    border: 4px solid #fff;
+    box-shadow: 0 12px 26px rgba(11, 44, 69, 0.18);
+  }
+  .dc-cta__agent figcaption { display: flex; flex-direction: column; align-items: center; line-height: 1.3; margin-top: 0.35rem; }
+  .dc-cta__agent figcaption strong { color: #0b2c45; font-size: 1.05rem; }
+  .dc-cta__agent figcaption > span { color: #5b6b7d; font-size: 0.85rem; max-width: 12rem; }
+  .dc-cta__rule { width: 34px; height: 3px; border-radius: 3px; background: #1f4e8c; margin-top: 0.6rem; }
+
+  /* Middle — message + features */
+  .dc-cta__main { position: relative; min-width: 0; }
+  .dc-cta__title { margin: 0 0 0.6rem; color: #0b2c45; font-size: clamp(1.4rem, 2.4vw, 1.9rem); line-height: 1.15; }
+  .dc-cta__dash { color: #0b2c45; margin: 0 0.15rem 0 0.35rem; }
+  .dc-cta__free { font-style: italic; color: #1f4e8c; border-bottom: 3px solid #d6455f; padding-bottom: 1px; }
+  .dc-cta__lead { margin: 0 0 1.25rem; color: #475569; line-height: 1.6; }
+  .dc-cta__lead :global(strong) { color: #0b2c45; }
+  .dc-cta__features {
+    list-style: none; padding: 0; margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.75rem 1rem;
+  }
+  .dc-cta__features li { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; color: #0b2c45; font-size: 0.9rem; line-height: 1.2; }
+  .dc-cta__ficon {
+    flex: none; width: 38px; height: 38px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: #e2edfb; color: #1f4e8c;
+  }
+  .dc-cta__ficon :global(svg) { width: 20px; height: 20px; }
+
+  /* Right — actions */
+  .dc-cta__actions {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    width: 260px;
+    flex: none;
+  }
+  .dc-cta__letstalk {
+    align-self: flex-end;
+    font-style: italic;
+    font-weight: 800;
+    color: #d6455f;
+    font-size: 1.15rem;
+    margin-bottom: -0.4rem;
+  }
+  .dc-cta__phone {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
     color: #fff;
     text-decoration: none;
-    padding: 0.95rem 1.75rem;
-    border-radius: 999px;
-    font-weight: 800;
-    font-size: 1.25rem;
-    white-space: nowrap;
-    box-shadow: 0 10px 24px rgba(11, 44, 69, 0.22);
+    padding: 1rem 1.4rem;
+    border-radius: 16px;
+    box-shadow: 0 14px 28px rgba(37, 99, 235, 0.32);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
   }
-  .dc-cta__phone:hover { filter: brightness(1.08); }
+  .dc-cta__phone:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 18px 34px rgba(37, 99, 235, 0.4); }
+  .dc-cta__phone-icon {
+    flex: none; display: grid; place-items: center;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: #fff; color: #1d4ed8;
+  }
+  .dc-cta__phone-icon :global(svg) { width: 24px; height: 24px; }
+  .dc-cta__phone-body { display: flex; flex-direction: column; line-height: 1.1; }
+  .dc-cta__phone-num { font-weight: 800; font-size: 1.55rem; letter-spacing: 0.3px; }
+  .dc-cta__phone-tty { font-size: 0.8rem; opacity: 0.85; letter-spacing: 0.5px; }
+  .dc-cta__quote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    background: #fff;
+    color: #1d4ed8;
+    text-decoration: none;
+    font-weight: 800;
+    padding: 0.85rem 1.2rem;
+    border-radius: 14px;
+    border: 1px solid #dbe6f2;
+    box-shadow: 0 8px 20px rgba(11, 44, 69, 0.08);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .dc-cta__quote:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(11, 44, 69, 0.14); }
+  .dc-cta__quote-icon { display: grid; place-items: center; }
+  .dc-cta__quote-icon :global(svg) { width: 20px; height: 20px; }
+  .dc-cta__secure {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: #e6effc;
+    border-radius: 12px;
+    padding: 0.7rem 0.9rem;
+  }
+  .dc-cta__secure-icon {
+    flex: none; display: grid; place-items: center;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: #1f4e8c; color: #fff;
+  }
+  .dc-cta__secure-icon :global(svg) { width: 19px; height: 19px; }
+  .dc-cta__secure-text { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+  .dc-cta__secure-text strong { color: #0b2c45; font-size: 0.82rem; }
+  .dc-cta__secure-text span { color: #5b6b7d; font-size: 0.78rem; }
+  .dc-cta__lock { margin-left: auto; color: #1f4e8c; opacity: 0.8; }
+  .dc-cta__lock :global(svg) { width: 18px; height: 18px; }
 
-  .dc-map { font-size: 0.95rem; color: #64748b; text-align: center; }
-  .dc-map strong { color: #0b2c45; }
+  /* ---- "Whole map" banner ------------------------------------------------ */
+  .dc-mapbanner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: linear-gradient(180deg, #f7fbff 0%, #eef5fe 100%);
+    border: 1px solid #dbe6f2;
+    border-radius: 18px;
+    padding: 1.25rem 1.75rem;
+    margin: 0 0 2rem;
+    box-shadow: 0 12px 30px rgba(11, 44, 69, 0.07);
+  }
+  .dc-mapbanner__text { margin: 0; color: #475569; line-height: 1.55; flex: 1; }
+  .dc-mapbanner__text strong { color: #0b2c45; }
+  .dc-mapbanner__icon { flex: none; display: grid; place-items: center; }
+  .dc-mapbanner__icon svg { width: 46px; height: 46px; }
+  .dc-mapbanner__icon--map { color: #2563eb; }
+  .dc-mapbanner__icon--compass { color: #1f4e8c; }
 
+  /* ---- Resources trio ---------------------------------------------------- */
+  .dc-resources {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin: 0 0 2rem;
+  }
+  .dc-rcard {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-radius: 18px;
+    padding: 1.6rem 1.5rem;
+    box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06);
+  }
+  .dc-rcard__head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.1rem; }
+  .dc-rcard__head h2 { margin: 0; font-size: 1.2rem; }
+  .dc-rcard__icon { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; color: #fff; }
+  .dc-rcard__icon svg { width: 24px; height: 24px; }
+  .dc-rcard--faq .dc-rcard__icon { background: #ea580c; }
+  .dc-rcard--faq .dc-rcard__head h2 { color: #ea580c; }
+  .dc-rcard--sources .dc-rcard__icon { background: #16a34a; }
+  .dc-rcard--sources .dc-rcard__head h2 { color: #16a34a; }
+  .dc-rcard--related .dc-rcard__icon { background: #2563eb; }
+  .dc-rcard--related .dc-rcard__head h2 { color: #2563eb; }
+  .dc-rcard__body { flex: 1; }
+
+  .dc-faq { border-bottom: 1px solid #eef2f6; padding: 0.6rem 0; }
+  .dc-faq:first-child { padding-top: 0; }
+  .dc-faq summary {
+    display: flex; align-items: flex-start; gap: 0.5rem;
+    cursor: pointer; list-style: none;
+    font-weight: 600; color: #334155; font-size: 0.95rem; line-height: 1.35;
+  }
+  .dc-faq summary::-webkit-details-marker { display: none; }
+  .dc-faq summary::before { content: "›"; color: #ea580c; font-weight: 800; transition: transform 0.15s ease; }
+  .dc-faq[open] summary::before { transform: rotate(90deg); }
+  .dc-faq p { margin: 0.5rem 0 0 1rem; color: #5b6b7d; font-size: 0.9rem; line-height: 1.55; }
+
+  .dc-rlist { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
+  .dc-rlist li { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.95rem; line-height: 1.35; }
+  .dc-rlist a { color: #2563eb; text-decoration: none; font-weight: 600; }
+  .dc-rlist a:hover { text-decoration: underline; }
+  .dc-rlist__tick {
+    flex: none; width: 20px; height: 20px; border-radius: 50%;
+    background: #dcfce7; color: #16a34a; display: grid; place-items: center;
+    font-size: 0.7rem; font-weight: 800; margin-top: 0.1rem;
+  }
+  .dc-rlist__pub { display: block; color: #94a3b8; font-size: 0.82rem; font-weight: 400; }
+  .dc-rlist--links li { padding-bottom: 0.75rem; border-bottom: 1px solid #eef2f6; }
+  .dc-rlist--links li:last-child { border-bottom: none; padding-bottom: 0; }
+  .dc-rlist__doc { flex: none; color: #94a3b8; margin-top: 0.05rem; }
+  .dc-rlist__doc svg { width: 16px; height: 16px; }
+
+  .dc-rcard__more {
+    display: block; text-align: center; margin-top: 1.25rem;
+    padding: 0.75rem 1rem; border-radius: 12px;
+    font-weight: 800; text-decoration: none;
+  }
+  .dc-rcard__more--faq { background: #fdece0; color: #ea580c; }
+  .dc-rcard__more--related { background: #e6effc; color: #2563eb; }
+  .dc-rcard__more:hover { filter: brightness(0.97); }
+
+  @media (max-width: 960px) {
+    .dc-cta { grid-template-columns: auto 1fr; }
+    .dc-cta__actions { grid-column: 1 / -1; width: 100%; }
+    .dc-cta__actions::before { display: none; }
+    .dc-cta__letstalk { align-self: center; }
+  }
   @media (max-width: 640px) {
-    .dc-cta { flex-direction: column; align-items: stretch; text-align: center; }
-    .dc-cta__phone { justify-content: center; }
+    .dc-cta { grid-template-columns: 1fr; padding: 1.75rem 1.25rem; text-align: center; }
+    .dc-cta__main::before { display: none; }
+    .dc-cta__agent { padding-top: 0.5rem; }
+    .dc-cta__features { justify-items: center; }
+    .dc-cta__features li { justify-content: center; }
   }
 </style>

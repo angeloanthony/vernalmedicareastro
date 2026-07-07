@@ -4,7 +4,6 @@
 // i18n (M3): TPMO text via businessDisclaimers() (CMS-published Spanish, never
 // machine-translated); default medical text via t(). A custom string prop
 // passes through unchanged (page content arrives already localized).
-import { businessDisclaimers } from '../../data/business';
 import { getLangFromUrl, t } from '../../i18n/locales';
 
 interface Props {
@@ -21,7 +20,10 @@ const medicalText =
       : undefined;
 ---
 
-<footer class="page-disclaimer">
-  {medicalText && <p>{medicalText}</p>}
-  <p>{businessDisclaimers(lang).disclaimer}</p>
-</footer>
+{/* TPMO "Not connected…" statement lives in the shared Footer, so it is not
+    repeated in the page body. Only the optional medical disclaimer renders. */}
+{medicalText && (
+  <footer class="page-disclaimer">
+    <p>{medicalText}</p>
+  </footer>
+)}

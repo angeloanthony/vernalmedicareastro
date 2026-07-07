@@ -53,6 +53,18 @@
     "ctaText": "Llámenos al {phone} — lo orientamos.",
     "signpostAria": "Elija un punto de partida"
   },
+  "personCta": {
+    "letsTalk": "¡Hablemos!",
+    "quoteLabel": "Solicite una cotización gratis",
+    "secureTitle": "Su información siempre está segura",
+    "secureSub": "Respetamos su privacidad.",
+    "features": [
+      "Local y personal",
+      "Sin costo, sin presión",
+      "Respuestas en español sencillo",
+      "Aquí para ayudarle a decidir"
+    ]
+  },
   "body": {
     "introHtml": "Medicare es más fácil cuando empieza desde donde realmente está. Elija abajo la situación que suene como la suya — cada una abre la guía, la calculadora o la lista de verificación correcta. ¿Prefiere simplemente preguntarle a una persona? <strong>Llame al {phone}</strong> y lo orientaremos en un par de minutos, gratis.",
     "h2Map": "¿Prefiere ver el mapa completo?",
