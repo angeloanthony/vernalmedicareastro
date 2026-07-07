@@ -40,6 +40,18 @@
     "home": "Home",
     "self": "Where Do I Start?"
   },
+  "hero": {
+    "subtitle": "You’re in the right place.",
+    "lede": "Medicare has a lot of doors. We’ll help you open the right one.",
+    "badges": [
+      "Local, personal help you can trust",
+      "Clear answers in plain English",
+      "Free guidance from start to finish"
+    ],
+    "ctaWhen": "Still not sure which path is yours?",
+    "ctaText": "Call us at {phone} — we’ll guide you.",
+    "signpostAria": "Pick a starting point"
+  },
   "body": {
     "introHtml": "Medicare is easier when you start from where you actually are. Pick the situation that sounds like you below — each one opens the right guide, calculator, or checklist. Prefer to just ask a person? <strong>Call {phone}</strong> and we’ll point you there in a couple of minutes, free.",
     "h2Map": "Want the Whole Map Instead?",

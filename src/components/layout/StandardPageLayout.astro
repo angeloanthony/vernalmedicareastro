@@ -22,8 +22,15 @@ interface Props {
   context: PageContext;
   /** Primary JSON-LD @type for this page kind (set by the page-type layout). */
   primarySchema?: SchemaKind;
+  /**
+   * Opt-out of the default H1 header + AI summary + next-steps block so a page
+   * can render its own custom hero (H1 lives in the slot). Schema still carries
+   * the heading/author, so E-E-A-T is preserved. Breadcrumb, FAQ, sources,
+   * related, CTA and disclaimer render as usual. Default: false.
+   */
+  bareHeader?: boolean;
 }
-const { context, primarySchema = 'WebPage' } = Astro.props;
+const { context, primarySchema = 'WebPage', bareHeader = false } = Astro.props;
 const { page, meta } = context;
 
 const schema = assembleSchema(context, primarySchema);
@@ -79,19 +86,21 @@ const pfCategory = page.taxonomy.silo;
       </nav>
     )}
 
-    <header class="page-header">
-      <h1>{page.heading ?? page.title}</h1>
-      <AuthorByline
-        authorId={context.author}
-        reviewedById={context.reviewedBy}
-        updated={context.lastUpdated}
-        localAvailability={context.localAvailability}
-      />
-    </header>
+    {!bareHeader && (
+      <header class="page-header">
+        <h1>{page.heading ?? page.title}</h1>
+        <AuthorByline
+          authorId={context.author}
+          reviewedById={context.reviewedBy}
+          updated={context.lastUpdated}
+          localAvailability={context.localAvailability}
+        />
+      </header>
+    )}
 
-    {page.summary && <SummaryBlock text={page.summary} />}
+    {!bareHeader && page.summary && <SummaryBlock text={page.summary} />}
 
-    {nextSteps.length > 0 && <NextSteps steps={nextSteps} />}
+    {!bareHeader && nextSteps.length > 0 && <NextSteps steps={nextSteps} />}
 
     <div class="page-body">
       <slot />

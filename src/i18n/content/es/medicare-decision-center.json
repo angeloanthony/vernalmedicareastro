@@ -41,6 +41,18 @@
     "home": "Inicio",
     "self": "¿Por dónde empiezo?"
   },
+  "hero": {
+    "subtitle": "Está en el lugar correcto.",
+    "lede": "Medicare tiene muchas puertas. Le ayudamos a abrir la correcta.",
+    "badges": [
+      "Ayuda local y personal en la que puede confiar",
+      "Respuestas claras en español sencillo",
+      "Orientación gratuita de principio a fin"
+    ],
+    "ctaWhen": "¿Aún no sabe cuál es su camino?",
+    "ctaText": "Llámenos al {phone} — lo orientamos.",
+    "signpostAria": "Elija un punto de partida"
+  },
   "body": {
     "introHtml": "Medicare es más fácil cuando empieza desde donde realmente está. Elija abajo la situación que suene como la suya — cada una abre la guía, la calculadora o la lista de verificación correcta. ¿Prefiere simplemente preguntarle a una persona? <strong>Llame al {phone}</strong> y lo orientaremos en un par de minutos, gratis.",
     "h2Map": "¿Prefiere ver el mapa completo?",

@@ -7,10 +7,12 @@ import type { PageContext } from '../../types/Page';
 
 interface Props {
   context: PageContext;
+  /** Render a custom hero instead of the default H1 header block. */
+  bareHeader?: boolean;
 }
-const { context } = Astro.props;
+const { context, bareHeader = false } = Astro.props;
 ---
 
-<StandardPageLayout context={context} primarySchema="Article">
+<StandardPageLayout context={context} primarySchema="Article" bareHeader={bareHeader}>
   <slot />
 </StandardPageLayout>
