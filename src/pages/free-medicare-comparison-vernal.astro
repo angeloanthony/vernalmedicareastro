@@ -1,13 +1,72 @@
 ---
-// src/pages/free-medicare-comparison-vernal.astro — MIGRATED to the Page Framework.
+// src/pages/free-medicare-comparison-vernal.astro — on the Page Framework.
 // URL, title, description, canonical, H1, publish date and gaIds preserved from
-// the ranking legacy page. Now on ArticlePage: automatic Article+FAQ+Breadcrumb
-// schema, byline, related, and the required marketing disclaimer. The inline
-// hand-rolled JSON-LD (Breadcrumb/Article/FAQ) and the inline CMS
-// marketing-disclaimer block were removed — the framework generates both. The
-// FAQ Q&A moved into page.faqs. SunfireMatrix quote links preserved verbatim.
+// the ranking legacy page. ArticlePage supplies Article+FAQ+Breadcrumb schema,
+// byline, related, and the marketing disclaimer. The prior text-wall body was
+// redesigned into a QuotePage-style hero + feature-card layout (bareHeader);
+// the standard FAQ/related/CTA/disclaimer footer still renders below.
+// SunfireMatrix quote links preserved verbatim.
 import ArticlePage from '../components/layout/ArticlePage.astro';
 import type { PageContext } from '../types/Page';
+
+const TOOL_URL = 'https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/';
+
+// Inline card icons keyed by slug; each keeps its accent color so the feature
+// grid reads at a glance (mirrors the QuotePage icon system).
+const ICONS: Record<string, { color: string; svg: string }> = {
+  shield: {
+    color: '#1e63c4',
+    svg: '<path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5l-8-3Z"/><path d="M9.2 12.2 11 14l4-4.2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+  },
+  heart: {
+    color: '#dc3545',
+    svg: '<path d="M12 21s-7-4.5-9.3-8.6C1 9 2.6 5.5 6 5.5c2 0 3.2 1.1 4 2.2.8-1.1 2-2.2 4-2.2 3.4 0 5 3.5 3.3 6.9C19 16.5 12 21 12 21Z"/>',
+  },
+  savings: {
+    color: '#1f9d5a',
+    svg: '<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.2c0-1.1 1.1-1.9 2.5-1.9s2.5.7 2.5 1.7-1 1.5-2.5 1.7-2.5.7-2.5 1.8 1.1 1.8 2.5 1.8 2.5-.8 2.5-1.9" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>',
+  },
+  headset: {
+    color: '#6b46c1',
+    svg: '<path d="M4 13v-1a8 8 0 0 1 16 0v1" fill="none" stroke="currentColor" stroke-width="2"/><rect x="3" y="12.5" width="4" height="7" rx="1.4"/><rect x="17" y="12.5" width="4" height="7" rx="1.4"/><path d="M20 19v.5a3 3 0 0 1-3 3h-3" fill="none" stroke="currentColor" stroke-width="2"/>',
+  },
+  clipboard: {
+    color: '#1e63c4',
+    svg: '<rect x="5" y="4" width="14" height="17" rx="2"/><rect x="8.5" y="2.5" width="7" height="3.5" rx="1" fill="#fff"/><path d="M8.5 11h7M8.5 14.5h7M8.5 18h4" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>',
+  },
+  phone: {
+    color: '#dc3545',
+    svg: '<path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5 5l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.2 2 2 0 0 1 6.5 3Z"/>',
+  },
+  tag: {
+    color: '#1f9d5a',
+    svg: '<path d="M3 12.5 11 4.5a2 2 0 0 1 1.4-.6H19a2 2 0 0 1 2 2v6.6a2 2 0 0 1-.6 1.4l-8 8a2 2 0 0 1-2.8 0L3 15.3a2 2 0 0 1 0-2.8Z"/><circle cx="16.3" cy="7.7" r="1.5" fill="#fff"/>',
+  },
+  pin: {
+    color: '#6b46c1',
+    svg: '<path d="M12 22s7-6.4 7-12a7 7 0 1 0-14 0c0 5.6 7 12 7 12Z"/><circle cx="12" cy="10" r="2.6" fill="#fff"/>',
+  },
+};
+
+const FEATURES: { icon: string; title: string; text: string }[] = [
+  { icon: 'shield', title: 'Accurate & Up-to-Date', text: "Real-time plan data pulled from Medicare's official resources — never outdated brochures." },
+  { icon: 'heart', title: 'Personalized for You', text: 'See only the plans that fit your medications, doctors, and preferred pharmacy.' },
+  { icon: 'savings', title: 'Find Lower Costs', text: 'Discover plans that can save you money on premiums and prescriptions.' },
+  { icon: 'headset', title: 'Local Help Included', text: 'Guidance from a licensed agent who lives right here in Vernal.' },
+  { icon: 'clipboard', title: "What's Included", text: 'Plan costs, drug coverage, pharmacy tiers, provider networks, and extra benefits — side by side.' },
+  { icon: 'phone', title: 'Personalized Help', text: "We check your Extra Help eligibility and verify your doctors and pharmacies are in-network." },
+  { icon: 'tag', title: 'No Cost, No Obligation', text: 'Always free. You pay nothing for our advice, time, or expertise.' },
+  { icon: 'pin', title: 'Proudly Local', text: 'Serving Vernal, Naples, Maeser, Jensen, Roosevelt, Duchesne, and all of Uintah & Duchesne Counties.' },
+];
+
+const INCLUDES: string[] = [
+  'Medicare Advantage plans (HMO & PPO) ranked by estimated annual cost',
+  'Medicare Supplement (Medigap) quotes for Plan G and Plan N',
+  'Part D prescription drug plans matched to your exact medication list',
+  "Pharmacy cost differences — Smith's, Walgreens, mail-order",
+  'Doctor and hospital network verification',
+  'Extra benefits compared: dental, vision, hearing, fitness',
+];
 
 const context: PageContext = {
   page: {
@@ -45,31 +104,377 @@ const context: PageContext = {
 };
 ---
 
-<ArticlePage context={context}>
-  <p>Comparing Medicare plans should not cost you anything. Vernal Medicare provides free, side-by-side plan comparisons for every Medicare beneficiary in the Uintah Basin. Use our online comparison tool or call for a personalized review with a licensed agent.</p>
+<ArticlePage context={context} bareHeader>
+  <!-- Hero -->
+  <section class="fc-hero">
+    <div class="fc-hero__text">
+      <p class="fc-eyebrow">100% Free Plan Comparison</p>
+      <h1 class="fc-title">Free Medicare Plan Comparison</h1>
+      <p class="fc-script">Serving Vernal &amp; the Uintah Basin</p>
+      <p class="fc-lead">Compare Medicare Advantage, Medigap, and Part D plans side by side — 100% free, no obligation.</p>
 
-  <h2>Compare Plans Online</h2>
-  <p>Our Medicare plan comparison tool lets you enter your zip code, doctors, prescriptions, and preferred pharmacy to see available plans ranked by estimated annual cost. The tool is powered by Sunfire Matrix — the same platform used by licensed agents nationwide.</p>
-  <p style="text-align:center;margin:1.5rem 0;">
-    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Launch Plan Comparison Tool</a>
-  </p>
+      <ul class="fc-check">
+        <li>Plans ranked by estimated annual cost</li>
+        <li>Personalized to your medications &amp; doctors</li>
+        <li>Local, licensed help from Rocco DeLuca</li>
+      </ul>
 
-  <h2>What the Comparison Includes</h2>
-  <p>Medicare Advantage plans (HMO and PPO) with estimated annual costs, Medicare Supplement (Medigap) quotes for Plan G and Plan N, Part D prescription drug plan comparisons based on your medications, pharmacy cost differences (Smith's, Walgreens, mail-order), doctor and hospital network verification, and extra benefit comparisons (dental, vision, hearing, fitness).</p>
+      <a href={TOOL_URL} class="enroll-btn fc-cta" target="_blank" rel="noopener noreferrer">
+        Launch Plan Comparison Tool <span aria-hidden="true">→</span>
+      </a>
+      <p class="fc-reassure">🔒 Secure • Private • No Personal Info Required</p>
+    </div>
 
-  <h2>Personalized Help Available</h2>
-  <p>The online tool is a great starting point, but a 15-minute phone call with Rocco can identify savings the tool may miss. We check for Extra Help eligibility, verify provider networks, and consider factors like travel patterns and upcoming procedures that affect which plan is truly best for you. Call <a href="tel:+14352195120">435-219-5120</a> or email <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>.</p>
+    <div class="fc-hero__media">
+      <img src="/pictures/vernalmedicare.webp" alt="Medicare plan comparison for Vernal, Utah" width="720" height="720" loading="eager" decoding="async" />
+      <a href={TOOL_URL} class="fc-badge" target="_blank" rel="noopener noreferrer" aria-label="Start your free comparison">
+        <span class="fc-badge__icon" aria-hidden="true">🧮</span>
+        <strong>Compare &amp; Save</strong>
+        <small>Start Your Free Comparison</small>
+      </a>
+    </div>
+  </section>
 
-  <h2>No Cost, No Obligation</h2>
-  <p>Plan comparisons are always free. Vernal Medicare is compensated by insurance carriers when you enroll — you pay nothing for our advice, time, or expertise. We serve Vernal, Naples, Maeser, Jensen, Roosevelt, Duchesne, and all of Uintah and Duchesne Counties.</p>
+  <!-- Why use it -->
+  <section class="fc-why">
+    <h2>Why Use Our Free Plan Comparison?</h2>
+    <p class="fc-why__sub">Everything a licensed agent checks — in one clear, side-by-side view built for the Uintah Basin.</p>
+    <div class="fc-grid">
+      {FEATURES.map((f) => (
+        <article class="fc-card">
+          <span class="fc-card__icon" style={`--icon:${ICONS[f.icon]?.color ?? '#1e63c4'}`} aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor" set:html={ICONS[f.icon]?.svg} />
+          </span>
+          <h3>{f.title}</h3>
+          <p>{f.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
 
-  <p>Related: <a href="best-medicare-advantage-vernal.html">Best Advantage plans</a> | <a href="best-part-d-plans-vernal.html">Best Part D plans</a> | <a href="plan-g-vs-plan-n-vernal.html">Plan G vs Plan N</a></p>
-  <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
+  <!-- What's included -->
+  <section class="fc-includes">
+    <div class="fc-includes__head">
+      <h2>What the Comparison Includes</h2>
+      <p>Powered by Sunfire Matrix — the same platform licensed agents use nationwide. Enter your zip code, doctors, prescriptions, and preferred pharmacy to see plans ranked by estimated annual cost.</p>
+    </div>
+    <ul class="fc-includes__list">
+      {INCLUDES.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
 
-  <p style="text-align:center;margin-top:2rem;">
-    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
-  </p>
-  <p style="text-align:center;margin-top:1rem;">
-    <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
-  </p>
+  <!-- Personalized help / always free -->
+  <section class="fc-split">
+    <div class="fc-panel fc-panel--talk">
+      <h2>Personalized Help Available</h2>
+      <p>The online tool is a great starting point — but a 15-minute call with Rocco can surface savings the tool may miss: Extra Help eligibility, provider-network checks, travel patterns, and upcoming procedures that change which plan is truly best for you.</p>
+      <a href="tel:+14352195120" class="fc-callbtn">📞 Call Rocco: 435-219-5120</a>
+      <p class="fc-panel__detail">TTY: 711 • <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a></p>
+    </div>
+
+    <div class="fc-panel fc-panel--free">
+      <span class="fc-shield" aria-hidden="true">NO COST</span>
+      <h2>No Cost, No Obligation</h2>
+      <p>Plan comparisons are always free. Vernal Medicare is compensated by insurance carriers when you enroll — you pay nothing for our advice, time, or expertise.</p>
+      <p class="fc-panel__detail">We serve Vernal, Naples, Maeser, Jensen, Roosevelt, Duchesne, and all of Uintah &amp; Duchesne Counties.</p>
+    </div>
+  </section>
+
+  <!-- Mid-page CTA banner -->
+  <section class="fc-banner">
+    <span class="fc-banner__badge" aria-hidden="true">🛡️</span>
+    <div class="fc-banner__text">
+      <h2>Ready to Compare &amp; Enroll?</h2>
+      <p>Get started now and see which plans could save you the most.</p>
+    </div>
+    <div class="fc-banner__actions">
+      <a href={TOOL_URL} class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll →</a>
+      <p class="fc-banner__contact">
+        <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711)
+      </p>
+    </div>
+  </section>
+
+  <p class="fc-source"><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
 </ArticlePage>
+
+<style>
+  /* ---- Hero ---------------------------------------------------------- */
+  .fc-hero {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 2.5rem;
+    align-items: center;
+    margin: 0.5rem 0 3.5rem;
+  }
+  .fc-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: #dc3545;
+    margin: 0 0 0.5rem;
+  }
+  .fc-title {
+    font-size: clamp(2.3rem, 5vw, 3.5rem);
+    line-height: 1.05;
+    margin: 0;
+    color: #0b2c45;
+  }
+  .fc-script {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+    color: #dc3545;
+    margin: 0.5rem 0 0;
+  }
+  .fc-lead {
+    font-size: 1.05rem;
+    color: #43526b;
+    max-width: 34rem;
+    margin: 1rem 0 1.3rem;
+  }
+
+  .fc-check { list-style: none; padding: 0; margin: 0 0 1.6rem; }
+  .fc-check li {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 0.6rem;
+    color: #37465e;
+    font-weight: 600;
+  }
+  .fc-check li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fff;
+    background: #1e63c4;
+  }
+
+  .fc-cta { margin: 0.2rem 0 0.8rem; }
+  .fc-reassure { color: #6b7789; font-size: 0.9rem; margin: 0; }
+
+  .fc-hero__media {
+    position: relative;
+    background: linear-gradient(150deg, #e9f1fb 0%, #d7e6f8 100%);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 18px 44px rgba(11, 44, 69, 0.22);
+  }
+  .fc-hero__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 460px;
+    object-fit: cover;
+  }
+
+  .fc-badge {
+    position: absolute;
+    right: -8px;
+    bottom: -8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    width: 138px;
+    height: 138px;
+    padding: 0.6rem;
+    text-align: center;
+    text-decoration: none;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 35%, #1e63c4, #0b2c45);
+    border: 4px solid #e8a13a;
+    box-shadow: 0 12px 28px rgba(11, 44, 69, 0.4);
+    transition: transform 0.2s ease;
+  }
+  .fc-badge:hover { transform: scale(1.05); }
+  .fc-badge__icon { font-size: 1.6rem; line-height: 1; }
+  .fc-badge strong { font-size: 0.98rem; }
+  .fc-badge small { font-size: 0.68rem; line-height: 1.15; opacity: 0.92; }
+
+  /* ---- Why use it ---------------------------------------------------- */
+  .fc-why { text-align: center; margin: 0 0 3.5rem; }
+  .fc-why h2 { color: #0b2c45; font-size: 1.9rem; margin: 0 0 0.4rem; }
+  .fc-why__sub { color: #55627a; max-width: 44rem; margin: 0 auto 2rem; }
+
+  .fc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    text-align: center;
+  }
+  .fc-card {
+    background: #fff;
+    border: 1px solid #e6edf5;
+    border-radius: 16px;
+    padding: 1.6rem 1.1rem;
+    box-shadow: 0 6px 16px rgba(11, 44, 69, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .fc-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 26px rgba(11, 44, 69, 0.12);
+  }
+  .fc-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    color: var(--icon);
+    background: color-mix(in srgb, var(--icon) 12%, #fff);
+    margin-bottom: 0.9rem;
+  }
+  .fc-card h3 { font-size: 1.02rem; color: #0b2c45; margin: 0 0 0.4rem; }
+  .fc-card p { font-size: 0.9rem; color: #55627a; margin: 0; line-height: 1.5; }
+
+  /* ---- What's included ----------------------------------------------- */
+  .fc-includes {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 2rem;
+    align-items: center;
+    background: #f4f8fd;
+    border: 1px solid #dbe7f5;
+    border-radius: 20px;
+    padding: 2rem 2.2rem;
+    margin: 0 0 3rem;
+  }
+  .fc-includes__head h2 { color: #0b2c45; font-size: 1.6rem; margin: 0 0 0.6rem; }
+  .fc-includes__head p { color: #55627a; margin: 0; line-height: 1.6; }
+  .fc-includes__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .fc-includes__list li {
+    position: relative;
+    padding-left: 2rem;
+    color: #2f3e56;
+    line-height: 1.45;
+  }
+  .fc-includes__list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0.05rem;
+    width: 1.45rem;
+    height: 1.45rem;
+    line-height: 1.45rem;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    background: #1f9d5a;
+  }
+
+  /* ---- Split panels -------------------------------------------------- */
+  .fc-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 0 0 3rem;
+  }
+  .fc-panel {
+    position: relative;
+    border-radius: 18px;
+    padding: 1.9rem;
+  }
+  .fc-panel h2 { margin: 0 0 0.7rem; font-size: 1.4rem; }
+  .fc-panel p { color: #43526b; margin: 0 0 1rem; line-height: 1.6; }
+  .fc-panel--talk { background: #eef7f0; border: 1px solid #cfe6d6; }
+  .fc-panel--talk h2 { color: #1f9d5a; }
+  .fc-panel--free { background: #eef4fc; border: 1px solid #d3e2f4; }
+  .fc-panel--free h2 { color: #1e63c4; }
+  .fc-panel__detail { font-size: 0.92rem; color: #55627a; margin: 0; }
+
+  .fc-callbtn {
+    display: inline-block;
+    background: #1f9d5a;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 0.8rem 1.4rem;
+    border-radius: 10px;
+    margin-bottom: 0.7rem;
+    box-shadow: 0 6px 14px rgba(31, 157, 90, 0.3);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .fc-callbtn:hover { background: #178048; transform: translateY(-2px); }
+
+  .fc-shield {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.4rem;
+    display: inline-grid;
+    place-items: center;
+    width: 66px;
+    height: 74px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-align: center;
+    color: #fff;
+    background: radial-gradient(circle at 50% 30%, #2f7fe0, #1546a0);
+    clip-path: polygon(50% 0, 100% 18%, 100% 62%, 50% 100%, 0 62%, 0 18%);
+  }
+
+  /* ---- Mid-page banner ----------------------------------------------- */
+  .fc-banner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    background: linear-gradient(135deg, #0b2c45 0%, #164a7a 100%);
+    border-radius: 20px;
+    padding: 2rem 2.2rem;
+    margin: 0 0 2.5rem;
+  }
+  .fc-banner__badge {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    font-size: 1.8rem;
+  }
+  .fc-banner__text h2 { color: #fff; font-size: 1.6rem; margin: 0 0 0.3rem; }
+  .fc-banner__text p { color: #c9dcf0; margin: 0; }
+  .fc-banner__actions { text-align: center; }
+  .fc-banner__contact { color: #c9dcf0; font-size: 0.9rem; margin: 0.8rem 0 0; }
+  .fc-banner__contact a { color: #fff !important; }
+
+  .fc-source { text-align: center; color: #8791a0; font-size: 0.85rem; }
+
+  /* ---- Responsive ---------------------------------------------------- */
+  @media (max-width: 960px) {
+    .fc-hero { grid-template-columns: 1fr; }
+    .fc-hero__media { order: -1; }
+    .fc-hero__media img { max-height: 320px; }
+    .fc-grid { grid-template-columns: repeat(2, 1fr); }
+    .fc-includes { grid-template-columns: 1fr; }
+    .fc-split { grid-template-columns: 1fr; }
+    .fc-banner { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+  }
+  @media (max-width: 560px) {
+    .fc-grid { grid-template-columns: 1fr; }
+    .fc-badge { width: 112px; height: 112px; }
+  }
+</style>

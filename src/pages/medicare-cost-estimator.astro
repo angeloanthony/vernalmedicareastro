@@ -56,19 +56,68 @@ const context: PageContext = {
 ---
 
 <CalculatorPage context={context}>
-  <p>Wondering what Medicare will actually cost you? Compare the two main paths below. Higher earners should also add their <a href="medicare-irmaa-calculator.html">IRMAA surcharge</a>.</p>
+  <p class="calc-intro">Wondering what Medicare will <strong>actually cost you</strong>? Adjust the inputs to match your situation and compare the two main paths side by side. Higher earners should also add their <a href="medicare-irmaa-calculator.html">IRMAA surcharge</a>.</p>
 
   <form class="calc-form" data-calc-form novalidate>
-    <CalculatorSection title="Your situation">
+    <div class="calc-form-head">
+      <div class="calc-form-icon" aria-hidden="true">🧮</div>
+      <div class="calc-form-titles">
+        <h2 class="calc-form-title">Estimate Your Costs</h2>
+        <p class="calc-form-sub">Adjust the inputs below to fit your situation.</p>
+      </div>
+      <span class="calc-form-timer" aria-hidden="true">⏱ About 60 seconds</span>
+    </div>
+
+    <CalculatorSection>
       {fields.map((field) => <CalculatorInput field={field} />)}
     </CalculatorSection>
+
     <div class="calc-actions">
+      <button type="button" class="btn btn-primary calc-calculate" data-calc-calculate>Calculate My Costs</button>
       <CalculatorPrint />
       <CalculatorShare />
     </div>
   </form>
 
-  <CalculatorResult heading="Estimated annual cost" />
+  <div class="calc-result-stage">
+    <CalculatorResult heading="Estimated annual cost" />
+  </div>
+
+  <section class="estimator-preview">
+    <h2>What You'll See</h2>
+    <p class="estimator-preview-sub">A clear breakdown of your estimated monthly and annual Medicare costs.</p>
+    <div class="estimator-features">
+      <div class="estimator-feature">
+        <div class="fi" aria-hidden="true">📋</div>
+        <h3>Monthly Premiums</h3>
+        <p>See what you'll pay each month across Part B, Part D, and your plan.</p>
+      </div>
+      <div class="estimator-feature">
+        <div class="fi" aria-hidden="true">🛡️</div>
+        <h3>Annual Deductibles</h3>
+        <p>View the deductibles built into Part B and Part D for the year.</p>
+      </div>
+      <div class="estimator-feature">
+        <div class="fi" aria-hidden="true">📊</div>
+        <h3>Total Annual Cost</h3>
+        <p>Get your estimated total yearly cost, path by path.</p>
+      </div>
+      <div class="estimator-feature">
+        <div class="fi" aria-hidden="true">⚖️</div>
+        <h3>Side-by-Side Options</h3>
+        <p>Compare Original + Medigap against Medicare Advantage to find your fit.</p>
+      </div>
+    </div>
+  </section>
+
+  <aside class="estimator-help">
+    <div class="estimator-help-icon" aria-hidden="true">🛡️</div>
+    <div class="estimator-help-text">
+      <strong>Local, Licensed &amp; Here to Help</strong>
+      <span>We're independent, local, and focused on helping Vernal &amp; Uintah Basin residents make confident choices — free, no pressure.</span>
+    </div>
+    <a class="estimator-help-call" href="tel:+14352195120">📞 Call 435-219-5120 (TTY 711)</a>
+  </aside>
 
   <p>Weighing the two paths? See <a href="medicare-supplement-vs-advantage.html">Medicare Supplement vs Medicare Advantage</a>, or the <a href="medicare-plan-g-high-deductible.html">High-Deductible Plan G</a> option for lower premiums.</p>
 
@@ -105,5 +154,40 @@ const context: PageContext = {
     const form = document.querySelector<HTMLElement>('[data-calc-form]');
     const results = document.querySelector<HTMLElement>('[data-calc-results]');
     if (form && results) bindCalculator(form, results, compute);
+
+    // Results update live on every input; the primary button just guides the
+    // eye down to the (already computed) estimate for a satisfying action.
+    document.querySelector('[data-calc-calculate]')?.addEventListener('click', () => {
+      results?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      results?.animate(
+        [{ boxShadow: '0 0 0 4px rgba(220,53,69,0.55)' }, { boxShadow: '0 16px 40px rgba(11,44,69,0.28)' }],
+        { duration: 900, easing: 'ease-out' },
+      );
+    });
+
+    // Interactive 3D: the estimate badge tilts toward the cursor and a sheen
+    // tracks it, giving the card a floating, tactile feel. Mouse only; honours
+    // reduced-motion. bindCalculator re-renders the badge's innards (not the
+    // element), so these listeners survive every recompute.
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (results && !reduceMotion) {
+      const MAX_TILT = 10; // degrees
+      results.addEventListener('pointermove', (e: PointerEvent) => {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        const r = results.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;
+        const py = (e.clientY - r.top) / r.height;
+        results.style.setProperty('--ry', `${((px - 0.5) * 2 * MAX_TILT).toFixed(2)}deg`);
+        results.style.setProperty('--rx', `${((0.5 - py) * 2 * MAX_TILT).toFixed(2)}deg`);
+        results.style.setProperty('--mx', `${(px * 100).toFixed(1)}%`);
+        results.style.setProperty('--my', `${(py * 100).toFixed(1)}%`);
+        results.classList.add('is-tilting');
+      });
+      results.addEventListener('pointerleave', () => {
+        results.style.setProperty('--rx', '0deg');
+        results.style.setProperty('--ry', '0deg');
+        results.classList.remove('is-tilting');
+      });
+    }
   </script>
 </CalculatorPage>

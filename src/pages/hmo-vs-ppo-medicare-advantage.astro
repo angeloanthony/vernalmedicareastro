@@ -6,8 +6,14 @@
 // (Breadcrumb/Article/FAQ) and the inline CMS marketing-disclaimer block were
 // removed — the framework generates both. The FAQ Q&A moved into page.faqs.
 // No dollar premium figure appeared, so no figuresFor()/usd data layer is needed.
+// Body redesigned from a text wall into the shared visual card system (matching
+// medicare-cost-uintah-county): a versus hero, styled comparison table, verdict
+// callout, and floating FAQ/related badge footer (bareFooter).
 import ArticlePage from '../components/layout/ArticlePage.astro';
+import PageCTA from '../components/content/PageCTA.astro';
 import type { PageContext } from '../types/Page';
+import { relatedFor } from '../lib/related';
+import { PAGE_INDEX } from '../data/pageIndex';
 
 const context: PageContext = {
   page: {
@@ -48,32 +54,132 @@ const context: PageContext = {
     { name: 'HMO vs PPO Medicare Advantage', href: '/hmo-vs-ppo-medicare-advantage.html' },
   ],
 };
+
+// This page opts out of the framework footer (bareFooter) so the FAQ and Related
+// sections render side by side as floating interactive badges. Compute the related
+// list here exactly as StandardPageLayout would, so the links match.
+const related = relatedFor(context.page.taxonomy, PAGE_INDEX, '/hmo-vs-ppo-medicare-advantage.html');
+const faqs = context.page.faqs ?? [];
 ---
 
-<ArticlePage context={context}>
-  <p style="background:#f0f9ff; border-left:5px solid #0b6ea3; border-radius:6px; padding:1rem 1.25rem; margin:1.25rem 0;">
-    <strong>Looking for the bigger picture?</strong> See <a href="medicare-plans-vernal-utah.html">the full 2026 Medicare guide for Vernal and the Uintah Basin</a> — covers Medicare Advantage, Medigap, Part D, costs, enrollment, and local providers.
-  </p>
+<ArticlePage context={context} bareFooter={true}>
+  <a class="compare-badge" href="medicare-plans-vernal-utah.html">
+    <span class="compare-icon">🗺️</span>
+    <span class="compare-text">
+      <strong>Looking for the bigger picture?</strong>
+      See the <u>full 2026 Medicare guide for Vernal and the Uintah Basin</u> — Medicare Advantage, Medigap, Part D, costs, enrollment, and local providers.
+    </span>
+    <span class="compare-arrow" aria-hidden="true">→</span>
+  </a>
 
-  <p>Choosing between an HMO and PPO Medicare Advantage plan is one of the most important Medicare decisions for Vernal residents. Both plan types replace Original Medicare, but they differ significantly in how you access care, what you pay, and how much flexibility you have.</p>
+  <p class="lede">Choosing between an <strong>HMO</strong> and a <strong>PPO</strong> Medicare Advantage plan is one of the most important Medicare decisions for Vernal residents. Both replace Original Medicare — but they differ in how you access care, what you pay, and how much flexibility you get.</p>
 
-  <h2>HMO Medicare Advantage Plans</h2>
-  <p>HMO (Health Maintenance Organization) plans require you to use providers within the plan's network, except for emergencies and urgently needed care. You typically need a primary care physician (PCP) and must get referrals to see specialists. In exchange for these restrictions, HMO plans generally offer lower premiums, lower copays, and lower maximum out-of-pocket limits.</p>
-  <p><strong>Best for Vernal residents who:</strong> primarily use local doctors and Ashley Regional, rarely travel outside the Basin for care, want the lowest possible costs, and don't mind getting referrals for specialists.</p>
+  <!-- VERSUS HERO — HMO vs PPO side by side -->
+  <div class="vs-grid">
+    <div class="vs-card vs-hmo">
+      <div class="vs-tag">HMO</div>
+      <h3>🏥 Health Maintenance Organization</h3>
+      <p class="vs-sub">Lower cost · local network · referrals required</p>
+      <p>You use providers inside the plan's network (except emergencies and urgent care), pick a primary care physician, and get referrals to see specialists. In exchange, HMO plans generally offer <strong>lower premiums, lower copays, and lower out-of-pocket limits</strong>.</p>
+      <div class="vs-best">
+        <span class="vs-best-title">Best for Vernal residents who:</span>
+        <ul>
+          <li>Primarily use local doctors and Ashley Regional</li>
+          <li>Rarely travel outside the Basin for care</li>
+          <li>Want the lowest possible costs</li>
+          <li>Don't mind referrals for specialists</li>
+        </ul>
+      </div>
+    </div>
 
-  <h2>PPO Medicare Advantage Plans</h2>
-  <p>PPO (Preferred Provider Organization) plans let you see any Medicare-accepting provider — in or out of network. In-network care costs less, but out-of-network care is still covered at higher copays. No referrals are needed for specialists. PPO plans typically have slightly higher premiums and copays than HMO plans.</p>
-  <p><strong>Best for Vernal residents who:</strong> see specialists in Salt Lake City, Provo, or other areas outside the Uintah Basin, travel frequently or split time between locations, want the freedom to see any provider without referrals, and can handle slightly higher monthly costs for more flexibility.</p>
+    <div class="vs-or" aria-hidden="true"><span>VS</span></div>
 
+    <div class="vs-card vs-ppo">
+      <div class="vs-tag">PPO</div>
+      <h3>🌐 Preferred Provider Organization</h3>
+      <p class="vs-sub">More freedom · any provider · no referrals</p>
+      <p>You can see <strong>any Medicare-accepting provider</strong>, in or out of network — no referrals needed. In-network care costs less, and out-of-network care is still covered at higher copays. PPO plans typically carry <strong>slightly higher premiums and copays</strong> than HMOs.</p>
+      <div class="vs-best">
+        <span class="vs-best-title">Best for Vernal residents who:</span>
+        <ul>
+          <li>See specialists in Salt Lake City, Provo, or beyond</li>
+          <li>Travel often or split time between locations</li>
+          <li>Want freedom to see any provider, no referrals</li>
+          <li>Can handle slightly higher costs for flexibility</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDE-BY-SIDE COMPARISON TABLE -->
   <h2>Side-by-Side Comparison</h2>
-  <p><strong>Monthly Premium:</strong> HMO plans are typically lower, often $0. PPO plans range from $0 to $50 or more. <strong>Doctor Choice:</strong> HMO requires in-network providers; PPO allows any provider. <strong>Referrals:</strong> HMO usually requires them; PPO does not. <strong>Out-of-Network Coverage:</strong> HMO covers only emergencies out of network; PPO covers out-of-network care at higher cost. <strong>Maximum Out-of-Pocket:</strong> HMO limits are typically lower ($4,000–$6,000); PPO limits are typically higher ($6,000–$9,000).</p>
+  <div class="cmp-wrap">
+    <table class="cmp">
+      <thead>
+        <tr>
+          <th scope="col">Feature</th>
+          <th scope="col" class="cmp-hmo">HMO</th>
+          <th scope="col" class="cmp-ppo">PPO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Monthly premium</th>
+          <td>Typically lower, often <strong>$0</strong></td>
+          <td><strong>$0–$50+</strong></td>
+        </tr>
+        <tr>
+          <th scope="row">Doctor choice</th>
+          <td>In-network providers only</td>
+          <td>Any Medicare provider</td>
+        </tr>
+        <tr>
+          <th scope="row">Referrals</th>
+          <td>Usually required</td>
+          <td>Not required</td>
+        </tr>
+        <tr>
+          <th scope="row">Out-of-network coverage</th>
+          <td>Emergencies only</td>
+          <td>Covered at higher cost</td>
+        </tr>
+        <tr>
+          <th scope="row">Max out-of-pocket</th>
+          <td>Lower <strong>($4,000–$6,000)</strong></td>
+          <td>Higher <strong>($6,000–$9,000)</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <h2>Which Works Best in Rural Utah?</h2>
-  <p>For Vernal and Uintah Basin residents, this decision often comes down to how often you need care outside the local area. If you manage a chronic condition requiring regular specialist visits in Salt Lake City, a PPO gives you covered access without network hassle. If your healthcare stays local and you use Ashley Regional, Uintah Basin clinics, and Smith's Pharmacy for everything, an HMO delivers lower costs.</p>
+  <!-- VERDICT CALLOUT -->
+  <section class="verdict">
+    <h2>🏔️ Which Works Best in Rural Utah?</h2>
+    <p>For Vernal and Uintah Basin residents, the decision usually comes down to <strong>how often you need care outside the local area.</strong></p>
+    <div class="verdict-split">
+      <div class="verdict-col verdict-ppo">
+        <span class="verdict-pick">Lean PPO</span>
+        <p>If you manage a chronic condition needing regular specialist visits in Salt Lake City, a PPO gives you covered access without network hassle.</p>
+      </div>
+      <div class="verdict-col verdict-hmo">
+        <span class="verdict-pick">Lean HMO</span>
+        <p>If your care stays local — Ashley Regional, Uintah Basin clinics, and Smith's Pharmacy — an HMO delivers the lowest costs.</p>
+      </div>
+    </div>
+    <p class="verdict-help">Not sure which fits? <strong>Call Rocco for a free, no-pressure comparison</strong> built around your doctors and prescriptions.</p>
+  </section>
 
-  <p>Related: <a href="best-medicare-advantage-vernal.html">Best Advantage plans in Vernal</a> | <a href="zero-premium-medicare-advantage.html">$0 premium options</a> | <a href="medicare-advantage-vs-medigap-vernal.html">Advantage vs Medigap</a></p>
-
-  <p><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
+  <!-- RELATED TOPICS -->
+  <section class="info-badge topics-badge">
+    <h2>🧭 Related Medicare Advantage Topics</h2>
+    <p class="topics-hub"><a href="medicare-plans-vernal-utah.html">Complete Medicare Guide for Vernal</a> — the main Medicare resource hub</p>
+    <div class="rel-pills">
+      <a class="rel-pill" href="best-medicare-advantage-vernal.html">Best Advantage Plans in Vernal</a>
+      <a class="rel-pill" href="zero-premium-medicare-advantage.html">$0 Premium Advantage Plans</a>
+      <a class="rel-pill" href="medicare-advantage-vs-medigap-vernal.html">Advantage vs Medigap</a>
+      <a class="rel-pill" href="medicare-out-of-state-utah.html">Using Medicare Out of State</a>
+    </div>
+  </section>
 
   <p style="text-align:center;margin-top:2rem;">
     <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">Compare Plans &amp; Enroll</a>
@@ -81,15 +187,472 @@ const context: PageContext = {
   <p style="text-align:center;margin-top:1rem;">
     <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
   </p>
+  <p style="text-align:center;margin-top:1.25rem;font-size:.9rem;color:#5a6b7a;"><em>Source: <a href="https://www.medicare.gov" target="_blank" rel="nofollow">Medicare.gov</a>.</em></p>
 
-  <section>
-    <h2>Related Topics</h2>
-    <ul>
-      <li><a href="medicare-plans-vernal-utah.html"><strong>The full 2026 medicare guide for vernal and the uintah basin</strong></a> — the master overview that ties everything together</li>
-      <li><a href="best-medicare-advantage-vernal.html">Best Medicare Advantage Plans in Vernal</a></li>
-      <li><a href="zero-premium-medicare-advantage.html">$0 Premium Medicare Advantage Plans in Uintah County</a></li>
-      <li><a href="medicare-advantage-vs-medigap-vernal.html">Medicare Advantage vs Medigap in Vernal</a></li>
-      <li><a href="medicare-out-of-state-utah.html">Using Medicare Out of State from Utah</a></li>
-    </ul>
-  </section>
+  <!-- FAQ + Related rendered side by side as floating interactive badges.
+       Framework footer is disabled via bareFooter; CTA is re-added below. -->
+  <div class="badge-footer">
+    {faqs.length > 0 && (
+      <section class="info-badge faq-badge" aria-label="Frequently asked questions">
+        <h2>💬 Frequently Asked Questions</h2>
+        {faqs.map((f) => (
+          <details class="faq-item">
+            <summary set:html={f.question} />
+            <div class="faq-answer" set:html={f.answer} />
+          </details>
+        ))}
+      </section>
+    )}
+
+    {related.length > 0 && (
+      <nav class="info-badge rel-badge" aria-label="Related pages">
+        <h2>🔗 Related</h2>
+        <div class="rel-pills">
+          {related.map((r) => (
+            <a class="rel-pill" href={r.href}>{r.label}</a>
+          ))}
+        </div>
+      </nav>
+    )}
+  </div>
+
+  <PageCTA cta={context.cta} />
 </ArticlePage>
+
+<style>
+  .lede {
+    font-size: 1.08rem;
+    line-height: 1.7;
+    color: #33475b;
+    margin: 1.25rem 0 1.5rem;
+  }
+
+  /* ── VERSUS HERO ─────────────────────────────────────────── */
+  .vs-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: stretch;
+    gap: 1rem;
+    margin: 1.75rem 0 2.25rem;
+  }
+
+  .vs-card {
+    position: relative;
+    background: #fff;
+    border: 1px solid #dbe7f2;
+    border-radius: 16px;
+    padding: 1.5rem 1.4rem 1.4rem;
+    box-shadow: 0 6px 20px rgba(11, 44, 69, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .vs-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(11, 44, 69, 0.18);
+  }
+
+  .vs-hmo { border-top: 5px solid #0b6ea3; }
+  .vs-ppo { border-top: 5px solid #7a3fd1; }
+
+  .vs-tag {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #fff;
+    padding: 0.28rem 0.7rem;
+    border-radius: 999px;
+    margin-bottom: 0.65rem;
+  }
+
+  .vs-hmo .vs-tag { background: linear-gradient(160deg, #0b2c45, #0b6ea3); }
+  .vs-ppo .vs-tag { background: linear-gradient(160deg, #4a1f8f, #7a3fd1); }
+
+  .vs-card h3 {
+    margin: 0 0 0.3rem;
+    color: #0b2c45;
+    font-size: 1.15rem;
+  }
+
+  .vs-sub {
+    margin: 0 0 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #5a6b7a;
+    text-transform: lowercase;
+  }
+
+  .vs-card > p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #33475b;
+    margin: 0 0 1rem;
+  }
+
+  .vs-best {
+    background: #f6fafd;
+    border: 1px solid #e2edf7;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+  }
+
+  .vs-best-title {
+    display: block;
+    font-weight: 700;
+    color: #0b2c45;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .vs-best ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .vs-best li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: #33475b;
+  }
+
+  .vs-best li:last-child { margin-bottom: 0; }
+
+  .vs-best li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: 800;
+  }
+
+  .vs-hmo .vs-best li::before { color: #0b6ea3; }
+  .vs-ppo .vs-best li::before { color: #7a3fd1; }
+
+  /* Center "VS" divider */
+  .vs-or {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .vs-or span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(160deg, #0b2c45, #0b6ea3);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    box-shadow: 0 6px 18px rgba(11, 44, 69, 0.25);
+  }
+
+  /* ── COMPARISON TABLE ────────────────────────────────────── */
+  .cmp-wrap {
+    overflow-x: auto;
+    margin: 1.25rem 0 2rem;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(11, 44, 69, 0.1);
+  }
+
+  .cmp {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    min-width: 480px;
+  }
+
+  .cmp thead th {
+    color: #fff;
+    font-size: 0.98rem;
+    padding: 0.9rem 1rem;
+    text-align: left;
+  }
+
+  .cmp thead th:first-child { background: #0b2c45; }
+  .cmp thead th.cmp-hmo { background: linear-gradient(160deg, #0b2c45, #0b6ea3); }
+  .cmp thead th.cmp-ppo { background: linear-gradient(160deg, #4a1f8f, #7a3fd1); }
+
+  .cmp tbody th {
+    text-align: left;
+    font-weight: 700;
+    color: #0b2c45;
+    background: #f6fafd;
+    padding: 0.8rem 1rem;
+    font-size: 0.92rem;
+    white-space: nowrap;
+  }
+
+  .cmp tbody td {
+    padding: 0.8rem 1rem;
+    font-size: 0.94rem;
+    color: #33475b;
+    line-height: 1.45;
+  }
+
+  .cmp tbody tr + tr th,
+  .cmp tbody tr + tr td {
+    border-top: 1px solid #e2edf7;
+  }
+
+  .cmp tbody td:nth-child(2) { background: rgba(11, 110, 163, 0.05); }
+  .cmp tbody td:nth-child(3) { background: rgba(122, 63, 209, 0.05); }
+
+  /* ── VERDICT CALLOUT ─────────────────────────────────────── */
+  .verdict {
+    background: linear-gradient(160deg, #f0f9ff, #eef6ff);
+    border: 1px solid #cfe6f5;
+    border-radius: 16px;
+    padding: 1.6rem 1.5rem;
+    margin: 2rem 0;
+    box-shadow: 0 6px 20px rgba(11, 44, 69, 0.08);
+  }
+
+  .verdict h2 {
+    margin: 0 0 0.75rem;
+    color: #0b2c45;
+  }
+
+  .verdict > p {
+    color: #33475b;
+    line-height: 1.6;
+    margin: 0 0 1rem;
+  }
+
+  .verdict-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+
+  .verdict-col {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.1rem 1.2rem;
+    box-shadow: 0 3px 10px rgba(11, 44, 69, 0.06);
+  }
+
+  .verdict-ppo { border-left: 5px solid #7a3fd1; }
+  .verdict-hmo { border-left: 5px solid #0b6ea3; }
+
+  .verdict-pick {
+    display: inline-block;
+    font-weight: 800;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.45rem;
+  }
+
+  .verdict-ppo .verdict-pick { color: #7a3fd1; }
+  .verdict-hmo .verdict-pick { color: #0b6ea3; }
+
+  .verdict-col p {
+    margin: 0;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    color: #33475b;
+  }
+
+  .verdict-help {
+    margin: 0.75rem 0 0 !important;
+    font-size: 0.97rem;
+  }
+
+  /* ── SHARED BADGE SYSTEM (matches medicare-cost-uintah-county) ── */
+  .badge-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin: 2.5rem 0;
+  }
+
+  .info-badge {
+    flex: 1 1 320px;
+    background: #fff;
+    border: 1px solid #dbe7f2;
+    border-radius: 16px;
+    padding: 1.5rem 1.4rem;
+    box-shadow: 0 6px 20px rgba(11, 44, 69, 0.1);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .info-badge:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(11, 44, 69, 0.2);
+  }
+
+  .info-badge h2 {
+    margin: 0 0 1rem;
+    color: #0b2c45;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .faq-item {
+    border: 1px solid #e2edf7;
+    border-radius: 10px;
+    padding: 0.35rem 0.85rem;
+    margin-bottom: 0.6rem;
+    background: #f8fbff;
+    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .faq-item:last-child { margin-bottom: 0; }
+
+  .faq-item:hover {
+    background: #eef6ff;
+    border-color: #b9d7ef;
+    box-shadow: 0 3px 10px rgba(11, 44, 69, 0.08);
+  }
+
+  .faq-item > summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: #0b2c45;
+    list-style: none;
+    padding: 0.4rem 0;
+  }
+
+  .faq-item > summary::-webkit-details-marker { display: none; }
+
+  .faq-item > summary::before {
+    content: '＋';
+    display: inline-block;
+    margin-right: 0.5rem;
+    color: #0b6ea3;
+    font-weight: 700;
+    transition: transform 0.2s ease;
+  }
+
+  .faq-item[open] > summary::before { content: '－'; }
+
+  .faq-answer {
+    padding: 0.25rem 0 0.6rem 1.35rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #33475b;
+  }
+
+  .compare-badge {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: #1a2b3a;
+    background: #f0f9ff;
+    border: 1px solid #cfe6f5;
+    border-left: 5px solid #0b6ea3;
+    border-radius: 12px;
+    padding: 1.25rem 1.35rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 6px 20px rgba(11, 44, 69, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+
+  .compare-badge:hover {
+    transform: translateY(-5px);
+    background: #e8f4fd;
+    box-shadow: 0 16px 34px rgba(11, 44, 69, 0.18);
+  }
+
+  .compare-icon {
+    font-size: 1.9rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .compare-text {
+    flex: 1;
+    font-size: 0.97rem;
+    line-height: 1.55;
+  }
+
+  .compare-text strong {
+    display: block;
+    color: #0b2c45;
+    margin-bottom: 0.2rem;
+  }
+
+  .compare-text u {
+    color: #0b6ea3;
+    font-weight: 600;
+    text-decoration-color: #9fcbe8;
+  }
+
+  .compare-arrow {
+    font-size: 1.4rem;
+    color: #0b6ea3;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+
+  .compare-badge:hover .compare-arrow { transform: translateX(5px); }
+
+  .topics-badge { margin: 2rem 0; }
+
+  .topics-hub {
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+    color: #33475b;
+  }
+
+  .topics-hub a {
+    font-weight: 700;
+    color: #0b6ea3;
+  }
+
+  .rel-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .rel-pill {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(160deg, #0b2c45, #0b6ea3);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    box-shadow: 0 3px 10px rgba(11, 44, 69, 0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  }
+
+  .rel-pill:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(11, 44, 69, 0.28);
+    filter: brightness(1.08);
+  }
+
+  /* ── RESPONSIVE ──────────────────────────────────────────── */
+  @media (max-width: 720px) {
+    .vs-grid {
+      grid-template-columns: 1fr;
+    }
+    .vs-or {
+      margin: -0.25rem 0;
+    }
+    .vs-or span {
+      width: 44px;
+      height: 44px;
+      font-size: 0.9rem;
+    }
+    .verdict-split {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

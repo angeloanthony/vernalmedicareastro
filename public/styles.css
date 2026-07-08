@@ -8,7 +8,7 @@
 
 html {
   scroll-behavior: smooth; /* Enable smooth scrolling for anchor links */
-  font-size: 106.25%; /* 17px base — gentle site-wide bump so body copy reads larger; scales all rem/inherited text */
+  font-size: 112.5%; /* 18px base — site-wide bump so body copy reads larger; scales all rem/inherited text */
 }
 
 body {
@@ -2956,4 +2956,604 @@ main .cms-disclaimer-compact a:hover,
   background: #f8f9fa;
   border: 3px solid #fbbc05;
   border-radius: 12px;
+}
+
+/* =====================================================================
+   SHARED PAGE FOOTER — FAQ · Related · CTA
+   Styled site-wide (StandardPageLayout renders these on every article
+   page). Goal: interactive, scannable, on-brand. Appended last so these
+   win the cascade over the generic h2/.button rules above.
+   ===================================================================== */
+
+/* ---- FAQ accordion -------------------------------------------------- */
+.faq { margin: 2.75rem 0; }
+.faq > h2 { margin: 0 0 1.1rem; }
+
+.faq details {
+  background: #fff;
+  border: 1px solid #e2e9f1;
+  border-left: 4px solid #dc3545;
+  border-radius: 12px;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 2px 10px rgba(11, 44, 69, 0.05);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.faq details[open] { box-shadow: 0 8px 22px rgba(11, 44, 69, 0.10); }
+
+.faq summary {
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+  padding: 1.05rem 3.2rem 1.05rem 1.2rem;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #0b2c45;
+  transition: color 0.2s ease;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary:hover { color: #dc3545; }
+.faq summary:focus-visible { outline: 3px solid #dc3545; outline-offset: 2px; border-radius: 8px; }
+
+.faq summary::after {
+  content: "+";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #eef2f7;
+  color: #dc3545;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+.faq details[open] summary::after {
+  content: "\2013"; /* en dash */
+  background: #dc3545;
+  color: #fff;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.faq .faq-answer {
+  padding: 0 1.2rem 1.15rem;
+  color: #43526b;
+  line-height: 1.6;
+}
+.faq details[open] .faq-answer { animation: faq-reveal 0.28s ease; }
+@keyframes faq-reveal {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Related pages grid --------------------------------------------- */
+.related { margin: 2.75rem 0; }
+.related > h2 { margin: 0 0 1.1rem; }
+
+.related ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+  gap: 0.9rem;
+}
+.related li {
+  position: relative;
+  margin: 0;
+  background: #fff;
+  border: 1px solid #e2e9f1;
+  border-radius: 12px;
+  padding: 1rem 2.4rem 1rem 1.1rem;
+  box-shadow: 0 2px 10px rgba(11, 44, 69, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.related li::before {
+  content: "\2192"; /* right arrow */
+  position: absolute;
+  right: 1rem;
+  top: 1.05rem;
+  color: #dc3545;
+  font-weight: 700;
+  transition: transform 0.2s ease;
+}
+.related li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(11, 44, 69, 0.12);
+  border-color: #cddcec;
+}
+.related li:hover::before { transform: translateX(4px); }
+.related li a {
+  display: block;
+  font-weight: 700;
+  color: #0b2c45 !important;
+  text-decoration: none !important;
+}
+.related li:hover a { color: #dc3545 !important; }
+.related-blurb {
+  display: block;
+  margin-top: 0.3rem;
+  font-weight: 400;
+  font-size: 0.88rem;
+  color: #55627a;
+}
+
+/* ---- End-of-page CTA banner ----------------------------------------- */
+.page-cta {
+  position: relative;
+  overflow: hidden;
+  margin: 3rem 0 1rem;
+  padding: 2.3rem 1.6rem;
+  text-align: center;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #0b2c45 0%, #123a5c 60%, #16496f 100%);
+  box-shadow: 0 16px 40px rgba(11, 44, 69, 0.28);
+}
+.page-cta::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(220, 53, 69, 0.28), transparent 70%);
+  pointer-events: none;
+}
+.page-cta > * { position: relative; }
+.page-cta h2 {
+  color: #fff !important;
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+}
+.page-cta p { color: #d5e2f0; margin: 0 0 1.5rem; }
+.page-cta .page-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+  margin: 0;
+}
+.page-cta .button {
+  background: #dc3545 !important;
+  background-image: none !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff;
+  border: 2px solid #dc3545 !important;
+  border-radius: 10px;
+  padding: 0.85rem 1.8rem;
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(220, 53, 69, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.page-cta .button:hover {
+  background: #c82333 !important;
+  border-color: #c82333 !important;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(220, 53, 69, 0.5);
+}
+/* Second action (quote) = ghost button for clear primary/secondary hierarchy */
+.page-cta .button:nth-child(2) {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  box-shadow: none;
+}
+.page-cta .button:nth-child(2):hover {
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-color: #fff !important;
+  box-shadow: none;
+}
+
+@media (max-width: 560px) {
+  .page-cta .button { display: block; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq details[open] .faq-answer,
+  .related li,
+  .related li::before,
+  .page-cta .button { animation: none; transition: none; }
+}
+
+/* =====================================================================
+   CALCULATORS & COST ESTIMATOR
+   Styles the shared calculator/ components (calc-*) plus the cost-estimator
+   page's hero card, "What You'll See" feature grid, and local-help band.
+   Same design language as the shared footer: white cards, #e2e9f1 borders,
+   #dc3545 red accent, navy #0b2c45 text, soft navy-tinted shadows.
+   ===================================================================== */
+
+/* ---- Intro lead --------------------------------------------------------- */
+.page-body > .calc-intro {
+  font-size: 1.2rem;
+  line-height: 1.55;
+  color: #33445e;
+  max-width: 62ch;
+  margin: 0.25rem 0 1.75rem;
+}
+.page-body > .calc-intro strong { color: #0b2c45; }
+
+/* ---- The estimator / calculator card ------------------------------------ */
+.calc-form {
+  background: #fff;
+  border: 1px solid #e2e9f1;
+  border-radius: 18px;
+  padding: 1.6rem 1.6rem 1.5rem;
+  box-shadow: 0 14px 38px rgba(11, 44, 69, 0.10);
+  position: relative;
+  overflow: hidden;
+}
+.calc-form::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 5px;
+  background: linear-gradient(90deg, #dc3545 0%, #f06a76 55%, #0b2c45 100%);
+}
+
+.calc-form-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.4rem;
+}
+.calc-form-icon {
+  flex-shrink: 0;
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  font-size: 1.7rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fdeef0, #f7dce0);
+  box-shadow: inset 0 0 0 1px rgba(220, 53, 69, 0.18);
+}
+.calc-form-head .calc-form-titles { flex: 1 1 260px; }
+.calc-form-title {
+  color: #0b2c45 !important;
+  font-size: 1.4rem;
+  margin: 0;
+  line-height: 1.2;
+}
+.calc-form-sub {
+  margin: 0.15rem 0 0;
+  color: #55627a;
+  font-size: 1rem;
+}
+.calc-form-timer {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: #43526b;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ---- Field grid --------------------------------------------------------- */
+.calc-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.1rem 1.4rem;
+}
+.calc-section-title {
+  grid-column: 1 / -1;
+  color: #0b2c45 !important;
+  font-size: 1.1rem;
+  margin: 0;
+}
+.calc-section-desc { grid-column: 1 / -1; color: #55627a; margin: 0; }
+
+.calc-field { display: flex; flex-direction: column; min-width: 0; }
+/* Radio groups (e.g. coverage path) take the full width of the grid. */
+.calc-field[data-field-type="radio"] { grid-column: 1 / -1; }
+
+.calc-label {
+  font-weight: 700;
+  color: #0b2c45;
+  font-size: 0.98rem;
+  margin-bottom: 0.35rem;
+}
+.calc-req { color: #dc3545; }
+.calc-help {
+  order: 3;
+  font-size: 0.85rem;
+  color: #6a7690;
+  margin: 0.4rem 0 0;
+  line-height: 1.45;
+}
+
+/* Inputs & selects */
+.calc-form input[type="number"],
+.calc-form input[type="date"],
+.calc-form select {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  font: inherit;
+  font-size: 1rem;
+  color: #0b2c45;
+  background: #fbfdff;
+  border: 1.5px solid #d3deea;
+  border-radius: 10px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  appearance: none;
+}
+.calc-form select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath fill='none' stroke='%230b2c45' stroke-width='2' d='M1 1l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  padding-right: 2.2rem;
+  cursor: pointer;
+}
+.calc-form input[type="number"]:focus,
+.calc-form input[type="date"]:focus,
+.calc-form select:focus {
+  outline: none;
+  border-color: #dc3545;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+}
+
+/* Radio group as selectable cards */
+.calc-radios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.75rem;
+}
+.calc-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid #d3deea;
+  border-radius: 12px;
+  background: #fbfdff;
+  font-weight: 600;
+  color: #33445e;
+  cursor: pointer;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.calc-radio:hover { border-color: #b9cbde; background: #fff; }
+.calc-radio input[type="radio"] { width: 1.15rem; height: 1.15rem; accent-color: #dc3545; flex-shrink: 0; }
+.calc-radio:has(input:checked) {
+  border-color: #dc3545;
+  background: #fff5f6;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.12);
+  color: #0b2c45;
+}
+
+/* ---- Action buttons ----------------------------------------------------- */
+.calc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid #eef2f7;
+}
+.calc-form .btn-primary,
+.calc-form .btn-outline {
+  margin-top: 0;
+  border: 2px solid transparent;
+  border-radius: 11px;
+  padding: 0.8rem 1.5rem;
+  font: inherit;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+.calc-form .btn-primary {
+  background: #dc3545;
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(220, 53, 69, 0.35);
+  margin-right: auto; /* push Print/Share to the right */
+}
+.calc-form .btn-primary:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(220, 53, 69, 0.45);
+}
+.calc-form .btn-outline {
+  background: #fff;
+  color: #0b2c45;
+  border-color: #d3deea;
+  box-shadow: none;
+  min-width: 0;
+}
+.calc-form .btn-outline:hover { border-color: #0b2c45; background: #f5f8fb; transform: translateY(-2px); }
+.calc-form .btn-primary:focus-visible,
+.calc-form .btn-outline:focus-visible { outline: 3px solid #dc3545; outline-offset: 2px; }
+
+/* ---- Result card -------------------------------------------------------- */
+.calc-result {
+  margin: 1.4rem 0 0;
+  background: linear-gradient(135deg, #0b2c45 0%, #123a5c 100%);
+  color: #eaf1f8;
+  border-radius: 18px;
+  padding: 1.6rem 1.7rem;
+  box-shadow: 0 16px 40px rgba(11, 44, 69, 0.28);
+}
+.calc-result-heading { color: #fff !important; font-size: 1.25rem; margin: 0 0 0.5rem; }
+.calc-result-empty { color: #b9cbde; margin: 0; }
+.calc-result-summary {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0 0 1.1rem;
+}
+.calc-result-summary strong { color: #ffd7db; }
+.calc-result-list { margin: 0; }
+.calc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.calc-row:last-child { border-bottom: none; }
+.calc-row dt { color: #c6d6e6; margin: 0; }
+.calc-row dd { color: #fff; font-weight: 700; margin: 0; white-space: nowrap; }
+.calc-row.is-emphasis {
+  margin-top: 0.4rem;
+  padding: 0.9rem 1rem;
+  background: rgba(220, 53, 69, 0.9);
+  border-radius: 12px;
+  border-bottom: none;
+}
+.calc-row.is-emphasis dt { color: #fff; font-weight: 700; font-size: 1.05rem; }
+.calc-row.is-emphasis dd { color: #fff; font-size: 1.3rem; }
+
+/* ---- "What You'll See" feature grid ------------------------------------- */
+.estimator-preview { margin: 2.75rem 0; text-align: center; }
+.estimator-preview > h2 { color: #0b2c45 !important; margin: 0 0 0.4rem; }
+.estimator-preview-sub { color: #55627a; margin: 0 auto 1.6rem; max-width: 52ch; }
+.estimator-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1rem;
+  text-align: left;
+}
+.estimator-feature {
+  background: #fff;
+  border: 1px solid #e2e9f1;
+  border-radius: 14px;
+  padding: 1.3rem 1.2rem;
+  box-shadow: 0 2px 10px rgba(11, 44, 69, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.estimator-feature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(11, 44, 69, 0.12);
+  border-color: #cddcec;
+}
+.estimator-feature .fi {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+  border-radius: 12px;
+  background: #eef4fb;
+  margin-bottom: 0.8rem;
+}
+.estimator-feature h3 { color: #0b2c45 !important; font-size: 1.08rem; margin: 0 0 0.35rem; }
+.estimator-feature p { color: #55627a; font-size: 0.95rem; margin: 0; line-height: 1.5; }
+
+/* ---- Local, licensed help band ------------------------------------------ */
+.estimator-help {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin: 2.5rem 0;
+  padding: 1.4rem 1.6rem;
+  background: linear-gradient(135deg, #eafaf1 0%, #f3fbf7 100%);
+  border: 1px solid #cdeede;
+  border-left: 4px solid #1f9d57;
+  border-radius: 16px;
+}
+.estimator-help-icon {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  font-size: 1.6rem;
+  border-radius: 50%;
+  background: #1f9d57;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(31, 157, 87, 0.35);
+}
+.estimator-help-text { flex: 1 1 320px; }
+.estimator-help-text strong { display: block; color: #14663a; font-size: 1.1rem; margin-bottom: 0.15rem; }
+.estimator-help-text span { color: #3f5a4b; font-size: 0.98rem; }
+.estimator-help .estimator-help-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #1f9d57;
+  color: #fff !important;
+  text-decoration: none !important;
+  font-weight: 700;
+  padding: 0.8rem 1.4rem;
+  border-radius: 11px;
+  box-shadow: 0 8px 18px rgba(31, 157, 87, 0.32);
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+.estimator-help .estimator-help-call:hover {
+  background: #187844;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(31, 157, 87, 0.42);
+}
+
+@media (max-width: 560px) {
+  .calc-form { padding: 1.2rem 1.1rem; }
+  .calc-form-timer { margin-left: 0; }
+  .calc-form .btn-primary { margin-right: 0; width: 100%; text-align: center; }
+  .calc-actions .btn-outline { flex: 1; text-align: center; }
+  .estimator-help-call { width: 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .estimator-feature,
+  .calc-form .btn-primary,
+  .calc-form .btn-outline,
+  .estimator-help-call { transition: none; }
+}
+
+/* ---- Interactive 3D floating estimate badge ----------------------------- */
+.calc-result-stage { perspective: 1100px; }
+
+.calc-result {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.45s ease;
+  will-change: transform;
+}
+/* While the pointer is moving, tilt tracks it instantly (no easing lag). */
+.calc-result.is-tilting { transition: box-shadow 0.45s ease; }
+.calc-result:hover { box-shadow: 0 34px 70px rgba(11, 44, 69, 0.45); }
+
+/* Lift the key figures toward the viewer for real depth. */
+.calc-result-list { transform-style: preserve-3d; }
+.calc-result-heading,
+.calc-result-summary { transform: translateZ(45px); }
+.calc-row.is-emphasis { transform: translateZ(30px); }
+
+/* Cursor-tracking sheen. */
+.calc-result::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.14), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  transform: translateZ(60px);
+}
+.calc-result:hover::after { opacity: 1; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .calc-result-stage { animation: estimate-float 6.5s ease-in-out infinite; }
+  .calc-result-stage:hover { animation-play-state: paused; }
+}
+@keyframes estimate-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .calc-result { transition: none; }
+  .calc-result::after { display: none; }
 }

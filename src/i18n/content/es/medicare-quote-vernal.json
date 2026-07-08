@@ -16,20 +16,61 @@
     "home": "Inicio",
     "self": "Cotización gratuita de Medicare"
   },
+  "hero": {
+    "eyebrow": "Cotización gratuita de Medicare",
+    "titleTop": "Obtenga una cotización",
+    "titleBottom": "gratuita de Medicare",
+    "subheading": "Residentes de Vernal y Uintah Basin",
+    "leadHtml": "Obtenga una cotización personalizada de Medicare Advantage, Medigap o la Parte D en unos 60 segundos con nuestra herramienta segura en línea — o llame para una comparación completa con un agente local con licencia.",
+    "ctaLabel": "Obtenga su cotización gratuita ahora",
+    "reassure": "Seguro. Privado. Sin compromiso.",
+    "imgAlt": "Vernal, Utah y la cuenca de Uintah",
+    "badges": [
+      { "title": "100% gratis", "sub": "Sin costo, nunca" },
+      { "title": "60 segundos", "sub": "Rápido y fácil" },
+      { "title": "Expertos locales", "sub": "Aquí para ayudar" }
+    ]
+  },
+  "see": {
+    "h2": "Lo que verá",
+    "subtitle": "Comparaciones claras, lado a lado, de planes y beneficios para que pueda elegir con confianza.",
+    "cards": [
+      { "icon": "shield", "title": "Planes Medicare Advantage", "text": "Compare primas mensuales, copagos y beneficios." },
+      { "icon": "pill", "title": "Planes de medicamentos de la Parte D", "text": "Vea los costos anuales estimados de medicamentos y los medicamentos cubiertos." },
+      { "icon": "medigap", "title": "Planes Medigap", "text": "Compare primas mensuales y opciones de cobertura." },
+      { "icon": "tooth", "title": "Beneficios adicionales", "text": "Dental, visión, audición, gimnasio y más beneficios adicionales." },
+      { "icon": "clipboard", "title": "Resumen del plan", "text": "Resultados fáciles de leer, personalizados según sus necesidades." }
+    ]
+  },
+  "talk": {
+    "h2": "¿Prefiere hablar con una persona?",
+    "leadHtml": "Muchos residentes de Vernal prefieren una conversación con un experto local que entienda Medicare y nuestra comunidad.",
+    "points": [
+      "Llame para una consulta personalizada",
+      "Traiga su lista de medicamentos",
+      "Disponible de lunes a viernes, de 1 pm a 5 pm y sábados a pedido"
+    ],
+    "callLabel": "Llame al 435-219-5120 (TTY: 711)"
+  },
+  "free": {
+    "h2": "Completamente gratis — siempre",
+    "leadHtml": "Las cotizaciones, las comparaciones y la ayuda con la inscripción siempre son gratuitas. Nos compensan las aseguradoras, no usted.",
+    "points": [
+      "Sin presión",
+      "Sin compromiso",
+      "Solo respuestas claras y un gran servicio"
+    ],
+    "badge": "100% GRATIS"
+  },
+  "fab": {
+    "open": "Hable con un agente local",
+    "close": "Cerrar",
+    "avatarAlt": "Rocco DeLuca, agente de Medicare con licencia",
+    "status": "Local · Con licencia · Gratis"
+  },
   "body": {
-    "introHtml": "¿Listo para ver sus opciones? Obtenga una cotización personalizada de Medicare en unos 60 segundos con nuestra herramienta en línea, o llame para una comparación completa con un agente local con licencia.",
-    "h2Online": "Cotización rápida en línea",
-    "onlineHtml": "Nuestra herramienta Sunfire Matrix genera estimaciones de planes personalizadas según su código postal, sus medicamentos, sus médicos y su farmacia preferida. Muestra opciones de Medicare Advantage, la Parte D y suplementos, ordenadas por el costo anual total estimado.",
-    "quoteLabel": "Obtenga su cotización gratuita ahora",
-    "h2See": "Lo que verá",
-    "seeHtml": "Los planes Medicare Advantage disponibles con primas mensuales, copagos y máximo de gastos de bolsillo (MOOP). Planes de medicamentos de la Parte D con costos anuales estimados de medicamentos. Cotizaciones de Medigap con primas mensuales por aseguradora. Confirmación de la red de médicos y hospitales. Comparación de beneficios adicionales (dental, visión, audición, gimnasio).",
-    "h2Talk": "¿Prefiere hablar con una persona?",
-    "talkHtml": "Muchos residentes de Vernal prefieren una conversación en lugar de una herramienta en línea — y eso está perfectamente bien. Llame a Rocco al <a href=\"tel:+14352195120\">435-219-5120</a> para una consulta personalizada. Traiga su lista de medicamentos y podemos tener su comparación lista en unos 15 minutos. Disponible de lunes a viernes, de 1 pm a 5 pm en Smith's Pharmacy (1080 W Hwy 40, Vernal) o por teléfono en horario de oficina. Citas los sábados disponibles a pedido.",
-    "h2Free": "Completamente gratis — siempre",
-    "freeHtml": "Las cotizaciones, las comparaciones y la ayuda con la inscripción siempre son gratuitas. Nos compensan las aseguradoras, no usted. Sin presión, sin compromiso.",
     "relatedHtml": "Relacionado: <a href=\"free-medicare-comparison-vernal.html\">Herramienta de comparación completa</a> | <a href=\"medicare-checklist-2026.html\">Lista de verificación de Medicare 2026</a> | <a href=\"best-medicare-advantage-vernal.html\">Los mejores planes Advantage</a>",
     "sourceHtml": "<em>Fuente: <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a>.</em>",
-    "enrollLabel": "Compare planes e inscríbase",
-    "callHtml": "<strong>Llame a Rocco:</strong> <a href=\"tel:+14352195120\">435-219-5120</a> (TTY: 711) &bull; <a href=\"mailto:rocco@vernalmedicare.com\">rocco@vernalmedicare.com</a>"
+    "talkDetailsHtml": "Traiga su lista de medicamentos y podemos tener su comparación lista en unos 15 minutos en Smith's Pharmacy (1080 W Hwy 40, Vernal), o por teléfono en horario de oficina."
   }
 }

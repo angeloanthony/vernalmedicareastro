@@ -1,14 +1,18 @@
 ---
 // src/components/content/QuotePage.astro — the free-quote conversion page
-// template (M4 batch 2; playbook §4.5). SunfireMatrix quote links preserved
-// verbatim (external tool; English-language — a known limitation until
-// Sunfire offers a Spanish flow).
+// template (M4 batch 2; playbook §4.5). Custom hero + card layout (bareHeader);
+// the standard FAQ/related/CTA/disclaimer footer still renders below.
+// SunfireMatrix quote links preserved verbatim (external tool; English-language
+// — a known limitation until Sunfire offers a Spanish flow).
 import ArticlePage from '../layout/ArticlePage.astro';
 import { getPageContent, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
-import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import { getLangFromUrl, getLocaleMeta, t } from '../../i18n/locales';
+import { BUSINESS } from '../../data/business';
 import type { PageContext } from '../../types/Page';
 
 const SLUG = 'medicare-quote-vernal';
+const QUOTE_URL = BUSINESS.quoteUrl;
+const PHONE_TEL = BUSINESS.phoneTel;
 
 interface Content {
   page: {
@@ -19,6 +23,25 @@ interface Content {
     faqs: { question: string; answer: string }[];
   };
   breadcrumb: { home: string; self: string };
+  hero: {
+    eyebrow: string;
+    titleTop: string;
+    titleBottom: string;
+    subheading: string;
+    leadHtml: string;
+    ctaLabel: string;
+    reassure: string;
+    imgAlt: string;
+    badges: { title: string; sub: string }[];
+  };
+  see: {
+    h2: string;
+    subtitle: string;
+    cards: { icon: string; title: string; text: string }[];
+  };
+  talk: { h2: string; leadHtml: string; points: string[]; callLabel: string };
+  free: { h2: string; leadHtml: string; points: string[]; badge: string };
+  fab: { open: string; close: string; avatarAlt: string; status: string };
   body: Record<string, string>;
 }
 
@@ -26,6 +49,31 @@ const lang = getLangFromUrl(Astro.url);
 const c = getPageContent<Content>(SLUG, lang);
 const b = c.body;
 const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
+
+// Inline card icons (language-neutral), keyed by content `icon` slug. Each keeps
+// the mockup's accent color so the "What You Will See" row reads at a glance.
+const ICONS: Record<string, { color: string; svg: string }> = {
+  shield: {
+    color: '#1e63c4',
+    svg: '<path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5l-8-3Z"/><path d="M9.2 12.2 11 14l4-4.2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+  },
+  pill: {
+    color: '#1f9d5a',
+    svg: '<rect x="7" y="3" width="10" height="4" rx="1.2"/><path d="M8 7h8v11a3 3 0 0 1-3 3h-2a3 3 0 0 1-3-3V7Z"/><path d="M9.5 13.5h5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M12 11v5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>',
+  },
+  medigap: {
+    color: '#6b46c1',
+    svg: '<circle cx="12" cy="7" r="3.4"/><path d="M5 21c0-4 3.1-6.5 7-6.5s7 2.5 7 6.5Z"/>',
+  },
+  tooth: {
+    color: '#e8792b',
+    svg: '<path d="M12 3c-2.2-1.4-5-1-6.3.9C4 6.4 4.4 9 5 12c.5 2.6.8 6 2.2 6 1.3 0 1.2-3 2.3-3 1 0 1.1 3 2.5 3 1.4 0 1.7-3.4 2.2-6 .6-3 1-5.6-.7-7.1C12.9 2 11 3 12 3Z"/>',
+  },
+  clipboard: {
+    color: '#1e63c4',
+    svg: '<rect x="5" y="4" width="14" height="17" rx="2"/><rect x="8.5" y="2.5" width="7" height="3.5" rx="1" fill="#fff"/><path d="M8.5 11h7M8.5 14.5h7M8.5 18h4" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>',
+  },
+};
 
 const context: PageContext = {
   page: {
@@ -58,29 +106,468 @@ const context: PageContext = {
 };
 ---
 
-<ArticlePage context={context}>
-  <p set:html={b.introHtml} />
+<ArticlePage context={context} bareHeader>
+  <!-- Hero -->
+  <section class="qp-hero">
+    <div class="qp-hero__text">
+      <p class="qp-eyebrow">{c.hero.eyebrow}</p>
+      <h1 class="qp-title">
+        <span>{c.hero.titleTop}</span>
+        <span>{c.hero.titleBottom}</span>
+      </h1>
+      <p class="qp-subheading">{c.hero.subheading}</p>
+      <p class="qp-lead" set:html={c.hero.leadHtml} />
 
-  <h2>{b.h2Online}</h2>
-  <p set:html={b.onlineHtml} />
-  <p style="text-align:center;margin:1.5rem 0;">
-    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer">{b.quoteLabel}</a>
-  </p>
+      <ul class="qp-badges">
+        {c.hero.badges.map((badge) => (
+          <li>
+            <span class="qp-badge__dot" aria-hidden="true"></span>
+            <span><strong>{badge.title}</strong><small>{badge.sub}</small></span>
+          </li>
+        ))}
+      </ul>
 
-  <h2>{b.h2See}</h2>
-  <p set:html={b.seeHtml} />
+      <a href={QUOTE_URL} class="enroll-btn qp-cta" target="_blank" rel="noopener noreferrer">
+        {c.hero.ctaLabel} <span aria-hidden="true">→</span>
+      </a>
+      <p class="qp-reassure">🔒 {c.hero.reassure}</p>
+    </div>
 
-  <h2>{b.h2Talk}</h2>
-  <p set:html={b.talkHtml} />
+    <div class="qp-hero__media">
+      <img src="/pictures/vernalmedicare.webp" alt={c.hero.imgAlt} width="720" height="720" loading="eager" decoding="async" />
+    </div>
+  </section>
 
-  <h2>{b.h2Free}</h2>
-  <p set:html={b.freeHtml} />
+  <!-- What You Will See -->
+  <section class="qp-see">
+    <h2>{c.see.h2}</h2>
+    <p class="qp-see__sub">{c.see.subtitle}</p>
+    <div class="qp-cards">
+      {c.see.cards.map((card) => (
+        <article class="qp-card">
+          <span class="qp-card__icon" style={`--icon:${ICONS[card.icon]?.color ?? '#1e63c4'}`} aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor" set:html={ICONS[card.icon]?.svg} />
+          </span>
+          <h3>{card.title}</h3>
+          <p>{card.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
 
-  <p set:html={b.relatedHtml} />
-  <p set:html={b.sourceHtml} />
+  <!-- Talk to a person / Always free -->
+  <section class="qp-split">
+    <div class="qp-panel qp-panel--talk">
+      <h2>{c.talk.h2}</h2>
+      <p set:html={c.talk.leadHtml} />
+      <ul class="qp-check">
+        {c.talk.points.map((point) => <li set:html={point} />)}
+      </ul>
+      <p class="qp-panel__detail" set:html={b.talkDetailsHtml} />
+      <a href={`tel:${PHONE_TEL}`} class="qp-callbtn">📞 {c.talk.callLabel}</a>
+    </div>
 
-  <p style="text-align:center;margin-top:2rem;">
-    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer" set:html={b.enrollLabel} />
-  </p>
-  <p style="text-align:center;margin-top:1rem;" set:html={b.callHtml} />
+    <div class="qp-panel qp-panel--free">
+      <span class="qp-shield" aria-hidden="true">{c.free.badge}</span>
+      <h2>{c.free.h2}</h2>
+      <p set:html={c.free.leadHtml} />
+      <ul class="qp-check qp-check--blue">
+        {c.free.points.map((point) => <li>{point}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <p class="qp-source" set:html={b.sourceHtml} />
+
+  <!-- Floating interactive agent badge (replaces the inline end-of-page CTA,
+       which is hidden via :global(.page-cta) below on this page only). -->
+  <div class="qp-fab" data-fab>
+    <div class="qp-fab__panel" id="qp-fab-panel" role="dialog" aria-modal="false" aria-label={t('cta.heading', lang)} hidden>
+      <button type="button" class="qp-fab__close" data-fab-close aria-label={c.fab.close}>×</button>
+      <div class="qp-fab__head">
+        <img class="qp-fab__avatar" src="/pictures/rocco.webp" alt={c.fab.avatarAlt} width="56" height="56" loading="lazy" decoding="async" />
+        <div>
+          <strong>{t('cta.heading', lang)}</strong>
+          <span class="qp-fab__status">{c.fab.status}</span>
+        </div>
+      </div>
+      <p class="qp-fab__text">{t('cta.text', lang, { agent: BUSINESS.legalAgent })}</p>
+      <a class="qp-fab__call" href={`tel:${PHONE_TEL}`}>📞 {t('cta.call', lang, { phone: BUSINESS.phone })}</a>
+      <a class="qp-fab__quote enroll-btn" href={QUOTE_URL} target="_blank" rel="noopener noreferrer">{t('cta.quote', lang)}</a>
+    </div>
+
+    <button type="button" class="qp-fab__toggle" data-fab-toggle aria-expanded="false" aria-controls="qp-fab-panel">
+      <span class="qp-fab__toggle-avatar">
+        <img src="/pictures/rocco.webp" alt="" width="44" height="44" loading="lazy" decoding="async" />
+        <span class="qp-fab__ping" aria-hidden="true"></span>
+      </span>
+      <span class="qp-fab__toggle-label">{c.fab.open}</span>
+    </button>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var fab = document.querySelector('[data-fab]');
+      if (!fab) return;
+      var toggle = fab.querySelector('[data-fab-toggle]');
+      var panel = fab.querySelector('#qp-fab-panel');
+      var closeBtn = fab.querySelector('[data-fab-close]');
+
+      function open() {
+        fab.classList.add('is-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        panel.hidden = false;
+      }
+      function close() {
+        fab.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        panel.hidden = true;
+      }
+      function isOpen() { return fab.classList.contains('is-open'); }
+
+      toggle.addEventListener('click', function () { isOpen() ? close() : open(); });
+      closeBtn.addEventListener('click', close);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen()) close(); });
+      document.addEventListener('click', function (e) { if (isOpen() && !fab.contains(e.target)) close(); });
+    })();
+  </script>
 </ArticlePage>
+
+<style>
+  /* ---- Hero ---------------------------------------------------------- */
+  .qp-hero {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 2.5rem;
+    align-items: center;
+    margin: 0.5rem 0 3rem;
+  }
+  .qp-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: #dc3545;
+    margin: 0 0 0.5rem;
+  }
+  .qp-title {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.05;
+    margin: 0;
+    color: #0b2c45;
+  }
+  .qp-title span { display: block; }
+  .qp-subheading {
+    font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+    font-weight: 700;
+    color: #1e63c4;
+    margin: 0.4rem 0 0;
+  }
+  .qp-subheading::after {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 4px;
+    border-radius: 2px;
+    background: #e8792b;
+    margin-top: 0.9rem;
+  }
+  .qp-lead {
+    font-size: 1.05rem;
+    color: #43526b;
+    max-width: 34rem;
+    margin: 1.1rem 0 1.4rem;
+  }
+
+  .qp-badges {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+    padding: 0;
+    margin: 0 0 1.6rem;
+  }
+  .qp-badges li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .qp-badge__dot {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    flex: none;
+    background: radial-gradient(circle at 30% 30%, #4d8ce0, #1e63c4);
+    box-shadow: 0 3px 8px rgba(30, 99, 196, 0.35);
+  }
+  .qp-badges strong { display: block; color: #0b2c45; font-size: 0.98rem; }
+  .qp-badges small { display: block; color: #6b7789; font-size: 0.82rem; }
+
+  .qp-cta { margin: 0.2rem 0 0.8rem; }
+  .qp-reassure { color: #6b7789; font-size: 0.9rem; margin: 0; }
+
+  .qp-hero__media img {
+    width: 100%;
+    height: 100%;
+    max-height: 460px;
+    object-fit: cover;
+    border-radius: 24px;
+    box-shadow: 0 18px 44px rgba(11, 44, 69, 0.22);
+  }
+
+  /* ---- What You Will See --------------------------------------------- */
+  .qp-see { text-align: center; margin: 0 0 3rem; }
+  .qp-see h2 { color: #0b2c45; font-size: 1.9rem; margin: 0 0 0.4rem; }
+  .qp-see__sub { color: #55627a; max-width: 42rem; margin: 0 auto 1.8rem; }
+
+  .qp-cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    text-align: center;
+  }
+  .qp-card {
+    background: #fff;
+    border: 1px solid #e6edf5;
+    border-radius: 16px;
+    padding: 1.5rem 1rem;
+    box-shadow: 0 6px 16px rgba(11, 44, 69, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .qp-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 26px rgba(11, 44, 69, 0.12);
+  }
+  .qp-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    color: var(--icon);
+    background: color-mix(in srgb, var(--icon) 12%, #fff);
+    margin-bottom: 0.9rem;
+  }
+  .qp-card h3 { font-size: 1.02rem; color: #0b2c45; margin: 0 0 0.4rem; }
+  .qp-card p { font-size: 0.9rem; color: #55627a; margin: 0; }
+
+  /* ---- Split panels -------------------------------------------------- */
+  .qp-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 0 0 2.5rem;
+  }
+  .qp-panel {
+    position: relative;
+    border-radius: 18px;
+    padding: 1.8rem;
+  }
+  .qp-panel h2 { margin: 0 0 0.7rem; font-size: 1.4rem; }
+  .qp-panel p { color: #43526b; margin: 0 0 1rem; }
+  .qp-panel--talk { background: #eef7f0; border: 1px solid #cfe6d6; }
+  .qp-panel--talk h2 { color: #1f9d5a; }
+  .qp-panel--free { background: #eef4fc; border: 1px solid #d3e2f4; }
+  .qp-panel--free h2 { color: #1e63c4; }
+
+  .qp-check { list-style: none; padding: 0; margin: 0 0 1.2rem; }
+  .qp-check li {
+    position: relative;
+    padding-left: 1.9rem;
+    margin-bottom: 0.6rem;
+    color: #37465e;
+  }
+  .qp-check li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.4rem;
+    height: 1.4rem;
+    line-height: 1.4rem;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    background: #1f9d5a;
+  }
+  .qp-check--blue li::before { background: #1e63c4; }
+  .qp-panel__detail { font-size: 0.92rem; color: #55627a; }
+
+  .qp-callbtn {
+    display: inline-block;
+    background: #1f9d5a;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 0.8rem 1.4rem;
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(31, 157, 90, 0.3);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .qp-callbtn:hover { background: #178048; transform: translateY(-2px); }
+
+  .qp-shield {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.4rem;
+    display: inline-grid;
+    place-items: center;
+    width: 66px;
+    height: 74px;
+    padding-top: 0.3rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1.05;
+    text-align: center;
+    color: #fff;
+    background: radial-gradient(circle at 50% 30%, #2f7fe0, #1546a0);
+    clip-path: polygon(50% 0, 100% 18%, 100% 62%, 50% 100%, 0 62%, 0 18%);
+  }
+
+  .qp-source { text-align: center; color: #8791a0; font-size: 0.85rem; }
+
+  /* ---- Responsive ---------------------------------------------------- */
+  @media (max-width: 960px) {
+    .qp-hero { grid-template-columns: 1fr; }
+    .qp-hero__media { order: -1; }
+    .qp-hero__media img { max-height: 320px; }
+    .qp-cards { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+    .qp-split { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .qp-badges { gap: 1rem 1.4rem; }
+    .qp-cards { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ---- Floating agent badge ------------------------------------------ */
+  /* The standard inline end-of-page CTA is replaced by the floating badge
+     on this page. This global rule ships only on pages using QuotePage. */
+  :global(.page-cta) { display: none; }
+
+  .qp-fab {
+    position: fixed;
+    right: clamp(1rem, 3vw, 2rem);
+    bottom: clamp(1rem, 3vw, 2rem);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.85rem;
+  }
+
+  /* Toggle (collapsed pill) */
+  .qp-fab__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.45rem 1.1rem 0.45rem 0.5rem;
+    background: #0b2c45;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 10px 26px rgba(11, 44, 69, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .qp-fab__toggle:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(11, 44, 69, 0.45); }
+  .qp-fab__toggle:focus-visible { outline: 3px solid #dc3545; outline-offset: 3px; }
+
+  .qp-fab__toggle-avatar { position: relative; display: inline-flex; }
+  .qp-fab__toggle-avatar img {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+  }
+  .qp-fab__ping {
+    position: absolute;
+    right: 1px; bottom: 1px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #26c281;
+    border: 2px solid #0b2c45;
+    box-shadow: 0 0 0 0 rgba(38, 194, 129, 0.7);
+    animation: qp-ping 2s infinite;
+  }
+  @keyframes qp-ping {
+    0%   { box-shadow: 0 0 0 0 rgba(38, 194, 129, 0.7); }
+    70%  { box-shadow: 0 0 0 10px rgba(38, 194, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(38, 194, 129, 0); }
+  }
+
+  /* Expanded panel */
+  .qp-fab__panel {
+    width: min(320px, calc(100vw - 2rem));
+    background: #fff;
+    border: 1px solid #e2e9f1;
+    border-radius: 18px;
+    padding: 1.3rem 1.3rem 1.4rem;
+    box-shadow: 0 22px 50px rgba(11, 44, 69, 0.28);
+    transform-origin: bottom right;
+    animation: qp-pop 0.22s ease;
+  }
+  .qp-fab:not(.is-open) .qp-fab__panel { display: none; }
+  @keyframes qp-pop {
+    from { opacity: 0; transform: translateY(12px) scale(0.94); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .qp-fab__close {
+    position: absolute;
+    top: 0.55rem; right: 0.7rem;
+    width: 30px; height: 30px;
+    border: none;
+    background: transparent;
+    color: #8791a0;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  .qp-fab__close:hover { background: #f0f3f7; color: #0b2c45; }
+
+  .qp-fab__head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.8rem; }
+  .qp-fab__avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; flex: none; }
+  .qp-fab__head strong { display: block; color: #0b2c45; font-size: 1.02rem; line-height: 1.2; }
+  .qp-fab__status { display: block; color: #1f9d5a; font-size: 0.82rem; font-weight: 700; margin-top: 0.15rem; }
+  .qp-fab__text { color: #43526b; font-size: 0.95rem; margin: 0 0 1rem; }
+
+  .qp-fab__call {
+    display: block;
+    text-align: center;
+    background: #1f9d5a;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
+    margin-bottom: 0.6rem;
+    transition: background 0.2s ease;
+  }
+  .qp-fab__call:hover { background: #178048; }
+  .qp-fab__quote.enroll-btn {
+    display: block !important;
+    width: 100%;
+    text-align: center;
+    font-size: 1rem !important;
+    padding: 0.75rem 1rem !important;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 560px) {
+    .qp-fab__toggle-label { display: none; }
+    .qp-fab__toggle { padding: 0.4rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .qp-fab__ping { animation: none; }
+    .qp-fab__panel { animation: none; }
+    .qp-fab__toggle:hover { transform: none; }
+  }
+</style>

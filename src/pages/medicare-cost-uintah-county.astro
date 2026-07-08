@@ -8,9 +8,12 @@
 // The existing figuresFor()/usd data layer (Part A/B premium & deductible) is
 // KEPT intact, including the FAQ answer (backtick template literal).
 import ArticlePage from '../components/layout/ArticlePage.astro';
+import PageCTA from '../components/content/PageCTA.astro';
 import type { PageContext } from '../types/Page';
 import { figuresFor } from '../data/annualMedicareData';
 import { usd } from '../lib/formatters';
+import { relatedFor } from '../lib/related';
+import { PAGE_INDEX } from '../data/pageIndex';
 
 const f = figuresFor();
 
@@ -47,15 +50,23 @@ const context: PageContext = {
     { name: 'Medicare Cost in Uintah County', href: '/medicare-cost-uintah-county.html' },
   ],
 };
+
+// This page opts out of the framework footer (bareFooter) so the FAQ and Related
+// sections can be rendered side by side as floating interactive badges. Compute
+// the related list here exactly as StandardPageLayout would, so the links match.
+const related = relatedFor(context.page.taxonomy, PAGE_INDEX, '/medicare-cost-uintah-county.html');
+const faqs = context.page.faqs ?? [];
 ---
 
-<ArticlePage context={context}>
-  <div style="background:#f0f9ff; border-left:5px solid #0b6ea3; border-radius:8px; padding:1.25rem; margin:1.5rem 0;">
-  <strong>Trying to compare all your Medicare options?</strong><br>
-  Visit our <a href="medicare-plans-vernal-utah.html">Complete Medicare Guide for Vernal and the Uintah Basin</a> for Medicare Advantage, Medigap, Part D, enrollment timing, and local plan comparisons.
-  </div>
-
-  <p>Medicare costs in Uintah County depend on your coverage choice, income level, health status, and prescriptions. Here is a comprehensive breakdown for 2026.</p>
+<ArticlePage context={context} bareFooter={true}>
+  <a class="compare-badge" href="medicare-plans-vernal-utah.html">
+    <span class="compare-icon">⚖️</span>
+    <span class="compare-text">
+      <strong>Trying to compare all your Medicare options?</strong>
+      Visit our <u>Complete Medicare Guide for Vernal and the Uintah Basin</u> for Medicare Advantage, Medigap, Part D, enrollment timing, and local plan comparisons.
+    </span>
+    <span class="compare-arrow" aria-hidden="true">→</span>
+  </a>
 
   <!-- QUICK SNAPSHOT STAT ROW -->
   <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1rem; margin:1.75rem 0;">
@@ -147,18 +158,17 @@ const context: PageContext = {
 
   </div>
 
-  <section style="background:#f8fbff; border:1px solid #d9e7f5; border-radius:10px; padding:1.5rem; margin:2rem 0;">
-  <h2 style="margin-top:0; color:#0b2c45;">Related Medicare Cost Topics</h2>
-
-  <ul style="line-height:2; padding-left:1.2rem;">
-    <li><a href="medicare-plans-vernal-utah.html"><strong>Complete Medicare Guide for Vernal</strong></a> — the main Medicare resource hub</li>
-    <li><a href="plan-g-vs-plan-n-vernal.html">Plan G vs Plan N Costs</a></li>
-    <li><a href="best-part-d-plans-vernal.html">Best Part D Prescription Drug Plans</a></li>
-    <li><a href="zero-premium-medicare-advantage.html">$0 Premium Medicare Advantage Plans</a></li>
-    <li><a href="medicare-supplement-vs-advantage.html">Supplement vs Advantage Cost Differences</a></li>
-    <li><a href="when-to-enroll-medicare-utah.html">When to Enroll in Medicare in Utah</a></li>
-    <li><a href="medicare-out-of-pocket-maximum-2026.html">2026 Medicare Out-of-Pocket Maximums</a></li>
-  </ul>
+  <section class="info-badge topics-badge">
+  <h2>🧭 Related Medicare Cost Topics</h2>
+  <p class="topics-hub"><a href="medicare-plans-vernal-utah.html">Complete Medicare Guide for Vernal</a> — the main Medicare resource hub</p>
+  <div class="rel-pills">
+    <a class="rel-pill" href="plan-g-vs-plan-n-vernal.html">Plan G vs Plan N Costs</a>
+    <a class="rel-pill" href="best-part-d-plans-vernal.html">Best Part D Prescription Drug Plans</a>
+    <a class="rel-pill" href="zero-premium-medicare-advantage.html">$0 Premium Medicare Advantage Plans</a>
+    <a class="rel-pill" href="medicare-supplement-vs-advantage.html">Supplement vs Advantage Cost Differences</a>
+    <a class="rel-pill" href="when-to-enroll-medicare-utah.html">When to Enroll in Medicare in Utah</a>
+    <a class="rel-pill" href="medicare-out-of-pocket-maximum-2026.html">2026 Medicare Out-of-Pocket Maximums</a>
+  </div>
  </section>
 
   <p style="text-align:center;margin-top:2rem;">
@@ -167,5 +177,221 @@ const context: PageContext = {
   <p style="text-align:center;margin-top:1rem;">
     <strong>Call Rocco:</strong> <a href="tel:+14352195120">435-219-5120</a> (TTY: 711) &bull; <a href="mailto:rocco@vernalmedicare.com">rocco@vernalmedicare.com</a>
   </p>
+
+  <!-- FAQ + Related rendered side by side as floating interactive badges.
+       Framework footer is disabled via bareFooter; CTA is re-added below. -->
+  <div class="badge-footer">
+    {faqs.length > 0 && (
+      <section class="info-badge faq-badge" aria-label="Frequently asked questions">
+        <h2>💬 Frequently Asked Questions</h2>
+        {faqs.map((f) => (
+          <details class="faq-item">
+            <summary set:html={f.question} />
+            <div class="faq-answer" set:html={f.answer} />
+          </details>
+        ))}
+      </section>
+    )}
+
+    {related.length > 0 && (
+      <nav class="info-badge rel-badge" aria-label="Related pages">
+        <h2>🔗 Related</h2>
+        <div class="rel-pills">
+          {related.map((r) => (
+            <a class="rel-pill" href={r.href}>{r.label}</a>
+          ))}
+        </div>
+      </nav>
+    )}
+  </div>
+
+  <PageCTA cta={context.cta} />
 </ArticlePage>
+
+<style>
+  /* Two floating interactive badge cards, side by side (stacking on mobile). */
+  .badge-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin: 2.5rem 0;
+  }
+
+  .info-badge {
+    flex: 1 1 320px;
+    background: #fff;
+    border: 1px solid #dbe7f2;
+    border-radius: 16px;
+    padding: 1.5rem 1.4rem;
+    box-shadow: 0 6px 20px rgba(11, 44, 69, 0.1);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .info-badge:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(11, 44, 69, 0.2);
+  }
+
+  .info-badge h2 {
+    margin: 0 0 1rem;
+    color: #0b2c45;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* FAQ badge — each question is an interactive expandable chip. */
+  .faq-item {
+    border: 1px solid #e2edf7;
+    border-radius: 10px;
+    padding: 0.35rem 0.85rem;
+    margin-bottom: 0.6rem;
+    background: #f8fbff;
+    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .faq-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .faq-item:hover {
+    background: #eef6ff;
+    border-color: #b9d7ef;
+    box-shadow: 0 3px 10px rgba(11, 44, 69, 0.08);
+  }
+
+  .faq-item > summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: #0b2c45;
+    list-style: none;
+    padding: 0.4rem 0;
+  }
+
+  .faq-item > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item > summary::before {
+    content: '＋';
+    display: inline-block;
+    margin-right: 0.5rem;
+    color: #0b6ea3;
+    font-weight: 700;
+    transition: transform 0.2s ease;
+  }
+
+  .faq-item[open] > summary::before {
+    content: '－';
+  }
+
+  .faq-answer {
+    padding: 0.25rem 0 0.6rem 1.35rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #33475b;
+  }
+
+  /* Floating "compare your options" badge — links to the hub guide. */
+  .compare-badge {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: #1a2b3a;
+    background: #f0f9ff;
+    border: 1px solid #cfe6f5;
+    border-left: 5px solid #0b6ea3;
+    border-radius: 12px;
+    padding: 1.25rem 1.35rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 6px 20px rgba(11, 44, 69, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+
+  .compare-badge:hover {
+    transform: translateY(-5px);
+    background: #e8f4fd;
+    box-shadow: 0 16px 34px rgba(11, 44, 69, 0.18);
+  }
+
+  .compare-icon {
+    font-size: 1.9rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .compare-text {
+    flex: 1;
+    font-size: 0.97rem;
+    line-height: 1.55;
+  }
+
+  .compare-text strong {
+    display: block;
+    color: #0b2c45;
+    margin-bottom: 0.2rem;
+  }
+
+  .compare-text u {
+    color: #0b6ea3;
+    font-weight: 600;
+    text-decoration-color: #9fcbe8;
+  }
+
+  .compare-arrow {
+    font-size: 1.4rem;
+    color: #0b6ea3;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+
+  .compare-badge:hover .compare-arrow {
+    transform: translateX(5px);
+  }
+
+  /* Standalone "Related Medicare Cost Topics" badge (matches the footer badges). */
+  .topics-badge {
+    margin: 2rem 0;
+  }
+
+  .topics-hub {
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+    color: #33475b;
+  }
+
+  .topics-hub a {
+    font-weight: 700;
+    color: #0b6ea3;
+  }
+
+  /* Related badge — floating link pills that lift on hover. */
+  .rel-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .rel-pill {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(160deg, #0b2c45, #0b6ea3);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    box-shadow: 0 3px 10px rgba(11, 44, 69, 0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  }
+
+  .rel-pill:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(11, 44, 69, 0.28);
+    filter: brightness(1.08);
+  }
+</style>
 
