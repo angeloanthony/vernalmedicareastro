@@ -11,19 +11,21 @@ interface Props {
 const { heading = 'Your estimate', initial } = Astro.props;
 ---
 
-<div class="calc-result" data-calc-results aria-live="polite">
+<div class="calc-result">
   <h2 class="calc-result-heading">{heading}</h2>
-  {initial && initial.summary && <p class="calc-result-summary">{initial.summary}</p>}
-  {initial ? (
-    <dl class="calc-result-list">
-      {initial.rows.map((r) => (
-        <div class:list={['calc-row', { 'is-emphasis': r.emphasis }]}>
-          <dt>{r.label}</dt>
-          <dd>{r.value}</dd>
-        </div>
-      ))}
-    </dl>
-  ) : (
-    <p class="calc-result-empty">Enter your details to see an estimate.</p>
-  )}
+  <div data-calc-results aria-live="polite">
+    {initial && initial.summary && <p class="calc-result-summary">{initial.summary}</p>}
+    {initial ? (
+      <dl class="calc-result-list">
+        {initial.rows.map((r) => (
+          <div class:list={['calc-row', { 'is-emphasis': r.emphasis }]}>
+            <dt>{r.label}</dt>
+            <dd>{r.value}</dd>
+          </div>
+        ))}
+      </dl>
+    ) : (
+      <p class="calc-result-empty">Enter your details to see an estimate.</p>
+    )}
+  </div>
 </div>

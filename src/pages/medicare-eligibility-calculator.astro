@@ -1,0 +1,142 @@
+---
+// src/pages/medicare-eligibility-calculator.astro — Calculator Platform (M33).
+// Combines eligibility branching (ESRD, SSDI/disability, employer coverage) with
+// the IEP timeline math from medicare-enrollment-timeline.astro.
+import CalculatorPage from '../components/layout/CalculatorPage.astro';
+import CalculatorSection from '../components/calculator/CalculatorSection.astro';
+import CalculatorInput from '../components/calculator/CalculatorInput.astro';
+import CalculatorResult from '../components/calculator/CalculatorResult.astro';
+import CalculatorPrint from '../components/calculator/CalculatorPrint.astro';
+import CalculatorShare from '../components/calculator/CalculatorShare.astro';
+import type { PageContext } from '../types/Page';
+import type { CalculatorField } from '../types/Calculator';
+
+const dobField: CalculatorField = {
+  id: 'dob',
+  label: 'Your date of birth',
+  type: 'date',
+  help: 'We calculate your Initial Enrollment Period around your 65th birthday.',
+};
+const employerField: CalculatorField = {
+  id: 'employer',
+  label: 'Currently working and covered by employer insurance?',
+  type: 'radio',
+  options: [{ label: 'No', value: 'no' }, { label: 'Yes', value: 'yes' }],
+};
+const ssdiField: CalculatorField = {
+  id: 'ssdi',
+  label: 'Receiving Social Security disability (SSDI)?',
+  type: 'radio',
+  options: [{ label: 'No', value: 'no' }, { label: 'Yes', value: 'yes' }],
+};
+const esrdField: CalculatorField = {
+  id: 'esrd',
+  label: 'Diagnosed with ESRD (permanent kidney failure)?',
+  type: 'radio',
+  options: [{ label: 'No', value: 'no' }, { label: 'Yes', value: 'yes' }],
+};
+
+const context: PageContext = {
+  page: {
+    title: 'Medicare Eligibility & Timeline Calculator | When Can I Enroll? | Vernal Medicare',
+    heading: 'Medicare Eligibility & Timeline Calculator',
+    description: 'Free Medicare eligibility and timeline calculator. See if you qualify, your Initial Enrollment Period dates, your Medicare start date, and key deadlines based on your date of birth.',
+    taxonomy: { silo: 'enrollment', tags: ['eligibility', 'iep', 'timeline', 'deadlines', 'turning-65', 'disability', 'esrd'] },
+    summary: 'Enter your date of birth — plus whether you have employer coverage, SSDI, or ESRD — to see whether you qualify for Medicare now, your exact Initial Enrollment Period dates, and your earliest coverage start date.',
+    faqs: [
+      { question: 'Who qualifies for Medicare before age 65?', answer: 'People who have received Social Security disability benefits for 24 months, or who have End-Stage Renal Disease (ESRD) or ALS, can qualify for Medicare before age 65.' },
+      { question: 'When does Medicare start?', answer: 'If you enroll during the 3 months before your 65th birthday, Medicare generally starts the first day of your birthday month. Enrolling later can delay your start date.' },
+      { question: 'What if I keep working after 65?', answer: 'If you have active employer coverage from a company with 20 or more employees, you may be able to delay Part B without penalty and use a Special Enrollment Period when that coverage ends.' },
+      { question: 'What happens if I miss my Initial Enrollment Period?', answer: 'You may need to wait for the General Enrollment Period (January 1 to March 31) and could face lifetime late-enrollment penalties for Part B and Part D.' },
+    ],
+    sources: [{ title: 'When does Medicare coverage start', url: 'https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start', publisher: 'Medicare.gov' }],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-eligibility-calculator.html',
+    ogType: 'website',
+    ogTitle: 'Medicare Eligibility & Timeline Calculator',
+    ogDescription: 'Check your Medicare eligibility and see your enrollment timeline based on your date of birth.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-09',
+  lastUpdated: '2026-07-09',
+  medicalDisclaimer: 'This tool provides estimates for educational purposes only and is not an official Medicare determination. Confirm your exact dates with Social Security, Medicare.gov, or with us.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Calculators', href: '/medicare-calculators.html' },
+    { name: 'Eligibility Calculator', href: '/medicare-eligibility-calculator.html' },
+  ],
+};
+---
+
+<CalculatorPage context={context}>
+  <p>See if you qualify for Medicare now, and exactly when your <a href="when-to-enroll-medicare-utah.html">Initial Enrollment Period</a> opens and closes. Enter your date of birth and a few details below.</p>
+
+  <form class="calc-form" data-calc-form novalidate>
+    <CalculatorSection title="Your birthday">
+      <CalculatorInput field={dobField} />
+    </CalculatorSection>
+    <CalculatorSection title="Your situation">
+      <CalculatorInput field={employerField} />
+      <CalculatorInput field={ssdiField} />
+      <CalculatorInput field={esrdField} />
+    </CalculatorSection>
+    <div class="calc-actions">
+      <CalculatorPrint />
+      <CalculatorShare />
+    </div>
+  </form>
+
+  <CalculatorResult heading="Your eligibility & timeline" />
+
+  <p>Want the whole picture? See our <a href="medicare-enrollment-periods.html">enrollment periods overview</a>, or call and we’ll map your dates with you.</p>
+
+  <script>
+    import { bindCalculator } from '../lib/calculators';
+    import { computeEligibility } from '../lib/calculators/eligibility';
+    import { formatDate } from '../lib/dates';
+    import type { CalculatorResult } from '../types/Calculator';
+
+    const STATUS_SUMMARY: Record<string, (r: ReturnType<typeof computeEligibility>) => string> = {
+      esrd: () =>
+        'You may qualify for Medicare before age 65 due to ESRD — coverage can often begin as early as the 4th month of dialysis. Your age-65 timeline is shown below too.',
+      disability: () =>
+        'You likely qualify for Medicare through disability — coverage usually starts automatically after 24 months of Social Security disability benefits. Your age-65 timeline is shown below too.',
+      'in-iep': (r) => `You're currently in your Initial Enrollment Period — it runs through ${formatDate(r.iepEnd)}. Now is the time to enroll.`,
+      'before-iep': (r) => `Your Initial Enrollment Period begins ${formatDate(r.iepStart)}, about 3 months before you turn 65 on ${formatDate(r.turns65)}.`,
+      'sep-eligible': () =>
+        'Your Initial Enrollment Period has passed, but because you have employer coverage, you may qualify for a penalty-free Special Enrollment Period when that coverage ends.',
+      'missed-iep': () =>
+        'It looks like you may have missed your Initial Enrollment Period. Speak with a licensed agent soon — a Special Enrollment Period or the General Enrollment Period may apply.',
+    };
+
+    function compute(fields: Record<string, string>): CalculatorResult {
+      const raw = fields.dob || '';
+      const parts = raw.split('-').map((n) => parseInt(n, 10));
+      if (parts.length !== 3 || parts.some((n) => Number.isNaN(n))) {
+        return { summary: 'Enter your date of birth to see your eligibility and enrollment window.', rows: [] };
+      }
+      const dob = new Date(parts[0], parts[1] - 1, parts[2]); // local, no tz shift
+      const r = computeEligibility(dob, {
+        employer: fields.employer === 'yes',
+        ssdi: fields.ssdi === 'yes',
+        esrd: fields.esrd === 'yes',
+      });
+
+      return {
+        summary: STATUS_SUMMARY[r.status](r),
+        rows: [
+          { label: 'You turn 65', value: formatDate(r.turns65) },
+          { label: 'IEP starts', value: formatDate(r.iepStart) },
+          { label: 'IEP ends', value: formatDate(r.iepEnd), emphasis: true },
+          { label: 'Enroll early → coverage can start', value: formatDate(r.earliestCoverageStart) },
+          { label: 'Special Enrollment Period', value: fields.employer === 'yes' ? 'Available while employer coverage continues' : 'Not applicable' },
+        ],
+      };
+    }
+
+    const form = document.querySelector<HTMLElement>('[data-calc-form]');
+    const results = document.querySelector<HTMLElement>('[data-calc-results]');
+    if (form && results) bindCalculator(form, results, compute);
+  </script>
+</CalculatorPage>

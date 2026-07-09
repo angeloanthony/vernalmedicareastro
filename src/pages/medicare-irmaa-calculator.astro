@@ -46,8 +46,38 @@ const bracketRows = f.irmaa.partBByTier.map((partB, i) => {
   return {
     label: range,
     values: [usd(partB, { cents: true }), usd(f.irmaa.partDByTier[i], { cents: true })],
+    emphasis: i === 0,
   };
 });
+
+const howItWorks = [
+  {
+    title: 'Social Security Looks Back Two Years',
+    text: `Social Security looks back at your tax return from two years ago to decide whether you owe IRMAA today.`,
+    color: '#2563eb', tint: '#e5edfe',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3L21 21"/></svg>',
+  },
+  {
+    title: 'Higher Income Means Higher Premiums',
+    text: `If your income is above the first threshold, a surcharge is added to both your Part B premium and your Part D premium.`,
+    color: '#16a34a', tint: '#e4f5ea',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M14.6 9a2.7 2.7 0 0 0-2.6-1.6c-1.5 0-2.5.8-2.5 1.9 0 2.5 5 1.4 5 4 0 1.1-1 2-2.6 2A2.8 2.8 0 0 1 9.2 15"/></svg>',
+  },
+  {
+    title: 'Life-Changing Event?',
+    text: `Retirement, marriage, divorce, or the death of a spouse may reduce your IRMAA if your income has dropped.`,
+    color: '#ea580c', tint: '#fdeadd',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4.5 15.2 4.5 9.7A4.2 4.2 0 0 1 12 7a4.2 4.2 0 0 1 7.5 2.7C19.5 15.2 12 20.5 12 20.5z"/></svg>',
+    href: 'medicare-irmaa-life-changing-events.html',
+  },
+  {
+    title: 'You Can Appeal',
+    text: `You can appeal with Form SSA-44 if a qualifying life event caused your income to decrease.`,
+    color: '#7c3aed', tint: '#f0e9fd',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M11.5 14.5l1.4 1.4 3-3"/></svg>',
+    href: 'medicare-irmaa-appeal-ssa-44.html',
+  },
+];
 
 const context: PageContext = {
   page: {
@@ -125,10 +155,19 @@ const context: PageContext = {
     caption={`${year} Medicare IRMAA, single filers. Married-filing-jointly thresholds are roughly double.`}
   />
 
-  <h2>How IRMAA works</h2>
-  <p>Social Security looks back at your tax return from two years ago to decide whether you owe IRMAA today. It uses your <strong>modified adjusted gross income</strong> — your adjusted gross income plus any tax-exempt interest. If you're above the first threshold, a surcharge is added to both your Part B premium and your Part D premium, in the tiers shown above.</p>
+  <h2 class="irmaa-how-h">How IRMAA Works</h2>
+  <p>IRMAA is based on your <strong>modified adjusted gross income</strong> — your adjusted gross income plus any tax-exempt interest. Because of the two-year lookback, a big one-time income event (selling a home, a Roth conversion, capital gains) can push you into IRMAA even if your current income is lower.</p>
 
-  <p>Because of the two-year lookback, a big one-time income event (selling a home, a Roth conversion, capital gains) can push you into IRMAA even if your current income is lower. And if a <strong>life-changing event</strong> — retirement, marriage, divorce, or the death of a spouse — has reduced your income, you can appeal with <strong>Form SSA-44</strong> and often have the surcharge reduced or removed.</p>
+  <div class="irmaa-how-grid">
+    {howItWorks.map((h) => (
+      <div class="irmaa-how-card" style={`--c:${h.color};--t:${h.tint}`}>
+        <span class="irmaa-how-icon" aria-hidden="true" set:html={h.icon} />
+        <h3>{h.title}</h3>
+        <p>{h.text}</p>
+        {h.href && <a class="irmaa-how-link" href={h.href}>Learn more →</a>}
+      </div>
+    ))}
+  </div>
 
   <script>
     import { bindCalculator } from '../lib/calculators';
@@ -166,3 +205,53 @@ const context: PageContext = {
     if (form && results) bindCalculator(form, results, compute);
   </script>
 </CalculatorPage>
+
+<style>
+  .irmaa-how-h { margin-bottom: 0.5rem; }
+
+  .irmaa-how-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.1rem;
+    margin: 1.6rem 0 2rem;
+  }
+  .irmaa-how-card {
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-top: 3px solid var(--c);
+    border-radius: 14px;
+    padding: 1.3rem 1.2rem 1.4rem;
+    box-shadow: 0 10px 26px rgba(11, 44, 69, 0.06);
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .irmaa-how-card:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(11, 44, 69, 0.12); }
+  .irmaa-how-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    margin-bottom: 0.85rem;
+    background: var(--t);
+    color: var(--c);
+  }
+  .irmaa-how-icon svg { width: 24px; height: 24px; }
+  .irmaa-how-card h3 { margin: 0 0 0.4rem; font-size: 1.02rem; line-height: 1.25; color: #0b2c45; }
+  .irmaa-how-card p { margin: 0; color: #55627a; font-size: 0.88rem; line-height: 1.5; }
+  .irmaa-how-link {
+    display: inline-block;
+    margin-top: 0.65rem;
+    color: var(--c);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+  }
+  .irmaa-how-link:hover { text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .irmaa-how-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .irmaa-how-grid { grid-template-columns: 1fr; }
+  }
+</style>
