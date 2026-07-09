@@ -3312,6 +3312,23 @@ main .cms-disclaimer-compact a:hover,
   box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
 }
 
+/* $ / % adornments — wraps just the input, so it centers on the input's own
+   box regardless of how many lines the label/help text above it wrap to. */
+.calc-input-wrap { position: relative; }
+.calc-input-wrap.has-prefix::before,
+.calc-input-wrap.has-suffix::after {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8291ab;
+  font-weight: 700;
+  pointer-events: none;
+}
+.calc-input-wrap.has-prefix::before { content: "$"; left: 0.85rem; }
+.calc-input-wrap.has-suffix::after { content: "%"; right: 0.95rem; }
+.calc-input-wrap.has-prefix input { padding-left: 1.7rem; }
+.calc-input-wrap.has-suffix input { padding-right: 2.1rem; }
+
 /* Radio group as a segmented pill toggle (solid fill when selected) */
 .calc-radios {
   display: grid;

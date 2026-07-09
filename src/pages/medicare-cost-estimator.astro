@@ -6,6 +6,9 @@ import CalculatorInput from '../components/calculator/CalculatorInput.astro';
 import CalculatorResult from '../components/calculator/CalculatorResult.astro';
 import CalculatorPrint from '../components/calculator/CalculatorPrint.astro';
 import CalculatorShare from '../components/calculator/CalculatorShare.astro';
+import AuthorByline from '../components/content/AuthorByline.astro';
+import SummaryBlock from '../components/SummaryBlock.astro';
+import NextSteps from '../components/content/NextSteps.astro';
 import { figuresFor } from '../data/annualMedicareData';
 import { usd } from '../lib/formatters';
 import type { PageContext } from '../types/Page';
@@ -37,6 +40,13 @@ const context: PageContext = {
       { question: 'Does it include IRMAA?', answer: 'No. If your income is above the threshold, add your IRMAA surcharge from the IRMAA calculator to the Part B (and Part D) figures here.' },
     ],
     sources: [{ title: 'Medicare costs at a glance', url: 'https://www.medicare.gov/basics/costs/medicare-costs', publisher: 'Medicare.gov' }],
+    nextSteps: [
+      {
+        when: 'Income above the IRMAA threshold?',
+        action: 'add your surcharge on top of this estimate using the IRMAA calculator.',
+        href: 'medicare-irmaa-calculator.html',
+      },
+    ],
   },
   meta: {
     canonical: 'https://vernalmedicare.com/medicare-cost-estimator.html',
@@ -55,8 +65,100 @@ const context: PageContext = {
 };
 ---
 
-<CalculatorPage context={context}>
-  <p class="calc-intro">Wondering what Medicare will <strong>actually cost you</strong>? Adjust the inputs to match your situation and compare the two main paths side by side. Higher earners should also add their <a href="medicare-irmaa-calculator.html">IRMAA surcharge</a>.</p>
+<CalculatorPage context={context} bareHeader>
+  <div class="ce-hero">
+    <div class="ce-hero-text">
+      <span class="ce-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M14.6 9a2.7 2.7 0 0 0-2.6-1.6c-1.5 0-2.5.8-2.5 1.9 0 2.5 5 1.4 5 4 0 1.1-1 2-2.6 2A2.8 2.8 0 0 1 9.2 15"/></svg>
+        Updated for {f.year}
+      </span>
+      <h1 class="ce-h1">Medicare<br /><span class="ce-h1-accent">Cost Estimator</span></h1>
+      <AuthorByline
+        authorId={context.author}
+        reviewedById={context.reviewedBy}
+        updated={context.lastUpdated}
+        localAvailability={context.localAvailability}
+      />
+      <SummaryBlock text={context.page.summary} />
+      <NextSteps steps={context.page.nextSteps ?? []} />
+      <p class="ce-hero-lede">Wondering what Medicare will <strong>actually cost you</strong>? Adjust the inputs to match your situation and compare the two main paths side by side.</p>
+    </div>
+
+    <div class="ce-hero-art" aria-hidden="true">
+      <div class="ce-hero-card">
+        <div class="ce-hero-card-top">
+          <span class="ce-hero-led"></span>
+          <span class="ce-hero-dot"></span>
+          <span class="ce-hero-dot"></span>
+          <span class="ce-hero-solar"></span>
+        </div>
+        <div class="ce-hero-display">
+          <span class="ce-hero-display-label">Annual Cost</span>
+          <span class="ce-hero-display-digits">$6,420</span>
+        </div>
+        <div class="ce-hero-keys">
+          <span class="ce-hero-key is-op">C</span>
+          <span class="ce-hero-key is-op">%</span>
+          <span class="ce-hero-key is-op">÷</span>
+          <span class="ce-hero-key is-op">×</span>
+          <span class="ce-hero-key">7</span>
+          <span class="ce-hero-key">8</span>
+          <span class="ce-hero-key">9</span>
+          <span class="ce-hero-key is-op">−</span>
+          <span class="ce-hero-key">4</span>
+          <span class="ce-hero-key">5</span>
+          <span class="ce-hero-key">6</span>
+          <span class="ce-hero-key is-op">+</span>
+          <span class="ce-hero-key">1</span>
+          <span class="ce-hero-key">2</span>
+          <span class="ce-hero-key">3</span>
+          <span class="ce-hero-key is-eq">=</span>
+          <span class="ce-hero-key is-zero">0</span>
+          <span class="ce-hero-key">.</span>
+        </div>
+      </div>
+      <div class="ce-hero-float">
+        <span class="ce-hero-float-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18v-1.5A6.5 6.5 0 0 1 10.5 10h3A6.5 6.5 0 0 1 20 16.5V18"/><rect x="2.5" y="16" width="4" height="5" rx="1.3"/><rect x="17.5" y="16" width="4" height="5" rx="1.3"/><circle cx="12" cy="6" r="3.2"/></svg>
+        </span>
+        <span>
+          <strong>Compares 2 paths</strong>
+          <p>Original + Medigap vs. Medicare Advantage.</p>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ce-feature-grid">
+    <div class="ce-feature-card">
+      <span class="ce-feature-icon" style="--c:#d97706;--t:#fdf0dc">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M16 15h0"/></svg>
+      </span>
+      <h3>Monthly &amp; Annual</h3>
+      <p>See premiums broken down by month, then rolled up to your total for the year.</p>
+    </div>
+    <div class="ce-feature-card">
+      <span class="ce-feature-icon" style="--c:#16a34a;--t:#e4f5ea">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18v-1.5A6.5 6.5 0 0 1 10.5 10h3A6.5 6.5 0 0 1 20 16.5V18"/><rect x="2.5" y="16" width="4" height="5" rx="1.3"/><rect x="17.5" y="16" width="4" height="5" rx="1.3"/><circle cx="12" cy="6" r="3.2"/></svg>
+      </span>
+      <h3>Two Paths Compared</h3>
+      <p>Original Medicare + Medigap + Part D, side by side with Medicare Advantage.</p>
+    </div>
+    <div class="ce-feature-card">
+      <span class="ce-feature-icon" style="--c:#2563eb;--t:#e5edfe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l3.5-4.5 3 3L19 7"/></svg>
+      </span>
+      <h3>Based on the {f.year} Premium</h3>
+      <p>Estimated against the {f.year} standard Part B premium of {usd(f.partB.premium, { cents: true })}.</p>
+    </div>
+    <div class="ce-feature-card">
+      <span class="ce-feature-icon" style="--c:#7c3aed;--t:#f0e9fd">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M6 6l1.2 12a2 2 0 0 0 2 1.8h5.6a2 2 0 0 0 2-1.8L18 6"/><path d="M9 10.5l2.3 2.5 3.7-4.5"/></svg>
+      </span>
+      <h3>IRMAA Not Included</h3>
+      <p>Higher earners should add their surcharge from the <a href="medicare-irmaa-calculator.html">IRMAA calculator</a>.</p>
+    </div>
+  </div>
 
   <form class="calc-form" data-calc-form novalidate>
     <div class="calc-form-head">
@@ -191,3 +293,262 @@ const context: PageContext = {
     }
   </script>
 </CalculatorPage>
+
+<style>
+  /* ---- Hero ------------------------------------------------------------ */
+  .ce-hero {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 2.4rem;
+    align-items: center;
+    margin: 0.4rem 0 2rem;
+  }
+
+  .ce-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.8rem 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: #fdf0dc;
+    color: #d97706 !important;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .ce-badge svg { width: 17px; height: 17px; }
+
+  .ce-h1 {
+    margin: 0.75rem 0 0.6rem;
+    font-size: 2.5rem;
+    line-height: 1.12;
+    color: #0b2c45;
+  }
+  .ce-h1-accent { color: #d97706; }
+
+  .ce-hero-text :global(.byline) {
+    color: #55627a;
+    font-size: 0.92rem;
+    margin: 0 0 1rem;
+  }
+  .ce-hero-text :global(.byline a) { color: #2563eb; }
+
+  .ce-hero-text :global(.summary-block) {
+    margin: 0 0 1rem;
+    color: #333;
+  }
+  .ce-hero-text :global(.summary-block p) { margin: 0; }
+
+  .ce-hero-text :global(.next-steps) { margin: 0 0 1.1rem; }
+  .ce-hero-text :global(.next-step) {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    background: #fdf0dc;
+    border-left: 4px solid #d97706;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    color: #17324d;
+    font-size: 0.95rem;
+  }
+  .ce-hero-text :global(.next-step)::before {
+    content: "↓";
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #d97706;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .ce-hero-text :global(.next-step-when) { color: #0b2c45; }
+  .ce-hero-text :global(.next-step a) { color: #2563eb; }
+
+  .ce-hero-lede { margin: 0; color: #333; }
+  .ce-hero-lede :global(a) { color: #2563eb; }
+
+  .ce-hero-art { position: relative; display: grid; place-items: center; min-height: 300px; }
+  .ce-hero-art::before {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 240px;
+    background: #fff;
+    border-radius: 16px;
+    transform: rotate(-9deg) translate(-46px, 4px);
+    box-shadow: 0 14px 34px rgba(11, 44, 69, 0.14);
+    z-index: 0;
+  }
+
+  .ce-hero-card {
+    position: relative;
+    width: 100%;
+    max-width: 260px;
+    background: linear-gradient(160deg, #163e60, #0b2c45 55%, #081d33);
+    border-radius: 22px;
+    padding: 1.15rem 1.2rem 1.35rem;
+    box-shadow: 0 24px 50px rgba(11, 44, 69, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
+  .ce-hero-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 45%);
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .ce-hero-card { animation: ce-hero-float 6s ease-in-out infinite; }
+  }
+  @keyframes ce-hero-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .ce-hero-card-top { display: flex; align-items: center; gap: 0.32rem; margin-bottom: 0.8rem; }
+  .ce-hero-led {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 6px 1px rgba(74, 222, 128, 0.7);
+  }
+  .ce-hero-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); }
+  .ce-hero-solar {
+    margin-left: auto;
+    width: 28px;
+    height: 10px;
+    border-radius: 2px;
+    background: repeating-linear-gradient(90deg, #2c5478 0 3px, #1c3a56 3px 6px);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  }
+
+  .ce-hero-display {
+    position: relative;
+    background: linear-gradient(165deg, #fbe4bb, #f3c778);
+    border-radius: 10px;
+    padding: 0.6rem 0.85rem 0.5rem;
+    box-shadow: inset 0 2px 6px rgba(60, 36, 4, 0.22);
+  }
+  .ce-hero-display-label {
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #8a5a10;
+    text-transform: uppercase;
+  }
+  .ce-hero-display-digits {
+    display: block;
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #4a2e08;
+    font-size: 1.4rem;
+    margin-top: 0.05rem;
+  }
+
+  .ce-hero-keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 32px;
+    gap: 0.42rem;
+    margin-top: 1rem;
+  }
+  .ce-hero-key {
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.82rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .ce-hero-key.is-op { background: rgba(96, 165, 250, 0.22); color: #cfe0fb; }
+  .ce-hero-key.is-eq {
+    grid-row: span 2;
+    background: linear-gradient(160deg, #f0a83f, #d97706);
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(217, 119, 6, 0.35);
+  }
+  .ce-hero-key.is-zero { grid-column: span 2; }
+  .ce-hero-art:hover .ce-hero-key { transform: translateY(-1px); }
+
+  .ce-hero-float {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    bottom: -12px;
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    max-width: 230px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 0.9rem 1.05rem;
+    box-shadow: 0 14px 32px rgba(11, 44, 69, 0.2);
+  }
+  .ce-hero-float-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: #fdf0dc;
+    color: #d97706;
+  }
+  .ce-hero-float-icon svg { width: 19px; height: 19px; }
+  .ce-hero-float strong { display: block; color: #0b2c45; font-size: 0.92rem; }
+  .ce-hero-float p { margin: 0.15rem 0 0; color: #55627a; font-size: 0.8rem; }
+
+  @media (max-width: 900px) {
+    .ce-hero { grid-template-columns: 1fr; }
+    .ce-hero-art { margin-top: 0.5rem; }
+    .ce-h1 { font-size: 2.1rem; }
+  }
+
+  /* ---- Feature cards ----------------------------------------------------- */
+  .ce-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.1rem;
+    margin: 0 0 2rem;
+  }
+  .ce-feature-card {
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-radius: 14px;
+    padding: 1.2rem 1.15rem 1.3rem;
+    box-shadow: 0 10px 26px rgba(11, 44, 69, 0.06);
+  }
+  .ce-feature-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    background: var(--t);
+    color: var(--c);
+  }
+  .ce-feature-icon svg { width: 22px; height: 22px; }
+  .ce-feature-card h3 { margin: 0 0 0.35rem; font-size: 0.98rem; line-height: 1.25; color: #0b2c45; }
+  .ce-feature-card p { margin: 0; color: #55627a; font-size: 0.86rem; line-height: 1.5; }
+  .ce-feature-card p :global(a) { color: #2563eb; }
+
+  @media (max-width: 900px) {
+    .ce-feature-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .ce-feature-grid { grid-template-columns: 1fr; }
+  }
+</style>

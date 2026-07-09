@@ -229,11 +229,30 @@ export const PROGRAMS: Program[] = [
   },
 ];
 
-export const TYPE_META: Record<ProgramType, { label: string }> = {
-  government: { label: 'Government program' },
-  foundation: { label: 'Nonprofit grant' },
-  manufacturer: { label: 'Manufacturer program' },
-  database: { label: 'Search & discount' },
+export const TYPE_META: Record<
+  ProgramType,
+  { label: string; heading: string; color: string; tint: string; icon: string }
+> = {
+  manufacturer: {
+    label: 'Manufacturer program', heading: 'Manufacturer Patient Assistance',
+    color: '#2563eb', tint: '#e5edfe',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6"/><path d="M9 12h.01M15 12h.01M9 9h.01M15 9h.01"/></svg>',
+  },
+  foundation: {
+    label: 'Nonprofit grant', heading: 'Nonprofit / Patient Foundations',
+    color: '#16a34a', tint: '#e4f5ea',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.8 19c0-3.3 2.7-5.5 6.2-5.5s6.2 2.2 6.2 5.5"/><circle cx="17.5" cy="8.5" r="2.4"/><path d="M15.8 13.7c2.7.3 4.9 2.3 4.9 5.3"/></svg>',
+  },
+  government: {
+    label: 'Government program', heading: 'Government Programs',
+    color: '#7c3aed', tint: '#f0e9fd',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5L12 5l8 5.5"/><path d="M5 10.5V19h14v-8.5"/><path d="M9.5 19v-5h5v5"/></svg>',
+  },
+  database: {
+    label: 'Search & discount', heading: 'Search & Discount Tools',
+    color: '#ea580c', tint: '#fdeadd',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3L21 21"/></svg>',
+  },
 };
 
 /** Featured drugs that get their own SEO landing page. Each links to a matching

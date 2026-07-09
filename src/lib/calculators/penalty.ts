@@ -1,4 +1,4 @@
-// src/lib/calculators/penalty.ts — Part B late-enrollment penalty. Pure.
+// src/lib/calculators/penalty.ts — Part B and Part D late-enrollment penalties. Pure.
 import type { MedicareFigures } from '../../types/MedicareFigures';
 
 export interface PartBPenaltyResult {
@@ -23,6 +23,31 @@ export function computePartBPenalty(monthsLate: number, figures: MedicareFigures
     standardPremium,
     monthlyPenalty,
     monthlyPremiumWithPenalty: standardPremium + monthlyPenalty,
+    annualPenalty: monthlyPenalty * 12,
+  };
+}
+
+export interface PartDPenaltyResult {
+  monthsUncovered: number;
+  penaltyPct: number; // e.g. 0.12 for 12 months
+  basePremium: number;
+  monthlyPenalty: number;
+  annualPenalty: number;
+}
+
+/** Part D penalty = 1% of the national base premium for each FULL month you
+ *  went without Part D or other creditable drug coverage. Permanent, and
+ *  recalculated each year as the base premium changes. */
+export function computePartDPenalty(monthsUncovered: number, figures: MedicareFigures): PartDPenaltyResult {
+  const months = Math.max(0, Math.floor(monthsUncovered));
+  const penaltyPct = months * figures.penalties.partDPerMonthPct;
+  const basePremium = figures.partD.basePremium;
+  const monthlyPenalty = Math.round(basePremium * penaltyPct * 10) / 10; // rounds to the nearest $0.10, per CMS convention
+  return {
+    monthsUncovered: months,
+    penaltyPct,
+    basePremium,
+    monthlyPenalty,
     annualPenalty: monthlyPenalty * 12,
   };
 }

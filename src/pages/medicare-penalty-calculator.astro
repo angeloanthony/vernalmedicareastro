@@ -1,5 +1,8 @@
 ---
-// src/pages/medicare-part-b-penalty-calculator.astro — Decision Tools (M9).
+// src/pages/medicare-penalty-calculator.astro — Decision Tools (M9).
+// Combined Part B + Part D late-enrollment penalty calculator (one months
+// input + one creditable-coverage toggle drives both). The Part B-only
+// calculator lives separately at medicare-part-b-penalty-calculator.astro.
 import CalculatorPage from '../components/layout/CalculatorPage.astro';
 import CalculatorSection from '../components/calculator/CalculatorSection.astro';
 import CalculatorInput from '../components/calculator/CalculatorInput.astro';
@@ -18,57 +21,71 @@ const f = figuresFor();
 const year = f.year;
 const monthsField: CalculatorField = {
   id: 'months',
-  label: 'Months you delayed Part B past your enrollment window',
+  label: 'Months you delayed Medicare',
   type: 'number',
-  help: 'The penalty adds 10% for each FULL 12 months you could have had Part B but didn’t.',
+  help: 'Full months you were eligible for Medicare but didn’t enroll.',
   min: 0,
+};
+const creditableField: CalculatorField = {
+  id: 'creditable',
+  label: 'Did you have creditable coverage during that time?',
+  type: 'radio',
+  help: 'Employer, union, or VA coverage as good as Medicare’s usually counts.',
+  options: [
+    { label: 'No', value: 'no' },
+    { label: 'Yes', value: 'yes' },
+  ],
 };
 
 const context: PageContext = {
   page: {
-    title: `Medicare Part B Late Enrollment Penalty Calculator ${f.year} | Vernal Medicare`,
-    heading: 'Part B Late Enrollment Penalty Calculator',
-    description: `Estimate your permanent Medicare Part B late-enrollment penalty. It adds 10% to your premium for each full year you delayed. See your ${f.year} numbers.`,
-    taxonomy: { silo: 'enrollment', tags: ['penalties', 'part-b', 'gep', 'deadlines'] },
-    summary: `The Part B late-enrollment penalty is permanent: 10% added to your premium for each full 12 months you could have had Part B but didn’t. Enter how many months late you were to estimate it against the ${f.year} standard premium of ${usd(f.partB.premium, { cents: true })}.`,
+    title: `Medicare Late Enrollment Penalty Calculator ${f.year} | Part B & Part D | Vernal Medicare`,
+    heading: 'Medicare Late Enrollment Penalty Calculator',
+    description: `Free Medicare late enrollment penalty calculator. Estimate your lifetime Part B and Part D penalties for delaying Medicare without creditable coverage, using ${f.year} figures.`,
+    taxonomy: { silo: 'enrollment', tags: ['penalties', 'part-b', 'part-d', 'gep', 'deadlines'] },
+    summary: `See whether delaying Medicare could permanently raise your premiums. The Part B penalty adds 10% to your premium for each full 12 months you delayed; the Part D penalty adds 1% of the ${f.year} base premium (${usd(f.partD.basePremium, { cents: true })}) for each full month you went without creditable drug coverage. Both are usually permanent.`,
     faqs: [
-      { question: 'Is the Part B penalty permanent?', answer: 'Yes. Once it applies, you pay it for as long as you have Part B. That’s why it’s worth checking whether a Special Enrollment Period could let you avoid it entirely.' },
-      { question: 'How do I avoid the penalty?', answer: 'If you had creditable coverage (like an active employer plan), you likely qualify for a penalty-free Special Enrollment Period. Check before enrolling during the General Enrollment Period.' },
+      { question: 'What is the Part B late enrollment penalty?', answer: 'Your Part B premium goes up 10% for each full 12-month period you could have had Part B but didn’t sign up. In most cases you pay it for as long as you have Part B.' },
+      { question: 'What is the Part D late enrollment penalty?', answer: `The Part D penalty is 1% of the national base beneficiary premium (${usd(f.partD.basePremium, { cents: true })} in ${f.year}) times the number of full months you went without Part D or other creditable drug coverage. It’s added to your premium for as long as you have Part D.` },
+      { question: 'How do I avoid Medicare late enrollment penalties?', answer: 'Enroll when you’re first eligible, or keep creditable coverage (such as an employer plan or VA benefits) and enroll within your Special Enrollment Period when it ends.' },
+      { question: 'Are the penalties permanent?', answer: 'In most cases, yes. The Part B and Part D late enrollment penalties are added to your monthly premiums for as long as you have that coverage.' },
+      { question: 'What counts as creditable coverage?', answer: 'Coverage that’s at least as good as Medicare’s, such as an active employer group health plan, union, or VA coverage. It lets you delay Medicare without a penalty.' },
+      { question: 'Do the penalty amounts change each year?', answer: 'Yes. Penalties are based on the standard Part B premium and the Part D national base premium, which are set annually, so the dollar amounts can change each year.' },
     ],
     sources: [{ title: 'Avoid late-enrollment penalties', url: 'https://www.medicare.gov/basics/costs/medicare-costs/avoid-penalties', publisher: 'Medicare.gov' }],
     nextSteps: [
       {
-        when: 'Had employer or union coverage when you delayed?',
+        when: 'Delayed because of a job or VA coverage?',
         action: 'that coverage may have been creditable — call us and we can help confirm whether you actually owe a penalty.',
       },
     ],
   },
   meta: {
-    canonical: 'https://vernalmedicare.com/medicare-part-b-penalty-calculator.html',
+    canonical: 'https://vernalmedicare.com/medicare-penalty-calculator.html',
     ogType: 'website',
-    ogTitle: 'Part B Late Enrollment Penalty Calculator',
-    ogDescription: 'Estimate your permanent Medicare Part B late-enrollment penalty.',
+    ogTitle: 'Medicare Late Enrollment Penalty Calculator',
+    ogDescription: 'Estimate your Medicare Part B and Part D late enrollment penalties based on how long you delayed coverage.',
   },
   author: 'rocco',
-  datePublished: '2026-06-30',
-  lastUpdated: '2026-06-30',
-  medicalDisclaimer: 'Estimate only, based on published CMS figures. Your actual penalty is set by Social Security.',
+  datePublished: '2026-07-09',
+  lastUpdated: '2026-07-09',
+  medicalDisclaimer: 'Estimate only, based on published CMS figures. Your actual penalty is set by Social Security and CMS.',
   breadcrumb: [
     { name: 'Home', href: '/' },
-    { name: 'Medicare Enrollment Periods', href: '/medicare-enrollment-periods.html' },
-    { name: 'Part B Penalty Calculator', href: '/medicare-part-b-penalty-calculator.html' },
+    { name: 'Calculators', href: '/medicare-calculators.html' },
+    { name: 'Penalty Calculator', href: '/medicare-penalty-calculator.html' },
   ],
 };
 ---
 
 <CalculatorPage context={context} bareHeader>
-  <div class="pb-hero">
-    <div class="pb-hero-text">
-      <span class="pb-badge">
+  <div class="pen-hero">
+    <div class="pen-hero-text">
+      <span class="pen-badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><path d="M12 10v4"/><circle cx="12" cy="17.2" r="0.6" fill="currentColor" stroke="none"/></svg>
         Updated for {year}
       </span>
-      <h1 class="pb-h1">Part B Late Enrollment<br /><span class="pb-h1-accent">Penalty Calculator</span></h1>
+      <h1 class="pen-h1">Medicare Late Enrollment<br /><span class="pen-h1-accent">Penalty Calculator</span></h1>
       <AuthorByline
         authorId={context.author}
         reviewedById={context.reviewedBy}
@@ -77,78 +94,78 @@ const context: PageContext = {
       />
       <SummaryBlock text={context.page.summary} />
       <NextSteps steps={context.page.nextSteps ?? []} />
-      <p class="pb-hero-lede">Enrolling in Part B after your Initial Enrollment Period — without a <a href="medicare-special-enrollment-period.html">Special Enrollment Period</a> — usually triggers a permanent penalty. Estimate it below.</p>
+      <p class="pen-hero-lede">Enter how long you went without coverage to estimate both your <a href="medicare-part-b-penalty-calculator.html">Part B</a> and Part D penalties at once — both usually last for as long as you have Medicare.</p>
     </div>
 
-    <div class="pb-hero-art" aria-hidden="true">
-      <div class="pb-hero-card">
-        <div class="pb-hero-card-top">
-          <span class="pb-hero-led"></span>
-          <span class="pb-hero-dot"></span>
-          <span class="pb-hero-dot"></span>
-          <span class="pb-hero-solar"></span>
+    <div class="pen-hero-art" aria-hidden="true">
+      <div class="pen-hero-card">
+        <div class="pen-hero-card-top">
+          <span class="pen-hero-led"></span>
+          <span class="pen-hero-dot"></span>
+          <span class="pen-hero-dot"></span>
+          <span class="pen-hero-solar"></span>
         </div>
-        <div class="pb-hero-display">
-          <span class="pb-hero-display-label">Penalty</span>
-          <span class="pb-hero-display-digits">+10%</span>
+        <div class="pen-hero-display">
+          <span class="pen-hero-display-label">Penalty</span>
+          <span class="pen-hero-display-digits">+10%</span>
         </div>
-        <div class="pb-hero-keys">
-          <span class="pb-hero-key is-op">C</span>
-          <span class="pb-hero-key is-op">%</span>
-          <span class="pb-hero-key is-op">÷</span>
-          <span class="pb-hero-key is-op">×</span>
-          <span class="pb-hero-key">7</span>
-          <span class="pb-hero-key">8</span>
-          <span class="pb-hero-key">9</span>
-          <span class="pb-hero-key is-op">−</span>
-          <span class="pb-hero-key">4</span>
-          <span class="pb-hero-key">5</span>
-          <span class="pb-hero-key">6</span>
-          <span class="pb-hero-key is-op">+</span>
-          <span class="pb-hero-key">1</span>
-          <span class="pb-hero-key">2</span>
-          <span class="pb-hero-key">3</span>
-          <span class="pb-hero-key is-eq">=</span>
-          <span class="pb-hero-key is-zero">0</span>
-          <span class="pb-hero-key">.</span>
+        <div class="pen-hero-keys">
+          <span class="pen-hero-key is-op">C</span>
+          <span class="pen-hero-key is-op">%</span>
+          <span class="pen-hero-key is-op">÷</span>
+          <span class="pen-hero-key is-op">×</span>
+          <span class="pen-hero-key">7</span>
+          <span class="pen-hero-key">8</span>
+          <span class="pen-hero-key">9</span>
+          <span class="pen-hero-key is-op">−</span>
+          <span class="pen-hero-key">4</span>
+          <span class="pen-hero-key">5</span>
+          <span class="pen-hero-key">6</span>
+          <span class="pen-hero-key is-op">+</span>
+          <span class="pen-hero-key">1</span>
+          <span class="pen-hero-key">2</span>
+          <span class="pen-hero-key">3</span>
+          <span class="pen-hero-key is-eq">=</span>
+          <span class="pen-hero-key is-zero">0</span>
+          <span class="pen-hero-key">.</span>
         </div>
       </div>
-      <div class="pb-hero-float">
-        <span class="pb-hero-float-icon">
+      <div class="pen-hero-float">
+        <span class="pen-hero-float-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4.5 15.2 4.5 9.7A4.2 4.2 0 0 1 12 7a4.2 4.2 0 0 1 7.5 2.7C19.5 15.2 12 20.5 12 20.5z"/></svg>
         </span>
         <span>
           <strong>Usually permanent</strong>
-          <p>Added to your Part B premium for as long as you have it.</p>
+          <p>Added to your premium for as long as you have Medicare.</p>
         </span>
       </div>
     </div>
   </div>
 
-  <div class="pb-feature-grid">
-    <div class="pb-feature-card">
-      <span class="pb-feature-icon" style="--c:#dc3545;--t:#fbe2e4">
+  <div class="pen-feature-grid">
+    <div class="pen-feature-card">
+      <span class="pen-feature-icon" style="--c:#dc3545;--t:#fbe2e4">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v6"/><circle cx="12" cy="16.3" r="0.6" fill="currentColor" stroke="none"/></svg>
       </span>
       <h3>Usually Permanent</h3>
-      <p>Once the penalty applies, it's added to your Part B premium for as long as you have it.</p>
+      <p>Once the penalty applies, it's added to your premium for as long as you have that coverage.</p>
     </div>
-    <div class="pb-feature-card">
-      <span class="pb-feature-icon" style="--c:#2563eb;--t:#e5edfe">
+    <div class="pen-feature-card">
+      <span class="pen-feature-icon" style="--c:#2563eb;--t:#e5edfe">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M14.6 9a2.7 2.7 0 0 0-2.6-1.6c-1.5 0-2.5.8-2.5 1.9 0 2.5 5 1.4 5 4 0 1.1-1 2-2.6 2A2.8 2.8 0 0 1 9.2 15"/></svg>
       </span>
-      <h3>10% Per Full Year</h3>
+      <h3>Part B: 10% Per Year</h3>
       <p>Your Part B premium goes up 10% for each full 12 months you could have had it but didn't.</p>
     </div>
-    <div class="pb-feature-card">
-      <span class="pb-feature-icon" style="--c:#16a34a;--t:#e4f5ea">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l3.5-4.5 3 3L19 7"/></svg>
+    <div class="pen-feature-card">
+      <span class="pen-feature-icon" style="--c:#16a34a;--t:#e4f5ea">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.6" y="8.4" width="18.8" height="7.2" rx="3.6" transform="rotate(-45 12 12)"/><path d="M8.7 8.7l6.6 6.6"/></svg>
       </span>
-      <h3>Based on the {year} Premium</h3>
-      <p>Estimated against the {year} standard Part B premium of {usd(f.partB.premium, { cents: true })}.</p>
+      <h3>Part D: 1% Per Month</h3>
+      <p>Added for each full month you went without Part D or other creditable drug coverage.</p>
     </div>
-    <div class="pb-feature-card">
-      <span class="pb-feature-icon" style="--c:#ea580c;--t:#fdeadd">
+    <div class="pen-feature-card">
+      <span class="pen-feature-icon" style="--c:#ea580c;--t:#fdeadd">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M6 6l1.2 12a2 2 0 0 0 2 1.8h5.6a2 2 0 0 0 2-1.8L18 6"/><path d="M9 10.5l2.3 2.5 3.7-4.5"/></svg>
       </span>
       <h3>Had Coverage? Maybe Not</h3>
@@ -161,13 +178,14 @@ const context: PageContext = {
       <div class="calc-form-icon" aria-hidden="true">🧮</div>
       <div class="calc-form-titles">
         <h2 class="calc-form-title">Estimate Your Penalty</h2>
-        <p class="calc-form-sub">Adjust the input below — your estimate updates as you type.</p>
+        <p class="calc-form-sub">Adjust the inputs below — your estimate updates as you type.</p>
       </div>
-      <span class="calc-form-timer" aria-hidden="true">⏱ About 10 seconds</span>
+      <span class="calc-form-timer" aria-hidden="true">⏱ About 20 seconds</span>
     </div>
 
     <CalculatorSection title="Your delay">
       <CalculatorInput field={monthsField} />
+      <CalculatorInput field={creditableField} />
     </CalculatorSection>
     <div class="calc-actions">
       <button type="button" class="btn btn-primary" data-calc-calculate>See My Penalty Estimate</button>
@@ -180,11 +198,11 @@ const context: PageContext = {
     <CalculatorResult heading="Your estimated penalty" />
   </div>
 
-  <p>If you had employer coverage when you delayed, you may owe <strong>no penalty at all</strong> — see the <a href="medicare-general-enrollment-period.html">General Enrollment Period</a> and <a href="missed-medicare-enrollment.html">missed-enrollment</a> guides, or call us to check.</p>
+  <p>These penalties are added to your premiums for as long as you have Medicare, and are recalculated as the base premiums rise each year — so the lifetime cost is usually far higher than a single year's estimate. If you had employer or VA coverage when you delayed, you may owe <strong>no penalty at all</strong> — see the <a href="medicare-general-enrollment-period.html">General Enrollment Period</a> and <a href="missed-medicare-enrollment.html">missed-enrollment</a> guides, or call us to check.</p>
 
   <script>
     import { bindCalculator } from '../lib/calculators';
-    import { computePartBPenalty } from '../lib/calculators/penalty';
+    import { computePartBPenalty, computePartDPenalty } from '../lib/calculators/penalty';
     import { figuresFor } from '../data/annualMedicareData';
     import { usd, percent } from '../lib/formatters';
     import type { CalculatorResult } from '../types/Calculator';
@@ -192,18 +210,29 @@ const context: PageContext = {
     const F = figuresFor();
     function compute(fields: Record<string, string>): CalculatorResult {
       const months = Math.max(0, parseInt(fields.months || '0', 10) || 0);
-      const r = computePartBPenalty(months, F);
+      const creditable = fields.creditable === 'yes';
+
+      const b = computePartBPenalty(creditable ? 0 : months, F);
+      const d = computePartDPenalty(creditable ? 0 : months, F);
+      const totalMonthly = b.monthlyPenalty + d.monthlyPenalty;
+      const tenYearTotal = totalMonthly * 12 * 10;
+
+      let summary: string;
+      if (creditable) {
+        summary = 'You likely owe no penalty — creditable coverage during that time generally protects you. Just be sure to enroll within your Special Enrollment Period when it ends.';
+      } else if (months === 0) {
+        summary = 'No delay, no penalty. Enter the months you delayed above to see the estimate.';
+      } else {
+        summary = `A delay of ${months} month${months === 1 ? '' : 's'} adds a lifetime penalty of about ${usd(totalMonthly, { cents: true })}/month to your Medicare premiums.`;
+      }
+
       return {
-        summary:
-          r.penaltyPct > 0
-            ? `A ${months}-month delay is ${r.fullYearsLate} full year(s) — a permanent ${percent(r.penaltyPct)} penalty, about ${usd(r.monthlyPenalty, { cents: true })}/month extra.`
-            : 'Under 12 months late — no penalty yet, but don’t wait.',
+        summary,
         rows: [
-          { label: 'Full years late', value: String(r.fullYearsLate) },
-          { label: 'Penalty', value: percent(r.penaltyPct) },
-          { label: 'Standard Part B premium', value: usd(r.standardPremium, { cents: true }) },
-          { label: 'Extra per month (penalty)', value: usd(r.monthlyPenalty, { cents: true }), emphasis: true },
-          { label: 'Extra per year', value: usd(r.annualPenalty) },
+          { label: 'Part B penalty', value: `${usd(b.monthlyPenalty, { cents: true })}/mo${b.monthlyPenalty > 0 ? ` (${percent(b.penaltyPct)})` : ''}` },
+          { label: 'Part D penalty', value: `${usd(d.monthlyPenalty, { cents: true })}/mo` },
+          { label: 'Total added per month', value: usd(totalMonthly, { cents: true }), emphasis: true },
+          { label: 'Added over 10 years', value: usd(tenYearTotal) },
         ],
       };
     }
@@ -250,7 +279,7 @@ const context: PageContext = {
 
 <style>
   /* ---- Hero ------------------------------------------------------------ */
-  .pb-hero {
+  .pen-hero {
     display: grid;
     grid-template-columns: 1.35fr 1fr;
     gap: 2.4rem;
@@ -258,7 +287,7 @@ const context: PageContext = {
     margin: 0.4rem 0 2rem;
   }
 
-  .pb-badge {
+  .pen-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
@@ -271,31 +300,31 @@ const context: PageContext = {
     letter-spacing: 0.02em;
     text-transform: uppercase;
   }
-  .pb-badge svg { width: 17px; height: 17px; }
+  .pen-badge svg { width: 17px; height: 17px; }
 
-  .pb-h1 {
+  .pen-h1 {
     margin: 0.75rem 0 0.6rem;
     font-size: 2.5rem;
     line-height: 1.12;
     color: #0b2c45;
   }
-  .pb-h1-accent { color: #dc3545; }
+  .pen-h1-accent { color: #dc3545; }
 
-  .pb-hero-text :global(.byline) {
+  .pen-hero-text :global(.byline) {
     color: #55627a;
     font-size: 0.92rem;
     margin: 0 0 1rem;
   }
-  .pb-hero-text :global(.byline a) { color: #2563eb; }
+  .pen-hero-text :global(.byline a) { color: #2563eb; }
 
-  .pb-hero-text :global(.summary-block) {
+  .pen-hero-text :global(.summary-block) {
     margin: 0 0 1rem;
     color: #333;
   }
-  .pb-hero-text :global(.summary-block p) { margin: 0; }
+  .pen-hero-text :global(.summary-block p) { margin: 0; }
 
-  .pb-hero-text :global(.next-steps) { margin: 0 0 1.1rem; }
-  .pb-hero-text :global(.next-step) {
+  .pen-hero-text :global(.next-steps) { margin: 0 0 1.1rem; }
+  .pen-hero-text :global(.next-step) {
     display: flex;
     gap: 0.7rem;
     align-items: flex-start;
@@ -306,7 +335,7 @@ const context: PageContext = {
     color: #17324d;
     font-size: 0.95rem;
   }
-  .pb-hero-text :global(.next-step)::before {
+  .pen-hero-text :global(.next-step)::before {
     content: "↓";
     flex-shrink: 0;
     display: grid;
@@ -319,14 +348,14 @@ const context: PageContext = {
     font-weight: 700;
     font-size: 0.9rem;
   }
-  .pb-hero-text :global(.next-step-when) { color: #0b2c45; }
-  .pb-hero-text :global(.next-step a) { color: #2563eb; }
+  .pen-hero-text :global(.next-step-when) { color: #0b2c45; }
+  .pen-hero-text :global(.next-step a) { color: #2563eb; }
 
-  .pb-hero-lede { margin: 0; color: #333; }
-  .pb-hero-lede :global(a) { color: #2563eb; }
+  .pen-hero-lede { margin: 0; color: #333; }
+  .pen-hero-lede :global(a) { color: #2563eb; }
 
-  .pb-hero-art { position: relative; display: grid; place-items: center; min-height: 300px; }
-  .pb-hero-art::before {
+  .pen-hero-art { position: relative; display: grid; place-items: center; min-height: 300px; }
+  .pen-hero-art::before {
     content: "";
     position: absolute;
     width: 200px;
@@ -338,7 +367,7 @@ const context: PageContext = {
     z-index: 0;
   }
 
-  .pb-hero-card {
+  .pen-hero-card {
     position: relative;
     width: 100%;
     max-width: 260px;
@@ -348,7 +377,7 @@ const context: PageContext = {
     box-shadow: 0 24px 50px rgba(11, 44, 69, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     overflow: hidden;
   }
-  .pb-hero-card::after {
+  .pen-hero-card::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -356,23 +385,23 @@ const context: PageContext = {
     pointer-events: none;
   }
   @media (prefers-reduced-motion: no-preference) {
-    .pb-hero-card { animation: pb-hero-float 6s ease-in-out infinite; }
+    .pen-hero-card { animation: pen-hero-float 6s ease-in-out infinite; }
   }
-  @keyframes pb-hero-float {
+  @keyframes pen-hero-float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-8px); }
   }
 
-  .pb-hero-card-top { display: flex; align-items: center; gap: 0.32rem; margin-bottom: 0.8rem; }
-  .pb-hero-led {
+  .pen-hero-card-top { display: flex; align-items: center; gap: 0.32rem; margin-bottom: 0.8rem; }
+  .pen-hero-led {
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background: #4ade80;
     box-shadow: 0 0 6px 1px rgba(74, 222, 128, 0.7);
   }
-  .pb-hero-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); }
-  .pb-hero-solar {
+  .pen-hero-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); }
+  .pen-hero-solar {
     margin-left: auto;
     width: 28px;
     height: 10px;
@@ -381,14 +410,14 @@ const context: PageContext = {
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
   }
 
-  .pb-hero-display {
+  .pen-hero-display {
     position: relative;
     background: linear-gradient(165deg, #f9d3d6, #f0a8ad);
     border-radius: 10px;
     padding: 0.6rem 0.85rem 0.5rem;
     box-shadow: inset 0 2px 6px rgba(40, 10, 12, 0.22);
   }
-  .pb-hero-display-label {
+  .pen-hero-display-label {
     display: block;
     font-size: 0.6rem;
     font-weight: 700;
@@ -396,7 +425,7 @@ const context: PageContext = {
     color: #8c2f36;
     text-transform: uppercase;
   }
-  .pb-hero-display-digits {
+  .pen-hero-display-digits {
     display: block;
     text-align: right;
     font-family: 'Courier New', monospace;
@@ -407,14 +436,14 @@ const context: PageContext = {
     margin-top: 0.05rem;
   }
 
-  .pb-hero-keys {
+  .pen-hero-keys {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 32px;
     gap: 0.42rem;
     margin-top: 1rem;
   }
-  .pb-hero-key {
+  .pen-hero-key {
     display: grid;
     place-items: center;
     border-radius: 8px;
@@ -426,17 +455,17 @@ const context: PageContext = {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
     transition: background 0.15s ease, transform 0.15s ease;
   }
-  .pb-hero-key.is-op { background: rgba(96, 165, 250, 0.22); color: #cfe0fb; }
-  .pb-hero-key.is-eq {
+  .pen-hero-key.is-op { background: rgba(96, 165, 250, 0.22); color: #cfe0fb; }
+  .pen-hero-key.is-eq {
     grid-row: span 2;
     background: linear-gradient(160deg, #f0656f, #dc3545);
     color: #fff;
     box-shadow: 0 6px 14px rgba(220, 53, 69, 0.35);
   }
-  .pb-hero-key.is-zero { grid-column: span 2; }
-  .pb-hero-art:hover .pb-hero-key { transform: translateY(-1px); }
+  .pen-hero-key.is-zero { grid-column: span 2; }
+  .pen-hero-art:hover .pen-hero-key { transform: translateY(-1px); }
 
-  .pb-hero-float {
+  .pen-hero-float {
     position: absolute;
     z-index: 2;
     right: 0;
@@ -450,7 +479,7 @@ const context: PageContext = {
     padding: 0.9rem 1.05rem;
     box-shadow: 0 14px 32px rgba(11, 44, 69, 0.2);
   }
-  .pb-hero-float-icon {
+  .pen-hero-float-icon {
     flex-shrink: 0;
     display: grid;
     place-items: center;
@@ -460,31 +489,31 @@ const context: PageContext = {
     background: #fbe2e4;
     color: #dc3545;
   }
-  .pb-hero-float-icon svg { width: 19px; height: 19px; }
-  .pb-hero-float strong { display: block; color: #0b2c45; font-size: 0.92rem; }
-  .pb-hero-float p { margin: 0.15rem 0 0; color: #55627a; font-size: 0.8rem; }
+  .pen-hero-float-icon svg { width: 19px; height: 19px; }
+  .pen-hero-float strong { display: block; color: #0b2c45; font-size: 0.92rem; }
+  .pen-hero-float p { margin: 0.15rem 0 0; color: #55627a; font-size: 0.8rem; }
 
   @media (max-width: 900px) {
-    .pb-hero { grid-template-columns: 1fr; }
-    .pb-hero-art { margin-top: 0.5rem; }
-    .pb-h1 { font-size: 2.1rem; }
+    .pen-hero { grid-template-columns: 1fr; }
+    .pen-hero-art { margin-top: 0.5rem; }
+    .pen-h1 { font-size: 2.1rem; }
   }
 
   /* ---- Feature cards ----------------------------------------------------- */
-  .pb-feature-grid {
+  .pen-feature-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.1rem;
     margin: 0 0 2rem;
   }
-  .pb-feature-card {
+  .pen-feature-card {
     background: #fff;
     border: 1px solid #e8edf3;
     border-radius: 14px;
     padding: 1.2rem 1.15rem 1.3rem;
     box-shadow: 0 10px 26px rgba(11, 44, 69, 0.06);
   }
-  .pb-feature-icon {
+  .pen-feature-icon {
     display: grid;
     place-items: center;
     width: 42px;
@@ -494,16 +523,15 @@ const context: PageContext = {
     background: var(--t);
     color: var(--c);
   }
-  .pb-feature-icon svg { width: 22px; height: 22px; }
-  .pb-feature-card h3 { margin: 0 0 0.35rem; font-size: 0.98rem; line-height: 1.25; color: #0b2c45; }
-  .pb-feature-card p { margin: 0; color: #55627a; font-size: 0.86rem; line-height: 1.5; }
-  .pb-feature-card p :global(a) { color: #2563eb; }
+  .pen-feature-icon svg { width: 22px; height: 22px; }
+  .pen-feature-card h3 { margin: 0 0 0.35rem; font-size: 0.98rem; line-height: 1.25; color: #0b2c45; }
+  .pen-feature-card p { margin: 0; color: #55627a; font-size: 0.86rem; line-height: 1.5; }
+  .pen-feature-card p :global(a) { color: #2563eb; }
 
   @media (max-width: 900px) {
-    .pb-feature-grid { grid-template-columns: repeat(2, 1fr); }
+    .pen-feature-grid { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 520px) {
-    .pb-feature-grid { grid-template-columns: 1fr; }
+    .pen-feature-grid { grid-template-columns: 1fr; }
   }
 </style>
-</CalculatorPage>

@@ -3,7 +3,15 @@
 // (M8). One per FEATURED_DRUG in data/drugs.ts → /<slug>-assistance-program.html.
 // "Help paying for X on Medicare" intent — distinct from the existing "does
 // Medicare cover X" coverage pages (no cannibalization). Rendered via DrugPage.
+//
+// Visual language matches the prescription-drug-assistance.astro hub (M46):
+// hero + callout, icon-labeled program-type sections, note + checklist duo,
+// FAQ · Sources · Related trio, dark person CTA — so a single drug's page no
+// longer reads as a wall of plain-text cards.
 import DrugPage from '../components/layout/DrugPage.astro';
+import AuthorByline from '../components/content/AuthorByline.astro';
+import SummaryBlock from '../components/SummaryBlock.astro';
+import NextSteps from '../components/content/NextSteps.astro';
 import {
   FEATURED_DRUGS,
   programsForDrug,
@@ -12,6 +20,9 @@ import {
   FUND_STATUS_META,
   type Drug,
 } from '../data/drugs';
+import { BUSINESS } from '../data/business';
+import { CONDITION_STYLE, FALLBACK_CONDITION_STYLE } from '../data/conditions';
+import type { ProgramType } from '../types/Drug';
 import type { PageContext } from '../types/Page';
 
 export function getStaticPaths() {
@@ -21,15 +32,46 @@ export function getStaticPaths() {
 const { d } = Astro.props as { d: Drug };
 const groups = programsForDrug(d.drug, d.conditions);
 const telLink = (phone: string) => `tel:${phone.replace(/[^0-9]/g, '')}`;
+const phoneTel = `tel:${BUSINESS.phoneTel}`;
 
-const sections = [
-  { heading: `${d.drug} Manufacturer Assistance`, blurb: `The company that makes ${d.drug} may provide it free or at low cost to people who qualify by income — including many Medicare beneficiaries.`, items: groups.manufacturer },
-  { heading: 'Nonprofit Copay Grant Foundations', blurb: `Disease-based charities that give grants you can use with Medicare for ${d.conditionLabel}. Funds open and close based on availability.`, items: groups.foundation },
-  { heading: 'Government Programs', blurb: 'Federal and state programs that lower your overall drug and Medicare costs.', items: groups.government },
-  { heading: 'Search & Discount Tools', blurb: 'Free databases that list additional programs and discounts.', items: groups.database },
-].filter((s) => s.items.length > 0);
+// Hero art has no per-drug photography yet — placeholder is the drug's primary
+// condition icon/color (e.g. diabetes amber for Ozempic, heart red for Entresto)
+// so pages are visually distinct from each other until real photos are added.
+const heroStyle = CONDITION_STYLE[d.conditions[0]] ?? FALLBACK_CONDITION_STYLE;
 
-const related = FEATURED_DRUGS.filter((x) => x.slug !== d.slug).slice(0, 6);
+const SECTION_DEFS: { type: ProgramType; heading?: string; blurb: string }[] = [
+  {
+    type: 'manufacturer',
+    heading: `${d.drug} Manufacturer Assistance`,
+    blurb: `The company that makes ${d.drug} may provide it free or at low cost to people who qualify by income — including many Medicare beneficiaries.`,
+  },
+  {
+    type: 'foundation',
+    blurb: `Disease-based charities that give grants you can use with Medicare for ${d.conditionLabel}. Funds open and close based on availability.`,
+  },
+  { type: 'government', blurb: 'Federal and state programs that lower your overall drug and Medicare costs.' },
+  { type: 'database', blurb: 'Free databases that list additional programs and discounts.' },
+];
+
+const sections = SECTION_DEFS.map((s) => ({
+  ...s,
+  heading: s.heading ?? TYPE_META[s.type].heading,
+  meta: TYPE_META[s.type],
+  items: groups[s.type],
+})).filter((s) => s.items.length > 0);
+
+const related = FEATURED_DRUGS.filter((x) => x.slug !== d.slug).slice(0, 4);
+
+const FAQS = [
+  { q: `Can I use a ${d.drug} copay card if I have Medicare?`, a: `Usually no. Federal anti-kickback rules generally prohibit people with Medicare from using manufacturer copay coupons or savings cards for ${d.drug}. But you may still qualify for the manufacturer's Patient Assistance Program, which provides ${d.drug} free or at low cost based on income.` },
+  { q: `How do I get help paying for ${d.drug}?`, a: `Start with the ${d.drug} manufacturer assistance program, check whether a nonprofit foundation has an open fund for your condition, and apply for Medicare Extra Help if your income is limited. We can screen you and help you apply — free.` },
+  { q: `Is ${d.drug} covered by Medicare Part D?`, a: `${d.drug} is often on Part D and Medicare Advantage drug formularies, frequently on a higher brand or specialty tier and sometimes with prior authorization. Coverage and cost vary by plan — we can check yours.` },
+  { q: `Is applying for ${d.drug} assistance free?`, a: `Yes. Every program here is free to apply for. Never pay a fee to enroll in Extra Help, a foundation grant, or a manufacturer assistance program — that's a red flag for a scam.` },
+];
+const RESOURCES = [
+  { label: 'Get help with drug costs', sub: 'Medicare.gov', href: 'https://www.medicare.gov/basics/costs/help/drug-costs' },
+  { label: 'Extra Help (Part D Low-Income Subsidy)', sub: 'Social Security Administration', href: 'https://www.ssa.gov/medicare/part-d-extra-help' },
+];
 
 const context: PageContext = {
   page: {
@@ -38,18 +80,13 @@ const context: PageContext = {
     description: `How to get help paying for ${d.drug} (${d.generic}) on Medicare: manufacturer patient assistance, nonprofit copay grants, and Extra Help. Why copay coupons don't work on Medicare — and what does.`,
     taxonomy: { silo: 'part-d', tags: ['drug-assistance', 'part-d', ...d.conditions] },
     summary: `On Medicare you generally can't use a ${d.drug} copay coupon — but the manufacturer's Patient Assistance Program and nonprofit foundation grants still can. Below are the routes that work with Medicare for ${d.conditionLabel}.`,
-    faqs: [
-      { question: `Can I use a ${d.drug} copay card if I have Medicare?`, answer: `Usually no. Federal anti-kickback rules generally prohibit people with Medicare from using manufacturer copay coupons or savings cards for ${d.drug}. But you may still qualify for the manufacturer's Patient Assistance Program, which provides ${d.drug} free or at low cost based on income.` },
-      { question: `How do I get help paying for ${d.drug}?`, answer: `Start with the ${d.drug} manufacturer assistance program, check whether a nonprofit foundation has an open fund for your condition, and apply for Medicare Extra Help if your income is limited. We can screen you and help you apply — free.` },
-      { question: `Is ${d.drug} covered by Medicare Part D?`, answer: `${d.drug} is often on Part D and Medicare Advantage drug formularies, frequently on a higher brand or specialty tier and sometimes with prior authorization. Coverage and cost vary by plan — we can check yours.` },
-      { question: `Is applying for ${d.drug} assistance free?`, answer: `Yes. Every program here is free to apply for. Never pay a fee to enroll in Extra Help, a foundation grant, or a manufacturer assistance program — that's a red flag for a scam.` },
-    ],
+    faqs: FAQS.map((f) => ({ question: f.q, answer: f.a })),
     sources: [
       { title: 'Get help with drug costs', url: 'https://www.medicare.gov/basics/costs/help/drug-costs', publisher: 'Medicare.gov' },
       { title: 'Extra Help (Part D Low-Income Subsidy)', url: 'https://www.ssa.gov/medicare/part-d-extra-help', publisher: 'Social Security Administration' },
     ],
     nextSteps: [
-      { when: `If ${d.drug} is straining your budget,`, action: 'send us your medication list — we\'ll check assistance programs, Extra Help, and which Part D plan covers it for the least, free.' },
+      { when: `If ${d.drug} is straining your budget,`, action: 'send us your drug list — we\'ll check assistance programs, Extra Help, and which Part D plan covers it for the least, free.' },
     ],
   },
   meta: {
@@ -71,36 +108,372 @@ const context: PageContext = {
 };
 ---
 
-<DrugPage context={context}>
-  <aside class="callout" role="note" style="background:#fff7ed; border-left:4px solid #d97706; padding:1rem 1.25rem; border-radius:6px; margin:1rem 0;">
-    <p style="margin:0;"><strong>On Medicare?</strong> You generally <strong>cannot use a {d.drug} copay coupon or savings card</strong> — federal anti-kickback rules block them. But the manufacturer's <strong>Patient Assistance Program</strong> (free drug by income) and nonprofit <strong>foundation grants</strong> still can help. Below are the routes that work <em>with</em> Medicare.</p>
+<DrugPage context={context} bareHeader bareFooter>
+  {/* ─── Hero ─────────────────────────────────────────────────────────── */}
+  <section class="dp-hero">
+    <div class="dp-hero__copy">
+      <h1 class="dp-hero__title">{context.page.heading}</h1>
+      <AuthorByline
+        authorId={context.author}
+        reviewedById={context.reviewedBy}
+        updated={context.lastUpdated}
+        localAvailability={context.localAvailability}
+      />
+      <SummaryBlock text={context.page.summary} />
+      <NextSteps steps={context.page.nextSteps ?? []} />
+    </div>
+
+    <div class="dp-hero__art">
+      <div class="dp-hero__panel" style={`--panel-c:${heroStyle.color}`}>
+        <span class="dp-hero__panel-icon" aria-hidden="true" set:html={heroStyle.icon} />
+        <strong class="dp-hero__panel-drug">{d.drug}</strong>
+        <span class="dp-hero__panel-generic">({d.generic})</span>
+      </div>
+      <div class="dp-hero__callout">
+        <span class="dp-hero__callout-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.5l2 2 4-4.5"/><path d="M4 6.5l8-3.5 8 3.5v5c0 5-3.4 8.2-8 9.5-4.6-1.3-8-4.5-8-9.5z"/></svg></span>
+        <div>
+          <strong>We're Here to Help</strong>
+          <p>We'll search programs that may lower your cost.</p>
+          <a class="dp-hero__callout-cta" href={phoneTel}>Get Help Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ─── Copay coupon warning ─────────────────────────────────────────── */}
+  <aside class="dp-warn" role="note">
+    <span class="dp-warn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><path d="M12 9.5v4.5M12 17h.01"/></svg></span>
+    <p><strong>On Medicare?</strong> You generally cannot use a {d.drug} copay coupon or savings card — federal anti-kickback rules block them. But the manufacturer's <strong>Patient Assistance Program</strong> (free drug by income) and nonprofit <strong>foundation grants</strong> still can help. Below are the routes that work <em>with</em> Medicare.</p>
   </aside>
 
+  {/* ─── Program sections ─────────────────────────────────────────────── */}
   {sections.map((s) => (
-    <section class="da-section">
-      <h2>{s.heading}</h2>
-      <p>{s.blurb}</p>
-      {s.items.map((p) => (
-        <div class="da-card" style="border:1px solid #e6ebf2; border-radius:12px; padding:16px 18px; margin:12px 0;">
-          <h3 style="margin:0 0 4px;">{p.name}</h3>
-          <p style="margin:0; font-size:.9rem; color:#555;"><em>{TYPE_META[p.type].label}{p.status ? ` · ${FUND_STATUS_META[p.status].dot} ${FUND_STATUS_META[p.status].label}` : ''}</em></p>
-          <p style="margin:.6rem 0 0;">{p.helps}</p>
-          <p style="margin:.4rem 0 0; font-size:.94rem; color:#475467;"><strong>Who may qualify:</strong> {p.eligibility}</p>
-          {p.conditions[0] !== 'any' && (
-            <p style="margin:.4rem 0 0; font-size:.94rem; color:#475467;"><strong>Conditions:</strong> {p.conditions.map((c) => condLabel(c)).join(', ')}</p>
-          )}
-          <p style="margin:.6rem 0 0;">
-            <a href={p.url} target="_blank" rel="noopener noreferrer">{p.urlLabel} &rarr;</a>{p.phone && <> &nbsp;·&nbsp; <a href={telLink(p.phone)}>{p.phone}</a></>}
-          </p>
+    <section class="dp-section">
+      <div class="dp-section__head" style={`--c:${s.meta.color};--t:${s.meta.tint}`}>
+        <span class="dp-section__icon" aria-hidden="true" set:html={s.meta.icon} />
+        <div>
+          <h2>{s.heading}</h2>
+          <p>{s.blurb}</p>
         </div>
-      ))}
+      </div>
+      <div class="dp-section__grid">
+        {s.items.map((p) => (
+          <div class="dp-card" style={`--c:${s.meta.color}`}>
+            <div class="dp-card__top">
+              <h3>{p.name}</h3>
+              {p.status && (
+                <span class={`dp-badge dp-badge--${FUND_STATUS_META[p.status].cls}`}>
+                  {FUND_STATUS_META[p.status].dot} {FUND_STATUS_META[p.status].label}
+                </span>
+              )}
+            </div>
+            <p class="dp-card__type">{TYPE_META[p.type].label}</p>
+            <p class="dp-card__helps">{p.helps}</p>
+            <p class="dp-card__elig"><strong>Who may qualify:</strong> {p.eligibility}</p>
+            {p.conditions[0] !== 'any' && (
+              <p class="dp-card__cond"><strong>Conditions:</strong> {p.conditions.map((c) => condLabel(c)).join(', ')}</p>
+            )}
+            <div class="dp-card__actions">
+              <a class="dp-card__link" href={p.url} target="_blank" rel="noopener noreferrer">{p.urlLabel} &rarr;</a>
+              {p.phone && <a class="dp-card__phone" href={telLink(p.phone)}>{p.phone}</a>}
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   ))}
 
-  <h2>Assistance for Other Costly Drugs</h2>
-  <ul>
-    {related.map((r) => (
-      <li><a href={`/${r.slug}-assistance-program.html`}>{r.drug} ({r.generic}) assistance</a></li>
-    ))}
-  </ul>
+  {/* ─── Note + checklist duo ─────────────────────────────────────────── */}
+  <div class="dp-duo">
+    <div class="dp-note">
+      <span class="dp-note__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.8 19c0-3.3 2.7-5.5 6.2-5.5s6.2 2.2 6.2 5.5"/><circle cx="17.5" cy="8.5" r="2.4"/><path d="M15.8 13.7c2.7.3 4.9 2.3 4.9 5.3"/></svg></span>
+      <div>
+        <p><strong>Don't see your medication, or not sure where to start?</strong> Call us — we'll screen every program you might qualify for and help you apply, free, anywhere in the Uintah Basin or by phone across Utah.</p>
+        <a class="dp-note__phone" href={phoneTel}><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg> Call {BUSINESS.phone} <em>(TTY: {BUSINESS.tty})</em></a>
+      </div>
+    </div>
+    <div class="dp-easy">
+      <span class="dp-easy__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.5l2 2 4-4.5"/><path d="M4 6.5l8-3.5 8 3.5v5c0 5-3.4 8.2-8 9.5-4.6-1.3-8-4.5-8-9.5z"/></svg></span>
+      <h3>We Make It Easy</h3>
+      <ul class="dp-easy__list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Licensed local agent</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> We check every option</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Help with applications</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Local & personal support</li>
+      </ul>
+      <a class="dp-easy__cta" href={BUSINESS.quoteUrl} target="_blank" rel="noopener noreferrer">Talk to a Local Expert</a>
+    </div>
+  </div>
+
+  {/* ─── FAQ · Sources · Related trio ─────────────────────────────────── */}
+  <div class="dp-trio">
+    <section class="dp-panel">
+      <h2 class="dp-panel__h"><span class="dp-panel__hicon dp-panel__hicon--blue" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.4 9.3a2.6 2.6 0 0 1 4.7 1.4c0 1.7-2.1 2.1-2.1 3.6"/><circle cx="12" cy="17.1" r="0.6" fill="currentColor" stroke="none"/></svg></span>Frequently Asked Questions</h2>
+      {FAQS.map((f) => (
+        <details class="dp-faq">
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <section class="dp-panel">
+      <h2 class="dp-panel__h"><span class="dp-panel__hicon dp-panel__hicon--green" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 16.5h4"/></svg></span>Sources</h2>
+      <ul class="dp-links">
+        {RESOURCES.map((r) => <li><a href={r.href} target="_blank" rel="noopener noreferrer">{r.label}</a><span class="dp-links__sub">{r.sub}</span></li>)}
+      </ul>
+    </section>
+
+    <section class="dp-panel">
+      <h2 class="dp-panel__h"><span class="dp-panel__hicon dp-panel__hicon--purple" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5 5.5.8-4 3.9 1 5.5-5-2.7-5 2.7 1-5.5-4-3.9 5.5-.8z"/></svg></span>Related Topics</h2>
+      <div class="dp-related__grid">
+        {related.map((r) => (
+          <a class="dp-related__card" href={`/${r.slug}-assistance-program.html`}>
+            {r.drug}
+            <span>Assistance Programs &rarr;</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+
+  {/* ─── Person CTA banner ────────────────────────────────────────────── */}
+  <section class="dp-cta">
+    <img class="dp-cta__photo" src="/pictures/rocco.webp" alt="Rocco DeLuca, licensed Medicare agent in Vernal, Utah" width="88" height="88" loading="lazy" decoding="async" />
+    <div class="dp-cta__msg">
+      <h2>Talk to a local, licensed agent</h2>
+      <p>Rocco DeLuca can walk you through your options — free, no pressure.</p>
+    </div>
+    <div class="dp-cta__actions">
+      <a class="dp-cta__phone" href={phoneTel}>
+        <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
+        <span>Call {BUSINESS.phone}<em>(TTY: {BUSINESS.tty})</em></span>
+      </a>
+      <a class="dp-cta__quote" href={BUSINESS.quoteUrl} target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
+        Get a Free Quote
+      </a>
+    </div>
+  </section>
 </DrugPage>
+
+<style>
+  /* Palette echoes prescription-drug-assistance.astro / medicare-calculators.astro. */
+
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .dp-hero {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 2.4rem;
+    align-items: center;
+    margin: 0.4rem 0 2.5rem;
+  }
+  .dp-hero__title { margin: 0 0 0.6rem; font-size: clamp(2rem, 4.4vw, 2.6rem); line-height: 1.1; color: #0b2c45; }
+  .dp-hero__copy :global(.byline) { color: #55627a; font-size: 0.92rem; margin: 0 0 1rem; }
+  .dp-hero__copy :global(.byline a) { color: #2563eb; }
+  .dp-hero__copy :global(.summary-block) { margin: 0 0 1rem; color: #333; }
+  .dp-hero__copy :global(.summary-block p) { margin: 0; }
+  .dp-hero__copy :global(.next-steps) { margin: 0; }
+  .dp-hero__copy :global(.next-step) {
+    display: flex; gap: 0.7rem; align-items: flex-start;
+    background: #eaf1fd; border-left: 4px solid #2563eb; border-radius: 10px;
+    padding: 0.85rem 1rem; color: #17324d; font-size: 0.95rem;
+  }
+  .dp-hero__copy :global(.next-step)::before {
+    content: "↓"; flex-shrink: 0; display: grid; place-items: center;
+    width: 26px; height: 26px; border-radius: 50%; background: #2563eb; color: #fff;
+    font-weight: 700; font-size: 0.9rem;
+  }
+  .dp-hero__copy :global(.next-step-when) { color: #0b2c45; }
+  .dp-hero__copy :global(.next-step a) { color: #2563eb; }
+
+  .dp-hero__art { position: relative; display: flex; justify-content: center; }
+  .dp-hero__panel {
+    width: 100%; aspect-ratio: 4 / 3; border-radius: 18px;
+    background: linear-gradient(135deg, #0b2c45 0%, var(--panel-c, #1d4ed8) 130%);
+    box-shadow: 0 18px 44px rgba(11, 44, 69, 0.22);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem;
+    color: #fff;
+  }
+  .dp-hero__panel-icon { display: grid; place-items: center; width: 76px; height: 76px; border-radius: 50%; background: rgba(255,255,255,0.16); }
+  .dp-hero__panel-icon svg { width: 38px; height: 38px; }
+  .dp-hero__panel-drug { font-size: 1.7rem; font-weight: 800; }
+  .dp-hero__panel-generic { font-size: 0.95rem; color: #cfe0f0; }
+  .dp-hero__callout {
+    position: absolute; left: 1.25rem; right: 1.25rem; bottom: -1rem;
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    background: #fff; border: 1px solid #e1e9f2; border-radius: 14px;
+    padding: 0.9rem 1.1rem; box-shadow: 0 14px 34px rgba(11, 44, 69, 0.16);
+  }
+  .dp-hero__callout-icon { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #e6effe; color: #2563eb; }
+  .dp-hero__callout-icon svg { width: 20px; height: 20px; }
+  .dp-hero__callout p { margin: 0.15rem 0 0.6rem; color: #475569; font-size: 0.85rem; line-height: 1.4; }
+  .dp-hero__callout strong { display: block; color: #0b2c45; font-size: 0.92rem; }
+  .dp-hero__callout-cta {
+    display: inline-block; text-decoration: none; font-weight: 800; font-size: 0.85rem;
+    color: #fff; background: linear-gradient(180deg, #2563eb, #1d4ed8);
+    padding: 0.45rem 0.9rem; border-radius: 9px; box-shadow: 0 8px 18px rgba(37, 99, 235, 0.32);
+  }
+
+  @media (max-width: 900px) {
+    .dp-hero { grid-template-columns: 1fr; }
+    .dp-hero__art { margin-top: 0.5rem; }
+    .dp-hero__callout { position: static; margin-top: 1rem; }
+  }
+
+  /* ── Copay warning ────────────────────────────────────────────────────── */
+  .dp-warn {
+    display: flex; gap: 0.9rem; align-items: flex-start;
+    background: #fff7ed; border-left: 4px solid #d97706; border-radius: 14px;
+    padding: 1.1rem 1.4rem; margin: 0 0 2.5rem;
+  }
+  .dp-warn__icon { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #fde8c8; color: #b45309; }
+  .dp-warn__icon svg { width: 21px; height: 21px; }
+  .dp-warn p { margin: 0; color: #7c4a05; font-size: 0.95rem; line-height: 1.55; }
+  .dp-warn strong { color: #5c3502; }
+
+  /* ── Program sections ─────────────────────────────────────────────────── */
+  .dp-section { margin: 0 0 2.75rem; }
+  .dp-section__head { display: flex; gap: 0.9rem; align-items: flex-start; margin: 0 0 1.2rem; }
+  .dp-section__icon {
+    flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 13px;
+    background: var(--t); color: var(--c);
+  }
+  .dp-section__icon svg { width: 24px; height: 24px; }
+  .dp-section__head h2 { margin: 0 0 0.3rem; color: #0b2c45; font-size: clamp(1.25rem, 2.4vw, 1.5rem); font-weight: 800; }
+  .dp-section__head p { margin: 0; color: #5b6b7d; font-size: 0.92rem; line-height: 1.5; max-width: 62ch; }
+
+  .dp-section__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem; }
+  @media (max-width: 800px) { .dp-section__grid { grid-template-columns: 1fr; } }
+
+  .dp-card {
+    background: #fff; border: 1px solid #e8edf3; border-left: 4px solid var(--c); border-radius: 14px;
+    padding: 1.2rem 1.35rem 1.3rem; box-shadow: 0 10px 26px rgba(11, 44, 69, 0.06);
+    display: flex; flex-direction: column;
+  }
+  .dp-card__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.6rem; }
+  .dp-card__top h3 { margin: 0; color: #0b2c45; font-size: 1.05rem; line-height: 1.3; }
+  .dp-badge { flex: none; font-size: 0.74rem; font-weight: 700; border-radius: 999px; padding: 0.2rem 0.55rem; white-space: nowrap; }
+  .dp-badge--b-green { background: #e4f5ea; color: #15803d; }
+  .dp-badge--b-amber { background: #fef3e2; color: #b45309; }
+  .dp-badge--b-red { background: #fde8e8; color: #b91c1c; }
+  .dp-card__type { margin: 0.3rem 0 0; color: #7a8ba0; font-size: 0.8rem; font-style: italic; }
+  .dp-card__helps { margin: 0.7rem 0 0; color: #334155; font-size: 0.92rem; line-height: 1.55; }
+  .dp-card__elig, .dp-card__cond { margin: 0.55rem 0 0; color: #475467; font-size: 0.88rem; line-height: 1.5; }
+  .dp-card__elig strong, .dp-card__cond strong { color: #0b2c45; }
+  .dp-card__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1rem; margin-top: 0.9rem; padding-top: 0.85rem; border-top: 1px solid #eef2f6; }
+  .dp-card__link { color: #1f4e8c; font-weight: 700; text-decoration: none; font-size: 0.9rem; }
+  .dp-card__link:hover { text-decoration: underline; }
+  .dp-card__phone { color: #475467; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+  .dp-card__phone:hover { text-decoration: underline; }
+
+  /* ── Note + checklist duo ─────────────────────────────────────────────── */
+  .dp-duo { display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.5rem; margin: 0 0 2.5rem; align-items: stretch; }
+  .dp-note {
+    display: flex; gap: 0.9rem; align-items: flex-start;
+    background: #eaf1fd; border-radius: 16px; padding: 1.5rem 1.6rem;
+  }
+  .dp-note__icon { flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: #2563eb; color: #fff; }
+  .dp-note__icon svg { width: 22px; height: 22px; }
+  .dp-note p { margin: 0 0 0.9rem; color: #17324d; font-size: 0.96rem; line-height: 1.55; }
+  .dp-note strong { color: #0b2c45; }
+  .dp-note__phone {
+    display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;
+    color: #fff; background: linear-gradient(180deg, #2563eb, #1d4ed8); font-weight: 800; font-size: 0.9rem;
+    padding: 0.55rem 0.9rem; border-radius: 10px; box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28);
+  }
+  .dp-note__phone svg { width: 16px; height: 16px; }
+  .dp-note__phone em { font-style: normal; opacity: 0.85; font-weight: 600; }
+
+  .dp-easy {
+    background: #fff; border: 1px solid #e8edf3; border-radius: 16px;
+    padding: 1.5rem 1.6rem; box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06);
+  }
+  .dp-easy__icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: #e5edfe; color: #2563eb; margin-bottom: 0.7rem; }
+  .dp-easy__icon svg { width: 22px; height: 22px; }
+  .dp-easy h3 { margin: 0 0 0.9rem; color: #0b2c45; font-size: 1.1rem; }
+  .dp-easy__list { list-style: none; margin: 0 0 1.1rem; padding: 0; display: grid; gap: 0.5rem; }
+  .dp-easy__list li { display: flex; align-items: center; gap: 0.5rem; color: #334155; font-size: 0.9rem; font-weight: 600; }
+  .dp-easy__list svg { flex: none; width: 17px; height: 17px; color: #16a34a; }
+  .dp-easy__cta {
+    display: block; text-align: center; text-decoration: none;
+    background: linear-gradient(180deg, #2563eb, #1d4ed8); color: #fff; font-weight: 800;
+    padding: 0.75rem 1rem; border-radius: 12px; box-shadow: 0 10px 22px rgba(37, 99, 235, 0.32);
+  }
+
+  @media (max-width: 900px) { .dp-duo { grid-template-columns: 1fr; } }
+
+  /* ── FAQ · Sources · Related trio ─────────────────────────────────────── */
+  .dp-trio { display: grid; grid-template-columns: 1.1fr 1fr 0.9fr; gap: 1.5rem; margin: 0 0 2.5rem; align-items: start; }
+  .dp-panel { background: #fff; border: 1px solid #e8edf3; border-radius: 18px; padding: 1.6rem; box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06); }
+  .dp-panel__h { display: flex; align-items: center; gap: 0.6rem; margin: 0 0 1.1rem; font-size: 1.15rem; color: #0b2c45; }
+  .dp-panel__hicon { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; }
+  .dp-panel__hicon svg { width: 19px; height: 19px; }
+  .dp-panel__hicon--blue { background: #e5edfe; color: #2563eb; }
+  .dp-panel__hicon--green { background: #e4f5ea; color: #16a34a; }
+  .dp-panel__hicon--purple { background: #f0e9fd; color: #7c3aed; }
+
+  .dp-faq { border-top: 1px solid #eef2f6; padding: 0.7rem 0; }
+  .dp-faq:first-of-type { border-top: none; padding-top: 0; }
+  .dp-faq summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+    cursor: pointer; list-style: none; font-weight: 600; color: #334155; font-size: 0.94rem; line-height: 1.35;
+  }
+  .dp-faq summary::-webkit-details-marker { display: none; }
+  .dp-faq summary::after { content: "⌄"; color: #2563eb; font-weight: 800; font-size: 1.1rem; transition: transform 0.15s ease; }
+  .dp-faq[open] summary::after { transform: rotate(180deg); }
+  .dp-faq p { margin: 0.6rem 0 0; color: #5b6b7d; font-size: 0.88rem; line-height: 1.55; }
+
+  .dp-links { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.15rem; }
+  .dp-links li { border-top: 1px solid #eef2f6; padding: 0.6rem 0; }
+  .dp-links li:first-child { border-top: none; padding-top: 0; }
+  .dp-links a { color: #1f4e8c; text-decoration: none; font-weight: 600; font-size: 0.9rem; line-height: 1.4; display: inline-flex; gap: 0.4rem; }
+  .dp-links a::before { content: "›"; color: #2563eb; font-weight: 800; flex: none; }
+  .dp-links a:hover { text-decoration: underline; }
+  .dp-links__sub { display: block; margin: 0.15rem 0 0 1.1rem; color: #94a3b8; font-size: 0.78rem; }
+
+  .dp-related__grid { display: grid; grid-template-columns: 1fr; gap: 0.6rem; }
+  .dp-related__card {
+    display: flex; flex-direction: column; gap: 0.15rem;
+    border: 1px solid #e8edf3; border-radius: 12px; padding: 0.75rem 0.95rem;
+    color: #0b2c45; text-decoration: none; font-weight: 700; font-size: 0.92rem;
+  }
+  .dp-related__card span { color: #2563eb; font-weight: 600; font-size: 0.82rem; }
+  .dp-related__card:hover { border-color: #2563eb; }
+
+  @media (max-width: 1024px) { .dp-trio { grid-template-columns: 1fr; } }
+
+  /* ── Person CTA banner ────────────────────────────────────────────────── */
+  .dp-cta {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.75rem;
+    background: linear-gradient(120deg, #0b2c45 0%, #123a5c 100%);
+    border-radius: 22px; padding: 1.9rem 2.25rem; margin: 0 0 1.5rem;
+    box-shadow: 0 22px 50px rgba(11, 44, 69, 0.28);
+  }
+  .dp-cta__photo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; object-position: top center; border: 3px solid rgba(255,255,255,0.85); flex: none; }
+  .dp-cta__msg h2 { margin: 0 0 0.35rem; color: #fff; font-size: clamp(1.3rem, 2.4vw, 1.7rem); line-height: 1.15; }
+  .dp-cta__msg p { margin: 0; color: #cfe0f0; line-height: 1.5; font-size: 0.98rem; max-width: 54ch; }
+  .dp-cta__actions { display: flex; flex-direction: column; gap: 0.7rem; width: 250px; flex: none; }
+  .dp-cta__phone {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: linear-gradient(180deg, #f97316 0%, #ea580c 100%);
+    color: #fff; text-decoration: none; padding: 0.85rem 1.1rem; border-radius: 14px; font-weight: 800;
+    box-shadow: 0 12px 26px rgba(234, 88, 12, 0.4);
+  }
+  .dp-cta__phone span:first-child { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.22); }
+  .dp-cta__phone span:first-child svg { width: 20px; height: 20px; }
+  .dp-cta__phone > span:last-child { display: flex; flex-direction: column; line-height: 1.15; font-size: 1.02rem; }
+  .dp-cta__phone em { font-style: normal; font-weight: 600; font-size: 0.78rem; opacity: 0.9; }
+  .dp-cta__quote {
+    display: flex; align-items: center; justify-content: center; gap: 0.55rem;
+    background: #fff; color: #0b2c45; text-decoration: none;
+    padding: 0.8rem 1.1rem; border-radius: 14px; font-weight: 800; font-size: 0.93rem;
+  }
+  .dp-cta__quote svg { width: 20px; height: 20px; color: #2563eb; }
+
+  @media (max-width: 900px) {
+    .dp-cta { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .dp-cta__msg p { max-width: none; }
+    .dp-cta__actions { width: 100%; max-width: 320px; }
+  }
+</style>

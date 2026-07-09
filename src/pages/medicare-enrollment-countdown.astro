@@ -1,0 +1,720 @@
+---
+// src/pages/medicare-enrollment-countdown.astro — Decision Tools (M9).
+// Live countdown to a beneficiary's Initial Enrollment Period plus the
+// recurring Annual and General Enrollment windows. Reuses the same IEP math
+// as medicare-enrollment-timeline.astro (computeEnrollmentTimeline) so the two
+// tools never disagree; this page adds a per-second ticking display on top.
+import CalculatorPage from '../components/layout/CalculatorPage.astro';
+import CalculatorSection from '../components/calculator/CalculatorSection.astro';
+import CalculatorInput from '../components/calculator/CalculatorInput.astro';
+import CalculatorResult from '../components/calculator/CalculatorResult.astro';
+import CalculatorPrint from '../components/calculator/CalculatorPrint.astro';
+import CalculatorShare from '../components/calculator/CalculatorShare.astro';
+import AuthorByline from '../components/content/AuthorByline.astro';
+import SummaryBlock from '../components/SummaryBlock.astro';
+import NextSteps from '../components/content/NextSteps.astro';
+import type { PageContext } from '../types/Page';
+import type { CalculatorField } from '../types/Calculator';
+
+const dobField: CalculatorField = {
+  id: 'dob',
+  label: 'Your date of birth',
+  type: 'date',
+  help: 'We count down to the 7-month Initial Enrollment Period around your 65th birthday.',
+};
+const enrolledField: CalculatorField = {
+  id: 'enrolled',
+  label: 'Already enrolled in Medicare?',
+  type: 'radio',
+  options: [{ label: 'No', value: 'no' }, { label: 'Yes', value: 'yes' }],
+};
+const employerField: CalculatorField = {
+  id: 'employer',
+  label: 'Currently have employer coverage?',
+  type: 'radio',
+  options: [{ label: 'No', value: 'no' }, { label: 'Yes', value: 'yes' }],
+};
+
+const context: PageContext = {
+  page: {
+    title: 'Medicare Enrollment Countdown — Days Until Your Enrollment Window | Vernal Medicare',
+    heading: 'Medicare Enrollment Countdown',
+    description: 'Live Medicare enrollment countdown. See exactly how many days, hours, and minutes until your Initial Enrollment Period, the Annual Enrollment Period, and the General Enrollment Period.',
+    taxonomy: { silo: 'enrollment', tags: ['iep', 'aep', 'gep', 'deadlines', 'tools', 'turning-65'] },
+    summary: 'A live countdown to your Medicare enrollment windows. Enter your date of birth to see your personal Initial Enrollment Period tick down to the day, alongside the recurring Annual Enrollment Period (Oct 15 – Dec 7) and General Enrollment Period (Jan 1 – Mar 31).',
+    faqs: [
+      { question: 'When does Medicare enrollment start?', answer: 'Your Initial Enrollment Period starts 3 months before the month you turn 65 and ends 3 months after — a 7-month window.' },
+      { question: 'When does the Annual Enrollment Period (AEP) begin?', answer: 'The Annual Enrollment Period runs from October 15 to December 7 every year. You can join, switch, or drop a Medicare Advantage or Part D plan for the following year.' },
+      { question: 'Can I delay Part B?', answer: 'Yes, if you have active employer coverage from a company with 20 or more employees. Without qualifying coverage, delaying Part B can trigger a lifetime late-enrollment penalty.' },
+      { question: 'What if I miss my Initial Enrollment Period?', answer: 'You may need to wait for the General Enrollment Period (January 1 to March 31) and could face lifetime late-enrollment penalties for Part B and Part D.' },
+    ],
+    sources: [{ title: 'When does Medicare coverage start', url: 'https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start', publisher: 'Medicare.gov' }],
+    nextSteps: [
+      {
+        when: 'Turning 65 soon?',
+        action: 'enroll in the 3 months before your birthday month so coverage starts with no gap — watch your countdown below.',
+      },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-enrollment-countdown.html',
+    ogType: 'website',
+    ogTitle: 'Medicare Enrollment Countdown',
+    ogDescription: 'Live countdown to your Initial, Annual, and General Medicare enrollment periods.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-09',
+  lastUpdated: '2026-07-09',
+  medicalDisclaimer: 'General timing guidance, not an official Medicare determination. Confirm your exact dates with Social Security or with us.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Medicare Enrollment Periods', href: '/medicare-enrollment-periods.html' },
+    { name: 'Enrollment Countdown', href: '/medicare-enrollment-countdown.html' },
+  ],
+};
+---
+
+<CalculatorPage context={context} bareHeader>
+  <div class="cdh-hero">
+    <div class="cdh-hero-text">
+      <span class="cdh-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 1.5"/><path d="M9 3h6"/></svg>
+        Live countdown
+      </span>
+      <h1 class="cdh-h1">Medicare Enrollment<br /><span class="cdh-h1-accent">Countdown</span></h1>
+      <AuthorByline
+        authorId={context.author}
+        reviewedById={context.reviewedBy}
+        updated={context.lastUpdated}
+        localAvailability={context.localAvailability}
+      />
+      <SummaryBlock text={context.page.summary} />
+      <NextSteps steps={context.page.nextSteps ?? []} />
+      <p class="cdh-hero-lede">See exactly how many days until your <a href="when-to-enroll-medicare-utah.html">Initial Enrollment Period</a> opens and closes, plus a live clock on the Annual and General Enrollment Periods — ticking down to the second.</p>
+    </div>
+
+    <div class="cdh-hero-art" aria-hidden="true">
+      <div class="cdh-hero-card">
+        <div class="cdh-hero-card-top">
+          <span class="cdh-hero-led"></span>
+          <span class="cdh-hero-dot"></span>
+          <span class="cdh-hero-dot"></span>
+          <span class="cdh-hero-solar"></span>
+        </div>
+        <div class="cdh-hero-display">
+          <span class="cdh-hero-display-label">Countdown</span>
+          <span class="cdh-hero-display-digits" data-cdh-clock>—</span>
+        </div>
+        <div class="cdh-hero-keys">
+          <span class="cdh-hero-key is-op">C</span>
+          <span class="cdh-hero-key is-op">%</span>
+          <span class="cdh-hero-key is-op">÷</span>
+          <span class="cdh-hero-key is-op">×</span>
+          <span class="cdh-hero-key">7</span>
+          <span class="cdh-hero-key">8</span>
+          <span class="cdh-hero-key">9</span>
+          <span class="cdh-hero-key is-op">−</span>
+          <span class="cdh-hero-key">4</span>
+          <span class="cdh-hero-key">5</span>
+          <span class="cdh-hero-key">6</span>
+          <span class="cdh-hero-key is-op">+</span>
+          <span class="cdh-hero-key">1</span>
+          <span class="cdh-hero-key">2</span>
+          <span class="cdh-hero-key">3</span>
+          <span class="cdh-hero-key is-eq">=</span>
+          <span class="cdh-hero-key is-zero">0</span>
+          <span class="cdh-hero-key">.</span>
+        </div>
+      </div>
+      <div class="cdh-hero-float">
+        <span class="cdh-hero-float-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4.5 15.2 4.5 9.7A4.2 4.2 0 0 1 12 7a4.2 4.2 0 0 1 7.5 2.7C19.5 15.2 12 20.5 12 20.5z"/></svg>
+        </span>
+        <span>
+          <strong>Updates every second</strong>
+          <p>Your countdown ticks down live, right in your browser.</p>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cdh-feature-grid">
+    <div class="cdh-feature-card">
+      <span class="cdh-feature-icon" style="--c:#2563eb;--t:#e5edfe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 1.5"/></svg>
+      </span>
+      <h3>Live, to the Second</h3>
+      <p>Every countdown ticks down in real time — no need to refresh the page.</p>
+    </div>
+    <div class="cdh-feature-card">
+      <span class="cdh-feature-icon" style="--c:#16a34a;--t:#e4f5ea">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M11.5 14.5l1.4 1.4 3-3"/></svg>
+      </span>
+      <h3>Your Personal IEP</h3>
+      <p>See the exact day your 7-month Initial Enrollment Period opens and closes.</p>
+    </div>
+    <div class="cdh-feature-card">
+      <span class="cdh-feature-icon" style="--c:#7c3aed;--t:#f0e9fd">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21h16"/><path d="M5 21v-7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v7"/><path d="M4 15.7c1.2 0 1.2 1 2.4 1s1.2-1 2.4-1 1.2 1 2.4 1 1.2-1 2.4-1 1.2 1 2.4 1 1.2-1 2.4-1"/><path d="M12 8.5V5.5"/></svg>
+      </span>
+      <h3>AEP &amp; GEP, Always On</h3>
+      <p>The Annual and General Enrollment Periods count down year-round, no birthday needed.</p>
+    </div>
+    <div class="cdh-feature-card">
+      <span class="cdh-feature-icon" style="--c:#ea580c;--t:#fdeadd">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><path d="M12 10v4"/><circle cx="12" cy="16.7" r="0.6" fill="currentColor" stroke="none"/></svg>
+      </span>
+      <h3>Avoid Late Penalties</h3>
+      <p>Miss your window and you could face a lifetime <a href="medicare-part-b-penalty-calculator.html">late-enrollment penalty</a>.</p>
+    </div>
+  </div>
+
+  <form class="calc-form" data-calc-form novalidate>
+    <div class="calc-form-head">
+      <div class="calc-form-icon" aria-hidden="true">⏱️</div>
+      <div class="calc-form-titles">
+        <h2 class="calc-form-title">Start Your Countdown</h2>
+        <p class="calc-form-sub">Adjust the inputs below — your countdown updates as you type.</p>
+      </div>
+      <span class="calc-form-timer" aria-hidden="true">⏱ About 15 seconds</span>
+    </div>
+
+    <CalculatorSection title="Your details">
+      <CalculatorInput field={dobField} />
+      <CalculatorInput field={enrolledField} />
+      <CalculatorInput field={employerField} />
+    </CalculatorSection>
+    <div class="calc-actions">
+      <button type="button" class="btn btn-primary" data-calc-calculate>See My Countdown</button>
+      <CalculatorPrint />
+      <CalculatorShare />
+    </div>
+  </form>
+
+  <div class="calc-result-stage">
+    <CalculatorResult heading="Your enrollment status" />
+  </div>
+
+  <h2 class="cd-section-label">Live countdown</h2>
+  <div class="cd-grid">
+    <div class="cd-card" data-cd-card="iepStart">
+      <div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21h16"/><path d="M5 21v-7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v7"/><path d="M12 8.5V5.5"/><circle cx="12" cy="4" r="1"/></svg></div>
+      <div class="cd-title">Initial Enrollment Begins</div>
+      <div class="cd-days" data-days>—</div>
+      <div class="cd-dlabel">days</div>
+      <div class="cd-clock" data-clock>Enter your date of birth</div>
+      <div class="cd-date" data-date></div>
+    </div>
+    <div class="cd-card" data-cd-card="iepEnd">
+      <div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M9.5 13.5l5 5M14.5 13.5l-5 5"/></svg></div>
+      <div class="cd-title">Initial Enrollment Ends</div>
+      <div class="cd-days" data-days>—</div>
+      <div class="cd-dlabel">days</div>
+      <div class="cd-clock" data-clock>Enter your date of birth</div>
+      <div class="cd-date" data-date></div>
+    </div>
+    <div class="cd-card" data-cd-card="aep">
+      <div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg></div>
+      <div class="cd-title">Annual Enrollment Period</div>
+      <div class="cd-days" data-days>—</div>
+      <div class="cd-dlabel">days</div>
+      <div class="cd-clock" data-clock>—</div>
+      <div class="cd-date" data-date>Oct 15 – Dec 7</div>
+    </div>
+    <div class="cd-card" data-cd-card="gep">
+      <div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M8 14h3v3H8z"/></svg></div>
+      <div class="cd-title">General Enrollment Period</div>
+      <div class="cd-days" data-days>—</div>
+      <div class="cd-dlabel">days</div>
+      <div class="cd-clock" data-clock>—</div>
+      <div class="cd-date" data-date>Jan 1 – Mar 31</div>
+    </div>
+  </div>
+
+  <p>Want the whole picture, not just the clock? See our <a href="medicare-enrollment-timeline.html">enrollment timeline calculator</a> for a visual walkthrough, or call and we'll map your dates with you.</p>
+
+  <script>
+    import { bindCalculator } from '../lib/calculators';
+    import { computeEnrollmentTimeline } from '../lib/calculators/timeline';
+    import { formatDate, daysBetween } from '../lib/dates';
+    import type { CalculatorResult } from '../types/Calculator';
+
+    function parseDob(raw: string): Date | null {
+      const parts = raw.split('-').map((n) => parseInt(n, 10));
+      if (parts.length !== 3 || parts.some((n) => Number.isNaN(n))) return null;
+      return new Date(parts[0], parts[1] - 1, parts[2]); // local, no tz shift
+    }
+
+    function compute(fields: Record<string, string>): CalculatorResult {
+      const dob = parseDob(fields.dob || '');
+      if (!dob) {
+        return { summary: 'Enter your date of birth to start your personal countdown.', rows: [] };
+      }
+      const t = computeEnrollmentTimeline(dob);
+      const now = new Date();
+      const enrolled = fields.enrolled === 'yes';
+      const employer = fields.employer === 'yes';
+
+      let summary: string;
+      if (enrolled) {
+        summary = 'You’re enrolled in Medicare. Your next chance to change plans is the Annual Enrollment Period (Oct 15 – Dec 7).';
+      } else if (now >= t.iepStart && now <= t.iepEnd) {
+        summary = `Your enrollment window is open through ${formatDate(t.iepEnd)} — now is the time to enroll.`;
+      } else if (now < t.iepStart) {
+        const days = daysBetween(now, t.iepStart);
+        summary = `Your Initial Enrollment Period begins in ${days} day${days === 1 ? '' : 's'}, on ${formatDate(t.iepStart)}.`;
+      } else if (employer) {
+        summary = 'A Special Enrollment Period may apply since you have employer coverage — confirm the details before that coverage ends.';
+      } else {
+        summary = 'Your Initial Enrollment Period appears to have ended. The General Enrollment Period (Jan 1 – Mar 31) or a Special Enrollment Period may still apply.';
+      }
+
+      return {
+        summary,
+        rows: [
+          { label: 'You turn 65', value: formatDate(t.turns65) },
+          { label: 'IEP starts', value: formatDate(t.iepStart) },
+          { label: 'IEP ends', value: formatDate(t.iepEnd), emphasis: true },
+          { label: 'Annual Enrollment Period', value: 'Oct 15 – Dec 7' },
+          { label: 'General Enrollment Period', value: 'Jan 1 – Mar 31' },
+        ],
+      };
+    }
+
+    const form = document.querySelector<HTMLElement>('[data-calc-form]');
+    const results = document.querySelector<HTMLElement>('[data-calc-results]');
+    if (form && results) bindCalculator(form, results, compute);
+
+    const resultCard = document.querySelector<HTMLElement>('.calc-result');
+    document.querySelector('[data-calc-calculate]')?.addEventListener('click', () => {
+      resultCard?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      resultCard?.animate(
+        [{ boxShadow: '0 0 0 4px rgba(37,99,235,0.45)' }, { boxShadow: '0 16px 40px rgba(11,44,69,0.28)' }],
+        { duration: 900, easing: 'ease-out' },
+      );
+    });
+
+    // ---- Live ticking countdown grid + hero mini-clock -----------------------
+    function pad(n: number): string {
+      return n < 10 ? `0${n}` : `${n}`;
+    }
+    interface Parts { days: number; h: number; m: number; s: number }
+    function parts(ms: number): Parts {
+      const s = Math.max(0, Math.floor(ms / 1000));
+      return { days: Math.floor(s / 86400), h: Math.floor((s % 86400) / 3600), m: Math.floor((s % 3600) / 60), s: s % 60 };
+    }
+    function clockStr(p: Parts): string {
+      return `${p.days}d ${pad(p.h)}h ${pad(p.m)}m ${pad(p.s)}s`;
+    }
+    function nextOccurrence(month: number, day: number, now: Date): Date {
+      let d = new Date(now.getFullYear(), month, day);
+      if (d < now) d = new Date(now.getFullYear() + 1, month, day);
+      return d;
+    }
+    function inWindow(now: Date, sM: number, sD: number, eM: number, eD: number): boolean {
+      const y = now.getFullYear();
+      return now >= new Date(y, sM, sD, 0, 0, 0) && now <= new Date(y, eM, eD, 23, 59, 59);
+    }
+
+    function setCard(
+      key: string,
+      opts: { open?: boolean; days?: number | null; clock?: string; date?: string },
+    ): void {
+      const el = document.querySelector<HTMLElement>(`[data-cd-card="${key}"]`);
+      if (!el) return;
+      const daysEl = el.querySelector<HTMLElement>('[data-days]');
+      const clockEl = el.querySelector<HTMLElement>('[data-clock]');
+      const dateEl = el.querySelector<HTMLElement>('[data-date]');
+      el.classList.toggle('is-open', !!opts.open);
+      if (opts.open) {
+        if (daysEl) daysEl.textContent = 'OPEN';
+        if (clockEl) clockEl.textContent = opts.clock ?? 'Window is open';
+      } else if (opts.days == null) {
+        if (daysEl) daysEl.textContent = '—';
+        if (clockEl) clockEl.textContent = opts.clock ?? '';
+      } else {
+        if (daysEl) daysEl.textContent = String(opts.days);
+        if (clockEl) clockEl.textContent = opts.clock ?? '';
+      }
+      if (opts.date != null && dateEl) dateEl.textContent = opts.date;
+    }
+
+    let nextMilestone: Date | null = null;
+
+    function tick(): void {
+      const now = new Date();
+      const dob = parseDob((document.getElementById('dob') as HTMLInputElement | null)?.value ?? '');
+      const milestones: Date[] = [];
+
+      if (dob) {
+        const t = computeEnrollmentTimeline(dob);
+        if (now < t.iepStart) {
+          const p = parts(t.iepStart.getTime() - now.getTime());
+          setCard('iepStart', { days: p.days, clock: clockStr(p), date: formatDate(t.iepStart) });
+          milestones.push(t.iepStart);
+        } else {
+          setCard('iepStart', { days: 0, clock: `Began ${formatDate(t.iepStart)}`, date: formatDate(t.iepStart) });
+        }
+        if (now <= t.iepEnd) {
+          const open = now >= t.iepStart;
+          const p = parts(t.iepEnd.getTime() - now.getTime());
+          setCard('iepEnd', { open, days: p.days, clock: open ? `Closes in ${clockStr(p)}` : clockStr(p), date: formatDate(t.iepEnd) });
+          milestones.push(t.iepEnd);
+        } else {
+          setCard('iepEnd', { days: 0, clock: `Ended ${formatDate(t.iepEnd)}`, date: formatDate(t.iepEnd) });
+        }
+      } else {
+        setCard('iepStart', { days: null, clock: 'Enter your date of birth' });
+        setCard('iepEnd', { days: null, clock: 'Enter your date of birth' });
+      }
+
+      if (inWindow(now, 9, 15, 11, 7)) {
+        const end = new Date(now.getFullYear(), 11, 7, 23, 59, 59);
+        const p = parts(end.getTime() - now.getTime());
+        setCard('aep', { open: true, clock: `Closes in ${clockStr(p)}`, date: 'Oct 15 – Dec 7' });
+        milestones.push(end);
+      } else {
+        const start = nextOccurrence(9, 15, now);
+        const p = parts(start.getTime() - now.getTime());
+        setCard('aep', { days: p.days, clock: clockStr(p), date: 'Oct 15 – Dec 7' });
+        milestones.push(start);
+      }
+
+      if (inWindow(now, 0, 1, 2, 31)) {
+        const end = new Date(now.getFullYear(), 2, 31, 23, 59, 59);
+        const p = parts(end.getTime() - now.getTime());
+        setCard('gep', { open: true, clock: `Closes in ${clockStr(p)}`, date: 'Jan 1 – Mar 31' });
+        milestones.push(end);
+      } else {
+        const start = nextOccurrence(0, 1, now);
+        const p = parts(start.getTime() - now.getTime());
+        setCard('gep', { days: p.days, clock: clockStr(p), date: 'Jan 1 – Mar 31' });
+        milestones.push(start);
+      }
+
+      nextMilestone = milestones.filter((d) => d > now).sort((a, b) => a.getTime() - b.getTime())[0] ?? null;
+      const heroClock = document.querySelector<HTMLElement>('[data-cdh-clock]');
+      if (heroClock) {
+        heroClock.textContent = nextMilestone ? clockStr(parts(nextMilestone.getTime() - now.getTime())) : '—';
+      }
+    }
+
+    tick();
+    const timer = window.setInterval(tick, 1000);
+    window.addEventListener('beforeunload', () => window.clearInterval(timer));
+    document.getElementById('dob')?.addEventListener('input', tick);
+    form?.addEventListener('change', tick);
+  </script>
+</CalculatorPage>
+
+<style>
+  /* ---- Hero (mirrors the timeline/penalty calculator hero, M45 pattern) --- */
+  .cdh-hero {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 2.4rem;
+    align-items: center;
+    margin: 0.4rem 0 2rem;
+  }
+
+  .cdh-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.8rem 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: #e4f5ea;
+    color: #16a34a !important;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .cdh-badge svg { width: 17px; height: 17px; }
+
+  .cdh-h1 {
+    margin: 0.75rem 0 0.6rem;
+    font-size: 2.5rem;
+    line-height: 1.12;
+    color: #0b2c45;
+  }
+  .cdh-h1-accent { color: #16a34a; }
+
+  .cdh-hero-text :global(.byline) {
+    color: #55627a;
+    font-size: 0.92rem;
+    margin: 0 0 1rem;
+  }
+  .cdh-hero-text :global(.byline a) { color: #2563eb; }
+
+  .cdh-hero-text :global(.summary-block) {
+    margin: 0 0 1rem;
+    color: #333;
+  }
+  .cdh-hero-text :global(.summary-block p) { margin: 0; }
+
+  .cdh-hero-text :global(.next-steps) { margin: 0 0 1.1rem; }
+  .cdh-hero-text :global(.next-step) {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    background: #eafaf0;
+    border-left: 4px solid #16a34a;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    color: #17324d;
+    font-size: 0.95rem;
+  }
+  .cdh-hero-text :global(.next-step)::before {
+    content: "↓";
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #16a34a;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .cdh-hero-text :global(.next-step-when) { color: #0b2c45; }
+  .cdh-hero-text :global(.next-step a) { color: #2563eb; }
+
+  .cdh-hero-lede { margin: 0; color: #333; }
+  .cdh-hero-lede :global(a) { color: #2563eb; }
+
+  .cdh-hero-art { position: relative; display: grid; place-items: center; min-height: 300px; }
+  .cdh-hero-art::before {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 240px;
+    background: #fff;
+    border-radius: 16px;
+    transform: rotate(-9deg) translate(-46px, 4px);
+    box-shadow: 0 14px 34px rgba(11, 44, 69, 0.14);
+    z-index: 0;
+  }
+
+  .cdh-hero-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 260px;
+    background: linear-gradient(160deg, #163e60, #0b2c45 55%, #081d33);
+    border-radius: 22px;
+    padding: 1.15rem 1.2rem 1.35rem;
+    box-shadow: 0 24px 50px rgba(11, 44, 69, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
+  .cdh-hero-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 45%);
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .cdh-hero-card { animation: cdh-hero-float 6s ease-in-out infinite; }
+  }
+  @keyframes cdh-hero-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .cdh-hero-card-top { display: flex; align-items: center; gap: 0.32rem; margin-bottom: 0.8rem; }
+  .cdh-hero-led {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 6px 1px rgba(74, 222, 128, 0.7);
+  }
+  .cdh-hero-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); }
+  .cdh-hero-solar {
+    margin-left: auto;
+    width: 28px;
+    height: 10px;
+    border-radius: 2px;
+    background: repeating-linear-gradient(90deg, #2c5478 0 3px, #1c3a56 3px 6px);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  }
+
+  .cdh-hero-display {
+    position: relative;
+    background: linear-gradient(165deg, #ddf6d1, #bfe9ab);
+    border-radius: 10px;
+    padding: 0.6rem 0.85rem 0.5rem;
+    box-shadow: inset 0 2px 6px rgba(15, 40, 10, 0.22);
+  }
+  .cdh-hero-display-label {
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #4b7a3a;
+    text-transform: uppercase;
+  }
+  .cdh-hero-display-digits {
+    display: block;
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #1c3d17;
+    font-size: 1.15rem;
+    margin-top: 0.05rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cdh-hero-keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 32px;
+    gap: 0.42rem;
+    margin-top: 1rem;
+  }
+  .cdh-hero-key {
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.82rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .cdh-hero-key.is-op { background: rgba(96, 165, 250, 0.22); color: #cfe0fb; }
+  .cdh-hero-key.is-eq {
+    grid-row: span 2;
+    background: linear-gradient(160deg, #4ade80, #16a34a);
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(22, 163, 74, 0.35);
+  }
+  .cdh-hero-key.is-zero { grid-column: span 2; }
+  .cdh-hero-art:hover .cdh-hero-key { transform: translateY(-1px); }
+
+  .cdh-hero-float {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    bottom: -12px;
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    max-width: 230px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 0.9rem 1.05rem;
+    box-shadow: 0 14px 32px rgba(11, 44, 69, 0.2);
+  }
+  .cdh-hero-float-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: #e4f5ea;
+    color: #16a34a;
+  }
+  .cdh-hero-float-icon svg { width: 19px; height: 19px; }
+  .cdh-hero-float strong { display: block; color: #0b2c45; font-size: 0.92rem; }
+  .cdh-hero-float p { margin: 0.15rem 0 0; color: #55627a; font-size: 0.8rem; }
+
+  @media (max-width: 900px) {
+    .cdh-hero { grid-template-columns: 1fr; }
+    .cdh-hero-art { margin-top: 0.5rem; }
+    .cdh-h1 { font-size: 2.1rem; }
+  }
+
+  /* ---- Feature cards ------------------------------------------------------ */
+  .cdh-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.1rem;
+    margin: 0 0 2rem;
+  }
+  .cdh-feature-card {
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-radius: 14px;
+    padding: 1.2rem 1.15rem 1.3rem;
+    box-shadow: 0 10px 26px rgba(11, 44, 69, 0.06);
+  }
+  .cdh-feature-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    background: var(--t);
+    color: var(--c);
+  }
+  .cdh-feature-icon svg { width: 22px; height: 22px; }
+  .cdh-feature-card h3 { margin: 0 0 0.35rem; font-size: 0.98rem; line-height: 1.25; color: #0b2c45; }
+  .cdh-feature-card p { margin: 0; color: #55627a; font-size: 0.86rem; line-height: 1.5; }
+  .cdh-feature-card p :global(a) { color: #2563eb; }
+
+  @media (max-width: 900px) {
+    .cdh-feature-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .cdh-feature-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---- Live countdown grid ------------------------------------------------- */
+  .cd-section-label { font-size: 1.1rem; color: #0b2c45; margin: 1.75rem 0 1rem; }
+
+  .cd-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin: 0 0 1.75rem;
+  }
+  .cd-card {
+    border: 1px solid #cfe0f5;
+    border-radius: 16px;
+    padding: 1.35rem 1rem;
+    text-align: center;
+    background: #fff;
+    box-shadow: 0 8px 22px rgba(11, 44, 69, 0.08);
+  }
+  .cd-card.is-open { background: #e4f5ea; border-color: #bbf7d0; }
+  .cd-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #e5edfe;
+    color: #2563eb;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 0.6rem;
+  }
+  .cd-icon svg { width: 21px; height: 21px; }
+  .cd-card.is-open .cd-icon { background: #fff; color: #16a34a; }
+  .cd-title { font-size: 0.88rem; font-weight: 700; color: #0b2c45; min-height: 2.5em; display: flex; align-items: center; justify-content: center; }
+  .cd-days {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #2563eb;
+    line-height: 1;
+    margin: 0.4rem 0 0.15rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .cd-card.is-open .cd-days { font-size: 1.3rem; color: #16a34a; }
+  .cd-dlabel { font-size: 0.78rem; color: #6a7690; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+  .cd-clock { margin-top: 0.7rem; font-size: 0.88rem; font-weight: 700; color: #17324d; font-variant-numeric: tabular-nums; }
+  .cd-date { margin-top: 0.4rem; font-size: 0.78rem; color: #6a7690; }
+
+  @media (max-width: 900px) {
+    .cd-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .cd-grid { grid-template-columns: 1fr; }
+  }
+</style>

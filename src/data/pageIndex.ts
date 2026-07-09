@@ -271,6 +271,11 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     taxonomy: { silo: 'costs-irmaa', tags: ['costs', 'tools', 'medigap', 'advantage'] },
   },
   {
+    href: '/medicare-penalty-calculator.html',
+    title: 'Medicare Late Enrollment Penalty Calculator (Part B & Part D)',
+    taxonomy: { silo: 'enrollment', tags: ['penalties', 'part-b', 'part-d', 'tools', 'gep'] },
+  },
+  {
     href: '/medicare-part-b-penalty-calculator.html',
     title: 'Part B Late Enrollment Penalty Calculator',
     taxonomy: { silo: 'enrollment', tags: ['penalties', 'part-b', 'tools', 'gep'] },
@@ -280,11 +285,21 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Medicare Enrollment Timeline Calculator',
     taxonomy: { silo: 'enrollment', tags: ['iep', 'timeline', 'tools', 'turning-65'] },
   },
+  {
+    href: '/medicare-enrollment-countdown.html',
+    title: 'Medicare Enrollment Countdown',
+    taxonomy: { silo: 'enrollment', tags: ['iep', 'aep', 'gep', 'tools', 'deadlines', 'turning-65'] },
+  },
   // ── Calculator platform (M33) ──
   {
     href: '/medicare-calculators.html',
     title: 'Free Medicare Calculators',
     taxonomy: { silo: 'tools', tags: ['tools', 'calculators', 'costs', 'irmaa', 'part-d'] },
+  },
+  {
+    href: '/medicare-quiz.html',
+    title: 'Medicare Plan Quiz',
+    taxonomy: { silo: 'tools', tags: ['tools', 'quiz', 'decision-support', 'medicare-advantage', 'medigap', 'part-d', 'dual-eligible'] },
   },
   {
     href: '/medicare-extra-help-calculator.html',
@@ -295,6 +310,16 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     href: '/medicare-part-d-cost-calculator.html',
     title: 'Part D Drug Cost Calculator',
     taxonomy: { silo: 'part-d', tags: ['part-d', 'costs', 'tools', 'drug-cap'] },
+  },
+  {
+    href: '/medicare-drug-cost-calculator.html',
+    title: 'Prescription Drug Cost Calculator',
+    taxonomy: { silo: 'part-d', tags: ['part-d', 'costs', 'tools', 'generics', 'drug-costs'] },
+  },
+  {
+    href: '/medicare-formulary-lookup.html',
+    title: 'Medicare Formulary Lookup',
+    taxonomy: { silo: 'part-d', tags: ['part-d', 'formulary', 'tiers', 'drugs', 'tools', 'coverage'] },
   },
   // ── Vernal home-turf cluster (M14) — migrated onto the framework ──
   {

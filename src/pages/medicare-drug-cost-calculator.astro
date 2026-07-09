@@ -1,0 +1,779 @@
+---
+// src/pages/medicare-drug-cost-calculator.astro — NET-NEW page. A self-contained
+// prescription drug cost estimator: type a drug, see a rough monthly/annual
+// cash-price estimate, and (when one exists) a lower-cost generic comparison.
+// Built on CalculatorPage for the shared header/byline/summary/FAQ/related/CTA/
+// disclaimer + HowTo schema; the drug-price widget itself is bespoke (autocomplete
+// combobox over a small local drug list) so it lives entirely in the slot with
+// its own scoped styles/script rather than the calc-form field framework.
+import CalculatorPage from '../components/layout/CalculatorPage.astro';
+import AuthorByline from '../components/content/AuthorByline.astro';
+import SummaryBlock from '../components/SummaryBlock.astro';
+import NextSteps from '../components/content/NextSteps.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const phoneTel = `tel:${BUSINESS.phoneTel}`;
+const smsHref = `sms:${BUSINESS.phoneTel}?body=${encodeURIComponent('Hi, can you look up the price of my medication? It is: ')}`;
+const ctaSmsHref = `sms:${BUSINESS.phoneTel}?body=${encodeURIComponent('Hi, can you review my prescription costs? My medications are: ')}`;
+
+const context: PageContext = {
+  page: {
+    title: 'Prescription Drug Cost Calculator | Estimate & Compare Generics | Vernal Medicare',
+    heading: 'Prescription Drug Cost Calculator',
+    description:
+      'Free prescription drug cost calculator. Estimate your monthly and annual medication costs and see lower-cost generic alternatives.',
+    taxonomy: { silo: 'part-d', tags: ['part-d', 'costs', 'tools', 'generics', 'drug-costs'] },
+    summary:
+      'Type a brand or generic drug name to get a rough cash-price estimate for your monthly and annual cost, and see whether a lower-cost generic is available. These are educational estimates, not your Medicare plan’s actual price — for that, compare Part D plans or call us.',
+    faqs: [
+      {
+        question: 'Are these my exact drug prices?',
+        answer:
+          'No — these are rough average cash-price estimates for education, not your plan’s price. Actual costs vary by pharmacy, location, dosage, coupons, and your Medicare drug plan’s formulary tier. For exact pricing, check the Medicare Plan Finder, ask your pharmacist, or call us.',
+      },
+      {
+        question: 'Is a generic always available?',
+        answer:
+          'No. Many brand-name drugs — including newer diabetes and weight-loss injectables like Ozempic and Jardiance — don’t yet have an FDA-approved generic equivalent. When one does exist, generics use the same active ingredient and must meet the same FDA standards as the brand.',
+      },
+      {
+        question: 'How can I actually lower what I pay for my medications?',
+        answer:
+          'The biggest lever is usually your Medicare drug plan — different Part D and Medicare Advantage plans put the same drug on different tiers with different copays. Send us your medication list and we’ll check whether a different plan saves you money.',
+      },
+    ],
+    sources: [
+      { title: 'Medicare.gov — drug coverage (Part D)', url: 'https://www.medicare.gov/drug-coverage-part-d', publisher: 'Medicare.gov' },
+      { title: 'Medicare Plan Finder', url: 'https://www.medicare.gov/plan-compare/', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      {
+        when: 'Costs still adding up across several prescriptions?',
+        action: 'send us your medication list — we’ll check whether a different Part D plan saves you money.',
+        href: 'best-part-d-plans-vernal.html',
+      },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-drug-cost-calculator.html',
+    ogType: 'website',
+    ogTitle: 'Prescription Drug Cost Calculator',
+    ogDescription: 'Estimate your monthly and annual medication costs and see lower-cost generic alternatives.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-09',
+  lastUpdated: '2026-07-09',
+  medicalDisclaimer:
+    'Estimates only. These are rough cash-price estimates for education — not your plan’s price. Actual costs vary by pharmacy, location, dosage, coupons, and your Medicare drug plan.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Calculators', href: '/medicare-calculators.html' },
+    { name: 'Drug Cost Calculator', href: '/medicare-drug-cost-calculator.html' },
+  ],
+};
+---
+
+<CalculatorPage context={context} bareHeader>
+  <div class="dch-hero">
+    <div class="dch-hero-text">
+      <span class="dch-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.6" y="8.4" width="18.8" height="7.2" rx="3.6" transform="rotate(-45 12 12)"/><path d="M8.7 8.7l6.6 6.6"/></svg>
+        Free tool
+      </span>
+      <h1 class="dch-h1">Prescription Drug<br /><span class="dch-h1-accent">Cost Calculator</span></h1>
+      <AuthorByline
+        authorId={context.author}
+        reviewedById={context.reviewedBy}
+        updated={context.lastUpdated}
+        localAvailability={context.localAvailability}
+      />
+      <SummaryBlock text={context.page.summary} />
+      <NextSteps steps={context.page.nextSteps ?? []} />
+      <p class="dch-hero-lede">Prescription costs vary widely by drug, pharmacy, and Medicare plan. Type a medication below for a rough monthly and annual cash-price estimate — and see whether a lower-cost generic is available. For your exact copay, <a href="best-part-d-plans-vernal.html">compare Part D plans</a>.</p>
+    </div>
+
+    <div class="dch-hero-art" aria-hidden="true">
+      <div class="dch-hero-card">
+        <div class="dch-hero-card-top">
+          <span class="dch-hero-led"></span>
+          <span class="dch-hero-dot"></span>
+          <span class="dch-hero-dot"></span>
+          <span class="dch-hero-solar"></span>
+        </div>
+        <div class="dch-hero-display">
+          <span class="dch-hero-display-label">Est. Monthly</span>
+          <span class="dch-hero-display-digits">$0.30</span>
+        </div>
+        <div class="dch-hero-keys">
+          <span class="dch-hero-key is-op">C</span>
+          <span class="dch-hero-key is-op">%</span>
+          <span class="dch-hero-key is-op">÷</span>
+          <span class="dch-hero-key is-op">×</span>
+          <span class="dch-hero-key">7</span>
+          <span class="dch-hero-key">8</span>
+          <span class="dch-hero-key">9</span>
+          <span class="dch-hero-key is-op">−</span>
+          <span class="dch-hero-key">4</span>
+          <span class="dch-hero-key">5</span>
+          <span class="dch-hero-key">6</span>
+          <span class="dch-hero-key is-op">+</span>
+          <span class="dch-hero-key">1</span>
+          <span class="dch-hero-key">2</span>
+          <span class="dch-hero-key">3</span>
+          <span class="dch-hero-key is-eq">=</span>
+          <span class="dch-hero-key is-zero">0</span>
+          <span class="dch-hero-key">.</span>
+        </div>
+      </div>
+      <div class="dch-hero-float">
+        <span class="dch-hero-float-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>
+        </span>
+        <span>
+          <strong>Generics included</strong>
+          <p>See a lower-cost alternative the moment one exists.</p>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="dch-feature-grid">
+    <div class="dch-feature-card">
+      <span class="dch-feature-icon" style="--c:#0d9488;--t:#d9f2ef">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.6" y="8.4" width="18.8" height="7.2" rx="3.6" transform="rotate(-45 12 12)"/><path d="M8.7 8.7l6.6 6.6"/></svg>
+      </span>
+      <h3>Brand &amp; Generic Lookup</h3>
+      <p>Type any drug name and get a rough cash-price estimate, brand or generic.</p>
+    </div>
+    <div class="dch-feature-card">
+      <span class="dch-feature-icon" style="--c:#16a34a;--t:#e4f5ea">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>
+      </span>
+      <h3>Lower-Cost Alternatives</h3>
+      <p>See whether a lower-cost generic exists and how much it could save you a year.</p>
+    </div>
+    <div class="dch-feature-card">
+      <span class="dch-feature-icon" style="--c:#2563eb;--t:#e5edfe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9l1.2-5h13.6L20 9"/><path d="M4.5 9.2V19a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9.2"/><path d="M4 9.2a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></svg>
+      </span>
+      <h3>Adjusts by Pharmacy</h3>
+      <p>Pick a pharmacy to see how your estimate shifts against the average.</p>
+    </div>
+    <div class="dch-feature-card">
+      <span class="dch-feature-icon" style="--c:#ea580c;--t:#fdeadd">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M6 6l1.2 12a2 2 0 0 0 2 1.8h5.6a2 2 0 0 0 2-1.8L18 6"/><path d="M9 10.5l2.3 2.5 3.7-4.5"/></svg>
+      </span>
+      <h3>Still Too High?</h3>
+      <p>Text us your medication list — we'll check whether a different Part D plan saves you money.</p>
+    </div>
+  </div>
+
+  <div class="dcc">
+    <div class="dcc-field">
+      <label for="dcc-drug" class="dcc-label">
+        <span class="dcc-label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.6" y="8.4" width="18.8" height="7.2" rx="3.6" transform="rotate(-45 12 12)"></rect><path d="M8.7 8.7l6.6 6.6"></path></svg></span>
+        Drug name
+      </label>
+      <div class="dcc-combo">
+        <span class="dcc-search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.3 15.3L21 21"></path></svg></span>
+        <input type="text" id="dcc-drug" class="dcc-control" autocomplete="off" placeholder="Start typing… e.g. Lipitor, metformin, Eliquis"
+          role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="dcc-drug-suggestions" />
+        <div class="dcc-suggestions" id="dcc-drug-suggestions" role="listbox"></div>
+      </div>
+      <p class="dcc-hint">Type a brand or generic name and pick from the list.</p>
+    </div>
+
+    <div class="dcc-row">
+      <div class="dcc-field">
+        <label for="dcc-qty" class="dcc-label"><span class="dcc-label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L7 20M17 4l-2 16M4 9h16M3 15h16"></path></svg></span> Monthly quantity</label>
+        <input type="number" id="dcc-qty" class="dcc-control" min="1" step="1" value="30" inputmode="numeric" />
+        <p class="dcc-hint">Units per month (e.g. 30 for once-daily pills).</p>
+      </div>
+      <div class="dcc-field">
+        <label for="dcc-pharmacy" class="dcc-label"><span class="dcc-label-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9l1.2-5h13.6L20 9"></path><path d="M4.5 9.2V19a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9.2"></path><path d="M4 9.2a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"></path></svg></span> Pharmacy</label>
+        <input type="text" id="dcc-pharmacy" class="dcc-control" list="dcc-pharmacy-list" autocomplete="off" placeholder="e.g. Walmart, CVS, Costco" />
+        <datalist id="dcc-pharmacy-list">
+          <option value="Costco"></option><option value="Sam's Club"></option><option value="Walmart"></option>
+          <option value="Kroger"></option><option value="Smith's"></option><option value="Harmons"></option>
+          <option value="Walgreens"></option><option value="CVS"></option><option value="Rite Aid"></option>
+        </datalist>
+        <p class="dcc-hint">Optional — adjusts the estimate.</p>
+      </div>
+    </div>
+
+    <div class="dcc-results" id="dcc-results" aria-live="polite">
+      <div class="dcc-empty"><span class="dcc-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.3 15.3L21 21"></path></svg></span>Search for a medication above to see your estimated cost.</div>
+    </div>
+  </div>
+
+  <div class="dcc-cta">
+    <h2>Paying too much for prescriptions?</h2>
+    <p>Send us your medication list — we’ll check whether a different plan saves you money. Free, no pressure.</p>
+    <div class="dcc-cta-row">
+      <a class="dcc-cta-primary" href={phoneTel}><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"></path></svg></span> Call {BUSINESS.phone}</a>
+      <a class="dcc-cta-ghost" href={ctaSmsHref}><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"></path></svg></span> Text Your Meds</a>
+    </div>
+  </div>
+
+  <script define:vars={{ smsHref }}>
+    (function () {
+      'use strict';
+
+      // Rough cash-price estimates per unit (tablet/capsule/pen). Educational only.
+      var DRUGS = [
+        { q: 'lipitor atorvastatin cholesterol statin', name: 'Lipitor', brand: true, price: 9.00, generic: { name: 'Atorvastatin', price: 0.30 } },
+        { q: 'crestor rosuvastatin cholesterol statin', name: 'Crestor', brand: true, price: 8.00, generic: { name: 'Rosuvastatin', price: 0.45 } },
+        { q: 'zocor simvastatin cholesterol statin', name: 'Zocor', brand: true, price: 6.00, generic: { name: 'Simvastatin', price: 0.20 } },
+        { q: 'synthroid levothyroxine thyroid', name: 'Synthroid', brand: true, price: 1.20, generic: { name: 'Levothyroxine', price: 0.25 } },
+        { q: 'nexium esomeprazole acid reflux heartburn ppi', name: 'Nexium', brand: true, price: 8.00, generic: { name: 'Esomeprazole', price: 0.55 } },
+        { q: 'prilosec omeprazole acid reflux heartburn ppi', name: 'Prilosec', brand: true, price: 1.00, generic: { name: 'Omeprazole', price: 0.20 } },
+        { q: 'plavix clopidogrel blood thinner', name: 'Plavix', brand: true, price: 7.00, generic: { name: 'Clopidogrel', price: 0.35 } },
+        { q: 'norvasc amlodipine blood pressure', name: 'Norvasc', brand: true, price: 5.00, generic: { name: 'Amlodipine', price: 0.18 } },
+        { q: 'cozaar losartan blood pressure', name: 'Cozaar', brand: true, price: 6.00, generic: { name: 'Losartan', price: 0.28 } },
+        { q: 'glucophage metformin diabetes', name: 'Glucophage', brand: true, price: 3.00, generic: { name: 'Metformin', price: 0.12 } },
+        { q: 'lexapro escitalopram depression anxiety', name: 'Lexapro', brand: true, price: 9.00, generic: { name: 'Escitalopram', price: 0.30 } },
+        { q: 'zoloft sertraline depression anxiety', name: 'Zoloft', brand: true, price: 10.00, generic: { name: 'Sertraline', price: 0.25 } },
+        { q: 'zestril prinivil lisinopril blood pressure', name: 'Zestril (Lisinopril)', brand: true, price: 2.00, generic: { name: 'Lisinopril', price: 0.14 } },
+        { q: 'lasix furosemide water pill diuretic', name: 'Lasix', brand: true, price: 1.50, generic: { name: 'Furosemide', price: 0.12 } },
+        { q: 'singulair montelukast asthma allergy', name: 'Singulair', brand: true, price: 7.00, generic: { name: 'Montelukast', price: 0.35 } },
+        { q: 'flomax tamsulosin prostate', name: 'Flomax', brand: true, price: 6.00, generic: { name: 'Tamsulosin', price: 0.30 } },
+        { q: 'neurontin gabapentin nerve pain', name: 'Neurontin', brand: true, price: 5.00, generic: { name: 'Gabapentin', price: 0.20 } },
+        { q: 'protonix pantoprazole acid reflux ppi', name: 'Protonix', brand: true, price: 7.00, generic: { name: 'Pantoprazole', price: 0.25 } },
+
+        // Brand-only / no low-cost generic yet
+        { q: 'eliquis apixaban blood thinner afib', name: 'Eliquis', brand: true, price: 18.00, generic: null },
+        { q: 'xarelto rivaroxaban blood thinner afib', name: 'Xarelto', brand: true, price: 18.00, generic: null },
+        { q: 'jardiance empagliflozin diabetes', name: 'Jardiance', brand: true, price: 20.00, generic: null },
+        { q: 'farxiga dapagliflozin diabetes', name: 'Farxiga', brand: true, price: 20.00, generic: null },
+        { q: 'januvia sitagliptin diabetes', name: 'Januvia', brand: true, price: 20.00, generic: null },
+        { q: 'entresto sacubitril valsartan heart failure', name: 'Entresto', brand: true, price: 10.00, generic: null },
+        { q: 'ozempic semaglutide diabetes injection pen', name: 'Ozempic (pen)', brand: true, price: 950.00, generic: null, defaultQty: 1, unit: 'pen' },
+        { q: 'trulicity dulaglutide diabetes injection pen', name: 'Trulicity (pen)', brand: true, price: 215.00, generic: null, defaultQty: 4, unit: 'pen' },
+
+        // Common generics (direct)
+        { q: 'atorvastatin lipitor cholesterol statin generic', name: 'Atorvastatin', brand: false, price: 0.30 },
+        { q: 'metformin glucophage diabetes generic', name: 'Metformin', brand: false, price: 0.12 },
+        { q: 'lisinopril blood pressure generic', name: 'Lisinopril', brand: false, price: 0.14 },
+        { q: 'amlodipine norvasc blood pressure generic', name: 'Amlodipine', brand: false, price: 0.18 },
+        { q: 'levothyroxine synthroid thyroid generic', name: 'Levothyroxine', brand: false, price: 0.25 },
+        { q: 'losartan cozaar blood pressure generic', name: 'Losartan', brand: false, price: 0.28 },
+        { q: 'omeprazole prilosec acid reflux generic', name: 'Omeprazole', brand: false, price: 0.20 },
+        { q: 'gabapentin neurontin nerve pain generic', name: 'Gabapentin', brand: false, price: 0.20 },
+        { q: 'hydrochlorothiazide hctz water pill generic', name: 'Hydrochlorothiazide', brand: false, price: 0.10 },
+        { q: 'simvastatin zocor cholesterol statin generic', name: 'Simvastatin', brand: false, price: 0.20 },
+        { q: 'sertraline zoloft depression generic', name: 'Sertraline', brand: false, price: 0.25 },
+      ];
+
+      var PHARMACIES = {
+        costco: 0.82, "sam's club": 0.85, 'sams club': 0.85, walmart: 0.88,
+        kroger: 1.00, "smith's": 1.00, smiths: 1.00, harmons: 1.05,
+        walgreens: 1.15, cvs: 1.20, 'rite aid': 1.12,
+      };
+
+      var drugInput = document.getElementById('dcc-drug');
+      var sugBox = document.getElementById('dcc-drug-suggestions');
+      var qtyInput = document.getElementById('dcc-qty');
+      var pharmInput = document.getElementById('dcc-pharmacy');
+      var results = document.getElementById('dcc-results');
+      if (!drugInput || !sugBox || !qtyInput || !pharmInput || !results) return;
+
+      var selected = null;
+      var activeIndex = -1;
+      var matches = [];
+
+      function usd(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+      function pharmMult() {
+        var key = (pharmInput.value || '').trim().toLowerCase();
+        return PHARMACIES[key] || 1.0;
+      }
+
+      // ---------- Autocomplete ----------
+      function renderSuggestions() {
+        var qv = drugInput.value.trim().toLowerCase();
+        selected = null; // typing deselects until a pick is made
+        if (qv.length < 1) { closeSuggestions(); compute(); return; }
+
+        matches = DRUGS.filter(function (d) { return d.q.indexOf(qv) !== -1 || d.name.toLowerCase().indexOf(qv) !== -1; }).slice(0, 8);
+        activeIndex = -1;
+
+        if (!matches.length) {
+          sugBox.innerHTML = '<div class="dcc-suggestion is-empty">No match — <a href="' + smsHref + '">text us the name &rarr;</a></div>';
+          openSuggestions();
+          compute();
+          return;
+        }
+
+        sugBox.innerHTML = matches.map(function (d, i) {
+          var tag = d.brand ? '<span class="dcc-s-tag is-brand">Brand</span>' : '<span class="dcc-s-tag is-generic">Generic</span>';
+          return '<div class="dcc-suggestion" role="option" id="dcc-sug-' + i + '" data-i="' + i + '"><span class="dcc-s-name">' + d.name + '</span>' + tag + '</div>';
+        }).join('');
+        openSuggestions();
+      }
+
+      function openSuggestions() { sugBox.classList.add('is-open'); drugInput.setAttribute('aria-expanded', 'true'); }
+      function closeSuggestions() { sugBox.classList.remove('is-open'); drugInput.setAttribute('aria-expanded', 'false'); activeIndex = -1; }
+
+      function choose(i) {
+        var d = matches[i];
+        if (!d) return;
+        selected = d;
+        drugInput.value = d.name;
+        if (d.defaultQty) qtyInput.value = d.defaultQty;
+        closeSuggestions();
+        compute();
+      }
+
+      function highlight(idx) {
+        var nodes = sugBox.querySelectorAll('.dcc-suggestion[data-i]');
+        nodes.forEach(function (n) { n.classList.remove('is-active'); });
+        if (idx >= 0 && nodes[idx]) { nodes[idx].classList.add('is-active'); drugInput.setAttribute('aria-activedescendant', 'dcc-sug-' + idx); nodes[idx].scrollIntoView({ block: 'nearest' }); }
+      }
+
+      drugInput.addEventListener('input', renderSuggestions);
+      drugInput.addEventListener('focus', function () { if (drugInput.value.trim()) renderSuggestions(); });
+      drugInput.addEventListener('keydown', function (e) {
+        if (!sugBox.classList.contains('is-open') || !matches.length) return;
+        if (e.key === 'ArrowDown') { e.preventDefault(); activeIndex = Math.min(activeIndex + 1, matches.length - 1); highlight(activeIndex); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); activeIndex = Math.max(activeIndex - 1, 0); highlight(activeIndex); }
+        else if (e.key === 'Enter') { if (activeIndex >= 0) { e.preventDefault(); choose(activeIndex); } }
+        else if (e.key === 'Escape') { closeSuggestions(); }
+      });
+      sugBox.addEventListener('click', function (e) {
+        var item = e.target.closest('.dcc-suggestion[data-i]');
+        if (item) choose(parseInt(item.getAttribute('data-i'), 10));
+      });
+      document.addEventListener('click', function (e) { if (!e.target.closest('.dcc-combo')) closeSuggestions(); });
+
+      qtyInput.addEventListener('input', compute);
+      pharmInput.addEventListener('input', compute);
+
+      // ---------- Compute & render ----------
+      function compute() {
+        if (!selected) {
+          results.innerHTML = '<div class="dcc-empty"><span class="dcc-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.3 15.3L21 21"></path></svg></span>Search for a medication above to see your estimated cost.</div>';
+          return;
+        }
+        var qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+        var mult = pharmMult();
+        var unit = selected.unit || 'unit';
+
+        var monthly = selected.price * qty * mult;
+        var annual = monthly * 12;
+        var pharmLabel = (pharmInput.value || '').trim();
+
+        var html = '';
+        html += '<div class="dcc-cost-grid">' +
+          '<div class="dcc-cost-card"><div class="dcc-cc-label"><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span> Estimated monthly</div><div class="dcc-cc-value">' + usd(monthly) + '</div><div class="dcc-cc-unit">/ month</div></div>' +
+          '<div class="dcc-cost-card"><div class="dcc-cc-label"><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"></rect><path d="M3 9.5h18M8 2.5v4M16 2.5v4"></path></svg></span> Estimated annual</div><div class="dcc-cc-value">' + usd(annual) + '</div><div class="dcc-cc-unit">/ year</div></div>' +
+          '</div>';
+
+        html += '<div class="dcc-cost-meta">Based on <strong>' + selected.name + '</strong>, ' + qty + ' ' + unit + (qty > 1 ? 's' : '') + '/month' +
+          (pharmLabel ? ' at <strong>' + pharmLabel + '</strong>' + (mult !== 1 ? ' (' + (mult < 1 ? 'tends to be lower' : 'tends to be higher') + ' than average)' : '') : '') + '.</div>';
+
+        // Generic alternatives
+        if (selected.brand && selected.generic) {
+          var gMonthly = selected.generic.price * qty * mult;
+          var gAnnual = gMonthly * 12;
+          var saveYear = annual - gAnnual;
+          var savePct = Math.round((saveYear / annual) * 100);
+          html += '<div class="dcc-generics is-save"><h2><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8.5 12.5l2.5 2.5 4.5-5"></path></svg></span> Lower-cost generic available</h2>' +
+            '<div class="dcc-gen-row"><span class="dcc-gen-name">' + selected.generic.name + '</span><span class="dcc-gen-cost">' + usd(gMonthly) + '/mo &middot; ' + usd(gAnnual) + '/yr</span></div>' +
+            '<div class="dcc-save-banner"><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v10"></path><path d="M14.6 9a2.7 2.7 0 0 0-2.6-1.6c-1.5 0-2.5.8-2.5 1.9 0 2.5 5 1.4 5 4 0 1.1-1 2-2.6 2A2.8 2.8 0 0 1 9.2 15"></path></svg></span><div>Switching could save about <strong>' + usd(saveYear) + ' a year</strong> (' + savePct + '% less).</div></div>' +
+            '<p>Generics use the same active ingredient and must meet the same FDA standards. Ask your doctor or pharmacist whether the generic is right for you.</p></div>';
+        } else if (selected.brand && !selected.generic) {
+          html += '<div class="dcc-generics is-none"><h2><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5"></path><circle cx="12" cy="16.3" r="0.6" fill="currentColor" stroke="none"></circle></svg></span> No generic available yet</h2>' +
+            '<p>There isn’t a lower-cost generic equivalent for ' + selected.name + ' right now. The right Medicare drug plan can still make a big difference in what you pay — we can help you compare.</p></div>';
+        } else {
+          html += '<div class="dcc-generics is-already"><h2><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3zm0 0l3.2-6.8A1.8 1.8 0 0 1 13 5.1l-.7 3.9H18a2 2 0 0 1 2 2.3l-1.1 5.6A2 2 0 0 1 17 18.5H7"></path></svg></span> You’re already on a generic</h2>' +
+            '<p>Generics are typically the lowest-cost option. To pay even less, compare pharmacies and make sure your Part D plan covers ' + selected.name + ' on a preferred tier.</p></div>';
+        }
+
+        results.innerHTML = html;
+      }
+
+      compute();
+    })();
+  </script>
+</CalculatorPage>
+
+<style>
+  /* ---- Hero ------------------------------------------------------------ */
+  .dch-hero {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 2.4rem;
+    align-items: center;
+    margin: 0.4rem 0 2rem;
+  }
+
+  .dch-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.8rem 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: #d9f2ef;
+    color: #0d9488 !important;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .dch-badge svg { width: 17px; height: 17px; }
+
+  .dch-h1 {
+    margin: 0.75rem 0 0.6rem;
+    font-size: 2.5rem;
+    line-height: 1.12;
+    color: #0b2c45;
+  }
+  .dch-h1-accent { color: #0d9488; }
+
+  .dch-hero-text :global(.byline) {
+    color: #55627a;
+    font-size: 0.92rem;
+    margin: 0 0 1rem;
+  }
+  .dch-hero-text :global(.byline a) { color: #2563eb; }
+
+  .dch-hero-text :global(.summary-block) {
+    margin: 0 0 1rem;
+    color: #333;
+  }
+  .dch-hero-text :global(.summary-block p) { margin: 0; }
+
+  .dch-hero-text :global(.next-steps) { margin: 0 0 1.1rem; }
+  .dch-hero-text :global(.next-step) {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    background: #d9f2ef;
+    border-left: 4px solid #0d9488;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    color: #17324d;
+    font-size: 0.95rem;
+  }
+  .dch-hero-text :global(.next-step)::before {
+    content: "↓";
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #0d9488;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .dch-hero-text :global(.next-step-when) { color: #0b2c45; }
+  .dch-hero-text :global(.next-step a) { color: #2563eb; }
+
+  .dch-hero-lede { margin: 0; color: #333; }
+  .dch-hero-lede :global(a) { color: #2563eb; }
+
+  .dch-hero-art { position: relative; display: grid; place-items: center; min-height: 300px; }
+  .dch-hero-art::before {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 240px;
+    background: #fff;
+    border-radius: 16px;
+    transform: rotate(-9deg) translate(-46px, 4px);
+    box-shadow: 0 14px 34px rgba(11, 44, 69, 0.14);
+    z-index: 0;
+  }
+
+  .dch-hero-card {
+    position: relative;
+    width: 100%;
+    max-width: 260px;
+    background: linear-gradient(160deg, #163e60, #0b2c45 55%, #081d33);
+    border-radius: 22px;
+    padding: 1.15rem 1.2rem 1.35rem;
+    box-shadow: 0 24px 50px rgba(11, 44, 69, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
+  .dch-hero-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 45%);
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .dch-hero-card { animation: dch-hero-float 6s ease-in-out infinite; }
+  }
+  @keyframes dch-hero-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .dch-hero-card-top { display: flex; align-items: center; gap: 0.32rem; margin-bottom: 0.8rem; }
+  .dch-hero-led {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 6px 1px rgba(74, 222, 128, 0.7);
+  }
+  .dch-hero-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); }
+  .dch-hero-solar {
+    margin-left: auto;
+    width: 28px;
+    height: 10px;
+    border-radius: 2px;
+    background: repeating-linear-gradient(90deg, #2c5478 0 3px, #1c3a56 3px 6px);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  }
+
+  .dch-hero-display {
+    position: relative;
+    background: linear-gradient(165deg, #cdece7, #99d8cd);
+    border-radius: 10px;
+    padding: 0.6rem 0.85rem 0.5rem;
+    box-shadow: inset 0 2px 6px rgba(10, 40, 35, 0.22);
+  }
+  .dch-hero-display-label {
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #0f5c52;
+    text-transform: uppercase;
+  }
+  .dch-hero-display-digits {
+    display: block;
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #0a3d36;
+    font-size: 1.4rem;
+    margin-top: 0.05rem;
+  }
+
+  .dch-hero-keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 32px;
+    gap: 0.42rem;
+    margin-top: 1rem;
+  }
+  .dch-hero-key {
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.82rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .dch-hero-key.is-op { background: rgba(96, 165, 250, 0.22); color: #cfe0fb; }
+  .dch-hero-key.is-eq {
+    grid-row: span 2;
+    background: linear-gradient(160deg, #2dd4bf, #0d9488);
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(13, 148, 136, 0.35);
+  }
+  .dch-hero-key.is-zero { grid-column: span 2; }
+  .dch-hero-art:hover .dch-hero-key { transform: translateY(-1px); }
+
+  .dch-hero-float {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    bottom: -12px;
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    max-width: 230px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 0.9rem 1.05rem;
+    box-shadow: 0 14px 32px rgba(11, 44, 69, 0.2);
+  }
+  .dch-hero-float-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: #d9f2ef;
+    color: #0d9488;
+  }
+  .dch-hero-float-icon svg { width: 19px; height: 19px; }
+  .dch-hero-float strong { display: block; color: #0b2c45; font-size: 0.92rem; }
+  .dch-hero-float p { margin: 0.15rem 0 0; color: #55627a; font-size: 0.8rem; }
+
+  @media (max-width: 900px) {
+    .dch-hero { grid-template-columns: 1fr; }
+    .dch-hero-art { margin-top: 0.5rem; }
+    .dch-h1 { font-size: 2.1rem; }
+  }
+
+  /* ---- Feature cards ----------------------------------------------------- */
+  .dch-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.1rem;
+    margin: 0 0 2rem;
+  }
+  .dch-feature-card {
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-radius: 14px;
+    padding: 1.2rem 1.15rem 1.3rem;
+    box-shadow: 0 10px 26px rgba(11, 44, 69, 0.06);
+  }
+  .dch-feature-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    background: var(--t);
+    color: var(--c);
+  }
+  .dch-feature-icon svg { width: 22px; height: 22px; }
+  .dch-feature-card h3 { margin: 0 0 0.35rem; font-size: 0.98rem; line-height: 1.25; color: #0b2c45; }
+  .dch-feature-card p { margin: 0; color: #55627a; font-size: 0.86rem; line-height: 1.5; }
+  .dch-feature-card p :global(a) { color: #2563eb; }
+
+  @media (max-width: 900px) {
+    .dch-feature-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .dch-feature-grid { grid-template-columns: 1fr; }
+  }
+
+  .dcc {
+    --mc-blue: #2563eb;
+    --mc-blue-dark: #1d4ed8;
+    --mc-blue-deep: #0b2c45;
+    --mc-blue-soft: #e5edfe;
+    --mc-blue-line: #dbe6f2;
+    --mc-green: #16a34a;
+    --mc-green-deep: #14532d;
+    --mc-green-soft: #e4f5ea;
+    --mc-green-line: #bbf7d0;
+    --mc-amber: #b45309;
+    --mc-amber-soft: #fff7ed;
+    --mc-amber-line: #fed7aa;
+    --mc-ink: #1f2a37;
+    --mc-ink-soft: #475467;
+    --mc-muted: #6b7280;
+
+    background: #fff;
+    border: 1px solid var(--mc-blue-line);
+    border-radius: 18px;
+    box-shadow: 0 18px 50px -24px rgba(11, 44, 69, 0.35);
+    padding: 1.75rem;
+    margin: 1.5rem 0;
+  }
+
+  .dcc-field { margin-bottom: 1.25rem; }
+  .dcc-field:last-child { margin-bottom: 0; }
+  .dcc-label { display: flex; align-items: center; gap: 0.55rem; font-weight: 700; font-size: 1rem; color: var(--mc-ink); margin-bottom: 0.55rem; }
+  .dcc-label-icon { flex: none; width: 20px; height: 20px; color: var(--mc-blue); }
+  .dcc-label-icon svg { width: 100%; height: 100%; }
+
+  .dcc-control {
+    width: 100%; box-sizing: border-box; font-family: inherit; font-size: 1.02rem;
+    min-height: 50px; padding: 0.75rem 0.85rem; border: 2px solid var(--mc-blue-line);
+    border-radius: 10px; color: var(--mc-ink); background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .dcc-control:focus { outline: none; border-color: var(--mc-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15); }
+
+  .dcc-combo { position: relative; }
+  .dcc-combo .dcc-control { padding-left: 2.6rem; }
+  .dcc-search-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--mc-muted); pointer-events: none; }
+  .dcc-search-icon svg { width: 100%; height: 100%; }
+
+  .dcc-suggestions {
+    position: absolute; z-index: 30; left: 0; right: 0; top: calc(100% + 6px);
+    background: #fff; border: 1px solid var(--mc-blue-line); border-radius: 12px;
+    box-shadow: 0 18px 50px -24px rgba(11, 44, 69, 0.35); max-height: 280px; overflow-y: auto;
+    padding: 6px; display: none;
+  }
+  .dcc-suggestions.is-open { display: block; }
+  :global(.dcc-suggestion) { padding: 0.7rem 0.85rem; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
+  :global(.dcc-suggestion:hover), :global(.dcc-suggestion.is-active) { background: var(--mc-blue-soft); }
+  :global(.dcc-suggestion.is-empty) { cursor: default; color: var(--mc-muted); }
+  :global(.dcc-suggestion.is-empty a) { color: var(--mc-blue-dark); font-weight: 700; }
+  :global(.dcc-s-name) { font-weight: 700; color: var(--mc-ink); }
+  :global(.dcc-s-tag) { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 0.15rem 0.55rem; border-radius: 20px; }
+  :global(.dcc-s-tag.is-brand) { background: var(--mc-amber-soft); color: var(--mc-amber); }
+  :global(.dcc-s-tag.is-generic) { background: var(--mc-green-soft); color: var(--mc-green); }
+
+  .dcc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  @media (max-width: 560px) { .dcc-row { grid-template-columns: 1fr; } }
+  .dcc-hint { margin: 0.45rem 0 0; font-size: 0.85rem; color: var(--mc-muted); }
+
+  /* .dcc-results' children are re-rendered client-side via innerHTML (see the
+     inline script below), so Astro's scoped-CSS attribute never lands on them —
+     these must stay :global() or they render unstyled (giant unsized SVGs etc). */
+  .dcc-results { margin-top: 1.5rem; }
+  :global(.dcc-empty) { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; color: var(--mc-muted); padding: 1.5rem 1rem; background: #f8fafc; border: 1px dashed var(--mc-blue-line); border-radius: 12px; }
+  :global(.dcc-empty-icon) { width: 26px; height: 26px; color: var(--mc-blue); }
+  :global(.dcc-empty-icon svg) { width: 100%; height: 100%; }
+
+  :global(.dcc-cost-grid) { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  @media (max-width: 560px) { :global(.dcc-cost-grid) { grid-template-columns: 1fr; } }
+  :global(.dcc-cost-card) { border: 1px solid var(--mc-blue-line); border-radius: 14px; padding: 1.25rem; background: var(--mc-blue-soft); }
+  :global(.dcc-cc-label) { display: flex; align-items: center; gap: 0.45rem; font-size: 0.9rem; font-weight: 700; color: var(--mc-ink-soft); }
+  :global(.dcc-cc-label span) { width: 17px; height: 17px; color: var(--mc-blue); }
+  :global(.dcc-cc-label svg) { width: 100%; height: 100%; }
+  :global(.dcc-cc-value) { font-size: 1.85rem; font-weight: 800; color: var(--mc-blue-deep); margin-top: 0.35rem; line-height: 1.1; }
+  :global(.dcc-cc-unit) { font-size: 0.9rem; font-weight: 600; color: var(--mc-muted); }
+  :global(.dcc-cost-meta) { margin-top: 0.9rem; font-size: 0.9rem; color: var(--mc-ink-soft); background: #f8fafc; border: 1px solid #e6ebf2; border-radius: 10px; padding: 0.7rem 0.9rem; }
+
+  :global(.dcc-generics) { margin-top: 1.35rem; border-radius: 14px; padding: 1.25rem 1.35rem; }
+  :global(.dcc-generics h2) { margin: 0 0 0.7rem; font-size: 1.1rem; color: var(--mc-blue-deep); display: flex; align-items: center; gap: 0.55rem; }
+  :global(.dcc-generics h2 span) { width: 20px; height: 20px; }
+  :global(.dcc-generics h2 svg) { width: 100%; height: 100%; }
+  :global(.dcc-generics.is-save) { background: var(--mc-green-soft); border: 1px solid var(--mc-green-line); }
+  :global(.dcc-generics.is-save h2 span) { color: var(--mc-green); }
+  :global(.dcc-generics.is-none) { background: var(--mc-amber-soft); border: 1px solid var(--mc-amber-line); }
+  :global(.dcc-generics.is-none h2) { color: var(--mc-amber); }
+  :global(.dcc-generics.is-none h2 span) { color: var(--mc-amber); }
+  :global(.dcc-generics.is-already) { background: var(--mc-green-soft); border: 1px solid var(--mc-green-line); }
+  :global(.dcc-generics.is-already h2 span) { color: var(--mc-green); }
+  :global(.dcc-gen-row) { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.7rem; }
+  :global(.dcc-gen-name) { font-weight: 700; color: var(--mc-ink); font-size: 1.05rem; }
+  :global(.dcc-gen-cost) { font-weight: 700; color: var(--mc-green-deep); }
+  :global(.dcc-save-banner) { margin-top: 0.85rem; background: #fff; border: 1px solid var(--mc-green-line); border-radius: 10px; padding: 0.85rem 1rem; display: flex; align-items: center; gap: 0.7rem; }
+  :global(.dcc-save-banner span) { flex: none; width: 26px; height: 26px; color: var(--mc-green); }
+  :global(.dcc-save-banner svg) { width: 100%; height: 100%; }
+  :global(.dcc-save-banner strong) { color: var(--mc-green-deep); font-size: 1.15rem; }
+  :global(.dcc-generics p) { margin: 0.5rem 0 0; color: var(--mc-ink-soft); font-size: 0.94rem; }
+
+  .dcc-cta {
+    /* .dcc-cta is a sibling of .dcc, not a descendant — it can't see the
+       --mc-* custom properties declared on .dcc, so colors are literal here. */
+    margin-top: 1.5rem; background: linear-gradient(135deg, #2563eb 0%, #0b2c45 100%);
+    color: #fff; border-radius: 18px; padding: 1.75rem; text-align: center;
+  }
+  .dcc-cta h2 { margin: 0 0 0.35rem; color: #fff; font-size: 1.25rem; }
+  .dcc-cta p { margin: 0 0 1.15rem; opacity: 0.92; }
+  .dcc-cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+  .dcc-cta-row a {
+    flex: 1 1 180px; max-width: 260px; text-decoration: none; min-height: 50px;
+    display: flex; align-items: center; justify-content: center; gap: 0.55rem;
+    padding: 0.85rem 1.1rem; border-radius: 12px; font-weight: 700;
+  }
+  .dcc-cta-row a span { width: 19px; height: 19px; flex: none; }
+  .dcc-cta-row a svg { width: 100%; height: 100%; }
+  .dcc-cta-primary { background: #fff; color: #1d4ed8; }
+  .dcc-cta-ghost { background: rgba(255, 255, 255, 0.14); color: #fff; border: 2px solid rgba(255, 255, 255, 0.5); }
+</style>

@@ -1,11 +1,17 @@
 ---
 // src/pages/medicare-enrollment-timeline.astro — Decision Tools (M9).
+// Hero redesigned to match the IRMAA calculator page (M45 pattern): bareHeader
+// hero with badge/H1/byline/summary/next-steps + a floating device visual,
+// a 4-card feature grid, and a styled calc-form-head bar above the form.
 import CalculatorPage from '../components/layout/CalculatorPage.astro';
 import CalculatorSection from '../components/calculator/CalculatorSection.astro';
 import CalculatorInput from '../components/calculator/CalculatorInput.astro';
 import CalculatorResult from '../components/calculator/CalculatorResult.astro';
 import CalculatorPrint from '../components/calculator/CalculatorPrint.astro';
 import CalculatorShare from '../components/calculator/CalculatorShare.astro';
+import AuthorByline from '../components/content/AuthorByline.astro';
+import SummaryBlock from '../components/SummaryBlock.astro';
+import NextSteps from '../components/content/NextSteps.astro';
 import type { PageContext } from '../types/Page';
 import type { CalculatorField } from '../types/Calculator';
 
@@ -15,29 +21,55 @@ const dobField: CalculatorField = {
   type: 'date',
   help: 'We calculate the 7-month Initial Enrollment Period around your 65th birthday.',
 };
+const employerField: CalculatorField = {
+  id: 'employer',
+  label: 'Currently working with employer coverage?',
+  type: 'radio',
+  options: [{ label: 'No', value: 'no' }, { label: 'Yes', value: 'yes' }],
+};
+const ssdiField: CalculatorField = {
+  id: 'ssdi',
+  label: 'Receiving Social Security disability (SSDI)?',
+  type: 'radio',
+  options: [{ label: 'No', value: 'no' }, { label: 'Yes', value: 'yes' }],
+};
+const esrdField: CalculatorField = {
+  id: 'esrd',
+  label: 'Diagnosed with ESRD (permanent kidney failure)?',
+  type: 'radio',
+  options: [{ label: 'No', value: 'no' }, { label: 'Yes', value: 'yes' }],
+};
 
 const context: PageContext = {
   page: {
     title: 'Medicare Enrollment Timeline Calculator — Your IEP Dates | Vernal Medicare',
     heading: 'Medicare Enrollment Timeline Calculator',
-    description: 'Enter your date of birth to see your exact Medicare Initial Enrollment Period — the 7-month window to sign up without a penalty — and when coverage can start.',
+    description: 'Enter your date of birth to see your exact Medicare Initial Enrollment Period — the 7-month window to sign up without a penalty — visualized on a timeline with your key deadlines.',
     taxonomy: { silo: 'enrollment', tags: ['iep', 'timeline', 'deadlines', 'turning-65'] },
-    summary: 'Your Initial Enrollment Period is a 7-month window: the 3 months before your 65th-birthday month, that month, and the 3 months after. Enter your birthday to see your exact dates and the earliest your coverage can start.',
+    summary: 'Your Initial Enrollment Period is a 7-month window: the 3 months before your 65th-birthday month, that month, and the 3 months after. Enter your birthday — plus whether you have employer coverage, SSDI, or ESRD — to see your exact dates on a visual timeline.',
     faqs: [
       { question: 'When should I enroll to avoid a gap?', answer: 'Enroll during the 3 months before your birthday month — then your coverage can start the first day of your birthday month, with no gap.' },
       { question: 'What if I miss my Initial Enrollment Period?', answer: 'You may qualify for a penalty-free Special Enrollment Period (e.g., if you had employer coverage). Otherwise you’d use the General Enrollment Period and may owe a late penalty.' },
+      { question: 'Can I delay Part B?', answer: 'Yes, if you have active employer coverage from a company with 20 or more employees. Without qualifying coverage, delaying Part B can trigger a lifetime late-enrollment penalty.' },
+      { question: 'What is a Special Enrollment Period?', answer: 'A Special Enrollment Period lets you enroll outside your Initial Enrollment Period without a penalty, usually within 8 months of losing active employer coverage.' },
     ],
     sources: [{ title: 'When does Medicare coverage start', url: 'https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start', publisher: 'Medicare.gov' }],
+    nextSteps: [
+      {
+        when: 'Turning 65 soon?',
+        action: 'enroll in the 3 months before your birthday month so coverage starts with no gap — see your exact dates below.',
+      },
+    ],
   },
   meta: {
     canonical: 'https://vernalmedicare.com/medicare-enrollment-timeline.html',
     ogType: 'website',
     ogTitle: 'Medicare Enrollment Timeline Calculator',
-    ogDescription: 'See your exact Medicare Initial Enrollment Period dates from your date of birth.',
+    ogDescription: 'See your exact Medicare Initial Enrollment Period dates from your date of birth, visualized on a timeline.',
   },
   author: 'rocco',
   datePublished: '2026-06-30',
-  lastUpdated: '2026-06-30',
+  lastUpdated: '2026-07-09',
   medicalDisclaimer: 'General timing guidance. Confirm your exact dates with Social Security or with us.',
   breadcrumb: [
     { name: 'Home', href: '/' },
@@ -47,51 +79,701 @@ const context: PageContext = {
 };
 ---
 
-<CalculatorPage context={context}>
-  <p>Turning 65? Your <a href="when-to-enroll-medicare-utah.html">Initial Enrollment Period</a> is a 7-month window around your birthday. Enter your date of birth to see your exact dates.</p>
+<CalculatorPage context={context} bareHeader>
+  <div class="tlh-hero">
+    <div class="tlh-hero-text">
+      <span class="tlh-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M11.5 14.5l1.4 1.4 3-3"/></svg>
+        Your 7-month window
+      </span>
+      <h1 class="tlh-h1">Medicare Enrollment<br /><span class="tlh-h1-accent">Timeline Calculator</span></h1>
+      <AuthorByline
+        authorId={context.author}
+        reviewedById={context.reviewedBy}
+        updated={context.lastUpdated}
+        localAvailability={context.localAvailability}
+      />
+      <SummaryBlock text={context.page.summary} />
+      <NextSteps steps={context.page.nextSteps ?? []} />
+      <p class="tlh-hero-lede">Turning 65? Your <a href="when-to-enroll-medicare-utah.html">Initial Enrollment Period</a> is a 7-month window: the 3 months before your birthday month, that month, and the 3 months after. Enter your details below to see your exact dates on a visual timeline.</p>
+    </div>
+
+    <div class="tlh-hero-art" aria-hidden="true">
+      <div class="tlh-hero-card">
+        <div class="tlh-hero-card-top">
+          <span class="tlh-hero-led"></span>
+          <span class="tlh-hero-dot"></span>
+          <span class="tlh-hero-dot"></span>
+          <span class="tlh-hero-solar"></span>
+        </div>
+        <div class="tlh-hero-display">
+          <span class="tlh-hero-display-label">Your timeline</span>
+          <span class="tlh-hero-display-digits">IEP</span>
+        </div>
+        <div class="tlh-hero-keys">
+          <span class="tlh-hero-key is-op">C</span>
+          <span class="tlh-hero-key is-op">%</span>
+          <span class="tlh-hero-key is-op">÷</span>
+          <span class="tlh-hero-key is-op">×</span>
+          <span class="tlh-hero-key">7</span>
+          <span class="tlh-hero-key">8</span>
+          <span class="tlh-hero-key">9</span>
+          <span class="tlh-hero-key is-op">−</span>
+          <span class="tlh-hero-key">4</span>
+          <span class="tlh-hero-key">5</span>
+          <span class="tlh-hero-key">6</span>
+          <span class="tlh-hero-key is-op">+</span>
+          <span class="tlh-hero-key">1</span>
+          <span class="tlh-hero-key">2</span>
+          <span class="tlh-hero-key">3</span>
+          <span class="tlh-hero-key is-eq">=</span>
+          <span class="tlh-hero-key is-zero">0</span>
+          <span class="tlh-hero-key">.</span>
+        </div>
+      </div>
+      <div class="tlh-hero-float">
+        <span class="tlh-hero-float-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21h16"/><path d="M5 21v-7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v7"/><path d="M12 8.5V5.5"/><circle cx="12" cy="4" r="1"/></svg>
+        </span>
+        <span>
+          <strong>Uses your exact birthday</strong>
+          <p>See your precise Initial Enrollment Period window.</p>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tlh-feature-grid">
+    <div class="tlh-feature-card">
+      <span class="tlh-feature-icon" style="--c:#2563eb;--t:#e5edfe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M11.5 14.5l1.4 1.4 3-3"/></svg>
+      </span>
+      <h3>Your Exact IEP Dates</h3>
+      <p>See the precise 7-month Initial Enrollment Period around your 65th birthday.</p>
+    </div>
+    <div class="tlh-feature-card">
+      <span class="tlh-feature-icon" style="--c:#16a34a;--t:#e4f5ea">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18v-1.5A6.5 6.5 0 0 1 10.5 10h3A6.5 6.5 0 0 1 20 16.5V18"/><rect x="2.5" y="16" width="4" height="5" rx="1.3"/><rect x="17.5" y="16" width="4" height="5" rx="1.3"/><circle cx="12" cy="6" r="3.2"/></svg>
+      </span>
+      <h3>Employer Coverage?</h3>
+      <p>We check whether a penalty-free Special Enrollment Period applies to you.</p>
+    </div>
+    <div class="tlh-feature-card">
+      <span class="tlh-feature-icon" style="--c:#ea580c;--t:#fdeadd">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><path d="M12 10v4"/><circle cx="12" cy="16.7" r="0.6" fill="currentColor" stroke="none"/></svg>
+      </span>
+      <h3>Avoid Late Penalties</h3>
+      <p>Miss your window and you could face a lifetime <a href="medicare-part-b-penalty-calculator.html">Part B late-enrollment penalty</a>.</p>
+    </div>
+    <div class="tlh-feature-card">
+      <span class="tlh-feature-icon" style="--c:#7c3aed;--t:#f0e9fd">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18v-1.5A6.5 6.5 0 0 1 10.5 10h3A6.5 6.5 0 0 1 20 16.5V18"/><rect x="2.5" y="16" width="4" height="5" rx="1.3"/><rect x="17.5" y="16" width="4" height="5" rx="1.3"/><circle cx="12" cy="6" r="3.2"/></svg>
+      </span>
+      <h3>We're Here to Help</h3>
+      <p>Get local, personalized help understanding your options and deadlines.</p>
+    </div>
+  </div>
 
   <form class="calc-form" data-calc-form novalidate>
+    <div class="calc-form-head">
+      <div class="calc-form-icon" aria-hidden="true">🗓️</div>
+      <div class="calc-form-titles">
+        <h2 class="calc-form-title">Find Your Enrollment Dates</h2>
+        <p class="calc-form-sub">Adjust the inputs below — your timeline updates as you type.</p>
+      </div>
+      <span class="calc-form-timer" aria-hidden="true">⏱ About 20 seconds</span>
+    </div>
+
     <CalculatorSection title="Your birthday">
       <CalculatorInput field={dobField} />
     </CalculatorSection>
+    <CalculatorSection title="Your situation">
+      <CalculatorInput field={employerField} />
+      <CalculatorInput field={ssdiField} />
+      <CalculatorInput field={esrdField} />
+    </CalculatorSection>
     <div class="calc-actions">
+      <button type="button" class="btn btn-primary" data-calc-calculate>See My Enrollment Dates</button>
       <CalculatorPrint />
       <CalculatorShare />
     </div>
   </form>
 
-  <CalculatorResult heading="Your Initial Enrollment Period" />
+  <div class="calc-result-stage">
+    <CalculatorResult heading="Your Initial Enrollment Period" />
+  </div>
+
+  <div class="tl-viz" data-tl-viz>
+    <div class="tl-banner" data-tl-banner data-color="blue">
+      <span class="tl-banner-icon" aria-hidden="true">i</span>
+      <div>
+        <strong data-tl-banner-title>Enter your date of birth above</strong>
+        <p data-tl-banner-text>We’ll show your status and exact dates once you do.</p>
+      </div>
+    </div>
+
+    <h2 class="tl-section-label">Your Medicare timeline</h2>
+    <ol class="tl-timeline">
+      <li class="tl-milestone" data-color="blue">
+        <span class="tl-node" aria-hidden="true">1</span>
+        <div class="tl-content">
+          <h3>Initial Enrollment Begins</h3>
+          <p class="tl-date" data-tl-date="iepStart">—</p>
+          <p class="tl-note">3 months before your birthday month</p>
+        </div>
+      </li>
+      <li class="tl-milestone" data-color="green">
+        <span class="tl-node" aria-hidden="true">2</span>
+        <div class="tl-content">
+          <h3>Birthday Month</h3>
+          <p class="tl-date" data-tl-date="turns65">—</p>
+          <p class="tl-note">You turn 65 — Medicare eligibility</p>
+        </div>
+      </li>
+      <li class="tl-milestone" data-color="blue">
+        <span class="tl-node" aria-hidden="true">3</span>
+        <div class="tl-content">
+          <h3>Initial Enrollment Ends</h3>
+          <p class="tl-date" data-tl-date="iepEnd">—</p>
+          <p class="tl-note">3 months after your birthday month</p>
+        </div>
+      </li>
+      <li class="tl-milestone" data-color="blue">
+        <span class="tl-node" aria-hidden="true">4</span>
+        <div class="tl-content">
+          <h3>Annual Enrollment Period</h3>
+          <p class="tl-date">Oct 15 – Dec 7</p>
+          <p class="tl-note">Every year — join, switch, or drop a plan</p>
+        </div>
+      </li>
+      <li class="tl-milestone" data-color="amber">
+        <span class="tl-node" aria-hidden="true">5</span>
+        <div class="tl-content">
+          <h3>General Enrollment Period</h3>
+          <p class="tl-date">Jan 1 – Mar 31</p>
+          <p class="tl-note">For those who missed their IEP</p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="tl-sep" data-tl-sep hidden>
+      <h3><span aria-hidden="true">🛡️</span> Because you have employer coverage</h3>
+      <ul>
+        <li><strong>Active coverage:</strong> a Special Enrollment Period applies while you (or a spouse) have active coverage from current employment.</li>
+        <li><strong>SEP window:</strong> you can usually sign up for Part B without a penalty during that employment and for up to 8 months after it ends.</li>
+        <li><strong>20+ employee rule:</strong> if the employer has 20 or more employees, the group plan is primary and you may safely delay Part B.</li>
+        <li><strong>HSA note:</strong> contributing to a Health Savings Account after enrolling in Medicare can create tax issues — review this before you enroll.</li>
+      </ul>
+    </div>
+  </div>
 
   <p>Want to plan the whole thing? See our <a href="medicare-enrollment-periods.html">enrollment periods overview</a>, or call and we’ll map your dates with you.</p>
 
   <script>
-    import { bindCalculator } from '../lib/calculators';
-    import { computeEnrollmentTimeline } from '../lib/calculators/timeline';
+    import { bindCalculator, readFields } from '../lib/calculators';
+    import { computeEligibility, type EligibilityResult } from '../lib/calculators/eligibility';
     import { formatDate } from '../lib/dates';
     import type { CalculatorResult } from '../types/Calculator';
 
-    function compute(fields: Record<string, string>): CalculatorResult {
-      const raw = fields.dob || '';
+    const STATUS_SUMMARY: Record<string, (r: EligibilityResult) => string> = {
+      esrd: () =>
+        'You may qualify for Medicare before age 65 due to ESRD — coverage can often begin as early as the 4th month of dialysis. Your age-65 timeline is shown below too.',
+      disability: () =>
+        'You likely qualify for Medicare through disability — coverage usually starts automatically after 24 months of Social Security disability benefits. Your age-65 timeline is shown below too.',
+      'in-iep': (r) => `You're currently in your Initial Enrollment Period — it runs through ${formatDate(r.iepEnd)}. Now is the time to enroll.`,
+      'before-iep': (r) => `Your Initial Enrollment Period begins ${formatDate(r.iepStart)}, about 3 months before you turn 65 on ${formatDate(r.turns65)}.`,
+      'sep-eligible': () =>
+        'Your Initial Enrollment Period has passed, but because you have employer coverage, you may qualify for a penalty-free Special Enrollment Period when that coverage ends.',
+      'missed-iep': () =>
+        'It looks like you may have missed your Initial Enrollment Period. Speak with a licensed agent soon — a Special Enrollment Period or the General Enrollment Period may apply.',
+    };
+
+    const STATUS_BANNER: Record<string, { color: string; icon: string; title: (r: EligibilityResult) => string; text: (r: EligibilityResult) => string }> = {
+      esrd: {
+        color: 'green', icon: '✓',
+        title: () => 'You may qualify before age 65 (ESRD)',
+        text: () => 'Coverage for End-Stage Renal Disease can begin at any age — often the 4th month of dialysis. Your age-65 timeline is shown below too.',
+      },
+      disability: {
+        color: 'green', icon: '✓',
+        title: () => 'You may qualify through disability',
+        text: () => 'Medicare usually begins automatically after 24 months of Social Security disability benefits. Your age-65 timeline is shown below too.',
+      },
+      'in-iep': {
+        color: 'green', icon: '✓',
+        title: () => 'You are in your Initial Enrollment Period',
+        text: (r) => `This is the ideal time to enroll — it runs through ${formatDate(r.iepEnd)}.`,
+      },
+      'before-iep': {
+        color: 'blue', icon: 'i',
+        title: (r) => `Your Initial Enrollment Period begins ${formatDate(r.iepStart)}`,
+        text: (r) => `That's about 3 months before you turn 65 on ${formatDate(r.turns65)}.`,
+      },
+      'sep-eligible': {
+        color: 'amber', icon: '!',
+        title: () => 'You may qualify for a Special Enrollment Period',
+        text: () => 'Because you have employer coverage, you may be able to enroll later without a penalty. Confirm the details before that coverage ends.',
+      },
+      'missed-iep': {
+        color: 'red', icon: '!',
+        title: () => 'You may have missed your Initial Enrollment Period',
+        text: () => 'Speak with a licensed agent soon — a Special Enrollment Period or the General Enrollment Period may apply, and penalties can sometimes be avoided.',
+      },
+    };
+
+    function parseDob(raw: string): Date | null {
       const parts = raw.split('-').map((n) => parseInt(n, 10));
-      if (parts.length !== 3 || parts.some((n) => Number.isNaN(n))) {
-        return { summary: 'Enter your date of birth to see your enrollment window.', rows: [] };
-      }
-      const dob = new Date(parts[0], parts[1] - 1, parts[2]); // local, no tz shift
-      const t = computeEnrollmentTimeline(dob);
-      const fmt = (d: Date) => formatDate(d);
+      if (parts.length !== 3 || parts.some((n) => Number.isNaN(n))) return null;
+      return new Date(parts[0], parts[1] - 1, parts[2]); // local, no tz shift
+    }
+
+    function eligibilityFrom(fields: Record<string, string>): EligibilityResult | null {
+      const dob = parseDob(fields.dob || '');
+      if (!dob) return null;
+      return computeEligibility(dob, {
+        employer: fields.employer === 'yes',
+        ssdi: fields.ssdi === 'yes',
+        esrd: fields.esrd === 'yes',
+      });
+    }
+
+    function compute(fields: Record<string, string>): CalculatorResult {
+      const r = eligibilityFrom(fields);
+      if (!r) return { summary: 'Enter your date of birth to see your enrollment window.', rows: [] };
       return {
-        summary: `You turn 65 on ${fmt(t.turns65)}. Your Initial Enrollment Period runs ${fmt(t.iepStart)} through ${fmt(t.iepEnd)}.`,
+        summary: STATUS_SUMMARY[r.status](r),
         rows: [
-          { label: 'You turn 65', value: fmt(t.turns65) },
-          { label: 'IEP starts', value: fmt(t.iepStart) },
-          { label: 'IEP ends', value: fmt(t.iepEnd), emphasis: true },
-          { label: 'Enroll early → coverage can start', value: fmt(t.earliestCoverageStart) },
+          { label: 'You turn 65', value: formatDate(r.turns65) },
+          { label: 'IEP starts', value: formatDate(r.iepStart) },
+          { label: 'IEP ends', value: formatDate(r.iepEnd), emphasis: true },
+          { label: 'Enroll early → coverage can start', value: formatDate(r.earliestCoverageStart) },
         ],
       };
+    }
+
+    function updateViz(fields: Record<string, string>) {
+      const viz = document.querySelector<HTMLElement>('[data-tl-viz]');
+      if (!viz) return;
+      const r = eligibilityFrom(fields);
+      viz.classList.toggle('is-active', !!r);
+      if (!r) return;
+
+      const b = STATUS_BANNER[r.status];
+      const bannerEl = viz.querySelector<HTMLElement>('[data-tl-banner]');
+      bannerEl?.setAttribute('data-color', b.color);
+      const iconEl = viz.querySelector('[data-tl-banner] .tl-banner-icon');
+      const titleEl = viz.querySelector('[data-tl-banner-title]');
+      const textEl = viz.querySelector('[data-tl-banner-text]');
+      if (iconEl) iconEl.textContent = b.icon;
+      if (titleEl) titleEl.textContent = b.title(r);
+      if (textEl) textEl.textContent = b.text(r);
+
+      const monthYear = (d: Date) => formatDate(d, { month: 'long', year: 'numeric' });
+      const iepStartEl = viz.querySelector('[data-tl-date="iepStart"]');
+      const turns65El = viz.querySelector('[data-tl-date="turns65"]');
+      const iepEndEl = viz.querySelector('[data-tl-date="iepEnd"]');
+      if (iepStartEl) iepStartEl.textContent = monthYear(r.iepStart);
+      if (turns65El) turns65El.textContent = monthYear(r.turns65);
+      if (iepEndEl) iepEndEl.textContent = monthYear(r.iepEnd);
+
+      const sep = viz.querySelector<HTMLElement>('[data-tl-sep]');
+      if (sep) sep.hidden = fields.employer !== 'yes';
     }
 
     const form = document.querySelector<HTMLElement>('[data-calc-form]');
     const results = document.querySelector<HTMLElement>('[data-calc-results]');
     if (form && results) bindCalculator(form, results, compute);
+    if (form) {
+      const onChange = () => updateViz(readFields(form));
+      form.addEventListener('input', onChange);
+      form.addEventListener('change', onChange);
+      onChange();
+    }
+
+    // Results update live on every input; the primary button just guides the
+    // eye down to the (already computed) estimate for a satisfying action.
+    const resultCard = document.querySelector<HTMLElement>('.calc-result');
+    document.querySelector('[data-calc-calculate]')?.addEventListener('click', () => {
+      resultCard?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      resultCard?.animate(
+        [{ boxShadow: '0 0 0 4px rgba(37,99,235,0.45)' }, { boxShadow: '0 16px 40px rgba(11,44,69,0.28)' }],
+        { duration: 900, easing: 'ease-out' },
+      );
+    });
+
+    // Interactive 3D: the estimate card tilts toward the cursor and a sheen
+    // tracks it. Mouse only; honours reduced-motion.
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (resultCard && !reduceMotion) {
+      const MAX_TILT = 8; // degrees
+      resultCard.addEventListener('pointermove', (e: PointerEvent) => {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        const r = resultCard.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;
+        const py = (e.clientY - r.top) / r.height;
+        resultCard.style.setProperty('--ry', `${((px - 0.5) * 2 * MAX_TILT).toFixed(2)}deg`);
+        resultCard.style.setProperty('--rx', `${((0.5 - py) * 2 * MAX_TILT).toFixed(2)}deg`);
+        resultCard.style.setProperty('--mx', `${(px * 100).toFixed(1)}%`);
+        resultCard.style.setProperty('--my', `${(py * 100).toFixed(1)}%`);
+        resultCard.classList.add('is-tilting');
+      });
+      resultCard.addEventListener('pointerleave', () => {
+        resultCard.style.setProperty('--rx', '0deg');
+        resultCard.style.setProperty('--ry', '0deg');
+        resultCard.classList.remove('is-tilting');
+      });
+    }
   </script>
 </CalculatorPage>
+
+<style>
+  /* ---- Hero (mirrors the IRMAA calculator hero, M45 pattern) --------------- */
+  .tlh-hero {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 2.4rem;
+    align-items: center;
+    margin: 0.4rem 0 2rem;
+  }
+
+  .tlh-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.8rem 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: #e5edfe;
+    color: #2563eb !important;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .tlh-badge svg { width: 17px; height: 17px; }
+
+  .tlh-h1 {
+    margin: 0.75rem 0 0.6rem;
+    font-size: 2.5rem;
+    line-height: 1.12;
+    color: #0b2c45;
+  }
+  .tlh-h1-accent { color: #2563eb; }
+
+  .tlh-hero-text :global(.byline) {
+    color: #55627a;
+    font-size: 0.92rem;
+    margin: 0 0 1rem;
+  }
+  .tlh-hero-text :global(.byline a) { color: #2563eb; }
+
+  .tlh-hero-text :global(.summary-block) {
+    margin: 0 0 1rem;
+    color: #333;
+  }
+  .tlh-hero-text :global(.summary-block p) { margin: 0; }
+
+  .tlh-hero-text :global(.next-steps) { margin: 0 0 1.1rem; }
+  .tlh-hero-text :global(.next-step) {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    background: #eaf1fd;
+    border-left: 4px solid #2563eb;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    color: #17324d;
+    font-size: 0.95rem;
+  }
+  .tlh-hero-text :global(.next-step)::before {
+    content: "↓";
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .tlh-hero-text :global(.next-step-when) { color: #0b2c45; }
+  .tlh-hero-text :global(.next-step a) { color: #2563eb; }
+
+  .tlh-hero-lede { margin: 0; color: #333; }
+
+  .tlh-hero-art { position: relative; display: grid; place-items: center; min-height: 300px; }
+  .tlh-hero-art::before {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 240px;
+    background: #fff;
+    border-radius: 16px;
+    transform: rotate(-9deg) translate(-46px, 4px);
+    box-shadow: 0 14px 34px rgba(11, 44, 69, 0.14);
+    z-index: 0;
+  }
+
+  .tlh-hero-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 260px;
+    background: linear-gradient(160deg, #163e60, #0b2c45 55%, #081d33);
+    border-radius: 22px;
+    padding: 1.15rem 1.2rem 1.35rem;
+    box-shadow: 0 24px 50px rgba(11, 44, 69, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
+  .tlh-hero-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 45%);
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .tlh-hero-card { animation: tlh-hero-float 6s ease-in-out infinite; }
+  }
+  @keyframes tlh-hero-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .tlh-hero-card-top { display: flex; align-items: center; gap: 0.32rem; margin-bottom: 0.8rem; }
+  .tlh-hero-led {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 6px 1px rgba(74, 222, 128, 0.7);
+  }
+  .tlh-hero-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); }
+  .tlh-hero-solar {
+    margin-left: auto;
+    width: 28px;
+    height: 10px;
+    border-radius: 2px;
+    background: repeating-linear-gradient(90deg, #2c5478 0 3px, #1c3a56 3px 6px);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  }
+
+  .tlh-hero-display {
+    position: relative;
+    background: linear-gradient(165deg, #ddf6d1, #bfe9ab);
+    border-radius: 10px;
+    padding: 0.6rem 0.85rem 0.5rem;
+    box-shadow: inset 0 2px 6px rgba(15, 40, 10, 0.22);
+  }
+  .tlh-hero-display-label {
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #4b7a3a;
+    text-transform: uppercase;
+  }
+  .tlh-hero-display-digits {
+    display: block;
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #1c3d17;
+    font-size: 1.4rem;
+    margin-top: 0.05rem;
+  }
+
+  .tlh-hero-keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 32px;
+    gap: 0.42rem;
+    margin-top: 1rem;
+  }
+  .tlh-hero-key {
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.82rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .tlh-hero-key.is-op { background: rgba(96, 165, 250, 0.22); color: #cfe0fb; }
+  .tlh-hero-key.is-eq {
+    grid-row: span 2;
+    background: linear-gradient(160deg, #f0656f, #dc3545);
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(220, 53, 69, 0.35);
+  }
+  .tlh-hero-key.is-zero { grid-column: span 2; }
+  .tlh-hero-art:hover .tlh-hero-key { transform: translateY(-1px); }
+
+  .tlh-hero-float {
+    position: absolute;
+    right: 0;
+    bottom: -12px;
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    max-width: 230px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 0.9rem 1.05rem;
+    box-shadow: 0 14px 32px rgba(11, 44, 69, 0.2);
+  }
+  .tlh-hero-float-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: #e5edfe;
+    color: #2563eb;
+  }
+  .tlh-hero-float-icon svg { width: 19px; height: 19px; }
+  .tlh-hero-float strong { display: block; color: #0b2c45; font-size: 0.92rem; }
+  .tlh-hero-float p { margin: 0.15rem 0 0; color: #55627a; font-size: 0.8rem; }
+
+  @media (max-width: 900px) {
+    .tlh-hero { grid-template-columns: 1fr; }
+    .tlh-hero-art { margin-top: 0.5rem; }
+    .tlh-h1 { font-size: 2.1rem; }
+  }
+
+  /* ---- Feature cards ----------------------------------------------------- */
+  .tlh-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.1rem;
+    margin: 0 0 2rem;
+  }
+  .tlh-feature-card {
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-radius: 14px;
+    padding: 1.2rem 1.15rem 1.3rem;
+    box-shadow: 0 10px 26px rgba(11, 44, 69, 0.06);
+  }
+  .tlh-feature-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    background: var(--t);
+    color: var(--c);
+  }
+  .tlh-feature-icon svg { width: 22px; height: 22px; }
+  .tlh-feature-card h3 { margin: 0 0 0.35rem; font-size: 0.98rem; line-height: 1.25; color: #0b2c45; }
+  .tlh-feature-card p { margin: 0; color: #55627a; font-size: 0.86rem; line-height: 1.5; }
+  .tlh-feature-card p a { color: #2563eb; }
+
+  @media (max-width: 900px) {
+    .tlh-feature-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .tlh-feature-grid { grid-template-columns: 1fr; }
+  }
+
+  .tl-viz {
+    margin-top: 1.75rem;
+    opacity: 0.5;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .tl-viz.is-active { opacity: 1; pointer-events: auto; }
+
+  .tl-banner {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 1.75rem;
+    border: 1px solid #cfe0f5;
+    background: #e5edfe;
+  }
+  .tl-banner[data-color='green'] { background: #e4f5ea; border-color: #bbf7d0; }
+  .tl-banner[data-color='blue'] { background: #e5edfe; border-color: #cfe0f5; }
+  .tl-banner[data-color='amber'] { background: #fff7ed; border-color: #fed7aa; }
+  .tl-banner[data-color='red'] { background: #fef3f2; border-color: #fecdca; }
+  .tl-banner[data-color='green'] strong { color: #14663a; }
+  .tl-banner[data-color='blue'] strong { color: #1d4ed8; }
+  .tl-banner[data-color='amber'] strong { color: #b45309; }
+  .tl-banner[data-color='red'] strong { color: #dc3545; }
+  .tl-banner strong { display: block; font-size: 1.02rem; color: #1d4ed8; }
+  .tl-banner p { margin: 0.25rem 0 0; color: #33415c; font-size: 0.92rem; }
+  .tl-banner-icon {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.65);
+    color: inherit;
+  }
+
+  .tl-section-label { font-size: 1.1rem; color: #0b2c45; margin: 0 0 1rem; }
+
+  .tl-timeline { list-style: none; margin: 0 0 1.75rem; padding: 0; }
+  .tl-milestone { display: flex; gap: 1rem; position: relative; padding-bottom: 1.6rem; }
+  .tl-milestone:last-child { padding-bottom: 0; }
+  .tl-milestone:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 21px;
+    top: 46px;
+    bottom: 0;
+    width: 3px;
+    background: #dde6f0;
+  }
+  .tl-node {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-weight: 800;
+    z-index: 1;
+  }
+  .tl-milestone[data-color='blue'] .tl-node { background: #2563eb; }
+  .tl-milestone[data-color='green'] .tl-node { background: #16a34a; }
+  .tl-milestone[data-color='amber'] .tl-node { background: #ea580c; }
+  .tl-content h3 { margin: 0; font-size: 1rem; color: #0b2c45; }
+  .tl-date { margin: 0.2rem 0 0; font-weight: 800; color: #1d4ed8; }
+  .tl-note { margin: 0.2rem 0 0; color: #6a7690; font-size: 0.86rem; }
+
+  @media (min-width: 820px) {
+    .tl-timeline { display: flex; gap: 0; }
+    .tl-milestone { flex: 1; flex-direction: column; text-align: center; padding: 0 0.4rem; gap: 0; }
+    .tl-milestone:not(:last-child)::before { left: 50%; right: -50%; top: 22px; bottom: auto; width: auto; height: 3px; }
+    .tl-node { margin: 0 auto 0.85rem; }
+  }
+
+  .tl-sep {
+    margin-top: 0.25rem;
+    border: 1px solid #fed7aa;
+    background: #fff7ed;
+    border-radius: 14px;
+    padding: 1.25rem 1.4rem;
+  }
+  .tl-sep h3 { margin: 0 0 0.5rem; color: #b45309; font-size: 1.02rem; }
+  .tl-sep ul { margin: 0.5rem 0 0; padding-left: 1.1rem; color: #55627a; }
+  .tl-sep li { margin-bottom: 0.4rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tl-viz { transition: none; }
+  }
+</style>

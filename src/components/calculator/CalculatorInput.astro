@@ -40,17 +40,19 @@ const numericInputMode = type === 'currency' || type === 'number' || type === 'p
   )}
 
   {(type === 'number' || type === 'currency' || type === 'percent' || type === 'date') && (
-    <input
-      id={id}
-      name={id}
-      type={type === 'date' ? 'date' : 'number'}
-      inputmode={numericInputMode ? 'decimal' : undefined}
-      min={min}
-      max={max}
-      step={step}
-      data-calc-field={id}
-      data-calc-type={type}
-      aria-describedby={describedBy}
-    />
+    <div class:list={['calc-input-wrap', { 'has-prefix': type === 'currency', 'has-suffix': type === 'percent' }]}>
+      <input
+        id={id}
+        name={id}
+        type={type === 'date' ? 'date' : 'number'}
+        inputmode={numericInputMode ? 'decimal' : undefined}
+        min={min}
+        max={max}
+        step={step}
+        data-calc-field={id}
+        data-calc-type={type}
+        aria-describedby={describedBy}
+      />
+    </div>
   )}
 </div>

@@ -1,0 +1,463 @@
+---
+// src/pages/medicare-formulary-lookup.astro — NET-NEW page. A searchable
+// Part D formulary lookup: type or browse a medication, filter by tier, and
+// see typical coverage status, restrictions (PA/step/quantity limit), cost,
+// and generic alternatives. Built on CalculatorPage for the shared
+// header/byline/summary/FAQ/related/CTA/disclaimer + HowTo schema; the
+// search/filter/modal widget is bespoke and lives entirely in the slot with
+// its own scoped styles/script, matching the drug-cost-calculator pattern.
+import CalculatorPage from '../components/layout/CalculatorPage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const phoneTel = `tel:${BUSINESS.phoneTel}`;
+const smsHref = `sms:${BUSINESS.phoneTel}?body=${encodeURIComponent('Hi, can you look up coverage for my medication? It is: ')}`;
+const ctaSmsHref = `sms:${BUSINESS.phoneTel}?body=${encodeURIComponent('Hi, can you check which plan covers my medications? My medications are: ')}`;
+
+const context: PageContext = {
+  page: {
+    title: 'Medicare Formulary Lookup | Is My Drug Covered? | Vernal Medicare',
+    heading: 'Medicare Formulary Lookup',
+    description:
+      'Free Medicare Part D formulary lookup. Search medications to see typical coverage tier, costs, prior authorization, step therapy, and generic alternatives.',
+    taxonomy: { silo: 'part-d', tags: ['part-d', 'formulary', 'tiers', 'drugs', 'tools', 'coverage'] },
+    summary:
+      'Search a medication to see its typical Medicare Part D formulary tier, restrictions like prior authorization or step therapy, an estimated monthly cost, and lower-cost generic alternatives. These are educational estimates — your exact coverage depends on your specific plan.',
+    faqs: [
+      {
+        question: 'Does Medicare cover Ozempic?',
+        answer:
+          'Medicare Part D plans typically cover Ozempic when it is prescribed for type 2 diabetes, usually on a higher brand tier and often with prior authorization. It is generally not covered for weight loss alone.',
+      },
+      {
+        question: 'What is a formulary?',
+        answer:
+          'A formulary is the list of drugs a Medicare Part D or Medicare Advantage plan covers, organized into pricing tiers.',
+      },
+      {
+        question: 'What are drug tiers?',
+        answer:
+          'Tiers group covered drugs by cost. Lower tiers (1–2) are generics with low copays; higher tiers (3–5) are preferred brands, non-preferred brands, and specialty drugs with higher costs.',
+      },
+      {
+        question: 'What is prior authorization?',
+        answer:
+          'Prior authorization means your plan must approve a drug before it will cover it, usually to confirm it is medically necessary.',
+      },
+      {
+        question: 'What is step therapy?',
+        answer:
+          'Step therapy requires you to try one or more lower-cost drugs first before the plan covers a more expensive option.',
+      },
+      {
+        question: 'Can I appeal a coverage denial?',
+        answer:
+          'Yes. If your plan denies coverage, you can request an exception and file an appeal. A licensed agent or your doctor can help with the paperwork.',
+      },
+    ],
+    sources: [
+      { title: 'Medicare.gov — drug coverage (Part D)', url: 'https://www.medicare.gov/drug-coverage-part-d', publisher: 'Medicare.gov' },
+      { title: 'Medicare Plan Finder', url: 'https://www.medicare.gov/plan-compare/', publisher: 'Medicare.gov' },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-formulary-lookup.html',
+    ogType: 'website',
+    ogTitle: 'Medicare Formulary Lookup',
+    ogDescription: 'Search medications to understand typical Medicare Part D formulary coverage, tiers, restrictions, and generic alternatives.',
+  },
+  author: 'rocco',
+  datePublished: '2026-07-09',
+  lastUpdated: '2026-07-09',
+  medicalDisclaimer:
+    'Educational estimates only — not a substitute for reviewing your specific Medicare Part D plan formulary. Tiers, costs, and restrictions vary by plan and year. Confirm with your plan, Medicare Plan Finder, or a licensed agent.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Calculators', href: '/medicare-calculators.html' },
+    { name: 'Formulary Lookup', href: '/medicare-formulary-lookup.html' },
+  ],
+};
+---
+
+<CalculatorPage context={context}>
+  <p>Every Medicare Part D and Medicare Advantage plan has its own formulary — the list of drugs it covers and what tier each one sits on. Search a medication below for typical coverage, restrictions, and generic alternatives. For your exact copay, <a href="best-part-d-plans-vernal.html">compare Part D plans</a>.</p>
+
+  <div class="fl">
+    <div class="fl-search-row">
+      <div class="fl-combo">
+        <span class="fl-search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.3 15.3L21 21"></path></svg></span>
+        <label for="fl-search" class="fl-sr-only">Search medications</label>
+        <input type="text" id="fl-search" class="fl-control" list="fl-drug-names" autocomplete="off" placeholder="Search a medication — e.g. Eliquis, Ozempic, metformin" />
+        <datalist id="fl-drug-names"></datalist>
+      </div>
+      <div class="fl-filters">
+        <div class="fl-field">
+          <label class="fl-label" for="fl-tier"><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"></path><path d="M3 13l9 5 9-5"></path></svg></span> Tier</label>
+          <select id="fl-tier" class="fl-control">
+            <option value="all">All tiers</option>
+            <option value="1">Tier 1</option><option value="2">Tier 2</option>
+            <option value="3">Tier 3</option><option value="4">Tier 4</option><option value="5">Tier 5</option>
+          </select>
+        </div>
+        <div class="fl-field">
+          <label class="fl-label"><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="4.5"></circle><circle cx="16" cy="16" r="4.5"></circle></svg></span> Show generic alternatives?</label>
+          <div class="fl-seg">
+            <input type="radio" id="fl-gen-yes" name="fl-showgen" value="yes" checked /><label for="fl-gen-yes">Yes</label>
+            <input type="radio" id="fl-gen-no" name="fl-showgen" value="no" /><label for="fl-gen-no">No</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fl-examples">
+      <span class="fl-examples-lbl">Try:</span>
+      <button type="button" class="fl-chip">Eliquis</button>
+      <button type="button" class="fl-chip">Ozempic</button>
+      <button type="button" class="fl-chip">Jardiance</button>
+      <button type="button" class="fl-chip">Xarelto</button>
+      <button type="button" class="fl-chip">Farxiga</button>
+      <button type="button" class="fl-chip">Metformin</button>
+      <button type="button" class="fl-chip">Insulin</button>
+    </div>
+
+    <p class="fl-count" id="fl-count"></p>
+    <div class="fl-grid" id="fl-grid" aria-live="polite"></div>
+  </div>
+
+  <div class="fl-cta">
+    <h2>Questions about prescription coverage?</h2>
+    <p>Send us your medication list — we’ll find the plan that covers them for the least. Free, no pressure.</p>
+    <div class="fl-cta-row">
+      <a class="fl-cta-primary" href={phoneTel}><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"></path></svg></span> Call {BUSINESS.phone}</a>
+      <a class="fl-cta-ghost" href={ctaSmsHref}><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"></path></svg></span> Text Your Meds</a>
+    </div>
+  </div>
+
+  <!-- Drug details modal -->
+  <div class="fl-modal" id="fl-modal" role="dialog" aria-modal="true" aria-label="Drug details">
+    <div class="fl-modal-bg" data-fl-close></div>
+    <div class="fl-modal-panel" id="fl-modal-panel"></div>
+  </div>
+
+  <script define:vars={{ smsHref }}>
+    (function () {
+      'use strict';
+
+      // Educational dataset — typical Part D formulary placement. Swap for a
+      // live API (RxNorm / CMS / FDB) with the same shape and the UI is unchanged.
+      var DRUGS = [
+        { name: 'Eliquis', generic: 'apixaban', brand: true, tier: 3, cost: '$45–$100', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Prevents blood clots and stroke, often in atrial fibrillation.', coverage: 'Usually covered as a preferred brand (Tier 3). No generic is available yet.', alts: ['Xarelto', 'Warfarin (generic)'] },
+        { name: 'Xarelto', generic: 'rivaroxaban', brand: true, tier: 3, cost: '$45–$100', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Prevents and treats blood clots; reduces stroke risk in AFib.', coverage: 'Typically a Tier 3 preferred brand on most plans.', alts: ['Eliquis', 'Warfarin (generic)'] },
+        { name: 'Ozempic', generic: 'semaglutide', brand: true, tier: 3, cost: '$50–$120', pa: true, ql: true, step: false, genericAvail: false, status: 'restrict', treats: 'Type 2 diabetes; lowers blood sugar and cardiovascular risk.', coverage: 'Covered for diabetes, usually with prior authorization and quantity limits. Not covered for weight loss alone.', alts: ['Trulicity', 'Jardiance', 'Metformin (generic)'] },
+        { name: 'Mounjaro', generic: 'tirzepatide', brand: true, tier: 3, cost: '$50–$120', pa: true, ql: true, step: false, genericAvail: false, status: 'restrict', treats: 'Type 2 diabetes; lowers blood sugar.', coverage: 'Covered for diabetes with prior authorization on many plans.', alts: ['Ozempic', 'Trulicity'] },
+        { name: 'Trulicity', generic: 'dulaglutide', brand: true, tier: 3, cost: '$45–$110', pa: true, ql: false, step: false, genericAvail: false, status: 'restrict', treats: 'Type 2 diabetes (weekly injection).', coverage: 'Tier 3 brand, often with prior authorization.', alts: ['Ozempic', 'Jardiance'] },
+        { name: 'Jardiance', generic: 'empagliflozin', brand: true, tier: 3, cost: '$45–$100', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Type 2 diabetes; also heart failure and kidney protection.', coverage: 'Commonly covered as a Tier 3 preferred brand.', alts: ['Farxiga', 'Metformin (generic)'] },
+        { name: 'Farxiga', generic: 'dapagliflozin', brand: true, tier: 3, cost: '$45–$100', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Type 2 diabetes, heart failure, chronic kidney disease.', coverage: 'Usually a Tier 3 preferred brand.', alts: ['Jardiance', 'Metformin (generic)'] },
+        { name: 'Januvia', generic: 'sitagliptin', brand: true, tier: 3, cost: '$45–$100', pa: false, ql: false, step: true, genericAvail: false, status: 'restrict', treats: 'Type 2 diabetes.', coverage: 'Often Tier 3; some plans require step therapy after metformin.', alts: ['Metformin (generic)', 'Jardiance'] },
+        { name: 'Entresto', generic: 'sacubitril/valsartan', brand: true, tier: 3, cost: '$45–$100', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Chronic heart failure.', coverage: 'Typically Tier 3 preferred brand.', alts: ['Lisinopril (generic)', 'Losartan (generic)'] },
+        { name: 'Repatha', generic: 'evolocumab', brand: true, tier: 4, cost: '33% coinsurance', pa: true, ql: false, step: true, genericAvail: false, status: 'restrict', treats: 'High cholesterol when statins aren’t enough.', coverage: 'Tier 4 non-preferred / specialty; usually prior authorization and step therapy.', alts: ['Atorvastatin (generic)', 'Rosuvastatin (generic)'] },
+        { name: 'Wegovy', generic: 'semaglutide', brand: true, tier: 3, cost: 'Not covered', pa: false, ql: false, step: false, genericAvail: false, status: 'notcov', treats: 'Chronic weight management.', coverage: 'Medicare Part D generally does NOT cover drugs used only for weight loss.', alts: ['Talk to your doctor about covered options'] },
+        { name: 'Trelegy Ellipta', generic: 'fluticasone/umeclidinium/vilanterol', brand: true, tier: 3, cost: '$45–$100', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'COPD and asthma maintenance.', coverage: 'Usually Tier 3 brand.', alts: ['Breo Ellipta', 'Symbicort (generic)'] },
+        { name: 'Breo Ellipta', generic: 'fluticasone/vilanterol', brand: true, tier: 3, cost: '$45–$100', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'COPD and asthma maintenance.', coverage: 'Tier 3 brand on most plans.', alts: ['Trelegy Ellipta', 'Symbicort (generic)'] },
+        { name: 'Symbicort', generic: 'budesonide/formoterol', brand: true, tier: 3, cost: '$20–$60', pa: false, ql: false, step: false, genericAvail: true, status: 'covered', treats: 'Asthma and COPD.', coverage: 'A generic (budesonide/formoterol) is now available and lower cost.', alts: ['budesonide/formoterol (generic)'] },
+        { name: 'Lantus', generic: 'insulin glargine', brand: true, tier: 3, cost: '$35 cap', pa: false, ql: false, step: false, genericAvail: true, status: 'covered', treats: 'Long-acting insulin for diabetes.', coverage: 'Covered insulins are capped at $35/month under Medicare. Biosimilars available.', alts: ['Basaglar', 'Semglee (generic)'] },
+        { name: 'Toujeo', generic: 'insulin glargine', brand: true, tier: 3, cost: '$35 cap', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Long-acting insulin for diabetes.', coverage: 'Covered insulin — $35/month cap applies.', alts: ['Lantus', 'Basaglar'] },
+        { name: 'Humalog', generic: 'insulin lispro', brand: true, tier: 3, cost: '$35 cap', pa: false, ql: false, step: false, genericAvail: true, status: 'covered', treats: 'Rapid-acting insulin for diabetes.', coverage: 'Covered insulin — $35/month cap. Authorized generic available.', alts: ['insulin lispro (generic)', 'Novolog'] },
+        { name: 'Novolog', generic: 'insulin aspart', brand: true, tier: 3, cost: '$35 cap', pa: false, ql: false, step: false, genericAvail: true, status: 'covered', treats: 'Rapid-acting insulin for diabetes.', coverage: 'Covered insulin — $35/month cap. Generic aspart available.', alts: ['insulin aspart (generic)', 'Humalog'] },
+        { name: 'Biktarvy', generic: 'bictegravir/emtricitabine/tenofovir', brand: true, tier: 5, cost: '25–33% coinsurance', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'HIV.', coverage: 'Tier 5 specialty; protected drug class, broadly covered.', alts: ['Talk to your specialist'] },
+        { name: 'Humira', generic: 'adalimumab', brand: true, tier: 5, cost: '25–33% coinsurance', pa: true, ql: false, step: true, genericAvail: true, status: 'restrict', treats: 'Rheumatoid arthritis, Crohn’s, psoriasis and more.', coverage: 'Tier 5 specialty; prior authorization and step therapy common. Biosimilars now available.', alts: ['adalimumab biosimilars', 'Enbrel'] },
+        { name: 'Enbrel', generic: 'etanercept', brand: true, tier: 5, cost: '25–33% coinsurance', pa: true, ql: false, step: true, genericAvail: false, status: 'restrict', treats: 'Rheumatoid arthritis and psoriasis.', coverage: 'Tier 5 specialty; prior authorization and step therapy.', alts: ['Humira', 'adalimumab biosimilars'] },
+        { name: 'Xeljanz', generic: 'tofacitinib', brand: true, tier: 5, cost: '25–33% coinsurance', pa: true, ql: false, step: true, genericAvail: false, status: 'restrict', treats: 'Rheumatoid arthritis and ulcerative colitis.', coverage: 'Tier 5 specialty; prior authorization and step therapy.', alts: ['Humira', 'Enbrel'] },
+        { name: 'Metformin', generic: 'metformin', brand: false, tier: 1, cost: '$0–$5', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'First-line type 2 diabetes medication.', coverage: 'Tier 1 generic — covered on virtually every plan at low cost.', alts: ['Jardiance', 'Farxiga'] },
+        { name: 'Lisinopril', generic: 'lisinopril', brand: false, tier: 1, cost: '$0–$5', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'High blood pressure and heart failure.', coverage: 'Tier 1 generic — broadly covered.', alts: ['Losartan', 'Amlodipine'] },
+        { name: 'Amlodipine', generic: 'amlodipine', brand: false, tier: 1, cost: '$0–$5', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'High blood pressure.', coverage: 'Tier 1 generic.', alts: ['Lisinopril', 'Losartan'] },
+        { name: 'Losartan', generic: 'losartan', brand: false, tier: 1, cost: '$0–$8', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'High blood pressure.', coverage: 'Tier 1 generic.', alts: ['Lisinopril', 'Amlodipine'] },
+        { name: 'Hydrochlorothiazide', generic: 'hydrochlorothiazide', brand: false, tier: 1, cost: '$0–$4', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'High blood pressure (water pill).', coverage: 'Tier 1 generic.', alts: ['Furosemide', 'Chlorthalidone'] },
+        { name: 'Atorvastatin', generic: 'atorvastatin', brand: false, tier: 1, cost: '$0–$8', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'High cholesterol.', coverage: 'Tier 1 generic (generic Lipitor).', alts: ['Rosuvastatin', 'Simvastatin'] },
+        { name: 'Rosuvastatin', generic: 'rosuvastatin', brand: false, tier: 2, cost: '$2–$12', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'High cholesterol.', coverage: 'Tier 1–2 generic (generic Crestor).', alts: ['Atorvastatin', 'Simvastatin'] },
+        { name: 'Simvastatin', generic: 'simvastatin', brand: false, tier: 1, cost: '$0–$6', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'High cholesterol.', coverage: 'Tier 1 generic.', alts: ['Atorvastatin', 'Rosuvastatin'] },
+        { name: 'Levothyroxine', generic: 'levothyroxine', brand: false, tier: 1, cost: '$0–$8', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Underactive thyroid (hypothyroidism).', coverage: 'Tier 1 generic (generic Synthroid).', alts: ['Synthroid (brand)'] },
+        { name: 'Omeprazole', generic: 'omeprazole', brand: false, tier: 1, cost: '$0–$8', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Acid reflux / GERD.', coverage: 'Tier 1 generic (generic Prilosec).', alts: ['Pantoprazole', 'Esomeprazole'] },
+        { name: 'Pantoprazole', generic: 'pantoprazole', brand: false, tier: 1, cost: '$0–$8', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Acid reflux / GERD.', coverage: 'Tier 1 generic (generic Protonix).', alts: ['Omeprazole', 'Esomeprazole'] },
+        { name: 'Gabapentin', generic: 'gabapentin', brand: false, tier: 1, cost: '$0–$8', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Nerve pain and seizures.', coverage: 'Tier 1 generic.', alts: ['Pregabalin', 'Duloxetine'] },
+        { name: 'Pregabalin', generic: 'pregabalin', brand: false, tier: 2, cost: '$3–$15', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Nerve pain and fibromyalgia (generic Lyrica).', coverage: 'Tier 2 generic.', alts: ['Gabapentin', 'Duloxetine'] },
+        { name: 'Sertraline', generic: 'sertraline', brand: false, tier: 1, cost: '$0–$8', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Depression and anxiety (generic Zoloft).', coverage: 'Tier 1 generic.', alts: ['Escitalopram', 'Citalopram'] },
+        { name: 'Escitalopram', generic: 'escitalopram', brand: false, tier: 1, cost: '$0–$10', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Depression and anxiety (generic Lexapro).', coverage: 'Tier 1 generic.', alts: ['Sertraline', 'Citalopram'] },
+        { name: 'Duloxetine', generic: 'duloxetine', brand: false, tier: 2, cost: '$2–$12', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Depression, anxiety, and nerve pain (generic Cymbalta).', coverage: 'Tier 2 generic.', alts: ['Gabapentin', 'Pregabalin'] },
+        { name: 'Clopidogrel', generic: 'clopidogrel', brand: false, tier: 1, cost: '$0–$10', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Prevents blood clots (generic Plavix).', coverage: 'Tier 1 generic.', alts: ['Aspirin', 'Eliquis'] },
+        { name: 'Warfarin', generic: 'warfarin', brand: false, tier: 1, cost: '$0–$8', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Prevents blood clots; requires regular blood tests.', coverage: 'Tier 1 generic.', alts: ['Eliquis', 'Xarelto'] },
+        { name: 'Furosemide', generic: 'furosemide', brand: false, tier: 1, cost: '$0–$4', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Fluid retention and heart failure (water pill).', coverage: 'Tier 1 generic.', alts: ['Hydrochlorothiazide', 'Torsemide'] },
+        { name: 'Metoprolol', generic: 'metoprolol', brand: false, tier: 1, cost: '$0–$6', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'High blood pressure and heart conditions.', coverage: 'Tier 1 generic.', alts: ['Carvedilol', 'Atenolol'] },
+        { name: 'Carvedilol', generic: 'carvedilol', brand: false, tier: 1, cost: '$0–$8', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Heart failure and high blood pressure.', coverage: 'Tier 1 generic.', alts: ['Metoprolol'] },
+        { name: 'Montelukast', generic: 'montelukast', brand: false, tier: 1, cost: '$0–$10', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Asthma and allergies (generic Singulair).', coverage: 'Tier 1 generic.', alts: ['Fluticasone (inhaled)'] },
+        { name: 'Albuterol', generic: 'albuterol', brand: false, tier: 2, cost: '$5–$30', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Quick-relief inhaler for asthma/COPD.', coverage: 'Tier 2 generic on most plans.', alts: ['ProAir', 'Ventolin'] },
+        { name: 'Tamsulosin', generic: 'tamsulosin', brand: false, tier: 1, cost: '$0–$10', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Enlarged prostate (generic Flomax).', coverage: 'Tier 1 generic.', alts: ['Finasteride', 'Alfuzosin'] },
+        { name: 'Allopurinol', generic: 'allopurinol', brand: false, tier: 1, cost: '$0–$6', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Gout prevention.', coverage: 'Tier 1 generic.', alts: ['Febuxostat'] },
+        { name: 'Prednisone', generic: 'prednisone', brand: false, tier: 1, cost: '$0–$5', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Inflammation, allergic and autoimmune conditions (steroid).', coverage: 'Tier 1 generic.', alts: ['Methylprednisolone'] },
+        { name: 'Tramadol', generic: 'tramadol', brand: false, tier: 2, cost: '$2–$12', pa: false, ql: true, step: false, genericAvail: false, status: 'restrict', treats: 'Moderate pain.', coverage: 'Tier 2 generic; quantity limits often apply (controlled substance).', alts: ['Acetaminophen', 'Hydrocodone/acetaminophen'] },
+        { name: 'Hydrocodone/Acetaminophen', generic: 'hydrocodone/acetaminophen', brand: false, tier: 2, cost: '$3–$15', pa: false, ql: true, step: false, genericAvail: false, status: 'restrict', treats: 'Moderate to severe pain (generic Norco).', coverage: 'Tier 2 generic; quantity limits apply (controlled substance).', alts: ['Tramadol', 'Acetaminophen'] },
+        { name: 'Insulin (generic lispro)', generic: 'insulin lispro', brand: false, tier: 2, cost: '$35 cap', pa: false, ql: false, step: false, genericAvail: false, status: 'covered', treats: 'Rapid-acting insulin for diabetes.', coverage: 'Covered insulin — capped at $35/month under Medicare.', alts: ['Humalog', 'Novolog'] },
+        { name: 'Synthroid', generic: 'levothyroxine', brand: true, tier: 2, cost: '$10–$40', pa: false, ql: false, step: false, genericAvail: true, status: 'covered', treats: 'Underactive thyroid (brand levothyroxine).', coverage: 'Covered, but the generic (levothyroxine) is far lower cost.', alts: ['levothyroxine (generic)'] },
+        { name: 'Lyrica', generic: 'pregabalin', brand: true, tier: 3, cost: '$40–$100', pa: false, ql: false, step: true, genericAvail: true, status: 'restrict', treats: 'Nerve pain and fibromyalgia.', coverage: 'Brand often requires step therapy; generic pregabalin preferred.', alts: ['pregabalin (generic)', 'Gabapentin'] },
+      ];
+
+      var searchEl = document.getElementById('fl-search');
+      var tierEl = document.getElementById('fl-tier');
+      var gridEl = document.getElementById('fl-grid');
+      var countEl = document.getElementById('fl-count');
+      var datalist = document.getElementById('fl-drug-names');
+      var filters = document.querySelector('.fl-filters');
+      var modal = document.getElementById('fl-modal');
+      var panel = document.getElementById('fl-modal-panel');
+      if (!searchEl || !tierEl || !gridEl || !countEl || !datalist || !filters || !modal || !panel) return;
+
+      datalist.innerHTML = DRUGS.map(function (d) { return '<option value="' + d.name + '"></option>'; }).join('');
+
+      var STATUS = {
+        covered: { cls: 'is-green', label: 'Covered' },
+        restrict: { cls: 'is-amber', label: 'Restrictions apply' },
+        notcov: { cls: 'is-red', label: 'Not typically covered' },
+      };
+
+      function matches(d, q, tier, showGen) {
+        if (tier !== 'all' && String(d.tier) !== tier) return false;
+        if (showGen === 'no' && !d.brand) return false;
+        if (!q) return true;
+        var hay = (d.name + ' ' + d.generic).toLowerCase();
+        return hay.indexOf(q) !== -1;
+      }
+
+      function render() {
+        var q = searchEl.value.trim().toLowerCase();
+        var tier = tierEl.value;
+        var showGen = document.querySelector('input[name="fl-showgen"]:checked').value;
+
+        var list = DRUGS.filter(function (d) { return matches(d, q, tier, showGen); })
+          .sort(function (a, b) { return a.name.localeCompare(b.name); });
+
+        countEl.textContent = 'Showing ' + list.length + ' of ' + DRUGS.length + ' medications.';
+
+        if (!list.length) {
+          gridEl.innerHTML = '<div class="fl-empty"><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.3 15.3L21 21"></path></svg></span>No medications match. <a href="' + smsHref + '">Text us the name &rarr;</a></div>';
+          return;
+        }
+
+        gridEl.innerHTML = list.map(function (d) {
+          var st = STATUS[d.status];
+          var chips = '';
+          if (d.pa) chips += '<span class="fl-pill is-amber">Prior auth</span>';
+          if (d.step) chips += '<span class="fl-pill is-amber">Step therapy</span>';
+          if (d.ql) chips += '<span class="fl-pill is-amber">Quantity limit</span>';
+          if (d.genericAvail) chips += '<span class="fl-pill is-blue">Generic available</span>';
+          return '<div class="fl-drug">' +
+            '<div class="fl-drug-top"><div><h3>' + d.name + '</h3><div class="fl-drug-sub">' + (d.brand ? 'Brand' : 'Generic') + ' &middot; ' + d.generic + '</div></div>' +
+            '<span class="fl-pill ' + st.cls + '">' + st.label + '</span></div>' +
+            '<div class="fl-drug-meta"><span class="fl-pill is-tier">Tier ' + d.tier + '</span>' + chips + '</div>' +
+            '<div class="fl-drug-cost">' + d.cost + ' <span>typical / month</span></div>' +
+            '<button type="button" class="fl-view" data-i="' + DRUGS.indexOf(d) + '">View details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></button>' +
+            '</div>';
+        }).join('');
+      }
+
+      function openModal(d) {
+        var st = STATUS[d.status];
+        var questions = [];
+        questions.push('Is there a lower-tier or generic alternative that works for me?');
+        if (d.pa) questions.push('Will you help me submit a prior authorization?');
+        if (d.step) questions.push('Do I need to try another medication first (step therapy)?');
+        if (d.ql) questions.push('Are there quantity limits I should plan around?');
+        questions.push('Which drugs on my specific Part D plan would be the lowest cost?');
+
+        panel.innerHTML =
+          '<button type="button" class="fl-modal-close" data-fl-close aria-label="Close">&times;</button>' +
+          '<h2>' + d.name + '</h2><p class="fl-modal-sub">' + (d.brand ? 'Brand name' : 'Generic') + ' &middot; ' + d.generic + ' &middot; Tier ' + d.tier + ' &middot; <span class="fl-pill ' + st.cls + '">' + st.label + '</span></p>' +
+          '<div class="fl-modal-sec"><h4>What it treats</h4><p>' + d.treats + '</p></div>' +
+          '<div class="fl-modal-sec"><h4>Typical Medicare Part D coverage</h4><p>' + d.coverage + ' Typical cost: <strong>' + d.cost + '</strong> per month.</p></div>' +
+          '<div class="fl-modal-sec"><h4>Alternative drugs</h4><ul>' + d.alts.map(function (a) { return '<li>' + a + '</li>'; }).join('') + '</ul></div>' +
+          '<div class="fl-modal-sec"><h4>Questions to ask your doctor</h4><ul>' + questions.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
+          '<div class="fl-modal-sec fl-modal-cta"><a class="fl-pill is-blue fl-modal-link" href="' + smsHref + encodeURIComponent(d.name) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"></path></svg> Text us about ' + d.name + '</a></div>';
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeModal() { modal.classList.remove('is-open'); document.body.style.overflow = ''; }
+
+      gridEl.addEventListener('click', function (e) {
+        var btn = e.target.closest('.fl-view');
+        if (btn) openModal(DRUGS[parseInt(btn.getAttribute('data-i'), 10)]);
+      });
+      modal.addEventListener('click', function (e) { if (e.target.closest('[data-fl-close]')) closeModal(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
+
+      document.querySelectorAll('.fl-chip').forEach(function (c) {
+        c.addEventListener('click', function () {
+          searchEl.value = c.textContent === 'Insulin' ? 'insulin' : c.textContent;
+          render();
+          searchEl.focus();
+        });
+      });
+
+      searchEl.addEventListener('input', render);
+      tierEl.addEventListener('change', render);
+      filters.addEventListener('change', render);
+      render();
+    })();
+  </script>
+
+  <h2>How Part D Formularies Work</h2>
+  <div class="fl-edu">
+    <div class="fl-edu-item"><h3>What is a formulary?</h3><p>The list of drugs your Medicare Part D or Medicare Advantage plan covers, organized into pricing tiers.</p></div>
+    <div class="fl-edu-item"><h3>What are drug tiers?</h3><p>Tiers group covered drugs by cost — Tier 1–2 are low-cost generics, Tier 3 preferred brands, Tier 4 non-preferred, Tier 5 specialty drugs.</p></div>
+    <div class="fl-edu-item"><h3>What is prior authorization?</h3><p>Your plan must approve the drug before covering it, usually to confirm it's medically necessary.</p></div>
+    <div class="fl-edu-item"><h3>What is step therapy?</h3><p>You may need to try one or more lower-cost drugs first before the plan covers a more expensive option.</p></div>
+    <div class="fl-edu-item"><h3>What are quantity limits?</h3><p>Plans may limit how much of a drug they cover over a period of time for safety or cost reasons.</p></div>
+    <div class="fl-edu-item"><h3>What if my drug is not covered?</h3><p>You can request a formulary exception and appeal, switch to a covered alternative, or compare plans during enrollment. We can help.</p></div>
+  </div>
+</CalculatorPage>
+
+<style>
+  .fl {
+    --fl-blue: #2563eb;
+    --fl-blue-dark: #1d4ed8;
+    --fl-blue-deep: #0b2c45;
+    --fl-blue-soft: #e5edfe;
+    --fl-blue-line: #dbe6f2;
+    --fl-green: #16a34a;
+    --fl-green-soft: #e4f5ea;
+    --fl-amber: #b45309;
+    --fl-amber-soft: #fff7ed;
+    --fl-red: #b42318;
+    --fl-red-soft: #fef3f2;
+    --fl-ink: #1f2a37;
+    --fl-ink-soft: #475467;
+    --fl-muted: #6b7280;
+
+    background: #fff;
+    border: 1px solid var(--fl-blue-line);
+    border-radius: 18px;
+    box-shadow: 0 18px 50px -24px rgba(11, 44, 69, 0.35);
+    padding: 1.75rem;
+    margin: 1.5rem 0;
+  }
+
+  .fl-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  .fl-search-row { display: grid; gap: 1rem; }
+  .fl-combo { position: relative; }
+  .fl-search-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--fl-muted); pointer-events: none; }
+  .fl-search-icon svg { width: 100%; height: 100%; }
+  .fl-combo .fl-control { padding-left: 2.6rem; }
+
+  .fl-control {
+    width: 100%; box-sizing: border-box; font-family: inherit; font-size: 1.02rem;
+    min-height: 50px; padding: 0.75rem 0.85rem; border: 2px solid var(--fl-blue-line);
+    border-radius: 10px; color: var(--fl-ink); background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .fl-control:focus { outline: none; border-color: var(--fl-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15); }
+
+  .fl-filters { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  @media (max-width: 560px) { .fl-filters { grid-template-columns: 1fr; } }
+  .fl-label { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 0.92rem; color: var(--fl-ink); margin-bottom: 0.5rem; }
+  .fl-label span { flex: none; width: 18px; height: 18px; color: var(--fl-blue); }
+  .fl-label svg { width: 100%; height: 100%; }
+
+  .fl-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .fl-seg input { position: absolute; opacity: 0; pointer-events: none; }
+  .fl-seg label {
+    display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+    min-height: 48px; padding: 0.6rem; border: 2px solid var(--fl-blue-line); border-radius: 10px;
+    font-weight: 700; color: var(--fl-ink-soft); cursor: pointer; background: #fff;
+  }
+  .fl-seg input:checked + label { background: var(--fl-blue); border-color: var(--fl-blue); color: #fff; }
+  .fl-seg input:focus-visible + label { box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25); }
+
+  .fl-examples { display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center; margin-top: 1.1rem; }
+  .fl-examples-lbl { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--fl-muted); }
+  .fl-chip {
+    background: var(--fl-blue-soft); border: 1px solid var(--fl-blue-line); border-radius: 20px;
+    padding: 0.45rem 0.9rem; font-family: inherit; font-size: 0.9rem; color: var(--fl-blue-dark);
+    cursor: pointer; min-height: 36px;
+  }
+  .fl-chip:hover { background: var(--fl-blue); color: #fff; border-color: var(--fl-blue); }
+
+  .fl-count { margin: 1.4rem 0 0.85rem; font-size: 0.9rem; color: var(--fl-ink-soft); font-weight: 700; }
+  .fl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 640px) { .fl-grid { grid-template-columns: 1fr; } }
+
+  .fl-drug {
+    border: 1px solid var(--fl-blue-line); border-radius: 14px; padding: 1.15rem;
+    background: #fff; box-shadow: 0 6px 18px -16px rgba(11, 44, 69, 0.5);
+    display: flex; flex-direction: column;
+  }
+  .fl-drug-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.7rem; }
+  .fl-drug h3 { margin: 0; font-size: 1.08rem; color: var(--fl-blue-deep); }
+  .fl-drug-sub { font-size: 0.85rem; color: var(--fl-muted); margin-top: 0.15rem; }
+  .fl-drug-meta { margin-top: 0.8rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .fl-drug-cost { margin-top: 0.8rem; font-weight: 700; color: var(--fl-ink); }
+  .fl-drug-cost span { font-weight: 400; color: var(--fl-muted); font-size: 0.86rem; }
+  .fl-view {
+    margin-top: 0.9rem; align-self: flex-start; background: none; border: 0; color: var(--fl-blue);
+    font-weight: 700; font-family: inherit; font-size: 0.94rem; cursor: pointer; padding: 0.4rem 0;
+    min-height: 36px; display: inline-flex; align-items: center; gap: 0.4rem;
+  }
+  .fl-view svg { width: 15px; height: 15px; }
+
+  .fl-pill { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; padding: 0.22rem 0.65rem; border-radius: 20px; white-space: nowrap; }
+  .fl-pill.is-green { background: var(--fl-green-soft); color: var(--fl-green); }
+  .fl-pill.is-amber { background: var(--fl-amber-soft); color: var(--fl-amber); }
+  .fl-pill.is-red { background: var(--fl-red-soft); color: var(--fl-red); }
+  .fl-pill.is-blue { background: var(--fl-blue-soft); color: var(--fl-blue-dark); }
+  .fl-pill.is-tier { background: #eef2f7; color: var(--fl-ink-soft); }
+
+  .fl-empty {
+    grid-column: 1 / -1; text-align: center; color: var(--fl-muted); padding: 1.8rem;
+    background: #f8fafc; border: 1px dashed var(--fl-blue-line); border-radius: 12px;
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  }
+  .fl-empty span { width: 26px; height: 26px; color: var(--fl-blue); }
+  .fl-empty svg { width: 100%; height: 100%; }
+  .fl-empty a { color: var(--fl-blue-dark); font-weight: 700; }
+
+  /* Modal */
+  .fl-modal { position: fixed; inset: 0; z-index: 60; display: none; align-items: flex-start; justify-content: center; padding: 8vh 18px 18px; }
+  .fl-modal.is-open { display: flex; }
+  .fl-modal-bg { position: absolute; inset: 0; background: rgba(11, 44, 69, 0.5); backdrop-filter: blur(3px); }
+  .fl-modal-panel {
+    position: relative; width: 100%; max-width: 600px; max-height: 84vh; overflow-y: auto;
+    background: #fff; border-radius: 18px; box-shadow: 0 18px 50px -24px rgba(11, 44, 69, 0.5); padding: 1.75rem;
+  }
+  .fl-modal-close { position: absolute; top: 0.9rem; right: 1rem; background: none; border: 0; font-size: 1.6rem; color: var(--fl-muted); cursor: pointer; min-height: 44px; min-width: 44px; }
+  .fl-modal-panel h2 { margin: 0 0 0.15rem; color: var(--fl-blue-deep); font-size: 1.4rem; padding-right: 2.2rem; }
+  .fl-modal-sub { color: var(--fl-muted); margin: 0 0 0.9rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
+  .fl-modal-sec { margin-top: 1rem; }
+  .fl-modal-sec h4 { margin: 0 0 0.4rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fl-blue); }
+  .fl-modal-sec p { margin: 0; color: var(--fl-ink-soft); }
+  .fl-modal-sec ul { margin: 0; padding-left: 1.15rem; color: var(--fl-ink-soft); }
+  .fl-modal-sec li { margin-bottom: 0.35rem; }
+  .fl-modal-cta { margin-top: 1.3rem; }
+  .fl-modal-link { text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.05rem; font-size: 0.9rem; }
+  .fl-modal-link svg { width: 16px; height: 16px; }
+
+  .fl-cta {
+    margin-top: 1.5rem; background: linear-gradient(135deg, var(--fl-blue) 0%, var(--fl-blue-deep) 100%);
+    color: #fff; border-radius: 18px; padding: 1.75rem; text-align: center;
+  }
+  .fl-cta h2 { margin: 0 0 0.35rem; color: #fff; font-size: 1.25rem; }
+  .fl-cta p { margin: 0 0 1.15rem; opacity: 0.92; }
+  .fl-cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+  .fl-cta-row a {
+    flex: 1 1 180px; max-width: 260px; text-decoration: none; min-height: 50px;
+    display: flex; align-items: center; justify-content: center; gap: 0.55rem;
+    padding: 0.85rem 1.1rem; border-radius: 12px; font-weight: 700;
+  }
+  .fl-cta-row a span { width: 19px; height: 19px; flex: none; }
+  .fl-cta-row a svg { width: 100%; height: 100%; }
+  .fl-cta-primary { background: #fff; color: var(--fl-blue-dark); }
+  .fl-cta-ghost { background: rgba(255, 255, 255, 0.14); color: #fff; border: 2px solid rgba(255, 255, 255, 0.5); }
+
+  .fl-edu { margin-top: 0.5rem; }
+  .fl-edu-item { padding: 0.9rem 0; border-bottom: 1px solid #eef2f7; }
+  .fl-edu-item:last-child { border-bottom: 0; }
+  .fl-edu-item h3 { margin: 0 0 0.25rem; font-size: 1.02rem; color: var(--fl-ink); }
+  .fl-edu-item p { margin: 0; color: var(--fl-ink-soft); font-size: 0.95rem; }
+</style>

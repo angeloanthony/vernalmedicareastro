@@ -9,11 +9,13 @@ import type { PageContext } from '../../types/Page';
 
 interface Props {
   context: PageContext;
+  /** Opt out of the default H1/byline/summary/next-steps so the page can render its own hero. */
+  bareHeader?: boolean;
 }
-const { context } = Astro.props;
+const { context, bareHeader = false } = Astro.props;
 ---
 
-<StandardPageLayout context={context} primarySchema="HowTo">
+<StandardPageLayout context={context} primarySchema="HowTo" bareHeader={bareHeader}>
   <slot />
 </StandardPageLayout>
 

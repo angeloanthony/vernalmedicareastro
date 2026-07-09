@@ -10,6 +10,9 @@ import CalculatorResult from '../components/calculator/CalculatorResult.astro';
 import CalculatorComparison from '../components/calculator/CalculatorComparison.astro';
 import CalculatorPrint from '../components/calculator/CalculatorPrint.astro';
 import CalculatorShare from '../components/calculator/CalculatorShare.astro';
+import AuthorByline from '../components/content/AuthorByline.astro';
+import SummaryBlock from '../components/SummaryBlock.astro';
+import NextSteps from '../components/content/NextSteps.astro';
 import { figuresFor } from '../data/annualMedicareData';
 import { usd } from '../lib/formatters';
 import type { PageContext } from '../types/Page';
@@ -131,21 +134,146 @@ const context: PageContext = {
 };
 ---
 
-<CalculatorPage context={context}>
-  <p>Higher-income Medicare beneficiaries pay more for Part B and Part D through IRMAA — an income-related surcharge. Enter your income and filing status to estimate your {year} surcharge.</p>
+<CalculatorPage context={context} bareHeader>
+  <div class="irmaa-hero">
+    <div class="irmaa-hero-text">
+      <span class="irmaa-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M16 15h0M8 19h2M12 19h2"/></svg>
+        Updated for {year}
+      </span>
+      <h1 class="irmaa-h1">{year} Medicare<br /><span class="irmaa-h1-accent">IRMAA Calculator</span></h1>
+      <AuthorByline
+        authorId={context.author}
+        reviewedById={context.reviewedBy}
+        updated={context.lastUpdated}
+        localAvailability={context.localAvailability}
+      />
+      <SummaryBlock text={context.page.summary} />
+      <NextSteps steps={context.page.nextSteps ?? []} />
+      <p class="irmaa-hero-lede">Higher-income Medicare beneficiaries pay more for Part B and Part D through IRMAA — an income-related surcharge. Enter your income and filing status below to estimate your {year} surcharge.</p>
+    </div>
+
+    <div class="irmaa-hero-art" aria-hidden="true">
+      <div class="irmaa-hero-card">
+        <div class="irmaa-hero-card-top">
+          <span class="irmaa-hero-led"></span>
+          <span class="irmaa-hero-dot"></span>
+          <span class="irmaa-hero-dot"></span>
+          <span class="irmaa-hero-solar"></span>
+        </div>
+        <div class="irmaa-hero-display">
+          <span class="irmaa-hero-display-label">MAGI</span>
+          <span class="irmaa-hero-display-digits">IRMAA</span>
+        </div>
+        <div class="irmaa-hero-keys">
+          <span class="irmaa-hero-key is-op">C</span>
+          <span class="irmaa-hero-key is-op">%</span>
+          <span class="irmaa-hero-key is-op">÷</span>
+          <span class="irmaa-hero-key is-op">×</span>
+          <span class="irmaa-hero-key">7</span>
+          <span class="irmaa-hero-key">8</span>
+          <span class="irmaa-hero-key">9</span>
+          <span class="irmaa-hero-key is-op">−</span>
+          <span class="irmaa-hero-key">4</span>
+          <span class="irmaa-hero-key">5</span>
+          <span class="irmaa-hero-key">6</span>
+          <span class="irmaa-hero-key is-op">+</span>
+          <span class="irmaa-hero-key">1</span>
+          <span class="irmaa-hero-key">2</span>
+          <span class="irmaa-hero-key">3</span>
+          <span class="irmaa-hero-key is-eq">=</span>
+          <span class="irmaa-hero-key is-zero">0</span>
+          <span class="irmaa-hero-key">.</span>
+        </div>
+      </div>
+      <div class="irmaa-hero-float">
+        <span class="irmaa-hero-float-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4"/></svg>
+        </span>
+        <span>
+          <strong>Uses your {year - 2} income</strong>
+          <p>Estimate your potential {year} IRMAA surcharge.</p>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="irmaa-feature-grid">
+    <div class="irmaa-feature-card">
+      <span class="irmaa-feature-icon" style="--c:#2563eb;--t:#e5edfe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6l7-3z"/></svg>
+      </span>
+      <h3>Income-Based Surcharges</h3>
+      <p>IRMAA adds to your Medicare Part B and Part D premiums based on your income.</p>
+    </div>
+    <div class="irmaa-feature-card">
+      <span class="irmaa-feature-icon" style="--c:#16a34a;--t:#e4f5ea">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.8 19c0-3.3 2.7-5.5 6.2-5.5s6.2 2.2 6.2 5.5"/><circle cx="17.5" cy="8.5" r="2.4"/><path d="M15.8 13.7c2.7.3 4.9 2.3 4.9 5.3"/></svg>
+      </span>
+      <h3>Based on {year - 2} Tax Return</h3>
+      <p>Medicare looks at your {year - 2} income to determine your {year} IRMAA.</p>
+    </div>
+    <div class="irmaa-feature-card">
+      <span class="irmaa-feature-icon" style="--c:#ea580c;--t:#fdeadd">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M6 6l1.2 12a2 2 0 0 0 2 1.8h5.6a2 2 0 0 0 2-1.8L18 6"/><path d="M9 10.5l2.3 2.5 3.7-4.5"/></svg>
+      </span>
+      <h3>Income Dropped?</h3>
+      <p>You may qualify for a lower IRMAA. Ask us about appealing with <a href="medicare-irmaa-appeal-ssa-44.html">Form SSA-44</a>.</p>
+    </div>
+    <div class="irmaa-feature-card">
+      <span class="irmaa-feature-icon" style="--c:#7c3aed;--t:#f0e9fd">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18v-1.5A6.5 6.5 0 0 1 10.5 10h3A6.5 6.5 0 0 1 20 16.5V18"/><rect x="2.5" y="16" width="4" height="5" rx="1.3"/><rect x="17.5" y="16" width="4" height="5" rx="1.3"/><circle cx="12" cy="6" r="3.2"/></svg>
+      </span>
+      <h3>We're Here to Help</h3>
+      <p>Get local, personalized help to understand your options and potential savings.</p>
+    </div>
+  </div>
 
   <form class="calc-form" data-calc-form novalidate>
+    <div class="calc-form-head">
+      <div class="calc-form-icon" aria-hidden="true">🧮</div>
+      <div class="calc-form-titles">
+        <h2 class="calc-form-title">Estimate Your IRMAA</h2>
+        <p class="calc-form-sub">Adjust the inputs below — your estimate updates as you type.</p>
+      </div>
+      <span class="calc-form-timer" aria-hidden="true">⏱ About 20 seconds</span>
+    </div>
+
     <CalculatorSection title="Your details">
       <CalculatorInput field={statusField} />
       <CalculatorInput field={magiField} />
     </CalculatorSection>
+
+    <div class="irmaa-gauge" data-irmaa-gauge aria-hidden="true">
+      <p class="irmaa-gauge-caption">Where your income lands</p>
+      <div class="irmaa-gauge-track">
+        <div class="irmaa-gauge-seg" data-tier="0"></div>
+        <div class="irmaa-gauge-seg" data-tier="1"></div>
+        <div class="irmaa-gauge-seg" data-tier="2"></div>
+        <div class="irmaa-gauge-seg" data-tier="3"></div>
+        <div class="irmaa-gauge-seg" data-tier="4"></div>
+        <div class="irmaa-gauge-seg" data-tier="5"></div>
+      </div>
+      <div class="irmaa-gauge-labels">
+        <span data-tier="0">Standard</span>
+        <span data-tier="1">Tier 1</span>
+        <span data-tier="2">Tier 2</span>
+        <span data-tier="3">Tier 3</span>
+        <span data-tier="4">Tier 4</span>
+        <span data-tier="5">Tier 5</span>
+      </div>
+    </div>
+
     <div class="calc-actions">
+      <button type="button" class="btn btn-primary" data-calc-calculate>See My IRMAA Estimate</button>
       <CalculatorPrint />
       <CalculatorShare />
     </div>
   </form>
 
-  <CalculatorResult heading={`Your ${year} IRMAA estimate`} />
+  <div class="calc-result-stage">
+    <CalculatorResult heading={`Your ${year} IRMAA estimate`} />
+  </div>
 
   <h2>{year} IRMAA brackets — single filers</h2>
   <CalculatorComparison
@@ -170,7 +298,7 @@ const context: PageContext = {
   </div>
 
   <script>
-    import { bindCalculator } from '../lib/calculators';
+    import { bindCalculator, readFields } from '../lib/calculators';
     import { computeIrmaa, type FilingStatus } from '../lib/calculators/irmaa';
     import { figuresFor } from '../data/annualMedicareData';
     import { usd } from '../lib/formatters';
@@ -203,10 +331,365 @@ const context: PageContext = {
     const form = document.querySelector<HTMLElement>('[data-calc-form]');
     const results = document.querySelector<HTMLElement>('[data-calc-results]');
     if (form && results) bindCalculator(form, results, compute);
+
+    // Results update live on every input; the primary button just guides the
+    // eye down to the (already computed) estimate for a satisfying action.
+    const resultCard = document.querySelector<HTMLElement>('.calc-result');
+    document.querySelector('[data-calc-calculate]')?.addEventListener('click', () => {
+      resultCard?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      resultCard?.animate(
+        [{ boxShadow: '0 0 0 4px rgba(37,99,235,0.45)' }, { boxShadow: '0 16px 40px rgba(11,44,69,0.28)' }],
+        { duration: 900, easing: 'ease-out' },
+      );
+    });
+
+    // Interactive 3D: the estimate card tilts toward the cursor and a sheen
+    // tracks it. Properties are set on .calc-result itself (not a descendant)
+    // so the transform the CSS reads actually picks them up. Mouse only;
+    // honours reduced-motion.
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (resultCard && !reduceMotion) {
+      const MAX_TILT = 8; // degrees
+      resultCard.addEventListener('pointermove', (e: PointerEvent) => {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        const r = resultCard.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;
+        const py = (e.clientY - r.top) / r.height;
+        resultCard.style.setProperty('--ry', `${((px - 0.5) * 2 * MAX_TILT).toFixed(2)}deg`);
+        resultCard.style.setProperty('--rx', `${((0.5 - py) * 2 * MAX_TILT).toFixed(2)}deg`);
+        resultCard.style.setProperty('--mx', `${(px * 100).toFixed(1)}%`);
+        resultCard.style.setProperty('--my', `${(py * 100).toFixed(1)}%`);
+        resultCard.classList.add('is-tilting');
+      });
+      resultCard.addEventListener('pointerleave', () => {
+        resultCard.style.setProperty('--rx', '0deg');
+        resultCard.style.setProperty('--ry', '0deg');
+        resultCard.classList.remove('is-tilting');
+      });
+    }
+
+    // Live tier gauge: highlights where the entered MAGI falls among the 5
+    // IRMAA brackets, with a small pulse the moment the tier changes.
+    const gauge = document.querySelector<HTMLElement>('[data-irmaa-gauge]');
+    let lastTier: number | null = null;
+    function updateGauge(fields: Record<string, string>) {
+      if (!gauge) return;
+      const magi = toNum(fields.magi);
+      const r = computeIrmaa(toStatus(fields.status), magi, F);
+      gauge.querySelectorAll<HTMLElement>('.irmaa-gauge-seg').forEach((el) => {
+        const t = Number(el.dataset.tier);
+        el.classList.toggle('is-filled', t <= r.tier);
+        el.classList.toggle('is-active', t === r.tier);
+      });
+      gauge.querySelectorAll<HTMLElement>('.irmaa-gauge-labels span').forEach((el) => {
+        el.classList.toggle('is-active', Number(el.dataset.tier) === r.tier);
+      });
+      if (lastTier !== null && lastTier !== r.tier) {
+        const active = gauge.querySelector<HTMLElement>('.irmaa-gauge-seg.is-active');
+        active?.animate(
+          [{ transform: 'scaleY(2.4)' }, { transform: 'scaleY(1.6)' }],
+          { duration: 380, easing: 'ease-out' },
+        );
+      }
+      lastTier = r.tier;
+    }
+    if (form) {
+      const onChange = () => updateGauge(readFields(form));
+      form.addEventListener('input', onChange);
+      form.addEventListener('change', onChange);
+      onChange();
+    }
   </script>
 </CalculatorPage>
 
 <style>
+  /* ---- Hero ------------------------------------------------------------ */
+  .irmaa-hero {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 2.4rem;
+    align-items: center;
+    margin: 0.4rem 0 2rem;
+  }
+
+  .irmaa-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.8rem 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: #e5edfe;
+    color: #2563eb !important;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .irmaa-badge svg { width: 17px; height: 17px; }
+
+  .irmaa-h1 {
+    margin: 0.75rem 0 0.6rem;
+    font-size: 2.5rem;
+    line-height: 1.12;
+    color: #0b2c45;
+  }
+  .irmaa-h1-accent { color: #2563eb; }
+
+  .irmaa-hero-text :global(.byline) {
+    color: #55627a;
+    font-size: 0.92rem;
+    margin: 0 0 1rem;
+  }
+  .irmaa-hero-text :global(.byline a) { color: #2563eb; }
+
+  .irmaa-hero-text :global(.summary-block) {
+    margin: 0 0 1rem;
+    color: #333;
+  }
+  .irmaa-hero-text :global(.summary-block p) { margin: 0; }
+
+  .irmaa-hero-text :global(.next-steps) { margin: 0 0 1.1rem; }
+  .irmaa-hero-text :global(.next-step) {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    background: #eaf1fd;
+    border-left: 4px solid #2563eb;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    color: #17324d;
+    font-size: 0.95rem;
+  }
+  .irmaa-hero-text :global(.next-step)::before {
+    content: "↓";
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .irmaa-hero-text :global(.next-step-when) { color: #0b2c45; }
+  .irmaa-hero-text :global(.next-step a) { color: #2563eb; }
+
+  .irmaa-hero-lede { margin: 0; color: #333; }
+
+  .irmaa-hero-art { position: relative; display: grid; place-items: center; min-height: 300px; }
+  /* A faint second card peeking out behind, hinting at a tax-form stack. */
+  .irmaa-hero-art::before {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 240px;
+    background: #fff;
+    border-radius: 16px;
+    transform: rotate(-9deg) translate(-46px, 4px);
+    box-shadow: 0 14px 34px rgba(11, 44, 69, 0.14);
+    z-index: 0;
+  }
+
+  .irmaa-hero-card {
+    position: relative;
+    width: 100%;
+    max-width: 260px;
+    background: linear-gradient(160deg, #163e60, #0b2c45 55%, #081d33);
+    border-radius: 22px;
+    padding: 1.15rem 1.2rem 1.35rem;
+    box-shadow: 0 24px 50px rgba(11, 44, 69, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
+  .irmaa-hero-card::after {
+    /* glossy sheen */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 45%);
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .irmaa-hero-card { animation: irmaa-hero-float 6s ease-in-out infinite; }
+  }
+  @keyframes irmaa-hero-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .irmaa-hero-card-top { display: flex; align-items: center; gap: 0.32rem; margin-bottom: 0.8rem; }
+  .irmaa-hero-led {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 6px 1px rgba(74, 222, 128, 0.7);
+  }
+  .irmaa-hero-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); }
+  .irmaa-hero-solar {
+    margin-left: auto;
+    width: 28px;
+    height: 10px;
+    border-radius: 2px;
+    background: repeating-linear-gradient(90deg, #2c5478 0 3px, #1c3a56 3px 6px);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  }
+
+  .irmaa-hero-display {
+    position: relative;
+    background: linear-gradient(165deg, #ddf6d1, #bfe9ab);
+    border-radius: 10px;
+    padding: 0.6rem 0.85rem 0.5rem;
+    box-shadow: inset 0 2px 6px rgba(15, 40, 10, 0.22);
+  }
+  .irmaa-hero-display-label {
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #4b7a3a;
+    text-transform: uppercase;
+  }
+  .irmaa-hero-display-digits {
+    display: block;
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #1c3d17;
+    font-size: 1.4rem;
+    margin-top: 0.05rem;
+  }
+
+  .irmaa-hero-keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 32px;
+    gap: 0.42rem;
+    margin-top: 1rem;
+  }
+  .irmaa-hero-key {
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.82rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .irmaa-hero-key.is-op { background: rgba(96, 165, 250, 0.22); color: #cfe0fb; }
+  .irmaa-hero-key.is-eq {
+    grid-row: span 2;
+    background: linear-gradient(160deg, #f0656f, #dc3545);
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(220, 53, 69, 0.35);
+  }
+  .irmaa-hero-key.is-zero { grid-column: span 2; }
+  .irmaa-hero-art:hover .irmaa-hero-key { transform: translateY(-1px); }
+
+  .irmaa-hero-float {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    bottom: -12px;
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    max-width: 230px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 0.9rem 1.05rem;
+    box-shadow: 0 14px 32px rgba(11, 44, 69, 0.2);
+  }
+  .irmaa-hero-float-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: #e5edfe;
+    color: #2563eb;
+  }
+  .irmaa-hero-float-icon svg { width: 19px; height: 19px; }
+  .irmaa-hero-float strong { display: block; color: #0b2c45; font-size: 0.92rem; }
+  .irmaa-hero-float p { margin: 0.15rem 0 0; color: #55627a; font-size: 0.8rem; }
+
+  @media (max-width: 900px) {
+    .irmaa-hero { grid-template-columns: 1fr; }
+    .irmaa-hero-art { margin-top: 0.5rem; }
+    .irmaa-h1 { font-size: 2.1rem; }
+  }
+
+  /* ---- Feature cards ----------------------------------------------------- */
+  .irmaa-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.1rem;
+    margin: 0 0 2rem;
+  }
+  .irmaa-feature-card {
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-radius: 14px;
+    padding: 1.2rem 1.15rem 1.3rem;
+    box-shadow: 0 10px 26px rgba(11, 44, 69, 0.06);
+  }
+  .irmaa-feature-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    background: var(--t);
+    color: var(--c);
+  }
+  .irmaa-feature-icon svg { width: 22px; height: 22px; }
+  .irmaa-feature-card h3 { margin: 0 0 0.35rem; font-size: 0.98rem; line-height: 1.25; color: #0b2c45; }
+  .irmaa-feature-card p { margin: 0; color: #55627a; font-size: 0.86rem; line-height: 1.5; }
+  .irmaa-feature-card p a { color: #2563eb; }
+
+  @media (max-width: 900px) {
+    .irmaa-feature-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .irmaa-feature-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---- Calculator polish ------------------------------------------------- */
+  .irmaa-gauge { margin: 1.5rem 0 0.2rem; }
+  .irmaa-gauge-caption { margin: 0 0 0.5rem; font-size: 0.82rem; font-weight: 700; color: #8291ab; text-transform: uppercase; letter-spacing: 0.02em; }
+  .irmaa-gauge-track { display: flex; gap: 4px; }
+  .irmaa-gauge-seg {
+    flex: 1;
+    height: 9px;
+    border-radius: 5px;
+    background: #e6ecf3;
+    transform-origin: center;
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .irmaa-gauge-seg.is-filled { background: linear-gradient(90deg, #93b8f5, #2563eb); }
+  .irmaa-gauge-seg.is-active {
+    background: #dc3545;
+    transform: scaleY(1.6);
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.22);
+  }
+  .irmaa-gauge-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #b3bfd1;
+  }
+  .irmaa-gauge-labels span { transition: color 0.2s ease; }
+  .irmaa-gauge-labels span.is-active { color: #dc3545; }
+
   .irmaa-how-h { margin-bottom: 0.5rem; }
 
   .irmaa-how-grid {

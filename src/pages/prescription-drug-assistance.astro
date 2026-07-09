@@ -2,16 +2,130 @@
 // src/pages/prescription-drug-assistance.astro — Part D / Drug Assistance HUB (M8).
 // Pillar for the drug-assistance silo: explains how to pay for expensive drugs on
 // Medicare and links every featured drug page (grouped by condition, from data).
+// Redesigned (M46) from plain prose into the site's hub visual language (hero
+// photo + callout, numbered icon cards, condition-grouped card grid, FAQ ·
+// Sources · Related trio, dark person CTA) matching medicare-calculators.astro.
 import ArticlePage from '../components/layout/ArticlePage.astro';
-import { FEATURED_DRUGS } from '../data/drugs';
-import { CONDITIONS } from '../data/conditions';
+import AuthorByline from '../components/content/AuthorByline.astro';
+import SummaryBlock from '../components/SummaryBlock.astro';
+import NextSteps from '../components/content/NextSteps.astro';
+import { FEATURED_DRUGS, PROGRAMS, FUND_STATUS_META } from '../data/drugs';
+import { CONDITIONS, CONDITION_STYLE, FALLBACK_CONDITION_STYLE } from '../data/conditions';
+import { BUSINESS } from '../data/business';
+import { figuresFor } from '../data/annualMedicareData';
+import type { FundStatus } from '../types/Drug';
 import type { PageContext } from '../types/Page';
+
+const capAmount = figuresFor().partD.annualCap;
 
 // Group featured drugs by condition (data-driven), skipping empty conditions.
 const byCondition = CONDITIONS.map((c) => ({
   ...c,
   drugs: FEATURED_DRUGS.filter((d) => d.conditions.includes(c.key)),
 })).filter((g) => g.drugs.length > 0);
+
+const COND_STYLE = CONDITION_STYLE;
+const FALLBACK_STYLE = FALLBACK_CONDITION_STYLE;
+
+// Foundation fund-open/closed status, for the "Foundation Fund Status" section
+// (label/dot text from the shared FUND_STATUS_META; pill color maps to this
+// page's own .pda-pill classes).
+const FUND_PILL_CLS: Record<FundStatus, string> = { open: 'is-green', verify: 'is-amber', closed: 'is-red' };
+const foundations = PROGRAMS.filter((p) => p.type === 'foundation');
+
+// Compact "Related Medicare Tools" cards — real, existing tool pages only.
+const TOOLS = [
+  {
+    href: 'medicare-formulary-lookup.html', name: 'Formulary Lookup', desc: 'See typical Part D coverage & rules.',
+    color: '#2563eb', tint: '#e5edfe',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h9l4 4v14.5H6z"/><path d="M15 2.5v5h4"/><path d="M9.3 14.5a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4z"/><path d="M11 16l2.2 2.2"/></svg>',
+  },
+  {
+    href: 'medicare-drug-cost-calculator.html', name: 'Drug Cost Calculator', desc: 'Estimate costs & generic savings.',
+    color: '#ca8a04', tint: '#fef3c7',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.6" y="8.4" width="18.8" height="7.2" rx="3.6" transform="rotate(-45 12 12)"/><path d="M8.7 8.7l6.6 6.6"/></svg>',
+  },
+  {
+    href: 'medicare-extra-help-calculator.html', name: 'Extra Help & Savings Estimator', desc: 'See if you qualify for MSPs & Extra Help.',
+    color: '#7c3aed', tint: '#f0e9fd',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4.5 15.2 4.5 9.7A4.2 4.2 0 0 1 12 7a4.2 4.2 0 0 1 7.5 2.7C19.5 15.2 12 20.5 12 20.5z"/></svg>',
+  },
+  {
+    href: 'medicare-cost-estimator.html', name: 'Cost Estimator', desc: 'Estimate total annual Medicare costs.',
+    color: '#16a34a', tint: '#e4f5ea',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M14.6 9a2.7 2.7 0 0 0-2.6-1.6c-1.5 0-2.5.8-2.5 1.9 0 2.5 5 1.4 5 4 0 1.1-1 2-2.6 2A2.8 2.8 0 0 1 9.2 15"/></svg>',
+  },
+  {
+    href: 'medicare-irmaa-calculator.html', name: 'IRMAA Calculator', desc: 'Income-based premium surcharges.',
+    color: '#0d9488', tint: '#d7f0ec',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 3v9h9a9 9 0 0 0-9-9z"/></svg>',
+  },
+];
+
+// "Four Kinds of Help" cards.
+const KINDS = [
+  {
+    n: 1, title: 'Manufacturer Patient Assistance Programs',
+    text: 'The drug company provides the medication free or at a low cost based on income.',
+    color: '#2563eb', tint: '#e5edfe',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6"/><path d="M9 12h.01M15 12h.01M9 9h.01M15 9h.01"/></svg>',
+  },
+  {
+    n: 2, title: 'Nonprofit / Patient Foundations',
+    text: 'Disease-based charities help with copays and out-of-pocket costs.',
+    color: '#16a34a', tint: '#e4f5ea',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.8 19c0-3.3 2.7-5.5 6.2-5.5s6.2 2.2 6.2 5.5"/><circle cx="17.5" cy="8.5" r="2.4"/><path d="M15.8 13.7c2.7.3 4.9 2.3 4.9 5.3"/></svg>',
+  },
+  {
+    n: 3, title: 'Government Programs',
+    text: 'Extra Help and Medicare Savings Programs can lower drug and Medicare costs.',
+    color: '#7c3aed', tint: '#f0e9fd',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5L12 5l8 5.5"/><path d="M5 10.5V19h14v-8.5"/><path d="M9.5 19v-5h5v5"/></svg>',
+  },
+  {
+    n: 4, title: 'Search & Discount Tools',
+    text: 'Free databases and tools that find additional ways to save on medications.',
+    color: '#ea580c', tint: '#fdeadd',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3L21 21"/></svg>',
+  },
+];
+
+const FAQS = [
+  {
+    q: 'What is Medicare Extra Help?',
+    a: 'Extra Help (also called the Part D Low-Income Subsidy or LIS) is a federal program that lowers or eliminates Part D premiums, deductibles, and copays for people with limited income and resources. You apply free through Social Security.',
+  },
+  {
+    q: 'Can I use a manufacturer copay card if I have Medicare?',
+    a: 'Usually no. Federal anti-kickback rules generally prohibit people with Medicare or other government drug coverage from using manufacturer copay coupons or savings cards. However, you may still qualify for that manufacturer’s Patient Assistance Program, which provides the drug free or at low cost to eligible people based on income.',
+  },
+  {
+    q: 'What are copay assistance foundations?',
+    a: 'Nonprofit foundations such as the PAN Foundation, HealthWell Foundation, Good Days, and the Patient Advocate Foundation Co-Pay Relief Program provide grants that cover out-of-pocket costs for specific diseases. Unlike manufacturer copay cards, these grants can be used by people on Medicare.',
+  },
+  {
+    q: 'How do I qualify for prescription assistance?',
+    a: 'Most programs use income limits, often a multiple of the federal poverty level, and many are tied to a specific diagnosis. Manufacturer programs typically require you to be uninsured or underinsured. Each program lists its own rules, and we can help you check yours and apply.',
+  },
+  {
+    q: 'Is this assistance free to apply for?',
+    a: 'Yes. Every program listed here is free to apply for. Be cautious of anyone who charges a fee to enroll you in Extra Help, a foundation grant, or a manufacturer assistance program.',
+  },
+  {
+    q: `Does Medicare's $${capAmount.toLocaleString()} cap help with drug costs?`,
+    a: `Yes. Since 2025, Medicare Part D limits what you pay out of pocket for covered drugs to $${capAmount.toLocaleString()} per year, and the Medicare Prescription Payment Plan lets you spread that amount across monthly installments. Assistance programs can help with costs before and around that cap.`,
+  },
+];
+const RESOURCES = [
+  { label: 'Get help with drug costs', sub: 'Medicare.gov', href: 'https://www.medicare.gov/basics/costs/help/drug-costs' },
+  { label: 'Extra Help (Part D Low-Income Subsidy)', sub: 'Social Security Administration', href: 'https://www.ssa.gov/medicare/part-d-extra-help' },
+];
+const RELATED = [
+  { label: 'Part D Drug Cost Calculator', href: 'medicare-part-d-cost-calculator.html' },
+  { label: 'Cheapest Prescription Drug Plans in Vernal', href: 'cheapest-prescription-drug-plans.html' },
+  { label: 'Tier 3 vs Tier 4 Drugs on Medicare Part D', href: 'tier-3-vs-tier-4-medicare-part-d.html' },
+  { label: 'Eliquis Assistance Programs', href: 'eliquis-assistance-program.html' },
+];
 
 const context: PageContext = {
   page: {
@@ -22,23 +136,7 @@ const context: PageContext = {
     taxonomy: { silo: 'part-d', tags: ['drug-assistance', 'part-d', 'extra-help', 'costs'], pillar: true },
     summary:
       "If a prescription is unaffordable, you have more options than you think. On Medicare you usually can't use manufacturer copay coupons — but you can often use the manufacturer's Patient Assistance Program (free drug by income), nonprofit foundation grants, and Extra Help. Pick your drug below to see the programs that fit.",
-    faqs: [
-      {
-        question: 'Why can\'t I use a copay card on Medicare?',
-        answer:
-          'Federal anti-kickback rules generally bar people with Medicare from using manufacturer copay coupons or savings cards. The good news: manufacturer Patient Assistance Programs (which provide the drug free or low-cost by income) and nonprofit foundation grants are allowed and can help a lot.',
-      },
-      {
-        question: 'What kinds of help are available?',
-        answer:
-          'Four kinds: (1) manufacturer Patient Assistance Programs, (2) nonprofit copay-grant foundations for a specific diagnosis, (3) government programs like Extra Help and Medicare Savings Programs, and (4) free databases and discount tools. Many people qualify for more than one.',
-      },
-      {
-        question: 'Is applying free?',
-        answer:
-          'Yes — always. Never pay a fee to enroll in Extra Help, a foundation grant, or a manufacturer program. A fee is a red flag for a scam. We can screen you and help you apply at no cost.',
-      },
-    ],
+    faqs: FAQS.map((f) => ({ question: f.q, answer: f.a })),
     sources: [
       { title: 'Get help with drug costs', url: 'https://www.medicare.gov/basics/costs/help/drug-costs', publisher: 'Medicare.gov' },
       { title: 'Extra Help (Part D Low-Income Subsidy)', url: 'https://www.ssa.gov/medicare/part-d-extra-help', publisher: 'Social Security Administration' },
@@ -59,35 +157,894 @@ const context: PageContext = {
   author: 'rocco',
   datePublished: '2026-06-30',
   lastUpdated: '2026-06-30',
+  medicalDisclaimer:
+    'Not medical advice. Program availability, eligibility, and funding change — verify current details with each program directly.',
   breadcrumb: [
     { name: 'Home', href: '/' },
     { name: 'Prescription Drug Assistance', href: '/prescription-drug-assistance.html' },
   ],
 };
+
+const phoneTel = `tel:${BUSINESS.phoneTel}`;
 ---
 
-<ArticlePage context={context}>
-  <p>Brand-name medications can cost hundreds or thousands of dollars a month — but if you're on Medicare and struggling to afford one, there's almost always help. Below are the featured drugs we cover, grouped by what they treat. Pick yours to see the manufacturer, nonprofit, and government programs that can lower your cost.</p>
+<ArticlePage context={context} bareHeader bareFooter>
+  {/* ─── Hero ─────────────────────────────────────────────────────────── */}
+  <section class="pda-hero">
+    <div class="pda-hero__copy">
+      <h1 class="pda-hero__title">{context.page.heading}</h1>
+      <AuthorByline
+        authorId={context.author}
+        reviewedById={context.reviewedBy}
+        updated={context.lastUpdated}
+        localAvailability={context.localAvailability}
+      />
+      <SummaryBlock text={context.page.summary} />
+      <NextSteps steps={context.page.nextSteps ?? []} />
+    </div>
 
-  <h2>The Four Kinds of Help</h2>
-  <ul>
-    <li><strong>Manufacturer Patient Assistance Programs</strong> — the drug company provides the medication free or low-cost, by income.</li>
-    <li><strong>Nonprofit copay-grant foundations</strong> — diagnosis-based charities (PAN, HealthWell, and others) that grant money you can use with Medicare.</li>
-    <li><strong>Government programs</strong> — <a href="medicare-extra-help-utah.html">Extra Help</a> and <a href="medicare-savings-programs-utah.html">Medicare Savings Programs</a> that lower drug and Medicare costs.</li>
-    <li><strong>Search &amp; discount tools</strong> — free databases (NeedyMeds, RxAssist) that list additional programs.</li>
-  </ul>
+    <div class="pda-hero__art">
+      <img
+        class="pda-hero__img"
+        src="/pictures/smithpharmacy.webp"
+        alt="Rocco DeLuca helping a Medicare beneficiary with a prescription at Smith's Pharmacy in Vernal"
+        width="792"
+        height="600"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="pda-hero__callout">
+        <span class="pda-hero__callout-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="3"/><path d="M9.5 7h5M9.5 10.5h5M9.5 14h3"/></svg></span>
+        <div>
+          <strong>Local Help with Your Medication Costs</strong>
+          <p>We'll search programs so you can save.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <h2>Find Assistance by Medication</h2>
-  {byCondition.map((g) => (
-    <section>
-      <h3>{g.label}</h3>
-      <ul>
-        {g.drugs.map((d) => (
-          <li><a href={`/${d.slug}-assistance-program.html`}>{d.drug}</a> <span style="color:#555;">({d.generic})</span></li>
-        ))}
+  {/* ─── Copay-card vs. PAP notice ────────────────────────────────────── */}
+  <div class="pda-notice">
+    <span class="pda-notice__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M12 8v5"/><circle cx="12" cy="16.3" r="0.6" fill="currentColor" stroke="none"/></svg></span>
+    <p><strong>On Medicare?</strong> You generally <strong>cannot use manufacturer copay coupons or savings cards</strong> — federal anti-kickback rules block them. But manufacturer <strong>Patient Assistance Programs</strong> (free drug by income) and nonprofit <strong>foundation grants</strong> still can help. The search below focuses on the programs that work <em>with</em> Medicare.</p>
+  </div>
+
+  {/* ─── Program Finder ───────────────────────────────────────────────── */}
+  <section class="pda-finder">
+    <h2 class="pda-h2">Search Assistance Programs</h2>
+    <p class="pda-h2-sub">Search a medication, or filter by condition and program type, to see every program that may help.</p>
+    <div class="pda-finder__panel">
+      <div class="pda-finder__search">
+        <span class="pda-finder__search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3L21 21"/></svg></span>
+        <label for="pf-search" class="pda-sr-only">Search a medication</label>
+        <input type="text" id="pf-search" class="pda-finder__input" list="pf-drug-names" autocomplete="off" placeholder="Medication name — e.g. Eliquis, Ozempic, Humira" />
+        <datalist id="pf-drug-names"></datalist>
+      </div>
+      <div class="pda-finder__filters">
+        <div>
+          <label class="pda-finder__label" for="pf-cond">Condition (optional)</label>
+          <select id="pf-cond" class="pda-finder__select"><option value="all">Any condition</option></select>
+        </div>
+        <div>
+          <label class="pda-finder__label" for="pf-type">Type of help</label>
+          <select id="pf-type" class="pda-finder__select">
+            <option value="all">All program types</option>
+            <option value="government">Government programs</option>
+            <option value="foundation">Nonprofit copay grants</option>
+            <option value="manufacturer">Manufacturer programs</option>
+            <option value="database">Discount &amp; search tools</option>
+          </select>
+        </div>
+      </div>
+      <div class="pda-finder__examples">
+        <span class="pda-finder__examples-lbl">Try:</span>
+        <button type="button" class="pda-chip">Eliquis</button>
+        <button type="button" class="pda-chip">Ozempic</button>
+        <button type="button" class="pda-chip">Jardiance</button>
+        <button type="button" class="pda-chip">Humira</button>
+        <button type="button" class="pda-chip">Farxiga</button>
+        <button type="button" class="pda-chip">Repatha</button>
+      </div>
+      <p class="pda-finder__count" id="pf-count"></p>
+      <div class="pda-finder__grid" id="pf-grid" aria-live="polite"></div>
+    </div>
+  </section>
+
+  {/* Program details modal (Program Finder) */}
+  <div class="pda-modal" id="pf-modal" role="dialog" aria-modal="true" aria-label="Program details">
+    <div class="pda-modal__bg" data-pf-close></div>
+    <div class="pda-modal__panel" id="pf-modal-panel"></div>
+  </div>
+
+  {/* ─── Four Kinds of Help ───────────────────────────────────────────── */}
+  <section class="pda-kinds">
+    <h2 class="pda-h2">The Four Kinds of Help</h2>
+    <p class="pda-h2-sub">These programs can lower what you pay for medications.</p>
+    <div class="pda-kinds__grid">
+      {KINDS.map((k) => (
+        <div class="pda-kind" style={`--c:${k.color};--t:${k.tint}`}>
+          <span class="pda-kind__icon" aria-hidden="true" set:html={k.icon} />
+          <h3>{k.n}. {k.title}</h3>
+          <p>{k.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* ─── Find Assistance by Medication ───────────────────────────────── */}
+  <section class="pda-find">
+    <h2 class="pda-h2">Find Assistance by Medication</h2>
+    <p class="pda-h2-sub">Select your condition to see programs that may help.</p>
+    <div class="pda-find__panel">
+      <div class="pda-find__grid">
+        {byCondition.map((g) => {
+          const style = COND_STYLE[g.key] ?? FALLBACK_STYLE;
+          return (
+            <div class="pda-cond">
+              <h3 class="pda-cond__h" style={`--c:${style.color};--t:${style.tint}`}>
+                <span class="pda-cond__icon" aria-hidden="true" set:html={style.icon} />
+                {g.label}
+              </h3>
+              <ul>
+                {g.drugs.map((d) => (
+                  <li><a href={`/${d.slug}-assistance-program.html`}>{d.drug}</a> <span class="pda-cond__generic">({d.generic})</span></li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  {/* ─── Eligibility Estimator ─────────────────────────────────────────── */}
+  <section class="pda-estimator">
+    <h2 class="pda-h2">Do I Qualify? Quick Eligibility Estimator</h2>
+    <p class="pda-h2-sub">Answer a few quick questions for a rough idea of which kinds of help you may qualify for. Nothing is saved or submitted.</p>
+    <div class="pda-estimator__panel">
+      <div class="pda-estimator__grid">
+        <div>
+          <label class="pda-finder__label" for="est-status">Marital status</label>
+          <select id="est-status" class="pda-finder__select">
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+          </select>
+        </div>
+        <div>
+          <label class="pda-finder__label" for="est-house">People in household</label>
+          <select id="est-house" class="pda-finder__select">
+            <option>1</option><option>2</option><option>3</option><option>4</option>
+            <option>5</option><option>6</option><option>7</option><option>8</option>
+          </select>
+        </div>
+        <div>
+          <label class="pda-finder__label" for="est-income">Annual household income</label>
+          <input type="text" inputmode="numeric" id="est-income" class="pda-finder__input pda-finder__input--plain" placeholder="e.g. 28,000" />
+        </div>
+        <div>
+          <label class="pda-finder__label" for="est-cost">Your monthly drug cost</label>
+          <select id="est-cost" class="pda-finder__select">
+            <option value="0">Not sure</option>
+            <option value="100">Under $100</option>
+            <option value="300">$100–300</option>
+            <option value="600">$300–600</option>
+            <option value="1000">$600–1,000</option>
+            <option value="1500">Over $1,000</option>
+          </select>
+        </div>
+      </div>
+      <button type="button" id="est-go" class="pda-estimator__btn">See what I may qualify for</button>
+      <div id="est-result" class="pda-estimator__result" aria-live="polite"></div>
+    </div>
+  </section>
+
+  {/* ─── Foundation Fund Status ────────────────────────────────────────── */}
+  <section class="pda-fundstatus">
+    <h2 class="pda-h2">Foundation Fund Status</h2>
+    <p class="pda-h2-sub">Fund availability changes often and varies by diagnosis — always verify directly with the foundation before applying.</p>
+    <div class="pda-fundstatus__panel">
+      {foundations.map((p) => (
+        <div class="pda-fund-row">
+          <span class="pda-fund-row__name"><a href={p.url} target="_blank" rel="noopener noreferrer">{p.name}</a></span>
+          {p.status && <span class={`pda-pill ${FUND_PILL_CLS[p.status]}`}>{FUND_STATUS_META[p.status].dot} {FUND_STATUS_META[p.status].label}</span>}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* ─── Document Checklist ────────────────────────────────────────────── */}
+  <section class="pda-checklist-section">
+    <h2 class="pda-h2">Documents You'll Need to Apply</h2>
+    <div class="pda-checklist-panel" id="pda-print-area">
+      <div class="pda-print-head">
+        <h3>Prescription Drug Assistance — Document Checklist</h3>
+        <p>Vernal Medicare &middot; Rocco DeLuca, licensed Utah Medicare agent &middot; {BUSINESS.phone}</p>
+      </div>
+      <ul class="pda-checklist">
+        <li>Medicare card (red, white &amp; blue)</li>
+        <li>Prescription drug plan (Part D) card</li>
+        <li>Social Security award or benefit letter</li>
+        <li>Proof of income (Social Security, pension, wages)</li>
+        <li>Most recent tax return, if you file one</li>
+        <li>Complete medication list with dosages</li>
+        <li>Preferred pharmacy name &amp; address</li>
+        <li>Bank &amp; resource information (for Extra Help and Medicaid)</li>
+        <li>Prescribing doctor's name &amp; contact info (for diagnosis verification)</li>
+      </ul>
+      <button type="button" class="pda-estimator__btn pda-no-print" id="pda-print-btn">Print / Save as PDF</button>
+    </div>
+  </section>
+
+  {/* ─── Note + Help-panel duo ────────────────────────────────────────── */}
+  <div class="pda-duo">
+    <div class="pda-note">
+      <span class="pda-note__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.8 19c0-3.3 2.7-5.5 6.2-5.5s6.2 2.2 6.2 5.5"/><circle cx="17.5" cy="8.5" r="2.4"/><path d="M15.8 13.7c2.7.3 4.9 2.3 4.9 5.3"/></svg></span>
+      <p><strong>Don't see your medication, or not sure where to start?</strong> Call us — we'll screen every program you might qualify for and help you apply, free, anywhere in the Uintah Basin or by phone across Utah.</p>
+    </div>
+    <div class="pda-help">
+      <span class="pda-help__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.5l2 2 4-4.5"/><path d="M4 6.5l8-3.5 8 3.5v5c0 5-3.4 8.2-8 9.5-4.6-1.3-8-4.5-8-9.5z"/></svg></span>
+      <h3>We're Here to Help</h3>
+      <p class="pda-help__sub">Our job is to save you time and money.</p>
+      <ul class="pda-help__list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> We check every option</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Help with applications</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Local & personal support</li>
+      </ul>
+      <a class="pda-help__cta" href={phoneTel}>Call {BUSINESS.phone}</a>
+    </div>
+  </div>
+
+  {/* ─── Related Medicare Tools ────────────────────────────────────────── */}
+  <section class="pda-tools">
+    <h2 class="pda-h2">Related Medicare Tools</h2>
+    <div class="pda-tools__grid">
+      {TOOLS.map((t) => (
+        <a class="pda-tool-card" href={t.href} style={`--c:${t.color};--t:${t.tint}`}>
+          <span class="pda-tool-card__icon" aria-hidden="true" set:html={t.icon} />
+          <h3>{t.name}</h3>
+          <p>{t.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {/* ─── FAQ · Sources · Related trio ─────────────────────────────────── */}
+  <div class="pda-trio">
+    <section class="pda-panel">
+      <h2 class="pda-panel__h"><span class="pda-panel__hicon pda-panel__hicon--blue" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.4 9.3a2.6 2.6 0 0 1 4.7 1.4c0 1.7-2.1 2.1-2.1 3.6"/><circle cx="12" cy="17.1" r="0.6" fill="currentColor" stroke="none"/></svg></span>Frequently Asked Questions</h2>
+      {FAQS.map((f) => (
+        <details class="pda-faq">
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <section class="pda-panel">
+      <h2 class="pda-panel__h"><span class="pda-panel__hicon pda-panel__hicon--green" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 16.5h4"/></svg></span>Sources</h2>
+      <ul class="pda-links">
+        {RESOURCES.map((r) => <li><a href={r.href} target="_blank" rel="noopener noreferrer">{r.label}</a><span class="pda-links__sub">{r.sub}</span></li>)}
       </ul>
     </section>
-  ))}
 
-  <p style="margin-top:1.5rem;">Don't see your medication, or not sure where to start? Call us — we'll screen every program you might qualify for and help you apply, free, anywhere in the Uintah Basin or by phone across Utah.</p>
+    <section class="pda-panel">
+      <h2 class="pda-panel__h"><span class="pda-panel__hicon pda-panel__hicon--purple" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5 5.5.8-4 3.9 1 5.5-5-2.7-5 2.7 1-5.5-4-3.9 5.5-.8z"/></svg></span>Related Topics</h2>
+      <ul class="pda-links pda-links--related">
+        {RELATED.map((r) => <li><a href={r.href}>{r.label}</a></li>)}
+      </ul>
+    </section>
+  </div>
+
+  {/* ─── Person CTA banner ────────────────────────────────────────────── */}
+  <section class="pda-cta">
+    <img class="pda-cta__photo" src="/pictures/rocco.webp" alt="Rocco DeLuca, licensed Medicare agent in Vernal, Utah" width="88" height="88" loading="lazy" decoding="async" />
+    <div class="pda-cta__msg">
+      <h2>Talk to a local, licensed agent</h2>
+      <p>Rocco DeLuca can walk you through your options — free, no pressure.</p>
+    </div>
+    <div class="pda-cta__actions">
+      <a class="pda-cta__phone" href={phoneTel}>
+        <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
+        <span>Call {BUSINESS.phone}<em>(TTY: {BUSINESS.tty})</em></span>
+      </a>
+      <a class="pda-cta__quote" href={BUSINESS.quoteUrl} target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg>
+        Get a Free Quote
+      </a>
+    </div>
+  </section>
+
+  <script>
+    // Program Finder — search a medication or filter by condition/type across
+    // the shared PROGRAMS database (data/drugs.ts) — same data every per-drug
+    // assistance page uses, so results here always match those pages.
+    import { PROGRAMS, TYPE_META } from '../data/drugs';
+    import { CONDITIONS, condLabel } from '../data/conditions';
+    import { BUSINESS } from '../data/business';
+
+    const smsBase = `sms:${BUSINESS.phoneTel}?body=`;
+
+    const searchEl = document.getElementById('pf-search') as HTMLInputElement | null;
+    const condEl = document.getElementById('pf-cond') as HTMLSelectElement | null;
+    const typeEl = document.getElementById('pf-type') as HTMLSelectElement | null;
+    const gridEl = document.getElementById('pf-grid');
+    const countEl = document.getElementById('pf-count');
+    const datalist = document.getElementById('pf-drug-names');
+    const modal = document.getElementById('pf-modal');
+    const panel = document.getElementById('pf-modal-panel');
+
+    if (searchEl && condEl && typeEl && gridEl && countEl && datalist && modal && panel) {
+      condEl.innerHTML =
+        '<option value="all">Any condition</option>' +
+        CONDITIONS.map((c) => `<option value="${c.key}">${c.label}</option>`).join('');
+
+      // drug name -> { conditions[], mfr program ids[] }, built from the
+      // manufacturer programs' own `drugs` lists.
+      const DRUG_INDEX: Record<string, { name: string; conditions: string[]; mfr: string[] }> = {};
+      function indexDrug(name: string, conds: string[], mfrId?: string) {
+        const k = name.toLowerCase();
+        if (!DRUG_INDEX[k]) DRUG_INDEX[k] = { name, conditions: [], mfr: [] };
+        conds.forEach((c) => { if (!DRUG_INDEX[k].conditions.includes(c)) DRUG_INDEX[k].conditions.push(c); });
+        if (mfrId && !DRUG_INDEX[k].mfr.includes(mfrId)) DRUG_INDEX[k].mfr.push(mfrId);
+      }
+      PROGRAMS.forEach((p) => {
+        if (p.type === 'manufacturer' && p.drugs) {
+          const conds = p.conditions.filter((c) => c !== 'any');
+          p.drugs.forEach((d) => indexDrug(d, conds, p.id));
+        }
+      });
+      datalist.innerHTML = Object.values(DRUG_INDEX).map((e) => `<option value="${e.name}"></option>`).join('');
+
+      const TYPE_ORDER: Record<string, number> = { government: 0, foundation: 1, manufacturer: 2, database: 3 };
+
+      function condsForQuery(q: string) {
+        if (!q) return null;
+        if (DRUG_INDEX[q]) return DRUG_INDEX[q];
+        const key = Object.keys(DRUG_INDEX).find((k) => k.includes(q));
+        return key ? DRUG_INDEX[key] : { name: null as string | null, conditions: [] as string[], mfr: [] as string[] };
+      }
+
+      function programMatches(p: (typeof PROGRAMS)[number], q: string, info: { conditions: string[]; mfr: string[] }, cond: string, typeFilter: string) {
+        if (typeFilter !== 'all' && p.type !== typeFilter) return false;
+        if (cond !== 'all' && !p.conditions.includes('any') && !p.conditions.includes(cond)) return false;
+        if (!q) return true;
+        if (p.conditions.includes('any')) return true;
+        if (info.mfr.includes(p.id)) return true;
+        if (p.type === 'manufacturer') return !!p.drugs?.some((d) => d.toLowerCase().includes(q));
+        return info.conditions.some((c) => p.conditions.includes(c));
+      }
+
+      function typicalLine(p: (typeof PROGRAMS)[number], drugName: string) {
+        if (p.typical) return p.typical;
+        if (p.type === 'government') return 'May lower or eliminate your Part D premium, deductible, and copays.';
+        if (p.type === 'foundation') return 'May cover copays and coinsurance for a qualifying diagnosis.';
+        if (p.type === 'database') return 'Free search to find programs for your specific medications.';
+        let drug: string | null = null;
+        if (drugName && p.drugs) {
+          const q = drugName.toLowerCase();
+          drug = p.drugs.find((d) => d.toLowerCase().includes(q)) ?? null;
+        }
+        return `May provide ${drug || 'your medication'} at no cost if you qualify.`;
+      }
+
+      function render() {
+        const q = searchEl!.value.trim().toLowerCase();
+        const cond = condEl!.value;
+        const typeFilter = typeEl!.value;
+        const info = condsForQuery(q) ?? { name: null, conditions: [], mfr: [] };
+
+        const list = PROGRAMS.filter((p) => programMatches(p, q, info, cond, typeFilter))
+          .sort((a, b) => (TYPE_ORDER[a.type] - TYPE_ORDER[b.type]) || a.name.localeCompare(b.name));
+
+        const label = q ? (info.name || searchEl!.value.trim()) : '';
+        countEl!.textContent = q && label
+          ? `Showing ${list.length} program${list.length === 1 ? '' : 's'} that may help with ${label}.`
+          : `Showing ${list.length} of ${PROGRAMS.length} assistance programs.`;
+
+        if (!list.length) {
+          gridEl!.innerHTML = `<div class="pda-finder__empty">No programs match that search. Try the medication's brand name, broaden the filters, or <a href="${smsBase}${encodeURIComponent('Hi, can you help me find assistance for a medication?')}">text us the drug name &rarr;</a></div>`;
+          return;
+        }
+
+        gridEl!.innerHTML = list.map((p) => {
+          const t = TYPE_META[p.type];
+          const statusChip = p.status ? `<span class="pda-pill is-${p.status === 'open' ? 'green' : p.status === 'verify' ? 'amber' : 'red'}">${p.status === 'open' ? '🟢 Fund open' : p.status === 'verify' ? '🟡 Verify availability' : '🔴 Currently closed'}</span>` : '';
+          return `<div class="pda-prog">
+            <div class="pda-prog__top"><h3>${p.name}</h3><span class="pda-pill" style="background:${t.tint};color:${t.color}">${t.label}</span></div>
+            <div class="pda-prog__tagline">${p.tagline}</div>
+            ${statusChip ? `<div class="pda-prog__status">${statusChip}</div>` : ''}
+            <button type="button" class="pda-prog__view" data-id="${p.id}">View details &amp; apply
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>`;
+        }).join('');
+      }
+
+      function openModal(p: (typeof PROGRAMS)[number]) {
+        const t = TYPE_META[p.type];
+        const typical = typicalLine(p, searchEl!.value.trim());
+        const condText = p.conditions.includes('any') ? 'Any condition' : p.conditions.map((c) => condLabel(c)).join(', ');
+        const drugLine = p.drugs?.length ? `<div class="pda-modal__sec"><h4>Medications it may cover</h4><p>${p.drugs.join(', ')}</p></div>` : '';
+        const phoneBtn = p.phone ? `<a class="pda-modal__ghost" href="tel:${p.phone.replace(/[^0-9]/g, '')}">${p.phone}</a>` : '';
+
+        panel!.innerHTML = `
+          <button type="button" class="pda-modal__close" data-pf-close aria-label="Close">&times;</button>
+          <h2>${p.name}</h2>
+          <p class="pda-modal__sub"><span class="pda-pill" style="background:${t.tint};color:${t.color}">${t.label}</span></p>
+          <div class="pda-modal__typical"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg><span>Typical assistance: ${typical}</span></div>
+          <div class="pda-modal__sec"><h4>What it helps with</h4><p>${p.helps}</p></div>
+          <div class="pda-modal__sec"><h4>Who may qualify</h4><p>${p.eligibility}</p></div>
+          <div class="pda-modal__sec"><h4>Conditions covered</h4><p>${condText}</p></div>
+          ${drugLine}
+          <div class="pda-modal__actions">
+            <a class="pda-modal__primary" href="${p.url}" target="_blank" rel="noopener noreferrer">${p.urlLabel || 'Visit program'}</a>
+            ${phoneBtn}
+          </div>
+          <div class="pda-modal__sec" style="margin-top:1.2rem">
+            <a class="pda-pill is-blue pda-modal__sms" href="${smsBase}${encodeURIComponent(`Hi, can you help me apply for ${p.name}?`)}">Ask us to help me apply</a>
+          </div>`;
+        modal!.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeModal() { modal!.classList.remove('is-open'); document.body.style.overflow = ''; }
+
+      gridEl.addEventListener('click', (e) => {
+        const btn = (e.target as HTMLElement).closest('.pda-prog__view');
+        if (!btn) return;
+        const p = PROGRAMS.find((x) => x.id === btn.getAttribute('data-id'));
+        if (p) openModal(p);
+      });
+      modal.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('[data-pf-close]')) closeModal(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal!.classList.contains('is-open')) closeModal(); });
+
+      document.querySelectorAll<HTMLElement>('.pda-chip').forEach((c) => {
+        c.addEventListener('click', () => { searchEl.value = c.textContent || ''; render(); searchEl.focus(); });
+      });
+
+      searchEl.addEventListener('input', render);
+      condEl.addEventListener('change', render);
+      typeEl.addEventListener('change', render);
+      render();
+    }
+  </script>
+
+  <script>
+    // Eligibility Estimator — MSP/Extra Help uses the real published dollar
+    // limits (computeAssistanceEligibility); manufacturer PAP / foundation
+    // grants are estimated as a rough % of the federal poverty level, since
+    // those programs are typically priced that way.
+    import { computeAssistanceEligibility } from '../lib/calculators/assistance';
+    import { figuresFor } from '../data/annualMedicareData';
+    import { pctOfFpl } from '../data/federalPovertyLevel';
+
+    const F = figuresFor();
+    const estGo = document.getElementById('est-go');
+    if (estGo) {
+      const estStatus = document.getElementById('est-status') as HTMLSelectElement;
+      const estHouse = document.getElementById('est-house') as HTMLSelectElement;
+      const estIncome = document.getElementById('est-income') as HTMLInputElement;
+      const estCost = document.getElementById('est-cost') as HTMLSelectElement;
+      const estResult = document.getElementById('est-result')!;
+
+      type Tier = 'yes' | 'maybe' | 'no';
+      const iconFor = (s: Tier) =>
+        s === 'yes'
+          ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'
+          : s === 'maybe'
+            ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><circle cx="12" cy="16.3" r="0.6" fill="currentColor" stroke="none"/></svg>'
+            : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>';
+      const estRow = (state: Tier, title: string, text: string) =>
+        `<div class="pda-est-row"><div class="pda-est-row__ico is-${state}">${iconFor(state)}</div><div><h4>${title}</h4><p>${text}</p></div></div>`;
+      const tierFor = (pct: number, strong: number, maybe: number): Tier => (pct <= strong ? 'yes' : pct <= maybe ? 'maybe' : 'no');
+      const tierText = (s: Tier) =>
+        s === 'yes' ? 'You likely qualify based on income.' : s === 'maybe' ? 'You may qualify — worth applying.' : 'Your income is likely above the typical limit, but rules vary.';
+
+      estGo.addEventListener('click', () => {
+        const size = parseInt(estHouse.value, 10) || 1;
+        const income = parseFloat((estIncome.value || '').replace(/[^0-9.]/g, ''));
+        if (!income || income < 0) {
+          estResult.innerHTML = '<div class="pda-est-note">Enter your annual household income to see an estimate.</div>';
+          estResult.classList.add('is-shown');
+          return;
+        }
+        const married = estStatus.value === 'married';
+        const monthlyIncome = income / 12;
+        const pct = pctOfFpl(income, size);
+
+        const assist = computeAssistanceEligibility(monthlyIncome, 0, married, F);
+        const mspState: Tier = assist.program !== 'none' ? 'yes' : assist.extraHelp === 'possible' ? 'maybe' : 'no';
+        const mspText = assist.program !== 'none'
+          ? `Based on income alone, you may qualify for ${assist.program.toUpperCase()} — which also unlocks Extra Help automatically. (Resource/asset limits also apply — check yours when you apply.)`
+          : assist.extraHelp === 'possible'
+            ? 'Your income is close to the Medicare Savings Program limit — worth applying; resource limits also matter.'
+            : 'Your income is likely above the Medicare Savings Program limit, but resource rules vary — worth checking directly.';
+
+        const ehState: Tier = assist.extraHelp === 'automatic' ? 'yes' : assist.extraHelp === 'possible' ? 'maybe' : 'no';
+        const ehText = assist.extraHelp === 'automatic'
+          ? 'Qualifying for a Medicare Savings Program grants Extra Help automatically.'
+          : assist.extraHelp === 'possible'
+            ? 'You may qualify for Extra Help on income alone — apply free through Social Security.'
+            : 'Income is likely above the typical Extra Help limit, but it is still free to check.';
+
+        const pap = tierFor(pct, 300, 400);
+        const fnd = tierFor(pct, 400, 500);
+
+        const costVal = parseInt(estCost.value, 10) || 0;
+        const costNote = costVal >= 600
+          ? ` With high monthly drug costs, the $${F.partD.annualCap.toLocaleString()} yearly Part D cap matters a lot — ask about the Medicare Prescription Payment Plan to spread payments over the year.`
+          : '';
+
+        estResult.innerHTML =
+          `<div class="pda-est-headline">Your income is about ${Math.round(pct)}% of the federal poverty level (household of ${size}).</div>` +
+          estRow(mspState, 'Medicare Savings Programs', mspText) +
+          estRow(ehState, 'Medicare Extra Help (Part D)', ehText) +
+          estRow(pap, 'Manufacturer Patient Assistance', `${tierText(pap)} These provide brand-name drugs free or at low cost.`) +
+          estRow(fnd, 'Foundation Grants', `${tierText(fnd)} Available when a fund is open for your diagnosis.`) +
+          `<div class="pda-est-note">This is a rough, income-only screening. Real eligibility also depends on your assets/resources, your specific diagnosis, and whether a fund is currently open.${costNote}</div>`;
+        estResult.classList.add('is-shown');
+      });
+    }
+
+    const printBtn = document.getElementById('pda-print-btn');
+    printBtn?.addEventListener('click', () => window.print());
+  </script>
 </ArticlePage>
+
+<style>
+  /* Palette echoes medicare-calculators.astro: navy #0b2c45, blue #2563eb. */
+
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .pda-hero {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 2.4rem;
+    align-items: center;
+    margin: 0.4rem 0 2.5rem;
+  }
+  .pda-hero__title { margin: 0 0 0.6rem; font-size: clamp(2rem, 4.4vw, 2.6rem); line-height: 1.1; color: #0b2c45; }
+  .pda-hero__copy :global(.byline) { color: #55627a; font-size: 0.92rem; margin: 0 0 1rem; }
+  .pda-hero__copy :global(.byline a) { color: #2563eb; }
+  .pda-hero__copy :global(.summary-block) { margin: 0 0 1rem; color: #333; }
+  .pda-hero__copy :global(.summary-block p) { margin: 0; }
+  .pda-hero__copy :global(.next-steps) { margin: 0; }
+  .pda-hero__copy :global(.next-step) {
+    display: flex; gap: 0.7rem; align-items: flex-start;
+    background: #eaf1fd; border-left: 4px solid #2563eb; border-radius: 10px;
+    padding: 0.85rem 1rem; color: #17324d; font-size: 0.95rem;
+  }
+  .pda-hero__copy :global(.next-step)::before {
+    content: "↓"; flex-shrink: 0; display: grid; place-items: center;
+    width: 26px; height: 26px; border-radius: 50%; background: #2563eb; color: #fff;
+    font-weight: 700; font-size: 0.9rem;
+  }
+  .pda-hero__copy :global(.next-step-when) { color: #0b2c45; }
+  .pda-hero__copy :global(.next-step a) { color: #2563eb; }
+
+  .pda-hero__art { position: relative; display: flex; justify-content: center; }
+  .pda-hero__img {
+    width: 100%; height: auto; display: block; aspect-ratio: 4 / 3; object-fit: cover;
+    border-radius: 18px; box-shadow: 0 18px 44px rgba(11, 44, 69, 0.18);
+  }
+  .pda-hero__callout {
+    position: absolute; left: 1.25rem; right: 1.25rem; bottom: -1rem;
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    background: #fff; border: 1px solid #e1e9f2; border-radius: 14px;
+    padding: 0.9rem 1.1rem; box-shadow: 0 14px 34px rgba(11, 44, 69, 0.16);
+  }
+  .pda-hero__callout-icon { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #e6effe; color: #2563eb; }
+  .pda-hero__callout-icon svg { width: 20px; height: 20px; }
+  .pda-hero__callout p { margin: 0.15rem 0 0; color: #475569; font-size: 0.85rem; line-height: 1.4; }
+  .pda-hero__callout strong { display: block; color: #0b2c45; font-size: 0.92rem; }
+
+  @media (max-width: 900px) {
+    .pda-hero { grid-template-columns: 1fr; }
+    .pda-hero__art { margin-top: 0.5rem; }
+    .pda-hero__callout { position: static; margin-top: 1rem; }
+  }
+
+  /* ── Section heading ──────────────────────────────────────────────────── */
+  .pda-h2 { color: #0b2c45; font-size: clamp(1.4rem, 2.8vw, 1.75rem); font-weight: 800; margin: 0 0 0.35rem; }
+  .pda-h2-sub { margin: 0 0 1.5rem; color: #5b6b7d; font-size: 0.95rem; }
+
+  /* ── Four Kinds of Help ───────────────────────────────────────────────── */
+  .pda-kinds { margin: 0 0 2.75rem; }
+  .pda-kinds__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; }
+  .pda-kind {
+    background: #fff; border: 1px solid #e8edf3; border-radius: 14px;
+    padding: 1.3rem 1.25rem 1.4rem; box-shadow: 0 10px 26px rgba(11, 44, 69, 0.06);
+  }
+  .pda-kind__icon {
+    display: grid; place-items: center; width: 46px; height: 46px; border-radius: 13px;
+    margin-bottom: 0.9rem; background: var(--t); color: var(--c);
+  }
+  .pda-kind__icon svg { width: 24px; height: 24px; }
+  .pda-kind h3 { margin: 0 0 0.4rem; font-size: 0.98rem; line-height: 1.3; color: #0b2c45; }
+  .pda-kind p { margin: 0; color: #5b6b7d; font-size: 0.88rem; line-height: 1.5; }
+
+  @media (max-width: 900px) { .pda-kinds__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .pda-kinds__grid { grid-template-columns: 1fr; } }
+
+  /* ── Find Assistance by Medication ────────────────────────────────────── */
+  .pda-find { margin: 0 0 2.5rem; }
+  .pda-find__panel {
+    background: #fff; border: 1px solid #e8edf3; border-radius: 18px;
+    padding: 1.6rem 1.75rem; box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06);
+  }
+  .pda-find__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem 1.75rem; }
+  .pda-cond__h {
+    display: flex; align-items: center; gap: 0.55rem; margin: 0 0 0.8rem;
+    font-size: 1rem; color: var(--c);
+  }
+  .pda-cond__icon { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; background: var(--t); color: var(--c); }
+  .pda-cond__icon svg { width: 18px; height: 18px; }
+  .pda-cond ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+  .pda-cond li { font-size: 0.92rem; }
+  .pda-cond a { color: #1f4e8c; font-weight: 700; text-decoration: none; }
+  .pda-cond a:hover { text-decoration: underline; }
+  .pda-cond__generic { color: #5b6b7d; font-size: 0.85rem; }
+
+  @media (max-width: 1024px) { .pda-find__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .pda-find__grid { grid-template-columns: 1fr; } }
+
+  /* ── Note + Help-panel duo ────────────────────────────────────────────── */
+  .pda-duo { display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.5rem; margin: 0 0 2.5rem; align-items: stretch; }
+  .pda-note {
+    display: flex; gap: 0.9rem; align-items: flex-start;
+    background: #eaf1fd; border-radius: 16px; padding: 1.5rem 1.6rem;
+  }
+  .pda-note__icon { flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: #2563eb; color: #fff; }
+  .pda-note__icon svg { width: 22px; height: 22px; }
+  .pda-note p { margin: 0; color: #17324d; font-size: 0.96rem; line-height: 1.55; }
+  .pda-note strong { color: #0b2c45; }
+
+  .pda-help {
+    background: #fff; border: 1px solid #e8edf3; border-radius: 16px;
+    padding: 1.5rem 1.6rem; box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06);
+  }
+  .pda-help__icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: #e5edfe; color: #2563eb; margin-bottom: 0.7rem; }
+  .pda-help__icon svg { width: 22px; height: 22px; }
+  .pda-help h3 { margin: 0 0 0.2rem; color: #0b2c45; font-size: 1.1rem; }
+  .pda-help__sub { margin: 0 0 0.9rem; color: #5b6b7d; font-size: 0.88rem; }
+  .pda-help__list { list-style: none; margin: 0 0 1.1rem; padding: 0; display: grid; gap: 0.5rem; }
+  .pda-help__list li { display: flex; align-items: center; gap: 0.5rem; color: #334155; font-size: 0.9rem; font-weight: 600; }
+  .pda-help__list svg { flex: none; width: 17px; height: 17px; color: #16a34a; }
+  .pda-help__cta {
+    display: block; text-align: center; text-decoration: none;
+    background: linear-gradient(180deg, #2563eb, #1d4ed8); color: #fff; font-weight: 800;
+    padding: 0.75rem 1rem; border-radius: 12px; box-shadow: 0 10px 22px rgba(37, 99, 235, 0.32);
+  }
+
+  @media (max-width: 900px) { .pda-duo { grid-template-columns: 1fr; } }
+
+  /* ── FAQ · Sources · Related trio ─────────────────────────────────────── */
+  .pda-trio { display: grid; grid-template-columns: 1.1fr 1fr 0.9fr; gap: 1.5rem; margin: 0 0 2.5rem; align-items: start; }
+  .pda-panel { background: #fff; border: 1px solid #e8edf3; border-radius: 18px; padding: 1.6rem; box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06); }
+  .pda-panel__h { display: flex; align-items: center; gap: 0.6rem; margin: 0 0 1.1rem; font-size: 1.15rem; color: #0b2c45; }
+  .pda-panel__hicon { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; }
+  .pda-panel__hicon svg { width: 19px; height: 19px; }
+  .pda-panel__hicon--blue { background: #e5edfe; color: #2563eb; }
+  .pda-panel__hicon--green { background: #e4f5ea; color: #16a34a; }
+  .pda-panel__hicon--purple { background: #f0e9fd; color: #7c3aed; }
+
+  .pda-faq { border-top: 1px solid #eef2f6; padding: 0.7rem 0; }
+  .pda-faq:first-of-type { border-top: none; padding-top: 0; }
+  .pda-faq summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+    cursor: pointer; list-style: none; font-weight: 600; color: #334155; font-size: 0.94rem; line-height: 1.35;
+  }
+  .pda-faq summary::-webkit-details-marker { display: none; }
+  .pda-faq summary::after { content: "⌄"; color: #2563eb; font-weight: 800; font-size: 1.1rem; transition: transform 0.15s ease; }
+  .pda-faq[open] summary::after { transform: rotate(180deg); }
+  .pda-faq p { margin: 0.6rem 0 0; color: #5b6b7d; font-size: 0.88rem; line-height: 1.55; }
+
+  .pda-links { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.15rem; }
+  .pda-links li { border-top: 1px solid #eef2f6; padding: 0.6rem 0; }
+  .pda-links li:first-child { border-top: none; padding-top: 0; }
+  .pda-links a { color: #1f4e8c; text-decoration: none; font-weight: 600; font-size: 0.9rem; line-height: 1.4; display: inline-flex; gap: 0.4rem; }
+  .pda-links a::before { content: "›"; color: #2563eb; font-weight: 800; flex: none; }
+  .pda-links a:hover { text-decoration: underline; }
+  .pda-links--related a::before { content: "→"; }
+  .pda-links__sub { display: block; margin: 0.15rem 0 0 1.1rem; color: #94a3b8; font-size: 0.78rem; }
+
+  @media (max-width: 1024px) { .pda-trio { grid-template-columns: 1fr; } }
+
+  /* ── Person CTA banner ────────────────────────────────────────────────── */
+  .pda-cta {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.75rem;
+    background: linear-gradient(120deg, #0b2c45 0%, #123a5c 100%);
+    border-radius: 22px; padding: 1.9rem 2.25rem; margin: 0 0 1.5rem;
+    box-shadow: 0 22px 50px rgba(11, 44, 69, 0.28);
+  }
+  .pda-cta__photo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; object-position: top center; border: 3px solid rgba(255,255,255,0.85); flex: none; }
+  .pda-cta__msg h2 { margin: 0 0 0.35rem; color: #fff; font-size: clamp(1.3rem, 2.4vw, 1.7rem); line-height: 1.15; }
+  .pda-cta__msg p { margin: 0; color: #cfe0f0; line-height: 1.5; font-size: 0.98rem; max-width: 54ch; }
+  .pda-cta__actions { display: flex; flex-direction: column; gap: 0.7rem; width: 250px; flex: none; }
+  .pda-cta__phone {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: linear-gradient(180deg, #f97316 0%, #ea580c 100%);
+    color: #fff; text-decoration: none; padding: 0.85rem 1.1rem; border-radius: 14px; font-weight: 800;
+    box-shadow: 0 12px 26px rgba(234, 88, 12, 0.4);
+  }
+  .pda-cta__phone span:first-child { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.22); }
+  .pda-cta__phone span:first-child svg { width: 20px; height: 20px; }
+  .pda-cta__phone > span:last-child { display: flex; flex-direction: column; line-height: 1.15; font-size: 1.02rem; }
+  .pda-cta__phone em { font-style: normal; font-weight: 600; font-size: 0.78rem; opacity: 0.9; }
+  .pda-cta__quote {
+    display: flex; align-items: center; justify-content: center; gap: 0.55rem;
+    background: #fff; color: #0b2c45; text-decoration: none;
+    padding: 0.8rem 1.1rem; border-radius: 14px; font-weight: 800; font-size: 0.93rem;
+  }
+  .pda-cta__quote svg { width: 20px; height: 20px; color: #2563eb; }
+
+  @media (max-width: 900px) {
+    .pda-cta { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .pda-cta__msg p { max-width: none; }
+    .pda-cta__actions { width: 100%; max-width: 320px; }
+  }
+
+  /* ── Shared bits: pills, screen-reader-only, panel buttons ─────────────── */
+  .pda-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .pda-pill { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; padding: 0.22rem 0.65rem; border-radius: 20px; white-space: nowrap; display: inline-block; }
+  .pda-pill.is-green { background: #e4f5ea; color: #16a34a; }
+  .pda-pill.is-amber { background: #fff7ed; color: #b45309; }
+  .pda-pill.is-red { background: #fef3f2; color: #b42318; }
+  .pda-pill.is-blue { background: #e5edfe; color: #1d4ed8; }
+
+  /* ── Copay-card vs PAP notice ─────────────────────────────────────────── */
+  .pda-notice {
+    display: flex; gap: 0.8rem; align-items: flex-start;
+    background: #fff7ed; border: 1px solid #fed7aa; border-radius: 14px;
+    padding: 1rem 1.2rem; margin: 0 0 2rem;
+  }
+  .pda-notice__icon { flex: none; width: 24px; height: 24px; color: #b45309; margin-top: 0.1rem; }
+  .pda-notice__icon svg { width: 100%; height: 100%; }
+  .pda-notice p { margin: 0; font-size: 0.92rem; color: #1f2a37; line-height: 1.5; }
+
+  /* ── Program Finder ────────────────────────────────────────────────────── */
+  .pda-finder { margin: 0 0 2.75rem; }
+  .pda-finder__panel { background: #fff; border: 1px solid #e8edf3; border-radius: 18px; padding: 1.6rem 1.75rem; box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06); }
+  .pda-finder__search { position: relative; margin-bottom: 1rem; }
+  .pda-finder__search-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: #6b7280; pointer-events: none; }
+  .pda-finder__search-icon svg { width: 100%; height: 100%; }
+  .pda-finder__input {
+    width: 100%; box-sizing: border-box; font-family: inherit; font-size: 1.02rem;
+    min-height: 52px; padding: 0.8rem 1rem 0.8rem 2.6rem; border: 2px solid #dbe6f2;
+    border-radius: 12px; color: #1f2a37; background: #fff;
+  }
+  .pda-finder__input:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15); }
+  .pda-finder__input--plain { padding-left: 1rem; min-height: 48px; }
+  .pda-finder__filters { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  @media (max-width: 560px) { .pda-finder__filters { grid-template-columns: 1fr; } }
+  .pda-finder__label { display: block; font-weight: 700; font-size: 0.9rem; color: #1f2a37; margin-bottom: 0.5rem; }
+  .pda-finder__select {
+    width: 100%; box-sizing: border-box; font-family: inherit; font-size: 1rem;
+    min-height: 48px; padding: 0.7rem 0.85rem; border: 2px solid #dbe6f2; border-radius: 10px;
+    background: #fff; color: #1f2a37;
+  }
+  .pda-finder__select:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15); }
+
+  .pda-finder__examples { display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center; margin-top: 1.1rem; }
+  .pda-finder__examples-lbl { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; }
+  .pda-chip {
+    background: #e5edfe; border: 1px solid #dbe6f2; border-radius: 20px;
+    padding: 0.45rem 0.9rem; font-family: inherit; font-size: 0.9rem; color: #1d4ed8;
+    cursor: pointer; min-height: 36px;
+  }
+  .pda-chip:hover { background: #2563eb; color: #fff; border-color: #2563eb; }
+
+  .pda-finder__count { margin: 1.4rem 0 0.85rem; font-size: 0.9rem; color: #5b6b7d; font-weight: 700; }
+  .pda-finder__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 640px) { .pda-finder__grid { grid-template-columns: 1fr; } }
+  .pda-finder__empty {
+    grid-column: 1 / -1; text-align: center; color: #6b7280; padding: 1.8rem;
+    background: #f8fafc; border: 1px dashed #dbe6f2; border-radius: 12px;
+  }
+  .pda-finder__empty a { color: #1d4ed8; font-weight: 700; }
+
+  .pda-prog {
+    border: 1px solid #dbe6f2; border-radius: 14px; padding: 1.15rem; background: #fff;
+    box-shadow: 0 6px 18px -16px rgba(11, 44, 69, 0.5); display: flex; flex-direction: column;
+  }
+  .pda-prog__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.7rem; }
+  .pda-prog h3 { margin: 0; font-size: 1.05rem; color: #0b2c45; line-height: 1.25; }
+  .pda-prog__tagline { font-size: 0.88rem; color: #5b6b7d; margin-top: 0.4rem; }
+  .pda-prog__status { margin-top: 0.6rem; }
+  .pda-prog__view {
+    margin-top: auto; align-self: flex-start; background: none; border: 0; color: #2563eb;
+    font-weight: 700; font-family: inherit; font-size: 0.95rem; cursor: pointer; padding: 0.6rem 0 0;
+    min-height: 36px; display: inline-flex; align-items: center; gap: 0.4rem;
+  }
+  .pda-prog__view svg { width: 15px; height: 15px; }
+
+  /* ── Program Finder modal ─────────────────────────────────────────────── */
+  .pda-modal { position: fixed; inset: 0; z-index: 60; display: none; align-items: flex-start; justify-content: center; padding: 8vh 18px 18px; }
+  .pda-modal.is-open { display: flex; }
+  .pda-modal__bg { position: absolute; inset: 0; background: rgba(11, 44, 69, 0.5); backdrop-filter: blur(3px); }
+  .pda-modal__panel {
+    position: relative; width: 100%; max-width: 600px; max-height: 84vh; overflow-y: auto;
+    background: #fff; border-radius: 18px; box-shadow: 0 18px 50px -24px rgba(11, 44, 69, 0.5); padding: 1.75rem;
+  }
+  .pda-modal__close { position: absolute; top: 0.9rem; right: 1rem; background: none; border: 0; font-size: 1.6rem; color: #6b7280; cursor: pointer; min-height: 44px; min-width: 44px; }
+  .pda-modal__panel h2 { margin: 0 0 0.5rem; color: #0b2c45; font-size: 1.4rem; padding-right: 2.2rem; }
+  .pda-modal__sub { margin: 0 0 0.9rem; }
+  .pda-modal__typical {
+    margin: 0.6rem 0; background: #e4f5ea; border: 1px solid #bbf7d0; border-radius: 12px;
+    padding: 0.85rem 1rem; display: flex; gap: 0.7rem; align-items: flex-start;
+  }
+  .pda-modal__typical svg { width: 20px; height: 20px; color: #16a34a; flex: none; margin-top: 0.1rem; }
+  .pda-modal__typical span { color: #1f2a37; font-weight: 600; font-size: 0.95rem; }
+  .pda-modal__sec { margin-top: 1rem; }
+  .pda-modal__sec h4 { margin: 0 0 0.35rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: #2563eb; }
+  .pda-modal__sec p { margin: 0; color: #5b6b7d; }
+  .pda-modal__actions { margin-top: 1.3rem; display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .pda-modal__actions a, .pda-modal__ghost { text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1rem; border-radius: 10px; font-weight: 700; font-size: 0.92rem; min-height: 44px; }
+  .pda-modal__primary { background: #2563eb; color: #fff; }
+  .pda-modal__ghost { background: #e5edfe; color: #1d4ed8; border: 1px solid #dbe6f2; }
+  .pda-modal__sms { text-decoration: none; padding: 0.55rem 0.9rem; }
+
+  /* ── Eligibility Estimator ─────────────────────────────────────────────── */
+  .pda-estimator { margin: 0 0 2.75rem; }
+  .pda-estimator__panel { background: #fff; border: 1px solid #e8edf3; border-radius: 18px; padding: 1.6rem 1.75rem; box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06); }
+  .pda-estimator__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  @media (max-width: 560px) { .pda-estimator__grid { grid-template-columns: 1fr; } }
+  .pda-estimator__btn {
+    margin-top: 1.2rem; width: 100%; background: #2563eb; color: #fff; border: 0; border-radius: 12px;
+    font-family: inherit; font-weight: 700; font-size: 1.02rem; min-height: 52px; cursor: pointer;
+  }
+  .pda-estimator__btn:hover { background: #1d4ed8; }
+  .pda-estimator__result { margin-top: 1.3rem; display: none; }
+  .pda-estimator__result.is-shown { display: block; }
+  .pda-est-headline { font-weight: 700; color: #0b2c45; margin-bottom: 0.5rem; }
+  .pda-est-row { display: flex; gap: 0.8rem; align-items: flex-start; padding: 0.8rem 0; border-bottom: 1px solid #eef2f7; }
+  .pda-est-row:last-of-type { border-bottom: 0; }
+  .pda-est-row__ico { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; margin-top: 0.1rem; }
+  .pda-est-row__ico svg { width: 16px; height: 16px; }
+  .pda-est-row__ico.is-yes { background: #e4f5ea; color: #16a34a; }
+  .pda-est-row__ico.is-maybe { background: #fff7ed; color: #b45309; }
+  .pda-est-row__ico.is-no { background: #eef2f7; color: #6b7280; }
+  .pda-est-row h4 { margin: 0 0 0.15rem; font-size: 1rem; color: #0b2c45; }
+  .pda-est-row p { margin: 0; font-size: 0.9rem; color: #5b6b7d; }
+  .pda-est-note { margin-top: 1rem; background: #f8fafc; border: 1px solid #e6ebf2; border-radius: 10px; padding: 0.8rem 1rem; font-size: 0.85rem; color: #6b7280; }
+
+  /* ── Foundation Fund Status ────────────────────────────────────────────── */
+  .pda-fundstatus { margin: 0 0 2.75rem; }
+  .pda-fundstatus__panel { background: #fff; border: 1px solid #e8edf3; border-radius: 18px; padding: 0.4rem 1.75rem; box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06); }
+  .pda-fund-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.9rem 0; border-bottom: 1px solid #eef2f7; }
+  .pda-fund-row:last-child { border-bottom: 0; }
+  .pda-fund-row__name a { color: #0b2c45; font-weight: 700; text-decoration: none; }
+  .pda-fund-row__name a:hover { text-decoration: underline; }
+
+  /* ── Document Checklist ────────────────────────────────────────────────── */
+  .pda-checklist-section { margin: 0 0 2.75rem; }
+  .pda-checklist-panel { background: #fff; border: 1px solid #e8edf3; border-radius: 18px; padding: 1.6rem 1.75rem; box-shadow: 0 12px 30px rgba(11, 44, 69, 0.06); }
+  .pda-print-head { display: none; }
+  .pda-checklist { list-style: none; margin: 0; padding: 0; }
+  .pda-checklist li { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.7rem 0; border-bottom: 1px solid #eef2f7; color: #1f2a37; font-size: 1rem; }
+  .pda-checklist li:last-child { border-bottom: 0; }
+  .pda-checklist li::before { content: ""; flex: none; width: 20px; height: 20px; border: 2px solid #dbe6f2; border-radius: 6px; margin-top: 0.1rem; }
+  .pda-checklist-panel .pda-estimator__btn { margin-top: 1.3rem; }
+
+  @media print {
+    body * { visibility: hidden; }
+    #pda-print-area, #pda-print-area * { visibility: visible; }
+    #pda-print-area { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; border: 0; }
+    .pda-no-print { display: none !important; }
+    .pda-print-head { display: block; margin-bottom: 0.9rem; }
+    .pda-print-head h3 { margin: 0; color: #0b2c45; }
+    .pda-print-head p { margin: 0.25rem 0 0; color: #475467; font-size: 0.9rem; }
+  }
+
+  /* ── Related Medicare Tools ────────────────────────────────────────────── */
+  .pda-tools { margin: 0 0 2.5rem; }
+  .pda-tools__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1.1rem; }
+  .pda-tool-card {
+    display: block; text-decoration: none; border: 1px solid #e8edf3; border-radius: 14px;
+    padding: 1.2rem; background: #fff; box-shadow: 0 6px 18px -14px rgba(11, 44, 69, 0.5);
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .pda-tool-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(11, 44, 69, 0.13); }
+  .pda-tool-card__icon { width: 42px; height: 42px; border-radius: 12px; background: var(--t); color: var(--c); display: grid; place-items: center; margin-bottom: 0.7rem; }
+  .pda-tool-card__icon svg { width: 22px; height: 22px; }
+  .pda-tool-card h3 { margin: 0 0 0.3rem; font-size: 1rem; color: #0b2c45; }
+  .pda-tool-card p { margin: 0; font-size: 0.86rem; color: #5b6b7d; }
+</style>
