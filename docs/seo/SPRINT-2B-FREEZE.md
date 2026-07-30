@@ -87,13 +87,18 @@ generated SEO reports, engine history snapshots, and the raw Search Console
 exports the baselines were computed from.
 
 **Verification.** All three baselines entered version control in commit
-`18bb516` (2026-07-30) and `git log` returns exactly one commit for each path —
-they have not been modified since. Any future edit to a baseline therefore
-appears as a second commit on that path, which is precisely the property
-"immutable" previously asserted without evidence. The mechanism is already
-demonstrable in this repository's history: the edits made during this freeze
-show up as their own commits against the plans and registry, while the baseline
-paths stay at one commit each.
+`18bb516` (2026-07-30), and `git log` returns exactly **one commit for each
+baseline path** — none has been modified since. Any future edit to a baseline
+therefore appears as a second commit on that path, which is precisely the
+property "immutable" previously asserted without evidence.
+
+The split is already visible in the history. Run
+`git log --oneline -- docs/seo/baselines/ docs/seo/observation-plans/`: the
+three baselines sit at one commit apiece while the observation plans have
+accumulated two and three, because this freeze's corrections were written to
+the plans — where errata belong — and never to the baselines. That asymmetry is
+the audit trail. Reviewing it is the cheapest possible integrity check before a
+Delta Review, and it should be run at the start of each one.
 
 **Constitutional rule adopted, effective EXP-004** (recorded in
 `EXPERIMENTS.md`, Registry conventions #3):
