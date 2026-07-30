@@ -115,6 +115,13 @@ standard were grandfathered in as the baseline; everything added from now on
 earns its place with data. The **Pattern Ledger** in `docs/seo/WORK-LOG.md`
 records each pattern's current category.
 
+**Attribution rule** (canonical text in the Pattern Ledger): evidence is
+credited only to patterns an experiment **intentionally manipulated**. A
+pattern that merely already existed on the page earns nothing from the result,
+however well the page performed. Without this, a bundled experiment would
+promote patterns it never tested, and the ledger would record page inventory
+rather than experimental evidence.
+
 ## The gate before Sprint 2A begins
 
 Once the Search Console CSV is imported and Performance Mode turns ON, the

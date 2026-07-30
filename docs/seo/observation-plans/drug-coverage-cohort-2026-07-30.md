@@ -5,6 +5,9 @@ after Google's recrawl. The evaluation itself is recorded by filling in the
 baseline's §8 table and the WORK-LOG Outcome — not by editing this plan. Written
 2026-07-30, before any post-change data exists. No outcomes are recorded here.
 
+- **Registry:** EXP-003 — `docs/seo/EXPERIMENTS.md`. First experiment whose ID
+  was assigned at baseline time; both the baseline and this plan carry it in
+  the H1, as the linkage convention now requires.
 - **Baseline (immutable):** `docs/seo/baselines/drug-coverage-cohort-2026-07-30.md`
 - **Work-log entry:** `docs/seo/WORK-LOG.md` → "2026-07-30 — `does-medicare-cover-[drug]`
   comparison table (Sprint 2B, experiment #3)"
@@ -136,6 +139,19 @@ the 600-word `thinWords` line). With the fourth column, `/does-medicare-cover-ja
 reached **602 words** and cleared `thin`. It holds on the other 11. Jardiance
 has zero impressions and sits at priority 24, so the change is immaterial to
 the experiment; it is recorded because the prediction was specific and wrong.
+
+**6. The baseline's `Date optimized` field is stale by construction.** It reads
+*"not yet implemented — this experiment is at lifecycle state 1 (Baseline)"*,
+which was true when written and false from 2026-07-30, when the change shipped.
+The field is not corrected, because the baseline is immutable. Per the
+`Date optimized` convention adopted at the Sprint 2B freeze
+(`docs/seo/EXPERIMENTS.md`, Registry conventions #2), the field is frozen at
+baseline-write time and is **never** the authoritative implementation date;
+that date is the registry record's **Status** field, corroborated by the
+WORK-LOG entry and this plan's *Change deployed* line — all three of which say
+**2026-07-30**. Baselines from EXP-004 onward omit the field entirely. Recorded
+so that no future reader treats the stale value as a claim that this experiment
+never shipped.
 
 ## 1. Observation schedule
 

@@ -299,6 +299,11 @@ multiple pages across optimization cycles, recorded in the Pattern Ledger in
 standard. Not every good idea deserves to become a permanent editorial
 requirement.
 
+Read that evidence under the ledger's **attribution rule**: a pattern is
+credited only by experiments that intentionally manipulated it. Before
+promoting anything into this document, confirm each cited outcome tested the
+pattern rather than merely co-occurring with it.
+
 Once a pattern is Proven and the decision is made to make it mandatory:
 
 1. Edit `ELEMENTS` / `STANDARDS` in `scripts/seo/standards.mjs` and update this
