@@ -22,6 +22,15 @@ export interface PageIndexEntry {
 }
 
 export const PAGE_INDEX: PageIndexEntry[] = [
+  // ── Homepage ── Registered so it participates in the SEO intelligence engine
+  // (docs/SEO-SYSTEM.md). NOT pillar: in this taxonomy `pillar` means "silo head
+  // that ties its spokes together", and the local silo's head is
+  // /medicare-plans-vernal-utah.html — not the site root.
+  {
+    href: '/',
+    title: 'Medicare in Vernal, Utah',
+    taxonomy: { silo: 'local', tags: ['local', 'vernal', 'uintah-county', 'overview', 'home'] },
+  },
   // ── Master hub (M25) — the top-level parent above every silo ──
   {
     href: '/medicare-help-center.html',
@@ -48,6 +57,11 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     href: '/medicare-dental-vision-hearing.html',
     title: 'Dental, Vision & Hearing on Medicare',
     taxonomy: { silo: 'medicare-101', tags: ['dental', 'vision', 'hearing', 'coverage', 'advantage', 'medigap'] },
+  },
+  {
+    href: '/does-medicare-cover-dental-vernal.html',
+    title: 'Does Medicare Cover Dental in Vernal?',
+    taxonomy: { silo: 'medicare-101', tags: ['coverage', 'services', 'dental', 'vernal', 'uintah-county', 'local'] },
   },
   // ── News center (M31) — index + per-article pages ──
   {
@@ -286,6 +300,11 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     taxonomy: { silo: 'enrollment', tags: ['iep', 'timeline', 'tools', 'turning-65'] },
   },
   {
+    href: '/medicare-eligibility-calculator.html',
+    title: 'Medicare Eligibility & Timeline Calculator',
+    taxonomy: { silo: 'enrollment', tags: ['eligibility', 'iep', 'timeline', 'tools', 'turning-65', 'enrollment'] },
+  },
+  {
     href: '/medicare-enrollment-countdown.html',
     title: 'Medicare Enrollment Countdown',
     taxonomy: { silo: 'enrollment', tags: ['iep', 'aep', 'gep', 'tools', 'deadlines', 'turning-65'] },
@@ -467,6 +486,29 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     href: '/tier-3-vs-tier-4-medicare-part-d.html',
     title: 'Tier 3 vs Tier 4 Drugs on Medicare Part D',
     taxonomy: { silo: 'part-d', tags: ['part-d', 'formulary', 'tiers', 'drugs', 'costs'] },
+  },
+  // Bespoke Part-D pages that predate the data-driven clusters below. They use
+  // the same tag vocabulary (condition slugs from data/drugCoverage.ts) so the
+  // Related engine ranks them alongside the generated pages.
+  {
+    href: '/part-d-help-vernal.html',
+    title: 'Part D Prescription Drug Plan Help in Vernal',
+    taxonomy: { silo: 'part-d', tags: ['part-d', 'local', 'vernal', 'uintah-county', 'drugs'] },
+  },
+  {
+    href: '/does-medicare-cover-ozempic-wegovy.html',
+    title: 'Does Medicare Cover Ozempic or Wegovy?',
+    taxonomy: { silo: 'part-d', tags: ['drug-coverage', 'weight', 'diabetes', 'part-d', 'coverage'] },
+  },
+  {
+    href: '/does-medicare-cover-mounjaro-utah.html',
+    title: 'Does Medicare Cover Mounjaro in Utah?',
+    taxonomy: { silo: 'part-d', tags: ['drug-coverage', 'weight', 'diabetes', 'part-d', 'coverage'] },
+  },
+  {
+    href: '/insulin-cost-medicare-vernal.html',
+    title: 'Cost of Insulin with Medicare in Vernal',
+    taxonomy: { silo: 'part-d', tags: ['part-d', 'insulin', 'diabetes', 'drug-costs', 'costs', 'vernal', 'local'] },
   },
   // Drug pages generated from data/drugs.ts:
   ...FEATURED_DRUGS.map((d): PageIndexEntry => ({

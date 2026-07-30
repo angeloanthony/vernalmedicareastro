@@ -11,6 +11,7 @@
 // data module — English on /es until Phase B.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import NewsTicker from '../NewsTicker.astro';
+import SummaryBlock from '../SummaryBlock.astro';
 import { getPageContent, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
 import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
 import { BUSINESS } from '../../data/business';
@@ -35,6 +36,7 @@ interface Content {
     breadcrumbHome: string;
   };
   hero: { imgAlt: string; h1: string; tagline: string; enrollLabel: string; startLabel: string };
+  summary: string;
   welcome: { h2: string; h3: string; videoTitle: string; comicAlt: string };
   paths: { aria: string; h2: string; introHtml: string; items: { label: string; href: string }[] };
   reviews: {
@@ -256,6 +258,12 @@ const schema = [
 </div>
     </div>
   </section>
+
+  <!-- AI summary (Sprint 2B experiment #2 — the hero text is an absolute
+       overlay on the image, so this is the first in-flow element below the H1) -->
+  <div class="home-summary">
+    <SummaryBlock text={c.summary} />
+  </div>
 
     <!-- Welcome / What We Do -->
   <section class="welcome">
@@ -621,6 +629,19 @@ const schema = [
     text-decoration: none;
   }
   .hero-startbtn:hover { background: #0b2c45; color: #fff; border-color: #0b2c45; }
+
+  /* AI summary below the hero — styles the new block only */
+  .home-summary { max-width: 900px; margin: 1.25rem auto 0; padding: 0 1rem; }
+  .home-summary :global(.summary-block) {
+    background: #f4f7fa;
+    border-left: 4px solid #0b2c45;
+    border-radius: 8px;
+    padding: 0.9rem 1.1rem;
+    color: #333;
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+  .home-summary :global(.summary-block p) { margin: 0; }
 
   .vm-startpaths {
     max-width: 1100px;

@@ -6,7 +6,9 @@
 // embed, flip-comic, smile carousel, and both inline scripts are preserved
 // verbatim (scripts contain no human-facing strings).
 import ArticlePage from '../layout/ArticlePage.astro';
-import { getPageContent, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { figuresFor } from '../../data/annualMedicareData';
+import { usd } from '../../lib/formatters';
+import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
 import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
 import type { PageContext } from '../../types/Page';
 
@@ -17,6 +19,7 @@ interface MedigapContent {
     description: string;
     summary: string;
     faqs: { question: string; answer: string }[];
+    sources: { title: string; url: string; publisher: string }[];
   };
   meta: { ogDescription: string };
   breadcrumb: { home: string; self: string };
@@ -24,6 +27,18 @@ interface MedigapContent {
     biggerPictureHtml: string;
     videoTitle: string;
     comicAlt: string;
+    whatHeading: string;
+    whatHtml: string;
+    definitionsHeading: string;
+    definitions: { term: string; def: string }[];
+    compareHeading: string;
+    compareIntroHtml: string;
+    table: { headers: string[]; rows: string[][] };
+    tableFootHtml: string;
+    utahHeading: string;
+    utahHtml: string;
+    enrollHeading: string;
+    enrollHtml: string;
     smileAria: string;
     smileTitle: string;
     prevAria: string;
@@ -38,30 +53,41 @@ const lang = getLangFromUrl(Astro.url);
 const c = getPageContent<MedigapContent>('medigap', lang);
 const pagePath = lang === 'en' ? '/medigap.html' : `/${lang}/medigap.html`;
 
+// Annual figures interpolate from the single source of truth, so this page
+// updates itself when annualMedicareData rolls to a new year.
+const f = figuresFor();
+const vars = {
+  year: f.year,
+  partBDeductible: usd(f.partB.deductible),
+  partADeductible: usd(f.partA.deductible),
+};
+const fill = (s: string) => interp(s, vars);
+
 const context: PageContext = {
   page: {
     title: c.page.title,
     heading: c.page.heading,
-    description: c.page.description,
+    description: fill(c.page.description),
     taxonomy: {
       silo: 'medigap',
       tags: ['medigap', 'supplement', 'overview', 'vernal', 'original-medicare'],
       pillar: true,
     },
-    summary: c.page.summary,
-    faqs: c.page.faqs,
+    summary: fill(c.page.summary),
+    faqs: c.page.faqs.map((q) => ({ question: fill(q.question), answer: fill(q.answer) })),
+    sources: c.page.sources.map((s) => ({ ...s, title: fill(s.title) })),
   },
   meta: {
     canonical: `${SITE_ORIGIN}${pagePath}`,
     ogType: 'article',
-    ogDescription: c.meta.ogDescription,
+    ogDescription: fill(c.meta.ogDescription),
     lang,
     ogLocale: getLocaleMeta(lang).ogLocale,
     hreflang: hreflangAlternates('medigap'),
   },
   author: 'rocco',
   datePublished: '2026-04-04',
-  lastUpdated: '2026-07-01',
+  lastUpdated: '2026-07-30',
   marketingDisclaimer: true,
   breadcrumb: [
     { name: c.breadcrumb.home, href: localizeHref('/', lang) },
@@ -97,6 +123,48 @@ const context: PageContext = {
           loading="lazy" decoding="async">
       </a>
     </div>
+  </section>
+
+  <!-- What Medigap covers + definitions -->
+  <section class="container mg-guide">
+    <h2>{c.body.whatHeading}</h2>
+    <div set:html={fill(c.body.whatHtml)} />
+
+    <h3>{c.body.definitionsHeading}</h3>
+    <dl class="mg-defs">
+      {c.body.definitions.map((d) => (
+        <>
+          <dt><dfn>{d.term}</dfn></dt>
+          <dd>{fill(d.def)}</dd>
+        </>
+      ))}
+    </dl>
+
+    <h2>{fill(c.body.compareHeading)}</h2>
+    <div set:html={fill(c.body.compareIntroHtml)} />
+    <div class="mg-table-wrap">
+      <table class="mg-table">
+        <thead>
+          <tr>{c.body.table.headers.map((h) => <th scope="col">{h}</th>)}</tr>
+        </thead>
+        <tbody>
+          {c.body.table.rows.map((row) => (
+            <tr>
+              {row.map((cell, i) =>
+                i === 0 ? <th scope="row">{fill(cell)}</th> : <td>{fill(cell)}</td>,
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div set:html={fill(c.body.tableFootHtml)} />
+
+    <h2>{c.body.utahHeading}</h2>
+    <div set:html={fill(c.body.utahHtml)} />
+
+    <h2>{c.body.enrollHeading}</h2>
+    <div set:html={fill(c.body.enrollHtml)} />
   </section>
 
   <!-- Smile Carousel -->
@@ -196,3 +264,23 @@ const context: PageContext = {
   })();
   </script>
 </ArticlePage>
+
+<style>
+  .mg-guide { margin: 2.5rem auto; }
+  .mg-guide h2 { color: #0b2c45; margin: 2rem 0 0.75rem; }
+  .mg-guide h3 { color: #0b2c45; margin: 1.5rem 0 0.5rem; }
+  .mg-guide :global(p) { line-height: 1.65; color: #334155; }
+  .mg-guide :global(a) { color: #0b6ea3; font-weight: 600; }
+
+  .mg-defs { margin: 0.5rem 0 1rem; }
+  .mg-defs dt { font-weight: 700; color: #0b2c45; margin-top: 0.9rem; }
+  .mg-defs dd { margin: 0.25rem 0 0 0; line-height: 1.55; color: #334155; }
+
+  .mg-table-wrap { overflow-x: auto; margin: 1rem 0; }
+  .mg-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .mg-table th,
+  .mg-table td { border: 1px solid #dbe6f2; padding: 0.6rem 0.8rem; text-align: left; vertical-align: top; }
+  .mg-table thead th { background: #0b6ea3; color: #fff; }
+  .mg-table tbody th { background: #f0f9ff; color: #0b2c45; font-weight: 600; }
+  .mg-table tbody tr:nth-child(even) td { background: #f8fafc; }
+</style>

@@ -21,6 +21,19 @@ const { d } = Astro.props as Props;
 const bySlug = new Map(DRUG_COVERAGE.map((x) => [x.slug, x]));
 const assistanceHref = d.assistanceSlug ? `${d.assistanceSlug}-assistance-program.html` : 'prescription-drug-assistance.html';
 
+// EXP-003 — the standard comparison table. Every cell is a field this template
+// already renders as prose, so only the STRUCTURE is new, not the content.
+// Drugs alone in their condition group (Trelegy, Zepbound) render no table:
+// a one-row table would fail the standard's 3-row minimum, and inventing
+// cross-condition peers would compare things readers don't compare.
+const COVERAGE_LABEL: Record<DrugCoverageEntry['status'], string> = {
+  covered: 'Yes',
+  conditional: 'Yes, with conditions',
+  limited: 'Rarely',
+};
+const conditionPeers = DRUG_COVERAGE.filter((x) => x.condition === d.condition);
+const showComparison = conditionPeers.length >= 3;
+
 const context: PageContext = {
   page: {
     title: `Does Medicare Cover ${d.brand}? — Coverage & Costs | Vernal Medicare`,
@@ -68,6 +81,32 @@ const context: PageContext = {
   <h2>Typical formulary tier</h2>
   <p>{d.tier}. Your exact tier — and copay — depend on the plan you choose, which is why matching the formulary to your medications matters.</p>
 
+  {showComparison && (
+    <div class="dc-table-wrap">
+      <table class="dc-table">
+        <caption>{DRUG_CONDITION_META[d.condition].label} medications on Medicare — coverage and typical tier</caption>
+        <thead>
+          <tr>
+            <th scope="col">Drug</th>
+            <th scope="col">Used for</th>
+            <th scope="col">Covered by Medicare?</th>
+            <th scope="col">Typical formulary tier</th>
+          </tr>
+        </thead>
+        <tbody>
+          {conditionPeers.map((p) => (
+            <tr>
+              <th scope="row">{p.brand} ({p.generic})</th>
+              <td>{p.treats}</td>
+              <td>{COVERAGE_LABEL[p.status]}</td>
+              <td>{p.tier}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+
   <h2>Prior authorization &amp; plan rules</h2>
   <p>{d.priorAuth}</p>
 
@@ -106,4 +145,15 @@ const context: PageContext = {
     text-transform: uppercase; letter-spacing: 0.03em; font-size: 0.8rem; font-weight: 700;
     color: var(--color-accent, #9e0853); margin: 0 0 0.5rem;
   }
+
+  .dc-table-wrap { overflow-x: auto; margin: 1.25rem 0; }
+  .dc-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .dc-table caption {
+    caption-side: top; text-align: left; font-weight: 700;
+    padding: 0 0 0.5rem; color: var(--color-ink, #0b2c45);
+  }
+  .dc-table th, .dc-table td { padding: 10px 12px; border: 1px solid #ddd; text-align: left; }
+  .dc-table thead th { background: #0b2c45; color: #fff; }
+  .dc-table tbody th { font-weight: 700; }
+  .dc-table tbody tr:nth-child(even) { background: #f6f8fa; }
 </style>

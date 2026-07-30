@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(node \"/c/Users/deluc/AppData/Local/Temp/claude/c--Users-deluc-Documents-vernalmedicareastro/7ffd77e7-52ff-432e-b865-e5c1f42b65e8/scratchpad/diff-queues.mjs\")",
+      "Bash(node \"/c/Users/deluc/AppData/Local/Temp/claude/c--Users-deluc-Documents-vernalmedicareastro/7ffd77e7-52ff-432e-b865-e5c1f42b65e8/scratchpad/dump-factors.mjs\")"
+    ]
+  }
+}

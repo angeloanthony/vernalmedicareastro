@@ -9,8 +9,14 @@
 //
 // The eight topic sections stay a structured sections[] array in the content
 // JSON; every internal link the old text hub exposed still ships inside the
-// cards. Relative hrefs auto-upgrade to /es/ because the /es page resolves them
-// against its own path — so keep every internal link relative.
+// cards.
+//
+// LINKS: keep internal links relative IN THE CONTENT JSON — getPageContent()
+// rewrites them per locale via localizeHref, pointing at /es/x.html when that
+// translation exists and falling back to the English /x.html when it does not.
+// A relative href does NOT "auto-upgrade" under /es/: the browser resolves it
+// against /es/, which 404s for every untranslated page. Any href written
+// directly in this component's markup must be wrapped in localizeHref(…, lang).
 import ArticlePage from '../layout/ArticlePage.astro';
 import { BUSINESS } from '../../data/business';
 import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
@@ -205,7 +211,7 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
           <ul class="hc-card__list">
             {s.itemsHtml.map((item) => <li set:html={item} />)}
           </ul>
-          <a class="hc-card__cta" href={st.href}>
+          <a class="hc-card__cta" href={localizeHref(st.href, lang)}>
             <span set:html={s.cta} />
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
           </a>

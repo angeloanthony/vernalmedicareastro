@@ -87,12 +87,24 @@ export function localizeHtml(html: string, locale: string): string {
   return html.replace(/href="([^"]*)"/g, (_m, h: string) => `href="${localizeHref(h, locale)}"`);
 }
 
-function deepLocalizeHrefs(v: unknown, locale: string): unknown {
-  if (typeof v === 'string') return localizeHtml(v, locale);
-  if (Array.isArray(v)) return v.map((x) => deepLocalizeHrefs(x, locale));
+/** Content keys whose STRING VALUE is itself a link, not HTML containing one.
+ *  Matches href/url and their prefixed variants (ctaHref, faqAllHref, quoteHref).
+ *  Asset and external values are returned unchanged by localizeHref. */
+const isHrefKey = (key: string): boolean => /(href|url)$/i.test(key);
+
+function deepLocalizeHrefs(v: unknown, locale: string, key?: string): unknown {
+  // A bare link field ({ label, href: 'medicare-glossary.html' }) contains no
+  // `href="` substring, so localizeHtml would pass it through untouched and the
+  // relative path would resolve against /es/ — 404ing whenever that page has no
+  // translation. Structured link fields must go through localizeHref directly.
+  // (External URLs in `url` fields are returned unchanged by localizeHref.)
+  if (typeof v === 'string') {
+    return key && isHrefKey(key) ? localizeHref(v, locale) : localizeHtml(v, locale);
+  }
+  if (Array.isArray(v)) return v.map((x) => deepLocalizeHrefs(x, locale, key));
   if (v && typeof v === 'object')
     return Object.fromEntries(
-      Object.entries(v).map(([k, x]) => [k, deepLocalizeHrefs(x, locale)]),
+      Object.entries(v).map(([k, x]) => [k, deepLocalizeHrefs(x, locale, k)]),
     );
   return v;
 }

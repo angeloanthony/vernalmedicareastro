@@ -1,13 +1,17 @@
 {
   "page": {
-    "title": "Medigap (Medicare Supplement) in Vernal, Utah | Vernal Medicare",
-    "heading": "Medigap (Medicare Supplement) — \"Don't Be Harold\" Insurance",
-    "description": "Compare Medigap plans in Vernal and the Uintah Basin. Local, licensed help choosing a Medicare Supplement that fits your doctors and budget.",
-    "summary": "Medigap (Medicare Supplement) helps pay the costs Original Medicare doesn't — deductibles, copays, and coinsurance. You keep Original Medicare, see any provider who accepts it nationwide, and add a separate Part D plan for prescriptions. Local, licensed help comparing Medigap plans in Vernal and the Uintah Basin.",
+    "title": "Utah Medigap Plans: Compare Plan G vs Plan N | Vernal Medicare",
+    "heading": "Utah Medigap Plans — \"Don't Be Harold\" Insurance",
+    "description": "Compare Utah Medigap plans: what Plan G and Plan N cover in {year}, how pricing works, and the 6-month window to enroll with no health questions. Local help in Vernal.",
+    "summary": "Medigap (Medicare Supplement) is standardized insurance that pays the deductibles, copays, and coinsurance Original Medicare leaves behind. Most Utahns new to Medicare choose Plan G — which covers everything except the {partBDeductible} Part B deductible in {year} — or Plan N, which trades small copays for a lower premium. You keep Original Medicare, can see any provider in the country who accepts it, and add a separate Part D plan for prescriptions.",
     "faqs": [
       {
         "question": "What is Medigap?",
         "answer": "Medigap (Medicare Supplement) helps pay the costs Original Medicare doesn't, like deductibles, copays, and coinsurance. You keep Original Medicare and can see any provider who accepts Medicare."
+      },
+      {
+        "question": "What's the difference between Plan G and Plan N?",
+        "answer": "Plan G covers everything Original Medicare leaves except the annual Part B deductible ({partBDeductible} in {year}). Plan N trades a lower monthly premium for small copays — up to $20 for office visits and up to $50 for ER visits that don't lead to admission — and it does not cover Part B excess charges."
       },
       {
         "question": "Does Medigap include drug coverage?",
@@ -15,12 +19,38 @@
       },
       {
         "question": "When can I enroll?",
-        "answer": "Your best time is the first 6 months you're 65 or older and have Part B—no health questions in most states. After that you can apply anytime, but medical underwriting may apply."
+        "answer": "Your best time is the first 6 months you're 65 or older and have Part B — no health questions in most states. After that you can apply anytime, but medical underwriting may apply."
+      },
+      {
+        "question": "Can I switch from Medicare Advantage to Medigap later?",
+        "answer": "You can apply anytime, but outside a protected enrollment window Utah insurers can ask health questions and may charge more or decline coverage. If you're weighing the two paths, compare them carefully before your guaranteed-issue window closes."
+      }
+    ],
+    "sources": [
+      {
+        "title": "What's Medicare Supplement Insurance (Medigap)?",
+        "url": "https://www.medicare.gov/supplements-other-insurance/whats-medicare-supplement-insurance-medigap",
+        "publisher": "Medicare.gov"
+      },
+      {
+        "title": "When can I buy Medigap?",
+        "url": "https://www.medicare.gov/supplements-other-insurance/when-can-i-buy-medigap",
+        "publisher": "Medicare.gov"
+      },
+      {
+        "title": "Medicare costs ({year} premiums and deductibles)",
+        "url": "https://www.medicare.gov/basics/costs/medicare-costs",
+        "publisher": "Medicare.gov"
+      },
+      {
+        "title": "Utah Senior Health Insurance Information Program (SHIP)",
+        "url": "https://medicare.utah.gov/",
+        "publisher": "Utah Department of Health & Human Services"
       }
     ]
   },
   "meta": {
-    "ogDescription": "Local, licensed help comparing Medigap plans in Vernal and the Uintah Basin."
+    "ogDescription": "Compare Utah Medigap plans — Plan G vs Plan N coverage, {year} costs, and enrollment windows. Local, licensed help in Vernal and the Uintah Basin."
   },
   "breadcrumb": {
     "home": "Home",
@@ -30,6 +60,45 @@
     "biggerPictureHtml": "<strong>Looking for the bigger picture?</strong> See <a href=\"medicare-plans-vernal-utah.html\">everything about Medicare in Vernal, Utah</a> — covers Medicare Advantage, Medigap, Part D, costs, enrollment, and local providers.",
     "videoTitle": "YouTube video player",
     "comicAlt": "Medicare comic",
+    "whatHeading": "What Medigap covers — and what it doesn't",
+    "whatHtml": "<p>Original Medicare pays most of the bill, but it leaves real gaps: the Part A hospital deductible ({partADeductible} per benefit period in {year}), the Part B deductible, and the 20% Part B coinsurance that has <em>no annual out-of-pocket cap</em>. A Medigap policy is private insurance that pays some or all of that cost-sharing for you. Plans are standardized by letter — every Plan G covers exactly the same benefits no matter which insurer sells it, so you're comparing price and service, not fine print. See <a href=\"medicare-costs.html\">what Medicare actually costs</a> for the full picture of the gaps these plans fill.</p><p>Two things Medigap does <strong>not</strong> do: it doesn't cover prescriptions — you add a separate <a href=\"medicare-drug-coverage.html\">Part D drug plan</a> — and it isn't the same thing as Medicare Advantage. A Medigap policy supplements Original Medicare; a Medicare Advantage plan <em>replaces</em> how you receive it. If you're deciding between the two paths, start with <a href=\"medicare-supplement-vs-advantage.html\">Medicare Supplement vs Medicare Advantage</a>.</p>",
+    "definitionsHeading": "Terms worth knowing",
+    "definitions": [
+      {
+        "term": "Medigap (Medicare Supplement)",
+        "def": "Standardized private insurance that pays deductibles, copays, and coinsurance Original Medicare leaves to you. Plans are lettered (A through N), and benefits are identical from insurer to insurer for the same letter."
+      },
+      {
+        "term": "Medigap Open Enrollment Period",
+        "def": "The 6 months that start the first month you are both 65 or older and enrolled in Part B. During this window insurers must accept you with no health questions, at the same price as a healthy applicant."
+      },
+      {
+        "term": "Part B excess charge",
+        "def": "Up to 15% above the Medicare-approved amount that a provider who doesn't accept Medicare's rate in full may bill you. Plan G covers excess charges; Plan N does not."
+      },
+      {
+        "term": "Medical underwriting",
+        "def": "Health questions an insurer may ask when you apply outside a protected window. Underwriting can mean a higher premium or a declined application — which is why the timing of your Medigap purchase matters."
+      }
+    ],
+    "compareHeading": "Plan G vs Plan N at a glance ({year})",
+    "compareIntroHtml": "<p>Plans C and F closed to people newly eligible for Medicare after January 1, 2020, so today the choice for most new enrollees comes down to <strong>Plan G, Plan N, or High-Deductible Plan G</strong>:</p>",
+    "table": {
+      "headers": ["Benefit", "Plan G", "Plan N", "High-Deductible Plan G"],
+      "rows": [
+        ["Part A hospital deductible ({partADeductible} in {year})", "Covered", "Covered", "Covered after plan deductible"],
+        ["Part B deductible ({partBDeductible} in {year})", "You pay it", "You pay it", "You pay it (counts toward plan deductible)"],
+        ["Part B coinsurance (20%)", "Covered in full", "Covered after copays: up to $20 office, up to $50 ER", "Covered after plan deductible"],
+        ["Part B excess charges", "Covered", "Not covered", "Covered after plan deductible"],
+        ["Foreign travel emergency", "80%, up to plan limits", "80%, up to plan limits", "80%, after plan deductible"],
+        ["Monthly premium", "Highest of the three", "Lower", "Lowest"]
+      ]
+    },
+    "tableFootHtml": "<p>For the head-to-head with local pricing context, see <a href=\"plan-g-vs-plan-n-vernal.html\">Plan G vs Plan N in Vernal</a>. If you rarely use care and want the lowest premium with a safety net, read about <a href=\"medicare-plan-g-high-deductible.html\">High-Deductible Plan G</a>.</p>",
+    "utahHeading": "Why Medigap fits rural Utah",
+    "utahHtml": "<p>Medigap has no networks. In the Uintah Basin that matters more than almost anywhere: when a Vernal doctor refers you to a specialist in Salt Lake City, a Medigap policy follows you there — any <a href=\"medicare-hospitals-uintah-county.html\">hospital or provider that accepts Medicare</a>, in any state, with no referrals or prior network checks. Premiums in Utah vary by plan letter, your age when you buy, tobacco use, and how the insurer rates its policies, so two companies can charge meaningfully different prices for the identical standardized plan — which is exactly why it pays to <a href=\"medicare-quote-vernal.html\">compare quotes locally</a> rather than answer a national call-center ad.</p>",
+    "enrollHeading": "When to enroll — and what happens if you wait",
+    "enrollHtml": "<p>Your Medigap Open Enrollment Period lasts 6 months from the first month you're 65 or older <em>and</em> enrolled in Part B. Inside that window, acceptance is guaranteed. Outside it, Utah insurers can apply medical underwriting. If you're <a href=\"turning-65.html\">turning 65</a>, the window opens automatically when Part B starts; if you're <a href=\"working-past-65.html\">working past 65</a> on employer coverage, it waits until you take Part B — you don't burn it by delaying. The details of how Medigap timing fits the broader enrollment calendar are in <a href=\"when-to-enroll-medicare-utah.html\">When to Enroll in Medicare in Utah</a>.</p>",
     "smileAria": "Medicare comics carousel",
     "smileTitle": "Smile!",
     "prevAria": "Previous comic",

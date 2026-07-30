@@ -16,7 +16,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "verify": "node scripts/verify.mjs",
-    "translate": "node scripts/translate.js"
+    "translate": "node scripts/translate.js",
+    "seo": "node --no-warnings scripts/seo/run.mjs",
+    "seo:build": "node --no-warnings scripts/seo/run.mjs --build",
+    "seo:gate": "node --no-warnings scripts/seo/gate.mjs"
   },
   "dependencies": {
     "astro": "^6.4.2"

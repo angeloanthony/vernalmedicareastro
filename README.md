@@ -93,6 +93,22 @@ Your 5 hand-built split sitemaps are preserved verbatim in `public/`. The
 changes for Search Console on launch. Switching to the generator is a clean
 Phase 2 decision.
 
+## SEO reporting
+
+```bash
+npm run seo         # score the current dist/ and regenerate every report
+npm run seo:build   # rebuild the site first, then the same
+```
+
+Reads four canonical sources — `src/data/pageIndex.ts`, Search Console exports in
+`data/search-console/`, the built HTML in `dist/`, and `git log` — and writes
+`docs/seo/`: a dashboard, a prioritized work queue, opportunity rankings, AI
+readiness, an internal-link report and a refresh queue.
+
+Everything in `docs/seo/` is generated and must never be hand-edited; the only
+file you tune is `scripts/seo/config.mjs` (business value, weights, thresholds).
+See `docs/SEO-SYSTEM.md`.
+
 ## Converting more pages later / next phases
 
 - **Phase 2:** centralize/standardize (e.g. move repeated inline blocks into

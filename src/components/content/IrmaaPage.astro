@@ -271,7 +271,7 @@ const trust = ui.trust.map((tr, i) => ({ ...tr, ...TRUST_STYLE[i % TRUST_STYLE.l
         <h2 class="irm-card__title">{b.h2Appeal}</h2>
       </div>
       <p class="irm-card__body" set:html={t9(b.appealHtml)} />
-      <a class="irm-card__cta" href="medicare-irmaa-appeal-ssa-44.html">
+      <a class="irm-card__cta" href={localizeHref('medicare-irmaa-appeal-ssa-44.html', lang)}>
         {ui.appealCta}
         <span aria-hidden="true" set:html={ICON_ARROW} />
       </a>
@@ -348,7 +348,7 @@ const trust = ui.trust.map((tr, i) => ({ ...tr, ...TRUST_STYLE[i % TRUST_STYLE.l
         <span class="irm-cta__phone-icon" aria-hidden="true" set:html={ICON_PHONE_FILL} />
         <span>{BUSINESS.phone}<em>(TTY: {BUSINESS.tty})</em></span>
       </a>
-      <a class="irm-cta__quote" href="medicare-quote-vernal.html">
+      <a class="irm-cta__quote" href={localizeHref('medicare-quote-vernal.html', lang)}>
         <span class="irm-cta__quote-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span>
         {t9(ui.ctaButtonQuote)}
       </a>

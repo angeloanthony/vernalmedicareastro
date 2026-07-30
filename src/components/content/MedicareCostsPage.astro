@@ -261,7 +261,7 @@ const trust = ui.trust.map((t, i) => ({ ...t, ...TRUST_STYLE[i % TRUST_STYLE.len
       <h2 class="cst-estimate__title">{t9(b.h2Estimate)}</h2>
       <p set:html={t9(b.estimateHtml)} />
     </div>
-    <a class="cst-estimate__cta" href="medicare-cost-estimator.html">
+    <a class="cst-estimate__cta" href={localizeHref('medicare-cost-estimator.html', lang)}>
       {t9(ui.estimateCta)}
       <span aria-hidden="true" set:html={ICON_ARROW} />
     </a>
@@ -312,7 +312,7 @@ const trust = ui.trust.map((t, i) => ({ ...t, ...TRUST_STYLE[i % TRUST_STYLE.len
       <h2 class="cst-local__title">{t9(b.h2Local)}</h2>
       <p set:html={t9(b.localHtml)} />
     </div>
-    <a class="cst-local__cta" href="medicare-cost-uintah-county.html">
+    <a class="cst-local__cta" href={localizeHref('medicare-cost-uintah-county.html', lang)}>
       {t9(ui.localCta)}
       <span aria-hidden="true" set:html={ICON_ARROW} />
     </a>
@@ -330,7 +330,7 @@ const trust = ui.trust.map((t, i) => ({ ...t, ...TRUST_STYLE[i % TRUST_STYLE.len
         <span class="cst-cta__phone-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg></span>
         <span>{BUSINESS.phone}<em>(TTY: {BUSINESS.tty})</em></span>
       </a>
-      <a class="cst-cta__quote" href="medicare-quote-vernal.html">
+      <a class="cst-cta__quote" href={localizeHref('medicare-quote-vernal.html', lang)}>
         <span class="cst-cta__quote-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span>
         {t9(ui.ctaButtonQuote)}
       </a>

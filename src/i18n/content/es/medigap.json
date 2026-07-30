@@ -1,14 +1,18 @@
 {
-  "__translation_note": "AI-translated from en/medigap.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "__translation_note": "AI-translated from en/medigap.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). 2026-07-30: page expanded (Sprint 2B) — new segments hand-translated with glossary terms because no API credentials were available in the session; run npm run translate -- --locale es --page medigap to validate/adopt into the cache. Do not otherwise hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
   "page": {
-    "title": "Medigap (Suplemento de Medicare) en Vernal, Utah | Vernal Medicare",
-    "heading": "Medigap (Suplemento de Medicare) — el seguro \"No sea como Harold\"",
-    "description": "Compare planes Medigap en Vernal y en Uintah Basin. Ayuda local y con licencia para elegir un Suplemento de Medicare que se ajuste a sus médicos y a su presupuesto.",
-    "summary": "Medigap (Suplemento de Medicare) ayuda a pagar los costos que Medicare Original no cubre — deducibles, copagos y coseguro. Usted conserva Medicare Original, puede ver a cualquier proveedor que lo acepte en todo el país, y agrega un plan de la Parte D por separado para sus medicamentos recetados. Ayuda local y con licencia para comparar planes Medigap en Vernal y en Uintah Basin.",
+    "title": "Planes Medigap en Utah: Compare el Plan G vs el Plan N | Vernal Medicare",
+    "heading": "Planes Medigap en Utah — el seguro \"No sea como Harold\"",
+    "description": "Compare planes Medigap en Utah: qué cubren el Plan G y el Plan N en {year}, cómo funcionan los precios y la ventana de 6 meses para inscribirse sin preguntas de salud. Ayuda local en Vernal.",
+    "summary": "Medigap (Suplemento de Medicare) es un seguro estandarizado que paga los deducibles, copagos y coseguro que Medicare Original deja a su cargo. La mayoría de las personas en Utah que son nuevas en Medicare eligen el Plan G — que cubre todo excepto el deducible de la Parte B de {partBDeductible} en {year} — o el Plan N, que intercambia copagos pequeños por una prima más baja. Usted conserva Medicare Original, puede ver a cualquier proveedor del país que lo acepte, y agrega un plan de la Parte D por separado para sus medicamentos recetados.",
     "faqs": [
       {
         "question": "¿Qué es Medigap?",
         "answer": "Medigap (Suplemento de Medicare) ayuda a pagar los costos que Medicare Original no cubre, como deducibles, copagos y coseguro. Usted conserva Medicare Original y puede ver a cualquier proveedor que acepte Medicare."
+      },
+      {
+        "question": "¿Cuál es la diferencia entre el Plan G y el Plan N?",
+        "answer": "El Plan G cubre todo lo que Medicare Original deja a su cargo excepto el deducible anual de la Parte B ({partBDeductible} en {year}). El Plan N intercambia una prima mensual más baja por copagos pequeños — hasta $20 por visitas al consultorio y hasta $50 por visitas a la sala de emergencias que no terminan en hospitalización — y no cubre los cargos en exceso de la Parte B."
       },
       {
         "question": "¿Medigap incluye cobertura de medicamentos?",
@@ -17,11 +21,37 @@
       {
         "question": "¿Cuándo puedo inscribirme?",
         "answer": "Su mejor momento son los primeros 6 meses en que usted tiene 65 años o más y tiene la Parte B — sin preguntas de salud en la mayoría de los estados. Después de ese período puede solicitar en cualquier momento, pero puede aplicar una evaluación médica de riesgo."
+      },
+      {
+        "question": "¿Puedo cambiar de Medicare Advantage a Medigap más adelante?",
+        "answer": "Puede solicitar en cualquier momento, pero fuera de una ventana de inscripción protegida las aseguradoras de Utah pueden hacer preguntas de salud y podrían cobrar más o rechazar la cobertura. Si está comparando los dos caminos, hágalo con cuidado antes de que se cierre su ventana de emisión garantizada."
+      }
+    ],
+    "sources": [
+      {
+        "title": "¿Qué es el seguro suplementario de Medicare (Medigap)?",
+        "url": "https://www.medicare.gov/supplements-other-insurance/whats-medicare-supplement-insurance-medigap",
+        "publisher": "Medicare.gov"
+      },
+      {
+        "title": "¿Cuándo puedo comprar Medigap?",
+        "url": "https://www.medicare.gov/supplements-other-insurance/when-can-i-buy-medigap",
+        "publisher": "Medicare.gov"
+      },
+      {
+        "title": "Costos de Medicare (primas y deducibles de {year})",
+        "url": "https://www.medicare.gov/basics/costs/medicare-costs",
+        "publisher": "Medicare.gov"
+      },
+      {
+        "title": "Programa de Información de Seguros de Salud para Personas Mayores de Utah (SHIP)",
+        "url": "https://medicare.utah.gov/",
+        "publisher": "Departamento de Salud y Servicios Humanos de Utah"
       }
     ]
   },
   "meta": {
-    "ogDescription": "Ayuda local y con licencia para comparar planes Medigap en Vernal y en Uintah Basin."
+    "ogDescription": "Compare planes Medigap en Utah — cobertura del Plan G vs el Plan N, costos de {year} y ventanas de inscripción. Ayuda local y con licencia en Vernal y en Uintah Basin."
   },
   "breadcrumb": {
     "home": "Inicio",
@@ -31,6 +61,45 @@
     "biggerPictureHtml": "<strong>¿Busca el panorama completo?</strong> Vea <a href=\"medicare-plans-vernal-utah.html\">todo sobre Medicare en Vernal, Utah</a> — cubre Medicare Advantage, Medigap, la Parte D, costos, inscripción y proveedores locales.",
     "videoTitle": "Reproductor de video de YouTube",
     "comicAlt": "Caricatura de Medicare",
+    "whatHeading": "Qué cubre Medigap — y qué no cubre",
+    "whatHtml": "<p>Medicare Original paga la mayor parte de la cuenta, pero deja brechas reales: el deducible hospitalario de la Parte A ({partADeductible} por período de beneficios en {year}), el deducible de la Parte B y el coseguro del 20% de la Parte B, que <em>no tiene límite anual de gastos de bolsillo</em>. Una póliza Medigap es un seguro privado que paga por usted una parte o la totalidad de esos costos compartidos. Los planes están estandarizados por letra — cada Plan G cubre exactamente los mismos beneficios sin importar qué aseguradora lo venda, así que usted compara precio y servicio, no letra pequeña. Vea <a href=\"medicare-costs.html\">cuánto cuesta Medicare realmente</a> para el panorama completo de las brechas que estos planes cubren.</p><p>Dos cosas que Medigap <strong>no</strong> hace: no cubre medicamentos recetados — usted agrega un <a href=\"medicare-drug-coverage.html\">plan de medicamentos de la Parte D</a> por separado — y no es lo mismo que Medicare Advantage. Una póliza Medigap complementa Medicare Original; un plan Medicare Advantage <em>reemplaza</em> la forma en que usted lo recibe. Si está decidiendo entre los dos caminos, comience con <a href=\"medicare-supplement-vs-advantage.html\">Suplemento de Medicare vs Medicare Advantage</a>.</p>",
+    "definitionsHeading": "Términos que vale la pena conocer",
+    "definitions": [
+      {
+        "term": "Medigap (Suplemento de Medicare)",
+        "def": "Seguro privado estandarizado que paga los deducibles, copagos y coseguro que Medicare Original deja a su cargo. Los planes se identifican con letras (de la A a la N), y los beneficios son idénticos de aseguradora a aseguradora para la misma letra."
+      },
+      {
+        "term": "Período de Inscripción Abierta de Medigap",
+        "def": "Los 6 meses que comienzan el primer mes en que usted tiene 65 años o más y está inscrito en la Parte B. Durante esta ventana las aseguradoras deben aceptarlo sin preguntas de salud, al mismo precio que a un solicitante sano."
+      },
+      {
+        "term": "Cargo en exceso de la Parte B",
+        "def": "Hasta un 15% por encima de la cantidad aprobada por Medicare que puede cobrarle un proveedor que no acepta la tarifa de Medicare en su totalidad. El Plan G cubre los cargos en exceso; el Plan N no."
+      },
+      {
+        "term": "Evaluación médica de riesgo",
+        "def": "Preguntas de salud que una aseguradora puede hacer cuando usted solicita fuera de una ventana protegida. La evaluación puede significar una prima más alta o una solicitud rechazada — por eso importa el momento en que compra su Medigap."
+      }
+    ],
+    "compareHeading": "El Plan G vs el Plan N de un vistazo ({year})",
+    "compareIntroHtml": "<p>Los Planes C y F se cerraron para las personas que obtuvieron la elegibilidad para Medicare después del 1 de enero de 2020, así que hoy la decisión para la mayoría de los nuevos inscritos se reduce al <strong>Plan G, el Plan N o el Plan G de deducible alto</strong>:</p>",
+    "table": {
+      "headers": ["Beneficio", "Plan G", "Plan N", "Plan G de deducible alto"],
+      "rows": [
+        ["Deducible hospitalario de la Parte A ({partADeductible} en {year})", "Cubierto", "Cubierto", "Cubierto después del deducible del plan"],
+        ["Deducible de la Parte B ({partBDeductible} en {year})", "Usted lo paga", "Usted lo paga", "Usted lo paga (cuenta para el deducible del plan)"],
+        ["Coseguro de la Parte B (20%)", "Cubierto en su totalidad", "Cubierto después de copagos: hasta $20 en el consultorio, hasta $50 en emergencias", "Cubierto después del deducible del plan"],
+        ["Cargos en exceso de la Parte B", "Cubiertos", "No cubiertos", "Cubiertos después del deducible del plan"],
+        ["Emergencia en viajes al extranjero", "80%, hasta los límites del plan", "80%, hasta los límites del plan", "80%, después del deducible del plan"],
+        ["Prima mensual", "La más alta de las tres", "Más baja", "La más baja"]
+      ]
+    },
+    "tableFootHtml": "<p>Para la comparación directa con contexto de precios locales, vea <a href=\"plan-g-vs-plan-n-vernal.html\">Plan G vs Plan N en Vernal</a>. Si usted usa poco los servicios médicos y quiere la prima más baja con una red de seguridad, lea sobre el <a href=\"medicare-plan-g-high-deductible.html\">Plan G de deducible alto</a>.</p>",
+    "utahHeading": "Por qué Medigap encaja en las zonas rurales de Utah",
+    "utahHtml": "<p>Medigap no tiene redes de proveedores. En Uintah Basin eso importa más que en casi cualquier otro lugar: cuando un médico de Vernal lo refiere a un especialista en Salt Lake City, una póliza Medigap lo acompaña — cualquier <a href=\"medicare-hospitals-uintah-county.html\">hospital o proveedor que acepte Medicare</a>, en cualquier estado, sin referencias ni verificaciones de red. Las primas en Utah varían según la letra del plan, su edad al comprar, el uso de tabaco y cómo la aseguradora clasifica sus pólizas, así que dos compañías pueden cobrar precios muy diferentes por el mismo plan estandarizado — exactamente por eso conviene <a href=\"medicare-quote-vernal.html\">comparar cotizaciones localmente</a> en lugar de responder a un anuncio de un centro de llamadas nacional.</p>",
+    "enrollHeading": "Cuándo inscribirse — y qué pasa si espera",
+    "enrollHtml": "<p>Su Período de Inscripción Abierta de Medigap dura 6 meses desde el primer mes en que usted tiene 65 años o más <em>y</em> está inscrito en la Parte B. Dentro de esa ventana, la aceptación está garantizada. Fuera de ella, las aseguradoras de Utah pueden aplicar una evaluación médica de riesgo. Si usted está <a href=\"turning-65.html\">cumpliendo 65 años</a>, la ventana se abre automáticamente cuando comienza la Parte B; si está <a href=\"working-past-65.html\">trabajando después de los 65</a> con cobertura de su empleador, la ventana espera hasta que usted tome la Parte B — no la pierde por demorarse. Los detalles de cómo el momento de comprar Medigap encaja en el calendario general de inscripción están en <a href=\"when-to-enroll-medicare-utah.html\">Cuándo inscribirse en Medicare en Utah</a>.</p>",
     "smileAria": "Carrusel de caricaturas de Medicare",
     "smileTitle": "¡Sonría!",
     "prevAria": "Caricatura anterior",
