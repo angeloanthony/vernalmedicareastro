@@ -220,6 +220,33 @@ Not blockers. Recorded so they are not rediscovered as surprises.
 Freezing is not a promise that nothing can change — it is a promise that
 changes are visible and justified.
 
+### 4.1 Admission test (applies before the list below)
+
+The list in §4.2 classifies a proposal that is already worth discussing. Most
+proposals during a freeze are not. Ask these three questions first, in order,
+and stop at the first "no":
+
+1. **Has an active experiment reached its planned decision point?** (Recrawl
+   confirmation week, `~2026-09-03` Delta Review, or hard stop `~2026-10-01`.)
+2. **Did a pre-registered criterion or an engine-validation finding require
+   this action** — or is it a new idea that happens to be good?
+3. **Would waiting until Sprint 2C compromise the validity of an experiment
+   already in flight?**
+
+No / No / No → the proposal goes to the EXP-004 queue in `SEO-QUEUE.md`, not
+into the repository. This is the default outcome and is not a rejection of the
+idea.
+
+Any "yes" → name the criterion, observation, or engine finding in the relevant
+observation log, then classify the change against §4.2.
+
+The question that opens the discussion is *"which pre-registered criterion,
+observation, or engine-validation finding requires us to break the freeze?"* —
+not *"is this a good idea?"* An idea can be good and still be inadmissible
+until 2026-09-03.
+
+### 4.2 Change taxonomy
+
 - A **new experiment** (EXP-004 or later). Permitted, but it starts the
   baseline-commit-first sequence and does not alter anything in flight.
 - **Editing a baseline.** Not permitted. Corrections are errata in the relevant
