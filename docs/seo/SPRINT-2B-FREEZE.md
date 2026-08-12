@@ -233,9 +233,22 @@ and stop at the first "no":
 3. **Would waiting until Sprint 2C compromise the validity of an experiment
    already in flight?**
 
-No / No / No → the proposal goes to the EXP-004 queue in `SEO-QUEUE.md`, not
-into the repository. This is the default outcome and is not a rejection of the
-idea.
+No / No / No → the proposal goes to the EXP-004 planning queue in
+`SPRINT-2C-PLAN.md`, not into the site implementation. This is the default
+outcome and is not a rejection of the idea.
+
+> **Correction (2026-08-12).** This clause originally routed inadmissible
+> proposals to "the EXP-004 queue in `SEO-QUEUE.md`". That could not be
+> followed: `SEO-QUEUE.md` is machine-generated (`scripts/seo/run.mjs`, one of
+> ten reports; its header reads *"GENERATED FILE — DO NOT EDIT BY HAND"*), so
+> anything hand-added to it is destroyed by the next `npm run seo`. The
+> destination is now `docs/seo/SPRINT-2C-PLAN.md`, a hand-maintained planning
+> record. The phrase "not into the repository" is likewise corrected to "not
+> into the site implementation" — a planning record *is* committed, which is
+> what makes the queue auditable.
+>
+> This corrects where blocked work is *recorded*. It does not approve any
+> blocked work, alter the admission test, or change any experiment.
 
 Any "yes" → name the criterion, observation, or engine finding in the relevant
 observation log, then classify the change against §4.2.
