@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { BUSINESS } from '../data/business';
 
 const schema = [
   {
@@ -116,12 +117,9 @@ const schema = [
       <p style="color: #e2e8f0; font-size: 1.1rem; max-width: 600px; margin: 0 auto 20px;">
         Call Rocco at <strong style="color: #fff;">(435) 219-5120</strong> for a free Medicare review.
       </p>
-      <button
-        class="button"
-        onclick="if(window.Tawk_API && window.Tawk_API.toggle){ window.Tawk_API.toggle(); } else { window.open('https://tawk.to/chat/6a1a1c2981b0b81c38f87f93/1jpqvs0bj','_blank'); }"
-        style="cursor:pointer; border:none;">
-        Schedule a Consultation
-      </button>
+      <a class="button" href={`tel:${BUSINESS.phoneTel}`}>
+        Call to Schedule a Consultation
+      </a>
     </section>
   </main>
 </BaseLayout>

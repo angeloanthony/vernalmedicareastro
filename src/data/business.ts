@@ -22,6 +22,10 @@ export const BUSINESS = {
   phone: '435-219-5120',
   phoneE164: '+1-435-219-5120',
   phoneTel: '+14352195120',
+  // Number the site-wide "Text Us" button (ContactFab) opens an SMS to. Must be
+  // a text-capable line (cell or SMS-enabled VoIP). Change here if the main
+  // office line cannot receive texts.
+  smsTel: '+14352195120',
   tty: '711',
   email: 'rocco@vernalmedicare.com',
 

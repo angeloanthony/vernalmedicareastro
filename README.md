@@ -13,7 +13,7 @@ copy-pasted into 47 files.
 src/
   layouts/BaseLayout.astro     One shell: <head> metadata, OG/Twitter, GA,
                                fonts, header, footer, schema injection, shared
-                               scripts (nav toggle, year, 3CX chat).
+                               scripts (nav toggle, year, Call/Text buttons).
   components/
     Header.astro               Top-bar + main-header + nav (NAP from business.ts)
     Footer.astro               Standard footer (NAP + disclaimer from business.ts)

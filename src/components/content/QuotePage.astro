@@ -193,6 +193,7 @@ const context: PageContext = {
       </div>
       <p class="qp-fab__text">{t('cta.text', lang, { agent: BUSINESS.legalAgent })}</p>
       <a class="qp-fab__call" href={`tel:${PHONE_TEL}`}>📞 {t('cta.call', lang, { phone: BUSINESS.phone })}</a>
+      <a class="qp-fab__call" href={`sms:${BUSINESS.smsTel}`}>💬 {t('contactFab.text', lang)}</a>
       <a class="qp-fab__quote enroll-btn" href={QUOTE_URL} target="_blank" rel="noopener noreferrer">{t('cta.quote', lang)}</a>
     </div>
 
@@ -447,6 +448,9 @@ const context: PageContext = {
   /* The standard inline end-of-page CTA is replaced by the floating badge
      on this page. This global rule ships only on pages using QuotePage. */
   :global(.page-cta) { display: none; }
+  /* The site-wide floating Call / Text buttons (ContactFab) would stack on
+     top of this page's own floating badge; hide them here only. */
+  :global(.contact-fab) { display: none; }
 
   .qp-fab {
     position: fixed;

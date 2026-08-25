@@ -3,15 +3,17 @@
 //
 // Everything every page shares lives here ONCE: <head> metadata, verification
 // tags, Open Graph / Twitter, fonts, Google Analytics, the LocalBusiness schema,
-// header, footer, and the shared end-of-body scripts (mobile nav toggle, year,
-// 3CX live chat, tawk.to live chat). A page passes its unique title/description/canonical/OG as
-// props; the layout renders them consistently every time.
+// header, footer, the floating Call / Text Us buttons, and the shared
+// end-of-body scripts (mobile nav toggle, year). A page passes its unique
+// title/description/canonical/OG as props; the layout renders them
+// consistently every time.
 //
 // PER-PAGE SCHEMA: pass raw JSON-LD objects via the `schema` prop (array). The
 // page's own Article/FAQPage/Breadcrumb schema is injected in <head> verbatim.
 import { BUSINESS as B } from '../data/business';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ContactFab from '../components/ContactFab.astro';
 import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
 
 interface Props {
@@ -215,22 +217,11 @@ const STYLES_VERSION = '20260822-arial-font';
       })();
     </script>
 
-    <!-- 3CX Live Chat (sitewide) -->
-    <call-us-selector phonesystem-url="https://1888.3cx.cloud" party="LiveChat956014"></call-us-selector>
-    <script defer src="https://downloads-global.3cx.com/downloads/livechatandtalk/v1/callus.js" id="tcx-callus-js"></script>
-
-    <!-- tawk.to Live Chat (sitewide) -->
-    <script type="text/javascript" is:inline>
-      var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-      (function(){
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src='https://embed.tawk.to/6a1a1c2981b0b81c38f87f93/1jpqvs0bj';
-        s1.charset='UTF-8';
-        s1.setAttribute('crossorigin','*');
-        s0.parentNode.insertBefore(s1,s0);
-      })();
-    </script>
+    {/* Floating Call / Text Us buttons (sitewide). Replaced the tawk.to and
+        3CX live-chat widgets on 2026-08-25: chats went unanswered and the
+        anonymous visitor was gone before anyone saw them; a text goes
+        straight to the agent's phone. */}
+    <ContactFab />
 
     <!-- Page-specific scripts (carousels, etc.) injected per page -->
     <slot name="scripts" />

@@ -1,0 +1,118 @@
+---
+// src/components/ContactFab.astro — site-wide floating "Call / Text Us" buttons.
+//
+// Replaces the tawk.to + 3CX live-chat widgets (removed 2026-08-25). Chat
+// widgets required someone to answer within ~2 minutes or the visitor left
+// anonymously; a Text button sends the visitor's message straight to the
+// agent's phone as an ordinary SMS, where it can be answered any time.
+//
+// Mobile: the Text button is an sms: link that opens the visitor's own
+// messaging app with the number and a starter message prefilled.
+// Desktop: sms: links do nothing useful, so a click opens a small hint bubble
+// showing the number to text from a phone instead.
+import { BUSINESS } from '../data/business';
+import { getLangFromUrl, t } from '../i18n/locales';
+
+const lang = getLangFromUrl(Astro.url);
+const agent = BUSINESS.legalAgent.split(' ')[0]; // "Rocco"
+// `?&body=` is the one form both iOS and Android honor for a prefilled body.
+const smsHref = `sms:${BUSINESS.smsTel}?&body=${encodeURIComponent(t('contactFab.smsBody', lang, { agent }))}`;
+const telHref = `tel:${BUSINESS.phoneTel}`;
+---
+
+<div class="contact-fab" aria-label={t('contactFab.aria', lang, { agent })}>
+  <div class="contact-fab__hint" id="contact-fab-hint" role="status" hidden>
+    <button type="button" class="contact-fab__close" data-fab-hint-close aria-label={t('contactFab.close', lang)}>×</button>
+    <p>{t('contactFab.desktopHint', lang, { agent, phone: BUSINESS.phone })}</p>
+  </div>
+  <a class="contact-fab__btn contact-fab__btn--call" href={telHref}>
+    <span aria-hidden="true">📞</span> {t('contactFab.call', lang)}
+  </a>
+  <a class="contact-fab__btn contact-fab__btn--text" href={smsHref} data-fab-sms>
+    <span aria-hidden="true">💬</span> {t('contactFab.text', lang)}
+  </a>
+</div>
+
+<style>
+  .contact-fab {
+    position: fixed;
+    right: clamp(0.75rem, 3vw, 1.5rem);
+    bottom: clamp(0.75rem, 3vw, 1.5rem);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.6rem;
+    font-family: inherit;
+  }
+  .contact-fab__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.8rem 1.15rem;
+    border-radius: 999px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .contact-fab__btn:hover,
+  .contact-fab__btn:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    text-decoration: none;
+  }
+  .contact-fab__btn--call { background: #002b49; }
+  .contact-fab__btn--text { background: #9e0853; }
+
+  .contact-fab__hint {
+    position: relative;
+    max-width: 18rem;
+    padding: 0.9rem 2.2rem 0.9rem 1rem;
+    border-radius: 0.75rem;
+    background: #fff;
+    color: #002b49;
+    font-size: 1rem;
+    line-height: 1.4;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    border: 1px solid #d6dde5;
+  }
+  .contact-fab__hint p { margin: 0; }
+  .contact-fab__close {
+    position: absolute;
+    top: 0.35rem;
+    right: 0.5rem;
+    border: 0;
+    background: transparent;
+    font-size: 1.35rem;
+    line-height: 1;
+    color: #4a5b6a;
+    cursor: pointer;
+  }
+
+  @media print {
+    .contact-fab { display: none; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var link = document.querySelector('[data-fab-sms]');
+    var hint = document.getElementById('contact-fab-hint');
+    if (!link || !hint) return;
+    // Desktop (mouse + hover) can't send SMS: show the number instead of
+    // triggering a dead sms: handler. Phones and tablets navigate normally.
+    var desktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (!desktop) return;
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      hint.hidden = !hint.hidden;
+    });
+    var close = hint.querySelector('[data-fab-hint-close]');
+    if (close) close.addEventListener('click', function () { hint.hidden = true; });
+  })();
+</script>

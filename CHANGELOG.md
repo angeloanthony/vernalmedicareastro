@@ -5,6 +5,17 @@ This project documents an in-progress migration; entries are grouped by mileston
 
 ## [Unreleased]
 
+### Changed — Live chat replaced by Call / Text Us buttons (2026-08-25)
+- Removed the tawk.to and 3CX live-chat widgets from `BaseLayout`. Chats were
+  going unanswered (no reliable phone alert) and the anonymous visitor was gone
+  within ~2 minutes with no way to follow up.
+- New `ContactFab.astro`: floating 📞 Call and 💬 Text Us buttons on every
+  page (EN/ES). Text Us is an `sms:` link to `BUSINESS.smsTel` with a prefilled
+  starter message, so the visitor's message arrives on the agent's phone as a
+  normal SMS; on desktop it shows the number to text instead. Quote page keeps
+  its own floating badge (now with a Text link) and hides the global one.
+- Reviews page "Schedule a Consultation" button (was a tawk toggle) → `tel:` link.
+
 ### Added — M6: Dual-Eligible content silo (2026-06-30)
 - 5-page cluster: `/dual-eligible.html` (hub) + Extra Help, Medicare Savings
   Programs (QMB/SLMB/QI consolidated), D-SNP, Medicare+Medicaid/Utah. First
