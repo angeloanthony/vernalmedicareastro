@@ -5,6 +5,20 @@ This project documents an in-progress migration; entries are grouped by mileston
 
 ## [Unreleased]
 
+### Fixed — Supplement vs Advantage page styling (2026-08-25)
+- The page body rendered with browser-default styling: `StandardPageLayout`
+  emits `<article class="page container">` with no `<main>` ancestor, so every
+  `main …` rule in `styles.css` was structurally unable to match. Restored the
+  intended visual system in `SupplementVsAdvantagePage` — typography, side-by-
+  side comparison cards, responsive comparison table, section cards/callouts,
+  CTA and related-topic cards — without changing page structure or SEO content.
+- Breadcrumb · H1 · byline · summary have no rules anywhere in `styles.css`
+  (same root cause), so the breadcrumb rendered as a numbered `<ol>`. Styled
+  page-locally via `is:inline` — it ships with this page only. Promote it into
+  `styles.css` as part of a site-wide chrome pass.
+- Copy: "The best plan depends on…" → "The right fit depends on…" — the last
+  occurrence of "Best" on the page.
+
 ### Changed — Live chat replaced by Call / Text Us buttons (2026-08-25)
 - Removed the tawk.to and 3CX live-chat widgets from `BaseLayout`. Chats were
   going unanswered (no reliable phone alert) and the anonymous visitor was gone
