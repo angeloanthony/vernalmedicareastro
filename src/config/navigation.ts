@@ -39,6 +39,11 @@ export const PRIMARY_NAV: NavLink[] = [
       { href: '/medigap.html', label: 'Medigap (Supplement)' },
       { href: '/best-part-d-plans-vernal.html', label: 'Part D Drug Plans' },
       { href: '/medicare-supplement-vs-advantage.html', label: 'Compare Plans' },
+      // Non-Medicare product lines live here so Contact stays about getting in touch.
+      { label: 'Other Insurance' }, // section heading (no href)
+      { href: '/aca.html', label: 'Under-65 Health Insurance' },
+      { href: '/indemnity.html', label: 'Copay Coverage' },
+      { href: '/life.html', label: 'Life Insurance' },
     ],
   },
   {
@@ -80,11 +85,6 @@ export const PRIMARY_NAV: NavLink[] = [
       { href: '/medicare-quote-vernal.html', label: 'Schedule a Free Review' },
       { href: '/reviews.html', label: 'Reviews' },
       { href: '/about.html', label: 'About' },
-      // Non-Medicare product lines live here so Medicare stays the nav's focus.
-      { label: 'Other Insurance' }, // section heading (no href)
-      { href: '/aca.html', label: 'Under-65 Health Insurance' },
-      { href: '/indemnity.html', label: 'Copay Coverage' },
-      { href: '/life.html', label: 'Life Insurance' },
     ],
   },
 ];

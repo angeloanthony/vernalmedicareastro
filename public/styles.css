@@ -405,7 +405,9 @@ p {
   font-size: 1rem;
   }
 
-  .hero-row .hero-text a{
+  /* Plain hero links are white-on-photo. .hero-startbtn is a solid white
+     BUTTON with navy text, so it must opt out or it renders white-on-white. */
+  .hero-row .hero-text a:not(.hero-startbtn){
   color:#fff; text-decoration: underline; font-weight:700;
   }
 
@@ -1313,7 +1315,7 @@ main a:focus {
     color: #0b2a3b !important;
   }
 
-  .hero-text a:not(.button):not(.enroll-btn) {
+  .hero-text a:not(.button):not(.enroll-btn):not(.hero-startbtn) {
     text-decoration: underline;
     color: #0b5bd3 !important;
   }
