@@ -9,3 +9,17 @@
 #
 # Leave empty during migration. Validate any rule you add with an HTTP status
 # checker after launch (Runbook Part 8).
+
+# ---------------------------------------------------------------------------
+# 2026-08-25 — CMS compliance rename (42 CFR §422.2262 / MCMG superlative rule).
+# "Best ..." slugs retired; real 301s here so link equity transfers. Do NOT also
+# add these to astro.config.mjs `redirects` — that emits a static .html at the
+# old path which would shadow these edge rules.
+/best-medicare-advantage-vernal.html   /medicare-advantage-plans-vernal.html   301
+/best-medicare-advantage-vernal        /medicare-advantage-plans-vernal.html   301
+/best-part-d-plans-vernal.html         /part-d-plans-vernal.html               301
+/best-part-d-plans-vernal              /part-d-plans-vernal.html               301
+/es/best-medicare-advantage-vernal.html   /es/medicare-advantage-plans-vernal.html   301
+/es/best-medicare-advantage-vernal        /es/medicare-advantage-plans-vernal.html   301
+/es/best-part-d-plans-vernal.html         /es/part-d-plans-vernal.html               301
+/es/best-part-d-plans-vernal              /es/part-d-plans-vernal.html               301

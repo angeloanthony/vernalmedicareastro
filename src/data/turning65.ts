@@ -57,7 +57,7 @@ export const TURNING_65_STEPS: Turning65Step[] = [
     when: 'If you choose Medicare Advantage',
     title: 'Compare Medicare Advantage plans',
     task: 'Advantage plans bundle everything (usually including drugs) and cap your yearly out-of-pocket, often for a $0 premium — but they use networks. Verify your doctors, hospital, and pharmacy are in-network before you enroll, especially in the rural Basin.',
-    relatedHref: 'best-medicare-advantage-vernal.html', relatedLabel: 'Best Medicare Advantage plans',
+    relatedHref: 'medicare-advantage-plans-vernal.html', relatedLabel: 'Medicare Advantage plans',
     nextStep: 'Advantage usually includes drug coverage — but confirm it covers your meds (step 8).',
   },
   {
@@ -65,7 +65,7 @@ export const TURNING_65_STEPS: Turning65Step[] = [
     when: 'Everyone taking medications',
     title: 'Get Part D drug coverage that fits your prescriptions',
     task: 'With Medigap you add a standalone Part D plan; with Advantage it’s usually built in. Either way, the cheapest premium is rarely the cheapest plan — match the formulary and preferred pharmacy to your exact medication list.',
-    relatedHref: 'best-part-d-plans-vernal.html', relatedLabel: 'Best Part D plans',
+    relatedHref: 'part-d-plans-vernal.html', relatedLabel: 'Part D plans',
     nextStep: 'Now put real numbers to it.',
   },
   {

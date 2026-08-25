@@ -22,14 +22,14 @@
 
 - [ ] **/ (home)** — close AI-readiness gaps: Schema, Tables, Definitions, Original insights
       _1,040 impr · pos 7.2 · priority 77 · opportunity 76_
-- [ ] **/enbrel-assistance-program** — raise inbound links from 2 — link from /best-part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
+- [ ] **/enbrel-assistance-program** — raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
       _164 impr · pos 13.8 · priority 70 · opportunity 77_
 
 ## Structural — internal links
 
-- [ ] **/does-medicare-cover-trelegy** — raise inbound links from 2 — link from /prescription-drug-assistance, /best-part-d-plans-vernal, /tier-3-vs-tier-4-medicare-part-d
+- [ ] **/does-medicare-cover-trelegy** — raise inbound links from 2 — link from /prescription-drug-assistance, /part-d-plans-vernal, /tier-3-vs-tier-4-medicare-part-d
       _154 impr · pos 13.4 · priority 72 · opportunity 89_
-- [ ] **/skyrizi-assistance-program** — raise inbound links from 2 — link from /best-part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
+- [ ] **/skyrizi-assistance-program** — raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
       _111 impr · pos 14.3 · priority 71 · opportunity 93_
 
 ## AI readiness

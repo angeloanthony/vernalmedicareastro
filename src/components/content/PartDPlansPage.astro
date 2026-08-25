@@ -1,13 +1,13 @@
 ---
-// src/components/content/BestPartDPlansPage.astro — Part D pillar-adjacent
-// template (M4; playbook §4.5). Rendered by BOTH /best-part-d-plans-vernal.html
-// and its /es/ sibling; copy from src/i18n/content/{locale}/best-part-d-plans-vernal.json.
+// src/components/content/PartDPlansPage.astro — Part D pillar-adjacent
+// template (M4; playbook §4.5). Rendered by BOTH /part-d-plans-vernal.html
+// and its /es/ sibling; copy from src/i18n/content/{locale}/part-d-plans-vernal.json.
 import ArticlePage from '../layout/ArticlePage.astro';
 import { getPageContent, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
 import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
 import type { PageContext } from '../../types/Page';
 
-const SLUG = 'best-part-d-plans-vernal';
+const SLUG = 'part-d-plans-vernal';
 
 interface Content {
   page: {

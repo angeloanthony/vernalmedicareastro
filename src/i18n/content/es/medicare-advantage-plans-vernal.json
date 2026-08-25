@@ -1,0 +1,69 @@
+{
+  "__translation_note": "AI-translated from en/medicare-advantage-plans-vernal.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Hand-patched 2026-08-25 for the CMS superlative-rule rewrite + redesign (new keys: hero/trust/ctaPoints, fit lines, CTA strings). Re-run `npm run translate` to regenerate from the English master.",
+  "page": {
+    "title": "Planes Medicare Advantage en Vernal, Utah 2026 | Opciones HMO y PPO",
+    "heading": "Planes Medicare Advantage en Vernal, Utah — 2026",
+    "description": "Compare planes Medicare Advantage HMO y PPO en Vernal y el Condado de Uintah para 2026. Hay opciones con prima de $0. Ayuda local gratuita — llame al 435-219-5120.",
+    "summary": "Los planes Medicare Advantage (Parte C) son una manera popular en la que las personas de Vernal y Uintah Basin obtienen su cobertura de Medicare. Muchos planes incluyen medicamentos recetados, dental, visión, audición y programas de gimnasio — a menudo con primas mensuales de $0 además de su prima de la Parte B.",
+    "faqs": [
+      {
+        "question": "¿Qué planes Medicare Advantage hay disponibles en Vernal, Utah para 2026?",
+        "answer": "Los residentes de Vernal y del Condado de Uintah pueden elegir entre planes Medicare Advantage HMO y PPO, varios de ellos con primas mensuales de $0. Cuál le conviene depende de sus médicos, sus medicamentos y su presupuesto. Llame al 435-219-5120 para una comparación personalizada gratuita."
+      },
+      {
+        "question": "¿Hay planes Medicare Advantage con prima de $0 en Vernal?",
+        "answer": "Sí. Varios planes Medicare Advantage en el área de Vernal/Condado de Uintah ofrecen primas mensuales de $0 para 2026. Usted igualmente paga su prima de la Parte B y los copagos cuando usa los servicios."
+      },
+      {
+        "question": "¿Medicare Advantage cubre el Ashley Regional Medical Center?",
+        "answer": "Muchos planes Medicare Advantage incluyen el Ashley Regional Medical Center en Vernal. Verificamos la cobertura de hospitales y proveedores antes de que usted se inscriba."
+      }
+    ]
+  },
+  "breadcrumb": {
+    "home": "Inicio",
+    "self": "Medicare Advantage en Vernal"
+  },
+  "hero": {
+    "imgAlt": "La calle principal de Vernal, Utah, con los farallones de Uintah Basin al fondo"
+  },
+  "trust": [
+    { "icon": "stethoscope", "title": "Experiencia local", "text": "Servimos a Vernal y Uintah Basin" },
+    { "icon": "heart", "title": "Opciones de planes", "text": "Varias opciones HMO y PPO para 2026" },
+    { "icon": "dollar", "title": "Planes con prima de $0", "text": "Muchos planes con prima mensual de $0" },
+    { "icon": "shield", "title": "Beneficios adicionales", "text": "Dental, visión, audición, gimnasio y más" }
+  ],
+  "body": {
+    "introHtml": "Los planes Medicare Advantage (Parte C) son una manera popular en la que las personas de Vernal y Uintah Basin obtienen su cobertura de Medicare. Muchos planes combinan medicamentos recetados, dental, visión, audición y beneficios de gimnasio en un solo plan — frecuentemente con una prima mensual de $0 además de su pago de la Parte B.",
+    "h2What": "¿Qué hace que un plan Medicare Advantage sea adecuado para usted?",
+    "whatHtml": "El plan adecuado depende de su situación específica. Para los residentes de Vernal y Uintah Basin, los factores clave son: si sus médicos y hospitales están en la red (especialmente el Ashley Regional Medical Center y las clínicas locales), si sus medicamentos están cubiertos con copagos razonables, qué farmacia ofrece el costo más bajo, cuál es el límite máximo de gastos de bolsillo, y si se incluyen beneficios adicionales como dental, visión, audición y artículos de venta libre (OTC).",
+    "h2Types": "Tipos de planes Medicare Advantage en Vernal",
+    "h3Hmo": "Planes HMO",
+    "hmoHtml": "Los planes de Organización para el Mantenimiento de la Salud (HMO) generalmente tienen primas y copagos más bajos, pero requieren que use proveedores dentro de la red (excepto en emergencias). Por lo general necesita una referencia de su médico de cabecera para ver a especialistas.",
+    "hmoFit": "Conviene si su atención médica se mantiene dentro de Uintah Basin.",
+    "h3Ppo": "Planes PPO",
+    "ppoHtml": "Los planes de Organización de Proveedores Preferidos (PPO) cuestan un poco más, pero permiten atención fuera de la red con copagos más altos. No se necesitan referencias para ver a especialistas.",
+    "ppoFit": "Conviene si viaja o ve a especialistas fuera del área.",
+    "h2Zero": "Planes Medicare Advantage con prima de $0",
+    "zeroHtml": "Muchos planes Medicare Advantage en el área de Vernal ofrecen primas mensuales de $0 — usted paga solamente su prima regular de la Parte B. Estos planes igualmente brindan la cobertura completa de Medicare más beneficios adicionales. Sin embargo, una prima de $0 no significa costo de $0 — usted igualmente puede pagar copagos, coseguro y deducibles cuando usa los servicios. El límite máximo de gastos de bolsillo pone un tope a su gasto anual total.",
+    "h2Compare": "Cómo comparar planes en Vernal",
+    "compareHtml": "Hacemos una comparación personalizada usando su lista de médicos, sus medicamentos recetados y sus farmacias preferidas. La comparación muestra los costos anuales estimados, los detalles de cobertura y las diferencias de beneficios lado a lado. Toma unos 15 minutos por teléfono o en persona en Smith's Pharmacy.",
+    "h2Rural": "Consideraciones importantes para las zonas rurales de Utah",
+    "ruralHtml": "La suficiencia de la red importa más en las áreas rurales. Un plan con una red extensa en Salt Lake City puede tener cobertura limitada en Uintah Basin. Verificamos la participación de los proveedores locales, la disponibilidad de telesalud y los beneficios de transporte antes de recomendar cualquier plan. Si usted divide su tiempo entre distintos lugares o viaja con frecuencia, esto se vuelve especialmente importante.",
+    "compareLinksHtml": "Compare opciones: <a href=\"hmo-vs-ppo-medicare-advantage.html\">HMO vs PPO explicado</a> | <a href=\"medicare-advantage-vs-medigap-vernal.html\">Advantage vs Medigap</a> | <a href=\"part-d-plans-vernal.html\">Planes de la Parte D en Vernal</a>",
+    "sourceHtml": "<em>Fuente: <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a>. Los planes, las primas y los beneficios cambian cada año. Compare sus opciones en cada período de inscripción.</em>",
+    "enrollLabel": "Compare planes e inscríbase",
+    "callHtml": "<strong>Llame a Rocco:</strong> <a href=\"tel:+14352195120\">435-219-5120</a> (TTY: 711) &bull; <a href=\"mailto:rocco@vernalmedicare.com\">rocco@vernalmedicare.com</a>",
+    "faqHeading": "Preguntas frecuentes",
+    "relatedHeading": "Siga leyendo",
+    "ctaHeading": "Hable con un agente local con licencia",
+    "ctaText": "Rocco DeLuca puede explicarle sus opciones — gratis y sin presión.",
+    "ctaCall": "Llame al 435-219-5120",
+    "ctaQuote": "Obtenga una cotización gratis"
+  },
+  "ctaPoints": [
+    "Experiencia local en la que puede confiar",
+    "Sin compromiso, solo respuestas",
+    "Disponible por teléfono o en persona"
+  ]
+}

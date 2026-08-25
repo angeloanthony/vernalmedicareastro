@@ -1,14 +1,14 @@
 {
-  "__translation_note": "AI-translated from en/best-part-d-plans-vernal.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "__translation_note": "AI-translated from en/part-d-plans-vernal.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
   "page": {
-    "title": "Los mejores planes de la Parte D de Medicare en Vernal, Utah 2026",
-    "heading": "Los mejores planes de medicamentos recetados de la Parte D de Medicare — Vernal, Utah 2026",
+    "title": "Planes de la Parte D de Medicare en Vernal, Utah 2026",
+    "heading": "Planes de medicamentos recetados de la Parte D de Medicare — Vernal, Utah 2026",
     "description": "Compare los planes de medicamentos recetados de la Parte D en Vernal, UT para 2026. Encuentre el costo más bajo para sus medicamentos en Smith's Pharmacy y farmacias locales. Llame al 435-219-5120.",
-    "summary": "El plan de la Parte D correcto puede ahorrarles a los residentes de Vernal cientos o incluso miles de dólares al año en medicamentos recetados. Con docenas de planes de medicamentos independientes disponibles en Utah para 2026, compararlos según sus medicamentos específicos y su farmacia preferida es la única manera de encontrar el mejor valor.",
+    "summary": "El plan de la Parte D correcto puede ahorrarles a los residentes de Vernal cientos o incluso miles de dólares al año en medicamentos recetados. Con docenas de planes de medicamentos independientes disponibles en Utah para 2026, compararlos según sus medicamentos específicos y su farmacia preferida es la única manera de encontrar el plan adecuado para usted.",
     "faqs": [
       {
-        "question": "¿Cuáles son los mejores planes de la Parte D en Vernal, Utah para 2026?",
-        "answer": "El mejor plan depende de sus medicamentos específicos y su farmacia. Comparamos todos los planes de la Parte D disponibles para 2026 con su lista de medicamentos. Llame al 435-219-5120 para una comparación gratuita."
+        "question": "¿Cómo elijo un plan de la Parte D en Vernal, Utah para 2026?",
+        "answer": "El plan adecuado depende de sus medicamentos específicos y su farmacia. Comparamos todos los planes de la Parte D disponibles para 2026 con su lista de medicamentos. Llame al 435-219-5120 para una comparación gratuita."
       },
       {
         "question": "¿La Parte D cubre la insulina en Vernal?",
@@ -18,11 +18,11 @@
   },
   "breadcrumb": {
     "home": "Inicio",
-    "self": "Los mejores planes de la Parte D en Vernal"
+    "self": "Planes de la Parte D en Vernal"
   },
   "body": {
     "needHtml": "<strong>¿Necesita el panorama completo de Medicare?</strong><br>\n  Visite nuestra <a href=\"medicare-plans-vernal-utah.html\">Guía completa de Medicare para Vernal y Uintah Basin</a> que cubre Medigap, Medicare Advantage, la Parte D, la inscripción y los costos de Medicare para 2026.",
-    "introHtml": "El plan de la Parte D correcto puede ahorrarles a los residentes de Vernal cientos o incluso miles de dólares al año en medicamentos recetados. Con docenas de planes de medicamentos independientes disponibles en Utah para 2026, compararlos según sus medicamentos específicos y su farmacia preferida es la única manera de encontrar el mejor valor.",
+    "introHtml": "El plan de la Parte D correcto puede ahorrarles a los residentes de Vernal cientos o incluso miles de dólares al año en medicamentos recetados. Con docenas de planes de medicamentos independientes disponibles en Utah para 2026, compararlos según sus medicamentos específicos y su farmacia preferida es la única manera de encontrar el plan adecuado para usted.",
     "h2How": "Cómo funcionan los planes de la Parte D",
     "howHtml": "La Parte D de Medicare cubre los medicamentos recetados ambulatorios. Los planes independientes de la Parte D se combinan con Medicare Original y Medigap. Si tiene un plan Medicare Advantage, la cobertura de medicamentos generalmente ya viene incluida (MAPD). Cada plan de la Parte D tiene su propio formulario (lista de medicamentos cubiertos), estructura de niveles (que determina su copago) y red de farmacias (que afecta los precios).",
     "h2Key": "Factores clave para los residentes de Vernal",

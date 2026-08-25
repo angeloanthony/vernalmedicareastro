@@ -399,8 +399,8 @@ export const PAGE_INDEX: PageIndexEntry[] = [
   })),
   // ── Medicare Advantage silo (M16) — high commercial intent ──
   {
-    href: '/best-medicare-advantage-vernal.html',
-    title: 'Best Medicare Advantage Plans in Vernal, Utah',
+    href: '/medicare-advantage-plans-vernal.html',
+    title: 'Medicare Advantage Plans in Vernal, Utah',
     taxonomy: { silo: 'medicare-advantage', tags: ['medicare-advantage', 'advantage', 'vernal', 'uintah-county', 'local'], pillar: true },
   },
   {
@@ -473,8 +473,8 @@ export const PAGE_INDEX: PageIndexEntry[] = [
   },
   // Part-D commercial trio (M18):
   {
-    href: '/best-part-d-plans-vernal.html',
-    title: 'Best Medicare Part D Plans in Vernal, Utah',
+    href: '/part-d-plans-vernal.html',
+    title: 'Medicare Part D Plans in Vernal, Utah',
     taxonomy: { silo: 'part-d', tags: ['part-d', 'best-plans', 'drugs', 'vernal', 'uintah-county', 'local'] },
   },
   {

@@ -62,7 +62,7 @@
       { "label": "Out-of-Pocket Max", "medigap": "Effectively $0 with Plan G (after Part B deductible)", "advantage": "Up to $8,850 in-network (2026)" },
       { "label": "Drug Coverage", "medigap": "Separate Part D plan required", "advantage": "Usually included" },
       { "label": "Dental / Vision / Hearing", "medigap": "Not included", "advantage": "Often included" },
-      { "label": "Best For", "medigap": "People who want predictable costs and provider freedom", "advantage": "People who want lower premiums and extra benefits" }
+      { "label": "A Good Fit For", "medigap": "People who want predictable costs and provider freedom", "advantage": "People who want lower premiums and extra benefits" }
     ],
     "h2Rural": "The Rural Utah Factor",
     "ruralHtml1": "Where you live plays a major role in this decision. In urban areas like Salt Lake City, Medicare Advantage plans offer robust networks with dozens of providers. In the Uintah Basin — covering Vernal, Naples, Maeser, Jensen, and surrounding communities — networks are smaller. If your Advantage plan's network doesn't include the specialist you need, you may face higher costs or delays getting care.",

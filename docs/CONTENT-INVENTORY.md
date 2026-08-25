@@ -32,7 +32,7 @@ Legend: ✅ complete · 🚧 in progress · 📋 planned
 | **Costs** | medicare-costs (+ estimator, oop-max, uintah-county) | ✅ | Jul 2026 | Vernal |
 | **Enrollment** | medicare-enrollment-periods (+ SEP/GEP/AEP/missed/checklist/when) | ✅ | Jul 2026 | Vernal |
 | **Medigap** | medigap (+ Plan G vs N, HD-G, vs Advantage) | ✅ | Jul 2026 | Vernal |
-| **Medicare Advantage** | best-medicare-advantage-vernal (+ $0/HMO-PPO/vs-Medigap) | ✅ | Jul 2026 | Vernal |
+| **Medicare Advantage** | medicare-advantage-plans-vernal (+ $0/HMO-PPO/vs-Medigap) | ✅ | Jul 2026 | Vernal |
 | **Part D** | prescription-drug-assistance (+ best/cheapest/tiers, 14 drug pages) | ✅ | Jul 2026 | Vernal |
 | **Financial Assistance** | medicare-financial-assistance (hub) · medicare-income-limits-2026 (data-driven) | ✅ | Jul 2026 | Vernal |
 | **Dual-Eligible** | dual-eligible (+ Extra Help/MSP/D-SNP/Medicaid) | ✅ | Jul 2026 | Vernal |

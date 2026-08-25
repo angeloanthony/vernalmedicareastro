@@ -74,7 +74,7 @@
   },
   "body": {
     "introHtml": "\"I'm turning 65 — what do I actually do?\" Here's the whole thing, in order. Each step links to a deeper guide or a calculator, and you can hand any of it to us to do together, free.",
-    "sixtySecondHtml": "<strong>The 60-second version:</strong> your enrollment window opens 3 months before your birthday month. Enroll in Part A &amp; B (unless you have creditable employer coverage). Then make the big choice — <a href=\"medicare-supplement-vs-advantage.html\" style=\"color:#9fd0ff;\">Medigap or Medicare Advantage</a> — add <a href=\"best-part-d-plans-vernal.html\" style=\"color:#9fd0ff;\">Part D drug coverage</a>, and check your <a href=\"medicare-costs.html\" style=\"color:#9fd0ff;\">costs and IRMAA</a>. Not sure? <strong>Call {phone}.</strong>",
+    "sixtySecondHtml": "<strong>The 60-second version:</strong> your enrollment window opens 3 months before your birthday month. Enroll in Part A &amp; B (unless you have creditable employer coverage). Then make the big choice — <a href=\"medicare-supplement-vs-advantage.html\" style=\"color:#9fd0ff;\">Medigap or Medicare Advantage</a> — add <a href=\"part-d-plans-vernal.html\" style=\"color:#9fd0ff;\">Part D drug coverage</a>, and check your <a href=\"medicare-costs.html\" style=\"color:#9fd0ff;\">costs and IRMAA</a>. Not sure? <strong>Call {phone}.</strong>",
     "timelineHeading": "Your Step-by-Step Timeline",
     "nextLabel": "What’s next:",
     "everythingHeading": "Everything You Might Need",
@@ -83,7 +83,7 @@
       "<strong>Still working?</strong> <a href=\"working-past-65.html\">Working past 65</a> — whether to take Medicare now or delay it.",
       "<strong>Understand it:</strong> <a href=\"medicare-help-center.html\">Medicare Help Center</a> · <a href=\"medicare-glossary.html\">Glossary</a> · <a href=\"medicare-part-a-vs-part-b.html\">Part A vs Part B</a>.",
       "<strong>Run the numbers:</strong> <a href=\"medicare-cost-estimator.html\">Cost estimator</a> · <a href=\"medicare-irmaa-calculator.html\">IRMAA calculator</a> · <a href=\"medicare-enrollment-timeline.html\">enrollment timeline</a> · <a href=\"medicare-part-b-penalty-calculator.html\">late-penalty calculator</a>.",
-      "<strong>Compare coverage:</strong> <a href=\"medigap.html\">Medigap</a> · <a href=\"best-medicare-advantage-vernal.html\">Medicare Advantage</a> · <a href=\"best-part-d-plans-vernal.html\">Part D</a>.",
+      "<strong>Compare coverage:</strong> <a href=\"medigap.html\">Medigap</a> · <a href=\"medicare-advantage-plans-vernal.html\">Medicare Advantage</a> · <a href=\"part-d-plans-vernal.html\">Part D</a>.",
       "<strong>Get help paying:</strong> <a href=\"medicare-extra-help-utah.html\">Extra Help</a> · <a href=\"medicare-savings-programs-utah.html\">Medicare Savings Programs</a>."
     ],
     "localHeading": "Do This With a Local Person — Free",

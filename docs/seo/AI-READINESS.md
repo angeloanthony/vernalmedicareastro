@@ -175,7 +175,7 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 - [/medicare-formulary-lookup](https://vernalmedicare.com/medicare-formulary-lookup.html) — priority 63, 309 impr
 - [/medicare-plans-vernal-utah](https://vernalmedicare.com/medicare-plans-vernal-utah.html) — priority 63, 13 impr
 - [/repatha-assistance-program](https://vernalmedicare.com/repatha-assistance-program.html) — priority 63, 83 impr
-- [/best-medicare-advantage-vernal](https://vernalmedicare.com/best-medicare-advantage-vernal.html) — priority 63, 13 impr
+- [/medicare-advantage-plans-vernal](https://vernalmedicare.com/medicare-advantage-plans-vernal.html) — priority 63, 13 impr
 - [/medicare-cost-estimator](https://vernalmedicare.com/medicare-cost-estimator.html) — priority 62, 178 impr
 - [/medicare-medicaid-utah](https://vernalmedicare.com/medicare-medicaid-utah.html) — priority 62, 122 impr
 - [/dupixent-assistance-program](https://vernalmedicare.com/dupixent-assistance-program.html) — priority 62, 142 impr
@@ -212,7 +212,7 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 - [/vernal](https://vernalmedicare.com/vernal.html) — priority 64, 66 impr
 - [/medicare-formulary-lookup](https://vernalmedicare.com/medicare-formulary-lookup.html) — priority 63, 309 impr
 - [/repatha-assistance-program](https://vernalmedicare.com/repatha-assistance-program.html) — priority 63, 83 impr
-- [/best-medicare-advantage-vernal](https://vernalmedicare.com/best-medicare-advantage-vernal.html) — priority 63, 13 impr
+- [/medicare-advantage-plans-vernal](https://vernalmedicare.com/medicare-advantage-plans-vernal.html) — priority 63, 13 impr
 - [/medicare-cost-estimator](https://vernalmedicare.com/medicare-cost-estimator.html) — priority 62, 178 impr
 - [/medicare-medicaid-utah](https://vernalmedicare.com/medicare-medicaid-utah.html) — priority 62, 122 impr
 - [/dupixent-assistance-program](https://vernalmedicare.com/dupixent-assistance-program.html) — priority 62, 142 impr
@@ -231,7 +231,7 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 - [/xarelto-assistance-program](https://vernalmedicare.com/xarelto-assistance-program.html) — priority 57, 41 impr
 - [/eliquis-assistance-program](https://vernalmedicare.com/eliquis-assistance-program.html) — priority 57, 67 impr
 - [/medicare-drug-coverage](https://vernalmedicare.com/medicare-drug-coverage.html) — priority 56, 222 impr
-- [/best-part-d-plans-vernal](https://vernalmedicare.com/best-part-d-plans-vernal.html) — priority 54, 22 impr
+- [/part-d-plans-vernal](https://vernalmedicare.com/part-d-plans-vernal.html) — priority 54, 22 impr
 - [/medicare-out-of-state-utah](https://vernalmedicare.com/medicare-out-of-state-utah.html) — priority 53, 61 impr
 - [/medicare-advantage-vs-medigap-vernal](https://vernalmedicare.com/medicare-advantage-vs-medigap-vernal.html) — priority 53, 13 impr
 - [/medicare-agent-vernal](https://vernalmedicare.com/medicare-agent-vernal.html) — priority 53, 21 impr

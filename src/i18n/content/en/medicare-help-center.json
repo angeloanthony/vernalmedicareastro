@@ -84,7 +84,7 @@
         "cta": "Compare your options",
         "itemsHtml": [
           "<strong><a href=\"medigap.html\">Medigap (Medicare Supplement)</a></strong> — <a href=\"plan-g-vs-plan-n-vernal.html\">Plan G vs Plan N</a>, <a href=\"medicare-plan-g-high-deductible.html\">High-Deductible Plan G</a>.",
-          "<strong><a href=\"best-medicare-advantage-vernal.html\">Medicare Advantage</a></strong> — <a href=\"hmo-vs-ppo-medicare-advantage.html\">HMO vs PPO</a>, <a href=\"zero-premium-medicare-advantage.html\">$0-premium plans</a>.",
+          "<strong><a href=\"medicare-advantage-plans-vernal.html\">Medicare Advantage</a></strong> — <a href=\"hmo-vs-ppo-medicare-advantage.html\">HMO vs PPO</a>, <a href=\"zero-premium-medicare-advantage.html\">$0-premium plans</a>.",
           "<strong><a href=\"medicare-supplement-vs-advantage.html\">Medigap vs Medicare Advantage</a></strong> — the big decision, side by side.",
           "<strong><a href=\"medicare-dental-vision-hearing.html\">Dental, vision &amp; hearing</a></strong> — what Original Medicare skips, and how to add it."
         ]
@@ -94,7 +94,7 @@
         "blurb": "Find the right drug plan and lower your costs.",
         "cta": "Find drug savings",
         "itemsHtml": [
-          "<strong><a href=\"best-part-d-plans-vernal.html\">Best Part D plans</a></strong> · <a href=\"cheapest-prescription-drug-plans.html\">cheapest drug plans</a> · <a href=\"tier-3-vs-tier-4-medicare-part-d.html\">drug tiers explained</a>.",
+          "<strong><a href=\"part-d-plans-vernal.html\">Part D plans</a></strong> · <a href=\"cheapest-prescription-drug-plans.html\">cheapest drug plans</a> · <a href=\"tier-3-vs-tier-4-medicare-part-d.html\">drug tiers explained</a>.",
           "<strong><a href=\"prescription-drug-assistance.html\">Prescription drug assistance</a></strong> — programs that help pay for your medications.",
           "<strong><a href=\"medicare-drug-coverage.html\">Does Medicare cover my drug?</a></strong> — coverage by medication (Eliquis, Jardiance, Humira…)."
         ]

@@ -54,11 +54,11 @@ inbound internal links. Title/description lengths noted where long (advisory onl
 | medicare-financial-assistance | ✅ | ✅ | 158 |
 | medicare-irmaa | ✅ | ✅ | 34 |
 | medigap | ✅ | ✅ | 185 |
-| best-medicare-advantage-vernal | ✅ | ✅ | 34 |
+| medicare-advantage-plans-vernal | ✅ | ✅ | 34 |
 | medicare-costs | ✅ | ✅ | 69 |
 | medicare-supplement-vs-advantage | ✅ | ✅ | 44 |
 | medicare-savings-programs-utah | ✅ | ✅ | 42 |
-| best-part-d-plans-vernal | ✅ | ✅ | 75 |
+| part-d-plans-vernal | ✅ | ✅ | 75 |
 | medicare-calculators | ✅ | ✅ | **6** (thin — see known issues) |
 | medicare-glossary | ✅ | ✅ | 30 |
 | medicare-news | ✅ | ✅ | 172 |

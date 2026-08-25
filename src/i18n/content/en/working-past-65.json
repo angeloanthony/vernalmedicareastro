@@ -65,7 +65,7 @@
   },
   "then": {
     "heading": "Then What?",
-    "lead": "When you do retire, the rest of the <a href=\"turning-65.html\">turning-65 journey</a> takes over: choose <a href=\"medicare-supplement-vs-advantage.html\">Medigap or Medicare Advantage</a>, add <a href=\"best-part-d-plans-vernal.html\">Part D</a>, and check your costs.",
+    "lead": "When you do retire, the rest of the <a href=\"turning-65.html\">turning-65 journey</a> takes over: choose <a href=\"medicare-supplement-vs-advantage.html\">Medigap or Medicare Advantage</a>, add <a href=\"part-d-plans-vernal.html\">Part D</a>, and check your costs.",
     "links": [
       { "label": "Special Enrollment Period", "sub": "Take Part B penalty-free.", "href": "medicare-special-enrollment-period.html" },
       { "label": "Estimate it here", "sub": "Check your costs.", "href": "medicare-part-b-penalty-calculator.html" },
@@ -105,7 +105,7 @@
       "<strong><a href=\"medicare-creditable-coverage.html\">Creditable coverage</a></strong> — the term that decides whether you can delay safely."
     ],
     "h2Then": "Then What?",
-    "thenHtml": "When you do retire, the rest of the <a href=\"turning-65.html\">turning-65 journey</a> takes over: choose <a href=\"medicare-supplement-vs-advantage.html\">Medigap or Medicare Advantage</a>, add <a href=\"best-part-d-plans-vernal.html\">Part D</a>, and check your <a href=\"medicare-costs.html\">costs</a>. Worried about a penalty? <a href=\"medicare-part-b-penalty-calculator.html\">Estimate it here</a>. Not sure where you fit? <a href=\"medicare-decision-center.html\">Start with your situation</a>.",
+    "thenHtml": "When you do retire, the rest of the <a href=\"turning-65.html\">turning-65 journey</a> takes over: choose <a href=\"medicare-supplement-vs-advantage.html\">Medigap or Medicare Advantage</a>, add <a href=\"part-d-plans-vernal.html\">Part D</a>, and check your <a href=\"medicare-costs.html\">costs</a>. Worried about a penalty? <a href=\"medicare-part-b-penalty-calculator.html\">Estimate it here</a>. Not sure where you fit? <a href=\"medicare-decision-center.html\">Start with your situation</a>.",
     "h2Free": "Get It Right the First Time — Free",
     "freeHtml": "The Part B timing decision is permanent if you get it wrong, so it’s worth a five-minute check. <strong>Call us free at {phone}</strong> (TTY: {tty}) — tell us your employer situation and we’ll tell you exactly what to take, what to delay, and when. No cost, no pressure."
   }

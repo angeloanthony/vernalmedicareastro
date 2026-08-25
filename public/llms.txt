@@ -49,7 +49,7 @@
 
 ## Plan Comparison Guides
 
-- [/best-medicare-advantage-vernal.html]: Best Medicare Advantage Plans in Vernal Utah 2026 — HMO vs PPO comparison, $0 premium options, local network verification.
+- [/medicare-advantage-plans-vernal.html]: Medicare Advantage Plans in Vernal Utah 2026 — HMO vs PPO comparison, $0 premium options, local network verification.
 - [/zero-premium-medicare-advantage.html]: $0 Premium Medicare Advantage Plans Uintah County — How zero-premium plans work, included benefits, what to watch for.
 - [/hmo-vs-ppo-medicare-advantage.html]: HMO vs PPO Medicare Advantage in Vernal — Side-by-side comparison of networks, referrals, costs, and rural Utah considerations.
 - [/medicare-advantage-vs-medigap-vernal.html]: Medicare Advantage vs Medigap in Vernal — Head-to-head comparison with rural Utah considerations and underwriting warnings.
@@ -57,7 +57,7 @@
 
 ## Prescription Drug Coverage
 
-- [/best-part-d-plans-vernal.html]: Best Medicare Part D Plans Vernal Utah 2026 — Formulary comparison, pharmacy pricing, $2,000 out-of-pocket cap, insulin $35 cap.
+- [/part-d-plans-vernal.html]: Medicare Part D Plans in Vernal, Utah 2026 — Formulary comparison, pharmacy pricing, $2,000 out-of-pocket cap, insulin $35 cap.
 - [/cheapest-prescription-drug-plans.html]: Cheapest Prescription Drug Plans Vernal UT — Why lowest premium ≠ cheapest plan, Extra Help eligibility, pharmacy cost comparison.
 - [/part-d-help-vernal.html]: Part D Help in Vernal — Local prescription drug plan guidance.
 - [/does-medicare-cover-mounjaro-utah.html]: Does Medicare Cover Mounjaro in Utah 2026 — Part D covers for diabetes, weight loss coverage evolving, cost reduction strategies.

@@ -77,7 +77,7 @@ performance #2).
 | 9 | `/does-medicare-cover-rinvoq` | 69 | 44 (r54) | 0 | 115 | 12.0 |
 | 10 | `/medicare-vernal-ut` | 69 | 48 (r40) | 0 | 67 | 6.7 |
 
-**Left the top 10:** `/best-medicare-advantage-vernal` (76→63, r1→r19),
+**Left the top 10:** `/medicare-advantage-plans-vernal` (76→63, r1→r19),
 `/medicare-plans-vernal-utah` (76→63, r2→r21), `/prescription-drug-assistance`
 (66→33, r4→r99), `/dual-eligible`, `/medicare-costs`,
 `/medicare-enrollment-periods`, `/medicare-financial-assistance`,
@@ -142,7 +142,7 @@ remains reproducible from stated factors.**
    drug queries at striking distance. The structural queue could not have seen
    this: it had no demand signal. This is the designed failure mode, not a
    scoring error.
-2. **Business-led local bets target tiny query volumes.** `/best-medicare-advantage-vernal`
+2. **Business-led local bets target tiny query volumes.** `/medicare-advantage-plans-vernal`
    and `/medicare-plans-vernal-utah` rank *well* (pos 4.8 / 5.5) — but on
    13 impressions each in 3 months. Local "vernal medicare" queries are
    real but rare. The pages aren't failing; the market is small. They stay
@@ -250,7 +250,7 @@ structural points diluted · **B** demand at striking distance ·
 | /entresto-assistance-program.html | +15 | +13 | 50 r29 → 65 r16 | 0 | 64 | 10.8 | B — demand at striking distance |
 | /does-medicare-cover-repatha.html | +14 | +12 | 46 r43 → 60 r31 | 0 | 31 | 9.2 | B — demand at striking distance |
 | /medicare-home-health-utah.html | +13 | +42 | 28 r121 → 41 r79 | 0 | 7 | 6.3 | B — demand at striking distance |
-| /best-part-d-plans-vernal.html | +13 | +22 | 41 r67 → 54 r45 | 0 | 22 | 7.9 | B — demand at striking distance |
+| /part-d-plans-vernal.html | +13 | +22 | 41 r67 → 54 r45 | 0 | 22 | 7.9 | B — demand at striking distance |
 | /does-medicare-cover-humira.html | +13 | +14 | 44 r52 → 57 r38 | 0 | 36 | 14.5 | B — demand at striking distance |
 | /repatha-assistance-program.html | +13 | +13 | 50 r35 → 63 r22 | 1 | 83 | 15.5 | B — demand at striking distance |
 | /medicare-quote-vernal.html | +13 | +5 | 51 r22 → 64 r17 | 0 | 37 | 6.0 | B — demand at striking distance |
@@ -307,7 +307,7 @@ structural points diluted · **B** demand at striking distance ·
 | /medicare-income-limits-2026.html | -12 | -31 | 31 r105 → 19 r136 | 0 | 0 | — | A — no demand evidence |
 | /how-to-reduce-medicare-irmaa.html | -12 | -38 | 31 r95 → 19 r133 | 0 | 0 | — | A — no demand evidence |
 | /medicare-and-employer-coverage.html | -12 | -38 | 31 r96 → 19 r134 | 0 | 0 | — | A — no demand evidence |
-| /best-medicare-advantage-vernal.html | -13 | -18 | 76 r1 → 63 r19 | 0 | 13 | 4.8 | A′ — thin data, structural points diluted |
+| /medicare-advantage-plans-vernal.html | -13 | -18 | 76 r1 → 63 r19 | 0 | 13 | 4.8 | A′ — thin data, structural points diluted |
 | /medicare-plans-vernal-utah.html | -13 | -19 | 76 r2 → 63 r21 | 0 | 13 | 5.5 | A′ — thin data, structural points diluted |
 | /medicare-plan-g-high-deductible.html | -14 | -67 | 51 r21 → 37 r88 | 0 | 9 | 30.7 | A′ — thin data, structural points diluted |
 | /cobra-and-medicare.html | -15 | -43 | 35 r88 → 20 r131 | 0 | 0 | — | A — no demand evidence |

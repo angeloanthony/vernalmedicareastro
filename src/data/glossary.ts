@@ -122,7 +122,7 @@ export const GLOSSARY: GlossaryTerm[] = [
     term: 'Coverage Gap (Donut Hole)', slug: 'coverage-gap', category: 'costs',
     short: 'A former Part D phase of higher drug costs — replaced in 2026 by a $2,000 out-of-pocket cap.',
     full: 'The old “donut hole” is gone. Now once your out-of-pocket drug spending reaches the annual cap ($2,000 in 2026), you pay nothing more for covered drugs the rest of the year.',
-    authorityHref: 'best-part-d-plans-vernal.html', authorityLabel: 'Part D plans',
+    authorityHref: 'part-d-plans-vernal.html', authorityLabel: 'Part D plans',
     related: ['part-d', 'formulary'],
   },
 
@@ -152,14 +152,14 @@ export const GLOSSARY: GlossaryTerm[] = [
     term: 'Medicare Part C (Medicare Advantage)', slug: 'medicare-advantage', category: 'plans',
     short: 'An all-in-one private plan that replaces Original Medicare, often with extras and a $0 premium.',
     full: 'Advantage plans bundle Part A, B, and usually D, plus extras like dental and vision, and cap your yearly out-of-pocket. The trade-off is provider networks and possible referrals. Availability and networks matter locally.',
-    authorityHref: 'best-medicare-advantage-vernal.html', authorityLabel: 'Medicare Advantage',
+    authorityHref: 'medicare-advantage-plans-vernal.html', authorityLabel: 'Medicare Advantage',
     related: ['hmo', 'ppo', 'moop', 'medigap'],
   },
   {
     term: 'Medicare Part D', slug: 'part-d', category: 'plans',
     short: 'Prescription drug coverage — a standalone plan or built into a Medicare Advantage plan.',
     full: 'Part D covers prescriptions through a plan’s formulary and pharmacy network. Costs vary a lot by plan and pharmacy; in 2026 out-of-pocket drug spending is capped at $2,000.',
-    authorityHref: 'best-part-d-plans-vernal.html', authorityLabel: 'Part D plans',
+    authorityHref: 'part-d-plans-vernal.html', authorityLabel: 'Part D plans',
     related: ['formulary', 'drug-tier', 'coverage-gap'],
   },
   {
@@ -268,7 +268,7 @@ export const GLOSSARY: GlossaryTerm[] = [
     term: 'Formulary', slug: 'formulary', category: 'coverage',
     short: 'A plan’s list of covered drugs, organized into cost tiers.',
     full: 'Every Part D and Advantage drug plan has its own formulary. The same drug can sit on different tiers (and cost very different amounts) from plan to plan, so matching the formulary to your medications is key.',
-    authorityHref: 'best-part-d-plans-vernal.html', authorityLabel: 'Part D plans',
+    authorityHref: 'part-d-plans-vernal.html', authorityLabel: 'Part D plans',
     related: ['drug-tier', 'part-d', 'prior-authorization'],
   },
   {
@@ -282,14 +282,14 @@ export const GLOSSARY: GlossaryTerm[] = [
     term: 'Prior Authorization', slug: 'prior-authorization', category: 'coverage',
     short: 'A plan’s requirement to approve a drug or service before it’s covered.',
     full: 'Some drugs and services need the plan’s OK first. It’s common in Medicare Advantage and for higher-tier drugs. Your doctor submits the request; if denied, you can appeal.',
-    authorityHref: 'best-medicare-advantage-vernal.html', authorityLabel: 'Medicare Advantage',
+    authorityHref: 'medicare-advantage-plans-vernal.html', authorityLabel: 'Medicare Advantage',
     related: ['step-therapy', 'formulary'],
   },
   {
     term: 'Step Therapy', slug: 'step-therapy', category: 'coverage',
     short: 'A rule requiring you to try a lower-cost drug before the plan covers a pricier one.',
     full: 'Under step therapy, the plan asks you to “step through” a preferred, usually cheaper drug first. If it doesn’t work or isn’t appropriate, your doctor can request an exception for the drug you need.',
-    authorityHref: 'best-part-d-plans-vernal.html', authorityLabel: 'Part D plans',
+    authorityHref: 'part-d-plans-vernal.html', authorityLabel: 'Part D plans',
     related: ['prior-authorization', 'formulary'],
   },
   {

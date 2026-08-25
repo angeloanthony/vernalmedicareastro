@@ -66,7 +66,7 @@
   },
   "then": {
     "heading": "¿Y después?",
-    "lead": "Cuando se jubile, el resto del <a href=\"turning-65.html\">recorrido de cumplir 65</a> toma el relevo: elija <a href=\"medicare-supplement-vs-advantage.html\">Medigap o Medicare Advantage</a>, agregue la <a href=\"best-part-d-plans-vernal.html\">Parte D</a>, y revise sus costos.",
+    "lead": "Cuando se jubile, el resto del <a href=\"turning-65.html\">recorrido de cumplir 65</a> toma el relevo: elija <a href=\"medicare-supplement-vs-advantage.html\">Medigap o Medicare Advantage</a>, agregue la <a href=\"part-d-plans-vernal.html\">Parte D</a>, y revise sus costos.",
     "links": [
       { "label": "Período de Inscripción Especial", "sub": "Tome la Parte B sin multa.", "href": "medicare-special-enrollment-period.html" },
       { "label": "Estímelo aquí", "sub": "Revise sus costos.", "href": "medicare-part-b-penalty-calculator.html" },
@@ -106,7 +106,7 @@
       "<strong><a href=\"medicare-creditable-coverage.html\">Cobertura acreditable</a></strong> — el término que decide si puede retrasar sin riesgo."
     ],
     "h2Then": "¿Y después?",
-    "thenHtml": "Cuando se jubile, el resto del <a href=\"turning-65.html\">recorrido de cumplir 65</a> toma el relevo: elija <a href=\"medicare-supplement-vs-advantage.html\">Medigap o Medicare Advantage</a>, agregue la <a href=\"best-part-d-plans-vernal.html\">Parte D</a>, y revise sus <a href=\"medicare-costs.html\">costos</a>. ¿Le preocupa una multa? <a href=\"medicare-part-b-penalty-calculator.html\">Estímela aquí</a>. ¿No sabe dónde encaja? <a href=\"medicare-decision-center.html\">Comience con su situación</a>.",
+    "thenHtml": "Cuando se jubile, el resto del <a href=\"turning-65.html\">recorrido de cumplir 65</a> toma el relevo: elija <a href=\"medicare-supplement-vs-advantage.html\">Medigap o Medicare Advantage</a>, agregue la <a href=\"part-d-plans-vernal.html\">Parte D</a>, y revise sus <a href=\"medicare-costs.html\">costos</a>. ¿Le preocupa una multa? <a href=\"medicare-part-b-penalty-calculator.html\">Estímela aquí</a>. ¿No sabe dónde encaja? <a href=\"medicare-decision-center.html\">Comience con su situación</a>.",
     "h2Free": "Hágalo bien desde la primera vez — gratis",
     "freeHtml": "La decisión sobre cuándo tomar la Parte B es permanente si se equivoca, así que vale la pena una revisión de cinco minutos. <strong>Llámenos gratis al {phone}</strong> (TTY: {tty}) — cuéntenos su situación laboral y le diremos exactamente qué tomar, qué retrasar y cuándo. Sin costo, sin presión."
   }

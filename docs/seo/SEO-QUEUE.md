@@ -46,7 +46,7 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
 - [ ] **/enbrel-assistance-program** — priority 70 · opportunity 77 · AI 63% · 164 impr · pos 13.8
   - Enbrel Assistance Programs — Help Paying for Enbrel on Medicare | Vernal Medicare
   - Why: position 13.8 on 164 impressions — striking distance; only 2 in-content inbound link(s)
-  - Do: raise inbound links from 2 — link from /best-part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
+  - Do: raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
 - [ ] **/does-medicare-cover-rinvoq** — priority 69 · opportunity 94 · AI 79% · 115 impr · pos 12.0
   - Does Medicare Cover Rinvoq? — Coverage & Costs | Vernal Medicare
   - Why: CTR 0.0% vs ~1.6% expected at position 12.0 — title/meta rewrite; position 12.0 on 115 impressions — striking distance; thin (562 words)
@@ -103,8 +103,8 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
 - [ ] **/repatha-assistance-program** — priority 63 · opportunity 63 · AI 63% · 83 impr · pos 15.5
   - Repatha Assistance Programs — Help Paying for Repatha on Medicare | Vernal Medicare
   - Why: 83 impressions at position 15.5; only 2 in-content inbound link(s)
-  - Do: raise inbound links from 2 — link from /best-part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
-- [ ] **/best-medicare-advantage-vernal** — priority 63 · opportunity 59 · AI 68% · 13 impr · pos 4.8
+  - Do: raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
+- [ ] **/medicare-advantage-plans-vernal** — priority 63 · opportunity 59 · AI 68% · 13 impr · pos 4.8
   - Best Medicare Advantage Plans in Vernal, Utah 2026
   - Why: CTR 0.0% vs ~5.5% expected at position 4.8 — title/meta rewrite; 13 impressions at position 4.8; pillar page
   - Do: rewrite `<title>` + meta description — it ranks at 4.8 but earns 0.0% vs ~5.5% expected
@@ -119,7 +119,7 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
 - [ ] **/dupixent-assistance-program** — priority 62 · opportunity 61 · AI 63% · 142 impr · pos 25.3
   - Dupixent Assistance Programs — Help Paying for Dupixent on Medicare | Vernal Medicare
   - Why: 142 impressions at position 25.3; only 2 in-content inbound link(s)
-  - Do: raise inbound links from 2 — link from /best-part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
+  - Do: raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
 - [ ] **/mounjaro-assistance-program** — priority 61 · opportunity 85 · AI 63% · 63 impr · pos 10.0
   - Mounjaro Assistance Programs — Help Paying for Mounjaro on Medicare | Vernal Medicare
   - Why: CTR 0.0% vs ~1.6% expected at position 10.0 — title/meta rewrite; 63 impressions at position 10.0
@@ -135,7 +135,7 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
 - [ ] **/farxiga-assistance-program** — priority 61 · opportunity 59 · AI 63% · 124 impr · pos 27.6
   - Farxiga Assistance Programs — Help Paying for Farxiga on Medicare | Vernal Medicare
   - Why: 124 impressions at position 27.6; only 2 in-content inbound link(s)
-  - Do: raise inbound links from 2 — link from /best-part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
+  - Do: raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
 - [ ] **/medicare-savings-programs-utah** — priority 60 · opportunity 83 · AI 71% · 54 impr · pos 8.4
   - Medicare Savings Programs in Utah 2026 — QMB, SLMB, QI | Vernal Medicare
   - Why: CTR 0.0% vs ~2.7% expected at position 8.4 — title/meta rewrite; 54 impressions at position 8.4; thin (511 words)
@@ -196,7 +196,7 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
   - Does Medicare Cover Entresto? — Coverage & Costs | Vernal Medicare
   - Why: 57 impressions at position 21.0; thin (527 words)
   - Do: expand to depth — currently 527 words
-- [ ] **/best-part-d-plans-vernal** — priority 54 · opportunity 71 · AI 74% · 22 impr · pos 7.9
+- [ ] **/part-d-plans-vernal** — priority 54 · opportunity 71 · AI 74% · 22 impr · pos 7.9
   - Best Medicare Part D Plans in Vernal, Utah 2026
   - Why: CTR 0.0% vs ~3.1% expected at position 7.9 — title/meta rewrite; 22 impressions at position 7.9
   - Do: rewrite `<title>` + meta description — it ranks at 7.9 but earns 0.0% vs ~3.1% expected
@@ -235,7 +235,7 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
 - [ ] **/rinvoq-assistance-program** — priority 51 · opportunity 60 · AI 63% · 30 impr · pos 23.8
   - Rinvoq Assistance Programs — Help Paying for Rinvoq on Medicare | Vernal Medicare
   - Why: 30 impressions at position 23.8; only 2 in-content inbound link(s)
-  - Do: raise inbound links from 2 — link from /best-part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
+  - Do: raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
 - [ ] **/medicare-supplement-vs-advantage** — priority 51 · opportunity 56 · AI 79% · 43 impr · pos 31.4
   - Medicare Supplement vs Medicare Advantage | Which Is Right for You? | Vernal Medicare
   - Why: 43 impressions at position 31.4

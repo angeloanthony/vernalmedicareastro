@@ -46,7 +46,7 @@ export const DECISION_PATHS: DecisionPath[] = [
     id: 'drug-help',
     situation: 'I need prescription drug help',
     blurb: 'You want to know if a drug is covered, or find a better Part D plan.',
-    primary: { label: 'Find the best Part D plan', href: '/best-part-d-plans-vernal.html' },
+    primary: { label: 'Compare Part D plans', href: '/part-d-plans-vernal.html' },
     links: [
       { label: 'Does Medicare cover my drug?', href: '/medicare-drug-coverage.html' },
       { label: 'Help paying for prescriptions', href: '/prescription-drug-assistance.html' },
@@ -71,7 +71,7 @@ export const DECISION_PATHS: DecisionPath[] = [
     primary: { label: 'Compare Medigap vs Advantage', href: '/medicare-supplement-vs-advantage.html' },
     links: [
       { label: 'Medigap (Medicare Supplement)', href: '/medigap.html' },
-      { label: 'Medicare Advantage', href: '/best-medicare-advantage-vernal.html' },
+      { label: 'Medicare Advantage', href: '/medicare-advantage-plans-vernal.html' },
       { label: 'Plan G vs Plan N', href: '/plan-g-vs-plan-n-vernal.html' },
     ],
   },

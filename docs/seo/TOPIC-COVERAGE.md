@@ -44,7 +44,7 @@ The fastest way to raise a cluster: fix its weakest dimension across the pages l
 | dual-eligible | 66% | Definitions 0% | Tables 7% | /medicare-medicaid-utah, /medicare-savings-programs-utah, /d-snp-plans-utah |
 | costs-irmaa | 67% | Definitions 0% | Tables 18% | /medicare-irmaa-life-changing-events, /medicare-cost-estimator, /medicare-irmaa |
 | enrollment | 70% | Definitions 0% | Tables 8% | /medicare-enrollment-periods, /medicare-open-enrollment-2026, /turning-65 |
-| medicare-advantage | 71% | Definitions 0% | Tables 13% | /best-medicare-advantage-vernal, /medicare-advantage-vs-medigap-vernal, /hmo-vs-ppo-medicare-advantage |
+| medicare-advantage | 71% | Definitions 0% | Tables 13% | /medicare-advantage-plans-vernal, /medicare-advantage-vs-medigap-vernal, /hmo-vs-ppo-medicare-advantage |
 | medigap | 77% | Tables 25% | Definitions 25% | /medicare-plan-g-high-deductible, /plan-g-vs-plan-n-vernal |
 
 ## Where the traffic is

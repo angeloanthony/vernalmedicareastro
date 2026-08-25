@@ -75,7 +75,7 @@
   },
   "body": {
     "introHtml": "\"Estoy por cumplir 65 años — ¿qué hago exactamente?\" Aquí está todo, en orden. Cada paso lleva a una guía más completa o a una calculadora, y puede pedirnos que hagamos cualquier parte junto con usted, gratis.",
-    "sixtySecondHtml": "<strong>La versión de 60 segundos:</strong> su ventana de inscripción se abre 3 meses antes del mes de su cumpleaños. Inscríbase en la Parte A y la Parte B (a menos que tenga cobertura acreditable de un empleador). Luego tome la gran decisión — <a href=\"medicare-supplement-vs-advantage.html\" style=\"color:#9fd0ff;\">Medigap o Medicare Advantage</a> — agregue la <a href=\"best-part-d-plans-vernal.html\" style=\"color:#9fd0ff;\">cobertura de medicamentos de la Parte D</a>, y revise sus <a href=\"medicare-costs.html\" style=\"color:#9fd0ff;\">costos y el IRMAA</a>. ¿No está seguro? <strong>Llame al {phone}.</strong>",
+    "sixtySecondHtml": "<strong>La versión de 60 segundos:</strong> su ventana de inscripción se abre 3 meses antes del mes de su cumpleaños. Inscríbase en la Parte A y la Parte B (a menos que tenga cobertura acreditable de un empleador). Luego tome la gran decisión — <a href=\"medicare-supplement-vs-advantage.html\" style=\"color:#9fd0ff;\">Medigap o Medicare Advantage</a> — agregue la <a href=\"part-d-plans-vernal.html\" style=\"color:#9fd0ff;\">cobertura de medicamentos de la Parte D</a>, y revise sus <a href=\"medicare-costs.html\" style=\"color:#9fd0ff;\">costos y el IRMAA</a>. ¿No está seguro? <strong>Llame al {phone}.</strong>",
     "timelineHeading": "Su cronograma paso a paso",
     "nextLabel": "Qué sigue:",
     "everythingHeading": "Todo lo que podría necesitar",
@@ -84,7 +84,7 @@
       "<strong>¿Todavía trabaja?</strong> <a href=\"working-past-65.html\">Trabajar después de los 65</a> — si conviene tomar Medicare ahora o esperar.",
       "<strong>Entiéndalo:</strong> <a href=\"medicare-help-center.html\">Centro de Ayuda de Medicare</a> · <a href=\"medicare-glossary.html\">Glosario</a> · <a href=\"medicare-part-a-vs-part-b.html\">Parte A vs Parte B</a>.",
       "<strong>Haga los números:</strong> <a href=\"medicare-cost-estimator.html\">Estimador de costos</a> · <a href=\"medicare-irmaa-calculator.html\">Calculadora de IRMAA</a> · <a href=\"medicare-enrollment-timeline.html\">cronograma de inscripción</a> · <a href=\"medicare-part-b-penalty-calculator.html\">calculadora de multa por inscripción tardía</a>.",
-      "<strong>Compare coberturas:</strong> <a href=\"medigap.html\">Medigap</a> · <a href=\"best-medicare-advantage-vernal.html\">Medicare Advantage</a> · <a href=\"best-part-d-plans-vernal.html\">Parte D</a>.",
+      "<strong>Compare coberturas:</strong> <a href=\"medigap.html\">Medigap</a> · <a href=\"medicare-advantage-plans-vernal.html\">Medicare Advantage</a> · <a href=\"part-d-plans-vernal.html\">Parte D</a>.",
       "<strong>Obtenga ayuda para pagar:</strong> <a href=\"medicare-extra-help-utah.html\">Ayuda Adicional (Extra Help)</a> · <a href=\"medicare-savings-programs-utah.html\">Programas de Ahorro de Medicare</a>."
     ],
     "localHeading": "Hágalo con una persona local — gratis",

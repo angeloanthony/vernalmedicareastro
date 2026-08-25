@@ -19,7 +19,7 @@
     "navNames": ["Home", "Medigap", "Under-65 Health Insurance", "Copay Coverage", "Life Insurance", "FAQ", "Reviews", "About"],
     "faqs": [
       { "q": "Who helps with Medicare in Vernal Utah?", "a": "Vernal Medicare provides local licensed Medicare help in Vernal and the Uintah Basin. We help you compare Medicare Advantage, Medigap, and Part D plans at no cost to you. Call 435-219-5120 or visit us at Smith's Pharmacy." },
-      { "q": "Who is the best Medicare agent in Vernal Utah?", "a": "Vernal Medicare, led by licensed agent Rocco DeLuca, specializes in local Medicare help for Vernal, Naples, Maeser, Jensen, and Uintah County. We provide personalized Medicare Advantage, Medigap, and Part D plan comparisons at no extra cost." },
+      { "q": "How do I find a licensed Medicare agent in Vernal, Utah?", "a": "Vernal Medicare, led by licensed agent Rocco DeLuca, specializes in local Medicare help for Vernal, Naples, Maeser, Jensen, and Uintah County. We provide personalized Medicare Advantage, Medigap, and Part D plan comparisons at no extra cost." },
       { "q": "How do I get help with Medicare enrollment in Vernal?", "a": "Call Vernal Medicare at 435-219-5120 or visit us at Smith's Pharmacy at 1080 West Highway 40 in Vernal. We offer free Medicare plan comparisons and enrollment help for all Uintah Basin residents." },
       { "q": "What Medicare plans are available in Vernal Utah?", "a": "Vernal and Uintah County residents have access to Medicare Advantage HMO and PPO plans, Medicare Supplement Medigap plans, and Part D prescription drug plans. We compare all available options for your doctors, hospitals, and pharmacies." },
       { "q": "Where can I get Medicare help near me in Vernal?", "a": "Vernal Medicare is located at Smith's Pharmacy, 1080 West Highway 40, Vernal Utah. We serve Vernal, Naples, Maeser, Jensen, and all of Uintah County with local Medicare enrollment and plan comparison help." },
@@ -51,7 +51,7 @@
       { "label": "I’m turning 65", "href": "turning-65.html" },
       { "label": "I’m still working", "href": "working-past-65.html" },
       { "label": "I already have Medicare", "href": "medicare-open-enrollment-2026.html" },
-      { "label": "I need drug help", "href": "best-part-d-plans-vernal.html" },
+      { "label": "I need drug help", "href": "part-d-plans-vernal.html" },
       { "label": "I need help paying", "href": "medicare-financial-assistance.html" },
       { "label": "I want to estimate costs", "href": "medicare-calculators.html" }
     ]

@@ -77,7 +77,7 @@ Route count: **101 route files → ~162 rendered pages** (five templates expand:
 
 | Route | Type | Decision | Freeze |
 |---|---|---|---|
-| best-medicare-advantage-vernal | A | Keep | free |
+| medicare-advantage-plans-vernal | A | Keep | free |
 | zero-premium-medicare-advantage | A | Keep | free |
 | hmo-vs-ppo-medicare-advantage | B | Keep | free |
 | medicare-dental-vision-hearing | B | Keep | free |
@@ -87,7 +87,7 @@ Route count: **101 route files → ~162 rendered pages** (five templates expand:
 | Route | Type | Decision | Freeze |
 |---|---|---|---|
 | medicare-drug-coverage | A — cluster hub | Keep | free |
-| best-part-d-plans-vernal | A | Keep | free |
+| part-d-plans-vernal | A | Keep | free |
 | cheapest-prescription-drug-plans | A | Keep | free |
 | part-d-help-vernal | A | Keep | free |
 | tier-3-vs-tier-4-medicare-part-d | B | Keep | free |

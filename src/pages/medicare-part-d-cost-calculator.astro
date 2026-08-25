@@ -58,7 +58,7 @@ const context: PageContext = {
   medicalDisclaimer: 'Simplified estimate. Your actual costs depend on your plan’s formulary, tiers, and pharmacy.',
   breadcrumb: [
     { name: 'Home', href: '/' },
-    { name: 'Part D Plans', href: '/best-part-d-plans-vernal.html' },
+    { name: 'Part D Plans', href: '/part-d-plans-vernal.html' },
     { name: 'Drug Cost Calculator', href: '/medicare-part-d-cost-calculator.html' },
   ],
 };
@@ -80,7 +80,7 @@ const context: PageContext = {
       />
       <SummaryBlock text={context.page.summary} />
       <NextSteps steps={context.page.nextSteps ?? []} />
-      <p class="pd-hero-lede">Part D costs come in two pieces: your monthly premium, and what you pay out of pocket for your drugs — which is now capped at <strong>{usd(f.partD.annualCap)}</strong> a year. Estimate your total below, then <a href="best-part-d-plans-vernal.html">compare Part D plans</a>.</p>
+      <p class="pd-hero-lede">Part D costs come in two pieces: your monthly premium, and what you pay out of pocket for your drugs — which is now capped at <strong>{usd(f.partD.annualCap)}</strong> a year. Estimate your total below, then <a href="part-d-plans-vernal.html">compare Part D plans</a>.</p>
     </div>
 
     <div class="pd-hero-art" aria-hidden="true">

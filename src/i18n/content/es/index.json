@@ -20,7 +20,7 @@
     "navNames": ["Inicio", "Medigap", "Seguro de salud para menores de 65", "Cobertura de copagos", "Seguro de vida", "Preguntas frecuentes", "Reseñas", "Sobre nosotros"],
     "faqs": [
       { "q": "¿Quién ayuda con Medicare en Vernal, Utah?", "a": "Vernal Medicare brinda ayuda local con licencia con Medicare en Vernal y Uintah Basin. Le ayudamos a comparar planes Medicare Advantage, Medigap y de la Parte D sin costo para usted. Llame al 435-219-5120 o visítenos en Smith's Pharmacy." },
-      { "q": "¿Quién es el mejor agente de Medicare en Vernal, Utah?", "a": "Vernal Medicare, dirigido por el agente con licencia Rocco DeLuca, se especializa en ayuda local con Medicare para Vernal, Naples, Maeser, Jensen y el Condado de Uintah. Brindamos comparaciones personalizadas de planes Medicare Advantage, Medigap y de la Parte D sin costo adicional." },
+      { "q": "¿Cómo encuentro un agente de Medicare con licencia en Vernal, Utah?", "a": "Vernal Medicare, dirigido por el agente con licencia Rocco DeLuca, se especializa en ayuda local con Medicare para Vernal, Naples, Maeser, Jensen y el Condado de Uintah. Brindamos comparaciones personalizadas de planes Medicare Advantage, Medigap y de la Parte D sin costo adicional." },
       { "q": "¿Cómo obtengo ayuda con la inscripción en Medicare en Vernal?", "a": "Llame a Vernal Medicare al 435-219-5120 o visítenos en Smith's Pharmacy en 1080 West Highway 40 en Vernal. Ofrecemos comparaciones de planes de Medicare y ayuda con la inscripción gratuitas para todos los residentes de Uintah Basin." },
       { "q": "¿Qué planes de Medicare hay disponibles en Vernal, Utah?", "a": "Los residentes de Vernal y el Condado de Uintah tienen acceso a planes Medicare Advantage HMO y PPO, planes Medigap de Suplemento de Medicare, y planes de medicamentos recetados de la Parte D. Comparamos todas las opciones disponibles según sus médicos, hospitales y farmacias." },
       { "q": "¿Dónde puedo obtener ayuda con Medicare cerca de mí en Vernal?", "a": "Vernal Medicare está ubicado en Smith's Pharmacy, 1080 West Highway 40, Vernal, Utah. Servimos a Vernal, Naples, Maeser, Jensen y todo el Condado de Uintah con ayuda local para la inscripción y la comparación de planes de Medicare." },
@@ -52,7 +52,7 @@
       { "label": "Estoy por cumplir 65", "href": "turning-65.html" },
       { "label": "Todavía estoy trabajando", "href": "working-past-65.html" },
       { "label": "Ya tengo Medicare", "href": "medicare-open-enrollment-2026.html" },
-      { "label": "Necesito ayuda con medicamentos", "href": "best-part-d-plans-vernal.html" },
+      { "label": "Necesito ayuda con medicamentos", "href": "part-d-plans-vernal.html" },
       { "label": "Necesito ayuda para pagar", "href": "medicare-financial-assistance.html" },
       { "label": "Quiero estimar costos", "href": "medicare-calculators.html" }
     ]

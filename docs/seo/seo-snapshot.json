@@ -307,7 +307,7 @@
         "/turning-65.html",
         "/working-past-65.html",
         "/medicare-open-enrollment-2026.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-financial-assistance.html",
         "/medicare-calculators.html",
         "/medigap.html",
@@ -439,7 +439,7 @@
       "linksOut": [
         "/medicare-drug-coverage.html",
         "/dupixent-assistance-program.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
         "/does-medicare-cover-rinvoq.html",
@@ -576,7 +576,7 @@
         "/medicare-supplement-vs-advantage.html",
         "/plan-g-vs-plan-n-vernal.html",
         "/hmo-vs-ppo-medicare-advantage.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/when-to-enroll-medicare-utah.html",
         "/medicare-cost-uintah-county.html",
         "/",
@@ -847,7 +847,7 @@
       "linksOut": [
         "/medicare-drug-coverage.html",
         "/prescription-drug-assistance.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
         "/does-medicare-cover-dupixent.html",
@@ -939,7 +939,7 @@
       ],
       "linkSuggestions": [
         "/prescription-drug-assistance.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html"
       ],
       "nextAction": "rewrite `<title>` + meta description — it ranks at 13.4 but earns 0.6% vs ~1.6% expected"
@@ -1075,7 +1075,7 @@
         "only 2 in-content inbound link(s)"
       ],
       "linkSuggestions": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-drug-coverage.html",
         "/tier-3-vs-tier-4-medicare-part-d.html"
       ],
@@ -1125,7 +1125,7 @@
       "linksOut": [
         "/medicare-drug-coverage.html",
         "/enbrel-assistance-program.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
         "/does-medicare-cover-humira.html",
@@ -1346,11 +1346,11 @@
         "only 2 in-content inbound link(s)"
       ],
       "linkSuggestions": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-drug-coverage.html",
         "/tier-3-vs-tier-4-medicare-part-d.html"
       ],
-      "nextAction": "raise inbound links from 2 — link from /best-part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
+      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
     },
     {
       "url": "/does-medicare-cover-rinvoq.html",
@@ -1396,7 +1396,7 @@
       "linksOut": [
         "/medicare-drug-coverage.html",
         "/rinvoq-assistance-program.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
         "/does-medicare-cover-humira.html",
@@ -1659,7 +1659,7 @@
       "linksOut": [
         "/medicare-drug-coverage.html",
         "/skyrizi-assistance-program.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
         "/does-medicare-cover-humira.html",
@@ -2050,7 +2050,7 @@
       "linksOut": [
         "/medicare-drug-coverage.html",
         "/eliquis-assistance-program.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
         "/does-medicare-cover-xarelto.html",
@@ -2185,7 +2185,7 @@
       "linksOut": [
         "/medicare-drug-coverage.html",
         "/xarelto-assistance-program.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
         "/does-medicare-cover-eliquis.html",
@@ -2407,7 +2407,7 @@
         "only 2 in-content inbound link(s)"
       ],
       "linkSuggestions": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-drug-coverage.html",
         "/tier-3-vs-tier-4-medicare-part-d.html"
       ],
@@ -2719,7 +2719,7 @@
       "inboundCount": 6,
       "outboundCount": 5,
       "linksOut": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-drug-coverage.html",
         "/medicare-part-d-cost-calculator.html",
@@ -2854,7 +2854,7 @@
         "/plan-g-vs-plan-n-vernal.html",
         "/medicare-supplement-vs-advantage.html",
         "/hmo-vs-ppo-medicare-advantage.html",
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/zero-premium-medicare-advantage.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-advantage-vs-medigap-vernal.html",
@@ -2868,7 +2868,7 @@
         "/medicare-checklist-2026.html",
         "/does-medicare-cover-mounjaro-utah.html",
         "/does-medicare-cover-ozempic-wegovy.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/cheapest-prescription-drug-plans.html",
         "/part-d-help-vernal.html",
         "/medicare-ashley-regional-vernal.html",
@@ -3105,14 +3105,14 @@
         "only 2 in-content inbound link(s)"
       ],
       "linkSuggestions": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-drug-coverage.html",
         "/tier-3-vs-tier-4-medicare-part-d.html"
       ],
-      "nextAction": "raise inbound links from 2 — link from /best-part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
+      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
     },
     {
-      "url": "/best-medicare-advantage-vernal.html",
+      "url": "/medicare-advantage-plans-vernal.html",
       "title": "Best Medicare Advantage Plans in Vernal, Utah 2026",
       "locale": "en",
       "silo": "medicare-advantage",
@@ -3155,7 +3155,7 @@
       "linksOut": [
         "/hmo-vs-ppo-medicare-advantage.html",
         "/medicare-advantage-vs-medigap-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/zero-premium-medicare-advantage.html",
         "/medicare-plans-vernal-utah.html"
       ],
@@ -3164,7 +3164,7 @@
       "lastModified": "2026-07-01T21:20:57-06:00",
       "ageDays": 29,
       "sourceFiles": [
-        "src/pages/best-medicare-advantage-vernal.astro"
+        "src/pages/medicare-advantage-plans-vernal.astro"
       ],
       "priority": 63,
       "opportunity": 59,
@@ -3626,11 +3626,11 @@
         "only 2 in-content inbound link(s)"
       ],
       "linkSuggestions": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-drug-coverage.html",
         "/tier-3-vs-tier-4-medicare-part-d.html"
       ],
-      "nextAction": "raise inbound links from 2 — link from /best-part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
+      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
     },
     {
       "url": "/mounjaro-assistance-program.html",
@@ -3897,7 +3897,7 @@
         "only 2 in-content inbound link(s)"
       ],
       "linkSuggestions": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-drug-coverage.html",
         "/tier-3-vs-tier-4-medicare-part-d.html"
       ],
@@ -4166,11 +4166,11 @@
         "only 2 in-content inbound link(s)"
       ],
       "linkSuggestions": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-drug-coverage.html",
         "/tier-3-vs-tier-4-medicare-part-d.html"
       ],
-      "nextAction": "raise inbound links from 2 — link from /best-part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
+      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
     },
     {
       "url": "/medicare-savings-programs-utah.html",
@@ -4345,7 +4345,7 @@
       "linksOut": [
         "/medicare-drug-coverage.html",
         "/repatha-assistance-program.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
         "/does-medicare-cover-entresto.html",
@@ -4873,7 +4873,7 @@
       "linksOut": [
         "/medicare-drug-coverage.html",
         "/prescription-drug-assistance.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
         "/does-medicare-cover-trulicity.html",
@@ -4965,7 +4965,7 @@
       ],
       "linkSuggestions": [
         "/prescription-drug-assistance.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html"
       ],
       "nextAction": "rewrite `<title>` + meta description — it ranks at 19.5 but earns 0.0% vs ~1.1% expected"
@@ -5038,12 +5038,12 @@
         "/medigap.html",
         "/plan-g-vs-plan-n-vernal.html",
         "/medicare-plan-g-high-deductible.html",
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/hmo-vs-ppo-medicare-advantage.html",
         "/zero-premium-medicare-advantage.html",
         "/medicare-supplement-vs-advantage.html",
         "/medicare-dental-vision-hearing.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/cheapest-prescription-drug-plans.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/prescription-drug-assistance.html",
@@ -5468,7 +5468,7 @@
       "linksOut": [
         "/medicare-drug-coverage.html",
         "/humira-assistance-program.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
         "/does-medicare-cover-enbrel.html",
@@ -5602,7 +5602,7 @@
       "inboundCount": 4,
       "outboundCount": 5,
       "linksOut": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-part-d-cost-calculator.html",
         "/insulin-cost-medicare-vernal.html",
         "/prescription-drug-assistance.html",
@@ -6009,7 +6009,7 @@
         "/does-medicare-cover-skyrizi.html",
         "/does-medicare-cover-trelegy.html",
         "/does-medicare-cover-zepbound.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-financial-assistance.html",
         "/medicare-coverage.html",
         "/medicare-decision-center.html",
@@ -6144,7 +6144,7 @@
       "linksOut": [
         "/medicare-drug-coverage.html",
         "/entresto-assistance-program.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
         "/does-medicare-cover-repatha.html",
@@ -6235,7 +6235,7 @@
       "nextAction": "expand to depth — currently 527 words"
     },
     {
-      "url": "/best-part-d-plans-vernal.html",
+      "url": "/part-d-plans-vernal.html",
       "title": "Best Medicare Part D Plans in Vernal, Utah 2026",
       "locale": "en",
       "silo": "part-d",
@@ -6292,7 +6292,7 @@
       "lastModified": "2026-07-01T21:20:57-06:00",
       "ageDays": 29,
       "sourceFiles": [
-        "src/pages/best-part-d-plans-vernal.astro"
+        "src/pages/part-d-plans-vernal.astro"
       ],
       "priority": 54,
       "opportunity": 71,
@@ -6544,7 +6544,7 @@
         "/medicare-plans-vernal-utah.html",
         "/medicare-supplement-vs-advantage.html",
         "/plan-g-vs-plan-n-vernal.html",
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medicare-cost-uintah-county.html",
         "/hmo-vs-ppo-medicare-advantage.html",
         "/medicare-out-of-state-utah.html",
@@ -6798,7 +6798,7 @@
       "inboundCount": 23,
       "outboundCount": 6,
       "linksOut": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/cheapest-prescription-drug-plans.html",
         "/does-medicare-cover-ozempic-wegovy.html",
         "/medicare-formulary-lookup.html",
@@ -7185,9 +7185,9 @@
       "inboundCount": 8,
       "outboundCount": 7,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/plan-g-vs-plan-n-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-cost-estimator.html",
         "/medicare-costs.html",
         "/medicare-irmaa.html",
@@ -7319,7 +7319,7 @@
       "inboundCount": 9,
       "outboundCount": 3,
       "linksOut": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/cheapest-prescription-drug-plans.html",
         "/does-medicare-cover-mounjaro-utah.html"
       ],
@@ -7542,11 +7542,11 @@
         "only 2 in-content inbound link(s)"
       ],
       "linkSuggestions": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-drug-coverage.html",
         "/tier-3-vs-tier-4-medicare-part-d.html"
       ],
-      "nextAction": "raise inbound links from 2 — link from /best-part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
+      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
     },
     {
       "url": "/medicare-supplement-vs-advantage.html",
@@ -7806,7 +7806,7 @@
         "only 2 in-content inbound link(s)"
       ],
       "linkSuggestions": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-drug-coverage.html",
         "/tier-3-vs-tier-4-medicare-part-d.html"
       ],
@@ -7855,7 +7855,7 @@
       "outboundCount": 6,
       "linksOut": [
         "/medicare-extra-help-calculator.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/prescription-drug-assistance.html",
         "/medicare-drug-cost-calculator.html",
         "/medicare-formulary-lookup.html",
@@ -7981,7 +7981,7 @@
       "linksOut": [
         "/medicare-news.html",
         "/prescription-drug-assistance.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-help-center.html",
         "/medicare-news/part-d-2000-cap.html",
@@ -8113,7 +8113,7 @@
       "linksOut": [
         "/medicare-drug-coverage.html",
         "/farxiga-assistance-program.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
         "/does-medicare-cover-jardiance.html",
@@ -8248,7 +8248,7 @@
       "outboundCount": 15,
       "linksOut": [
         "/es/medicare-supplement-vs-advantage.html",
-        "/es/best-part-d-plans-vernal.html",
+        "/es/part-d-plans-vernal.html",
         "/es/medicare-costs.html",
         "/es/medicare-enrollment-periods.html",
         "/medicare-enrollment-timeline.html",
@@ -8256,7 +8256,7 @@
         "/medicare-part-a-vs-part-b.html",
         "/plan-g-vs-plan-n-vernal.html",
         "/medicare-cost-estimator.html",
-        "/es/best-medicare-advantage-vernal.html",
+        "/es/medicare-advantage-plans-vernal.html",
         "/medicare-open-enrollment-2026.html",
         "/faq.html",
         "/medicare-checklist-2026.html",
@@ -8391,7 +8391,7 @@
       "outboundCount": 15,
       "linksOut": [
         "/medicare-supplement-vs-advantage.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-costs.html",
         "/medicare-enrollment-periods.html",
         "/medicare-enrollment-timeline.html",
@@ -8399,7 +8399,7 @@
         "/medicare-part-a-vs-part-b.html",
         "/plan-g-vs-plan-n-vernal.html",
         "/medicare-cost-estimator.html",
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medicare-open-enrollment-2026.html",
         "/faq.html",
         "/medicare-checklist-2026.html",
@@ -8670,7 +8670,7 @@
         "/medicare-open-enrollment-2026.html",
         "/medicare-coverage.html",
         "/medicare-dental-vision-hearing.html",
-        "/es/best-part-d-plans-vernal.html",
+        "/es/part-d-plans-vernal.html",
         "/medicare-drug-coverage.html",
         "/prescription-drug-assistance.html",
         "/medicare-part-d-cost-calculator.html",
@@ -8679,7 +8679,7 @@
         "/es/medicare-savings-programs-utah.html",
         "/es/medicare-extra-help-utah.html",
         "/es/medigap.html",
-        "/es/best-medicare-advantage-vernal.html",
+        "/es/medicare-advantage-plans-vernal.html",
         "/plan-g-vs-plan-n-vernal.html",
         "/medicare-calculators.html",
         "/es/medicare-costs.html",
@@ -8964,7 +8964,7 @@
       "linksOut": [
         "/medicare-drug-coverage.html",
         "/trulicity-assistance-program.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
         "/does-medicare-cover-jardiance.html",
@@ -9098,7 +9098,7 @@
       "linksOut": [
         "/does-medicare-cover-ozempic-wegovy.html",
         "/insulin-cost-medicare-vernal.html",
-        "/best-part-d-plans-vernal.html"
+        "/part-d-plans-vernal.html"
       ],
       "navLinked": false,
       "depth": 2,
@@ -9780,7 +9780,7 @@
       "inboundCount": 10,
       "outboundCount": 4,
       "linksOut": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/insulin-cost-medicare-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/part-d-help-vernal.html"
@@ -10319,7 +10319,7 @@
         "/medicare-open-enrollment-2026.html",
         "/medicare-coverage.html",
         "/medicare-dental-vision-hearing.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-drug-coverage.html",
         "/prescription-drug-assistance.html",
         "/medicare-part-d-cost-calculator.html",
@@ -10328,7 +10328,7 @@
         "/medicare-savings-programs-utah.html",
         "/medicare-extra-help-utah.html",
         "/medigap.html",
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/plan-g-vs-plan-n-vernal.html",
         "/medicare-calculators.html",
         "/medicare-costs.html",
@@ -10475,7 +10475,7 @@
         "/medicare-special-enrollment-period.html",
         "/turning-65.html",
         "/medicare-supplement-vs-advantage.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-part-b-penalty-calculator.html",
         "/medicare-decision-center.html",
         "/medicare-enrollment-periods.html"
@@ -10612,7 +10612,7 @@
         "/medicare-special-enrollment-period.html",
         "/es/turning-65.html",
         "/es/medicare-supplement-vs-advantage.html",
-        "/es/best-part-d-plans-vernal.html",
+        "/es/part-d-plans-vernal.html",
         "/medicare-part-b-penalty-calculator.html",
         "/es/medicare-decision-center.html",
         "/es/medicare-enrollment-periods.html"
@@ -10866,7 +10866,7 @@
       "outboundCount": 9,
       "linksOut": [
         "/medicare-news.html",
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medicare-cost-estimator.html",
         "/medicare-open-enrollment-2026.html",
         "/medicare-supplement-vs-advantage.html",
@@ -10999,10 +10999,10 @@
       "inboundCount": 6,
       "outboundCount": 24,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medigap.html",
         "/plan-g-vs-plan-n-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-supplement-vs-advantage.html",
         "/medicare-cost-estimator.html",
         "/medicare-uintah-basin-medical-center.html",
@@ -11656,7 +11656,7 @@
       "linksOut": [
         "/medicare-plans-vernal-utah.html",
         "/plan-g-vs-plan-n-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/zero-premium-medicare-advantage.html",
         "/medicare-supplement-vs-advantage.html",
         "/when-to-enroll-medicare-utah.html",
@@ -11804,12 +11804,12 @@
         "/medicare-enrollment-timeline.html",
         "/medicare-part-b-penalty-calculator.html",
         "/medicare-costs.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-irmaa.html",
         "/medicare-out-of-pocket-maximum-2026.html",
         "/hmo-vs-ppo-medicare-advantage.html",
         "/medicare-part-a-vs-part-b.html",
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/plan-g-vs-plan-n-vernal.html",
         "/d-snp-plans-utah.html",
         "/dual-eligible.html",
@@ -11904,7 +11904,7 @@
       "nextAction": "add a `<SummaryBlock>` TL;DR under the H1"
     },
     {
-      "url": "/es/best-medicare-advantage-vernal.html",
+      "url": "/es/medicare-advantage-plans-vernal.html",
       "title": "Los mejores planes Medicare Advantage en Vernal, Utah 2026",
       "locale": "es",
       "silo": "medicare-advantage",
@@ -11947,7 +11947,7 @@
       "linksOut": [
         "/hmo-vs-ppo-medicare-advantage.html",
         "/medicare-advantage-vs-medigap-vernal.html",
-        "/es/best-part-d-plans-vernal.html",
+        "/es/part-d-plans-vernal.html",
         "/zero-premium-medicare-advantage.html"
       ],
       "navLinked": false,
@@ -11956,7 +11956,7 @@
       "ageDays": 29,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
-        "src/pages/best-medicare-advantage-vernal.astro"
+        "src/pages/medicare-advantage-plans-vernal.astro"
       ],
       "priority": 40,
       "opportunity": 25,
@@ -12073,7 +12073,7 @@
       "inboundCount": 6,
       "outboundCount": 6,
       "linksOut": [
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/cheapest-prescription-drug-plans.html",
         "/insulin-cost-medicare-vernal.html",
         "/medicare-ashley-regional-vernal.html",
@@ -12860,10 +12860,10 @@
       "inboundCount": 6,
       "outboundCount": 24,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medigap.html",
         "/plan-g-vs-plan-n-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-supplement-vs-advantage.html",
         "/medicare-cost-estimator.html",
         "/medicare-uintah-basin-medical-center.html",
@@ -13133,10 +13133,10 @@
       "inboundCount": 1,
       "outboundCount": 25,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medigap.html",
         "/plan-g-vs-plan-n-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-supplement-vs-advantage.html",
         "/medicare-cost-estimator.html",
         "/medicare-uintah-basin-medical-center.html",
@@ -13669,7 +13669,7 @@
         "/delaying-medicare-part-b.html",
         "/medicare-special-enrollment-period.html",
         "/cobra-and-medicare.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-glossary.html",
         "/missed-medicare-enrollment.html",
         "/medicare-penalty-calculator.html"
@@ -14068,10 +14068,10 @@
       "inboundCount": 5,
       "outboundCount": 24,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medigap.html",
         "/plan-g-vs-plan-n-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-supplement-vs-advantage.html",
         "/medicare-cost-estimator.html",
         "/medicare-uintah-basin-medical-center.html",
@@ -14215,7 +14215,7 @@
         "/aca.html",
         "/life.html",
         "/medicare-plans-vernal-utah.html",
-        "/best-medicare-advantage-vernal.html"
+        "/medicare-advantage-plans-vernal.html"
       ],
       "navLinked": true,
       "depth": 2,
@@ -14465,9 +14465,9 @@
       "inboundCount": 10,
       "outboundCount": 11,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/plan-g-vs-plan-n-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-supplement-vs-advantage.html",
         "/medicare-roosevelt-utah.html",
         "/medicare-part-a-vs-part-b.html",
@@ -14874,7 +14874,7 @@
       "outboundCount": 8,
       "linksOut": [
         "/medicare-news.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/prescription-drug-assistance.html",
         "/medicare-glossary.html",
         "/medicare-help-center.html",
@@ -16056,7 +16056,7 @@
         "/prescription-drug-assistance.html",
         "/zero-premium-medicare-advantage.html",
         "/medicare-plan-g-high-deductible.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-irmaa.html",
         "/how-to-reduce-medicare-irmaa.html",
         "/medicare-irmaa-appeal-ssa-44.html",
@@ -16214,12 +16214,12 @@
         "/es/medigap.html",
         "/plan-g-vs-plan-n-vernal.html",
         "/medicare-plan-g-high-deductible.html",
-        "/es/best-medicare-advantage-vernal.html",
+        "/es/medicare-advantage-plans-vernal.html",
         "/hmo-vs-ppo-medicare-advantage.html",
         "/zero-premium-medicare-advantage.html",
         "/es/medicare-supplement-vs-advantage.html",
         "/medicare-dental-vision-hearing.html",
-        "/es/best-part-d-plans-vernal.html",
+        "/es/part-d-plans-vernal.html",
         "/cheapest-prescription-drug-plans.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/prescription-drug-assistance.html",
@@ -16508,7 +16508,7 @@
       "outboundCount": 6,
       "linksOut": [
         "/medicare-plans-vernal-utah.html",
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/zero-premium-medicare-advantage.html",
         "/medicare-advantage-vs-medigap-vernal.html",
         "/medicare-out-of-state-utah.html",
@@ -16761,7 +16761,7 @@
       "inboundCount": 9,
       "outboundCount": 5,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/hmo-vs-ppo-medicare-advantage.html",
         "/medicare-cost-uintah-county.html",
         "/medicare-advantage-vs-medigap-vernal.html",
@@ -16889,10 +16889,10 @@
       "inboundCount": 1,
       "outboundCount": 25,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medigap.html",
         "/plan-g-vs-plan-n-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-supplement-vs-advantage.html",
         "/medicare-cost-estimator.html",
         "/medicare-uintah-basin-medical-center.html",
@@ -17040,10 +17040,10 @@
       "inboundCount": 1,
       "outboundCount": 24,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medigap.html",
         "/plan-g-vs-plan-n-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-supplement-vs-advantage.html",
         "/medicare-cost-estimator.html",
         "/medicare-uintah-basin-medical-center.html",
@@ -17480,7 +17480,7 @@
         "/es/turning-65.html",
         "/es/working-past-65.html",
         "/medicare-open-enrollment-2026.html",
-        "/es/best-part-d-plans-vernal.html",
+        "/es/part-d-plans-vernal.html",
         "/medicare-financial-assistance.html",
         "/medicare-calculators.html",
         "/es/medigap.html",
@@ -17731,7 +17731,7 @@
       "inboundCount": 4,
       "outboundCount": 3,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medicare-cost-uintah-county.html",
         "/faq.html"
       ],
@@ -17867,7 +17867,7 @@
       "linksOut": [
         "/medicare-ashley-regional-vernal.html",
         "/medicare-uintah-basin-medical-center.html",
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medicare-advantage-vs-medigap-vernal.html",
         "/medicare-cost-uintah-county.html",
         "/medicare-vernal-pharmacies.html",
@@ -17998,7 +17998,7 @@
       "linksOut": [
         "/medicare-drug-coverage.html",
         "/jardiance-assistance-program.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
         "/does-medicare-cover-farxiga.html",
@@ -18088,7 +18088,7 @@
       "nextAction": "no impressions yet — confirm it is indexed, then build internal links to it"
     },
     {
-      "url": "/es/best-part-d-plans-vernal.html",
+      "url": "/es/part-d-plans-vernal.html",
       "title": "Los mejores planes de la Parte D de Medicare en Vernal, Utah 2026",
       "locale": "es",
       "silo": "part-d",
@@ -18145,7 +18145,7 @@
       "ageDays": 29,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
-        "src/pages/best-part-d-plans-vernal.astro"
+        "src/pages/part-d-plans-vernal.astro"
       ],
       "priority": 23,
       "opportunity": 20,
@@ -18261,10 +18261,10 @@
       "inboundCount": 6,
       "outboundCount": 25,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medigap.html",
         "/plan-g-vs-plan-n-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-supplement-vs-advantage.html",
         "/medicare-cost-estimator.html",
         "/medicare-uintah-basin-medical-center.html",
@@ -18407,10 +18407,10 @@
       "inboundCount": 8,
       "outboundCount": 24,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medigap.html",
         "/plan-g-vs-plan-n-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-supplement-vs-advantage.html",
         "/medicare-cost-estimator.html",
         "/medicare-ashley-regional-vernal.html",
@@ -18552,10 +18552,10 @@
       "inboundCount": 8,
       "outboundCount": 24,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medigap.html",
         "/plan-g-vs-plan-n-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-supplement-vs-advantage.html",
         "/medicare-cost-estimator.html",
         "/medicare-ashley-regional-vernal.html",
@@ -18697,10 +18697,10 @@
       "inboundCount": 8,
       "outboundCount": 24,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medigap.html",
         "/plan-g-vs-plan-n-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-supplement-vs-advantage.html",
         "/medicare-cost-estimator.html",
         "/medicare-ashley-regional-vernal.html",
@@ -20905,7 +20905,7 @@
       "linksOut": [
         "/medicare-news.html",
         "/insulin-cost-medicare-vernal.html",
-        "/best-part-d-plans-vernal.html",
+        "/part-d-plans-vernal.html",
         "/medicare-help-center.html",
         "/medicare-news/part-d-2000-cap.html",
         "/medicare-news/medicare-advantage-changes-2026.html",
@@ -21558,7 +21558,7 @@
       "outboundCount": 5,
       "linksOut": [
         "/medicare-hospitals-uintah-county.html",
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medicare-vernal-pharmacies.html",
         "/medicare-uintah-basin-medical-center.html",
         "/medicare-plans-vernal-utah.html"
@@ -21687,7 +21687,7 @@
       "inboundCount": 18,
       "outboundCount": 9,
       "linksOut": [
-        "/best-medicare-advantage-vernal.html",
+        "/medicare-advantage-plans-vernal.html",
         "/medigap.html",
         "/medicare-supplement-vs-advantage.html",
         "/medicare-help-center.html",

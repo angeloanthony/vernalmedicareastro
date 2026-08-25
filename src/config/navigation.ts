@@ -35,9 +35,9 @@ export const PRIMARY_NAV: NavLink[] = [
     href: '/medicare-plans-vernal-utah.html',
     label: 'Plans',
     children: [
-      { href: '/best-medicare-advantage-vernal.html', label: 'Medicare Advantage' },
+      { href: '/medicare-advantage-plans-vernal.html', label: 'Medicare Advantage' },
       { href: '/medigap.html', label: 'Medigap (Supplement)' },
-      { href: '/best-part-d-plans-vernal.html', label: 'Part D Drug Plans' },
+      { href: '/part-d-plans-vernal.html', label: 'Part D Drug Plans' },
       { href: '/medicare-supplement-vs-advantage.html', label: 'Compare Plans' },
       // Non-Medicare product lines live here so Contact stays about getting in touch.
       { label: 'Other Insurance' }, // section heading (no href)
