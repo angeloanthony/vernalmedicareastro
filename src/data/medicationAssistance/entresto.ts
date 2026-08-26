@@ -148,7 +148,7 @@ export const ENTRESTO: MedicationAssistanceRecord = {
       'Manufacturer patient assistance: Entresto is not on the Novartis Patient Assistance Foundation medication list — NPAF says an unlisted Novartis medicine "isn\'t supported by the NPAF program at this time."',
       'Entresto Co-Pay Program: discontinued. When it ran, its terms excluded Medicare anyway.',
       'Generic sacubitril/valsartan: FDA-approved since May 2024 and on the market since 2025 — ask whether it is cheaper on your plan\'s formulary.',
-      'Charitable grants: TotalAssist\'s heart-failure health-equity fund was open (zip-code limited); its main Heart failure and Cardiomyopathy funds and HealthWell\'s two heart-failure Medicare Access funds were closed. All list Entresto.',
+      'Charitable grants — one fund taking applications, three closed: TotalAssist\'s heart-failure HEALTH-EQUITY fund was open, but only to served ZIP codes. TotalAssist\'s GENERAL Heart failure and Cardiomyopathy funds and HealthWell\'s two heart-failure Medicare Access funds were closed. All four list Entresto.',
       'Medicare: negotiated Part D price of $295 (30-day) in 2026; Extra Help can cut a covered brand copay to about $12.65 if you qualify.',
     ],
   },
@@ -195,15 +195,15 @@ export const ENTRESTO: MedicationAssistanceRecord = {
     {
       id: 'totalassist-hf-he',
       kind: 'charitable',
-      name: 'TotalAssist — Heart failure (HF) health equity fund',
+      name: 'TotalAssist — Heart failure health-equity fund (ZIP-code restricted)',
       operator: 'Patient Advocate Foundation',
-      fund: 'Heart failure (HF) health equity',
-      status: 'open',
-      statusNote: 'Open and accepting applications on August 26, 2026 — the only fund covering Entresto that was open when we checked.',
+      fund: 'Heart failure (HF) health equity — served ZIP codes only',
+      status: 'limited',
+      statusNote: 'Accepting applications on August 26, 2026, but only from people whose home ZIP code the fund serves — the only fund covering Entresto that was taking applications when we checked. This is a different fund from TotalAssist\'s general Heart failure fund below, which was closed.',
       medicare: 'eligible',
       medicareNote: 'Requires government insurance (Medicare, Medicaid or TRICARE) that covers your Entresto costs.',
       summary:
-        'A health-equity fund: you must have heart failure and a home address in a zip code the fund serves (designated social-vulnerability counties). Entresto, Entresto Sprinkle and generic sacubitril/valsartan are all on the heart-failure approved-medication list. Eligibility is determined in part by zip code, so check yours before assuming.',
+        'A health-equity fund — a separate fund from TotalAssist\'s general Heart failure fund, with its own money and its own rules. It was accepting applications, but you must have heart failure AND a home address in a ZIP code the fund serves (designated social-vulnerability counties). If your ZIP code is not served, this fund cannot help you no matter how well you meet the income and diagnosis rules, so check your ZIP code first. Entresto, Entresto Sprinkle and generic sacubitril/valsartan are all on the heart-failure approved-medication list.',
       covers: '$1,000 guaranteed award, up to $2,500 maximum, for eligible out-of-pocket costs. One grant per condition.',
       eligibility: [
         'Diagnosed with heart failure, in treatment (or starting within 60 days, or treated in the past 6 months)',
@@ -220,15 +220,15 @@ export const ENTRESTO: MedicationAssistanceRecord = {
     {
       id: 'totalassist',
       kind: 'charitable',
-      name: 'TotalAssist — Heart failure (HF) and Cardiomyopathy funds',
+      name: 'TotalAssist — general Heart failure and Cardiomyopathy funds (no ZIP-code rule)',
       operator: 'Patient Advocate Foundation',
-      fund: 'Heart failure (HF) · Cardiomyopathy',
+      fund: 'Heart failure (HF) · Cardiomyopathy — the general funds, any ZIP code',
       status: 'closed',
-      statusNote: 'Both funds were closed to new applicants on August 26, 2026, even though Entresto is on each fund\'s approved-medication list.',
+      statusNote: 'Both funds were closed to new applicants on August 26, 2026, even though Entresto is on each fund\'s approved-medication list. These are TotalAssist\'s general heart funds — not the ZIP-code-restricted health-equity fund above, which was accepting applications.',
       medicare: 'eligible',
       medicareNote: 'These funds require government insurance (Medicare, Medicaid or TRICARE).',
       summary:
-        'Patient Advocate Foundation\'s TotalAssist (which absorbed the PAN Foundation\'s funds on July 1, 2026) lists Entresto under its Heart failure and Cardiomyopathy funds. A listing is not an open fund — both were closed when we checked. Sign up to be notified the moment one reopens; TotalAssist has no waitlist or queue.',
+        'Patient Advocate Foundation\'s TotalAssist (which absorbed the PAN Foundation\'s funds on July 1, 2026) lists Entresto under its general Heart failure and Cardiomyopathy funds. These two carry no ZIP-code rule, so they are the funds most people would use — and both were closed when we checked. A listing is not an open fund. Sign up to be notified the moment one reopens; TotalAssist has no waitlist or queue.',
       covers: 'When open: Heart failure $1,000 guaranteed / $2,500 maximum; Cardiomyopathy $1,500 guaranteed / $2,000 maximum.',
       eligibility: TOTALASSIST_ELIGIBILITY,
       requirements: TOTALASSIST_REQUIREMENTS,
@@ -282,7 +282,7 @@ export const ENTRESTO: MedicationAssistanceRecord = {
     },
   ],
   charitableSummary:
-    'Entresto appears on TotalAssist\'s Heart failure and Cardiomyopathy fund lists and on HealthWell\'s two heart-failure Medicare Access funds, but on August 26, 2026 every one of those funds was closed to new applicants except TotalAssist\'s heart-failure health-equity fund, which is limited to certain zip codes. Good Days has no heart fund. Being listed is not the same as being open — sign up for fund alerts so you hear when one reopens. With Novartis\'s own programs gone, the routes that do not depend on a fund balance are the generic, the negotiated Part D price, and Extra Help.',
+    'Four charitable funds list Entresto, and on August 26, 2026 exactly one of them was taking applications. TotalAssist\'s heart-failure HEALTH-EQUITY fund was open, but only to people whose home ZIP code it serves. TotalAssist\'s GENERAL Heart failure and Cardiomyopathy funds — the ones with no ZIP-code rule — were closed, as were HealthWell\'s two heart-failure Medicare Access funds. Good Days has no heart fund. Being listed is not the same as being open — sign up for fund alerts so you hear when one reopens. With Novartis\'s own programs gone, the routes that do not depend on a fund balance are the generic, the negotiated Part D price, and Extra Help.',
   extraHelpNote:
     'For Entresto, Extra Help and the generic are the two routes that need no fund balance and no manufacturer program: Extra Help lowers the copay on every covered drug, and generic sacubitril/valsartan may sit on a lower tier of your plan. Ask about both.',
   applicationSteps: [
@@ -291,9 +291,9 @@ export const ENTRESTO: MedicationAssistanceRecord = {
       body: 'Because Novartis no longer offers help for Entresto, start with whichever of these fits your situation. They are not mutually exclusive.',
       bullets: [
         'Any Part D enrollee → ask your pharmacist or plan whether generic sacubitril/valsartan is on a lower tier than brand Entresto.',
-        'Heart failure and a home zip code served by a health-equity fund → TotalAssist heart-failure health-equity fund (open when checked).',
+        'Heart failure AND a home ZIP code the fund serves → TotalAssist heart-failure health-equity fund (accepting applications when checked; the ZIP-code rule decides it).',
         'Limited income and resources → Medicare Extra Help through Social Security.',
-        'Heart failure or cardiomyopathy → sign up for TotalAssist and HealthWell alerts; those funds were closed when checked.',
+        'Heart failure or cardiomyopathy but a ZIP code the health-equity fund does not serve → sign up for TotalAssist and HealthWell alerts; the general funds were closed when checked.',
       ],
     },
     {

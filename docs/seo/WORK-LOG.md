@@ -118,6 +118,167 @@ strength of one real test.
      experiments (EXP-001 – EXP-003) are logged below and registered in
      docs/seo/EXPERIMENTS.md. -->
 
+### 2026-08-26 — Prescription Assistance Batch 4: Dupixent, the final legacy migration, LINK-DARK (new content, not an experiment)
+
+- **Pages:** `/dupixent-assistance-program.html` — same URL, legacy generic page
+  rebuilt in place from an independently researched record. **No new URL** (the
+  slug was already in `FEATURED_DRUGS`), no redirect, no duplicate. Sitewide:
+  nothing. Nav, hub, coverage cohort and unrelated pages untouched.
+- **Driver:** `docs/PRESCRIPTION-ASSISTANCE-PROJECT.md` §32 — the last page on
+  the legacy `Drug`-only representation, and the architecture's dual-axis test
+  case (`autoimmune` + `respiratory`). Requested directly.
+- **Metric:** topical completeness (tracked). **36% → 91%** (`npm run seo:gate`
+  passed — 148 pages, site mean 75%, no `--accept`). AI readiness 89 (+26).
+  Tests 311 → 322, lint clean, `astro check` 0 errors / 0 warnings, build 168
+  pages, `npm run verify` passed.
+- **Hypothesis:** none pre-registered — content addition under the project spec.
+  Recorded so the September read-out does not mistake a construction change for
+  an experimental result.
+
+- **✅ Observation-window discipline (EXP-003): LINK-DARK, same as Batch 3.**
+  Zero links added into the frozen `does-medicare-cover-*` cohort, treated or
+  control. Checks run on the built HTML:
+  - `grep 'does-medicare-cover'` on `dist/dupixent-assistance-program.html` → 0
+    matches; the same grep on a Batch 3 page (`skyrizi`) → 0, so the check
+    matches the established baseline rather than a new one.
+  - `git status` on `src/data/drugCoverage.ts` and `src/pages/` → unchanged.
+  - `does-medicare-cover-dupixent.html` already linked *to* the assistance URL
+    through `drugCoverage.ts`. That link predates this batch and its target
+    URL is unchanged, so no link, anchor or link count on any cohort page moved.
+  - **The post-observation linking pass is still owed and still unstarted** (D8).
+
+- **Architecture verdict: no defect. Frozen under D9.** Dupixent's nine FDA
+  indications across skin, airway, gut and blood-vessel disease resolved on the
+  existing two axes with no new field, tag or lookup. Derived categories came
+  out `['autoimmune', 'biologics', 'copd-asthma']` — `autoimmune` first, which
+  is what D7 was ordered for. Verified by assertion, not by eye.
+
+- **Research findings worth carrying forward** (each checked, not inherited):
+  - Sanofi Patient Connection does **not** cover Dupixent — it is absent from
+    that program's medications-available list. The route is the separate
+    DUPIXENT MyWay Patient Assistance Program, which names Medicare Part D
+    explicitly.
+  - HealthWell's AutoImmune – Medicare Access fund does **not** list Dupixent,
+    though it lists Humira, Enbrel, Skyrizi and Rinvoq.
+  - TotalAssist's Eosinophilic Esophagitis fund was **OPEN** — the first open
+    charitable fund found in this project. Worth re-checking before any page
+    repeats the "funds are generally closed" framing as though it were a rule.
+
+- **Defect found, not fixed here:** the `sanofi` entry in `src/data/drugs.ts`
+  still lists Dupixent (and Praluent) as medicines Sanofi Patient Connection
+  supplies. It is wrong on every page that renders the assistance directory.
+  Out of Batch 4's scope; needs its own change and its own entry.
+
+- **Outcome (after recrawl):** not applicable — no experimental manipulation.
+  Structural scores above are construction facts, not evidence about rankings.
+
+### 2026-08-26 — Prescription Assistance Batch 3: five medication pages, built LINK-DARK (new content, not an experiment)
+
+- **Pages:** `/trulicity-assistance-program.html` · `/humira-assistance-program.html` ·
+  `/enbrel-assistance-program.html` · `/skyrizi-assistance-program.html` ·
+  `/rinvoq-assistance-program.html` — same URLs, legacy generic pages rebuilt in
+  place from independently researched records. **No new URLs** (all five slugs
+  were already in `FEATURED_DRUGS`); 21 medications now. Sitewide: nothing.
+  Nav, hub, SEO gates and unrelated pages untouched.
+- **Driver:** `docs/PRESCRIPTION-ASSISTANCE-PROJECT.md` Batch 3 (spec §24 build
+  order #11–15), requested directly. Same architecture and research standard as
+  Batches 1–2: official sources first, dated source on every material claim,
+  honest closed / not-found / unknown statuses.
+- **Metric:** topical completeness (tracked). **36% → 91%** on all five pages
+  (`npm run seo:gate` passed — 148 pages, site mean 73%, no `--accept`). Words
+  ~600 → 5,700–6,100; AI readiness 89. Remaining gap on all five is the
+  `schema` detector false negative already recorded for Batch 1 (DrugPage emits
+  `MedicalWebPage`). Tests 256 → 311, `astro check` 0 errors, build 168 pages.
+- **Hypothesis:** none pre-registered — content addition under the project spec.
+
+- **✅ Observation-window discipline (EXP-003): this batch is LINK-DARK, and that
+  is the difference from Batch 2.** Batch 2 fired confounder #5 by adding one
+  in-content inbound link to each of three treated pages. Batch 3 adds **zero**
+  links into the cohort, treated or control. Three independent checks:
+  1. The cohort's source files — `src/pages/does-medicare-cover-[drug].astro`,
+     `src/data/drugCoverage.ts`, `src/data/business.ts` — are untouched, so the
+     14 pages' HTML is unchanged by construction.
+  2. `grep 'href="/does-medicare-cover-'` over all five built pages returns
+     **NONE**. (The coverage pages already linked *out* to
+     `/<slug>-assistance-program.html` via `drugCoverage.ts`, so a record
+     appearing changes no link, anchor text or link count on their side either.)
+  3. Post-run snapshot: **0 of 17** `does-medicare-cover-*` pages changed
+     `words`, `aiReadiness`, `tables` or `completeness`.
+- **✅ No `medianWords` artifact this time.** Batch 2's erratum 2 recorded that a
+  cohort-scale content addition moved the site-relative median (552 → 566) and
+  silently cost three untouched pages an insights point. Checked explicitly
+  here: `medianWords` held at **567** before and after, so no untouched page's
+  AI readiness moved. `medianInbound` did shift 8 → 7 (a site statistic, not a
+  page edit) — recorded so the September Delta review does not read any
+  priority movement on the cohort as an experimental effect.
+- **Taxonomy:** one drug-class key added because a researched medication needed
+  it — `jak-inhibitor` for Rinvoq, confirmed against the label ("RINVOQ/RINVOQ LQ
+  is a Janus kinase (JAK) inhibitor"); it is a tablet and must not carry
+  `biologic`. The `autoimmune` browse view was moved ahead of `biologics` in the
+  canonical order: Batch 3 is the first batch whose records carry the
+  `biologic` class, so the ordering had never been exercised, and left alone
+  Humira/Enbrel/Skyrizi would have led with "Biologics (Respiratory / Immune)".
+  Verified to change no existing page (no prior record carries `biologic`;
+  legacy `Drug` entries carry `conditions` only).
+- **Evidence-discipline notes worth keeping:**
+  - **Humira is the batch's real finding.** AbbVie closed myAbbVie Assist to new
+    HUMIRA patients on July 1, 2026 while keeping Skyrizi and Rinvoq in the same
+    program. "AbbVie has a PAP" would have produced a wrong page; only the
+    drug-specific source settles it. AbbVie's application-overview page *still*
+    links a December 2024 HUMIRA application form — the page says so.
+  - **Enbrel's Medicare question is recorded as `unknown`, not guessed.** Two
+    official Amgen pages contradict each other (the FAQ says qualifying patients
+    "must not be eligible for … Medicare"; the eligibility page allows Medicare
+    patients "for certain products" without naming Enbrel). Per the
+    signal → verification → conclusion rule, the page reports the contradiction
+    and tells the reader to ask, rather than defaulting to the likely answer.
+  - **Access technique, reusable:** `www.abbvie.com`, `www.lilly.com` and
+    `www.lillycares.com` serve WAF/JS-challenge blocks; the **apex hosts**
+    (`abbvie.com`, `lilly.com`, `lillycares.com`) serve the same pages, and
+    AbbVie's PDFs are readable under `abbvie.com/content/dam/`. Every
+    manufacturer claim in this batch was read on an official page, not a
+    search summary.
+
+---
+
+### 2026-08-26 — Batch 2 review fixes: Entresto fund naming and the FPL source-year note (presentation only, not an experiment)
+
+- **Pages:** `/entresto-assistance-program.html` (fund naming) and **every**
+  medication assistance page (the shared income-limit note + a new key term).
+  `/xarelto-assistance-program.html` and `/breztri-assistance-program.html` also
+  gained a table attribution. No cohort page touched.
+- **Driver:** the two non-blocking findings from the Batch 2 review.
+- **Fix 1 — Entresto.** Two TotalAssist cards read as near-identical names with
+  opposite statuses, so a reader scanning them could not tell whether the
+  heart-failure fund was open or closed. They are now
+  "TotalAssist — Heart failure health-equity fund (**ZIP-code restricted**)" and
+  "TotalAssist — **general** Heart failure and Cardiomyopathy funds (no ZIP-code
+  rule)", each summary cross-referencing the other. The open card's status also
+  moved `open` → `limited` — the type's own definition of `limited` is
+  "accepting, but with a material restriction," which a ZIP-code eligibility
+  rule is. Its pill now reads "Open with limits" rather than "Accepting
+  applications". No underlying fact changed; `openCount` is unaffected because
+  the quick-answer count already includes `limited`.
+- **Fix 2 — the 300% FPL figures.** Neither number was altered. AZ&Me publishes
+  $47,880 / $64,920 (one/two people) and Johnson & Johnson publishes
+  $46,950 / $63,450, both while saying "300% FPL", because each program builds
+  its table from a poverty-guideline year of its own choosing. A shared
+  `FPL_NOTE` now renders once on every medication page above the program cards,
+  a "Federal poverty level (FPL)" key term was added, and each figure is
+  attributed to the table it came from (J&J's February 2026 program guide;
+  AZ&Me's table effective January 26, 2026). **Batch 3 corroborated the
+  diagnosis independently:** Lilly Cares states outright that its limits are
+  "300% … of 2026 Federal Poverty Guidelines" and publishes $47,880 / $64,920 —
+  matching AZ&Me and Amgen Safety Net Foundation to the dollar, and differing
+  from J&J. Three programs on the 2026 table agree; the outlier is a table-year
+  difference, exactly as the note says. Normalising the numbers would have
+  produced a figure no program would recognise on the phone.
+- **Metric:** topical completeness (tracked) — unchanged, as intended;
+  `npm run seo:gate` passed with no floors moved. This is a comprehension fix,
+  not a content addition.
+
+---
+
 ### 2026-08-26 — Prescription Assistance Batch 2: five record-driven medication pages (new content, not an experiment)
 
 - **Pages:** `/entresto-assistance-program.html` · `/xarelto-assistance-program.html` ·

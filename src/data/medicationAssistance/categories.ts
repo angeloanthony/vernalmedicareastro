@@ -63,20 +63,27 @@ export const ASSISTANCE_CATEGORIES: AssistanceCategory[] = [
     drugClass: ['glp-1'],
   },
   {
-    key: 'biologics',
-    label: 'Biologics (Respiratory / Immune)',
-    blurb: 'Injectable biologics for asthma, COPD and allergic conditions.',
-    drugClass: ['biologic'],
-  },
-  {
     // Approved 2026-08-26 (project §31 D7). A browse view over the existing
     // `autoimmune` CONDITIONS key — no new axis, no change to CONDITIONS.
     // Sits before 'copd-asthma' so Dupixent (autoimmune + respiratory) leads
-    // with the immune view rather than reading as an inhaler.
+    // with the immune view rather than reading as an inhaler, and before
+    // 'biologics' (moved 2026-08-26, Batch 3) so Humira, Enbrel and Skyrizi —
+    // the first records to carry the 'biologic' class — lead with what the
+    // patient has rather than with what the molecule is.
     key: 'autoimmune',
     label: 'Autoimmune & Immune Conditions',
     blurb: "Biologics and JAK inhibitors for rheumatoid arthritis, psoriasis, Crohn's, eczema and related conditions.",
     conditions: ['autoimmune'],
+    drugClass: ['jak-inhibitor'],
+  },
+  {
+    // Blurb widened 2026-08-26 (Batch 3): this is a drug-class view over
+    // 'biologic', and it now also holds three autoimmune biologics, so naming
+    // only respiratory and allergic conditions described the wrong set.
+    key: 'biologics',
+    label: 'Biologics',
+    blurb: 'Injected and infused biologics — for autoimmune conditions, asthma, COPD and allergic disease.',
+    drugClass: ['biologic'],
   },
   {
     key: 'copd-asthma',

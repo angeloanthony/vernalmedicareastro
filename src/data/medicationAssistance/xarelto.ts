@@ -177,7 +177,7 @@ export const XARELTO: MedicationAssistanceRecord = {
       covers: 'Xarelto at no cost for up to one year for approved patients (re-enrollment required).',
       eligibility: [
         'Live in the United States, Puerto Rico or the U.S. Virgin Islands and be treated as an outpatient by a U.S.-licensed prescriber',
-        'Household income at or below 300% of the federal poverty level — $46,950 for one person, $63,450 for two, $79,950 for three, $96,450 for four in 2026 (add $16,500 per additional person; higher in Alaska and Hawaii)',
+        'Household income at or below 300% of the federal poverty level. The dollar limits in the February 2026 program guide are $46,950 for one person, $63,450 for two, $79,950 for three and $96,450 for four (add $16,500 per additional person; higher in Alaska and Hawaii). These are J&J\'s own figures — another program quoting "300% FPL" may publish different dollars, because each builds its table from a poverty-guideline year of its choosing.',
         'Medicare Part D patients with income at or below 150% FPL: proof that you are not eligible for Extra Help (LIS)',
         'Your insurance would not cover the medicine if this application were denied',
       ],
@@ -335,7 +335,7 @@ export const XARELTO: MedicationAssistanceRecord = {
       title: 'Check eligibility',
       body: 'The J&J rules are specific for Medicare patients — read them before you gather paperwork:',
       bullets: [
-        'J&J PAP: household income at or below $46,950 (one person) or $63,450 (two people) in 2026; if you have Part D and income at or below 150% FPL, you must show you are not eligible for Extra Help; your insurance must not cover the medicine if the application is denied. Ask about the 4%-of-income line on Xarelto\'s site — it is not in the current guide.',
+        'J&J PAP: household income at or below $46,950 (one person) or $63,450 (two people) on the February 2026 program guide table; if you have Part D and income at or below 150% FPL, you must show you are not eligible for Extra Help; your insurance must not cover the medicine if the application is denied. Ask about the 4%-of-income line on Xarelto\'s site — it is not in the current guide.',
         'Trial Offer: a Xarelto prescription other than 10 mg or the oral suspension; one per lifetime; Medicare Part D patients are eligible but the free supply does not count toward the Part D cap.',
         'Extra Help: income below about $23,940 a year (one person) or $32,460 (couple) and countable resources limited to $18,090 or $36,100 in 2026.',
         'Savings Card: commercial insurance only — not for Medicare.',

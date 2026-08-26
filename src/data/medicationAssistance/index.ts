@@ -38,6 +38,12 @@ import { XARELTO } from './xarelto';
 import { REPATHA } from './repatha';
 import { TRELEGY } from './trelegy';
 import { BREZTRI } from './breztri';
+import { TRULICITY } from './trulicity';
+import { HUMIRA } from './humira';
+import { ENBREL } from './enbrel';
+import { SKYRIZI } from './skyrizi';
+import { RINVOQ } from './rinvoq';
+import { DUPIXENT } from './dupixent';
 
 // ── Taxonomy (two axes; browse categories are derived, never stored) ─────────
 export {
@@ -61,7 +67,17 @@ export const taxonomyTags = (subject: TaxonomySubject, base: string[]): string[]
 ];
 
 /** Spec §24 build order. Batch 1 = #1–5 (2026-08-26); Batch 2 = #6–10
- *  (2026-08-26). Add later batches here, one per line. */
+ *  (2026-08-26); Batch 3 = #11–15 (2026-08-26); Batch 4 = Dupixent
+ *  (2026-08-26), the last legacy page to migrate — with it, every medication
+ *  in the current FEATURED_DRUGS inventory has a structured record. Add later
+ *  batches here, one per line.
+ *
+ *  Batch 3 was built LINK-DARK: the five new records may link to each other and
+ *  to the shared hubs, but nothing was added to the frozen
+ *  does-medicare-cover-* cohort under observation (EXP-003). Those pages
+ *  already linked to /<slug>-assistance-program.html through
+ *  data/drugCoverage.ts, so a record appearing here changes no link, anchor or
+ *  link count on any page in the experiment. */
 export const MEDICATION_ASSISTANCE: MedicationAssistanceRecord[] = [
   FARXIGA,
   JARDIANCE,
@@ -73,6 +89,12 @@ export const MEDICATION_ASSISTANCE: MedicationAssistanceRecord[] = [
   REPATHA,
   TRELEGY,
   BREZTRI,
+  TRULICITY,
+  HUMIRA,
+  ENBREL,
+  SKYRIZI,
+  RINVOQ,
+  DUPIXENT,
 ];
 
 export const medicationAssistanceFor = (slug: string): MedicationAssistanceRecord | undefined =>
@@ -247,6 +269,19 @@ export function extraHelpProgram(): AssistanceProgram {
   };
 }
 
+// ── Federal poverty level — why two programs can both say "300% FPL" and ────
+// publish different dollar limits (Batch 2 review finding, 2026-08-26).
+//
+// The percentage is a rule; the dollars are a table. Each program picks which
+// year's HHS poverty guidelines its table is built from and when that table
+// takes effect, so two programs quoting the same percentage in the same
+// calendar year can still list different income ceilings. We publish each
+// program's own figures as that program publishes them and never normalise
+// them against each other — normalising would produce a number no program
+// would recognise if a reader quoted it back on the phone.
+export const FPL_NOTE =
+  'Income limits can differ between assistance programs even when both describe their eligibility as the same percentage of the federal poverty level. The dollar limits shown here come from each program\'s own published income table, and each program decides which year\'s poverty guidelines that table is built from and when it takes effect. Treat the figures as belonging to the program they are listed under — they are not interchangeable, and only the program can tell you which table it is applying to your application today.';
+
 // ── Key terms rendered on every medication page (<dl>) ───────────────────────
 export const KEY_TERMS: { term: string; definition: string }[] = [
   {
@@ -263,6 +298,11 @@ export const KEY_TERMS: { term: string; definition: string }[] = [
     term: 'Charitable copay grant',
     definition:
       'Money from a nonprofit foundation (for example HealthWell or Patient Advocate Foundation) that pays eligible copays or coinsurance for a specific diagnosis. A drug can be listed while the fund is closed to new applicants.',
+  },
+  {
+    term: 'Federal poverty level (FPL)',
+    definition:
+      'A federal income measure that assistance programs use as a yardstick — "300% of FPL", "500% of FPL". The percentage is a rule, but the dollar figure behind it comes from a table each program publishes itself, built on a chosen year of the HHS poverty guidelines. Two programs can quote the same percentage in the same year and still list different dollar limits; compare each program against its own table, not against another program.',
   },
   {
     term: 'Medicare Extra Help',

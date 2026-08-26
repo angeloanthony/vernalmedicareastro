@@ -43,6 +43,7 @@ import {
   STATUS_META,
   MEDICARE_META,
   KEY_TERMS,
+  FPL_NOTE,
 } from '../../data/medicationAssistance';
 import type { MedicationAssistanceRecord, AssistanceProgram } from '../../types/MedicationAssistance';
 import type { PageContext, RelatedPage } from '../../types/Page';
@@ -225,6 +226,7 @@ const JUMPS = [
     <section class="mapg-glance" id="programs">
       <h2>{r.brandName} assistance options at a glance</h2>
       <p class="mapg-sub">Every program we checked, what kind of help it is, whether people with Medicare can use it, and its status when we verified it. <em>A medication being listed by a program is not the same as the program accepting applications.</em></p>
+      <p class="mapg-fpl"><strong>About the income limits below:</strong> {FPL_NOTE}</p>
       <div class="mapg-tablewrap">
         <table class="mapg-table">
           <caption class="mapg-sr-only">{r.brandName} assistance programs compared</caption>
@@ -383,6 +385,12 @@ const JUMPS = [
   .mapg h3 { color: var(--navy); font-size: 1.02rem; margin: 0.8rem 0 0.35rem; }
   .mapg p { color: var(--copy); line-height: 1.6; }
   .mapg-sub { margin: 0 0 1.1rem; font-size: 0.95rem; max-width: 72ch; }
+  .mapg-fpl {
+    margin: 0 0 1.2rem; max-width: 78ch; font-size: 0.88rem; line-height: 1.55;
+    background: #f4f7fb; border-left: 3px solid #94a8bf; border-radius: 0 10px 10px 0;
+    padding: 0.7rem 0.95rem;
+  }
+  .mapg-fpl strong { color: var(--navy); }
   .mapg-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .mapg-pill { display: inline-block; font-size: 0.76rem; font-weight: 700; border-radius: 999px; padding: 0.2rem 0.6rem; white-space: nowrap; }
   .mapg-pill.is-open { background: #e4f5ea; color: #15803d; }

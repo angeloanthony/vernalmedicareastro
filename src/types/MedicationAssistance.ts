@@ -53,7 +53,8 @@ export type DrugClassKey =
   | 'biologic'
   | 'pcsk9'
   | 'arni'
-  | 'triple-inhaler';
+  | 'triple-inhaler'
+  | 'jak-inhibitor';
 
 export interface DrugClass {
   key: DrugClassKey;

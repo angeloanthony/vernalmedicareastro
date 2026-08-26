@@ -162,7 +162,7 @@ export const BREZTRI: MedicationAssistanceRecord = {
         'U.S. resident treated by a U.S.-licensed prescriber',
         'No commercial insurance, and no government insurance other than Medicare',
         'Medicare beneficiaries: not eligible for or enrolled in Extra Help (LIS)',
-        'Annual adjusted gross income at or below 300% of the federal poverty level — $47,880 for one person, $64,920 for two, $81,960 for three, $99,000 for four (higher in Alaska and Hawaii; table effective January 26, 2026)',
+        'Annual adjusted gross income at or below 300% of the federal poverty level. On the AZ&Me table effective January 26, 2026 that is $47,880 for one person, $64,920 for two, $81,960 for three and $99,000 for four (higher in Alaska and Hawaii). These are AstraZeneca\'s own figures — another program quoting "300% FPL" may publish different dollars, because each builds its table from a poverty-guideline year of its choosing.',
         'Not receiving any other form of medication assistance (a life-changing event in the past year — job loss, income change, loss of coverage — may still qualify you)',
       ],
       requirements: [

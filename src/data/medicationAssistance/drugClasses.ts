@@ -71,6 +71,15 @@ export const DRUG_CLASSES: DrugClass[] = [
     blurb:
       'Maintenance inhalers that combine an inhaled steroid with two long-acting bronchodilators for COPD, and in some cases asthma.',
   },
+  {
+    // Added 2026-08-26 for Batch 3 (Rinvoq); confirmed against the label —
+    // "RINVOQ/RINVOQ LQ is a Janus kinase (JAK) inhibitor" (DailyMed). It is a
+    // tablet, not a biologic, so it must not carry the 'biologic' key.
+    key: 'jak-inhibitor',
+    label: 'JAK inhibitor',
+    blurb:
+      'Tablets that block Janus kinase signalling inside immune cells. Taken by mouth, unlike the injected biologics used for the same conditions.',
+  },
 ];
 
 const BY_KEY = new Map(DRUG_CLASSES.map((c) => [c.key, c]));

@@ -6,7 +6,7 @@
 
 One screen for the whole site. Every number below is computed, not typed.
 
-> Generated **2026-08-26 16:55 UTC** · 164 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
+> Generated **2026-08-26 21:21 UTC** · 164 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
 > Derived from `src/data/pageIndex.ts` · `data/search-console/*.csv` · `dist/` · `git log`. Never edited by hand.
 
 ## Content
@@ -38,8 +38,8 @@ One screen for the whole site. Every number below is computed, not typed.
 | Tier | Pages | Meaning |
 | --- | ---: | --- |
 | Priority 1 | 11 | score ≥ 68 — work these now |
-| Priority 2 | 51 | score 48-67 — next |
-| Priority 3 | 86 | score < 48 — maintain |
+| Priority 2 | 49 | score 48-67 — next |
+| Priority 3 | 88 | score < 48 — maintain |
 
 ## Gaps
 
@@ -47,43 +47,43 @@ One screen for the whole site. Every number below is computed, not typed.
 | --- | ---: | --- |
 | Need AI Summary | 25 | [AI-READINESS](AI-READINESS.md) |
 | Missing FAQ + schema | 30 | [AI-READINESS](AI-READINESS.md) |
-| Weak internal links | 18 | [INTERNAL-LINKS](INTERNAL-LINKS.md) |
+| Weak internal links | 13 | [INTERNAL-LINKS](INTERNAL-LINKS.md) |
 | Orphaned (no in-content links in) | 0 | [INTERNAL-LINKS](INTERNAL-LINKS.md) |
 | Need refresh | 0 | [REFRESH-QUEUE](REFRESH-QUEUE.md) |
 | Thin (< 600 words) | 86 | [SEO-QUEUE](SEO-QUEUE.md) |
 | CTR below expectation | 55 | [OPPORTUNITY](OPPORTUNITY.md) |
-| AI readiness < 70% | 70 | [AI-READINESS](AI-READINESS.md) |
+| AI readiness < 70% | 64 | [AI-READINESS](AI-READINESS.md) |
 | Broken in-content links | 0 | [INTERNAL-LINKS](INTERNAL-LINKS.md) |
 
 ## Averages
 
 | Metric | Value |
 | --- | ---: |
-| AI readiness | 66% |
-| Words per page | 972 |
-| In-content inbound links | 11.8 |
+| AI readiness | 67% |
+| Words per page | 1,195 |
+| In-content inbound links | 12.2 |
 | Click depth from home | 2.3 |
 
 ## Top 10 opportunities
 
 | # | Page | Opp | Pri | Impr | Pos | CTR | Why |
 | ---: | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| 1 | [/does-medicare-cover-dupixent](https://vernalmedicare.com/does-medicare-cover-dupixent.html) | 97 | 77 | 288 | 9.5 | 0.3% | CTR 0.3% vs ~2.4% expected at position 9.5 — title/meta rewrite |
+| 1 | [/does-medicare-cover-dupixent](https://vernalmedicare.com/does-medicare-cover-dupixent.html) | 97 | 76 | 288 | 9.5 | 0.3% | CTR 0.3% vs ~2.4% expected at position 9.5 — title/meta rewrite |
 | 2 | [/does-medicare-cover-rinvoq](https://vernalmedicare.com/does-medicare-cover-rinvoq.html) | 94 | 69 | 115 | 12.0 | 0.0% | CTR 0.0% vs ~1.6% expected at position 12.0 — title/meta rewrite |
-| 3 | [/skyrizi-assistance-program](https://vernalmedicare.com/skyrizi-assistance-program.html) | 93 | 71 | 111 | 14.3 | 0.0% | CTR 0.0% vs ~1.6% expected at position 14.3 — title/meta rewrite |
+| 3 | [/skyrizi-assistance-program](https://vernalmedicare.com/skyrizi-assistance-program.html) | 93 | 68 | 111 | 14.3 | 0.0% | CTR 0.0% vs ~1.6% expected at position 14.3 — title/meta rewrite |
 | 4 | [/does-medicare-cover-skyrizi](https://vernalmedicare.com/does-medicare-cover-skyrizi.html) | 92 | 68 | 102 | 10.3 | 0.0% | CTR 0.0% vs ~1.6% expected at position 10.3 — title/meta rewrite |
 | 5 | [/does-medicare-cover-enbrel](https://vernalmedicare.com/does-medicare-cover-enbrel.html) | 91 | 71 | 95 | 9.9 | 0.0% | CTR 0.0% vs ~2.4% expected at position 9.9 — title/meta rewrite |
 | 6 | [/does-medicare-cover-trelegy](https://vernalmedicare.com/does-medicare-cover-trelegy.html) | 89 | 72 | 154 | 13.4 | 0.6% | CTR 0.6% vs ~1.6% expected at position 13.4 — title/meta rewrite |
 | 7 | [/medigap](https://vernalmedicare.com/medigap.html) | 87 | 77 | 70 | 13.7 | 0.0% | CTR 0.0% vs ~1.6% expected at position 13.7 — title/meta rewrite |
 | 8 | [/medicare-vernal-ut](https://vernalmedicare.com/medicare-vernal-ut.html) | 86 | 69 | 67 | 6.7 | 0.0% | CTR 0.0% vs ~3.6% expected at position 6.7 — title/meta rewrite |
 | 9 | [/medicare-help-vernal](https://vernalmedicare.com/medicare-help-vernal.html) | 85 | 74 | 126 | 6.5 | 1.6% | CTR 1.6% vs ~3.6% expected at position 6.5 — title/meta rewrite |
-| 10 | [/life](https://vernalmedicare.com/life.html) | 85 | 67 | 444 | 29.2 | 0.0% | 444 impressions at position 29.2 |
+| 10 | [/life](https://vernalmedicare.com/life.html) | 85 | 66 | 444 | 29.2 | 0.0% | 444 impressions at position 29.2 |
 
 ## By silo
 
 | Silo | Pages | Impressions | Clicks | Avg pos | AI readiness |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| part-d | 42 | 2,994 | 13 | 20.6 | 71% |
+| part-d | 42 | 2,994 | 13 | 20.6 | 75% |
 | local | 21 | 1,396 | 27 | 7.0 | 64% |
 | medicare-101 | 27 | 940 | 0 | 50.1 | 63% |
 | other-insurance | 3 | 870 | 2 | 27.0 | 63% |

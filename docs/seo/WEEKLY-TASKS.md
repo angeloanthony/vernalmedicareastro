@@ -6,15 +6,15 @@
 
 10 concrete tasks, one per page, chosen so the week covers fast wins, deep work, structure, AI readiness and maintenance rather than fifteen variations of the same edit.
 
-> Generated **2026-08-26 16:55 UTC** · 164 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
+> Generated **2026-08-26 21:21 UTC** · 164 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
 > Derived from `src/data/pageIndex.ts` · `data/search-console/*.csv` · `dist/` · `git log`. Never edited by hand.
 
 ## Fastest wins — title/meta only
 
-- [ ] **/does-medicare-cover-dupixent** — rewrite `<title>` + meta description — it ranks at 9.5 but earns 0.3% vs ~2.4% expected
-      _288 impr · pos 9.5 · priority 77 · opportunity 97_
 - [ ] **/medigap** — rewrite `<title>` + meta description — it ranks at 13.7 but earns 0.0% vs ~1.6% expected
       _70 impr · pos 13.7 · priority 77 · opportunity 87_
+- [ ] **/does-medicare-cover-dupixent** — rewrite `<title>` + meta description — it ranks at 9.5 but earns 0.3% vs ~2.4% expected
+      _288 impr · pos 9.5 · priority 76 · opportunity 97_
 - [ ] **/medicare-help-vernal** — rewrite `<title>` + meta description — it ranks at 6.5 but earns 1.6% vs ~3.6% expected
       _126 impr · pos 6.5 · priority 74 · opportunity 85_
 
@@ -22,15 +22,15 @@
 
 - [ ] **/ (home)** — close AI-readiness gaps: Schema, Tables, Definitions, Original insights
       _1,040 impr · pos 7.2 · priority 77 · opportunity 76_
-- [ ] **/enbrel-assistance-program** — raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
-      _164 impr · pos 13.8 · priority 70 · opportunity 77_
+- [ ] **/enbrel-assistance-program** — deepen the page and add internal links — it is one push from page 1
+      _164 impr · pos 13.8 · priority 68 · opportunity 77_
 
 ## Structural — internal links
 
 - [ ] **/does-medicare-cover-trelegy** — raise inbound links from 2 — link from /prescription-drug-assistance, /part-d-plans-vernal, /tier-3-vs-tier-4-medicare-part-d
       _154 impr · pos 13.4 · priority 72 · opportunity 89_
-- [ ] **/skyrizi-assistance-program** — raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d
-      _111 impr · pos 14.3 · priority 71 · opportunity 93_
+- [ ] **/life** — raise inbound links from 2 — link from its silo hub
+      _444 impr · pos 29.2 · priority 66 · opportunity 85_
 
 ## AI readiness
 

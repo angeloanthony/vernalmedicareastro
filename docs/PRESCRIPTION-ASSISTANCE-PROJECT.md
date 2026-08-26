@@ -1,8 +1,8 @@
 # Vernal Medicare — 75-Drug Prescription Assistance Project
 
-**Status:** Batch 2 shipped (10 structured pages of 16). Navigation settled. Taxonomy: two axes + Autoimmune view (D7). Batch 3 not started.
+**Status:** Batch 4 shipped — **the legacy migration is complete: all 16 pages in the current `FEATURED_DRUGS` inventory are now structured records.** This is NOT the 75-medication expansion, which has not started. Navigation settled. Taxonomy: two axes + Autoimmune view (D7) + `jak-inhibitor` class, verified against Dupixent's autoimmune+respiratory pair with no third axis introduced. Batches 3 and 4 were built **link-dark** — no links added into the frozen `does-medicare-cover-*` cohort while EXP-003's observation window is open.
 **Created:** 2026-08-26
-**Last updated:** 2026-08-26 (later) — Batch 2 shipped (§32 inventory, §31 D7); earlier the same day, Batch 1 review: navigation rule + measurement (§14), current page inventory (§32), decisions log (§31), taxonomy audit split out to `PRESCRIPTION-ASSISTANCE-TAXONOMY-AUDIT.md`
+**Last updated:** 2026-08-26 (latest) — Batch 4 shipped link-dark (Dupixent; legacy migration complete, architecture confirmed frozen under D9); earlier the same day — Batch 3 shipped link-dark (Trulicity, Humira, Enbrel, Skyrizi, Rinvoq) plus the two Batch 2 review fixes (Entresto fund naming; the shared FPL source-year note); earlier the same day — Batch 2 shipped (§32 inventory, §31 D7); earlier the same day, Batch 1 review: navigation rule + measurement (§14), current page inventory (§32), decisions log (§31), taxonomy audit split out to `PRESCRIPTION-ASSISTANCE-TAXONOMY-AUDIT.md`
 **Owner:** Vernal Medicare
 
 > **Two open items before implementation starts:**
@@ -920,6 +920,9 @@ The implementation phase does **not** start from the 30-drug priority sample. It
 | D6 | **Two-axis medication taxonomy adopted and implemented.** `conditions` (canonical, load-bearing) + new `drugClass`; `ASSISTANCE_CATEGORIES` retired as a record-level taxonomy and rebuilt as derived views. URL-neutral. See `docs/PRESCRIPTION-ASSISTANCE-TAXONOMY-AUDIT.md` §4. |
 | D7 | **Autoimmune & Immune Conditions browse view added** (approved 2026-08-26, before Batch 2). A derived view over the existing `autoimmune` condition key — not a new axis, no change to `CONDITIONS`, no `drugClass` on the legacy `Drug` type. The five legacy autoimmune pages (Humira, Enbrel, Skyrizi, Rinvoq, Dupixent) no longer fall to "Specialty & Other". Legacy drugs still gain `drugClass` only when converted to a researched record. Mounjaro stays `glp-1`. See taxonomy audit §5. |
 
+| D8 | **Link-dark discipline holds until the EXP-003 observation window actually closes** (approved 2026-08-26, Batch 3 checkpoint). New assistance pages may link to each other and to the shared hubs, but nothing is added to the frozen `does-medicare-cover-*` cohort — treated or control — while the window is open. **Do not "clean up" the internal links early just because the pages are ready.** After the window closes, the linking pass is performed deliberately and logged as its OWN intervention, so the experiment has a clean before/after rather than a muddied one. |
+| D9 | **The record architecture is treated as established; no further architectural changes without a demonstrated defect** (approved 2026-08-26, Batch 3 checkpoint). Fifteen records have now exercised eight drug classes (SGLT2, GLP-1, anticoagulant, ARNI, PCSK9, triple inhaler, biologic, JAK inhibitor) and every assistance situation the model was built for: open manufacturer PAPs, a PAP closed to new patients for one drug while open for its shelf-mates (Humira), self-pay pricing, commercial-only copay cards, charitable funds open / closed / not-found, and two official pages of the same program contradicting each other (Enbrel). That is enough variation to stop tuning the model and start applying it. |
+
 ### Still open
 
 1. **The remaining ~29 medications** — required before the master list can be finalized (§15.3).
@@ -928,11 +931,101 @@ The implementation phase does **not** start from the 30-drug priority sample. It
 4. **Insulin pages** — one page per insulin brand, or a single "insulin assistance" page? The earlier outline listed "insulin assistance" as one entry but §15 lists six insulin brands individually. These conflict; pick one before Phase 4.
 5. ~~An `autoimmune` browse view~~ — **resolved 2026-08-26 as D7** (view added; numbering kept so later references stay valid).
 6. **A `lung-disease` view** needs a condition key that does not exist yet (`respiratory` would drag in every COPD inhaler). Decide when Ofev is researched — a new CONDITIONS key also changes nonprofit fund matching.
-7. **Migration order for the legacy medication pages** — partly settled by Batch 2: Entresto, Xarelto and Repatha were migrated because they were next in the §24 build order. **Six remain** (Humira, Enbrel, Skyrizi, Rinvoq, Dupixent, Trulicity); they carry `conditions` only and are classified on one axis until each gets a researched record. Whether the autoimmune five come before or after Batch 3's §24 order is still the user's call.
+7. ~~**Migration order for the legacy medication pages**~~ — **closed 2026-08-26 (Batch 4).** Dupixent was migrated; no legacy medication pages remain. History kept below.
+   ~~settled~~. Batch 2 migrated Entresto, Xarelto and Repatha; Batch 3 (2026-08-26) migrated Trulicity and the four autoimmune pages the taxonomy audit flagged as highest-demand (Humira, Enbrel, Skyrizi, Rinvoq). **One remains: Dupixent**, which carries `conditions` only and is classified on one axis until it gets a researched record. Its two condition keys (`autoimmune`, `respiratory`) make it the natural first entry of the next batch.
 
 ---
 
-## 32. Current Page Inventory — 16 Medication Pages (10 structured, 6 legacy)
+## 32. Current Page Inventory — 16 Medication Pages (16 structured, 0 legacy)
+
+### Project state (Batch 4 checkpoint, 2026-08-26 — PASS)
+
+| Batch | Medications | Status |
+| --- | --- | --- |
+| Batch 1 | 5 — Farxiga, Jardiance, Eliquis, Mounjaro, Ozempic | Complete |
+| Batch 2 | 5 — Entresto, Xarelto, Repatha, Trelegy, Breztri | Complete |
+| Batch 3 | 5 — Trulicity, Humira, Enbrel, Skyrizi, Rinvoq | Complete (link-dark) |
+| Batch 4 | 1 — Dupixent | Complete (link-dark) |
+| **Total structured** | **16** | **Complete** |
+| Legacy remaining | 0 | — |
+| 75-medication expansion | — | **Not started** |
+
+**What "complete" means here, precisely.** These 16 records complete the
+*current page inventory* — the 16 `FEATURED_DRUGS` rows that generate live
+assistance pages today. They do **not** complete §15's medication list or the
+75-page target in §30: most of that list has no `FEATURED_DRUGS` row yet and
+would need new slugs. Migrating Dupixent closed the legacy representation
+completely; it did **not** close Phase 1's inventory. "Legacy migration
+complete" and "prescription assistance project complete" are different
+statements, and only the first one is true.
+
+### Batch 4 result — Dupixent, the legacy-migration test (2026-08-26, PASS)
+
+Dupixent was the last page carrying the old `Drug`-only representation and the
+only medication whose condition keys are `autoimmune` **and** `respiratory` —
+the pair that prompted D7's ordering. The objective was not "convert Dupixent"
+but to verify that the architecture replaces the legacy representation
+**without creating a third classification system.** It does.
+
+**Taxonomy verification (§15), measured not asserted:**
+
+| Check | Result |
+| --- | --- |
+| `conditions` | `['autoimmune', 'respiratory']` — both canonical `CONDITIONS` keys |
+| `drugClass` | `['biologic']` — label §12.1: "human monoclonal antibody of the IgG4 subclass" |
+| Derived categories | `['autoimmune', 'biologics', 'copd-asthma']` — non-empty, no fallback |
+| Ordering | `autoimmune` (index 0) precedes `copd-asthma` — D7 holds under a real dual record |
+| Taxonomy tags | `prescription-assistance, autoimmune, respiratory, biologic` — no duplicates |
+| Legacy `categories` field | absent |
+| New axis / field / lookup introduced | **none** |
+
+**Architecture verdict: no defect found. The record architecture remains frozen
+under D9.** Nine indications across skin, airway, gut and blood-vessel disease
+fit the two axes without strain, because `conditions` records what the *patient*
+has and only two keys change which charitable funds match.
+
+**Three findings that were checked rather than inherited** — each contradicts a
+reasonable assumption, and each is the kind of error §11 exists to prevent:
+
+1. **Sanofi Patient Connection does not cover Dupixent.** Its
+   medications-available list names 20 medicines (Admelog, Lantus, Lovenox,
+   Toujeo, …) and Dupixent is not among them — zero occurrences in the page
+   source. The Dupixent route is the separate DUPIXENT MyWay Patient Assistance
+   Program.
+2. **HealthWell's AutoImmune – Medicare Access fund does not list Dupixent,**
+   though it lists Humira, Enbrel, Skyrizi and Rinvoq. Dupixent's HealthWell
+   listings are Asthma, COPD and Urticaria instead — so an eczema or prurigo
+   nodularis diagnosis has no HealthWell route at all.
+3. **TotalAssist's Eosinophilic Esophagitis fund was OPEN** ($1,500 guaranteed,
+   $2,000 maximum) — the first open charitable fund found anywhere in this
+   project. "Charity funds are closed" had begun to look like a rule. It is not
+   one, and the page says so.
+
+**Known defect found, deliberately NOT fixed in this batch.** The legacy
+assistance-program directory in `src/data/drugs.ts` (the `sanofi` entry, ~line
+196) still claims Sanofi Patient Connection supplies Dupixent — tagline "Free
+Sanofi/Regeneron medicines (Dupixent, Praluent, Lantus)" and `drugs: ['Dupixent',
+'Praluent', …]`. Finding 1 above shows that is wrong, and it is wrong on every
+page that renders the directory, not just this one. It sits outside the Batch 4
+scope (which was Dupixent's record) and outside D9 (it is a data error, not an
+architectural one). **Fix it as its own change, with its own log entry**, and
+re-check Praluent at the same time — it is not on the Sanofi list either.
+
+### Phase 1 completion gate — inventory reconciliation (run after Dupixent, before Batch 4)
+
+Do not start another batch until every medication in the inventory reconciles
+end to end across the whole chain:
+
+`FEATURED_DRUGS` → assistance registry → generated page → navigation →
+hub directory → sitemap → `PAGE_INDEX` → search index
+
+For each medication, verify it has: exactly one canonical assistance URL · one
+structured record · condition classification · drug-class classification ·
+derived browse categories · assistance programs · a Medicare status per program ·
+dated sources on every material claim · application instructions · fallback
+guidance · FAQs · related medications · a video placeholder · directory
+presence · sitemap presence · test coverage. Expanding the inventory before
+this reconciliation is how architectural debt accumulates.
 
 Batch 1 is easy to describe wrongly. It did **not** create the site's first five
 medication pages. The accurate description is:
@@ -950,7 +1043,7 @@ renders the record-driven page when a `MedicationAssistanceRecord` exists for th
 slug, and the older condition-matched page when it does not. One medication, one
 URL, either way.
 
-### Structured (10) — researched records with dated sources
+### Structured (16) — researched records with dated sources
 
 | Brand | URL | Record |
 | --- | --- | --- |
@@ -964,17 +1057,25 @@ URL, either way.
 | Repatha | `/repatha-assistance-program.html` | `repatha.ts` (Batch 2, migrated) |
 | Trelegy Ellipta | `/trelegy-assistance-program.html` | `trelegy.ts` (Batch 2, new) |
 | Breztri Aerosphere | `/breztri-assistance-program.html` | `breztri.ts` (Batch 2, new) |
+| Trulicity | `/trulicity-assistance-program.html` | `trulicity.ts` (Batch 3, migrated) |
+| Humira | `/humira-assistance-program.html` | `humira.ts` (Batch 3, migrated) |
+| Enbrel | `/enbrel-assistance-program.html` | `enbrel.ts` (Batch 3, migrated) |
+| Skyrizi | `/skyrizi-assistance-program.html` | `skyrizi.ts` (Batch 3, migrated) |
+| Rinvoq | `/rinvoq-assistance-program.html` | `rinvoq.ts` (Batch 3, migrated) |
+| Dupixent | `/dupixent-assistance-program.html` | `dupixent.ts` (Batch 4, migrated) |
 
-### Legacy (6) — generic condition-matched pages, no researched record
+Batch 3 (2026-08-26) migrated the five highest-demand legacy pages in place. No
+new URLs: all five slugs were already in `FEATURED_DRUGS`, so the pages the
+`does-medicare-cover-*` cohort already linked to simply became record-driven.
+That is what made the batch link-dark — see `docs/seo/WORK-LOG.md`.
 
-| Brand | URL | Condition keys |
-| --- | --- | --- |
-| Trulicity | `/trulicity-assistance-program.html` | diabetes |
-| Humira | `/humira-assistance-program.html` | autoimmune |
-| Enbrel | `/enbrel-assistance-program.html` | autoimmune |
-| Skyrizi | `/skyrizi-assistance-program.html` | autoimmune |
-| Rinvoq | `/rinvoq-assistance-program.html` | autoimmune |
-| Dupixent | `/dupixent-assistance-program.html` | autoimmune, respiratory |
+### Legacy (0) — none remaining
+
+Dupixent, the last one, was migrated in Batch 4 (2026-08-26). Every medication
+page in the current inventory is now record-driven. The legacy rendering path in
+`src/pages/[drug]-assistance-program.astro` is retained deliberately: it is what
+will render a new `FEATURED_DRUGS` slug during the 75-medication expansion, in
+the window between adding the drug and finishing its research.
 
 ### Why this matters more than it looks
 
