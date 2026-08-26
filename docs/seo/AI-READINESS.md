@@ -6,22 +6,22 @@
 
 How extractable each page is for AI Overviews and assistant answers. Scored from the built HTML, so it reflects what a crawler actually receives.
 
-> Generated **2026-08-26 07:27 UTC** · 162 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
+> Generated **2026-08-26 16:55 UTC** · 164 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
 > Derived from `src/data/pageIndex.ts` · `data/search-console/*.csv` · `dist/` · `git log`. Never edited by hand.
 
-**Site average: 65%**
+**Site average: 66%**
 
 ## Coverage by feature
 
 | Feature | Weight | Have | Missing | Coverage |
 | --- | ---: | ---: | ---: | ---: |
-| AI Summary | 20 | 121 | 25 | 83% |
-| FAQ | 20 | 116 | 30 | 79% |
-| Schema | 15 | 117 | 29 | 80% |
-| Tables | 10 | 30 | 116 | 21% |
-| Definitions | 10 | 8 | 138 | 5% |
-| Internal links | 15 | 74 | 72 | 51% |
-| Original insights | 10 | 38 | 108 | 26% |
+| AI Summary | 20 | 123 | 25 | 83% |
+| FAQ | 20 | 118 | 30 | 80% |
+| Schema | 15 | 117 | 31 | 79% |
+| Tables | 10 | 35 | 113 | 24% |
+| Definitions | 10 | 13 | 135 | 9% |
+| Internal links | 15 | 79 | 69 | 53% |
+| Original insights | 10 | 42 | 106 | 28% |
 
 > `Original insights` has no machine-readable marker. It is scored from three observable proxies — a named author byline, a cited sources list, and word count at or above the site median. Treat it as a hint, not a verdict.
 
@@ -76,12 +76,9 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 | [/skyrizi-assistance-program](https://vernalmedicare.com/skyrizi-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 71 |
 | [/enbrel-assistance-program](https://vernalmedicare.com/enbrel-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 70 |
 | [/life](https://vernalmedicare.com/life.html) | 63% | ✓ | ✓ | ✓ | · | · | · | · | 67 |
-| [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 63 |
-| [/repatha-assistance-program](https://vernalmedicare.com/repatha-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 63 |
-| [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 62 |
-| [/dupixent-assistance-program](https://vernalmedicare.com/dupixent-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 62 |
+| [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 63 |
 | [/aca](https://vernalmedicare.com/aca.html) | 63% | ✓ | ✓ | ✓ | · | · | · | · | 61 |
-| [/xarelto-assistance-program](https://vernalmedicare.com/xarelto-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 57 |
+| [/dupixent-assistance-program](https://vernalmedicare.com/dupixent-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 61 |
 | [/rinvoq-assistance-program](https://vernalmedicare.com/rinvoq-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 51 |
 | [/humira-assistance-program](https://vernalmedicare.com/humira-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 50 |
 | [/medicare-enrollment-vernal](https://vernalmedicare.com/medicare-enrollment-vernal.html) | 63% | ✓ | ✓ | ✓ | · | · | · | · | 47 |
@@ -89,6 +86,9 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 | [/medicare-extra-help-calculator](https://vernalmedicare.com/medicare-extra-help-calculator.html) | 63% | ✓ | ✓ | · | · | · | · | · | 43 |
 | [/indemnity](https://vernalmedicare.com/indemnity.html) | 63% | ✓ | ✓ | ✓ | · | · | · | · | 34 |
 | [/medicare-quiz](https://vernalmedicare.com/medicare-quiz.html) | 63% | ✓ | ✓ | · | · | · | · | · | 33 |
+| [/medicare-formulary-lookup](https://vernalmedicare.com/medicare-formulary-lookup.html) | 65% | ✓ | ✓ | · | · | · | · | · | 62 |
+| [/medicare-drug-cost-calculator](https://vernalmedicare.com/medicare-drug-cost-calculator.html) | 65% | ✓ | ✓ | · | · | · | · | · | 55 |
+| [/medicare-eligibility-calculator](https://vernalmedicare.com/medicare-eligibility-calculator.html) | 65% | ✓ | ✓ | · | · | · | · | · | 44 |
 
 ## Fix lists
 
@@ -153,7 +153,7 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 - [/medicare-news/insulin-35-cap](https://vernalmedicare.com/medicare-news/insulin-35-cap.html) — priority 18, 1 impr
 - [/medicare-ashley-regional-vernal](https://vernalmedicare.com/medicare-ashley-regional-vernal.html) — priority 14, 0 impr
 
-### Missing Definitions — 138 pages
+### Missing Definitions — 135 pages
 
 - [/does-medicare-cover-dupixent](https://vernalmedicare.com/does-medicare-cover-dupixent.html) — priority 77, 288 impr
 - [/ (home)](https://vernalmedicare.com/) — priority 77, 1,040 impr
@@ -168,36 +168,36 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 - [/life](https://vernalmedicare.com/life.html) — priority 67, 444 impr
 - [/medicare-irmaa-life-changing-events](https://vernalmedicare.com/medicare-irmaa-life-changing-events.html) — priority 67, 110 impr
 - [/does-medicare-cover-eliquis](https://vernalmedicare.com/does-medicare-cover-eliquis.html) — priority 66, 83 impr
-- [/does-medicare-cover-xarelto](https://vernalmedicare.com/does-medicare-cover-xarelto.html) — priority 66, 76 impr
+- [/does-medicare-cover-xarelto](https://vernalmedicare.com/does-medicare-cover-xarelto.html) — priority 65, 76 impr
 - [/vernal](https://vernalmedicare.com/vernal.html) — priority 65, 66 impr
 - [/medicare-quote-vernal](https://vernalmedicare.com/medicare-quote-vernal.html) — priority 64, 37 impr
-- [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) — priority 63, 64 impr
 - [/medicare-cost-estimator](https://vernalmedicare.com/medicare-cost-estimator.html) — priority 63, 178 impr
+- [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) — priority 63, 83 impr
 - [/medicare-plans-vernal-utah](https://vernalmedicare.com/medicare-plans-vernal-utah.html) — priority 63, 13 impr
-- [/repatha-assistance-program](https://vernalmedicare.com/repatha-assistance-program.html) — priority 63, 83 impr
 - [/medicare-formulary-lookup](https://vernalmedicare.com/medicare-formulary-lookup.html) — priority 62, 309 impr
-- [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) — priority 62, 83 impr
 - [/medicare-medicaid-utah](https://vernalmedicare.com/medicare-medicaid-utah.html) — priority 62, 122 impr
-- [/dupixent-assistance-program](https://vernalmedicare.com/dupixent-assistance-program.html) — priority 62, 142 impr
 - [/aca](https://vernalmedicare.com/aca.html) — priority 61, 412 impr
+- [/dupixent-assistance-program](https://vernalmedicare.com/dupixent-assistance-program.html) — priority 61, 142 impr
 - [/medicare-savings-programs-utah](https://vernalmedicare.com/medicare-savings-programs-utah.html) — priority 60, 54 impr
-- [/does-medicare-cover-repatha](https://vernalmedicare.com/does-medicare-cover-repatha.html) — priority 60, 31 impr
 - [/medicare-irmaa](https://vernalmedicare.com/medicare-irmaa.html) — priority 60, 77 impr
 - [/medicare-help-center](https://vernalmedicare.com/medicare-help-center.html) — priority 59, 38 impr
+- [/does-medicare-cover-repatha](https://vernalmedicare.com/does-medicare-cover-repatha.html) — priority 59, 31 impr
 - [/does-medicare-cover-ozempic-wegovy](https://vernalmedicare.com/does-medicare-cover-ozempic-wegovy.html) — priority 59, 83 impr
 - [/does-medicare-cover-zepbound](https://vernalmedicare.com/does-medicare-cover-zepbound.html) — priority 59, 33 impr
 - [/medicare-coverage/ambulance](https://vernalmedicare.com/medicare-coverage/ambulance.html) — priority 58, 180 impr
 - [/faq](https://vernalmedicare.com/faq.html) — priority 57, 60 impr
 - [/does-medicare-cover-humira](https://vernalmedicare.com/does-medicare-cover-humira.html) — priority 57, 36 impr
-- [/xarelto-assistance-program](https://vernalmedicare.com/xarelto-assistance-program.html) — priority 57, 41 impr
 - [/medicare-drug-coverage](https://vernalmedicare.com/medicare-drug-coverage.html) — priority 56, 222 impr
 - [/does-medicare-cover-entresto](https://vernalmedicare.com/does-medicare-cover-entresto.html) — priority 56, 57 impr
 - [/medicare-drug-cost-calculator](https://vernalmedicare.com/medicare-drug-cost-calculator.html) — priority 55, 160 impr
 - [/medicare-out-of-state-utah](https://vernalmedicare.com/medicare-out-of-state-utah.html) — priority 54, 61 impr
 - [/medicare-enrollment-periods](https://vernalmedicare.com/medicare-enrollment-periods.html) — priority 53, 1 impr
-- _… and 98 more_
+- [/medicare-advantage-vs-medigap-vernal](https://vernalmedicare.com/medicare-advantage-vs-medigap-vernal.html) — priority 53, 13 impr
+- [/medicare-agent-vernal](https://vernalmedicare.com/medicare-agent-vernal.html) — priority 53, 21 impr
+- [/medicare-supplement-vs-advantage](https://vernalmedicare.com/medicare-supplement-vs-advantage.html) — priority 52, 43 impr
+- _… and 95 more_
 
-### Missing Tables — 116 pages
+### Missing Tables — 113 pages
 
 - [/ (home)](https://vernalmedicare.com/) — priority 77, 1,040 impr
 - [/medicare-help-vernal](https://vernalmedicare.com/medicare-help-vernal.html) — priority 74, 126 impr
@@ -209,21 +209,18 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 - [/medicare-irmaa-life-changing-events](https://vernalmedicare.com/medicare-irmaa-life-changing-events.html) — priority 67, 110 impr
 - [/vernal](https://vernalmedicare.com/vernal.html) — priority 65, 66 impr
 - [/medicare-quote-vernal](https://vernalmedicare.com/medicare-quote-vernal.html) — priority 64, 37 impr
-- [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) — priority 63, 64 impr
 - [/medicare-cost-estimator](https://vernalmedicare.com/medicare-cost-estimator.html) — priority 63, 178 impr
-- [/repatha-assistance-program](https://vernalmedicare.com/repatha-assistance-program.html) — priority 63, 83 impr
+- [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) — priority 63, 83 impr
 - [/medicare-formulary-lookup](https://vernalmedicare.com/medicare-formulary-lookup.html) — priority 62, 309 impr
-- [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) — priority 62, 83 impr
 - [/medicare-medicaid-utah](https://vernalmedicare.com/medicare-medicaid-utah.html) — priority 62, 122 impr
-- [/dupixent-assistance-program](https://vernalmedicare.com/dupixent-assistance-program.html) — priority 62, 142 impr
 - [/aca](https://vernalmedicare.com/aca.html) — priority 61, 412 impr
+- [/dupixent-assistance-program](https://vernalmedicare.com/dupixent-assistance-program.html) — priority 61, 142 impr
 - [/medicare-irmaa](https://vernalmedicare.com/medicare-irmaa.html) — priority 60, 77 impr
 - [/medicare-help-center](https://vernalmedicare.com/medicare-help-center.html) — priority 59, 38 impr
 - [/does-medicare-cover-ozempic-wegovy](https://vernalmedicare.com/does-medicare-cover-ozempic-wegovy.html) — priority 59, 83 impr
 - [/does-medicare-cover-zepbound](https://vernalmedicare.com/does-medicare-cover-zepbound.html) — priority 59, 33 impr
 - [/medicare-coverage/ambulance](https://vernalmedicare.com/medicare-coverage/ambulance.html) — priority 58, 180 impr
 - [/faq](https://vernalmedicare.com/faq.html) — priority 57, 60 impr
-- [/xarelto-assistance-program](https://vernalmedicare.com/xarelto-assistance-program.html) — priority 57, 41 impr
 - [/medicare-drug-coverage](https://vernalmedicare.com/medicare-drug-coverage.html) — priority 56, 222 impr
 - [/medicare-drug-cost-calculator](https://vernalmedicare.com/medicare-drug-cost-calculator.html) — priority 55, 160 impr
 - [/medicare-out-of-state-utah](https://vernalmedicare.com/medicare-out-of-state-utah.html) — priority 54, 61 impr
@@ -239,4 +236,7 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 - [/medicare-news/glp-1-drugs-medicare](https://vernalmedicare.com/medicare-news/glp-1-drugs-medicare.html) — priority 49, 178 impr
 - [/medicare-coverage](https://vernalmedicare.com/medicare-coverage.html) — priority 49, 3 impr
 - [/medicare-part-d-cost-calculator](https://vernalmedicare.com/medicare-part-d-cost-calculator.html) — priority 49, 33 impr
-- _… and 76 more_
+- [/turning-65](https://vernalmedicare.com/turning-65.html) — priority 49, 10 impr
+- [/part-d-help-vernal](https://vernalmedicare.com/part-d-help-vernal.html) — priority 48, 5 impr
+- [/medicare-enrollment-vernal](https://vernalmedicare.com/medicare-enrollment-vernal.html) — priority 47, 8 impr
+- _… and 73 more_

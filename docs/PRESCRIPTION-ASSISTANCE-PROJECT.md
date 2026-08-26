@@ -1,8 +1,8 @@
 # Vernal Medicare — 75-Drug Prescription Assistance Project
 
-**Status:** Batch 1 shipped (5 structured pages). Navigation settled. Taxonomy decision pending.
+**Status:** Batch 2 shipped (10 structured pages of 16). Navigation settled. Taxonomy: two axes + Autoimmune view (D7). Batch 3 not started.
 **Created:** 2026-08-26
-**Last updated:** 2026-08-26 — Batch 1 review: navigation rule + measurement (§14), current page inventory (§32), decisions log (§31), taxonomy audit split out to `PRESCRIPTION-ASSISTANCE-TAXONOMY-AUDIT.md`
+**Last updated:** 2026-08-26 (later) — Batch 2 shipped (§32 inventory, §31 D7); earlier the same day, Batch 1 review: navigation rule + measurement (§14), current page inventory (§32), decisions log (§31), taxonomy audit split out to `PRESCRIPTION-ASSISTANCE-TAXONOMY-AUDIT.md`
 **Owner:** Vernal Medicare
 
 > **Two open items before implementation starts:**
@@ -464,6 +464,7 @@ Widths are the right edge the nav row requires; the header container caps at
 | COPD & Asthma | Trelegy, Breztri, Symbicort, Spiriva, Breo Ellipta, Anoro Ellipta, Stiolto, Incruse Ellipta, Daliresp, Yupelri |
 | Lung Disease | Ofev |
 | Biologics (respiratory/immune) | Dupixent, Nucala, Xolair, Tezspire |
+| Autoimmune & Immune Conditions | Humira, Enbrel, Skyrizi, Rinvoq, Dupixent (view added 2026-08-26, D7) |
 | Weight Management / GLP-1 | Mounjaro, Ozempic, Wegovy, Zepbound |
 | Specialty & Other | Remaining medications |
 
@@ -917,6 +918,7 @@ The implementation phase does **not** start from the 30-drug priority sample. It
 | D4 | **The navigation never lists individual medications** (§14). Fixed-size dropdown; the directory lives on the hub page and is generated from the registry. |
 | D5 | **The top-level nav bar is unchanged.** Measurement showed removing "Home" does not fix 1280/1366 (§14), so it was left alone and no further global CSS was written. |
 | D6 | **Two-axis medication taxonomy adopted and implemented.** `conditions` (canonical, load-bearing) + new `drugClass`; `ASSISTANCE_CATEGORIES` retired as a record-level taxonomy and rebuilt as derived views. URL-neutral. See `docs/PRESCRIPTION-ASSISTANCE-TAXONOMY-AUDIT.md` §4. |
+| D7 | **Autoimmune & Immune Conditions browse view added** (approved 2026-08-26, before Batch 2). A derived view over the existing `autoimmune` condition key — not a new axis, no change to `CONDITIONS`, no `drugClass` on the legacy `Drug` type. The five legacy autoimmune pages (Humira, Enbrel, Skyrizi, Rinvoq, Dupixent) no longer fall to "Specialty & Other". Legacy drugs still gain `drugClass` only when converted to a researched record. Mounjaro stays `glp-1`. See taxonomy audit §5. |
 
 ### Still open
 
@@ -924,28 +926,31 @@ The implementation phase does **not** start from the 30-drug priority sample. It
 2. **Multi-category medications** — confirm the canonical category for each drug that fits two (Mounjaro, Ozempic, Repatha, Inpefa, Rybelsus, Trulicity). Largely dissolves if the two-axis model in the taxonomy audit is adopted.
 3. **URL pattern for category hubs** — e.g. `/prescription-assistance/diabetes` vs `/diabetes-prescription-assistance-utah`. Not needed until D3 is revisited.
 4. **Insulin pages** — one page per insulin brand, or a single "insulin assistance" page? The earlier outline listed "insulin assistance" as one entry but §15 lists six insulin brands individually. These conflict; pick one before Phase 4.
-5. **An `autoimmune` browse view** — four legacy pages (Humira, Enbrel, Skyrizi, Rinvoq) currently fall to the "Specialty & Other" fallback, and autoimmune/biologic is the site's highest-demand medication bucket. Adding a tenth browse category is a directory decision; recorded in `PENDING_CATEGORY_VIEWS`, not implemented.
+5. ~~An `autoimmune` browse view~~ — **resolved 2026-08-26 as D7** (view added; numbering kept so later references stay valid).
 6. **A `lung-disease` view** needs a condition key that does not exist yet (`respiratory` would drag in every COPD inhaler). Decide when Ofev is researched — a new CONDITIONS key also changes nonprofit fund matching.
-7. **Migration order for the 9 legacy medication pages** — before, during, or after Batch 2 (§32). They carry `conditions` only, so they are classified on one axis until each gets a researched record.
+7. **Migration order for the legacy medication pages** — partly settled by Batch 2: Entresto, Xarelto and Repatha were migrated because they were next in the §24 build order. **Six remain** (Humira, Enbrel, Skyrizi, Rinvoq, Dupixent, Trulicity); they carry `conditions` only and are classified on one axis until each gets a researched record. Whether the autoimmune five come before or after Batch 3's §24 order is still the user's call.
 
 ---
 
-## 32. Current Page Inventory — 14 Medication Pages, Not 5
+## 32. Current Page Inventory — 16 Medication Pages (10 structured, 6 legacy)
 
 Batch 1 is easy to describe wrongly. It did **not** create the site's first five
 medication pages. The accurate description is:
 
 > **Five of the fourteen medication assistance pages that already existed were
-> converted to the structured assistance architecture. Nine remain on the legacy
-> architecture.**
+> converted to the structured assistance architecture. Nine remained on the
+> legacy architecture.** Batch 2 (2026-08-26) then converted three more legacy
+> pages in place (Entresto, Xarelto, Repatha — they were next in the §24 build
+> order) and added two new slugs (Trelegy Ellipta, Breztri Aerosphere). Six
+> legacy pages remain — the five autoimmune pages plus Trulicity.
 
-Every one of the fourteen is built from `FEATURED_DRUGS` in `src/data/drugs.ts`
+Every one of the sixteen is built from `FEATURED_DRUGS` in `src/data/drugs.ts`
 through the single route `src/pages/[drug]-assistance-program.astro`. That route
 renders the record-driven page when a `MedicationAssistanceRecord` exists for the
 slug, and the older condition-matched page when it does not. One medication, one
 URL, either way.
 
-### Structured (5) — researched records with dated sources
+### Structured (10) — researched records with dated sources
 
 | Brand | URL | Record |
 | --- | --- | --- |
@@ -954,15 +959,17 @@ URL, either way.
 | Eliquis | `/eliquis-assistance-program.html` | `eliquis.ts` |
 | Mounjaro | `/mounjaro-assistance-program.html` | `mounjaro.ts` |
 | Ozempic | `/ozempic-assistance-program.html` | `ozempic.ts` |
+| Entresto | `/entresto-assistance-program.html` | `entresto.ts` (Batch 2, migrated) |
+| Xarelto | `/xarelto-assistance-program.html` | `xarelto.ts` (Batch 2, migrated) |
+| Repatha | `/repatha-assistance-program.html` | `repatha.ts` (Batch 2, migrated) |
+| Trelegy Ellipta | `/trelegy-assistance-program.html` | `trelegy.ts` (Batch 2, new) |
+| Breztri Aerosphere | `/breztri-assistance-program.html` | `breztri.ts` (Batch 2, new) |
 
-### Legacy (9) — generic condition-matched pages, no researched record
+### Legacy (6) — generic condition-matched pages, no researched record
 
 | Brand | URL | Condition keys |
 | --- | --- | --- |
-| Xarelto | `/xarelto-assistance-program.html` | blood-clots, heart |
 | Trulicity | `/trulicity-assistance-program.html` | diabetes |
-| Entresto | `/entresto-assistance-program.html` | heart |
-| Repatha | `/repatha-assistance-program.html` | cholesterol, heart |
 | Humira | `/humira-assistance-program.html` | autoimmune |
 | Enbrel | `/enbrel-assistance-program.html` | autoimmune |
 | Skyrizi | `/skyrizi-assistance-program.html` | autoimmune |
@@ -971,7 +978,7 @@ URL, either way.
 
 ### Why this matters more than it looks
 
-The nine legacy pages are **not** dead weight. In the July 2026 query data they
+The legacy pages are **not** dead weight. In the July 2026 query data they
 are the site's highest-demand drug content: the autoimmune/biologic cluster
 (Rinvoq, Dupixent, Humira, Enbrel, Skyrizi) drew more query impressions than any
 other medication bucket — more than the GLP-1s. See the taxonomy audit, Q1.

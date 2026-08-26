@@ -6,16 +6,16 @@
 
 One screen for the whole site. Every number below is computed, not typed.
 
-> Generated **2026-08-26 07:27 UTC** · 162 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
+> Generated **2026-08-26 16:55 UTC** · 164 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
 > Derived from `src/data/pageIndex.ts` · `data/search-console/*.csv` · `dist/` · `git log`. Never edited by hand.
 
 ## Content
 
 | Metric | Value |
 | --- | ---: |
-| Pages built (EN) | 146 |
+| Pages built (EN) | 148 |
 | Pages built (ES) | 16 |
-| Registered in `pageIndex.ts` | 146 |
+| Registered in `pageIndex.ts` | 148 |
 | Built but **not registered** | 0 |
 | Registered but **not built** | 0 |
 | Pillar pages | 16 |
@@ -30,7 +30,7 @@ One screen for the whole site. Every number below is computed, not typed.
 | Site CTR | 0.64% |
 | Average position (impression-weighted) | 23.3 |
 | Pages with impressions | 116 |
-| Pages with **zero** impressions | 30 |
+| Pages with **zero** impressions | 32 |
 | In striking distance (pos 4-20) | 61 |
 
 ## Work queue
@@ -39,7 +39,7 @@ One screen for the whole site. Every number below is computed, not typed.
 | --- | ---: | --- |
 | Priority 1 | 11 | score ≥ 68 — work these now |
 | Priority 2 | 51 | score 48-67 — next |
-| Priority 3 | 84 | score < 48 — maintain |
+| Priority 3 | 86 | score < 48 — maintain |
 
 ## Gaps
 
@@ -52,16 +52,16 @@ One screen for the whole site. Every number below is computed, not typed.
 | Need refresh | 0 | [REFRESH-QUEUE](REFRESH-QUEUE.md) |
 | Thin (< 600 words) | 86 | [SEO-QUEUE](SEO-QUEUE.md) |
 | CTR below expectation | 55 | [OPPORTUNITY](OPPORTUNITY.md) |
-| AI readiness < 70% | 73 | [AI-READINESS](AI-READINESS.md) |
+| AI readiness < 70% | 70 | [AI-READINESS](AI-READINESS.md) |
 | Broken in-content links | 0 | [INTERNAL-LINKS](INTERNAL-LINKS.md) |
 
 ## Averages
 
 | Metric | Value |
 | --- | ---: |
-| AI readiness | 65% |
-| Words per page | 818 |
-| In-content inbound links | 11.5 |
+| AI readiness | 66% |
+| Words per page | 972 |
+| In-content inbound links | 11.8 |
 | Click depth from home | 2.3 |
 
 ## Top 10 opportunities
@@ -83,7 +83,7 @@ One screen for the whole site. Every number below is computed, not typed.
 
 | Silo | Pages | Impressions | Clicks | Avg pos | AI readiness |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| part-d | 40 | 2,994 | 13 | 20.6 | 69% |
+| part-d | 42 | 2,994 | 13 | 20.6 | 71% |
 | local | 21 | 1,396 | 27 | 7.0 | 64% |
 | medicare-101 | 27 | 940 | 0 | 50.1 | 63% |
 | other-insurance | 3 | 870 | 2 | 27.0 | 63% |

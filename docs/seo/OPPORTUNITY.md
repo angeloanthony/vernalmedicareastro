@@ -6,7 +6,7 @@
 
 Where effort converts fastest. Opportunity favours pages Google already indexes, already ranks, and already trusts — those move in weeks, not quarters. A page with no impressions is a bet, not an opportunity, so it is capped.
 
-> Generated **2026-08-26 07:27 UTC** · 162 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
+> Generated **2026-08-26 16:55 UTC** · 164 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
 > Derived from `src/data/pageIndex.ts` · `data/search-console/*.csv` · `dist/` · `git log`. Never edited by hand.
 
 **Weights** — impressions 40 · striking-distance proximity 30 · CTR gap 20 · click headroom 10. Pages with zero impressions cap at 25.
@@ -26,13 +26,13 @@ Where effort converts fastest. Opportunity favours pages Google already indexes,
 | 9 | [/medicare-help-vernal](https://vernalmedicare.com/medicare-help-vernal.html) | 85 | 74 | 126 | 2 | 6.5 | 1.6% | 3.6% | rewrite `<title>` + meta description — it ranks at 6.5 but earns 1.6% vs ~3.6% expected |
 | 10 | [/life](https://vernalmedicare.com/life.html) | 85 | 67 | 444 | 0 | 29.2 | 0.0% | 0.6% | expand to depth — currently 464 words |
 | 11 | [/medicare-irmaa-life-changing-events](https://vernalmedicare.com/medicare-irmaa-life-changing-events.html) | 85 | 67 | 110 | 1 | 9.8 | 0.9% | 2.4% | rewrite `<title>` + meta description — it ranks at 9.8 but earns 0.9% vs ~2.4% expected |
-| 12 | [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) | 85 | 63 | 64 | 0 | 10.8 | 0.0% | 1.6% | rewrite `<title>` + meta description — it ranks at 10.8 but earns 0.0% vs ~1.6% expected |
-| 13 | [/medicare-cost-estimator](https://vernalmedicare.com/medicare-cost-estimator.html) | 85 | 63 | 178 | 0 | 26.5 | 0.0% | 0.6% | expand to depth — currently 542 words |
+| 12 | [/medicare-cost-estimator](https://vernalmedicare.com/medicare-cost-estimator.html) | 85 | 63 | 178 | 0 | 26.5 | 0.0% | 0.6% | expand to depth — currently 542 words |
+| 13 | [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) | 85 | 62 | 64 | 0 | 10.8 | 0.0% | 1.6% | rewrite `<title>` + meta description — it ranks at 10.8 but earns 0.0% vs ~1.6% expected |
 | 14 | [/mounjaro-assistance-program](https://vernalmedicare.com/mounjaro-assistance-program.html) | 85 | 61 | 63 | 0 | 10.0 | 0.0% | 1.6% | rewrite `<title>` + meta description — it ranks at 10.0 but earns 0.0% vs ~1.6% expected |
 | 15 | [/medicare-out-of-state-utah](https://vernalmedicare.com/medicare-out-of-state-utah.html) | 85 | 54 | 61 | 0 | 11.3 | 0.0% | 1.6% | rewrite `<title>` + meta description — it ranks at 11.3 but earns 0.0% vs ~1.6% expected |
 | 16 | [/does-medicare-cover-eliquis](https://vernalmedicare.com/does-medicare-cover-eliquis.html) | 83 | 66 | 83 | 0 | 17.0 | 0.0% | 1.1% | rewrite `<title>` + meta description — it ranks at 17.0 but earns 0.0% vs ~1.1% expected |
 | 17 | [/medicare-savings-programs-utah](https://vernalmedicare.com/medicare-savings-programs-utah.html) | 83 | 60 | 54 | 0 | 8.4 | 0.0% | 2.7% | rewrite `<title>` + meta description — it ranks at 8.4 but earns 0.0% vs ~2.7% expected |
-| 18 | [/does-medicare-cover-xarelto](https://vernalmedicare.com/does-medicare-cover-xarelto.html) | 82 | 66 | 76 | 0 | 17.4 | 0.0% | 1.1% | rewrite `<title>` + meta description — it ranks at 17.4 but earns 0.0% vs ~1.1% expected |
+| 18 | [/does-medicare-cover-xarelto](https://vernalmedicare.com/does-medicare-cover-xarelto.html) | 82 | 65 | 76 | 0 | 17.4 | 0.0% | 1.1% | rewrite `<title>` + meta description — it ranks at 17.4 but earns 0.0% vs ~1.1% expected |
 | 19 | [/faq](https://vernalmedicare.com/faq.html) | 80 | 57 | 60 | 0 | 4.1 | 0.0% | 5.5% | rewrite `<title>` + meta description — it ranks at 4.1 but earns 0.0% vs ~5.5% expected |
 | 20 | [/medicare-quote-vernal](https://vernalmedicare.com/medicare-quote-vernal.html) | 78 | 64 | 37 | 0 | 6.0 | 0.0% | 3.6% | rewrite `<title>` + meta description — it ranks at 6.0 but earns 0.0% vs ~3.6% expected |
 | 21 | [/medicare-help-center](https://vernalmedicare.com/medicare-help-center.html) | 78 | 59 | 38 | 0 | 14.8 | 0.0% | 1.6% | rewrite `<title>` + meta description — it ranks at 14.8 but earns 0.0% vs ~1.6% expected |
@@ -44,9 +44,9 @@ Where effort converts fastest. Opportunity favours pages Google already indexes,
 | 27 | [/medicare-drug-coverage](https://vernalmedicare.com/medicare-drug-coverage.html) | 76 | 56 | 222 | 0 | 41.5 | 0.0% | 0.3% | add a `<SummaryBlock>` TL;DR under the H1 |
 | 28 | [/medicare-open-enrollment-2026](https://vernalmedicare.com/medicare-open-enrollment-2026.html) | 76 | 51 | 33 | 0 | 12.8 | 0.0% | 1.6% | rewrite `<title>` + meta description — it ranks at 12.8 but earns 0.0% vs ~1.6% expected |
 | 29 | [/vernal](https://vernalmedicare.com/vernal.html) | 75 | 65 | 66 | 1 | 4.2 | 1.5% | 5.5% | rewrite `<title>` + meta description — it ranks at 4.2 but earns 1.5% vs ~5.5% expected |
-| 30 | [/does-medicare-cover-repatha](https://vernalmedicare.com/does-medicare-cover-repatha.html) | 75 | 60 | 31 | 0 | 9.2 | 0.0% | 2.4% | rewrite `<title>` + meta description — it ranks at 9.2 but earns 0.0% vs ~2.4% expected |
-| 31 | [/jardiance-assistance-program](https://vernalmedicare.com/jardiance-assistance-program.html) | 75 | 59 | 31 | 0 | 9.4 | 0.0% | 2.4% | rewrite `<title>` + meta description — it ranks at 9.4 but earns 0.0% vs ~2.4% expected |
-| 32 | [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) | 74 | 62 | 83 | 1 | 10.5 | 1.2% | 1.6% | close AI-readiness gaps: Schema, Tables, Definitions, Internal links, Original insights |
+| 30 | [/does-medicare-cover-repatha](https://vernalmedicare.com/does-medicare-cover-repatha.html) | 75 | 59 | 31 | 0 | 9.2 | 0.0% | 2.4% | rewrite `<title>` + meta description — it ranks at 9.2 but earns 0.0% vs ~2.4% expected |
+| 31 | [/jardiance-assistance-program](https://vernalmedicare.com/jardiance-assistance-program.html) | 75 | 58 | 31 | 0 | 9.4 | 0.0% | 2.4% | rewrite `<title>` + meta description — it ranks at 9.4 but earns 0.0% vs ~2.4% expected |
+| 32 | [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) | 74 | 63 | 83 | 1 | 10.5 | 1.2% | 1.6% | close AI-readiness gaps: Schema, Tables, Definitions, Internal links, Original insights |
 | 33 | [/does-medicare-cover-ozempic-wegovy](https://vernalmedicare.com/does-medicare-cover-ozempic-wegovy.html) | 74 | 59 | 83 | 0 | 27.9 | 0.0% | 0.6% | add a `<SummaryBlock>` TL;DR under the H1 |
 | 34 | [/medicare-drug-cost-calculator](https://vernalmedicare.com/medicare-drug-cost-calculator.html) | 74 | 55 | 160 | 0 | 44.8 | 0.0% | 0.3% | expand to depth — currently 522 words |
 | 35 | [/xarelto-assistance-program](https://vernalmedicare.com/xarelto-assistance-program.html) | 73 | 57 | 41 | 0 | 19.2 | 0.0% | 1.1% | rewrite `<title>` + meta description — it ranks at 19.2 but earns 0.0% vs ~1.1% expected |
@@ -63,7 +63,7 @@ Where effort converts fastest. Opportunity favours pages Google already indexes,
 | 46 | [/medicare-irmaa](https://vernalmedicare.com/medicare-irmaa.html) | 64 | 60 | 77 | 0 | 35.1 | 0.0% | 0.3% | add a `<SummaryBlock>` TL;DR under the H1 |
 | 47 | [/medicare-news/medicare-advantage-changes-2026](https://vernalmedicare.com/medicare-news/medicare-advantage-changes-2026.html) | 64 | 42 | 106 | 0 | 66.6 | 0.0% | 0.1% | add the `<FAQ>` component (visible Q&A + FAQPage schema, welded) |
 | 48 | [/medicare-plans-vernal-utah](https://vernalmedicare.com/medicare-plans-vernal-utah.html) | 63 | 63 | 13 | 0 | 5.5 | 0.0% | 4.4% | rewrite `<title>` + meta description — it ranks at 5.5 but earns 0.0% vs ~4.4% expected |
-| 49 | [/repatha-assistance-program](https://vernalmedicare.com/repatha-assistance-program.html) | 63 | 63 | 83 | 1 | 15.5 | 1.2% | 1.1% | raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d |
+| 49 | [/repatha-assistance-program](https://vernalmedicare.com/repatha-assistance-program.html) | 63 | 62 | 83 | 1 | 15.5 | 1.2% | 1.1% | deepen the page and add internal links — it is one push from page 1 |
 | 50 | [/medicare-coverage/hospice](https://vernalmedicare.com/medicare-coverage/hospice.html) | 63 | 46 | 102 | 0 | 75.6 | 0.0% | 0.1% | expand to depth — currently 500 words |
 
 ## Fast wins — opportunity far above priority
@@ -81,13 +81,13 @@ These rank higher on speed-to-result than on strategic weight. Good filler work 
 | [/medicare-vernal-ut](https://vernalmedicare.com/medicare-vernal-ut.html) | 86 | 69 | +17 | 6.7 | 67 | rewrite `<title>` + meta description — it ranks at 6.7 but earns 0.0% vs ~3.6% expected |
 | [/life](https://vernalmedicare.com/life.html) | 85 | 67 | +18 | 29.2 | 444 | expand to depth — currently 464 words |
 | [/medicare-irmaa-life-changing-events](https://vernalmedicare.com/medicare-irmaa-life-changing-events.html) | 85 | 67 | +18 | 9.8 | 110 | rewrite `<title>` + meta description — it ranks at 9.8 but earns 0.9% vs ~2.4% expected |
-| [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) | 85 | 63 | +22 | 10.8 | 64 | rewrite `<title>` + meta description — it ranks at 10.8 but earns 0.0% vs ~1.6% expected |
 | [/medicare-cost-estimator](https://vernalmedicare.com/medicare-cost-estimator.html) | 85 | 63 | +22 | 26.5 | 178 | expand to depth — currently 542 words |
+| [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) | 85 | 62 | +23 | 10.8 | 64 | rewrite `<title>` + meta description — it ranks at 10.8 but earns 0.0% vs ~1.6% expected |
 | [/mounjaro-assistance-program](https://vernalmedicare.com/mounjaro-assistance-program.html) | 85 | 61 | +24 | 10.0 | 63 | rewrite `<title>` + meta description — it ranks at 10.0 but earns 0.0% vs ~1.6% expected |
 | [/medicare-out-of-state-utah](https://vernalmedicare.com/medicare-out-of-state-utah.html) | 85 | 54 | +31 | 11.3 | 61 | rewrite `<title>` + meta description — it ranks at 11.3 but earns 0.0% vs ~1.6% expected |
 | [/does-medicare-cover-eliquis](https://vernalmedicare.com/does-medicare-cover-eliquis.html) | 83 | 66 | +17 | 17.0 | 83 | rewrite `<title>` + meta description — it ranks at 17.0 but earns 0.0% vs ~1.1% expected |
 | [/medicare-savings-programs-utah](https://vernalmedicare.com/medicare-savings-programs-utah.html) | 83 | 60 | +23 | 8.4 | 54 | rewrite `<title>` + meta description — it ranks at 8.4 but earns 0.0% vs ~2.7% expected |
-| [/does-medicare-cover-xarelto](https://vernalmedicare.com/does-medicare-cover-xarelto.html) | 82 | 66 | +16 | 17.4 | 76 | rewrite `<title>` + meta description — it ranks at 17.4 but earns 0.0% vs ~1.1% expected |
+| [/does-medicare-cover-xarelto](https://vernalmedicare.com/does-medicare-cover-xarelto.html) | 82 | 65 | +17 | 17.4 | 76 | rewrite `<title>` + meta description — it ranks at 17.4 but earns 0.0% vs ~1.1% expected |
 | [/faq](https://vernalmedicare.com/faq.html) | 80 | 57 | +23 | 4.1 | 60 | rewrite `<title>` + meta description — it ranks at 4.1 but earns 0.0% vs ~5.5% expected |
 | [/medicare-help-center](https://vernalmedicare.com/medicare-help-center.html) | 78 | 59 | +19 | 14.8 | 38 | rewrite `<title>` + meta description — it ranks at 14.8 but earns 0.0% vs ~1.6% expected |
 | [/does-medicare-cover-humira](https://vernalmedicare.com/does-medicare-cover-humira.html) | 77 | 57 | +20 | 14.5 | 36 | rewrite `<title>` + meta description — it ranks at 14.5 but earns 0.0% vs ~1.6% expected |
@@ -95,26 +95,28 @@ These rank higher on speed-to-result than on strategic weight. Good filler work 
 
 ## Not yet proven
 
-30 pages have no Search Console impressions. They are ranked by business value only, and are usually an indexing or internal-linking problem rather than a content one.
+32 pages have no Search Console impressions. They are ranked by business value only, and are usually an indexing or internal-linking problem rather than a content one.
 
 | Page | Silo | Inbound | Depth | Indexed? |
 | --- | --- | ---: | ---: | --- |
 | [/medicare-advantage-plans-vernal](https://vernalmedicare.com/medicare-advantage-plans-vernal.html) | medicare-advantage | 26 | 2 | linked |
-| [/prescription-drug-assistance](https://vernalmedicare.com/prescription-drug-assistance.html) | part-d | 30 | 2 | linked |
-| [/medicare-financial-assistance](https://vernalmedicare.com/medicare-financial-assistance.html) | dual-eligible | 24 | 1 | linked |
+| [/prescription-drug-assistance](https://vernalmedicare.com/prescription-drug-assistance.html) | part-d | 35 | 2 | linked |
+| [/medicare-financial-assistance](https://vernalmedicare.com/medicare-financial-assistance.html) | dual-eligible | 29 | 1 | linked |
 | [/free-medicare-comparison-vernal](https://vernalmedicare.com/free-medicare-comparison-vernal.html) | local | 17 | 3 | linked |
 | [/plan-g-vs-plan-n-vernal](https://vernalmedicare.com/plan-g-vs-plan-n-vernal.html) | medigap | 30 | 2 | linked |
 | [/medicare-fort-duchesne-utah](https://vernalmedicare.com/medicare-fort-duchesne-utah.html) | local | 1 | 3 | linked |
 | [/medicare-neola-utah](https://vernalmedicare.com/medicare-neola-utah.html) | local | 1 | 3 | linked |
 | [/hmo-vs-ppo-medicare-advantage](https://vernalmedicare.com/hmo-vs-ppo-medicare-advantage.html) | medicare-advantage | 12 | 3 | linked |
 | [/zero-premium-medicare-advantage](https://vernalmedicare.com/zero-premium-medicare-advantage.html) | medicare-advantage | 9 | 2 | linked |
+| [/breztri-assistance-program](https://vernalmedicare.com/breztri-assistance-program.html) | part-d | 2 | 3 | linked |
+| [/trelegy-assistance-program](https://vernalmedicare.com/trelegy-assistance-program.html) | part-d | 2 | 3 | linked |
 | [/does-medicare-cover-jardiance](https://vernalmedicare.com/does-medicare-cover-jardiance.html) | part-d | 6 | 3 | linked |
 | [/medicare-ballard-utah](https://vernalmedicare.com/medicare-ballard-utah.html) | local | 6 | 3 | linked |
 | [/medicare-hospitals-uintah-county](https://vernalmedicare.com/medicare-hospitals-uintah-county.html) | providers | 20 | 2 | linked |
 | [/medicare-jensen-utah](https://vernalmedicare.com/medicare-jensen-utah.html) | local | 8 | 3 | linked |
 | [/medicare-maeser-utah](https://vernalmedicare.com/medicare-maeser-utah.html) | local | 8 | 3 | linked |
 | [/medicare-naples-utah](https://vernalmedicare.com/medicare-naples-utah.html) | local | 8 | 3 | linked |
-| [/part-d-plans-vernal](https://vernalmedicare.com/part-d-plans-vernal.html) | part-d | 55 | 1 | linked |
+| [/part-d-plans-vernal](https://vernalmedicare.com/part-d-plans-vernal.html) | part-d | 60 | 1 | linked |
 | [/cobra-and-medicare](https://vernalmedicare.com/cobra-and-medicare.html) | enrollment | 5 | 2 | linked |
 | [/medicare-checklist-2026](https://vernalmedicare.com/medicare-checklist-2026.html) | enrollment | 5 | 2 | linked |
 | [/medicare-general-enrollment-period](https://vernalmedicare.com/medicare-general-enrollment-period.html) | enrollment | 7 | 3 | linked |
@@ -127,5 +129,3 @@ These rank higher on speed-to-result than on strategic weight. Good filler work 
 | [/medicare-coverage/chiropractic](https://vernalmedicare.com/medicare-coverage/chiropractic.html) | medicare-101 | 4 | 3 | linked |
 | [/medicare-agent-credentials](https://vernalmedicare.com/medicare-agent-credentials.html) | trust | 17 | 2 | linked |
 | [/medicare-part-a-vs-part-b](https://vernalmedicare.com/medicare-part-a-vs-part-b.html) | medicare-101 | 19 | 2 | linked |
-| [/medicare-ashley-regional-vernal](https://vernalmedicare.com/medicare-ashley-regional-vernal.html) | providers | 10 | 3 | linked |
-| [/medicare-dental-vision-hearing](https://vernalmedicare.com/medicare-dental-vision-hearing.html) | medicare-101 | 20 | 2 | linked |

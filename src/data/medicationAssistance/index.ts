@@ -33,6 +33,11 @@ import { JARDIANCE } from './jardiance';
 import { ELIQUIS } from './eliquis';
 import { MOUNJARO } from './mounjaro';
 import { OZEMPIC } from './ozempic';
+import { ENTRESTO } from './entresto';
+import { XARELTO } from './xarelto';
+import { REPATHA } from './repatha';
+import { TRELEGY } from './trelegy';
+import { BREZTRI } from './breztri';
 
 // ── Taxonomy (two axes; browse categories are derived, never stored) ─────────
 export {
@@ -55,13 +60,19 @@ export const taxonomyTags = (subject: TaxonomySubject, base: string[]): string[]
   ...new Set([...base, ...subject.conditions, ...(subject.drugClass ?? [])]),
 ];
 
-/** Batch 1 (spec §24 build order #1–5). Add later batches here, one per line. */
+/** Spec §24 build order. Batch 1 = #1–5 (2026-08-26); Batch 2 = #6–10
+ *  (2026-08-26). Add later batches here, one per line. */
 export const MEDICATION_ASSISTANCE: MedicationAssistanceRecord[] = [
   FARXIGA,
   JARDIANCE,
   ELIQUIS,
   MOUNJARO,
   OZEMPIC,
+  ENTRESTO,
+  XARELTO,
+  REPATHA,
+  TRELEGY,
+  BREZTRI,
 ];
 
 export const medicationAssistanceFor = (slug: string): MedicationAssistanceRecord | undefined =>

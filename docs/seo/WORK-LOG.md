@@ -118,6 +118,65 @@ strength of one real test.
      experiments (EXP-001 – EXP-003) are logged below and registered in
      docs/seo/EXPERIMENTS.md. -->
 
+### 2026-08-26 — Prescription Assistance Batch 2: five record-driven medication pages (new content, not an experiment)
+
+- **Pages:** `/entresto-assistance-program.html` · `/xarelto-assistance-program.html` ·
+  `/repatha-assistance-program.html` — same URLs, legacy generic pages rebuilt in
+  place from independently researched records. **New URLs:**
+  `/trelegy-assistance-program.html` · `/breztri-assistance-program.html` (two
+  new `FEATURED_DRUGS` slugs; both appear in the hub directory automatically —
+  16 medications now). Sitewide: nothing. Nav, hub, SEO gates and unrelated
+  pages untouched.
+- **Driver:** `docs/PRESCRIPTION-ASSISTANCE-PROJECT.md` Batch 2 (spec §24 build
+  order #6–10), requested directly after the taxonomy migration. Same
+  architecture and research standard as Batch 1: official sources first, dated
+  source on every material claim, honest closed / not-found / verify statuses.
+  Two drug-class keys added because researched medications needed them
+  (`arni` for Entresto, `triple-inhaler` for Trelegy and Breztri).
+- **Metric:** topical completeness (tracked). **36% → 91%** on the three migrated
+  pages; the two new pages admitted at **91%** (`npm run seo:gate` passed; 3
+  floors raised, 2 new pages admitted; no `--accept`). Words ~600 → 5,200–5,900;
+  AI readiness 89. Remaining gap on all five is the `schema` detector false
+  negative already recorded for Batch 1 (DrugPage emits `MedicalWebPage`).
+- **Hypothesis:** none pre-registered — content addition under the project
+  spec. Position/impressions on the five URLs recorded for damage control.
+- **⚠ Observation-window notes (EXP-003):** confounder **#5** fires again —
+  +1 in-content inbound link to treated pages `does-medicare-cover-entresto`,
+  `-xarelto`, `-repatha` from their rebuilt assistance pages (same shape as
+  Batch 1). The **control arm was deliberately protected**: `does-medicare-cover-trelegy`
+  is a control page, so the new Trelegy assistance page does **not** link to it
+  and `drugCoverage.ts` (which still lacks an `assistanceSlug` for Trelegy)
+  was not edited. Verified in `dist/`: zero links in either direction. Logged
+  in the cohort plan §5. No sitewide template change this time (confounder #4
+  did not fire).
+- **Sitemap:** `lastmod` bumped to 2026-08-26 for the three migrated URLs (in
+  the pre-existing literal-`
+` line, left as-is); the two new URLs appended as
+  normal XML entries.
+- **Outcome (after recrawl):** _open — check that position/impressions on the
+  five URLs and on the EXP-003 treated arm do not fall; confirm the two new URLs
+  are indexed._
+
+### 2026-08-26 — Autoimmune & Immune Conditions browse view (taxonomy view layer, not an experiment)
+
+- **Pages:** none change today. The view is a derived browse category over the
+  existing `autoimmune` condition key (project §31 D7); no record, URL, nav
+  entry, hub grouping or `CONDITIONS` key was touched, and the legacy `Drug`
+  type still has no `drugClass`. The on-page category kicker renders only on
+  record-driven pages, and no autoimmune medication has a researched record
+  yet — so the built site is byte-identical for those five pages.
+- **Change:** `ASSISTANCE_CATEGORIES` gained `autoimmune` ("Autoimmune & Immune
+  Conditions"), placed before `copd-asthma` so Dupixent leads with the immune
+  view; `AssistanceCategoryKey` widened; the pending-view entry removed. A
+  test now fails the build if any `FEATURED_DRUGS` entry derives the fallback
+  view, and asserts Humira/Enbrel/Skyrizi/Rinvoq/Dupixent derive `autoimmune`.
+- **Metric:** none — no visible output changes. Recorded so the September
+  reading knows this is the reason the five legacy pages will read
+  "Autoimmune & Immune Conditions" rather than "Specialty & Other" the day
+  they migrate to researched records.
+- **Hypothesis:** none pre-registered (no content changed).
+- **Outcome (after recrawl):** n/a
+
 ### 2026-08-26 — Two-axis medication taxonomy (data-model migration, not an experiment)
 
 - **Pages:** no URLs changed. Data layer + 2 call sites; one visible text change

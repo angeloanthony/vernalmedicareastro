@@ -51,7 +51,9 @@ export type DrugClassKey =
   | 'anticoagulant'
   | 'antiplatelet'
   | 'biologic'
-  | 'pcsk9';
+  | 'pcsk9'
+  | 'arni'
+  | 'triple-inhaler';
 
 export interface DrugClass {
   key: DrugClassKey;
@@ -75,6 +77,7 @@ export type AssistanceCategoryKey =
   | 'lung-disease'
   | 'biologics'
   | 'glp-1'
+  | 'autoimmune'
   | 'specialty';
 
 export interface AssistanceCategory {

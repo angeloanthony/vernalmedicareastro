@@ -273,6 +273,14 @@ export const FEATURED_DRUGS: Drug[] = [
   { slug: 'skyrizi',   drug: 'Skyrizi',   generic: 'risankizumab',  conditionLabel: "psoriasis & Crohn's disease",       conditions: ['autoimmune'],                      blogSlug: 'does-medicare-cover-skyrizi' },
   { slug: 'rinvoq',    drug: 'Rinvoq',    generic: 'upadacitinib',  conditionLabel: 'autoimmune conditions',             conditions: ['autoimmune'],                      blogSlug: 'does-medicare-cover-rinvoq' },
   { slug: 'dupixent',  drug: 'Dupixent',  generic: 'dupilumab',     conditionLabel: 'eczema, asthma & COPD',             conditions: ['autoimmune', 'respiratory'],       blogSlug: 'does-medicare-cover-dupixent' },
+  // Prescription Assistance Batch 2 (spec §24 #9–10), added 2026-08-26. Both
+  // carry a researched MedicationAssistanceRecord, so the legacy generic page
+  // never renders for them. `drug` is the short brand so programsForDrug()'s
+  // substring match hits 'Trelegy Ellipta' / 'Breztri' in PROGRAMS. Breztri's
+  // companion coverage guide is not authored yet (blogSlug is a forward
+  // reference, as the type documents).
+  { slug: 'trelegy',   drug: 'Trelegy',   generic: 'fluticasone furoate/umeclidinium/vilanterol', conditionLabel: 'COPD & asthma', conditions: ['respiratory'], blogSlug: 'does-medicare-cover-trelegy' },
+  { slug: 'breztri',   drug: 'Breztri',   generic: 'budesonide/glycopyrrolate/formoterol',        conditionLabel: 'COPD',          conditions: ['respiratory'], blogSlug: 'does-medicare-cover-breztri' },
 ];
 
 /** Group the programs relevant to a specific drug: the manufacturer program(s) that

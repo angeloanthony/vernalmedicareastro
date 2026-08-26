@@ -12,6 +12,10 @@
 // record had to be tagged twice with overlapping keys — 'diabetes' and 'heart'
 // existed in both lists and were duplicated in every taxonomy tag array.
 //
+// The autoimmune view was promoted from PENDING_CATEGORY_VIEWS on 2026-08-26
+// (project §31 D7): it is a view over the existing `autoimmune` condition key,
+// so the five legacy autoimmune pages no longer fall to the fallback view.
+//
 // Presentation only. A medication may appear in several views, but it has
 // exactly one canonical page. Category HUB pages are not built yet — their URL
 // pattern is an open project question (spec §31 #3) — so this list drives the
@@ -65,6 +69,16 @@ export const ASSISTANCE_CATEGORIES: AssistanceCategory[] = [
     drugClass: ['biologic'],
   },
   {
+    // Approved 2026-08-26 (project §31 D7). A browse view over the existing
+    // `autoimmune` CONDITIONS key — no new axis, no change to CONDITIONS.
+    // Sits before 'copd-asthma' so Dupixent (autoimmune + respiratory) leads
+    // with the immune view rather than reading as an inhaler.
+    key: 'autoimmune',
+    label: 'Autoimmune & Immune Conditions',
+    blurb: "Biologics and JAK inhibitors for rheumatoid arthritis, psoriasis, Crohn's, eczema and related conditions.",
+    conditions: ['autoimmune'],
+  },
+  {
     key: 'copd-asthma',
     label: 'COPD & Asthma',
     blurb: 'Maintenance inhalers.',
@@ -95,12 +109,6 @@ export const PENDING_CATEGORY_VIEWS: { key: string; label: string; needs: string
     label: 'Lung Disease',
     needs:
       'A condition key for pulmonary fibrosis / interstitial lung disease. Today the only lung key is `respiratory`, which would wrongly pull every COPD and asthma inhaler into this view. Decide when Ofev is researched — adding a CONDITIONS key also changes which nonprofit funds programsForDrug() matches.',
-  },
-  {
-    key: 'autoimmune',
-    label: 'Autoimmune (RA, Crohn’s, psoriasis)',
-    needs:
-      'A view for the `autoimmune` condition key. Nine legacy medication pages use it (Humira, Enbrel, Skyrizi, Rinvoq, Dupixent) and it is the highest-demand medication bucket in the July 2026 query data, but adding a tenth browse category is a directory decision, not a migration step.',
   },
 ];
 

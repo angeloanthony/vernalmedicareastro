@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-26T07:27:04.726Z",
+  "generatedAt": "2026-08-26T16:55:59.545Z",
   "site": "https://vernalmedicare.com",
   "sources": {
     "registry": {
       "file": "src/data/pageIndex.ts",
-      "entries": 146,
+      "entries": 148,
       "duplicates": []
     },
     "searchConsole": [
@@ -24,8 +24,8 @@
     ],
     "rendered": {
       "dir": "dist",
-      "pages": 167,
-      "scored": 162,
+      "pages": 169,
+      "scored": 164,
       "stale": false,
       "notContent": [
         {
@@ -50,7 +50,7 @@
   "stats": {
     "p95Impressions": 180,
     "medianInbound": 8,
-    "medianWords": 566,
+    "medianWords": 567,
     "maxClicks": 23,
     "hasPerformanceData": true
   },
@@ -101,11 +101,6 @@
       "/medicare-coverage.html",
       "/medicare-drug-coverage.html",
       "/prescription-drug-assistance.html",
-      "/farxiga-assistance-program.html",
-      "/jardiance-assistance-program.html",
-      "/eliquis-assistance-program.html",
-      "/mounjaro-assistance-program.html",
-      "/ozempic-assistance-program.html",
       "/medicare-calculators.html",
       "/medicare-glossary.html",
       "/medicare-news.html",
@@ -183,7 +178,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-[drug].astro",
         "src/data/drugCoverage.ts",
@@ -232,7 +227,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.25,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0.855324074074074
       },
       "tier": 1,
@@ -319,7 +314,7 @@
       "navLinked": false,
       "depth": 1,
       "lastModified": "2026-07-01T20:29:52-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medigap.astro"
       ],
@@ -364,7 +359,7 @@
         "business": 1,
         "pillar": 1,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 1,
@@ -473,7 +468,7 @@
       "navLinked": true,
       "depth": 0,
       "lastModified": "2026-07-01T21:59:35-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/index.astro"
       ],
@@ -525,7 +520,7 @@
         "business": 1,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 0.28660049627791556
       },
       "tier": 1,
@@ -606,7 +601,7 @@
       "navLinked": true,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-help-vernal.astro"
       ],
@@ -654,7 +649,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.75,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0.5590828924162258
       },
       "tier": 1,
@@ -742,7 +737,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/medicare-irmaa.astro"
@@ -794,7 +789,7 @@
         "business": 0.6,
         "pillar": 1,
         "linkWeakness": 0.75,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0.222697240575204
       },
       "tier": 1,
@@ -881,7 +876,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-[drug].astro",
         "src/data/drugCoverage.ts",
@@ -931,7 +926,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.75,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0.5941558441558441
       },
       "tier": 1,
@@ -1012,7 +1007,7 @@
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-25T14:15:00-06:00",
+      "lastModified": "2026-08-26T10:18:58-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -1160,7 +1155,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-[drug].astro",
         "src/data/drugCoverage.ts",
@@ -1209,7 +1204,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.375,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 1,
@@ -1285,7 +1280,7 @@
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-25T14:15:00-06:00",
+      "lastModified": "2026-08-26T10:18:58-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -1432,7 +1427,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-[drug].astro",
         "src/data/drugCoverage.ts",
@@ -1481,7 +1476,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.375,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 1,
@@ -1563,7 +1558,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-07-01T15:42:20-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-vernal-ut.astro"
       ],
@@ -1610,7 +1605,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.625,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 1,
@@ -1695,7 +1690,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-[drug].astro",
         "src/data/drugCoverage.ts",
@@ -1744,7 +1739,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.375,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 1,
@@ -1821,7 +1816,7 @@
       "navLinked": true,
       "depth": 2,
       "lastModified": "2026-07-01T15:42:20-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/life.astro"
       ],
@@ -1870,7 +1865,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0.75,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -1951,7 +1946,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-06-30T22:34:53-06:00",
-      "ageDays": 56,
+      "ageDays": 57,
       "sourceFiles": [
         "src/pages/medicare-irmaa-life-changing-events.astro"
       ],
@@ -2000,7 +1995,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0.25,
-        "freshness": 0.15342465753424658,
+        "freshness": 0.15616438356164383,
         "ctrOpportunity": 0.6212121212121212
       },
       "tier": 2,
@@ -2086,7 +2081,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-[drug].astro",
         "src/data/drugCoverage.ts",
@@ -2135,7 +2130,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.375,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -2202,7 +2197,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 4,
+      "inboundCount": 5,
       "outboundCount": 12,
       "linksOut": [
         "/medicare-drug-coverage.html",
@@ -2221,13 +2216,13 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-[drug].astro",
         "src/data/drugCoverage.ts",
         "src/data/business.ts"
       ],
-      "priority": 66,
+      "priority": 65,
       "opportunity": 82,
       "aiReadiness": 79,
       "completeness": 91,
@@ -2269,8 +2264,8 @@
         "position": 0.85,
         "business": 0.8,
         "pillar": 0,
-        "linkWeakness": 0.5,
-        "freshness": 0,
+        "linkWeakness": 0.375,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -2468,7 +2463,7 @@
       "hasFaq": false,
       "hasByline": false,
       "hasSources": false,
-      "inboundCount": 34,
+      "inboundCount": 39,
       "outboundCount": 4,
       "linksOut": [
         "/free-medicare-comparison-vernal.html",
@@ -2479,7 +2474,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T21:35:26-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-quote-vernal.astro"
       ],
@@ -2530,7 +2525,7 @@
         "business": 1,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -2559,139 +2554,6 @@
       ],
       "linkSuggestions": [],
       "nextAction": "rewrite `<title>` + meta description — it ranks at 6.0 but earns 0.0% vs ~3.6% expected"
-    },
-    {
-      "url": "/entresto-assistance-program.html",
-      "title": "Entresto Assistance Programs — Help Paying for Entresto on Medicare | Vernal Medicare",
-      "locale": "en",
-      "silo": "part-d",
-      "tags": [
-        "drug-assistance",
-        "part-d",
-        "heart"
-      ],
-      "pillar": false,
-      "registered": true,
-      "clicks": 0,
-      "impressions": 64,
-      "ctr": 0,
-      "position": 10.82609375,
-      "expectedCtr": 0.016,
-      "ctrGap": 1,
-      "words": 1075,
-      "tables": 0,
-      "definitions": 0,
-      "h2": 8,
-      "schemaTypes": [
-        "MedicalWebPage",
-        "CreativeWork",
-        "Organization",
-        "BreadcrumbList",
-        "ListItem",
-        "FAQPage",
-        "Question",
-        "Answer",
-        "Person",
-        "ImageObject"
-      ],
-      "hasSummary": true,
-      "hasFaq": true,
-      "hasByline": true,
-      "hasSources": false,
-      "inboundCount": 5,
-      "outboundCount": 4,
-      "linksOut": [
-        "/eliquis-assistance-program.html",
-        "/xarelto-assistance-program.html",
-        "/ozempic-assistance-program.html",
-        "/mounjaro-assistance-program.html"
-      ],
-      "navLinked": false,
-      "depth": 3,
-      "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
-      "sourceFiles": [
-        "src/pages/[drug]-assistance-program.astro",
-        "src/data/medicationAssistance/index.ts",
-        "src/data/drugs.ts",
-        "src/data/business.ts",
-        "src/data/conditions.ts"
-      ],
-      "priority": 63,
-      "opportunity": 85,
-      "aiReadiness": 63,
-      "completeness": 36,
-      "missingElements": [
-        "sources",
-        "cta",
-        "related",
-        "schema",
-        "internalLinks",
-        "comparisonTable",
-        "definitions"
-      ],
-      "aiFeatures": {
-        "summary": {
-          "got": true,
-          "score": 1
-        },
-        "faq": {
-          "got": true,
-          "score": 1
-        },
-        "schema": {
-          "got": false,
-          "score": 0.6
-        },
-        "tables": {
-          "got": false,
-          "score": 0
-        },
-        "definitions": {
-          "got": false,
-          "score": 0
-        },
-        "internalLinks": {
-          "got": false,
-          "score": 0.5
-        },
-        "insights": {
-          "got": false,
-          "score": 0.6666666666666666
-        }
-      },
-      "factors": {
-        "impressions": 0.6343251023556443,
-        "position": 0.85,
-        "business": 0.8,
-        "pillar": 0,
-        "linkWeakness": 0.375,
-        "freshness": 0,
-        "ctrOpportunity": 1
-      },
-      "tier": 2,
-      "flags": {
-        "orphan": false,
-        "weakLinks": false,
-        "lowOutbound": false,
-        "needsSummary": false,
-        "needsFaq": false,
-        "thin": false,
-        "stale": false,
-        "criticallyStale": false,
-        "aiGap": true,
-        "ctrProblem": true,
-        "strikingDistance": true,
-        "unregistered": false,
-        "duplicateTitle": false,
-        "noData": false
-      },
-      "reasons": [
-        "CTR 0.0% vs ~1.6% expected at position 10.8 — title/meta rewrite",
-        "64 impressions at position 10.8"
-      ],
-      "linkSuggestions": [],
-      "nextAction": "rewrite `<title>` + meta description — it ranks at 10.8 but earns 0.0% vs ~1.6% expected"
     },
     {
       "url": "/medicare-cost-estimator.html",
@@ -2745,7 +2607,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-09T16:12:01-06:00",
-      "ageDays": 47,
+      "ageDays": 48,
       "sourceFiles": [
         "src/pages/medicare-cost-estimator.astro"
       ],
@@ -2795,7 +2657,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.12876712328767123,
+        "freshness": 0.13150684931506848,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -2821,6 +2683,138 @@
       ],
       "linkSuggestions": [],
       "nextAction": "expand to depth — currently 542 words"
+    },
+    {
+      "url": "/trulicity-assistance-program.html",
+      "title": "Trulicity Assistance Programs — Help Paying for Trulicity on Medicare | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "diabetes"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 1,
+      "impressions": 83,
+      "ctr": 0.012048192771084338,
+      "position": 10.505180722891566,
+      "expectedCtr": 0.016,
+      "ctrGap": 0.2469879518072289,
+      "words": 1021,
+      "tables": 0,
+      "definitions": 0,
+      "h2": 8,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": false,
+      "inboundCount": 4,
+      "outboundCount": 4,
+      "linksOut": [
+        "/eliquis-assistance-program.html",
+        "/xarelto-assistance-program.html",
+        "/ozempic-assistance-program.html",
+        "/mounjaro-assistance-program.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T10:18:58-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 63,
+      "opportunity": 74,
+      "aiReadiness": 63,
+      "completeness": 36,
+      "missingElements": [
+        "sources",
+        "cta",
+        "related",
+        "schema",
+        "internalLinks",
+        "comparisonTable",
+        "definitions"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": false,
+          "score": 0
+        },
+        "definitions": {
+          "got": false,
+          "score": 0
+        },
+        "internalLinks": {
+          "got": false,
+          "score": 0.5
+        },
+        "insights": {
+          "got": false,
+          "score": 0.6666666666666666
+        }
+      },
+      "factors": {
+        "impressions": 0.7258873989843516,
+        "position": 0.85,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0.5,
+        "freshness": 0,
+        "ctrOpportunity": 0.2469879518072289
+      },
+      "tier": 2,
+      "flags": {
+        "orphan": false,
+        "weakLinks": false,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": true,
+        "ctrProblem": false,
+        "strikingDistance": true,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": false
+      },
+      "reasons": [
+        "83 impressions at position 10.5"
+      ],
+      "linkSuggestions": [],
+      "nextAction": "close AI-readiness gaps: Schema, Tables, Definitions, Internal links, Original insights"
     },
     {
       "url": "/medicare-plans-vernal-utah.html",
@@ -2916,7 +2910,7 @@
       "navLinked": true,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-plans-vernal-utah.astro"
       ],
@@ -2963,7 +2957,7 @@
         "business": 1,
         "pillar": 1,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -2992,28 +2986,29 @@
       "nextAction": "rewrite `<title>` + meta description — it ranks at 5.5 but earns 0.0% vs ~4.4% expected"
     },
     {
-      "url": "/repatha-assistance-program.html",
-      "title": "Repatha Assistance Programs — Help Paying for Repatha on Medicare | Vernal Medicare",
+      "url": "/entresto-assistance-program.html",
+      "title": "Entresto Assistance & Grants: How to Apply in Utah | Vernal Medicare",
       "locale": "en",
       "silo": "part-d",
       "tags": [
         "drug-assistance",
         "part-d",
-        "cholesterol",
-        "heart"
+        "prescription-assistance",
+        "heart",
+        "arni"
       ],
       "pillar": false,
       "registered": true,
-      "clicks": 1,
-      "impressions": 83,
-      "ctr": 0.012048192771084338,
-      "position": 15.48024096385542,
-      "expectedCtr": 0.011,
-      "ctrGap": 0,
-      "words": 1078,
-      "tables": 0,
-      "definitions": 0,
-      "h2": 8,
+      "clicks": 0,
+      "impressions": 64,
+      "ctr": 0,
+      "position": 10.82609375,
+      "expectedCtr": 0.016,
+      "ctrGap": 1,
+      "words": 5249,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 16,
       "schemaTypes": [
         "MedicalWebPage",
         "CreativeWork",
@@ -3029,18 +3024,28 @@
       "hasSummary": true,
       "hasFaq": true,
       "hasByline": true,
-      "hasSources": false,
-      "inboundCount": 2,
-      "outboundCount": 4,
+      "hasSources": true,
+      "inboundCount": 7,
+      "outboundCount": 14,
       "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/farxiga-assistance-program.html",
+        "/jardiance-assistance-program.html",
         "/eliquis-assistance-program.html",
-        "/xarelto-assistance-program.html",
-        "/ozempic-assistance-program.html",
-        "/mounjaro-assistance-program.html"
+        "/repatha-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/does-medicare-cover-entresto.html",
+        "/medicare-quote-vernal.html"
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-25T14:15:00-06:00",
+      "lastModified": "2026-08-26T10:18:58-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -3049,18 +3054,12 @@
         "src/data/business.ts",
         "src/data/conditions.ts"
       ],
-      "priority": 63,
-      "opportunity": 63,
-      "aiReadiness": 63,
-      "completeness": 36,
+      "priority": 62,
+      "opportunity": 85,
+      "aiReadiness": 89,
+      "completeness": 91,
       "missingElements": [
-        "sources",
-        "cta",
-        "related",
-        "schema",
-        "internalLinks",
-        "comparisonTable",
-        "definitions"
+        "schema"
       ],
       "aiFeatures": {
         "summary": {
@@ -3076,58 +3075,54 @@
           "score": 0.6
         },
         "tables": {
-          "got": false,
-          "score": 0
-        },
-        "definitions": {
-          "got": false,
-          "score": 0
-        },
-        "internalLinks": {
-          "got": false,
+          "got": true,
           "score": 0.5
         },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
         "insights": {
-          "got": false,
-          "score": 0.6666666666666666
+          "got": true,
+          "score": 1
         }
       },
       "factors": {
-        "impressions": 0.7258873989843516,
+        "impressions": 0.6343251023556443,
         "position": 0.85,
         "business": 0.8,
         "pillar": 0,
-        "linkWeakness": 0.75,
+        "linkWeakness": 0.125,
         "freshness": 0,
-        "ctrOpportunity": 0
+        "ctrOpportunity": 1
       },
       "tier": 2,
       "flags": {
         "orphan": false,
-        "weakLinks": true,
+        "weakLinks": false,
         "lowOutbound": false,
         "needsSummary": false,
         "needsFaq": false,
         "thin": false,
         "stale": false,
         "criticallyStale": false,
-        "aiGap": true,
-        "ctrProblem": false,
+        "aiGap": false,
+        "ctrProblem": true,
         "strikingDistance": true,
         "unregistered": false,
         "duplicateTitle": false,
         "noData": false
       },
       "reasons": [
-        "83 impressions at position 15.5",
-        "only 2 in-content inbound link(s)"
+        "CTR 0.0% vs ~1.6% expected at position 10.8 — title/meta rewrite",
+        "64 impressions at position 10.8"
       ],
-      "linkSuggestions": [
-        "/part-d-plans-vernal.html",
-        "/medicare-drug-coverage.html",
-        "/tier-3-vs-tier-4-medicare-part-d.html"
-      ],
-      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
+      "linkSuggestions": [],
+      "nextAction": "rewrite `<title>` + meta description — it ranks at 10.8 but earns 0.0% vs ~1.6% expected"
     },
     {
       "url": "/medicare-formulary-lookup.html",
@@ -3170,7 +3165,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 12,
+      "inboundCount": 17,
       "outboundCount": 5,
       "linksOut": [
         "/part-d-plans-vernal.html",
@@ -3182,7 +3177,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-formulary-lookup.astro"
       ],
@@ -3232,7 +3227,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -3258,138 +3253,6 @@
       ],
       "linkSuggestions": [],
       "nextAction": "expand to depth — currently 563 words"
-    },
-    {
-      "url": "/trulicity-assistance-program.html",
-      "title": "Trulicity Assistance Programs — Help Paying for Trulicity on Medicare | Vernal Medicare",
-      "locale": "en",
-      "silo": "part-d",
-      "tags": [
-        "drug-assistance",
-        "part-d",
-        "diabetes"
-      ],
-      "pillar": false,
-      "registered": true,
-      "clicks": 1,
-      "impressions": 83,
-      "ctr": 0.012048192771084338,
-      "position": 10.505180722891566,
-      "expectedCtr": 0.016,
-      "ctrGap": 0.2469879518072289,
-      "words": 1021,
-      "tables": 0,
-      "definitions": 0,
-      "h2": 8,
-      "schemaTypes": [
-        "MedicalWebPage",
-        "CreativeWork",
-        "Organization",
-        "BreadcrumbList",
-        "ListItem",
-        "FAQPage",
-        "Question",
-        "Answer",
-        "Person",
-        "ImageObject"
-      ],
-      "hasSummary": true,
-      "hasFaq": true,
-      "hasByline": true,
-      "hasSources": false,
-      "inboundCount": 5,
-      "outboundCount": 4,
-      "linksOut": [
-        "/eliquis-assistance-program.html",
-        "/xarelto-assistance-program.html",
-        "/ozempic-assistance-program.html",
-        "/mounjaro-assistance-program.html"
-      ],
-      "navLinked": false,
-      "depth": 3,
-      "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
-      "sourceFiles": [
-        "src/pages/[drug]-assistance-program.astro",
-        "src/data/medicationAssistance/index.ts",
-        "src/data/drugs.ts",
-        "src/data/business.ts",
-        "src/data/conditions.ts"
-      ],
-      "priority": 62,
-      "opportunity": 74,
-      "aiReadiness": 63,
-      "completeness": 36,
-      "missingElements": [
-        "sources",
-        "cta",
-        "related",
-        "schema",
-        "internalLinks",
-        "comparisonTable",
-        "definitions"
-      ],
-      "aiFeatures": {
-        "summary": {
-          "got": true,
-          "score": 1
-        },
-        "faq": {
-          "got": true,
-          "score": 1
-        },
-        "schema": {
-          "got": false,
-          "score": 0.6
-        },
-        "tables": {
-          "got": false,
-          "score": 0
-        },
-        "definitions": {
-          "got": false,
-          "score": 0
-        },
-        "internalLinks": {
-          "got": false,
-          "score": 0.5
-        },
-        "insights": {
-          "got": false,
-          "score": 0.6666666666666666
-        }
-      },
-      "factors": {
-        "impressions": 0.7258873989843516,
-        "position": 0.85,
-        "business": 0.8,
-        "pillar": 0,
-        "linkWeakness": 0.375,
-        "freshness": 0,
-        "ctrOpportunity": 0.2469879518072289
-      },
-      "tier": 2,
-      "flags": {
-        "orphan": false,
-        "weakLinks": false,
-        "lowOutbound": false,
-        "needsSummary": false,
-        "needsFaq": false,
-        "thin": false,
-        "stale": false,
-        "criticallyStale": false,
-        "aiGap": true,
-        "ctrProblem": false,
-        "strikingDistance": true,
-        "unregistered": false,
-        "duplicateTitle": false,
-        "noData": false
-      },
-      "reasons": [
-        "83 impressions at position 10.5"
-      ],
-      "linkSuggestions": [],
-      "nextAction": "close AI-readiness gaps: Schema, Tables, Definitions, Internal links, Original insights"
     },
     {
       "url": "/medicare-medicaid-utah.html",
@@ -3443,7 +3306,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-06-30T21:28:27-06:00",
-      "ageDays": 56,
+      "ageDays": 57,
       "sourceFiles": [
         "src/pages/medicare-medicaid-utah.astro"
       ],
@@ -3491,7 +3354,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0.5,
-        "freshness": 0.15342465753424658,
+        "freshness": 0.15616438356164383,
         "ctrOpportunity": 0
       },
       "tier": 2,
@@ -3519,28 +3382,30 @@
       "nextAction": "expand to depth — currently 576 words"
     },
     {
-      "url": "/dupixent-assistance-program.html",
-      "title": "Dupixent Assistance Programs — Help Paying for Dupixent on Medicare | Vernal Medicare",
+      "url": "/repatha-assistance-program.html",
+      "title": "Repatha Assistance & Grants: How to Apply in Utah | Vernal Medicare",
       "locale": "en",
       "silo": "part-d",
       "tags": [
         "drug-assistance",
         "part-d",
-        "autoimmune",
-        "respiratory"
+        "prescription-assistance",
+        "cholesterol",
+        "heart",
+        "pcsk9"
       ],
       "pillar": false,
       "registered": true,
-      "clicks": 2,
-      "impressions": 142,
-      "ctr": 0.014084507042253521,
-      "position": 25.34394366197183,
-      "expectedCtr": 0.006,
+      "clicks": 1,
+      "impressions": 83,
+      "ctr": 0.012048192771084338,
+      "position": 15.48024096385542,
+      "expectedCtr": 0.011,
       "ctrGap": 0,
-      "words": 1081,
-      "tables": 0,
-      "definitions": 0,
-      "h2": 8,
+      "words": 5735,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 16,
       "schemaTypes": [
         "MedicalWebPage",
         "CreativeWork",
@@ -3556,18 +3421,27 @@
       "hasSummary": true,
       "hasFaq": true,
       "hasByline": true,
-      "hasSources": false,
-      "inboundCount": 2,
-      "outboundCount": 4,
+      "hasSources": true,
+      "inboundCount": 4,
+      "outboundCount": 13,
       "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/entresto-assistance-program.html",
         "/eliquis-assistance-program.html",
         "/xarelto-assistance-program.html",
-        "/ozempic-assistance-program.html",
-        "/mounjaro-assistance-program.html"
+        "/prescription-drug-assistance.html",
+        "/does-medicare-cover-repatha.html",
+        "/medicare-quote-vernal.html"
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-25T14:15:00-06:00",
+      "lastModified": "2026-08-26T10:18:58-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -3577,17 +3451,11 @@
         "src/data/conditions.ts"
       ],
       "priority": 62,
-      "opportunity": 61,
-      "aiReadiness": 63,
-      "completeness": 36,
+      "opportunity": 63,
+      "aiReadiness": 89,
+      "completeness": 91,
       "missingElements": [
-        "sources",
-        "cta",
-        "related",
-        "schema",
-        "internalLinks",
-        "comparisonTable",
-        "definitions"
+        "schema"
       ],
       "aiFeatures": {
         "summary": {
@@ -3603,58 +3471,53 @@
           "score": 0.6
         },
         "tables": {
-          "got": false,
-          "score": 0
-        },
-        "definitions": {
-          "got": false,
-          "score": 0
-        },
-        "internalLinks": {
-          "got": false,
+          "got": true,
           "score": 0.5
         },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
         "insights": {
-          "got": false,
-          "score": 0.6666666666666666
+          "got": true,
+          "score": 1
         }
       },
       "factors": {
-        "impressions": 0.91585651180378,
-        "position": 0.6,
+        "impressions": 0.7258873989843516,
+        "position": 0.85,
         "business": 0.8,
         "pillar": 0,
-        "linkWeakness": 0.75,
+        "linkWeakness": 0.5,
         "freshness": 0,
         "ctrOpportunity": 0
       },
       "tier": 2,
       "flags": {
         "orphan": false,
-        "weakLinks": true,
+        "weakLinks": false,
         "lowOutbound": false,
         "needsSummary": false,
         "needsFaq": false,
         "thin": false,
         "stale": false,
         "criticallyStale": false,
-        "aiGap": true,
+        "aiGap": false,
         "ctrProblem": false,
-        "strikingDistance": false,
+        "strikingDistance": true,
         "unregistered": false,
         "duplicateTitle": false,
         "noData": false
       },
       "reasons": [
-        "142 impressions at position 25.3",
-        "only 2 in-content inbound link(s)"
+        "83 impressions at position 15.5"
       ],
-      "linkSuggestions": [
-        "/part-d-plans-vernal.html",
-        "/medicare-drug-coverage.html",
-        "/tier-3-vs-tier-4-medicare-part-d.html"
-      ],
-      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
+      "linkSuggestions": [],
+      "nextAction": "deepen the page and add internal links — it is one push from page 1"
     },
     {
       "url": "/mounjaro-assistance-program.html",
@@ -3665,7 +3528,6 @@
         "drug-assistance",
         "part-d",
         "prescription-assistance",
-        "diabetes",
         "diabetes",
         "glp-1"
       ],
@@ -3697,7 +3559,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 13,
+      "inboundCount": 10,
       "outboundCount": 14,
       "linksOut": [
         "/medicare-formulary-lookup.html",
@@ -3715,9 +3577,9 @@
         "/does-medicare-cover-mounjaro-utah.html",
         "/medicare-quote-vernal.html"
       ],
-      "navLinked": true,
+      "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-25T14:15:00-06:00",
+      "lastModified": "2026-08-26T10:18:58-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -3846,7 +3708,7 @@
       "navLinked": true,
       "depth": 1,
       "lastModified": "2026-07-01T15:42:20-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/aca.astro"
       ],
@@ -3895,7 +3757,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0.5,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 0.19093851132686093
       },
       "tier": 2,
@@ -3921,6 +3783,139 @@
       ],
       "linkSuggestions": [],
       "nextAction": "expand to depth — currently 487 words"
+    },
+    {
+      "url": "/dupixent-assistance-program.html",
+      "title": "Dupixent Assistance Programs — Help Paying for Dupixent on Medicare | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "autoimmune",
+        "respiratory"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 2,
+      "impressions": 142,
+      "ctr": 0.014084507042253521,
+      "position": 25.34394366197183,
+      "expectedCtr": 0.006,
+      "ctrGap": 0,
+      "words": 1081,
+      "tables": 0,
+      "definitions": 0,
+      "h2": 8,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": false,
+      "inboundCount": 4,
+      "outboundCount": 4,
+      "linksOut": [
+        "/eliquis-assistance-program.html",
+        "/xarelto-assistance-program.html",
+        "/ozempic-assistance-program.html",
+        "/mounjaro-assistance-program.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T10:18:58-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 61,
+      "opportunity": 61,
+      "aiReadiness": 63,
+      "completeness": 36,
+      "missingElements": [
+        "sources",
+        "cta",
+        "related",
+        "schema",
+        "internalLinks",
+        "comparisonTable",
+        "definitions"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": false,
+          "score": 0
+        },
+        "definitions": {
+          "got": false,
+          "score": 0
+        },
+        "internalLinks": {
+          "got": false,
+          "score": 0.5
+        },
+        "insights": {
+          "got": false,
+          "score": 0.6666666666666666
+        }
+      },
+      "factors": {
+        "impressions": 0.91585651180378,
+        "position": 0.6,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0.5,
+        "freshness": 0,
+        "ctrOpportunity": 0
+      },
+      "tier": 2,
+      "flags": {
+        "orphan": false,
+        "weakLinks": false,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": true,
+        "ctrProblem": false,
+        "strikingDistance": false,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": false
+      },
+      "reasons": [
+        "142 impressions at position 25.3"
+      ],
+      "linkSuggestions": [],
+      "nextAction": "close AI-readiness gaps: Schema, Tables, Definitions, Internal links, Original insights"
     },
     {
       "url": "/medicare-savings-programs-utah.html",
@@ -3964,7 +3959,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 28,
+      "inboundCount": 33,
       "outboundCount": 4,
       "linksOut": [
         "/medicare-extra-help-utah.html",
@@ -3975,7 +3970,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T21:47:00-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-savings-programs-utah.astro"
       ],
@@ -4023,7 +4018,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -4050,141 +4045,6 @@
       ],
       "linkSuggestions": [],
       "nextAction": "rewrite `<title>` + meta description — it ranks at 8.4 but earns 0.0% vs ~2.7% expected"
-    },
-    {
-      "url": "/does-medicare-cover-repatha.html",
-      "title": "Does Medicare Cover Repatha? — Coverage & Costs | Vernal Medicare",
-      "locale": "en",
-      "silo": "part-d",
-      "tags": [
-        "drug-coverage",
-        "heart",
-        "part-d",
-        "coverage"
-      ],
-      "pillar": false,
-      "registered": true,
-      "clicks": 0,
-      "impressions": 31,
-      "ctr": 0,
-      "position": 9.19,
-      "expectedCtr": 0.024,
-      "ctrGap": 1,
-      "words": 552,
-      "tables": 1,
-      "definitions": 0,
-      "h2": 12,
-      "schemaTypes": [
-        "Article",
-        "CreativeWork",
-        "Organization",
-        "BreadcrumbList",
-        "ListItem",
-        "FAQPage",
-        "Question",
-        "Answer",
-        "Person",
-        "ImageObject"
-      ],
-      "hasSummary": true,
-      "hasFaq": true,
-      "hasByline": true,
-      "hasSources": true,
-      "inboundCount": 4,
-      "outboundCount": 12,
-      "linksOut": [
-        "/medicare-drug-coverage.html",
-        "/repatha-assistance-program.html",
-        "/part-d-plans-vernal.html",
-        "/tier-3-vs-tier-4-medicare-part-d.html",
-        "/medicare-extra-help-utah.html",
-        "/does-medicare-cover-entresto.html",
-        "/medicare-costs.html",
-        "/medicare-glossary.html",
-        "/medicare-help-center.html",
-        "/does-medicare-cover-eliquis.html",
-        "/does-medicare-cover-xarelto.html",
-        "/does-medicare-cover-ozempic-wegovy.html"
-      ],
-      "navLinked": false,
-      "depth": 3,
-      "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
-      "sourceFiles": [
-        "src/pages/does-medicare-cover-[drug].astro",
-        "src/data/drugCoverage.ts",
-        "src/data/business.ts"
-      ],
-      "priority": 60,
-      "opportunity": 75,
-      "aiReadiness": 79,
-      "completeness": 91,
-      "missingElements": [
-        "definitions"
-      ],
-      "aiFeatures": {
-        "summary": {
-          "got": true,
-          "score": 1
-        },
-        "faq": {
-          "got": true,
-          "score": 1
-        },
-        "schema": {
-          "got": true,
-          "score": 0.8
-        },
-        "tables": {
-          "got": true,
-          "score": 0.5
-        },
-        "definitions": {
-          "got": false,
-          "score": 0
-        },
-        "internalLinks": {
-          "got": true,
-          "score": 1
-        },
-        "insights": {
-          "got": false,
-          "score": 0.6666666666666666
-        }
-      },
-      "factors": {
-        "impressions": 0.38128970917510935,
-        "position": 1,
-        "business": 0.8,
-        "pillar": 0,
-        "linkWeakness": 0.5,
-        "freshness": 0,
-        "ctrOpportunity": 1
-      },
-      "tier": 2,
-      "flags": {
-        "orphan": false,
-        "weakLinks": false,
-        "lowOutbound": false,
-        "needsSummary": false,
-        "needsFaq": false,
-        "thin": true,
-        "stale": false,
-        "criticallyStale": false,
-        "aiGap": false,
-        "ctrProblem": true,
-        "strikingDistance": true,
-        "unregistered": false,
-        "duplicateTitle": false,
-        "noData": false
-      },
-      "reasons": [
-        "CTR 0.0% vs ~2.4% expected at position 9.2 — title/meta rewrite",
-        "31 impressions at position 9.2",
-        "thin (552 words)"
-      ],
-      "linkSuggestions": [],
-      "nextAction": "rewrite `<title>` + meta description — it ranks at 9.2 but earns 0.0% vs ~2.4% expected"
     },
     {
       "url": "/medicare-irmaa.html",
@@ -4240,7 +4100,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T21:47:00-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-irmaa.astro"
       ],
@@ -4291,7 +4151,7 @@
         "business": 0.6,
         "pillar": 1,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -4426,7 +4286,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T21:35:26-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-help-center.astro"
       ],
@@ -4477,7 +4337,7 @@
         "business": 0.4,
         "pillar": 1,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -4507,34 +4367,30 @@
       "nextAction": "rewrite `<title>` + meta description — it ranks at 14.8 but earns 0.0% vs ~1.6% expected"
     },
     {
-      "url": "/jardiance-assistance-program.html",
-      "title": "Jardiance Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "url": "/does-medicare-cover-repatha.html",
+      "title": "Does Medicare Cover Repatha? — Coverage & Costs | Vernal Medicare",
       "locale": "en",
       "silo": "part-d",
       "tags": [
-        "drug-assistance",
-        "part-d",
-        "prescription-assistance",
-        "diabetes",
+        "drug-coverage",
         "heart",
-        "kidney",
-        "diabetes",
-        "heart"
+        "part-d",
+        "coverage"
       ],
       "pillar": false,
       "registered": true,
       "clicks": 0,
       "impressions": 31,
       "ctr": 0,
-      "position": 9.45,
+      "position": 9.19,
       "expectedCtr": 0.024,
       "ctrGap": 1,
-      "words": 5787,
+      "words": 552,
       "tables": 1,
-      "definitions": 1,
-      "h2": 16,
+      "definitions": 0,
+      "h2": 12,
       "schemaTypes": [
-        "MedicalWebPage",
+        "Article",
         "CreativeWork",
         "Organization",
         "BreadcrumbList",
@@ -4549,41 +4405,37 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 6,
-      "outboundCount": 14,
+      "inboundCount": 5,
+      "outboundCount": 12,
       "linksOut": [
-        "/medicare-formulary-lookup.html",
-        "/medicare-drug-cost-calculator.html",
+        "/medicare-drug-coverage.html",
+        "/repatha-assistance-program.html",
         "/part-d-plans-vernal.html",
+        "/tier-3-vs-tier-4-medicare-part-d.html",
         "/medicare-extra-help-utah.html",
-        "/medicare-extra-help-calculator.html",
-        "/medicare-savings-programs-utah.html",
-        "/medicare-financial-assistance.html",
-        "/farxiga-assistance-program.html",
-        "/ozempic-assistance-program.html",
-        "/mounjaro-assistance-program.html",
-        "/entresto-assistance-program.html",
-        "/prescription-drug-assistance.html",
-        "/does-medicare-cover-jardiance.html",
-        "/medicare-quote-vernal.html"
+        "/does-medicare-cover-entresto.html",
+        "/medicare-costs.html",
+        "/medicare-glossary.html",
+        "/medicare-help-center.html",
+        "/does-medicare-cover-eliquis.html",
+        "/does-medicare-cover-xarelto.html",
+        "/does-medicare-cover-ozempic-wegovy.html"
       ],
-      "navLinked": true,
+      "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
+      "lastModified": "2026-08-25T16:05:22-06:00",
+      "ageDays": 1,
       "sourceFiles": [
-        "src/pages/[drug]-assistance-program.astro",
-        "src/data/medicationAssistance/index.ts",
-        "src/data/drugs.ts",
-        "src/data/business.ts",
-        "src/data/conditions.ts"
+        "src/pages/does-medicare-cover-[drug].astro",
+        "src/data/drugCoverage.ts",
+        "src/data/business.ts"
       ],
       "priority": 59,
       "opportunity": 75,
-      "aiReadiness": 89,
+      "aiReadiness": 79,
       "completeness": 91,
       "missingElements": [
-        "schema"
+        "definitions"
       ],
       "aiFeatures": {
         "summary": {
@@ -4595,24 +4447,24 @@
           "score": 1
         },
         "schema": {
-          "got": false,
-          "score": 0.6
+          "got": true,
+          "score": 0.8
         },
         "tables": {
           "got": true,
           "score": 0.5
         },
         "definitions": {
-          "got": true,
-          "score": 1
+          "got": false,
+          "score": 0
         },
         "internalLinks": {
           "got": true,
           "score": 1
         },
         "insights": {
-          "got": true,
-          "score": 1
+          "got": false,
+          "score": 0.6666666666666666
         }
       },
       "factors": {
@@ -4620,8 +4472,8 @@
         "position": 1,
         "business": 0.8,
         "pillar": 0,
-        "linkWeakness": 0.25,
-        "freshness": 0,
+        "linkWeakness": 0.375,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -4631,7 +4483,7 @@
         "lowOutbound": false,
         "needsSummary": false,
         "needsFaq": false,
-        "thin": false,
+        "thin": true,
         "stale": false,
         "criticallyStale": false,
         "aiGap": false,
@@ -4642,11 +4494,12 @@
         "noData": false
       },
       "reasons": [
-        "CTR 0.0% vs ~2.4% expected at position 9.4 — title/meta rewrite",
-        "31 impressions at position 9.4"
+        "CTR 0.0% vs ~2.4% expected at position 9.2 — title/meta rewrite",
+        "31 impressions at position 9.2",
+        "thin (552 words)"
       ],
       "linkSuggestions": [],
-      "nextAction": "rewrite `<title>` + meta description — it ranks at 9.4 but earns 0.0% vs ~2.4% expected"
+      "nextAction": "rewrite `<title>` + meta description — it ranks at 9.2 but earns 0.0% vs ~2.4% expected"
     },
     {
       "url": "/does-medicare-cover-ozempic-wegovy.html",
@@ -4840,7 +4693,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-[drug].astro",
         "src/data/drugCoverage.ts",
@@ -4890,7 +4743,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.875,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -4980,7 +4833,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-coverage/[service].astro",
         "src/data/serviceCoverage.ts",
@@ -5029,7 +4882,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0.75,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -5062,8 +4915,8 @@
       "nextAction": "expand to depth — currently 448 words"
     },
     {
-      "url": "/farxiga-assistance-program.html",
-      "title": "Farxiga Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "url": "/jardiance-assistance-program.html",
+      "title": "Jardiance Assistance & Grants: How to Apply in Utah | Vernal Medicare",
       "locale": "en",
       "silo": "part-d",
       "tags": [
@@ -5073,18 +4926,17 @@
         "diabetes",
         "heart",
         "kidney",
-        "diabetes",
-        "heart"
+        "sglt2"
       ],
       "pillar": false,
       "registered": true,
-      "clicks": 1,
-      "impressions": 124,
-      "ctr": 0.008064516129032258,
-      "position": 27.62314516129032,
-      "expectedCtr": 0.006,
-      "ctrGap": 0,
-      "words": 5634,
+      "clicks": 0,
+      "impressions": 31,
+      "ctr": 0,
+      "position": 9.45,
+      "expectedCtr": 0.024,
+      "ctrGap": 1,
+      "words": 5788,
       "tables": 1,
       "definitions": 1,
       "h2": 16,
@@ -5104,7 +4956,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 6,
+      "inboundCount": 7,
       "outboundCount": 14,
       "linksOut": [
         "/medicare-formulary-lookup.html",
@@ -5114,17 +4966,17 @@
         "/medicare-extra-help-calculator.html",
         "/medicare-savings-programs-utah.html",
         "/medicare-financial-assistance.html",
-        "/jardiance-assistance-program.html",
+        "/farxiga-assistance-program.html",
         "/ozempic-assistance-program.html",
         "/mounjaro-assistance-program.html",
         "/entresto-assistance-program.html",
         "/prescription-drug-assistance.html",
-        "/does-medicare-cover-farxiga.html",
+        "/does-medicare-cover-jardiance.html",
         "/medicare-quote-vernal.html"
       ],
-      "navLinked": true,
+      "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-25T14:15:00-06:00",
+      "lastModified": "2026-08-26T10:18:58-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -5134,7 +4986,7 @@
         "src/data/conditions.ts"
       ],
       "priority": 58,
-      "opportunity": 59,
+      "opportunity": 75,
       "aiReadiness": 89,
       "completeness": 91,
       "missingElements": [
@@ -5171,13 +5023,13 @@
         }
       },
       "factors": {
-        "impressions": 0.8678200880063376,
-        "position": 0.6,
+        "impressions": 0.38128970917510935,
+        "position": 1,
         "business": 0.8,
         "pillar": 0,
-        "linkWeakness": 0.25,
+        "linkWeakness": 0.125,
         "freshness": 0,
-        "ctrOpportunity": 0
+        "ctrOpportunity": 1
       },
       "tier": 2,
       "flags": {
@@ -5190,17 +5042,18 @@
         "stale": false,
         "criticallyStale": false,
         "aiGap": false,
-        "ctrProblem": false,
-        "strikingDistance": false,
+        "ctrProblem": true,
+        "strikingDistance": true,
         "unregistered": false,
         "duplicateTitle": false,
         "noData": false
       },
       "reasons": [
-        "124 impressions at position 27.6"
+        "CTR 0.0% vs ~2.4% expected at position 9.4 — title/meta rewrite",
+        "31 impressions at position 9.4"
       ],
       "linkSuggestions": [],
-      "nextAction": "monitor"
+      "nextAction": "rewrite `<title>` + meta description — it ranks at 9.4 but earns 0.0% vs ~2.4% expected"
     },
     {
       "url": "/faq.html",
@@ -5389,7 +5242,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-[drug].astro",
         "src/data/drugCoverage.ts",
@@ -5438,7 +5291,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.375,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -5468,14 +5321,16 @@
     },
     {
       "url": "/xarelto-assistance-program.html",
-      "title": "Xarelto Assistance Programs — Help Paying for Xarelto on Medicare | Vernal Medicare",
+      "title": "Xarelto Assistance & Grants: How to Apply in Utah | Vernal Medicare",
       "locale": "en",
       "silo": "part-d",
       "tags": [
         "drug-assistance",
         "part-d",
+        "prescription-assistance",
         "blood-clots",
-        "heart"
+        "heart",
+        "anticoagulant"
       ],
       "pillar": false,
       "registered": true,
@@ -5485,10 +5340,10 @@
       "position": 19.221463414634147,
       "expectedCtr": 0.011,
       "ctrGap": 1,
-      "words": 1092,
-      "tables": 0,
-      "definitions": 0,
-      "h2": 8,
+      "words": 5874,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 16,
       "schemaTypes": [
         "MedicalWebPage",
         "CreativeWork",
@@ -5504,18 +5359,27 @@
       "hasSummary": true,
       "hasFaq": true,
       "hasByline": true,
-      "hasSources": false,
-      "inboundCount": 11,
-      "outboundCount": 4,
+      "hasSources": true,
+      "inboundCount": 10,
+      "outboundCount": 13,
       "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
         "/eliquis-assistance-program.html",
-        "/ozempic-assistance-program.html",
-        "/mounjaro-assistance-program.html",
-        "/trulicity-assistance-program.html"
+        "/entresto-assistance-program.html",
+        "/repatha-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/does-medicare-cover-xarelto.html",
+        "/medicare-quote-vernal.html"
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-25T14:15:00-06:00",
+      "lastModified": "2026-08-26T10:18:58-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -5526,16 +5390,10 @@
       ],
       "priority": 57,
       "opportunity": 73,
-      "aiReadiness": 63,
-      "completeness": 36,
+      "aiReadiness": 89,
+      "completeness": 91,
       "missingElements": [
-        "sources",
-        "cta",
-        "related",
-        "schema",
-        "internalLinks",
-        "comparisonTable",
-        "definitions"
+        "schema"
       ],
       "aiFeatures": {
         "summary": {
@@ -5551,20 +5409,20 @@
           "score": 0.6
         },
         "tables": {
-          "got": false,
-          "score": 0
-        },
-        "definitions": {
-          "got": false,
-          "score": 0
-        },
-        "internalLinks": {
-          "got": false,
+          "got": true,
           "score": 0.5
         },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
         "insights": {
-          "got": false,
-          "score": 0.6666666666666666
+          "got": true,
+          "score": 1
         }
       },
       "factors": {
@@ -5586,7 +5444,7 @@
         "thin": false,
         "stale": false,
         "criticallyStale": false,
-        "aiGap": true,
+        "aiGap": false,
         "ctrProblem": true,
         "strikingDistance": true,
         "unregistered": false,
@@ -5611,8 +5469,7 @@
         "prescription-assistance",
         "blood-clots",
         "heart",
-        "blood-thinners",
-        "heart"
+        "anticoagulant"
       ],
       "pillar": false,
       "registered": true,
@@ -5622,7 +5479,7 @@
       "position": 19.764328358208957,
       "expectedCtr": 0.011,
       "ctrGap": 0,
-      "words": 5184,
+      "words": 5186,
       "tables": 1,
       "definitions": 1,
       "h2": 16,
@@ -5660,9 +5517,9 @@
         "/does-medicare-cover-eliquis.html",
         "/medicare-quote-vernal.html"
       ],
-      "navLinked": true,
+      "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-25T14:15:00-06:00",
+      "lastModified": "2026-08-26T10:18:58-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -5741,6 +5598,146 @@
       "nextAction": "deepen the page and add internal links — it is one push from page 1"
     },
     {
+      "url": "/farxiga-assistance-program.html",
+      "title": "Farxiga Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "prescription-assistance",
+        "diabetes",
+        "heart",
+        "kidney",
+        "sglt2"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 1,
+      "impressions": 124,
+      "ctr": 0.008064516129032258,
+      "position": 27.62314516129032,
+      "expectedCtr": 0.006,
+      "ctrGap": 0,
+      "words": 5635,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 16,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": true,
+      "inboundCount": 8,
+      "outboundCount": 14,
+      "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/jardiance-assistance-program.html",
+        "/ozempic-assistance-program.html",
+        "/mounjaro-assistance-program.html",
+        "/entresto-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/does-medicare-cover-farxiga.html",
+        "/medicare-quote-vernal.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T10:18:58-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 57,
+      "opportunity": 59,
+      "aiReadiness": 89,
+      "completeness": 91,
+      "missingElements": [
+        "schema"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": true,
+          "score": 0.5
+        },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
+        "insights": {
+          "got": true,
+          "score": 1
+        }
+      },
+      "factors": {
+        "impressions": 0.8678200880063376,
+        "position": 0.6,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0,
+        "freshness": 0,
+        "ctrOpportunity": 0
+      },
+      "tier": 2,
+      "flags": {
+        "orphan": false,
+        "weakLinks": false,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": false,
+        "ctrProblem": false,
+        "strikingDistance": false,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": false
+      },
+      "reasons": [
+        "124 impressions at position 27.6"
+      ],
+      "linkSuggestions": [],
+      "nextAction": "monitor"
+    },
+    {
       "url": "/medicare-drug-coverage.html",
       "title": "Does Medicare Cover My Drug? — Coverage by Medication | Vernal Medicare",
       "locale": "en",
@@ -5779,7 +5776,7 @@
       "hasFaq": true,
       "hasByline": false,
       "hasSources": false,
-      "inboundCount": 36,
+      "inboundCount": 38,
       "outboundCount": 20,
       "linksOut": [
         "/does-medicare-cover-farxiga.html",
@@ -5806,7 +5803,7 @@
       "navLinked": true,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-drug-coverage.astro"
       ],
@@ -5859,7 +5856,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -5926,7 +5923,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 4,
+      "inboundCount": 5,
       "outboundCount": 12,
       "linksOut": [
         "/medicare-drug-coverage.html",
@@ -5945,7 +5942,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-[drug].astro",
         "src/data/drugCoverage.ts",
@@ -5993,8 +5990,8 @@
         "position": 0.6,
         "business": 0.8,
         "pillar": 0,
-        "linkWeakness": 0.5,
-        "freshness": 0,
+        "linkWeakness": 0.375,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -6061,7 +6058,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 9,
+      "inboundCount": 14,
       "outboundCount": 5,
       "linksOut": [
         "/part-d-plans-vernal.html",
@@ -6073,7 +6070,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-drug-cost-calculator.astro"
       ],
@@ -6123,7 +6120,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -6203,7 +6200,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-07-01T15:42:20-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-out-of-state-utah.astro"
       ],
@@ -6253,7 +6250,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -6338,7 +6335,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T21:35:26-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-enrollment-periods.astro"
       ],
@@ -6383,7 +6380,7 @@
         "business": 0.6,
         "pillar": 1,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -6468,7 +6465,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-advantage-vs-medigap-vernal.astro"
       ],
@@ -6516,7 +6513,7 @@
         "business": 1,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -6593,7 +6590,7 @@
       "navLinked": true,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-agent-vernal.astro"
       ],
@@ -6642,7 +6639,7 @@
         "business": 1,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0.13419913419913426
       },
       "tier": 2,
@@ -6725,7 +6722,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T21:20:57-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-supplement-vs-advantage.astro"
       ],
@@ -6770,7 +6767,7 @@
         "business": 1,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -6848,7 +6845,7 @@
       "navLinked": false,
       "depth": 1,
       "lastModified": "2026-07-01T15:42:20-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-open-enrollment-2026.astro"
       ],
@@ -6897,7 +6894,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -6976,7 +6973,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/tier-3-vs-tier-4-medicare-part-d.astro"
       ],
@@ -7027,7 +7024,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -7104,7 +7101,7 @@
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-25T14:15:00-06:00",
+      "lastModified": "2026-08-26T10:18:58-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -7243,7 +7240,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-out-of-pocket-maximum-2026.astro"
       ],
@@ -7294,7 +7291,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -7373,7 +7370,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/insulin-cost-medicare-vernal.astro"
       ],
@@ -7429,7 +7426,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -7521,7 +7518,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/turning-65.astro"
@@ -7573,7 +7570,7 @@
         "business": 0.6,
         "pillar": 1,
         "linkWeakness": 0.25,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -7650,7 +7647,7 @@
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-25T14:15:00-06:00",
+      "lastModified": "2026-08-26T10:18:58-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -7791,7 +7788,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-06-30T21:28:27-06:00",
-      "ageDays": 56,
+      "ageDays": 57,
       "sourceFiles": [
         "src/pages/d-snp-plans-utah.astro"
       ],
@@ -7839,7 +7836,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.15342465753424658,
+        "freshness": 0.15616438356164383,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -7917,7 +7914,7 @@
       "navLinked": false,
       "depth": 1,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-news/[slug].astro",
         "src/data/news.ts",
@@ -7967,7 +7964,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0.25,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -8053,7 +8050,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-[drug].astro",
         "src/data/drugCoverage.ts",
@@ -8061,7 +8058,7 @@
       ],
       "priority": 49,
       "opportunity": 60,
-      "aiReadiness": 82,
+      "aiReadiness": 79,
       "completeness": 91,
       "missingElements": [
         "definitions"
@@ -8092,8 +8089,8 @@
           "score": 1
         },
         "insights": {
-          "got": true,
-          "score": 1
+          "got": false,
+          "score": 0.6666666666666666
         }
       },
       "factors": {
@@ -8102,7 +8099,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.5,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -8194,7 +8191,7 @@
       "navLinked": true,
       "depth": 2,
       "lastModified": "2026-07-06T20:54:19-06:00",
-      "ageDays": 50,
+      "ageDays": 51,
       "sourceFiles": [
         "src/pages/medicare-coverage.astro"
       ],
@@ -8246,7 +8243,7 @@
         "business": 0.4,
         "pillar": 1,
         "linkWeakness": 0,
-        "freshness": 0.136986301369863,
+        "freshness": 0.13972602739726028,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -8334,7 +8331,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-[drug].astro",
         "src/data/drugCoverage.ts",
@@ -8383,7 +8380,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.5,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -8462,7 +8459,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-part-d-cost-calculator.astro"
       ],
@@ -8512,7 +8509,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 2,
@@ -8601,7 +8598,7 @@
       "navLinked": false,
       "depth": 1,
       "lastModified": "2026-07-01T20:26:09-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/turning-65.astro"
       ],
@@ -8652,7 +8649,7 @@
         "business": 0.6,
         "pillar": 1,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -8728,7 +8725,7 @@
       "navLinked": true,
       "depth": 2,
       "lastModified": "2026-07-01T15:42:20-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/part-d-help-vernal.astro"
       ],
@@ -8785,7 +8782,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.25,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 2,
@@ -8893,7 +8890,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/medicare-decision-center.astro"
@@ -8944,7 +8941,7 @@
         "business": 0.4,
         "pillar": 1,
         "linkWeakness": 0.625,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -9309,7 +9306,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T21:35:26-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-costs.astro"
       ],
@@ -9362,7 +9359,7 @@
         "business": 0.6,
         "pillar": 1,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -9439,7 +9436,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-mounjaro-utah.astro"
       ],
@@ -9495,7 +9492,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -9581,7 +9578,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-coverage/[service].astro",
         "src/data/serviceCoverage.ts",
@@ -9630,7 +9627,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0.75,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -9713,7 +9710,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/cheapest-prescription-drug-plans.astro"
       ],
@@ -9763,7 +9760,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -9870,7 +9867,7 @@
       "navLinked": false,
       "depth": 1,
       "lastModified": "2026-07-01T21:35:26-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-decision-center.astro"
       ],
@@ -9920,7 +9917,7 @@
         "business": 0.4,
         "pillar": 1,
         "linkWeakness": 0.125,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -10009,7 +10006,7 @@
       "navLinked": false,
       "depth": 1,
       "lastModified": "2026-07-01T20:29:52-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/working-past-65.astro"
       ],
@@ -10058,7 +10055,7 @@
         "business": 0.6,
         "pillar": 1,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -10141,7 +10138,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/medicare-enrollment-periods.astro"
@@ -10189,7 +10186,7 @@
         "business": 0.6,
         "pillar": 1,
         "linkWeakness": 0.625,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -10269,7 +10266,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/medicare-savings-programs-utah.astro"
@@ -10318,7 +10315,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0.5,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -10405,7 +10402,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/working-past-65.astro"
@@ -10455,7 +10452,7 @@
         "business": 0.6,
         "pillar": 1,
         "linkWeakness": 0.5,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -10683,7 +10680,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-[town]-utah.astro",
         "src/data/towns.ts",
@@ -10731,7 +10728,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.25,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -10810,7 +10807,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-09T16:12:01-06:00",
-      "ageDays": 47,
+      "ageDays": 48,
       "sourceFiles": [
         "src/pages/medicare-enrollment-timeline.astro"
       ],
@@ -10858,7 +10855,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.12876712328767123,
+        "freshness": 0.13150684931506848,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -10927,7 +10924,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 15,
+      "inboundCount": 20,
       "outboundCount": 4,
       "linksOut": [
         "/medicare-extra-help-utah.html",
@@ -10938,7 +10935,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T14:56:02-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-extra-help-calculator.astro"
       ],
@@ -10988,7 +10985,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -11067,7 +11064,7 @@
       "navLinked": false,
       "depth": 1,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-news/[slug].astro",
         "src/data/news.ts",
@@ -11117,7 +11114,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -11196,7 +11193,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-07-01T15:42:20-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-home-health-utah.astro"
       ],
@@ -11246,7 +11243,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0.625,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -11326,7 +11323,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-09T16:12:01-06:00",
-      "ageDays": 47,
+      "ageDays": 48,
       "sourceFiles": [
         "src/pages/medicare-penalty-calculator.astro"
       ],
@@ -11374,7 +11371,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0.25,
-        "freshness": 0.12876712328767123,
+        "freshness": 0.13150684931506848,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -11454,7 +11451,7 @@
       "navLinked": true,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-cost-uintah-county.astro"
       ],
@@ -11505,7 +11502,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -11835,7 +11832,6 @@
         "diabetes",
         "heart",
         "kidney",
-        "diabetes",
         "glp-1"
       ],
       "pillar": false,
@@ -11846,7 +11842,7 @@
       "position": 13.08,
       "expectedCtr": 0.016,
       "ctrGap": 0,
-      "words": 5412,
+      "words": 5417,
       "tables": 1,
       "definitions": 1,
       "h2": 17,
@@ -11866,7 +11862,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 13,
+      "inboundCount": 10,
       "outboundCount": 14,
       "linksOut": [
         "/medicare-formulary-lookup.html",
@@ -11884,9 +11880,9 @@
         "/does-medicare-cover-ozempic-wegovy.html",
         "/medicare-quote-vernal.html"
       ],
-      "navLinked": true,
+      "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-25T14:15:00-06:00",
+      "lastModified": "2026-08-26T10:18:58-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -12016,7 +12012,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-06-30T21:28:27-06:00",
-      "ageDays": 56,
+      "ageDays": 57,
       "sourceFiles": [
         "src/pages/dual-eligible.astro"
       ],
@@ -12064,7 +12060,7 @@
         "business": 0.6,
         "pillar": 1,
         "linkWeakness": 0,
-        "freshness": 0.15342465753424658,
+        "freshness": 0.15616438356164383,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -12151,7 +12147,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/medicare-advantage-plans-vernal.astro"
@@ -12197,7 +12193,7 @@
         "business": 1,
         "pillar": 1,
         "linkWeakness": 0.625,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -12283,7 +12279,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/medigap.astro"
@@ -12329,7 +12325,7 @@
         "business": 1,
         "pillar": 1,
         "linkWeakness": 0.5,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -12408,7 +12404,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-uintah-basin-medical-center.astro"
       ],
@@ -12457,7 +12453,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -12539,7 +12535,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-vernal-pharmacies.astro"
       ],
@@ -12588,7 +12584,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -12688,7 +12684,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-[town]-utah.astro",
         "src/data/towns.ts",
@@ -12736,7 +12732,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.25,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -12817,7 +12813,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/medicare-supplement-vs-advantage.astro"
@@ -12863,7 +12859,7 @@
         "business": 1,
         "pillar": 0,
         "linkWeakness": 0.125,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -12961,7 +12957,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-[town]-utah.astro",
         "src/data/towns.ts",
@@ -13009,7 +13005,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.875,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -13090,7 +13086,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-06-30T22:22:41-06:00",
-      "ageDays": 56,
+      "ageDays": 57,
       "sourceFiles": [
         "src/pages/medicare-plan-g-high-deductible.astro"
       ],
@@ -13138,7 +13134,7 @@
         "business": 1,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.15342465753424658,
+        "freshness": 0.15616438356164383,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -13352,7 +13348,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-advantage-plans-vernal.astro"
       ],
@@ -13397,7 +13393,7 @@
         "business": 1,
         "pillar": 1,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -13474,7 +13470,7 @@
       "navLinked": false,
       "depth": 1,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-news/[slug].astro",
         "src/data/news.ts",
@@ -13524,7 +13520,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0.625,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -13608,7 +13604,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-creditable-coverage.astro"
       ],
@@ -13653,7 +13649,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -13733,7 +13729,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-09T16:12:01-06:00",
-      "ageDays": 47,
+      "ageDays": 48,
       "sourceFiles": [
         "src/pages/medicare-enrollment-countdown.astro"
       ],
@@ -13781,7 +13777,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0.25,
-        "freshness": 0.12876712328767123,
+        "freshness": 0.13150684931506848,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -13858,7 +13854,7 @@
       "navLinked": true,
       "depth": 2,
       "lastModified": "2026-07-01T15:42:20-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/indemnity.astro"
       ],
@@ -13907,7 +13903,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0.75,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -13985,7 +13981,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T21:47:00-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/about.astro"
       ],
@@ -14030,7 +14026,7 @@
         "business": 0.4,
         "pillar": 1,
         "linkWeakness": 0.25,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -14126,7 +14122,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/medicare-costs.astro"
@@ -14180,7 +14176,7 @@
         "business": 0.6,
         "pillar": 1,
         "linkWeakness": 0.375,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -14279,7 +14275,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-[town]-utah.astro",
         "src/data/towns.ts",
@@ -14327,7 +14323,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.375,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -14393,7 +14389,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 41,
+      "inboundCount": 46,
       "outboundCount": 4,
       "linksOut": [
         "/medicare-savings-programs-utah.html",
@@ -14404,7 +14400,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T21:47:00-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-extra-help-utah.astro"
       ],
@@ -14452,7 +14448,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -14532,7 +14528,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-quiz.astro"
       ],
@@ -14580,7 +14576,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0.875,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -14607,151 +14603,6 @@
       ],
       "linkSuggestions": [],
       "nextAction": "expand to depth — currently 501 words"
-    },
-    {
-      "url": "/prescription-drug-assistance.html",
-      "title": "Prescription Drug Assistance on Medicare — Help Paying for Expensive Drugs | Vernal Medicare",
-      "locale": "en",
-      "silo": "part-d",
-      "tags": [
-        "drug-assistance",
-        "part-d",
-        "extra-help",
-        "costs"
-      ],
-      "pillar": true,
-      "registered": true,
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": null,
-      "expectedCtr": 0,
-      "ctrGap": 0,
-      "words": 1056,
-      "tables": 0,
-      "definitions": 0,
-      "h2": 11,
-      "schemaTypes": [
-        "Article",
-        "CreativeWork",
-        "Organization",
-        "BreadcrumbList",
-        "ListItem",
-        "FAQPage",
-        "Question",
-        "Answer",
-        "Person",
-        "ImageObject"
-      ],
-      "hasSummary": true,
-      "hasFaq": true,
-      "hasByline": true,
-      "hasSources": false,
-      "inboundCount": 30,
-      "outboundCount": 22,
-      "linksOut": [
-        "/ozempic-assistance-program.html",
-        "/mounjaro-assistance-program.html",
-        "/trulicity-assistance-program.html",
-        "/jardiance-assistance-program.html",
-        "/farxiga-assistance-program.html",
-        "/eliquis-assistance-program.html",
-        "/xarelto-assistance-program.html",
-        "/entresto-assistance-program.html",
-        "/repatha-assistance-program.html",
-        "/humira-assistance-program.html",
-        "/enbrel-assistance-program.html",
-        "/skyrizi-assistance-program.html",
-        "/rinvoq-assistance-program.html",
-        "/dupixent-assistance-program.html",
-        "/medicare-formulary-lookup.html",
-        "/medicare-drug-cost-calculator.html",
-        "/medicare-extra-help-calculator.html",
-        "/medicare-cost-estimator.html",
-        "/medicare-irmaa-calculator.html",
-        "/medicare-part-d-cost-calculator.html",
-        "/cheapest-prescription-drug-plans.html",
-        "/tier-3-vs-tier-4-medicare-part-d.html"
-      ],
-      "navLinked": true,
-      "depth": 2,
-      "lastModified": "2026-07-09T16:12:01-06:00",
-      "ageDays": 47,
-      "sourceFiles": [
-        "src/pages/prescription-drug-assistance.astro"
-      ],
-      "priority": 33,
-      "opportunity": 20,
-      "aiReadiness": 74,
-      "completeness": 64,
-      "missingElements": [
-        "sources",
-        "cta",
-        "comparisonTable",
-        "definitions"
-      ],
-      "aiFeatures": {
-        "summary": {
-          "got": true,
-          "score": 1
-        },
-        "faq": {
-          "got": true,
-          "score": 1
-        },
-        "schema": {
-          "got": true,
-          "score": 0.8
-        },
-        "tables": {
-          "got": false,
-          "score": 0
-        },
-        "definitions": {
-          "got": false,
-          "score": 0
-        },
-        "internalLinks": {
-          "got": true,
-          "score": 1
-        },
-        "insights": {
-          "got": false,
-          "score": 0.6666666666666666
-        }
-      },
-      "factors": {
-        "impressions": 0,
-        "position": 0.25,
-        "business": 0.8,
-        "pillar": 1,
-        "linkWeakness": 0,
-        "freshness": 0.12876712328767123,
-        "ctrOpportunity": 0
-      },
-      "tier": 3,
-      "flags": {
-        "orphan": false,
-        "weakLinks": false,
-        "lowOutbound": false,
-        "needsSummary": false,
-        "needsFaq": false,
-        "thin": false,
-        "stale": false,
-        "criticallyStale": false,
-        "aiGap": false,
-        "ctrProblem": false,
-        "strikingDistance": false,
-        "unregistered": false,
-        "duplicateTitle": false,
-        "noData": true
-      },
-      "reasons": [
-        "pillar page",
-        "no Search Console data yet"
-      ],
-      "linkSuggestions": [],
-      "nextAction": "no impressions yet — confirm it is indexed, then build internal links to it"
     },
     {
       "url": "/medicare-news/part-d-2000-cap.html",
@@ -14803,7 +14654,7 @@
       "navLinked": false,
       "depth": 1,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-news/[slug].astro",
         "src/data/news.ts",
@@ -14853,7 +14704,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -14939,7 +14790,7 @@
       "navLinked": true,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-duchesne-utah.astro"
       ],
@@ -14991,7 +14842,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -15019,6 +14870,153 @@
       ],
       "linkSuggestions": [],
       "nextAction": "add a `<SummaryBlock>` TL;DR under the H1"
+    },
+    {
+      "url": "/prescription-drug-assistance.html",
+      "title": "Prescription Drug Assistance on Medicare — Help Paying for Expensive Drugs | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "extra-help",
+        "costs"
+      ],
+      "pillar": true,
+      "registered": true,
+      "clicks": 0,
+      "impressions": 0,
+      "ctr": 0,
+      "position": null,
+      "expectedCtr": 0,
+      "ctrGap": 0,
+      "words": 1078,
+      "tables": 0,
+      "definitions": 0,
+      "h2": 11,
+      "schemaTypes": [
+        "Article",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": false,
+      "inboundCount": 35,
+      "outboundCount": 24,
+      "linksOut": [
+        "/ozempic-assistance-program.html",
+        "/mounjaro-assistance-program.html",
+        "/trulicity-assistance-program.html",
+        "/jardiance-assistance-program.html",
+        "/farxiga-assistance-program.html",
+        "/eliquis-assistance-program.html",
+        "/xarelto-assistance-program.html",
+        "/entresto-assistance-program.html",
+        "/repatha-assistance-program.html",
+        "/humira-assistance-program.html",
+        "/enbrel-assistance-program.html",
+        "/skyrizi-assistance-program.html",
+        "/rinvoq-assistance-program.html",
+        "/dupixent-assistance-program.html",
+        "/trelegy-assistance-program.html",
+        "/breztri-assistance-program.html",
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-cost-estimator.html",
+        "/medicare-irmaa-calculator.html",
+        "/medicare-part-d-cost-calculator.html",
+        "/cheapest-prescription-drug-plans.html",
+        "/tier-3-vs-tier-4-medicare-part-d.html"
+      ],
+      "navLinked": true,
+      "depth": 2,
+      "lastModified": "2026-08-26T10:18:58-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/prescription-drug-assistance.astro"
+      ],
+      "priority": 32,
+      "opportunity": 20,
+      "aiReadiness": 74,
+      "completeness": 64,
+      "missingElements": [
+        "sources",
+        "cta",
+        "comparisonTable",
+        "definitions"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": true,
+          "score": 0.8
+        },
+        "tables": {
+          "got": false,
+          "score": 0
+        },
+        "definitions": {
+          "got": false,
+          "score": 0
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
+        "insights": {
+          "got": false,
+          "score": 0.6666666666666666
+        }
+      },
+      "factors": {
+        "impressions": 0,
+        "position": 0.25,
+        "business": 0.8,
+        "pillar": 1,
+        "linkWeakness": 0,
+        "freshness": 0,
+        "ctrOpportunity": 0
+      },
+      "tier": 3,
+      "flags": {
+        "orphan": false,
+        "weakLinks": false,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": false,
+        "ctrProblem": false,
+        "strikingDistance": false,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": true
+      },
+      "reasons": [
+        "pillar page",
+        "no Search Console data yet"
+      ],
+      "linkSuggestions": [],
+      "nextAction": "no impressions yet — confirm it is indexed, then build internal links to it"
     },
     {
       "url": "/medicare-calculators.html",
@@ -15085,7 +15083,7 @@
       "navLinked": true,
       "depth": 1,
       "lastModified": "2026-07-09T16:12:01-06:00",
-      "ageDays": 47,
+      "ageDays": 48,
       "sourceFiles": [
         "src/pages/medicare-calculators.astro"
       ],
@@ -15135,7 +15133,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.12876712328767123,
+        "freshness": 0.13150684931506848,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -15212,7 +15210,7 @@
       "navLinked": false,
       "depth": 1,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-news/[slug].astro",
         "src/data/news.ts",
@@ -15263,7 +15261,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0.625,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -15344,7 +15342,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-07-01T15:42:20-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/missed-medicare-enrollment.astro"
       ],
@@ -15393,7 +15391,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -15474,7 +15472,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T16:12:13-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/delaying-medicare-part-b.astro"
       ],
@@ -15521,7 +15519,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -15600,7 +15598,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-06-30T22:34:53-06:00",
-      "ageDays": 56,
+      "ageDays": 57,
       "sourceFiles": [
         "src/pages/medicare-irmaa-appeal-ssa-44.astro"
       ],
@@ -15649,7 +15647,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.15342465753424658,
+        "freshness": 0.15616438356164383,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -15729,7 +15727,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-06-30T22:34:53-06:00",
-      "ageDays": 56,
+      "ageDays": 57,
       "sourceFiles": [
         "src/pages/medicare-irmaa-brackets-2026.astro"
       ],
@@ -15777,7 +15775,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.15342465753424658,
+        "freshness": 0.15616438356164383,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -15853,7 +15851,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/about.astro"
@@ -15899,7 +15897,7 @@
         "business": 0.4,
         "pillar": 1,
         "linkWeakness": 1,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -16036,7 +16034,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/medicare-help-center.astro"
@@ -16088,7 +16086,7 @@
         "business": 0.4,
         "pillar": 1,
         "linkWeakness": 0.875,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -16158,7 +16156,7 @@
       "hasFaq": true,
       "hasByline": false,
       "hasSources": false,
-      "inboundCount": 24,
+      "inboundCount": 29,
       "outboundCount": 19,
       "linksOut": [
         "/medicare-income-limits-2026.html",
@@ -16184,7 +16182,7 @@
       "navLinked": true,
       "depth": 1,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-financial-assistance.astro"
       ],
@@ -16237,7 +16235,7 @@
         "business": 0.6,
         "pillar": 1,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -16446,7 +16444,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T15:42:20-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/plan-g-vs-plan-n-vernal.astro"
       ],
@@ -16495,7 +16493,7 @@
         "business": 1,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -16602,7 +16600,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-07-01T21:59:35-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/index.astro"
       ],
@@ -16654,7 +16652,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.75,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -16753,7 +16751,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-[town]-utah.astro",
         "src/data/towns.ts",
@@ -16801,7 +16799,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.875,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -16903,7 +16901,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-[town]-utah.astro",
         "src/data/towns.ts",
@@ -16951,7 +16949,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.875,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -17038,7 +17036,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-coverage/[service].astro",
         "src/data/serviceCoverage.ts",
@@ -17087,7 +17085,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -17163,7 +17161,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/medicare-quote-vernal.astro"
@@ -17215,7 +17213,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -17297,7 +17295,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/hmo-vs-ppo-medicare-advantage.astro"
       ],
@@ -17346,7 +17344,7 @@
         "business": 1,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -17423,7 +17421,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/zero-premium-medicare-advantage.astro"
       ],
@@ -17472,7 +17470,7 @@
         "business": 1,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -17498,6 +17496,289 @@
       ],
       "linkSuggestions": [],
       "nextAction": "expand to depth — currently 522 words"
+    },
+    {
+      "url": "/breztri-assistance-program.html",
+      "title": "Breztri Aerosphere Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "prescription-assistance",
+        "respiratory",
+        "triple-inhaler"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 0,
+      "impressions": 0,
+      "ctr": 0,
+      "position": null,
+      "expectedCtr": 0,
+      "ctrGap": 0,
+      "words": 5264,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 16,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": true,
+      "inboundCount": 2,
+      "outboundCount": 13,
+      "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/trelegy-assistance-program.html",
+        "/dupixent-assistance-program.html",
+        "/farxiga-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/medicare-drug-coverage.html",
+        "/medicare-quote-vernal.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T10:18:58-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 26,
+      "opportunity": 20,
+      "aiReadiness": 89,
+      "completeness": 91,
+      "missingElements": [
+        "schema"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": true,
+          "score": 0.5
+        },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
+        "insights": {
+          "got": true,
+          "score": 1
+        }
+      },
+      "factors": {
+        "impressions": 0,
+        "position": 0.25,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0.75,
+        "freshness": 0,
+        "ctrOpportunity": 0
+      },
+      "tier": 3,
+      "flags": {
+        "orphan": false,
+        "weakLinks": true,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": false,
+        "ctrProblem": false,
+        "strikingDistance": false,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": true
+      },
+      "reasons": [
+        "only 2 in-content inbound link(s)",
+        "no Search Console data yet"
+      ],
+      "linkSuggestions": [
+        "/part-d-plans-vernal.html",
+        "/medicare-drug-coverage.html",
+        "/tier-3-vs-tier-4-medicare-part-d.html"
+      ],
+      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
+    },
+    {
+      "url": "/trelegy-assistance-program.html",
+      "title": "Trelegy Ellipta Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "prescription-assistance",
+        "respiratory",
+        "triple-inhaler"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 0,
+      "impressions": 0,
+      "ctr": 0,
+      "position": null,
+      "expectedCtr": 0,
+      "ctrGap": 0,
+      "words": 5626,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 16,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": true,
+      "inboundCount": 2,
+      "outboundCount": 12,
+      "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/breztri-assistance-program.html",
+        "/dupixent-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/medicare-drug-coverage.html",
+        "/medicare-quote-vernal.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T10:18:58-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 26,
+      "opportunity": 20,
+      "aiReadiness": 89,
+      "completeness": 91,
+      "missingElements": [
+        "schema"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": true,
+          "score": 0.5
+        },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
+        "insights": {
+          "got": true,
+          "score": 1
+        }
+      },
+      "factors": {
+        "impressions": 0,
+        "position": 0.25,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0.75,
+        "freshness": 0,
+        "ctrOpportunity": 0
+      },
+      "tier": 3,
+      "flags": {
+        "orphan": false,
+        "weakLinks": true,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": false,
+        "ctrProblem": false,
+        "strikingDistance": false,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": true
+      },
+      "reasons": [
+        "only 2 in-content inbound link(s)",
+        "no Search Console data yet"
+      ],
+      "linkSuggestions": [
+        "/part-d-plans-vernal.html",
+        "/medicare-drug-coverage.html",
+        "/tier-3-vs-tier-4-medicare-part-d.html"
+      ],
+      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
     },
     {
       "url": "/reviews.html",
@@ -17537,7 +17818,7 @@
       "navLinked": true,
       "depth": 2,
       "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/reviews.astro"
       ],
@@ -17588,7 +17869,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -17668,7 +17949,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-dental-vernal.astro"
       ],
@@ -17723,7 +18004,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0.5,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -17811,7 +18092,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/does-medicare-cover-[drug].astro",
         "src/data/drugCoverage.ts",
@@ -17860,7 +18141,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.25,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -17945,7 +18226,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/part-d-plans-vernal.astro"
@@ -17991,7 +18272,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.25,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -18089,7 +18370,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-[town]-utah.astro",
         "src/data/towns.ts",
@@ -18137,7 +18418,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0.25,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -18216,7 +18497,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-hospitals-uintah-county.astro"
       ],
@@ -18265,7 +18546,7 @@
         "business": 0.4,
         "pillar": 1,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -18345,7 +18626,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-09T16:12:01-06:00",
-      "ageDays": 47,
+      "ageDays": 48,
       "sourceFiles": [
         "src/pages/medicare-irmaa-calculator.astro"
       ],
@@ -18394,7 +18675,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.12876712328767123,
+        "freshness": 0.13150684931506848,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -18472,7 +18753,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-09T16:12:01-06:00",
-      "ageDays": 47,
+      "ageDays": 48,
       "sourceFiles": [
         "src/pages/medicare-part-b-penalty-calculator.astro"
       ],
@@ -18520,7 +18801,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.12876712328767123,
+        "freshness": 0.13150684931506848,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -18605,7 +18886,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-coverage/[service].astro",
         "src/data/serviceCoverage.ts",
@@ -18654,7 +18935,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -18752,7 +19033,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-[town]-utah.astro",
         "src/data/towns.ts",
@@ -18800,7 +19081,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -18897,7 +19178,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-[town]-utah.astro",
         "src/data/towns.ts",
@@ -18945,7 +19226,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -19042,7 +19323,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-[town]-utah.astro",
         "src/data/towns.ts",
@@ -19090,7 +19371,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -19156,7 +19437,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 55,
+      "inboundCount": 60,
       "outboundCount": 12,
       "linksOut": [
         "/medicare-plans-vernal-utah.html",
@@ -19175,7 +19456,7 @@
       "navLinked": false,
       "depth": 1,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/part-d-plans-vernal.astro"
       ],
@@ -19220,7 +19501,7 @@
         "business": 0.8,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -19303,7 +19584,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-coverage/[service].astro",
         "src/data/serviceCoverage.ts",
@@ -19352,7 +19633,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0.5,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -19436,7 +19717,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-coverage/[service].astro",
         "src/data/serviceCoverage.ts",
@@ -19485,7 +19766,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0.5,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -19569,7 +19850,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-coverage/[service].astro",
         "src/data/serviceCoverage.ts",
@@ -19618,7 +19899,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0.625,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -19701,7 +19982,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-coverage/[service].astro",
         "src/data/serviceCoverage.ts",
@@ -19750,7 +20031,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0.625,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -19830,7 +20111,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T16:12:13-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/cobra-and-medicare.astro"
       ],
@@ -19877,7 +20158,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0.375,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -19953,7 +20234,7 @@
       "navLinked": false,
       "depth": null,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/[locale]/[...path].astro",
         "src/pages/medicare-extra-help-utah.astro"
@@ -20002,7 +20283,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0.5,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -20080,7 +20361,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T15:42:20-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-checklist-2026.astro"
       ],
@@ -20130,7 +20411,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0.375,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -20211,7 +20492,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-06-30T21:47:03-06:00",
-      "ageDays": 56,
+      "ageDays": 57,
       "sourceFiles": [
         "src/pages/medicare-general-enrollment-period.astro"
       ],
@@ -20258,7 +20539,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0.125,
-        "freshness": 0.15342465753424658,
+        "freshness": 0.15616438356164383,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -20342,7 +20623,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T16:57:25-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-income-limits-2026.astro"
       ],
@@ -20389,7 +20670,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0.125,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -20471,7 +20752,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-coverage/[service].astro",
         "src/data/serviceCoverage.ts",
@@ -20520,7 +20801,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0.125,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -20601,7 +20882,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-06-30T22:46:14-06:00",
-      "ageDays": 56,
+      "ageDays": 57,
       "sourceFiles": [
         "src/pages/how-to-reduce-medicare-irmaa.astro"
       ],
@@ -20650,7 +20931,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.15342465753424658,
+        "freshness": 0.15616438356164383,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -20731,7 +21012,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T16:12:13-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/medicare-and-employer-coverage.astro"
       ],
@@ -20776,7 +21057,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -20855,7 +21136,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-06-30T21:47:03-06:00",
-      "ageDays": 56,
+      "ageDays": 57,
       "sourceFiles": [
         "src/pages/medicare-special-enrollment-period.astro"
       ],
@@ -20902,7 +21183,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.15342465753424658,
+        "freshness": 0.15616438356164383,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -20983,7 +21264,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-07-01T15:42:20-06:00",
-      "ageDays": 55,
+      "ageDays": 56,
       "sourceFiles": [
         "src/pages/when-to-enroll-medicare-utah.astro"
       ],
@@ -21031,7 +21312,7 @@
         "business": 0.6,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0.1506849315068493,
+        "freshness": 0.15342465753424658,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -21106,7 +21387,7 @@
       "navLinked": false,
       "depth": 1,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-news/[slug].astro",
         "src/data/news.ts",
@@ -21157,7 +21438,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 1
       },
       "tier": 3,
@@ -21241,7 +21522,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-coverage/[service].astro",
         "src/data/serviceCoverage.ts",
@@ -21290,7 +21571,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0.5,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -21373,7 +21654,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T14:15:00-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-coverage/[service].astro",
         "src/data/serviceCoverage.ts",
@@ -21422,7 +21703,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0.5,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -21752,7 +22033,7 @@
       "navLinked": false,
       "depth": 3,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-ashley-regional-vernal.astro"
       ],
@@ -21801,7 +22082,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,
@@ -21886,7 +22167,7 @@
       "navLinked": false,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
-      "ageDays": 0,
+      "ageDays": 1,
       "sourceFiles": [
         "src/pages/medicare-dental-vision-hearing.astro"
       ],
@@ -21933,7 +22214,7 @@
         "business": 0.4,
         "pillar": 0,
         "linkWeakness": 0,
-        "freshness": 0,
+        "freshness": 0.0027397260273972603,
         "ctrOpportunity": 0
       },
       "tier": 3,

@@ -56,6 +56,21 @@ export const DRUG_CLASSES: DrugClass[] = [
     label: 'PCSK9 inhibitor',
     blurb: 'Injected medicines that lower LDL cholesterol when statins are not enough.',
   },
+  {
+    // Added 2026-08-26 for Batch 2 (Entresto); confirmed against the label —
+    // sacubitril (neprilysin inhibitor) + valsartan (angiotensin II receptor blocker).
+    key: 'arni',
+    label: 'ARNI (angiotensin receptor–neprilysin inhibitor)',
+    blurb: 'A heart-failure tablet that combines a neprilysin inhibitor with an angiotensin receptor blocker.',
+  },
+  {
+    // Added 2026-08-26 for Batch 2 (Trelegy Ellipta, Breztri Aerosphere);
+    // confirmed against each label (ICS + LAMA + LABA in one inhaler).
+    key: 'triple-inhaler',
+    label: 'Triple-therapy inhaler (ICS/LAMA/LABA)',
+    blurb:
+      'Maintenance inhalers that combine an inhaled steroid with two long-acting bronchodilators for COPD, and in some cases asthma.',
+  },
 ];
 
 const BY_KEY = new Map(DRUG_CLASSES.map((c) => [c.key, c]));

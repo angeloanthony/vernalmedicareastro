@@ -52,6 +52,22 @@ describe('medication assistance registry', () => {
     }
   });
 
+  it('derives a real browse view for every legacy drug — none falls to the fallback', () => {
+    // The autoimmune view (2026-08-26) exists so that Humira, Enbrel, Skyrizi,
+    // Rinvoq and Dupixent stop reading as "Specialty & Other". A legacy Drug has
+    // `conditions` only, so this also proves categoriesFor() works on one axis.
+    const fallback = ASSISTANCE_CATEGORIES.find((c) => c.fallback)?.key;
+    for (const d of FEATURED_DRUGS) {
+      const derived = categoriesFor(d);
+      expect(derived, `${d.slug} derives no view`).not.toEqual([]);
+      expect(derived, `${d.slug} fell to the fallback view`).not.toContain(fallback);
+    }
+    for (const slug of ['humira', 'enbrel', 'skyrizi', 'rinvoq', 'dupixent']) {
+      const d = FEATURED_DRUGS.find((x) => x.slug === slug)!;
+      expect(categoriesFor(d)[0], `${slug} primary view`).toBe('autoimmune');
+    }
+  });
+
   it('builds the Extra Help program from the data layer with dated sources', () => {
     const eh = extraHelpProgram();
     expect(eh.kind).toBe('government');

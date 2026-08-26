@@ -6,7 +6,7 @@
 
 10 concrete tasks, one per page, chosen so the week covers fast wins, deep work, structure, AI readiness and maintenance rather than fifteen variations of the same edit.
 
-> Generated **2026-08-26 07:27 UTC** · 162 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
+> Generated **2026-08-26 16:55 UTC** · 164 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
 > Derived from `src/data/pageIndex.ts` · `data/search-console/*.csv` · `dist/` · `git log`. Never edited by hand.
 
 ## Fastest wins — title/meta only

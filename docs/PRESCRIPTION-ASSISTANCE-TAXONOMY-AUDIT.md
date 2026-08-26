@@ -267,8 +267,8 @@ They carry `conditions` only, so `categoriesFor()` classifies them on one axis:
 | Trulicity | diabetes | diabetes | `glp-1` → misses the GLP-1 view |
 | Repatha | cholesterol, heart | cholesterol, heart | `pcsk9` (view already correct) |
 | Entresto | heart | heart | — correct as-is |
-| Humira, Enbrel, Skyrizi, Rinvoq | autoimmune | **specialty** (fallback) | an `autoimmune` view, and `biologic`/JAK classes |
-| Dupixent | autoimmune, respiratory | copd-asthma | `biologic`; reads as an inhaler category today |
+| Humira, Enbrel, Skyrizi, Rinvoq | autoimmune | ~~**specialty** (fallback)~~ → **autoimmune** since §5 | `biologic`/JAK classes (assigned at research time) |
+| Dupixent | autoimmune, respiratory | ~~copd-asthma~~ → **autoimmune, copd-asthma** since §5 | `biologic` |
 
 Two things follow, both decisions rather than migration steps:
 
@@ -281,3 +281,17 @@ Two things follow, both decisions rather than migration steps:
    Recommendation: the former — a class assigned outside a research pass is a
    fact stated from memory, which spec §16 Rule 1 forbids.
 
+
+---
+
+## 5. Autoimmune browse view — approved and built (2026-08-26)
+
+Decision 1 from §4 was taken before Batch 2 (project §31 D7). What changed:
+
+- `ASSISTANCE_CATEGORIES` gained `{ key: 'autoimmune', label: 'Autoimmune & Immune Conditions', conditions: ['autoimmune'] }`, placed **before** `copd-asthma` in the canonical order so Dupixent (autoimmune + respiratory) leads with the immune view instead of reading as an inhaler.
+- `AssistanceCategoryKey` gained `'autoimmune'`. The entry was removed from `PENDING_CATEGORY_VIEWS` (only `lung-disease` remains pending).
+- A test now asserts that **no** `FEATURED_DRUGS` entry derives the fallback view and that the five legacy autoimmune pages derive `autoimmune` as their primary view.
+
+What deliberately did **not** change: the two axes. `CONDITIONS` is untouched; the legacy `Drug` type still has no `drugClass` (decision 2 in §4 stands — a class is assigned only in a research pass, when the drug becomes a `MedicationAssistanceRecord`). Browse categories remain derived views, never stored on a record. Mounjaro stays `glp-1`; a `gip-glp-1` class is revisited only if several dual agonists are researched.
+
+The live view set is now: Diabetes & Blood Sugar · Blood Thinners · Cholesterol · Weight Management / GLP-1 · Biologics (Respiratory / Immune) · Autoimmune & Immune Conditions · COPD & Asthma · Heart & Blood Pressure · Specialty & Other (fallback).

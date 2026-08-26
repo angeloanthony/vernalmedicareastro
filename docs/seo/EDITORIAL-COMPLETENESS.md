@@ -6,10 +6,10 @@
 
 Does each page contain what a page of its kind owes a reader? Measured against the editorial standard in `scripts/seo/standards.mjs` — a per-cluster spec, not a universal feature score. A page can be highly AI-readable and still incomplete.
 
-> Generated **2026-08-26 07:27 UTC** · 162 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
+> Generated **2026-08-26 16:55 UTC** · 164 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
 > Derived from `src/data/pageIndex.ts` · `data/search-console/*.csv` · `dist/` · `git log`. Never edited by hand.
 
-**Site completeness: 71%**
+**Site completeness: 73%**
 
 ## Build these components first
 
@@ -17,18 +17,18 @@ Across the top 20 pages by opportunity, this is how often each required element 
 
 | Missing element | Pages | of top 20 | Component to build |
 | --- | ---: | ---: | --- |
-| **Definitions** | 13 | 65% | `<dl> / <dfn> / glossary term` |
-| **Internal links** | 8 | 40% | `8+ in-content links out` |
-| **Sources** | 7 | 35% | `<SourcesList>` |
-| **Comparison table** | 6 | 30% | `<table> — 2+ columns, 3+ rows` |
+| **Definitions** | 12 | 60% | `<dl> / <dfn> / glossary term` |
+| **Internal links** | 7 | 35% | `8+ in-content links out` |
+| **Sources** | 6 | 30% | `<SourcesList>` |
+| **Comparison table** | 5 | 25% | `<table> — 2+ columns, 3+ rows` |
 | **Schema** | 4 | 20% | `Article + BreadcrumbList + Organization + Person` |
-| **CTA** | 3 | 15% | `<PageCTA>` |
 | **FAQ** | 3 | 15% | `<FAQ> (markup + FAQPage schema)` |
-| **Related articles** | 2 | 10% | `<RelatedPages>` |
+| **CTA** | 2 | 10% | `<PageCTA>` |
 | **AI Summary** | 2 | 10% | `<SummaryBlock>` |
 | **Author byline** | 2 | 10% | `<AuthorByline>` |
+| **Related articles** | 1 | 5% | `<RelatedPages>` |
 
-Worked example — adding **Definitions** to 13 of the top 20 pages:
+Worked example — adding **Definitions** to 12 of the top 20 pages:
 
 - /does-medicare-cover-dupixent
 - /does-medicare-cover-rinvoq
@@ -37,10 +37,10 @@ Worked example — adding **Definitions** to 13 of the top 20 pages:
 - /does-medicare-cover-enbrel
 - /does-medicare-cover-trelegy
 - /medicare-irmaa-life-changing-events
-- /entresto-assistance-program
 - /medicare-cost-estimator
 - /medicare-out-of-state-utah
-- _… and 3 more_
+- /does-medicare-cover-eliquis
+- _… and 2 more_
 
 ## Systemic gaps — whole clusters missing an element
 
@@ -48,7 +48,6 @@ An element missing from ≥75% of a cluster is not a content problem, it is a te
 
 | Cluster | Missing element | Have | Coverage | Pages to fix | Cluster impressions |
 | --- | --- | ---: | ---: | ---: | ---: |
-| part-d | Definitions | 6/40 | 15% | 34 | 2,994 |
 | medicare-101 | Definitions | 1/27 | 4% | 26 | 940 |
 | costs-irmaa | Definitions | 0/11 | 0% | 11 | 492 |
 | dual-eligible | Definitions | 0/7 | 0% | 7 | 217 |
@@ -66,10 +65,10 @@ An element missing from ≥75% of a cluster is not a content problem, it is a te
 | Cluster | Pages | Completeness | Required elements | Weakest |
 | --- | ---: | ---: | ---: | --- |
 | trust | 5 | **56%** | 5 | AI Summary 40% · Author byline 40% · CTA 40% |
-| part-d | 40 | **64%** | 11 | Definitions 15% · Comparison table 45% · Schema 55% |
 | costs-irmaa | 11 | **66%** | 11 | Definitions 0% · Internal links 27% · Comparison table 27% |
 | providers | 4 | **67%** | 9 | FAQ 0% · Sources 0% · Internal links 0% |
 | tools | 2 | **67%** | 9 | AI Summary 50% · Author byline 50% · Sources 50% |
+| part-d | 42 | **70%** | 11 | Definitions 26% · Schema 52% · Comparison table 55% |
 | other-insurance | 3 | **70%** | 10 | Sources 0% · Internal links 0% · Comparison table 0% |
 | dual-eligible | 7 | **73%** | 11 | Definitions 0% · Internal links 14% · Next steps 71% |
 | medicare-101 | 27 | **74%** | 10 | Definitions 4% · FAQ 67% · Sources 70% |
@@ -85,10 +84,10 @@ A dash means the element is **not required** for that cluster.
 | Cluster | AI Summary | Definitions | Comparison table | FAQ | Related articles | CTA | Sources | Author byline | Next steps | Breadcrumbs | Schema | Internal links |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | trust | 40% | — | — | — | — | 40% | — | 40% | — | 80% | 80% | — |
-| part-d | 88% | 15% | 45% | 88% | 65% | 63% | 57% | 88% | — | 90% | 55% | 55% |
 | costs-irmaa | 82% | 0% | 27% | 82% | 82% | 82% | 73% | 91% | — | 100% | 82% | 27% |
 | providers | 100% | — | — | 0% | 100% | 100% | 0% | 100% | — | 100% | 100% | 0% |
 | tools | 50% | — | — | 100% | 100% | 50% | 50% | 50% | — | 100% | 50% | 50% |
+| part-d | 88% | 26% | 55% | 88% | 74% | 71% | 67% | 88% | — | 90% | 52% | 64% |
 | other-insurance | 100% | — | 0% | 100% | 100% | 100% | 0% | 100% | — | 100% | 100% | 0% |
 | dual-eligible | 86% | 0% | — | 100% | 86% | 86% | 86% | 86% | 71% | 100% | 86% | 14% |
 | medicare-101 | 78% | 4% | — | 67% | 89% | 78% | 70% | 78% | — | 96% | 100% | 78% |
@@ -113,11 +112,8 @@ A dash means the element is **not required** for that cluster.
 | [/medicare-duchesne-utah](https://vernalmedicare.com/medicare-duchesne-utah.html) | local | 33% | AI Summary, FAQ, Author byline, Sources, CTA, Related articles | 32 |
 | [/skyrizi-assistance-program](https://vernalmedicare.com/skyrizi-assistance-program.html) | part-d | 36% | Sources, CTA, Related articles, Schema, Internal links, Comparison table, Definitions | 71 |
 | [/enbrel-assistance-program](https://vernalmedicare.com/enbrel-assistance-program.html) | part-d | 36% | Sources, CTA, Related articles, Schema, Internal links, Comparison table, Definitions | 70 |
-| [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) | part-d | 36% | Sources, CTA, Related articles, Schema, Internal links, Comparison table, Definitions | 63 |
-| [/repatha-assistance-program](https://vernalmedicare.com/repatha-assistance-program.html) | part-d | 36% | Sources, CTA, Related articles, Schema, Internal links, Comparison table, Definitions | 63 |
-| [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) | part-d | 36% | Sources, CTA, Related articles, Schema, Internal links, Comparison table, Definitions | 62 |
-| [/dupixent-assistance-program](https://vernalmedicare.com/dupixent-assistance-program.html) | part-d | 36% | Sources, CTA, Related articles, Schema, Internal links, Comparison table, Definitions | 62 |
-| [/xarelto-assistance-program](https://vernalmedicare.com/xarelto-assistance-program.html) | part-d | 36% | Sources, CTA, Related articles, Schema, Internal links, Comparison table, Definitions | 57 |
+| [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) | part-d | 36% | Sources, CTA, Related articles, Schema, Internal links, Comparison table, Definitions | 63 |
+| [/dupixent-assistance-program](https://vernalmedicare.com/dupixent-assistance-program.html) | part-d | 36% | Sources, CTA, Related articles, Schema, Internal links, Comparison table, Definitions | 61 |
 | [/medicare-drug-coverage](https://vernalmedicare.com/medicare-drug-coverage.html) | part-d | 36% | AI Summary, Author byline, Sources, CTA, Related articles, Comparison table, Definitions | 56 |
 | [/rinvoq-assistance-program](https://vernalmedicare.com/rinvoq-assistance-program.html) | part-d | 36% | Sources, CTA, Related articles, Schema, Internal links, Comparison table, Definitions | 51 |
 | [/humira-assistance-program](https://vernalmedicare.com/humira-assistance-program.html) | part-d | 36% | Sources, CTA, Related articles, Schema, Internal links, Comparison table, Definitions | 50 |
@@ -141,10 +137,13 @@ A dash means the element is **not required** for that cluster.
 | [/medicare-home-health-utah](https://vernalmedicare.com/medicare-home-health-utah.html) | medicare-101 | 60% | FAQ, Sources, Internal links, Definitions | 42 |
 | [/medicare-glossary](https://vernalmedicare.com/medicare-glossary.html) | medicare-101 | 60% | AI Summary, Author byline, Sources, CTA | 40 |
 | [/medicare-checklist-2026](https://vernalmedicare.com/medicare-checklist-2026.html) | enrollment | 60% | FAQ, Sources, Internal links, Next steps | 21 |
+| [/medicare-cost-estimator](https://vernalmedicare.com/medicare-cost-estimator.html) | costs-irmaa | 64% | Schema, Internal links, Comparison table, Definitions | 63 |
+| [/medicare-formulary-lookup](https://vernalmedicare.com/medicare-formulary-lookup.html) | part-d | 64% | Schema, Internal links, Comparison table, Definitions | 62 |
+| [/medicare-drug-cost-calculator](https://vernalmedicare.com/medicare-drug-cost-calculator.html) | part-d | 64% | Schema, Internal links, Comparison table, Definitions | 55 |
 
 ## Fully compliant pages
 
-19 of 146 pages meet their cluster standard in full.
+19 of 148 pages meet their cluster standard in full.
 
 | Page | Cluster | Impressions | Pos |
 | --- | --- | ---: | ---: |
@@ -175,14 +174,14 @@ Edit `scripts/seo/standards.mjs` to change what any cluster is held to.
 | Element | Satisfied by | Required in |
 | --- | --- | --- |
 | AI Summary | `<SummaryBlock>` | every cluster |
-| Definitions | `<dl> / <dfn> / glossary term` | part-d, costs-irmaa, dual-eligible, medicare-101 |
-| Comparison table | `<table> — 2+ columns, 3+ rows` | part-d, costs-irmaa, other-insurance, medicare-advantage, medigap |
-| FAQ | `<FAQ> (markup + FAQPage schema)` | part-d, costs-irmaa, providers, tools, other-insurance, dual-eligible, medicare-101, local, medicare-advantage, enrollment, medigap |
-| Related articles | `<RelatedPages>` | part-d, costs-irmaa, providers, tools, other-insurance, dual-eligible, medicare-101, local, medicare-advantage, enrollment, medigap |
+| Definitions | `<dl> / <dfn> / glossary term` | costs-irmaa, part-d, dual-eligible, medicare-101 |
+| Comparison table | `<table> — 2+ columns, 3+ rows` | costs-irmaa, part-d, other-insurance, medicare-advantage, medigap |
+| FAQ | `<FAQ> (markup + FAQPage schema)` | costs-irmaa, providers, tools, part-d, other-insurance, dual-eligible, medicare-101, local, medicare-advantage, enrollment, medigap |
+| Related articles | `<RelatedPages>` | costs-irmaa, providers, tools, part-d, other-insurance, dual-eligible, medicare-101, local, medicare-advantage, enrollment, medigap |
 | CTA | `<PageCTA>` | every cluster |
-| Sources | `<SourcesList>` | part-d, costs-irmaa, providers, tools, other-insurance, dual-eligible, medicare-101, local, medicare-advantage, enrollment, medigap |
+| Sources | `<SourcesList>` | costs-irmaa, providers, tools, part-d, other-insurance, dual-eligible, medicare-101, local, medicare-advantage, enrollment, medigap |
 | Author byline | `<AuthorByline>` | every cluster |
 | Next steps | `<NextSteps>` | dual-eligible, enrollment |
 | Breadcrumbs | `<Breadcrumbs>` | every cluster |
 | Schema | `Article + BreadcrumbList + Organization + Person` | every cluster |
-| Internal links | `8+ in-content links out` | part-d, costs-irmaa, providers, tools, other-insurance, dual-eligible, medicare-101, local, medicare-advantage, enrollment, medigap |
+| Internal links | `8+ in-content links out` | costs-irmaa, providers, tools, part-d, other-insurance, dual-eligible, medicare-101, local, medicare-advantage, enrollment, medigap |
