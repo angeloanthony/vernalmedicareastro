@@ -26,7 +26,20 @@
     "h2How": "Cómo funcionan los planes de la Parte D",
     "howHtml": "La Parte D de Medicare cubre los medicamentos recetados ambulatorios. Los planes independientes de la Parte D se combinan con Medicare Original y Medigap. Si tiene un plan Medicare Advantage, la cobertura de medicamentos generalmente ya viene incluida (MAPD). Cada plan de la Parte D tiene su propio formulario (lista de medicamentos cubiertos), estructura de niveles (que determina su copago) y red de farmacias (que afecta los precios).",
     "h2Key": "Factores clave para los residentes de Vernal",
-    "keyHtml": "<strong>La farmacia importa:</strong> los costos de los medicamentos varían según la farmacia, incluso dentro del mismo plan. Smith's Pharmacy en 1080 W Hwy 40 es donde muchos residentes de Vernal surten sus recetas. Verificamos si su plan ofrece precios preferidos en Smith's en comparación con Walgreens u otras opciones. <strong>Cobertura del formulario:</strong> no todos los planes cubren todos los medicamentos. Algunos requieren autorización previa o terapia escalonada. Verificamos que sus medicamentos específicos estén en el formulario del plan en un nivel razonable. <strong>El período sin cobertura (donut hole):</strong> después de que usted y su plan gastan una cantidad combinada en medicamentos cubiertos, puede entrar en un período sin cobertura. La Ley de Reducción de la Inflación ha cambiado significativamente estos costos — en 2026, la insulina tiene un tope de $35 al mes y el gasto total de bolsillo en medicamentos tiene un tope de $2,000 al año.",
+    "keyPoints": [
+      {
+        "title": "La farmacia importa",
+        "html": "los costos de los medicamentos varían según la farmacia, incluso dentro del mismo plan. Smith's Pharmacy en 1080 W Hwy 40 es donde muchos residentes de Vernal surten sus recetas. Verificamos si su plan ofrece precios preferidos en Smith's en comparación con Walgreens u otras opciones."
+      },
+      {
+        "title": "Cobertura del formulario",
+        "html": "no todos los planes cubren todos los medicamentos. Algunos requieren autorización previa o terapia escalonada. Verificamos que sus medicamentos específicos estén en el formulario del plan en un nivel razonable."
+      },
+      {
+        "title": "El período sin cobertura (donut hole)",
+        "html": "después de que usted y su plan gastan una cantidad combinada en medicamentos cubiertos, puede entrar en un período sin cobertura. La Ley de Reducción de la Inflación ha cambiado significativamente estos costos — en 2026, la insulina tiene un tope de $35 al mes y el gasto total de bolsillo en medicamentos tiene un tope de $2,000 al año."
+      }
+    ],
     "h2Costs": "Costos de la Parte D en 2026",
     "costsHtml": "Las primas de la Parte D van desde aproximadamente $7 hasta más de $80 al mes. La prima base nacional del beneficiario es de alrededor de $36 al mes. Algunos planes no tienen deducible de la Parte D; otros cobran hasta $590. Después del tope de $2,000 en gastos de bolsillo, usted no paga nada por los medicamentos cubiertos durante el resto del año. Los beneficiarios de bajos ingresos pueden calificar para la Ayuda Adicional (Extra Help), que reduce drásticamente los costos de la Parte D.",
     "h2Common": "Medicamentos comunes y la cobertura de la Parte D",
@@ -45,6 +58,93 @@
     ],
     "sourceHtml": "<em>Fuente: <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a>.</em>",
     "enrollLabel": "Compare planes e inscríbase",
-    "callHtml": "<strong>Llame a Rocco:</strong> <a href=\"tel:+14352195120\">435-219-5120</a> (TTY: 711) &bull; <a href=\"mailto:rocco@vernalmedicare.com\">rocco@vernalmedicare.com</a>"
-  }
+    "callHtml": "<strong>Llame a Rocco:</strong> <a href=\"tel:+14352195120\">435-219-5120</a> (TTY: 711) &bull; <a href=\"mailto:rocco@vernalmedicare.com\">rocco@vernalmedicare.com</a>",
+    "h2Table": "Dos maneras de obtener cobertura de medicamentos",
+    "h2Defs": "Términos de la Parte D, en palabras sencillas"
+  },
+  "ui": {
+    "heroImageAlt": "El centro de Vernal, Utah — ayuda local y con licencia para la Parte D de Medicare en Uintah Basin",
+    "agentHeading": "Hable con un experto local en Medicare",
+    "agentRole": "Agente de seguros de Medicare con licencia",
+    "agentPoints": [
+      "Comparación de planes personalizada",
+      "Encuentre planes que cubran sus medicamentos",
+      "Experiencia local en la que puede confiar",
+      "Sin costo. Sin compromiso."
+    ],
+    "textBtn": "Envíenos un mensaje",
+    "faqHeading": "Preguntas sobre la Parte D de los residentes de Vernal",
+    "resourcesHeading": "Recursos útiles relacionados",
+    "moreHeading": "Temas relacionados de Medicare",
+    "ctaTitle": "Encontremos el plan de la Parte D adecuado para usted.",
+    "ctaSub": "Compare planes según sus medicamentos y ahorre.",
+    "ctaCall": "Llame al {phone}",
+    "ctaQuote": "Obtenga una cotización gratis"
+  },
+  "table": {
+    "caption": "La Parte D independiente comparada con la cobertura de medicamentos incluida en un plan Medicare Advantage, 2026.",
+    "cols": [
+      "",
+      "Parte D independiente (PDP)",
+      "Plan Advantage con medicamentos (MAPD)"
+    ],
+    "rows": [
+      [
+        "Se combina con",
+        "Medicare Original, con o sin Medigap",
+        "Reemplaza a Medicare Original"
+      ],
+      [
+        "Acceso a médicos",
+        "Cualquier proveedor que acepte Medicare",
+        "La red del plan"
+      ],
+      [
+        "Formulario",
+        "La lista propia del plan de medicamentos",
+        "La lista del plan Advantage"
+      ],
+      [
+        "Prima mensual",
+        "Aproximadamente $7–$80, aparte de la Parte B",
+        "A menudo $0, además de la Parte B"
+      ],
+      [
+        "Tope de 2026 para medicamentos cubiertos",
+        "$2,000",
+        "$2,000"
+      ],
+      [
+        "Si cambia de opinión",
+        "Cambie de plan de medicamentos por separado durante el AEP",
+        "Cambiar la cobertura de medicamentos implica cambiar todo el plan"
+      ]
+    ]
+  },
+  "definitions": [
+    {
+      "term": "Formulario",
+      "def": "La lista de medicamentos que cubre un plan. Cada plan define la suya y cambia cada año — por eso el mismo medicamento puede ser barato en un plan y no estar cubierto en otro."
+    },
+    {
+      "term": "Nivel (tier)",
+      "def": "La banda de precios en la que está un medicamento dentro de ese formulario. Los niveles más bajos le cuestan menos; pasar del <a href=\"tier-3-vs-tier-4-medicare-part-d.html\">nivel 3 al nivel 4</a> puede cambiar bastante el copago."
+    },
+    {
+      "term": "Deducible",
+      "def": "Lo que usted paga antes de que el plan empiece a compartir el costo de los medicamentos. Algunos planes cobran $0; otros cobran hasta $590 en 2026."
+    },
+    {
+      "term": "Tope de gastos de bolsillo",
+      "def": "Desde 2025 y también en 2026, sus costos de medicamentos cubiertos se detienen en $2,000 al año. Después de eso no paga nada más por las recetas cubiertas."
+    },
+    {
+      "term": "Farmacia preferida",
+      "def": "Una farmacia con la que el plan tiene contrato para compartir menos costos. El mismo medicamento en el mismo plan puede costar distinto en cada una de las <a href=\"medicare-vernal-pharmacies.html\">farmacias de Vernal</a>."
+    },
+    {
+      "term": "Cobertura acreditable",
+      "def": "Cobertura de medicamentos al menos tan buena como la Parte D — por ejemplo, la del empleador. Mantenerla le permite <a href=\"medicare-creditable-coverage.html\">retrasar la Parte D sin la multa por inscripción tardía</a>."
+    }
+  ]
 }

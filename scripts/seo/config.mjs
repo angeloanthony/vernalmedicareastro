@@ -97,10 +97,10 @@ export const BUSINESS_IMPACT = {
     '/free-medicare-comparison-vernal.html': 5,
     '/medicare-agent-vernal.html': 5,
     '/medicare-plans-vernal-utah.html': 5,
-    '/best-medicare-advantage-vernal.html': 5,
+    '/medicare-advantage-plans-vernal.html': 5, // renamed 2026-08-25 (CMS superlative rule); weight unchanged
     '/vernal.html': 4,
     '/medicare-enrollment-vernal.html': 4,
-    '/best-part-d-plans-vernal.html': 4,
+    '/part-d-plans-vernal.html': 4, // renamed 2026-08-25 (CMS superlative rule); weight unchanged
     // Required-but-not-commercial. These exist for readers and E-E-A-T, not for
     // topical authority, so they should never outrank real content in the queue.
     '/editorial-policy.html': 1,

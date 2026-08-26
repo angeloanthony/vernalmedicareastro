@@ -57,6 +57,25 @@ export const PRIMARY_NAV: NavLink[] = [
     ],
   },
   {
+    // Prescription Assistance hub (docs/PRESCRIPTION-ASSISTANCE-PROJECT.md §14).
+    //
+    // FIXED SIZE — this dropdown must NOT grow with the medication inventory.
+    // Individual medication names are deliberately absent: the directory lives
+    // on the hub page and is generated from the registry, so it scales from
+    // today's 14 pages to the eventual 75+ without touching this file. Adding
+    // drug names here reintroduces the bug it was built to avoid (the nav
+    // listed 5 of the 14 medication pages that already existed).
+    // Category hub pages become children here once they exist (spec §31 #3);
+    // they are not built yet, so do not invent hrefs for them.
+    href: '/prescription-drug-assistance.html',
+    label: 'Prescription Assistance',
+    children: [
+      { href: '/prescription-drug-assistance.html', label: 'Help Paying for Prescription Drugs' },
+      { href: '/prescription-drug-assistance.html#all-medications', label: 'All Medications' },
+      { href: '/medicare-extra-help-utah.html', label: 'Medicare Extra Help' },
+    ],
+  },
+  {
     href: '/medicare-help-center.html',
     label: 'Learn',
     children: [

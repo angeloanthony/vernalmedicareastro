@@ -6,10 +6,10 @@
 
 How extractable each page is for AI Overviews and assistant answers. Scored from the built HTML, so it reflects what a crawler actually receives.
 
-> Generated **2026-07-30 18:41 UTC** · 162 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
+> Generated **2026-08-26 07:27 UTC** · 162 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
 > Derived from `src/data/pageIndex.ts` · `data/search-console/*.csv` · `dist/` · `git log`. Never edited by hand.
 
-**Site average: 64%**
+**Site average: 65%**
 
 ## Coverage by feature
 
@@ -18,10 +18,10 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 | AI Summary | 20 | 121 | 25 | 83% |
 | FAQ | 20 | 116 | 30 | 79% |
 | Schema | 15 | 117 | 29 | 80% |
-| Tables | 10 | 23 | 123 | 16% |
-| Definitions | 10 | 2 | 144 | 1% |
-| Internal links | 15 | 68 | 78 | 47% |
-| Original insights | 10 | 30 | 116 | 21% |
+| Tables | 10 | 30 | 116 | 21% |
+| Definitions | 10 | 8 | 138 | 5% |
+| Internal links | 15 | 74 | 72 | 51% |
+| Original insights | 10 | 38 | 108 | 26% |
 
 > `Original insights` has no machine-readable marker. It is scored from three observable proxies — a named author byline, a cited sources list, and word count at or above the site median. Treat it as a hint, not a verdict.
 
@@ -29,134 +29,134 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 
 | Page | Score | AI Summary | FAQ | Schema | Tables | Definitions | Internal links | Original insights | Priority |
 | --- | ---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | ---: |
-| [/reviews](https://vernalmedicare.com/reviews.html) | 0% | · | · | · | · | · | · | · | 25 |
-| [/part-d-help-vernal](https://vernalmedicare.com/part-d-help-vernal.html) | 13% | · | · | · | · | · | · | · | 47 |
-| [/vernal](https://vernalmedicare.com/vernal.html) | 28% | · | · | ✓ | · | · | · | · | 64 |
+| [/reviews](https://vernalmedicare.com/reviews.html) | 0% | · | · | · | · | · | · | · | 24 |
+| [/part-d-help-vernal](https://vernalmedicare.com/part-d-help-vernal.html) | 13% | · | · | · | · | · | · | · | 48 |
+| [/vernal](https://vernalmedicare.com/vernal.html) | 28% | · | · | ✓ | · | · | · | · | 65 |
 | [/does-medicare-cover-ozempic-wegovy](https://vernalmedicare.com/does-medicare-cover-ozempic-wegovy.html) | 28% | · | · | ✓ | · | · | · | · | 59 |
-| [/insulin-cost-medicare-vernal](https://vernalmedicare.com/insulin-cost-medicare-vernal.html) | 28% | · | · | ✓ | · | · | · | · | 51 |
-| [/does-medicare-cover-mounjaro-utah](https://vernalmedicare.com/does-medicare-cover-mounjaro-utah.html) | 28% | · | · | ✓ | · | · | · | · | 47 |
-| [/does-medicare-cover-dental-vernal](https://vernalmedicare.com/does-medicare-cover-dental-vernal.html) | 28% | · | · | ✓ | · | · | · | · | 25 |
+| [/insulin-cost-medicare-vernal](https://vernalmedicare.com/insulin-cost-medicare-vernal.html) | 28% | · | · | ✓ | · | · | · | · | 50 |
+| [/does-medicare-cover-mounjaro-utah](https://vernalmedicare.com/does-medicare-cover-mounjaro-utah.html) | 28% | · | · | ✓ | · | · | · | · | 46 |
+| [/does-medicare-cover-dental-vernal](https://vernalmedicare.com/does-medicare-cover-dental-vernal.html) | 28% | · | · | ✓ | · | · | · | · | 24 |
 | [/medicare-quote-vernal](https://vernalmedicare.com/medicare-quote-vernal.html) | 30% | · | · | ✓ | · | · | · | · | 64 |
 | [/free-medicare-comparison-vernal](https://vernalmedicare.com/free-medicare-comparison-vernal.html) | 30% | · | · | ✓ | · | · | · | · | 27 |
-| [/medicare-roosevelt-utah](https://vernalmedicare.com/medicare-roosevelt-utah.html) | 40% | · | · | ✓ | · | · | ✓ | · | 46 |
-| [/medicare-duchesne-utah](https://vernalmedicare.com/medicare-duchesne-utah.html) | 40% | · | · | ✓ | · | · | ✓ | · | 33 |
+| [/medicare-roosevelt-utah](https://vernalmedicare.com/medicare-roosevelt-utah.html) | 40% | · | · | ✓ | · | · | ✓ | · | 47 |
+| [/medicare-duchesne-utah](https://vernalmedicare.com/medicare-duchesne-utah.html) | 40% | · | · | ✓ | · | · | ✓ | · | 32 |
 | [/faq](https://vernalmedicare.com/faq.html) | 41% | · | ✓ | ✓ | · | · | · | · | 57 |
-| [/editorial-policy](https://vernalmedicare.com/editorial-policy.html) | 46% | · | ✓ | ✓ | · | · | · | · | 35 |
+| [/editorial-policy](https://vernalmedicare.com/editorial-policy.html) | 46% | · | ✓ | ✓ | · | · | · | · | 36 |
 | [/medicare-drug-coverage](https://vernalmedicare.com/medicare-drug-coverage.html) | 47% | · | ✓ | ✓ | · | · | ✓ | · | 56 |
-| [/medicare-coverage](https://vernalmedicare.com/medicare-coverage.html) | 47% | · | ✓ | ✓ | · | · | ✓ | · | 48 |
-| [/medicare-news](https://vernalmedicare.com/medicare-news.html) | 47% | · | ✓ | ✓ | · | · | ✓ | · | 38 |
-| [/about](https://vernalmedicare.com/about.html) | 47% | ✓ | · | ✓ | · | · | · | · | 33 |
-| [/medicare-calculators](https://vernalmedicare.com/medicare-calculators.html) | 47% | · | ✓ | ✓ | · | · | ✓ | · | 30 |
-| [/medicare-help-center](https://vernalmedicare.com/medicare-help-center.html) | 50% | · | ✓ | ✓ | · | · | ✓ | · | 58 |
+| [/medicare-coverage](https://vernalmedicare.com/medicare-coverage.html) | 47% | · | ✓ | ✓ | · | · | ✓ | · | 49 |
+| [/medicare-news](https://vernalmedicare.com/medicare-news.html) | 47% | · | ✓ | ✓ | · | · | ✓ | · | 39 |
+| [/about](https://vernalmedicare.com/about.html) | 47% | ✓ | · | ✓ | · | · | · | · | 34 |
+| [/medicare-calculators](https://vernalmedicare.com/medicare-calculators.html) | 47% | · | ✓ | ✓ | · | · | ✓ | · | 31 |
+| [/medicare-help-center](https://vernalmedicare.com/medicare-help-center.html) | 50% | · | ✓ | ✓ | · | · | ✓ | · | 59 |
 | [/medicare-costs](https://vernalmedicare.com/medicare-costs.html) | 50% | · | ✓ | ✓ | · | · | ✓ | · | 47 |
-| [/medicare-financial-assistance](https://vernalmedicare.com/medicare-financial-assistance.html) | 50% | · | ✓ | ✓ | · | · | ✓ | · | 29 |
+| [/medicare-financial-assistance](https://vernalmedicare.com/medicare-financial-assistance.html) | 50% | · | ✓ | ✓ | · | · | ✓ | · | 28 |
 | [/medicare-news/medicare-scam-calls](https://vernalmedicare.com/medicare-news/medicare-scam-calls.html) | 52% | ✓ | · | ✓ | · | · | · | · | 30 |
 | [/medicare-news/insulin-35-cap](https://vernalmedicare.com/medicare-news/insulin-35-cap.html) | 52% | ✓ | · | ✓ | · | · | · | · | 18 |
 | [/medicare-agent-vernal](https://vernalmedicare.com/medicare-agent-vernal.html) | 53% | ✓ | · | ✓ | · | · | · | · | 53 |
 | [/medicare-news/glp-1-drugs-medicare](https://vernalmedicare.com/medicare-news/glp-1-drugs-medicare.html) | 54% | ✓ | · | ✓ | · | · | ✓ | · | 49 |
 | [/turning-65](https://vernalmedicare.com/turning-65.html) | 54% | · | ✓ | ✓ | · | · | ✓ | · | 49 |
-| [/medicare-decision-center](https://vernalmedicare.com/medicare-decision-center.html) | 54% | · | ✓ | ✓ | · | · | ✓ | · | 45 |
-| [/medicare-news/medicare-advantage-changes-2026](https://vernalmedicare.com/medicare-news/medicare-advantage-changes-2026.html) | 54% | ✓ | · | ✓ | · | · | ✓ | · | 43 |
+| [/medicare-decision-center](https://vernalmedicare.com/medicare-decision-center.html) | 54% | · | ✓ | ✓ | · | · | ✓ | · | 46 |
+| [/medicare-news/medicare-advantage-changes-2026](https://vernalmedicare.com/medicare-news/medicare-advantage-changes-2026.html) | 54% | ✓ | · | ✓ | · | · | ✓ | · | 42 |
 | [/medicare-news/extra-help-expanded](https://vernalmedicare.com/medicare-news/extra-help-expanded.html) | 54% | ✓ | · | ✓ | · | · | ✓ | · | 35 |
 | [/medicare-news/part-d-2000-cap](https://vernalmedicare.com/medicare-news/part-d-2000-cap.html) | 54% | ✓ | · | ✓ | · | · | ✓ | · | 32 |
 | [/medicare-irmaa](https://vernalmedicare.com/medicare-irmaa.html) | 55% | · | ✓ | ✓ | · | · | · | ✓ | 60 |
 | [/medicare-uintah-basin-medical-center](https://vernalmedicare.com/medicare-uintah-basin-medical-center.html) | 55% | ✓ | · | ✓ | · | · | · | · | 38 |
-| [/medicare-ashley-regional-vernal](https://vernalmedicare.com/medicare-ashley-regional-vernal.html) | 55% | ✓ | · | ✓ | · | · | · | · | 15 |
-| [/tier-3-vs-tier-4-medicare-part-d](https://vernalmedicare.com/tier-3-vs-tier-4-medicare-part-d.html) | 57% | ✓ | · | ✓ | · | · | · | · | 52 |
-| [/working-past-65](https://vernalmedicare.com/working-past-65.html) | 57% | · | ✓ | ✓ | · | · | ✓ | ✓ | 45 |
-| [/medicare-home-health-utah](https://vernalmedicare.com/medicare-home-health-utah.html) | 57% | ✓ | · | ✓ | · | · | · | · | 41 |
-| [/medicare-vernal-pharmacies](https://vernalmedicare.com/medicare-vernal-pharmacies.html) | 57% | ✓ | · | ✓ | · | · | · | · | 39 |
-| [/medicare-out-of-state-utah](https://vernalmedicare.com/medicare-out-of-state-utah.html) | 58% | ✓ | · | ✓ | · | · | · | · | 53 |
-| [/medicare-out-of-pocket-maximum-2026](https://vernalmedicare.com/medicare-out-of-pocket-maximum-2026.html) | 58% | ✓ | · | ✓ | · | · | · | · | 51 |
-| [/medicare-hospitals-uintah-county](https://vernalmedicare.com/medicare-hospitals-uintah-county.html) | 58% | ✓ | · | ✓ | · | · | · | · | 25 |
-| [/medicare-checklist-2026](https://vernalmedicare.com/medicare-checklist-2026.html) | 58% | ✓ | · | ✓ | · | · | · | · | 20 |
+| [/medicare-ashley-regional-vernal](https://vernalmedicare.com/medicare-ashley-regional-vernal.html) | 55% | ✓ | · | ✓ | · | · | · | · | 14 |
+| [/tier-3-vs-tier-4-medicare-part-d](https://vernalmedicare.com/tier-3-vs-tier-4-medicare-part-d.html) | 57% | ✓ | · | ✓ | · | · | · | · | 51 |
+| [/working-past-65](https://vernalmedicare.com/working-past-65.html) | 57% | · | ✓ | ✓ | · | · | ✓ | ✓ | 46 |
+| [/medicare-home-health-utah](https://vernalmedicare.com/medicare-home-health-utah.html) | 57% | ✓ | · | ✓ | · | · | · | · | 42 |
+| [/medicare-vernal-pharmacies](https://vernalmedicare.com/medicare-vernal-pharmacies.html) | 57% | ✓ | · | ✓ | · | · | · | · | 38 |
+| [/medicare-out-of-state-utah](https://vernalmedicare.com/medicare-out-of-state-utah.html) | 58% | ✓ | · | ✓ | · | · | · | · | 54 |
+| [/medicare-out-of-pocket-maximum-2026](https://vernalmedicare.com/medicare-out-of-pocket-maximum-2026.html) | 58% | ✓ | · | ✓ | · | · | · | · | 50 |
+| [/medicare-hospitals-uintah-county](https://vernalmedicare.com/medicare-hospitals-uintah-county.html) | 58% | ✓ | · | ✓ | · | · | · | · | 24 |
+| [/medicare-checklist-2026](https://vernalmedicare.com/medicare-checklist-2026.html) | 58% | ✓ | · | ✓ | · | · | · | · | 21 |
 | [/medicare-help-vernal](https://vernalmedicare.com/medicare-help-vernal.html) | 60% | ✓ | · | ✓ | · | · | ✓ | · | 74 |
 | [/medicare-cost-uintah-county](https://vernalmedicare.com/medicare-cost-uintah-county.html) | 60% | ✓ | · | ✓ | · | · | ✓ | · | 40 |
 | [/medicare-glossary](https://vernalmedicare.com/medicare-glossary.html) | 60% | · | ✓ | ✓ | · | ✓ | ✓ | · | 40 |
 | [/skyrizi-assistance-program](https://vernalmedicare.com/skyrizi-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 71 |
 | [/enbrel-assistance-program](https://vernalmedicare.com/enbrel-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 70 |
-| [/life](https://vernalmedicare.com/life.html) | 63% | ✓ | ✓ | ✓ | · | · | · | · | 66 |
-| [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 65 |
+| [/life](https://vernalmedicare.com/life.html) | 63% | ✓ | ✓ | ✓ | · | · | · | · | 67 |
+| [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 63 |
 | [/repatha-assistance-program](https://vernalmedicare.com/repatha-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 63 |
+| [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 62 |
 | [/dupixent-assistance-program](https://vernalmedicare.com/dupixent-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 62 |
-| [/mounjaro-assistance-program](https://vernalmedicare.com/mounjaro-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 61 |
-| [/jardiance-assistance-program](https://vernalmedicare.com/jardiance-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 61 |
-| [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 61 |
-| [/farxiga-assistance-program](https://vernalmedicare.com/farxiga-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 61 |
-| [/aca](https://vernalmedicare.com/aca.html) | 63% | ✓ | ✓ | ✓ | · | · | · | · | 60 |
+| [/aca](https://vernalmedicare.com/aca.html) | 63% | ✓ | ✓ | ✓ | · | · | · | · | 61 |
 | [/xarelto-assistance-program](https://vernalmedicare.com/xarelto-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 57 |
-| [/eliquis-assistance-program](https://vernalmedicare.com/eliquis-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 57 |
 | [/rinvoq-assistance-program](https://vernalmedicare.com/rinvoq-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 51 |
 | [/humira-assistance-program](https://vernalmedicare.com/humira-assistance-program.html) | 63% | ✓ | ✓ | · | · | · | · | · | 50 |
+| [/medicare-enrollment-vernal](https://vernalmedicare.com/medicare-enrollment-vernal.html) | 63% | ✓ | ✓ | ✓ | · | · | · | · | 47 |
 | [/cheapest-prescription-drug-plans](https://vernalmedicare.com/cheapest-prescription-drug-plans.html) | 63% | ✓ | ✓ | ✓ | · | · | · | · | 46 |
+| [/medicare-extra-help-calculator](https://vernalmedicare.com/medicare-extra-help-calculator.html) | 63% | ✓ | ✓ | · | · | · | · | · | 43 |
+| [/indemnity](https://vernalmedicare.com/indemnity.html) | 63% | ✓ | ✓ | ✓ | · | · | · | · | 34 |
+| [/medicare-quiz](https://vernalmedicare.com/medicare-quiz.html) | 63% | ✓ | ✓ | · | · | · | · | · | 33 |
 
 ## Fix lists
 
 ### Missing AI Summary — 25 pages
 
+- [/vernal](https://vernalmedicare.com/vernal.html) — priority 65, 66 impr
 - [/medicare-quote-vernal](https://vernalmedicare.com/medicare-quote-vernal.html) — priority 64, 37 impr
-- [/vernal](https://vernalmedicare.com/vernal.html) — priority 64, 66 impr
 - [/medicare-irmaa](https://vernalmedicare.com/medicare-irmaa.html) — priority 60, 77 impr
+- [/medicare-help-center](https://vernalmedicare.com/medicare-help-center.html) — priority 59, 38 impr
 - [/does-medicare-cover-ozempic-wegovy](https://vernalmedicare.com/does-medicare-cover-ozempic-wegovy.html) — priority 59, 83 impr
-- [/medicare-help-center](https://vernalmedicare.com/medicare-help-center.html) — priority 58, 38 impr
 - [/faq](https://vernalmedicare.com/faq.html) — priority 57, 60 impr
 - [/medicare-drug-coverage](https://vernalmedicare.com/medicare-drug-coverage.html) — priority 56, 222 impr
-- [/insulin-cost-medicare-vernal](https://vernalmedicare.com/insulin-cost-medicare-vernal.html) — priority 51, 15 impr
+- [/insulin-cost-medicare-vernal](https://vernalmedicare.com/insulin-cost-medicare-vernal.html) — priority 50, 15 impr
+- [/medicare-coverage](https://vernalmedicare.com/medicare-coverage.html) — priority 49, 3 impr
 - [/turning-65](https://vernalmedicare.com/turning-65.html) — priority 49, 10 impr
-- [/medicare-coverage](https://vernalmedicare.com/medicare-coverage.html) — priority 48, 3 impr
-- [/does-medicare-cover-mounjaro-utah](https://vernalmedicare.com/does-medicare-cover-mounjaro-utah.html) — priority 47, 15 impr
-- [/part-d-help-vernal](https://vernalmedicare.com/part-d-help-vernal.html) — priority 47, 5 impr
+- [/part-d-help-vernal](https://vernalmedicare.com/part-d-help-vernal.html) — priority 48, 5 impr
+- [/medicare-roosevelt-utah](https://vernalmedicare.com/medicare-roosevelt-utah.html) — priority 47, 6 impr
 - [/medicare-costs](https://vernalmedicare.com/medicare-costs.html) — priority 47, 41 impr
-- [/medicare-roosevelt-utah](https://vernalmedicare.com/medicare-roosevelt-utah.html) — priority 46, 6 impr
-- [/medicare-decision-center](https://vernalmedicare.com/medicare-decision-center.html) — priority 45, 8 impr
-- [/working-past-65](https://vernalmedicare.com/working-past-65.html) — priority 45, 36 impr
+- [/does-medicare-cover-mounjaro-utah](https://vernalmedicare.com/does-medicare-cover-mounjaro-utah.html) — priority 46, 15 impr
+- [/medicare-decision-center](https://vernalmedicare.com/medicare-decision-center.html) — priority 46, 8 impr
+- [/working-past-65](https://vernalmedicare.com/working-past-65.html) — priority 46, 36 impr
 - [/medicare-glossary](https://vernalmedicare.com/medicare-glossary.html) — priority 40, 81 impr
-- [/medicare-news](https://vernalmedicare.com/medicare-news.html) — priority 38, 10 impr
-- [/editorial-policy](https://vernalmedicare.com/editorial-policy.html) — priority 35, 4 impr
-- [/medicare-duchesne-utah](https://vernalmedicare.com/medicare-duchesne-utah.html) — priority 33, 2 impr
-- [/medicare-calculators](https://vernalmedicare.com/medicare-calculators.html) — priority 30, 22 impr
-- [/medicare-financial-assistance](https://vernalmedicare.com/medicare-financial-assistance.html) — priority 29, 0 impr
+- [/medicare-news](https://vernalmedicare.com/medicare-news.html) — priority 39, 10 impr
+- [/editorial-policy](https://vernalmedicare.com/editorial-policy.html) — priority 36, 4 impr
+- [/medicare-duchesne-utah](https://vernalmedicare.com/medicare-duchesne-utah.html) — priority 32, 2 impr
+- [/medicare-calculators](https://vernalmedicare.com/medicare-calculators.html) — priority 31, 22 impr
+- [/medicare-financial-assistance](https://vernalmedicare.com/medicare-financial-assistance.html) — priority 28, 0 impr
 - [/free-medicare-comparison-vernal](https://vernalmedicare.com/free-medicare-comparison-vernal.html) — priority 27, 0 impr
-- [/reviews](https://vernalmedicare.com/reviews.html) — priority 25, 13 impr
-- [/does-medicare-cover-dental-vernal](https://vernalmedicare.com/does-medicare-cover-dental-vernal.html) — priority 25, 1 impr
+- [/reviews](https://vernalmedicare.com/reviews.html) — priority 24, 13 impr
+- [/does-medicare-cover-dental-vernal](https://vernalmedicare.com/does-medicare-cover-dental-vernal.html) — priority 24, 1 impr
 
 ### Missing FAQ — 30 pages
 
 - [/medicare-help-vernal](https://vernalmedicare.com/medicare-help-vernal.html) — priority 74, 126 impr
+- [/vernal](https://vernalmedicare.com/vernal.html) — priority 65, 66 impr
 - [/medicare-quote-vernal](https://vernalmedicare.com/medicare-quote-vernal.html) — priority 64, 37 impr
-- [/vernal](https://vernalmedicare.com/vernal.html) — priority 64, 66 impr
 - [/does-medicare-cover-ozempic-wegovy](https://vernalmedicare.com/does-medicare-cover-ozempic-wegovy.html) — priority 59, 83 impr
-- [/medicare-out-of-state-utah](https://vernalmedicare.com/medicare-out-of-state-utah.html) — priority 53, 61 impr
+- [/medicare-out-of-state-utah](https://vernalmedicare.com/medicare-out-of-state-utah.html) — priority 54, 61 impr
 - [/medicare-agent-vernal](https://vernalmedicare.com/medicare-agent-vernal.html) — priority 53, 21 impr
-- [/tier-3-vs-tier-4-medicare-part-d](https://vernalmedicare.com/tier-3-vs-tier-4-medicare-part-d.html) — priority 52, 25 impr
-- [/medicare-out-of-pocket-maximum-2026](https://vernalmedicare.com/medicare-out-of-pocket-maximum-2026.html) — priority 51, 59 impr
-- [/insulin-cost-medicare-vernal](https://vernalmedicare.com/insulin-cost-medicare-vernal.html) — priority 51, 15 impr
+- [/tier-3-vs-tier-4-medicare-part-d](https://vernalmedicare.com/tier-3-vs-tier-4-medicare-part-d.html) — priority 51, 25 impr
+- [/medicare-out-of-pocket-maximum-2026](https://vernalmedicare.com/medicare-out-of-pocket-maximum-2026.html) — priority 50, 59 impr
+- [/insulin-cost-medicare-vernal](https://vernalmedicare.com/insulin-cost-medicare-vernal.html) — priority 50, 15 impr
 - [/medicare-news/glp-1-drugs-medicare](https://vernalmedicare.com/medicare-news/glp-1-drugs-medicare.html) — priority 49, 178 impr
-- [/does-medicare-cover-mounjaro-utah](https://vernalmedicare.com/does-medicare-cover-mounjaro-utah.html) — priority 47, 15 impr
-- [/part-d-help-vernal](https://vernalmedicare.com/part-d-help-vernal.html) — priority 47, 5 impr
-- [/medicare-roosevelt-utah](https://vernalmedicare.com/medicare-roosevelt-utah.html) — priority 46, 6 impr
-- [/medicare-news/medicare-advantage-changes-2026](https://vernalmedicare.com/medicare-news/medicare-advantage-changes-2026.html) — priority 43, 106 impr
-- [/medicare-home-health-utah](https://vernalmedicare.com/medicare-home-health-utah.html) — priority 41, 7 impr
+- [/part-d-help-vernal](https://vernalmedicare.com/part-d-help-vernal.html) — priority 48, 5 impr
+- [/medicare-roosevelt-utah](https://vernalmedicare.com/medicare-roosevelt-utah.html) — priority 47, 6 impr
+- [/does-medicare-cover-mounjaro-utah](https://vernalmedicare.com/does-medicare-cover-mounjaro-utah.html) — priority 46, 15 impr
+- [/medicare-news/medicare-advantage-changes-2026](https://vernalmedicare.com/medicare-news/medicare-advantage-changes-2026.html) — priority 42, 106 impr
+- [/medicare-home-health-utah](https://vernalmedicare.com/medicare-home-health-utah.html) — priority 42, 7 impr
 - [/medicare-cost-uintah-county](https://vernalmedicare.com/medicare-cost-uintah-county.html) — priority 40, 12 impr
-- [/medicare-vernal-pharmacies](https://vernalmedicare.com/medicare-vernal-pharmacies.html) — priority 39, 3 impr
 - [/medicare-uintah-basin-medical-center](https://vernalmedicare.com/medicare-uintah-basin-medical-center.html) — priority 38, 6 impr
+- [/medicare-vernal-pharmacies](https://vernalmedicare.com/medicare-vernal-pharmacies.html) — priority 38, 3 impr
 - [/medicare-news/extra-help-expanded](https://vernalmedicare.com/medicare-news/extra-help-expanded.html) — priority 35, 38 impr
-- [/about](https://vernalmedicare.com/about.html) — priority 33, 10 impr
-- [/medicare-duchesne-utah](https://vernalmedicare.com/medicare-duchesne-utah.html) — priority 33, 2 impr
+- [/about](https://vernalmedicare.com/about.html) — priority 34, 10 impr
 - [/medicare-news/part-d-2000-cap](https://vernalmedicare.com/medicare-news/part-d-2000-cap.html) — priority 32, 39 impr
+- [/medicare-duchesne-utah](https://vernalmedicare.com/medicare-duchesne-utah.html) — priority 32, 2 impr
 - [/medicare-news/medicare-scam-calls](https://vernalmedicare.com/medicare-news/medicare-scam-calls.html) — priority 30, 25 impr
 - [/free-medicare-comparison-vernal](https://vernalmedicare.com/free-medicare-comparison-vernal.html) — priority 27, 0 impr
-- [/reviews](https://vernalmedicare.com/reviews.html) — priority 25, 13 impr
-- [/does-medicare-cover-dental-vernal](https://vernalmedicare.com/does-medicare-cover-dental-vernal.html) — priority 25, 1 impr
-- [/medicare-hospitals-uintah-county](https://vernalmedicare.com/medicare-hospitals-uintah-county.html) — priority 25, 0 impr
-- [/medicare-checklist-2026](https://vernalmedicare.com/medicare-checklist-2026.html) — priority 20, 0 impr
+- [/reviews](https://vernalmedicare.com/reviews.html) — priority 24, 13 impr
+- [/does-medicare-cover-dental-vernal](https://vernalmedicare.com/does-medicare-cover-dental-vernal.html) — priority 24, 1 impr
+- [/medicare-hospitals-uintah-county](https://vernalmedicare.com/medicare-hospitals-uintah-county.html) — priority 24, 0 impr
+- [/medicare-checklist-2026](https://vernalmedicare.com/medicare-checklist-2026.html) — priority 21, 0 impr
 - [/medicare-news/insulin-35-cap](https://vernalmedicare.com/medicare-news/insulin-35-cap.html) — priority 18, 1 impr
-- [/medicare-ashley-regional-vernal](https://vernalmedicare.com/medicare-ashley-regional-vernal.html) — priority 15, 0 impr
+- [/medicare-ashley-regional-vernal](https://vernalmedicare.com/medicare-ashley-regional-vernal.html) — priority 14, 0 impr
 
-### Missing Definitions — 144 pages
+### Missing Definitions — 138 pages
 
+- [/does-medicare-cover-dupixent](https://vernalmedicare.com/does-medicare-cover-dupixent.html) — priority 77, 288 impr
 - [/ (home)](https://vernalmedicare.com/) — priority 77, 1,040 impr
-- [/does-medicare-cover-dupixent](https://vernalmedicare.com/does-medicare-cover-dupixent.html) — priority 76, 288 impr
 - [/medicare-help-vernal](https://vernalmedicare.com/medicare-help-vernal.html) — priority 74, 126 impr
 - [/does-medicare-cover-trelegy](https://vernalmedicare.com/does-medicare-cover-trelegy.html) — priority 72, 154 impr
 - [/skyrizi-assistance-program](https://vernalmedicare.com/skyrizi-assistance-program.html) — priority 71, 111 impr
@@ -165,39 +165,39 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 - [/does-medicare-cover-rinvoq](https://vernalmedicare.com/does-medicare-cover-rinvoq.html) — priority 69, 115 impr
 - [/medicare-vernal-ut](https://vernalmedicare.com/medicare-vernal-ut.html) — priority 69, 67 impr
 - [/does-medicare-cover-skyrizi](https://vernalmedicare.com/does-medicare-cover-skyrizi.html) — priority 68, 102 impr
-- [/life](https://vernalmedicare.com/life.html) — priority 66, 444 impr
-- [/medicare-irmaa-life-changing-events](https://vernalmedicare.com/medicare-irmaa-life-changing-events.html) — priority 66, 110 impr
+- [/life](https://vernalmedicare.com/life.html) — priority 67, 444 impr
+- [/medicare-irmaa-life-changing-events](https://vernalmedicare.com/medicare-irmaa-life-changing-events.html) — priority 67, 110 impr
 - [/does-medicare-cover-eliquis](https://vernalmedicare.com/does-medicare-cover-eliquis.html) — priority 66, 83 impr
 - [/does-medicare-cover-xarelto](https://vernalmedicare.com/does-medicare-cover-xarelto.html) — priority 66, 76 impr
-- [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) — priority 65, 64 impr
+- [/vernal](https://vernalmedicare.com/vernal.html) — priority 65, 66 impr
 - [/medicare-quote-vernal](https://vernalmedicare.com/medicare-quote-vernal.html) — priority 64, 37 impr
-- [/vernal](https://vernalmedicare.com/vernal.html) — priority 64, 66 impr
-- [/medicare-formulary-lookup](https://vernalmedicare.com/medicare-formulary-lookup.html) — priority 63, 309 impr
+- [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) — priority 63, 64 impr
+- [/medicare-cost-estimator](https://vernalmedicare.com/medicare-cost-estimator.html) — priority 63, 178 impr
 - [/medicare-plans-vernal-utah](https://vernalmedicare.com/medicare-plans-vernal-utah.html) — priority 63, 13 impr
 - [/repatha-assistance-program](https://vernalmedicare.com/repatha-assistance-program.html) — priority 63, 83 impr
-- [/medicare-advantage-plans-vernal](https://vernalmedicare.com/medicare-advantage-plans-vernal.html) — priority 63, 13 impr
-- [/medicare-cost-estimator](https://vernalmedicare.com/medicare-cost-estimator.html) — priority 62, 178 impr
+- [/medicare-formulary-lookup](https://vernalmedicare.com/medicare-formulary-lookup.html) — priority 62, 309 impr
+- [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) — priority 62, 83 impr
 - [/medicare-medicaid-utah](https://vernalmedicare.com/medicare-medicaid-utah.html) — priority 62, 122 impr
 - [/dupixent-assistance-program](https://vernalmedicare.com/dupixent-assistance-program.html) — priority 62, 142 impr
-- [/mounjaro-assistance-program](https://vernalmedicare.com/mounjaro-assistance-program.html) — priority 61, 63 impr
-- [/jardiance-assistance-program](https://vernalmedicare.com/jardiance-assistance-program.html) — priority 61, 31 impr
-- [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) — priority 61, 83 impr
-- [/farxiga-assistance-program](https://vernalmedicare.com/farxiga-assistance-program.html) — priority 61, 124 impr
+- [/aca](https://vernalmedicare.com/aca.html) — priority 61, 412 impr
 - [/medicare-savings-programs-utah](https://vernalmedicare.com/medicare-savings-programs-utah.html) — priority 60, 54 impr
 - [/does-medicare-cover-repatha](https://vernalmedicare.com/does-medicare-cover-repatha.html) — priority 60, 31 impr
-- [/aca](https://vernalmedicare.com/aca.html) — priority 60, 412 impr
 - [/medicare-irmaa](https://vernalmedicare.com/medicare-irmaa.html) — priority 60, 77 impr
+- [/medicare-help-center](https://vernalmedicare.com/medicare-help-center.html) — priority 59, 38 impr
 - [/does-medicare-cover-ozempic-wegovy](https://vernalmedicare.com/does-medicare-cover-ozempic-wegovy.html) — priority 59, 83 impr
 - [/does-medicare-cover-zepbound](https://vernalmedicare.com/does-medicare-cover-zepbound.html) — priority 59, 33 impr
-- [/medicare-help-center](https://vernalmedicare.com/medicare-help-center.html) — priority 58, 38 impr
 - [/medicare-coverage/ambulance](https://vernalmedicare.com/medicare-coverage/ambulance.html) — priority 58, 180 impr
 - [/faq](https://vernalmedicare.com/faq.html) — priority 57, 60 impr
 - [/does-medicare-cover-humira](https://vernalmedicare.com/does-medicare-cover-humira.html) — priority 57, 36 impr
-- [/medicare-drug-cost-calculator](https://vernalmedicare.com/medicare-drug-cost-calculator.html) — priority 57, 160 impr
 - [/xarelto-assistance-program](https://vernalmedicare.com/xarelto-assistance-program.html) — priority 57, 41 impr
-- _… and 104 more_
+- [/medicare-drug-coverage](https://vernalmedicare.com/medicare-drug-coverage.html) — priority 56, 222 impr
+- [/does-medicare-cover-entresto](https://vernalmedicare.com/does-medicare-cover-entresto.html) — priority 56, 57 impr
+- [/medicare-drug-cost-calculator](https://vernalmedicare.com/medicare-drug-cost-calculator.html) — priority 55, 160 impr
+- [/medicare-out-of-state-utah](https://vernalmedicare.com/medicare-out-of-state-utah.html) — priority 54, 61 impr
+- [/medicare-enrollment-periods](https://vernalmedicare.com/medicare-enrollment-periods.html) — priority 53, 1 impr
+- _… and 98 more_
 
-### Missing Tables — 123 pages
+### Missing Tables — 116 pages
 
 - [/ (home)](https://vernalmedicare.com/) — priority 77, 1,040 impr
 - [/medicare-help-vernal](https://vernalmedicare.com/medicare-help-vernal.html) — priority 74, 126 impr
@@ -205,38 +205,38 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 - [/skyrizi-assistance-program](https://vernalmedicare.com/skyrizi-assistance-program.html) — priority 71, 111 impr
 - [/enbrel-assistance-program](https://vernalmedicare.com/enbrel-assistance-program.html) — priority 70, 164 impr
 - [/medicare-vernal-ut](https://vernalmedicare.com/medicare-vernal-ut.html) — priority 69, 67 impr
-- [/life](https://vernalmedicare.com/life.html) — priority 66, 444 impr
-- [/medicare-irmaa-life-changing-events](https://vernalmedicare.com/medicare-irmaa-life-changing-events.html) — priority 66, 110 impr
-- [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) — priority 65, 64 impr
+- [/life](https://vernalmedicare.com/life.html) — priority 67, 444 impr
+- [/medicare-irmaa-life-changing-events](https://vernalmedicare.com/medicare-irmaa-life-changing-events.html) — priority 67, 110 impr
+- [/vernal](https://vernalmedicare.com/vernal.html) — priority 65, 66 impr
 - [/medicare-quote-vernal](https://vernalmedicare.com/medicare-quote-vernal.html) — priority 64, 37 impr
-- [/vernal](https://vernalmedicare.com/vernal.html) — priority 64, 66 impr
-- [/medicare-formulary-lookup](https://vernalmedicare.com/medicare-formulary-lookup.html) — priority 63, 309 impr
+- [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) — priority 63, 64 impr
+- [/medicare-cost-estimator](https://vernalmedicare.com/medicare-cost-estimator.html) — priority 63, 178 impr
 - [/repatha-assistance-program](https://vernalmedicare.com/repatha-assistance-program.html) — priority 63, 83 impr
-- [/medicare-advantage-plans-vernal](https://vernalmedicare.com/medicare-advantage-plans-vernal.html) — priority 63, 13 impr
-- [/medicare-cost-estimator](https://vernalmedicare.com/medicare-cost-estimator.html) — priority 62, 178 impr
+- [/medicare-formulary-lookup](https://vernalmedicare.com/medicare-formulary-lookup.html) — priority 62, 309 impr
+- [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) — priority 62, 83 impr
 - [/medicare-medicaid-utah](https://vernalmedicare.com/medicare-medicaid-utah.html) — priority 62, 122 impr
 - [/dupixent-assistance-program](https://vernalmedicare.com/dupixent-assistance-program.html) — priority 62, 142 impr
-- [/mounjaro-assistance-program](https://vernalmedicare.com/mounjaro-assistance-program.html) — priority 61, 63 impr
-- [/jardiance-assistance-program](https://vernalmedicare.com/jardiance-assistance-program.html) — priority 61, 31 impr
-- [/trulicity-assistance-program](https://vernalmedicare.com/trulicity-assistance-program.html) — priority 61, 83 impr
-- [/farxiga-assistance-program](https://vernalmedicare.com/farxiga-assistance-program.html) — priority 61, 124 impr
-- [/aca](https://vernalmedicare.com/aca.html) — priority 60, 412 impr
+- [/aca](https://vernalmedicare.com/aca.html) — priority 61, 412 impr
 - [/medicare-irmaa](https://vernalmedicare.com/medicare-irmaa.html) — priority 60, 77 impr
+- [/medicare-help-center](https://vernalmedicare.com/medicare-help-center.html) — priority 59, 38 impr
 - [/does-medicare-cover-ozempic-wegovy](https://vernalmedicare.com/does-medicare-cover-ozempic-wegovy.html) — priority 59, 83 impr
 - [/does-medicare-cover-zepbound](https://vernalmedicare.com/does-medicare-cover-zepbound.html) — priority 59, 33 impr
-- [/medicare-help-center](https://vernalmedicare.com/medicare-help-center.html) — priority 58, 38 impr
 - [/medicare-coverage/ambulance](https://vernalmedicare.com/medicare-coverage/ambulance.html) — priority 58, 180 impr
 - [/faq](https://vernalmedicare.com/faq.html) — priority 57, 60 impr
-- [/medicare-drug-cost-calculator](https://vernalmedicare.com/medicare-drug-cost-calculator.html) — priority 57, 160 impr
 - [/xarelto-assistance-program](https://vernalmedicare.com/xarelto-assistance-program.html) — priority 57, 41 impr
-- [/eliquis-assistance-program](https://vernalmedicare.com/eliquis-assistance-program.html) — priority 57, 67 impr
 - [/medicare-drug-coverage](https://vernalmedicare.com/medicare-drug-coverage.html) — priority 56, 222 impr
-- [/part-d-plans-vernal](https://vernalmedicare.com/part-d-plans-vernal.html) — priority 54, 22 impr
-- [/medicare-out-of-state-utah](https://vernalmedicare.com/medicare-out-of-state-utah.html) — priority 53, 61 impr
+- [/medicare-drug-cost-calculator](https://vernalmedicare.com/medicare-drug-cost-calculator.html) — priority 55, 160 impr
+- [/medicare-out-of-state-utah](https://vernalmedicare.com/medicare-out-of-state-utah.html) — priority 54, 61 impr
 - [/medicare-advantage-vs-medigap-vernal](https://vernalmedicare.com/medicare-advantage-vs-medigap-vernal.html) — priority 53, 13 impr
 - [/medicare-agent-vernal](https://vernalmedicare.com/medicare-agent-vernal.html) — priority 53, 21 impr
-- [/tier-3-vs-tier-4-medicare-part-d](https://vernalmedicare.com/tier-3-vs-tier-4-medicare-part-d.html) — priority 52, 25 impr
 - [/medicare-open-enrollment-2026](https://vernalmedicare.com/medicare-open-enrollment-2026.html) — priority 51, 33 impr
-- [/medicare-out-of-pocket-maximum-2026](https://vernalmedicare.com/medicare-out-of-pocket-maximum-2026.html) — priority 51, 59 impr
-- [/insulin-cost-medicare-vernal](https://vernalmedicare.com/insulin-cost-medicare-vernal.html) — priority 51, 15 impr
-- _… and 83 more_
+- [/tier-3-vs-tier-4-medicare-part-d](https://vernalmedicare.com/tier-3-vs-tier-4-medicare-part-d.html) — priority 51, 25 impr
+- [/rinvoq-assistance-program](https://vernalmedicare.com/rinvoq-assistance-program.html) — priority 51, 30 impr
+- [/medicare-out-of-pocket-maximum-2026](https://vernalmedicare.com/medicare-out-of-pocket-maximum-2026.html) — priority 50, 59 impr
+- [/insulin-cost-medicare-vernal](https://vernalmedicare.com/insulin-cost-medicare-vernal.html) — priority 50, 15 impr
+- [/humira-assistance-program](https://vernalmedicare.com/humira-assistance-program.html) — priority 50, 5 impr
+- [/d-snp-plans-utah](https://vernalmedicare.com/d-snp-plans-utah.html) — priority 49, 26 impr
+- [/medicare-news/glp-1-drugs-medicare](https://vernalmedicare.com/medicare-news/glp-1-drugs-medicare.html) — priority 49, 178 impr
+- [/medicare-coverage](https://vernalmedicare.com/medicare-coverage.html) — priority 49, 3 impr
+- [/medicare-part-d-cost-calculator](https://vernalmedicare.com/medicare-part-d-cost-calculator.html) — priority 49, 33 impr
+- _… and 76 more_

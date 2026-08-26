@@ -13,6 +13,8 @@
 // Every SEO string, internal link and the schema payload are preserved.
 import ArticlePage from '../layout/ArticlePage.astro';
 import AuthorByline from './AuthorByline.astro';
+import SummaryBlock from '../SummaryBlock.astro';
+import SourcesList from './SourcesList.astro';
 import { getPageContent, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
 import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
 import { relatedFor } from '../../lib/related';
@@ -28,6 +30,12 @@ interface TrustItem {
   text: string;
 }
 
+interface TableData {
+  caption: string;
+  cols: string[];
+  rows: string[][];
+}
+
 interface Content {
   page: {
     title: string;
@@ -39,6 +47,8 @@ interface Content {
   breadcrumb: { home: string; self: string };
   hero: { imgAlt: string };
   trust: TrustItem[];
+  table: TableData;
+  sources: { title: string; url: string; publisher: string }[];
   body: Record<string, string>;
   ctaPoints: string[];
 }
@@ -60,6 +70,7 @@ const context: PageContext = {
     },
     summary: c.page.summary,
     faqs: c.page.faqs,
+    sources: c.sources,
   },
   meta: {
     canonical: `${SITE_ORIGIN}${pagePath}`,
@@ -106,7 +117,7 @@ const ICONS: Record<string, string> = {
       <div class="mav-hero__copy">
         <h1 set:html={headingHtml} />
         <AuthorByline authorId={context.author} updated={context.lastUpdated} />
-        <p class="mav-lede">{c.page.summary}</p>
+        <SummaryBlock text={c.page.summary} />
       </div>
       <div class="mav-hero__media">
         <img
@@ -183,6 +194,24 @@ const ICONS: Record<string, string> = {
           </p>
         </article>
       </div>
+
+      <h3 class="mav-table__h3">{b.h3Table}</h3>
+      <div class="mav-tablewrap">
+        <table class="mav-table">
+          <caption class="mav-table__caption">{c.table.caption}</caption>
+          <thead>
+            <tr>{c.table.cols.map((col, i) => (i === 0 ? <th scope="col">{col}</th> : <th scope="col">{col}</th>))}</tr>
+          </thead>
+          <tbody>
+            {c.table.rows.map((row) => (
+              <tr>
+                <th scope="row">{row[0]}</th>
+                {row.slice(1).map((cell) => <td>{cell}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <!-- ================= $0 PREMIUM ================= -->
@@ -237,6 +266,8 @@ const ICONS: Record<string, string> = {
 
     <p class="mav-source" set:html={b.sourceHtml} />
 
+    <SourcesList sources={c.sources} heading={b.sourcesHeading} />
+
     <!-- ================= FAQ ================= -->
     <section class="mav-faq" aria-label={b.faqHeading}>
       <h2 class="mav-h2">
@@ -279,7 +310,7 @@ const ICONS: Record<string, string> = {
     )}
 
     <!-- ================= CTA BAND ================= -->
-    <section class="mav-cta">
+    <section class="page-cta mav-cta">
       <span class="mav-cta__ic" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6.5 3.5h3l1.5 4-2 1.4a12 12 0 0 0 6.1 6.1l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2z"/>
@@ -371,11 +402,15 @@ const ICONS: Record<string, string> = {
     font-size: clamp(1.9rem, 1.2rem + 2.4vw, 3rem);
     line-height: 1.1; color: var(--navy); margin: 0 0 .6rem; letter-spacing: -.01em;
   }
-  .mav-hero .mav-year { color: var(--red); }
+  /* The year span is injected via set:html, so it never gets the scope attribute. */
+  .mav-hero :global(.mav-year) { color: var(--red); }
   .mav-hero :global(.byline) {
     font-size: .88rem; color: var(--muted); margin: 0 0 1rem;
   }
-  .mav-lede { font-size: 1.05rem; color: #3d4d5c; max-width: 34em; }
+  /* SummaryBlock ships its own global styling; soften it into the hero. */
+  .mav-hero :global(.summary-block) {
+    margin: 0; max-width: 36em; font-size: 1.05rem;
+  }
   .mav-hero__media img {
     width: 100%; height: auto; display: block;
     border-radius: 16px; box-shadow: 0 18px 40px rgba(18,57,92,.18);
@@ -440,6 +475,35 @@ const ICONS: Record<string, string> = {
   .mav-plan--hmo .mav-plan__fit { background: #e7f0fa; color: #10456f; }
   .mav-plan--ppo .mav-plan__fit { background: #fdeaea; color: #8f1f1f; }
 
+  /* ---------- COMPARISON TABLE ---------- */
+  .mav-table__h3 { font-size: 1.05rem; color: var(--navy); margin: 1.6rem 0 .7rem; }
+  .mav-tablewrap { overflow-x: auto; }
+  .mav-table {
+    width: 100%; border-collapse: collapse; font-size: .95rem;
+    background: #fff; border: 1px solid var(--line); border-radius: 12px;
+  }
+  .mav-table__caption {
+    caption-side: bottom; text-align: left; padding: .6rem .2rem 0;
+    font-size: .84rem; color: var(--muted);
+  }
+  .mav-table th, .mav-table td {
+    padding: .7rem .9rem; text-align: left; border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .mav-table thead th { background: var(--wash); color: var(--navy); font-size: .9rem; }
+  .mav-table thead th:nth-child(2) { color: var(--blue); }
+  .mav-table thead th:nth-child(3) { color: var(--red); }
+  .mav-table tbody th { color: var(--navy); font-weight: 700; white-space: nowrap; }
+  .mav-table tbody tr:last-child th, .mav-table tbody tr:last-child td { border-bottom: 0; }
+
+  /* ---------- SOURCES ---------- */
+  .mav :global(.sources) { margin: 2.4rem 0; }
+  .mav :global(.sources h2) {
+    font-size: 1.1rem; color: var(--navy); margin: 0 0 .6rem;
+  }
+  .mav :global(.sources ul) { margin: 0; padding-left: 1.2rem; }
+  .mav :global(.sources li) { margin-bottom: .35rem; font-size: .93rem; }
+
   /* ---------- $0 PREMIUM ---------- */
   .mav-zero {
     position: relative; overflow: hidden;
@@ -500,6 +564,7 @@ const ICONS: Record<string, string> = {
 
   /* ---------- CTA BAND ---------- */
   .mav-cta {
+    text-align: left;
     display: grid; grid-template-columns: auto 1fr auto; gap: 1.6rem; align-items: center;
     background: linear-gradient(135deg, var(--navy-2), #16456d);
     border-radius: 16px; padding: 1.8rem 2rem; color: #fff;

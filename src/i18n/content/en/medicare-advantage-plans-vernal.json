@@ -27,15 +27,31 @@
     "imgAlt": "Main Street in Vernal, Utah, with the Uintah Basin bluffs behind it"
   },
   "trust": [
-    { "icon": "stethoscope", "title": "Local Expertise", "text": "Serving Vernal & the Uintah Basin" },
-    { "icon": "heart", "title": "Plan Choices", "text": "Multiple HMO & PPO options for 2026" },
-    { "icon": "dollar", "title": "$0 Premium Plans", "text": "Many plans with $0 monthly premiums" },
-    { "icon": "shield", "title": "Extra Benefits", "text": "Dental, vision, hearing, fitness & more" }
+    {
+      "icon": "stethoscope",
+      "title": "Local Expertise",
+      "text": "Serving Vernal & the Uintah Basin"
+    },
+    {
+      "icon": "heart",
+      "title": "Plan Choices",
+      "text": "Multiple HMO & PPO options for 2026"
+    },
+    {
+      "icon": "dollar",
+      "title": "$0 Premium Plans",
+      "text": "Many plans with $0 monthly premiums"
+    },
+    {
+      "icon": "shield",
+      "title": "Extra Benefits",
+      "text": "Dental, vision, hearing, fitness & more"
+    }
   ],
   "body": {
     "introHtml": "Medicare Advantage (Part C) plans are a popular way for people in Vernal and the Uintah Basin to get their Medicare coverage. Many plans bundle prescription drugs, dental, vision, hearing, and fitness benefits into one plan — frequently at $0 monthly premium beyond your Part B payment.",
     "h2What": "What Makes a Medicare Advantage Plan a Good Fit?",
-    "whatHtml": "The right plan depends on your specific situation. For Vernal and Uintah Basin residents, the key factors are whether your doctors and hospitals are in-network (especially Ashley Regional Medical Center and local clinics), whether your prescriptions are covered at reasonable copays, which pharmacy offers the lowest cost, the maximum out-of-pocket limit, and whether extra benefits like dental, vision, hearing, and OTC allowances are included.",
+    "whatHtml": "The right plan depends on your specific situation. For Vernal and Uintah Basin residents, the key factors are whether your doctors and hospitals are in-network (especially <a href=\"medicare-ashley-regional-vernal.html\">Ashley Regional Medical Center</a> and the other <a href=\"medicare-hospitals-uintah-county.html\">hospitals in Uintah County</a>), whether your prescriptions are covered at reasonable copays, which of the <a href=\"medicare-vernal-pharmacies.html\">Vernal pharmacies</a> offers the lowest cost, the <a href=\"medicare-out-of-pocket-maximum-2026.html\">maximum out-of-pocket limit</a>, and whether extra benefits like <a href=\"medicare-dental-vision-hearing.html\">dental, vision, and hearing</a> and OTC allowances are included.",
     "h2Types": "Types of Medicare Advantage Plans in Vernal",
     "h3Hmo": "HMO Plans",
     "hmoHtml": "Health Maintenance Organization plans typically have lower premiums and copays but require you to use in-network providers (except emergencies). You usually need a primary care doctor referral to see specialists.",
@@ -44,11 +60,11 @@
     "ppoHtml": "Preferred Provider Organization plans cost slightly more but allow out-of-network care at higher copays. No referrals are needed for specialists.",
     "ppoFit": "A good fit if you travel or see specialists outside the area.",
     "h2Zero": "$0 Premium Medicare Advantage Plans",
-    "zeroHtml": "Many Medicare Advantage plans in the Vernal area offer $0 monthly premiums — you only pay your regular Part B premium. These plans still include full Medicare coverage plus additional benefits. However, $0 premium does not mean $0 cost — you may still pay copays, coinsurance, and deductibles when you use services. The maximum out-of-pocket limit caps your total annual spending.",
+    "zeroHtml": "Many Medicare Advantage plans in the Vernal area offer $0 monthly premiums — you only pay your regular Part B premium. These plans still include full Medicare coverage plus additional benefits. However, $0 premium does not mean $0 cost — you may still pay copays, coinsurance, and deductibles when you use services. The <a href=\"medicare-out-of-pocket-maximum-2026.html\">maximum out-of-pocket limit</a> caps your total annual spending. We walk through how these plans are funded on <a href=\"zero-premium-medicare-advantage.html\">$0-premium Advantage plans in Uintah County</a>.",
     "h2Compare": "How to Compare Plans in Vernal",
-    "compareHtml": "We run a personalized comparison using your doctor list, prescription medications, and preferred pharmacies. The comparison shows estimated annual costs, coverage details, and benefit differences side by side. This takes about 15 minutes by phone or in person at Smith's Pharmacy.",
+    "compareHtml": "We run a personalized comparison using your doctor list, prescription medications, and preferred pharmacies. The comparison shows estimated annual costs, coverage details, and benefit differences side by side. This takes about 15 minutes by phone or in person at Smith’s Pharmacy — or start with the <a href=\"free-medicare-comparison-vernal.html\">free online comparison tool</a> and bring your questions to the call.",
     "h2Rural": "Important Considerations for Rural Utah",
-    "ruralHtml": "Network adequacy matters more in rural areas. A plan with an extensive network in Salt Lake City may have limited coverage in the Uintah Basin. We verify local provider participation, telehealth availability, and transportation benefits before recommending any plan. If you split time between locations or travel frequently, this becomes especially important.",
+    "ruralHtml": "Network adequacy matters more in rural areas. A plan with an extensive network in Salt Lake City may have limited coverage in the Uintah Basin. We verify local provider participation, telehealth availability, and transportation benefits before recommending any plan. If you split time between locations or travel frequently, this becomes especially important — and if you have both Medicare and Medicaid, look at <a href=\"d-snp-plans-utah.html\">Dual-Eligible Special Needs Plans</a> before anything else.",
     "compareLinksHtml": "Compare options: <a href=\"hmo-vs-ppo-medicare-advantage.html\">HMO vs PPO explained</a> | <a href=\"medicare-advantage-vs-medigap-vernal.html\">Advantage vs Medigap</a> | <a href=\"part-d-plans-vernal.html\">Part D plans in Vernal</a>",
     "sourceHtml": "<em>Source: <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a>. Plans, premiums, and benefits change annually. Compare options each enrollment period.</em>",
     "enrollLabel": "Compare Plans &amp; Enroll",
@@ -58,11 +74,65 @@
     "ctaHeading": "Talk to a local, licensed agent",
     "ctaText": "Rocco DeLuca can walk you through your options — free, no pressure.",
     "ctaCall": "Call 435-219-5120",
-    "ctaQuote": "Get a Free Quote"
+    "ctaQuote": "Get a Free Quote",
+    "h3Table": "HMO vs PPO at a glance",
+    "sourcesHeading": "Sources"
   },
   "ctaPoints": [
     "Local expertise you can trust",
     "No obligation, just answers",
     "Available by phone or in person"
+  ],
+  "table": {
+    "caption": "Medicare Advantage HMO and PPO plans compared for Vernal, Utah",
+    "cols": [
+      "",
+      "HMO",
+      "PPO"
+    ],
+    "rows": [
+      [
+        "Provider network",
+        "In-network only (except emergencies)",
+        "In-network and out-of-network"
+      ],
+      [
+        "Specialist referrals",
+        "Usually required",
+        "Not required"
+      ],
+      [
+        "Care outside the Basin",
+        "Emergency and urgent care only",
+        "Covered at a higher copay"
+      ],
+      [
+        "Typical premium and copays",
+        "Lower",
+        "Somewhat higher"
+      ],
+      [
+        "Works well if",
+        "Your care stays local",
+        "You travel or see specialists elsewhere"
+      ]
+    ]
+  },
+  "sources": [
+    {
+      "title": "Medicare Advantage Plans (Part C)",
+      "url": "https://www.medicare.gov/health-drug-plans/health-plans",
+      "publisher": "Medicare.gov"
+    },
+    {
+      "title": "Find & compare plans in your area",
+      "url": "https://www.medicare.gov/plan-compare",
+      "publisher": "Medicare.gov"
+    },
+    {
+      "title": "Medicare & You handbook",
+      "url": "https://www.medicare.gov/medicare-and-you",
+      "publisher": "CMS"
+    }
   ]
 }

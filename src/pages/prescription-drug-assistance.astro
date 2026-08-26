@@ -272,9 +272,16 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
   </section>
 
   {/* ─── Find Assistance by Medication ───────────────────────────────── */}
-  <section class="pda-find">
+  {/* THE medication directory. The "All Medications" nav item points at
+      #all-medications, so this section — not navigation.ts — is what grows as
+      medications are added. It is generated from FEATURED_DRUGS, so a new
+      record appears here automatically. */}
+  <section class="pda-find" id="all-medications">
     <h2 class="pda-h2">Find Assistance by Medication</h2>
-    <p class="pda-h2-sub">Select your condition to see programs that may help.</p>
+    <p class="pda-h2-sub">
+      Every medication with an assistance page on this site — {FEATURED_DRUGS.length} in
+      all — grouped by condition. Select yours to see the programs that may help.
+    </p>
     <div class="pda-find__panel">
       <div class="pda-find__grid">
         {byCondition.map((g) => {

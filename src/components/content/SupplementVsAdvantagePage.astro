@@ -33,6 +33,7 @@ interface Content {
   };
   meta: { ogTitle: string; ogDescription: string };
   breadcrumb: { home: string; self: string };
+  sources: { title: string; url: string; publisher: string }[];
   body: {
     quickSummaryHtml: string;
     biggerPictureHtml: string;
@@ -59,6 +60,8 @@ interface Content {
     helpHtml1: string;
     helpHtml2: string;
     callCtaLabel: string;
+    sourcesHeading: string;
+    sourcesNote: string;
     relatedHeading: string;
     relatedItemsHtml: string[];
   };
@@ -76,6 +79,7 @@ const context: PageContext = {
     description: c.page.description,
     taxonomy: { silo: 'medigap', tags: ['medigap', 'advantage', 'comparison', 'original-medicare'] },
     summary: c.page.summary,
+    sources: c.sources,
     faqs: c.page.faqs,
   },
   meta: {
@@ -287,6 +291,28 @@ const context: PageContext = {
       <p class="sva-cta">
         <a href="tel:+14352195120" class="btn sva-btn">{b.callCtaLabel}</a>
       </p>
+    </section>
+
+    {/* Sources — `sources` in the class is the editorial-completeness contract
+        marker (scripts/seo/sources.mjs). Keep it if this block is restyled. */}
+    <section class="sva-section sva-sources">
+      <div class="sva-head">
+        <span class="sva-head-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9" /><path d="M3 12h18" />
+            <path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z" />
+          </svg>
+        </span>
+        <h2>{b.sourcesHeading}</h2>
+      </div>
+      <ul>
+        {c.sources.map((src) => (
+          <li>
+            <a href={src.url} target="_blank" rel="noopener noreferrer">{src.title}</a> — {src.publisher}
+          </li>
+        ))}
+      </ul>
+      <p class="sva-sources__note">{b.sourcesNote}</p>
     </section>
 
     {/* Related Articles */}
@@ -714,5 +740,12 @@ const context: PageContext = {
     .sva-related li,
     .sva-related li::before,
     .sva .sva-btn { transition: none; }
+  }
+
+  /* Sources block — same shape as Related, quieter. */
+  .sva-sources__note {
+    margin: .7rem 0 0;
+    font-size: .86rem;
+    color: #5a6b7b;
   }
 </style>

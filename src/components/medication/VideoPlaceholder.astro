@@ -1,0 +1,86 @@
+---
+// VideoPlaceholder.astro — the dedicated video frame on every medication page
+// (docs/PRESCRIPTION-ASSISTANCE-PROJECT.md §12, §23).
+//
+// Renders a real embed only when `video.youtubeId` is set; otherwise a
+// deliberate "coming soon" frame that reserves the same space, so a future
+// video drops in without touching the page. No fake ids, no unrelated videos.
+import type { VideoFrame } from '../../types/MedicationAssistance';
+
+interface Props {
+  video: VideoFrame;
+}
+const { video } = Astro.props;
+const live = video.status === 'published' && !!video.youtubeId;
+---
+
+<figure class="vid">
+  {live ? (
+    <div class="vid__frame vid__frame--live">
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}`}
+        title={video.title}
+        loading="lazy"
+        allow="accelerometer; encrypted-media; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+  ) : (
+    <div class="vid__frame" role="img" aria-label={`${video.title} — video coming soon`}>
+      <span class="vid__play" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z" /></svg>
+      </span>
+      <span class="vid__badge">Video coming soon</span>
+    </div>
+  )}
+  <figcaption class="vid__caption">
+    <strong>{video.title}</strong>
+    {video.description && <span>{video.description}</span>}
+  </figcaption>
+</figure>
+
+<style>
+  .vid { margin: 0; }
+  .vid__frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 90% at 20% 10%, rgba(37, 99, 235, 0.45), transparent 60%),
+      linear-gradient(135deg, #0b2c45 0%, #123a5c 60%, #1d4ed8 140%);
+    box-shadow: 0 18px 44px rgba(11, 44, 69, 0.22);
+    display: grid;
+    place-items: center;
+    gap: 0.75rem;
+  }
+  .vid__frame::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+  .vid__frame--live { display: block; background: #000; }
+  .vid__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .vid__play {
+    position: relative; z-index: 1;
+    display: grid; place-items: center;
+    width: 74px; height: 74px; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.16);
+    border: 2px solid rgba(255, 255, 255, 0.55);
+    color: #fff;
+  }
+  .vid__play svg { width: 34px; height: 34px; margin-left: 4px; }
+  .vid__badge {
+    position: absolute; left: 1rem; bottom: 1rem; z-index: 1;
+    font-size: 0.78rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
+    color: #0b2c45; background: #fff; border-radius: 999px; padding: 0.35rem 0.75rem;
+  }
+  .vid__caption { margin: 0.75rem 0 0; display: grid; gap: 0.15rem; }
+  .vid__caption strong { color: #0b2c45; font-size: 1rem; }
+  .vid__caption span { color: #55627a; font-size: 0.88rem; line-height: 1.5; }
+</style>

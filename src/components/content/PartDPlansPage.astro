@@ -2,13 +2,34 @@
 // src/components/content/PartDPlansPage.astro — Part D pillar-adjacent
 // template (M4; playbook §4.5). Rendered by BOTH /part-d-plans-vernal.html
 // and its /es/ sibling; copy from src/i18n/content/{locale}/part-d-plans-vernal.json.
+//
+// Design (M45): rebuilt from a plain article into the money-page layout used by
+// the costs / help-center hubs — a split hero (H1 + byline + lede | Vernal
+// photo), a two-column body with icon-badged sections and a sticky agent card,
+// an FAQ accordion, a "Related Helpful Resources" card grid, and a navy CTA
+// banner. bareHeader + bareFooter: this component owns the whole page. Schema
+// (Article + FAQPage + breadcrumb) is still assembled from `context`, so the
+// structured data is unchanged by the redesign.
+//
+// LINKS: internal links stay relative IN THE CONTENT JSON — getPageContent()
+// rewrites them per locale. Any href written directly in this markup must go
+// through localizeHref(…, lang).
 import ArticlePage from '../layout/ArticlePage.astro';
-import { getPageContent, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
-import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import AuthorByline from './AuthorByline.astro';
+import SummaryBlock from '../SummaryBlock.astro';
+import { BUSINESS } from '../../data/business';
+import { authorById } from '../../data/authors';
+import { PAGE_INDEX } from '../../data/pageIndex';
+import { relatedFor } from '../../lib/related';
+import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
+import { getLangFromUrl, getLocaleMeta, t } from '../../i18n/locales';
 import type { PageContext } from '../../types/Page';
 
 const SLUG = 'part-d-plans-vernal';
 
+interface KeyPoint { title: string; html: string }
+interface TableData { caption: string; cols: string[]; rows: string[][] }
+interface Definition { term: string; def: string }
 interface Content {
   page: {
     title: string;
@@ -18,12 +39,34 @@ interface Content {
     faqs: { question: string; answer: string }[];
   };
   breadcrumb: { home: string; self: string };
-  body: Record<string, string | string[]> & { relatedItemsHtml: string[] };
+  table: TableData;
+  definitions: Definition[];
+  body: Record<string, string | string[] | KeyPoint[]> & {
+    keyPoints: KeyPoint[];
+    relatedItemsHtml: string[];
+  };
+  ui: {
+    heroImageAlt: string;
+    agentHeading: string;
+    agentRole: string;
+    agentPoints: string[];
+    textBtn: string;
+    faqHeading: string;
+    resourcesHeading: string;
+    moreHeading: string;
+    ctaTitle: string;
+    ctaSub: string;
+    ctaCall: string;
+    ctaQuote: string;
+  };
 }
 
 const lang = getLangFromUrl(Astro.url);
 const c = getPageContent<Content>(SLUG, lang);
 const b = c.body;
+const ui = c.ui;
+const vars = { phone: BUSINESS.phone, tty: BUSINESS.tty, email: BUSINESS.email };
+const t9 = (s: string) => interp(s, vars);
 const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
 
 const context: PageContext = {
@@ -33,7 +76,7 @@ const context: PageContext = {
     description: c.page.description,
     taxonomy: {
       silo: 'part-d',
-      tags: ['part-d', 'best-plans', 'drugs', 'vernal', 'uintah-county', 'local'],
+      tags: ['part-d', 'plan-comparison', 'drugs', 'vernal', 'uintah-county', 'local'],
     },
     summary: c.page.summary,
     faqs: c.page.faqs,
@@ -55,40 +98,501 @@ const context: PageContext = {
     { name: c.breadcrumb.self, href: pagePath },
   ],
 };
+
+// Trailing year in the H1 renders in the brand red ("… Vernal, Utah 2026").
+const headMatch = c.page.heading.match(/^(.*?)\s(\d{4})\s*$/);
+const headLead = headMatch ? headMatch[1] : c.page.heading;
+const headYear = headMatch ? headMatch[2] : '';
+
+const agent = authorById('rocco');
+const agentName = agent?.name ?? BUSINESS.legalAgent;
+const phoneHref = `tel:${BUSINESS.phoneTel}`;
+const smsHref = `sms:${BUSINESS.smsTel}?&body=${encodeURIComponent(t('contactFab.smsBody', lang, { agent: agentName }))}`;
+
+// bareFooter drops the framework's RelatedPages, so compute the same top-4 here
+// and render them as cards. Exclude the English href — that is the index key.
+const related = relatedFor(context.page.taxonomy, PAGE_INDEX, `/${SLUG}.html`);
+
+const CARD_STYLE = [
+  { accent: '#2563eb', tint: '#eaf1fe', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.6 3.4 3.4 10.6a5 5 0 0 0 7.1 7.1l7.1-7.1a5 5 0 1 0-7-7.1z"/><path d="M7 7l7 7"/></svg>' },
+  { accent: '#16a34a', tint: '#e6f6ec', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 12.4 12.4 20.6a2 2 0 0 1-2.8 0l-6.2-6.2a2 2 0 0 1-.6-1.4V4.5a2 2 0 0 1 2-2h8.5a2 2 0 0 1 1.4.6l5.9 5.9a2 2 0 0 1 0 2.8z"/><circle cx="7.8" cy="7.8" r="1.3" fill="currentColor" stroke="none"/></svg>' },
+  { accent: '#d97706', tint: '#fdf2e0', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><rect x="8" y="6" width="8" height="3" rx="0.6"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01M15.5 16.5v2"/></svg>' },
+  { accent: '#7c3aed', tint: '#f2ebfd', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><circle cx="11.5" cy="13.5" r="2.8"/><path d="M13.6 15.6 16 18"/></svg>' },
+];
+const cards = related.map((r, i) => ({ ...r, ...CARD_STYLE[i % CARD_STYLE.length] }));
+
+// Body sections, in reading order. Icon + accent are language-neutral, so they
+// live here rather than in the translated content JSON.
+const GEAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5v.2a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1h.2a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>';
+const PEOPLE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.4 2.9-6.2 6.5-6.2s6.5 2.8 6.5 6.2"/><circle cx="17.6" cy="9.4" r="2.4"/><path d="M17.6 14c2.4 0 4.4 1.9 4.4 4.3"/></svg>';
+const DOLLAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M16 7.2A3.6 3.6 0 0 0 12.4 5.2h-.9C9.6 5.2 8.2 6.4 8.2 8s1.3 2.5 3.4 2.9l1 .2c2.1.4 3.4 1.3 3.4 2.9s-1.4 2.8-3.3 2.8h-.9A3.6 3.6 0 0 1 8 16.8"/></svg>';
+const PILL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.6 3.4 3.4 10.6a5 5 0 0 0 7.1 7.1l7.1-7.1a5 5 0 1 0-7-7.1z"/><path d="M7 7l7 7"/></svg>';
+const CALENDAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="m9 14.5 2 2 4-4"/></svg>';
+
+const sections = [
+  { h2: b.h2How as string, accent: '#dc2626', tint: '#fdecec', icon: GEAR, html: b.howHtml as string, points: null },
+  { h2: b.h2Key as string, accent: '#ea580c', tint: '#fdeee0', icon: PEOPLE, html: '', points: b.keyPoints },
+  { h2: b.h2Costs as string, accent: '#16a34a', tint: '#e6f6ec', icon: DOLLAR, html: b.costsHtml as string, points: null },
+  { h2: b.h2Common as string, accent: '#7c3aed', tint: '#f2ebfd', icon: PILL, html: b.commonHtml as string, points: null },
+  { h2: b.h2When as string, accent: '#2563eb', tint: '#eaf1fe', icon: CALENDAR, html: b.whenHtml as string, points: null },
+];
+
+const SCALES = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M3.5 7.5h17"/><path d="M6.8 7.5 3.5 14h6.6zM17.2 7.5 13.9 14h6.6z"/><path d="M8 20h8"/></svg>';
+const BOOK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H19v15H5.5A1.5 1.5 0 0 0 4 19.5z"/><path d="M4 19.5A1.5 1.5 0 0 1 5.5 18H19v3H5.5A1.5 1.5 0 0 1 4 19.5z"/><path d="M8 7.5h7M8 11h5"/></svg>';
+
+const PHONE_SVG = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 3c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1z"/></svg>';
+const TICK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
 ---
 
-<ArticlePage context={context}>
-  <div style="background:#f0f9ff; border-left:5px solid #0b6ea3; border-radius:8px; padding:1.25rem; margin:1.5rem 0;" set:html={b.needHtml} />
+<ArticlePage context={context} bareHeader bareFooter>
+  {/* ─── Hero ─────────────────────────────────────────────────────────── */}
+  <section class="pd-hero">
+    <div class="pd-hero__copy">
+      <h1 class="pd-hero__title">
+        {headLead}{headYear && <Fragment> <span class="pd-hero__year">{headYear}</span></Fragment>}
+      </h1>
+      <AuthorByline authorId={context.author} updated={context.lastUpdated} />
+      {/* The real <SummaryBlock> doubles as the hero lede: same copy, and the
+          page keeps the AI-summary contract that bareHeader would otherwise drop. */}
+      <div class="pd-hero__lede"><SummaryBlock text={c.page.summary} /></div>
+    </div>
+    <div class="pd-hero__art">
+      <img
+        class="pd-hero__img"
+        src="/pictures/medicarevernal.webp"
+        alt={ui.heroImageAlt}
+        width="1672"
+        height="940"
+        loading="eager"
+        decoding="async"
+      />
+    </div>
+  </section>
 
-  <p set:html={b.introHtml} />
+  {/* ─── Body + sticky agent rail ─────────────────────────────────────── */}
+  <div class="pd-grid">
+    <div class="pd-main">
+      <aside class="pd-note">
+        <span class="pd-note__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17" rx="2"/><rect x="9" y="1.8" width="6" height="3.4" rx="1"/><path d="M8.5 11h7M8.5 15h4.5"/></svg></span>
+        <p set:html={b.needHtml} />
+      </aside>
 
-  <h2>{b.h2How}</h2>
-  <p set:html={b.howHtml} />
+      {sections.map((s) => (
+        <section class="pd-sec" style={`--accent:${s.accent};--tint:${s.tint}`}>
+          <h2 class="pd-sec__h">
+            <span class="pd-sec__icon" aria-hidden="true" set:html={s.icon} />
+            {s.h2}
+          </h2>
+          {s.points ? (
+            <ul class="pd-checks">
+              {s.points.map((p) => (
+                <li>
+                  <span class="pd-checks__mark" aria-hidden="true" set:html={TICK_SVG} />
+                  <span><strong>{p.title}:</strong> <span set:html={p.html} /></span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p set:html={s.html} />
+          )}
+        </section>
+      ))}
 
-  <h2>{b.h2Key}</h2>
-  <p set:html={b.keyHtml} />
+      {/* The two routes to drug coverage, side by side. A Part D page that
+          compares nothing has failed at its job (scripts/seo/standards.mjs). */}
+      <section class="pd-sec" style="--accent:#0891b2;--tint:#e2f5f9">
+        <h2 class="pd-sec__h">
+          <span class="pd-sec__icon" aria-hidden="true" set:html={SCALES} />
+          {b.h2Table}
+        </h2>
+        <div class="pd-tablewrap">
+          <table class="pd-table">
+            <caption class="pd-table__cap">{c.table.caption}</caption>
+            <thead>
+              <tr>{c.table.cols.map((col) => <th scope="col">{col}</th>)}</tr>
+            </thead>
+            <tbody>
+              {c.table.rows.map((row) => (
+                <tr>
+                  <th scope="row">{row[0]}</th>
+                  {row.slice(1).map((cell) => <td>{cell}</td>)}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
-  <h2>{b.h2Costs}</h2>
-  <p set:html={b.costsHtml} />
+      {/* Definitions of the terms this page uses. <dl> is what the editorial
+          standard detects, and what AI extractors pull for term queries. */}
+      <section class="pd-sec" style="--accent:#4f46e5;--tint:#ecebfd">
+        <h2 class="pd-sec__h">
+          <span class="pd-sec__icon" aria-hidden="true" set:html={BOOK} />
+          {b.h2Defs}
+        </h2>
+        <dl class="pd-defs">
+          {c.definitions.map((d) => (
+            <div class="pd-defs__row">
+              <dt><dfn>{d.term}</dfn></dt>
+              <dd set:html={d.def} />
+            </div>
+          ))}
+        </dl>
+      </section>
 
-  <h2>{b.h2Common}</h2>
-  <p set:html={b.commonHtml} />
+      {/* `sources` in the class is the editorial-completeness contract marker
+          (scripts/seo/sources.mjs) — keep it on any citation line. */}
+      <p class="pd-sources" set:html={b.sourceHtml} />
+    </div>
 
-  <h2>{b.h2When}</h2>
-  <p set:html={b.whenHtml} />
+    <aside class="pd-rail">
+      <div class="pd-agent">
+        <h2 class="pd-agent__h">{ui.agentHeading}</h2>
+        <div class="pd-agent__who">
+          <img class="pd-agent__photo" src="/pictures/rocco.webp" alt={`${agentName}, ${ui.agentRole}`} width="72" height="72" loading="lazy" decoding="async" />
+          <span class="pd-agent__id">
+            <strong>{agentName}</strong>
+            <em>{ui.agentRole}</em>
+          </span>
+        </div>
+        <ul class="pd-agent__points">
+          {ui.agentPoints.map((p) => (
+            <li>
+              <span class="pd-agent__tick" aria-hidden="true" set:html={TICK_SVG} />
+              <span>{p}</span>
+            </li>
+          ))}
+        </ul>
+        <a class="pd-btn pd-btn--call" href={phoneHref}>
+          <span class="pd-btn__icon" aria-hidden="true" set:html={PHONE_SVG} />
+          {BUSINESS.phone}
+        </a>
+        <a class="pd-btn pd-btn--text" href={smsHref}>
+          <span class="pd-btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span>
+          {ui.textBtn}
+        </a>
+      </div>
+    </aside>
+  </div>
 
-  <section style="background:#f8fbff; border:1px solid #d9e7f5; border-radius:10px; padding:1.5rem; margin:2rem 0;">
-  <h2 style="margin-top:0; color:#0b2c45;">{b.relatedHeading}</h2>
+  {/* ─── FAQ ──────────────────────────────────────────────────────────── */}
+  <section class="pd-faq" aria-label={ui.faqHeading}>
+    {(context.page.faqs ?? []).map((f) => (
+      <details class="pd-faq__item">
+        <summary>
+          <span class="pd-faq__q" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.4 9.3a2.6 2.6 0 0 1 4.7 1.4c0 1.7-2.1 2.1-2.1 3.6"/><circle cx="12" cy="17.1" r="0.6" fill="currentColor" stroke="none"/></svg></span>
+          <span class="pd-faq__label" set:html={f.question} />
+          <span class="pd-faq__plus" aria-hidden="true"></span>
+        </summary>
+        <div class="pd-faq__a" set:html={f.answer} />
+      </details>
+    ))}
+  </section>
 
-  <ul style="line-height:2; padding-left:1.2rem;">
-    {b.relatedItemsHtml.map((item) => <li set:html={item} />)}
-  </ul>
-</section>
+  {/* ─── Related ──────────────────────────────────────────────────────── */}
+  <section class="pd-rel" aria-labelledby="pd-rel-h">
+    <h2 id="pd-rel-h" class="pd-rel__h">{ui.resourcesHeading}</h2>
+    {/* `related` / `page-cta` below are contract classes read by the editorial
+        gate; bareFooter drops the components that normally carry them. */}
+    <div class="pd-rel__grid related">
+      {cards.map((r) => (
+        <a class="pd-rcard" href={localizeHref(r.href, lang)} style={`--accent:${r.accent};--tint:${r.tint}`}>
+          <span class="pd-rcard__icon" aria-hidden="true" set:html={r.icon} />
+          <span class="pd-rcard__label">{r.label}</span>
+          <span class="pd-rcard__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+        </a>
+      ))}
+    </div>
 
-  <p set:html={b.sourceHtml} />
+    <h3 class="pd-rel__more-h">{ui.moreHeading}</h3>
+    <ul class="pd-rel__more">
+      {b.relatedItemsHtml.map((item) => <li set:html={item} />)}
+    </ul>
+  </section>
 
-  <p style="text-align:center;margin-top:2rem;">
-    <a href="https://www.sunfirematrix.com/app/consumer/medicareadvocates/10569110/" class="enroll-btn" target="_blank" rel="noopener noreferrer" set:html={b.enrollLabel} />
-  </p>
-  <p style="text-align:center;margin-top:1rem;" set:html={b.callHtml} />
+  {/* ─── CTA banner ───────────────────────────────────────────────────── */}
+  <section class="pd-cta page-cta">
+    <span class="pd-cta__shield" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l7.5 3.1v5.4c0 5.2-3.6 8.5-7.5 9.9-3.9-1.4-7.5-4.7-7.5-9.9V5.9z"/><path d="m8.6 12.1 2.4 2.4 4.4-4.6"/></svg></span>
+    <div class="pd-cta__msg">
+      <h2 class="pd-cta__title">{ui.ctaTitle}</h2>
+      <p>{ui.ctaSub}</p>
+    </div>
+    <div class="pd-cta__actions">
+      <a class="pd-btn pd-btn--call" href={phoneHref}>
+        <span class="pd-btn__icon" aria-hidden="true" set:html={PHONE_SVG} />
+        {t9(ui.ctaCall)}
+      </a>
+      <a class="pd-btn pd-btn--quote" href={BUSINESS.quoteUrl} target="_blank" rel="noopener noreferrer">{ui.ctaQuote}</a>
+    </div>
+  </section>
 </ArticlePage>
+
+<style>
+  /* Palette matches the costs / help-center hubs: navy #0b2c45, blue #2563eb,
+     brand red #dc2626, with a per-section accent driven by --accent/--tint. */
+
+  /* ── Breadcrumb ───────────────────────────────────────────────────────── */
+  /* The framework breadcrumb has no site-wide styling yet (there is no
+     .breadcrumbs rule in public/styles.css), so every page renders it as a bare
+     numbered list. Styled :global here — this stylesheet only ships on this
+     page and its /es/ sibling — rather than editing the global sheet, which
+     would restyle all 166 pages. */
+  :global(.page > .breadcrumbs) { margin: 0 0 1.1rem; }
+  :global(.page > .breadcrumbs ol) {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+    list-style: none; padding: 0; margin: 0;
+    font-size: 0.85rem; color: #64748b;
+  }
+  :global(.page > .breadcrumbs li) { display: flex; align-items: center; gap: 0.5rem; }
+  :global(.page > .breadcrumbs li + li::before) { content: "\203A"; color: #9fb0c2; font-weight: 700; }
+  :global(.page > .breadcrumbs a) { color: #1f4e8c; text-decoration: none; font-weight: 600; }
+  :global(.page > .breadcrumbs a:hover) { text-decoration: underline; }
+
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .pd-hero {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: 2.5rem;
+    margin: 0.25rem 0 2rem;
+  }
+  .pd-hero__title {
+    font-size: clamp(2rem, 4.4vw, 3rem);
+    line-height: 1.1;
+    font-weight: 800;
+    color: #0b2c45;
+    margin: 0 0 0.6rem;
+  }
+  .pd-hero__year { color: #dc2626; }
+  .pd-hero :global(.byline) {
+    margin: 0 0 1rem;
+    color: #64748b;
+    font-size: 0.85rem;
+  }
+  .pd-hero__lede :global(.summary-block) { margin: 0; }
+  .pd-hero__lede :global(.summary-block p) { margin: 0; color: #475569; font-size: 1.02rem; line-height: 1.6; }
+  .pd-hero__img {
+    width: 100%; height: auto; display: block;
+    border-radius: 16px;
+    box-shadow: 0 18px 44px rgba(11, 44, 69, 0.18);
+  }
+
+  /* ── Body + rail ──────────────────────────────────────────────────────── */
+  .pd-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 310px;
+    gap: 2.5rem;
+    align-items: start;
+    margin-bottom: 2.5rem;
+  }
+  .pd-main { min-width: 0; }
+
+  .pd-note {
+    display: flex; align-items: flex-start; gap: 1rem;
+    background: #f0f7fd; border: 1px solid #d9e7f5; border-radius: 12px;
+    padding: 1.15rem 1.25rem; margin: 0 0 1.75rem;
+  }
+  .pd-note__icon {
+    flex: none; width: 46px; height: 46px; border-radius: 50%;
+    display: grid; place-items: center; background: #1f6fb2; color: #fff;
+  }
+  .pd-note__icon svg { width: 24px; height: 24px; }
+  .pd-note p { margin: 0; color: #43536a; font-size: 0.94rem; line-height: 1.55; }
+  .pd-note :global(strong) { color: #0b2c45; }
+  .pd-note :global(a) { color: #1d4ed8; font-weight: 600; }
+
+  .pd-sec { padding: 1.5rem 0; border-top: 1px solid #e8eef5; }
+  .pd-sec:first-of-type { border-top: none; padding-top: 0; }
+  .pd-sec__h {
+    display: flex; align-items: center; gap: 0.85rem;
+    margin: 0 0 0.85rem;
+    color: var(--accent);
+    font-size: clamp(1.2rem, 2.4vw, 1.45rem);
+    font-weight: 800;
+    line-height: 1.25;
+  }
+  .pd-sec__icon {
+    flex: none; width: 40px; height: 40px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--accent); color: #fff;
+  }
+  .pd-sec__icon svg { width: 21px; height: 21px; }
+  .pd-sec p { margin: 0; color: #43536a; font-size: 0.97rem; line-height: 1.65; }
+  .pd-sec :global(a) { color: #1d4ed8; font-weight: 600; }
+
+  .pd-checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.85rem; }
+  .pd-checks li {
+    display: flex; align-items: flex-start; gap: 0.7rem;
+    color: #43536a; font-size: 0.97rem; line-height: 1.6;
+  }
+  .pd-checks li strong { color: #0b2c45; }
+  .pd-checks__mark {
+    flex: none; width: 21px; height: 21px; margin-top: 0.2rem; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--accent); color: #fff;
+  }
+  .pd-checks__mark svg { width: 12px; height: 12px; }
+
+  .pd-sources { margin: 1.5rem 0 0; color: #7c8798; font-size: 0.85rem; }
+  .pd-sources :global(a) { color: #1d4ed8; }
+
+  /* ── Agent rail ───────────────────────────────────────────────────────── */
+  .pd-rail { position: sticky; top: 1.5rem; }
+  .pd-agent {
+    background: #fff; border: 1px solid #e3eaf2; border-radius: 16px;
+    padding: 1.5rem 1.4rem;
+    box-shadow: 0 12px 34px rgba(11, 44, 69, 0.08);
+  }
+  .pd-agent__h { margin: 0 0 1.1rem; color: #0b2c45; font-size: 1.3rem; font-weight: 800; line-height: 1.2; }
+  .pd-agent__who { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1.15rem; }
+  .pd-agent__photo {
+    width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: top center;
+    border: 3px solid #fff; box-shadow: 0 6px 18px rgba(11, 44, 69, 0.18); flex: none;
+  }
+  .pd-agent__id strong { display: block; color: #0b2c45; font-size: 1rem; line-height: 1.25; }
+  .pd-agent__id em { color: #64748b; font-style: normal; font-size: 0.85rem; line-height: 1.3; display: block; margin-top: 0.15rem; }
+
+  .pd-agent__points { list-style: none; padding: 0; margin: 0 0 1.25rem; display: grid; gap: 0.7rem; }
+  .pd-agent__points li { display: flex; align-items: flex-start; gap: 0.6rem; color: #43536a; font-size: 0.9rem; line-height: 1.4; }
+  .pd-agent__tick {
+    flex: none; width: 20px; height: 20px; border-radius: 50%; margin-top: 0.05rem;
+    display: grid; place-items: center; background: #2563eb; color: #fff;
+  }
+  .pd-agent__tick svg { width: 11px; height: 11px; }
+
+  /* ── Buttons ──────────────────────────────────────────────────────────── */
+  .pd-btn {
+    display: flex; align-items: center; justify-content: center; gap: 0.55rem;
+    border-radius: 10px; padding: 0.85rem 1.1rem;
+    font-weight: 700; font-size: 1.02rem; text-decoration: none;
+    transition: transform 0.14s ease, filter 0.14s ease;
+  }
+  .pd-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .pd-btn__icon { display: grid; place-items: center; }
+  .pd-btn__icon svg { width: 19px; height: 19px; }
+  .pd-btn--call { background: #dc2626; color: #fff; box-shadow: 0 8px 20px rgba(220, 38, 38, 0.28); }
+  .pd-btn--text { background: #fff; color: #0b2c45; border: 1px solid #d7e0ea; margin-top: 0.7rem; }
+  .pd-btn--quote { background: #fff; color: #0b2c45; }
+
+  /* ── FAQ ──────────────────────────────────────────────────────────────── */
+  .pd-faq { display: grid; gap: 0.7rem; margin: 0 0 2.5rem; }
+  .pd-faq__item { background: #fff; border: 1px solid #e3eaf2; border-radius: 12px; overflow: hidden; }
+  .pd-faq__item summary {
+    display: flex; align-items: center; gap: 0.8rem;
+    padding: 1rem 1.15rem; cursor: pointer; list-style: none;
+    color: #0b2c45; font-weight: 600; font-size: 0.98rem;
+  }
+  .pd-faq__item summary::-webkit-details-marker { display: none; }
+  .pd-faq__q { flex: none; display: grid; place-items: center; color: #2563eb; }
+  .pd-faq__q svg { width: 21px; height: 21px; }
+  .pd-faq__label { flex: 1; }
+  .pd-faq__plus { flex: none; position: relative; width: 16px; height: 16px; }
+  .pd-faq__plus::before,
+  .pd-faq__plus::after {
+    content: ""; position: absolute; left: 0; right: 0; top: 50%;
+    height: 2.5px; border-radius: 2px; background: #dc2626; transform: translateY(-50%);
+    transition: transform 0.16s ease, opacity 0.16s ease;
+  }
+  .pd-faq__plus::after { transform: translateY(-50%) rotate(90deg); }
+  .pd-faq__item[open] .pd-faq__plus::after { transform: translateY(-50%) rotate(0deg); opacity: 0; }
+  .pd-faq__a { padding: 0 1.15rem 1.15rem 3.05rem; color: #43536a; font-size: 0.95rem; line-height: 1.6; }
+  .pd-faq__a :global(a) { color: #1d4ed8; font-weight: 600; }
+
+  /* ── Related ──────────────────────────────────────────────────────────── */
+  .pd-rel { margin: 0 0 2.5rem; }
+  .pd-rel__h { margin: 0 0 1.1rem; color: #0b2c45; font-size: clamp(1.3rem, 2.6vw, 1.6rem); font-weight: 800; }
+  /* margin:0 overrides the global `.related` rule this grid opts into. */
+  .pd-rel__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; margin: 0; }
+  .pd-rcard {
+    display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 0.85rem;
+    background: var(--tint); border: 1px solid color-mix(in srgb, var(--accent) 18%, #fff);
+    border-radius: 14px; padding: 1.15rem 1.1rem;
+    text-decoration: none;
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .pd-rcard:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(11, 44, 69, 0.12); }
+  .pd-rcard__icon { display: grid; place-items: center; width: 40px; height: 40px; color: var(--accent); }
+  .pd-rcard__icon svg { width: 30px; height: 30px; }
+  .pd-rcard__label { color: #0b2c45; font-weight: 700; font-size: 0.92rem; line-height: 1.3; }
+  .pd-rcard__arrow { grid-column: 2; color: var(--accent); display: block; }
+  .pd-rcard__arrow svg { width: 20px; height: 20px; }
+
+  .pd-rel__more-h { margin: 1.75rem 0 0.7rem; color: #0b2c45; font-size: 1.02rem; font-weight: 700; }
+  .pd-rel__more {
+    list-style: none; padding: 0; margin: 0;
+    columns: 2; column-gap: 2rem;
+  }
+  .pd-rel__more li { break-inside: avoid; padding: 0.35rem 0; color: #64748b; font-size: 0.9rem; line-height: 1.45; }
+  .pd-rel__more :global(a) { color: #1f4e8c; text-decoration: none; font-weight: 600; }
+  .pd-rel__more :global(a::before) { content: "› "; color: #2563eb; font-weight: 800; }
+  .pd-rel__more :global(a:hover) { text-decoration: underline; }
+
+  /* ── CTA banner ───────────────────────────────────────────────────────── */
+  .pd-cta {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.5rem;
+    background: linear-gradient(135deg, #0b2c45 0%, #123f63 100%);
+    border-radius: 16px; padding: 1.75rem 2rem; margin: 0 0 1.5rem;
+  }
+  .pd-cta__shield {
+    display: grid; place-items: center; width: 74px; height: 74px;
+    border-radius: 50%; background: rgba(255, 255, 255, 0.1); color: #fff;
+  }
+  .pd-cta__shield svg { width: 42px; height: 42px; }
+  .pd-cta__title { margin: 0 0 0.3rem; color: #fff; font-size: clamp(1.25rem, 2.6vw, 1.6rem); font-weight: 800; line-height: 1.25; }
+  .pd-cta__msg p { margin: 0; color: #bfd4e6; font-size: 0.95rem; line-height: 1.5; }
+  .pd-cta__actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .pd-cta__actions .pd-btn { white-space: nowrap; }
+
+  /* ── Responsive ───────────────────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .pd-grid { grid-template-columns: 1fr; }
+    .pd-rail { position: static; }
+    .pd-agent { max-width: 420px; }
+    .pd-rel__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 900px) {
+    .pd-hero { grid-template-columns: 1fr; gap: 1.5rem; }
+    .pd-hero__art { order: -1; }
+    .pd-cta { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .pd-cta__actions { width: 100%; max-width: 340px; flex-direction: column; }
+    .pd-cta__actions .pd-btn { width: 100%; }
+  }
+  @media (max-width: 560px) {
+    .pd-rel__grid { grid-template-columns: 1fr; }
+    .pd-rel__more { columns: 1; }
+    .pd-agent { max-width: none; }
+  }
+
+  /* ── Comparison table ─────────────────────────────────────────────── */
+  .pd-tablewrap { overflow-x: auto; }
+  .pd-table {
+    width: 100%; border-collapse: collapse; font-size: .94rem;
+    background: #fff; border: 1px solid #e3eaf1; border-radius: 12px;
+  }
+  .pd-table__cap {
+    caption-side: bottom; text-align: left; padding: .6rem .2rem 0;
+    font-size: .83rem; color: #5a6b7b;
+  }
+  .pd-table th, .pd-table td {
+    padding: .7rem .9rem; text-align: left; vertical-align: top;
+    border-bottom: 1px solid #e3eaf1;
+  }
+  .pd-table thead th { background: #f5f9fc; color: #12395c; font-size: .89rem; }
+  .pd-table tbody th { color: #12395c; font-weight: 700; }
+  .pd-table tbody tr:last-child th,
+  .pd-table tbody tr:last-child td { border-bottom: 0; }
+
+  /* ── Definition list ──────────────────────────────────────────────── */
+  .pd-defs { margin: 0; display: grid; gap: .1rem; }
+  .pd-defs__row {
+    display: grid; grid-template-columns: minmax(9rem, 14rem) 1fr; gap: .2rem 1.2rem;
+    padding: .8rem 0; border-bottom: 1px solid #e3eaf1;
+  }
+  .pd-defs__row:last-child { border-bottom: 0; }
+  .pd-defs dt { color: #12395c; font-weight: 700; }
+  .pd-defs dt dfn { font-style: normal; }
+  .pd-defs dd { margin: 0; color: #3d4d5c; }
+  @media (max-width: 640px) {
+    .pd-defs__row { grid-template-columns: 1fr; }
+  }
+</style>

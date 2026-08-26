@@ -187,6 +187,12 @@ const LABELS: Record<string, Record<string, string>> = {
     'Drug Coverage': 'Cobertura de medicamentos',
     'Medicare Costs': 'Costos de Medicare',
     'IRMAA': 'IRMAA',
+    // Prescription Assistance hub (brand names are not translated)
+    'Prescription Assistance': 'Ayuda con recetas',
+    'Help Paying for Prescription Drugs': 'Ayuda para pagar medicamentos',
+    'Medications': 'Medicamentos',
+    'Medicare': 'Medicare',
+    'Medicare Extra Help': 'Ayuda Adicional de Medicare',
     'Learn': 'Aprenda',
     'Medicare Help Center': 'Centro de Ayuda de Medicare',
     'Calculators': 'Calculadoras',

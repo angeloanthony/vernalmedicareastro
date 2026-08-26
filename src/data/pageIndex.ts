@@ -10,6 +10,7 @@
 
 import type { Taxonomy } from '../types/Page';
 import { FEATURED_DRUGS } from './drugs';
+import { medicationAssistanceFor, taxonomyTags } from './medicationAssistance';
 import { TOWNS } from './towns';
 import { NEWS_ARTICLES } from './news';
 import { DRUG_COVERAGE } from './drugCoverage';
@@ -475,7 +476,7 @@ export const PAGE_INDEX: PageIndexEntry[] = [
   {
     href: '/part-d-plans-vernal.html',
     title: 'Medicare Part D Plans in Vernal, Utah',
-    taxonomy: { silo: 'part-d', tags: ['part-d', 'best-plans', 'drugs', 'vernal', 'uintah-county', 'local'] },
+    taxonomy: { silo: 'part-d', tags: ['part-d', 'plan-comparison', 'drugs', 'vernal', 'uintah-county', 'local'] },
   },
   {
     href: '/cheapest-prescription-drug-plans.html',
@@ -510,12 +511,26 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     title: 'Cost of Insulin with Medicare in Vernal',
     taxonomy: { silo: 'part-d', tags: ['part-d', 'insulin', 'diabetes', 'drug-costs', 'costs', 'vernal', 'local'] },
   },
-  // Drug pages generated from data/drugs.ts:
-  ...FEATURED_DRUGS.map((d): PageIndexEntry => ({
-    href: `/${d.slug}-assistance-program.html`,
-    title: `${d.drug} Assistance Programs`,
-    taxonomy: { silo: 'part-d', tags: ['drug-assistance', 'part-d', ...d.conditions] },
-  })),
+  // Drug pages generated from data/drugs.ts. A drug with a researched
+  // MedicationAssistanceRecord (Prescription Assistance project) keeps the same
+  // URL but carries the project's title pattern and category tags.
+  ...FEATURED_DRUGS.map((d): PageIndexEntry => {
+    const rec = medicationAssistanceFor(d.slug);
+    return rec
+      ? {
+          href: `/${d.slug}-assistance-program.html`,
+          title: `${rec.brandName} Assistance Programs & Grants`,
+          taxonomy: {
+            silo: 'part-d',
+            tags: taxonomyTags(rec, ['drug-assistance', 'part-d', 'prescription-assistance']),
+          },
+        }
+      : {
+          href: `/${d.slug}-assistance-program.html`,
+          title: `${d.drug} Assistance Programs`,
+          taxonomy: { silo: 'part-d', tags: ['drug-assistance', 'part-d', ...d.conditions] },
+        };
+  }),
   // ── Drug-Coverage Center (M32) — hub + per-drug "does Medicare cover X" ──
   {
     href: '/medicare-drug-coverage.html',

@@ -9,6 +9,8 @@
 // FAQ · Sources · Related trio, dark person CTA — so a single drug's page no
 // longer reads as a wall of plain-text cards.
 import DrugPage from '../components/layout/DrugPage.astro';
+import MedicationAssistancePage from '../components/medication/MedicationAssistancePage.astro';
+import { medicationAssistanceFor } from '../data/medicationAssistance';
 import AuthorByline from '../components/content/AuthorByline.astro';
 import SummaryBlock from '../components/SummaryBlock.astro';
 import NextSteps from '../components/content/NextSteps.astro';
@@ -30,6 +32,13 @@ export function getStaticPaths() {
 }
 
 const { d } = Astro.props as { d: Drug };
+
+// Prescription Assistance project (docs/PRESCRIPTION-ASSISTANCE-PROJECT.md):
+// when an independently-researched MedicationAssistanceRecord exists for this
+// drug, the SAME canonical URL renders the record-driven reference page
+// instead of the generic condition-matched page below. One drug, one URL.
+const record = medicationAssistanceFor(d.slug);
+
 const groups = programsForDrug(d.drug, d.conditions);
 const telLink = (phone: string) => `tel:${phone.replace(/[^0-9]/g, '')}`;
 const phoneTel = `tel:${BUSINESS.phoneTel}`;
@@ -108,6 +117,9 @@ const context: PageContext = {
 };
 ---
 
+{record ? (
+  <MedicationAssistancePage record={record} />
+) : (
 <DrugPage context={context} bareHeader bareFooter>
   {/* ─── Hero ─────────────────────────────────────────────────────────── */}
   <section class="dp-hero">
@@ -256,6 +268,7 @@ const context: PageContext = {
     </div>
   </section>
 </DrugPage>
+)}
 
 <style>
   /* Palette echoes prescription-drug-assistance.astro / medicare-calculators.astro. */

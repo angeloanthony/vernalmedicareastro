@@ -239,6 +239,24 @@ p {
   font-weight: 800;
 }
 
+/* Desktop bar with 8 hubs (Prescription Assistance added 2026-08-26). The
+   single-row nowrap bar was already wider than viewports ≤1366px (the
+   "Contact" hub sat off-screen behind a horizontal scrollbar); the 8th hub
+   pushed that to 1600px. Let the row wrap and tighten the type slightly:
+   one row ≥1600px, two rows on laptops, labels never break mid-word. Mobile
+   (≤960px) keeps the vertical menu below. */
+@media (min-width: 961px) {
+  .nav-menu {
+    flex-wrap: wrap;
+    row-gap: 0;
+    gap: 0.4rem;
+  }
+  .nav-menu li a {
+    font-size: 1.15rem;
+    padding: 0.4rem 0.65rem;
+  }
+}
+
 .nav-toggle {
   display: none;
 }

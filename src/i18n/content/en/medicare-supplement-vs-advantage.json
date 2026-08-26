@@ -56,13 +56,41 @@
     "tableHeadMedigap": "Medigap (Supplement)",
     "tableHeadAdvantage": "Medicare Advantage",
     "tableRows": [
-      { "label": "Works With", "medigap": "Original Medicare (Part A + B)", "advantage": "Replaces Original Medicare" },
-      { "label": "Monthly Premium", "medigap": "$100–$250+ (varies by plan, age, carrier)", "advantage": "$0–$50 for most plans (plus Part B premium)" },
-      { "label": "Provider Network", "medigap": "Any Medicare-accepting provider nationwide", "advantage": "HMO or PPO network; out-of-network limited" },
-      { "label": "Out-of-Pocket Max", "medigap": "Effectively $0 with Plan G (after Part B deductible)", "advantage": "Up to $8,850 in-network (2026)" },
-      { "label": "Drug Coverage", "medigap": "Separate Part D plan required", "advantage": "Usually included" },
-      { "label": "Dental / Vision / Hearing", "medigap": "Not included", "advantage": "Often included" },
-      { "label": "A Good Fit For", "medigap": "People who want predictable costs and provider freedom", "advantage": "People who want lower premiums and extra benefits" }
+      {
+        "label": "Works With",
+        "medigap": "Original Medicare (Part A + B)",
+        "advantage": "Replaces Original Medicare"
+      },
+      {
+        "label": "Monthly Premium",
+        "medigap": "$100–$250+ (varies by plan, age, carrier)",
+        "advantage": "$0–$50 for most plans (plus Part B premium)"
+      },
+      {
+        "label": "Provider Network",
+        "medigap": "Any Medicare-accepting provider nationwide",
+        "advantage": "HMO or PPO network; out-of-network limited"
+      },
+      {
+        "label": "Out-of-Pocket Max",
+        "medigap": "Effectively $0 with Plan G (after Part B deductible)",
+        "advantage": "Up to $8,850 in-network (2026)"
+      },
+      {
+        "label": "Drug Coverage",
+        "medigap": "Separate Part D plan required",
+        "advantage": "Usually included"
+      },
+      {
+        "label": "Dental / Vision / Hearing",
+        "medigap": "Not included",
+        "advantage": "Often included"
+      },
+      {
+        "label": "A Good Fit For",
+        "medigap": "People who want predictable costs and provider freedom",
+        "advantage": "People who want lower premiums and extra benefits"
+      }
     ],
     "h2Rural": "The Rural Utah Factor",
     "ruralHtml1": "Where you live plays a major role in this decision. In urban areas like Salt Lake City, Medicare Advantage plans offer robust networks with dozens of providers. In the Uintah Basin — covering Vernal, Naples, Maeser, Jensen, and surrounding communities — networks are smaller. If your Advantage plan's network doesn't include the specialist you need, you may face higher costs or delays getting care.",
@@ -82,6 +110,25 @@
       "<a href=\"plan-g-vs-plan-n-vernal.html\">Plan G vs Plan N in Vernal</a>",
       "<a href=\"hmo-vs-ppo-medicare-advantage.html\">HMO vs PPO Medicare Advantage</a>",
       "<a href=\"medicare-out-of-state-utah.html\">Using Medicare Out of State from Utah</a>"
-    ]
-  }
+    ],
+    "sourcesHeading": "Sources",
+    "sourcesNote": "Plans, premiums, and benefits change annually. Confirm current-year details before you enrol."
+  },
+  "sources": [
+    {
+      "title": "Medicare Supplement Insurance (Medigap)",
+      "url": "https://www.medicare.gov/health-drug-plans/medigap",
+      "publisher": "Medicare.gov"
+    },
+    {
+      "title": "How do Medicare Advantage Plans work?",
+      "url": "https://www.medicare.gov/health-drug-plans/health-plans/your-coverage-options/how-medicare-advantage-plans-work",
+      "publisher": "Medicare.gov"
+    },
+    {
+      "title": "Medigap enrollment and consumer protections",
+      "url": "https://www.cms.gov/medicare/health-drug-plans/medigap",
+      "publisher": "CMS"
+    }
+  ]
 }

@@ -118,6 +118,210 @@ strength of one real test.
      experiments (EXP-001 – EXP-003) are logged below and registered in
      docs/seo/EXPERIMENTS.md. -->
 
+### 2026-08-26 — Two-axis medication taxonomy (data-model migration, not an experiment)
+
+- **Pages:** no URLs changed. Data layer + 2 call sites; one visible text change
+  (the Ozempic category kicker gained "Heart & Blood Pressure").
+- **Change:** `ASSISTANCE_CATEGORIES` retired as a record-level taxonomy.
+  Medications are now classified on two independent axes — `conditions`
+  (canonical, load-bearing for charitable-fund matching) and a new `drugClass`
+  — and browse categories are derived views over those axes via
+  `categoriesFor()`. Five Batch 1 records migrated.
+- **Metric:** internal linking.
+- **Hypothesis:** We expect this change to improve internal linking because the
+  taxonomy tags on every medication page were duplicating `diabetes` and
+  `heart` (the same key existed in both taxonomies), which double-weighted two
+  tags and suppressed the rest in tag-based link scoring.
+- **Tag deltas:** Farxiga/Jardiance `+sglt2`, duplicate `diabetes`/`heart`
+  removed · Eliquis `blood-thinners` → `anticoagulant`, duplicate `heart`
+  removed · Mounjaro/Ozempic keep `glp-1`, duplicates removed. A test now fails
+  the build if any record's tags contain a duplicate.
+- **EXP-003 confounder note:** tag-derived internal-link suggestions change on
+  5 pages. Smaller in scope than the nav change logged below, same window,
+  same caveat — carry it into the September reading; no ledger pattern is
+  credited.
+- **Outcome (after recrawl):** _open_
+
+### 2026-08-26 — Prescription Assistance nav: medication names removed from the sitewide dropdown (IA change, not an experiment)
+
+- **Pages:** none rewritten. Sitewide nav (`src/config/navigation.ts`) + one
+  anchor/subhead on `/prescription-drug-assistance.html`.
+- **Change:** the Prescription Assistance dropdown listed five drug names while
+  fourteen medication pages were live, so nine were unreachable from the nav.
+  The five names were removed; the dropdown is now three fixed items (hub ·
+  All Medications → `#all-medications` · Extra Help) and the directory on the
+  hub page — generated from `FEATURED_DRUGS` — carries the inventory instead.
+- **Metric:** internal linking.
+- **Hypothesis:** We expect this change to improve internal linking because the
+  medication directory is now generated from the registry, so every medication
+  page is reachable from the nav path as the set grows, instead of only the
+  five that were hand-listed.
+- **EXP-003 confounder note:** this is a **sitewide nav link change** made
+  during the observation window (confounder #4, same class as the 2026-08-26
+  wrap rule). Five sitewide outbound links were removed and one added. It
+  changes site-level internal-link distribution and must be carried into the
+  September evidence reading — it is not a Sprint 2B experiment and no ledger
+  pattern is credited for it.
+- **Desktop nav bar unchanged.** Measured first (see
+  docs/PRESCRIPTION-ASSISTANCE-PROJECT.md §14): the `nowrap` bar needed 1690px
+  at 8 items and 1588px at 7, so removing "Home" would not have fixed 1280/1366.
+  Per the stated condition, the top-level structure was left alone and no
+  further global CSS was written.
+- **Outcome (after recrawl):** _open_
+
+### 2026-08-26 — Prescription Assistance Batch 1: five record-driven medication pages + nav hub (new content, not an experiment)
+
+- **Pages:** `/farxiga-assistance-program.html` · `/jardiance-assistance-program.html` ·
+  `/eliquis-assistance-program.html` · `/mounjaro-assistance-program.html` ·
+  `/ozempic-assistance-program.html` — same URLs, rebuilt from independently
+  researched records. Sitewide: a new **Prescription Assistance** nav hub
+  (`src/config/navigation.ts`, es labels in `locales.ts`) and one nav CSS rule
+  (`public/styles.css`, `STYLES_VERSION` bumped).
+- **Driver:** `docs/PRESCRIPTION-ASSISTANCE-PROJECT.md` Batch 1 (spec §24 build
+  order #1–5), requested directly. Architecture: `src/types/MedicationAssistance.ts`,
+  `src/data/medicationAssistance/` (registry + one source-dated record per drug),
+  `src/components/medication/` (page, program card, 7-step guide, video frame).
+  The `[drug]-assistance-program.astro` route renders the record page when a
+  record exists and the legacy generic page otherwise — the other nine drug
+  pages are untouched in content.
+- **Metric:** topical completeness (tracked). **36% → 91%** on all five
+  (`npm run seo:gate` passed; five floors raised; no `--accept`). Words ~600 →
+  5,000–5,800; 14 in-content outbound links each; AI readiness 89. The one
+  remaining gap is the `schema` element: the detector accepts `Article`/`WebPage`
+  only, and DrugPage emits `MedicalWebPage` (a schema.org WebPage subtype) — a
+  detector false negative, not a page defect. Engine fix deferred: Phase 1
+  infrastructure is frozen; queue it for after the observation window.
+- **Hypothesis:** none pre-registered. This is a content addition under the
+  project spec, not an optimization; average position/impressions on the five
+  URLs are recorded for damage control and as the spec's own Phase 3 checkpoint
+  ("watch Search Console before continuing").
+- **⚠ Observation-window notes:** lands inside the Sprint 2B freeze. EXP-003
+  confounders fired and are logged in its observation plan §5: **#4** sitewide
+  template change (the new nav hub appears on all 14 cohort pages, treated and
+  control alike, plus the nav CSS rule) and **#5** inbound-link drift (+1
+  in-content link each to `does-medicare-cover-farxiga/jardiance/eliquis` —
+  treated arm — from their sibling assistance pages; control arm unchanged).
+  Touches none of EXP-001/EXP-002's pages.
+- **Nav CSS (repair, not optimization):** the pre-change 7-hub bar already
+  overflowed at ≤1366px (+92px at 1280, "Contact" off-screen behind a horizontal
+  scrollbar); the 8th hub extended that to 1600px. The rule lets the desktop row
+  wrap at 1.15rem type: one row ≥1600px, two rows on laptops, no label breaks,
+  header height unchanged. Measured with headless Chromium at 961–1920px.
+- **Sitemap:** `lastmod` bumped to 2026-08-26 for the five URLs in
+  `public/sitemap-posts.xml` (note: those entries sit on one physical line with
+  literal `\n` text — pre-existing; left as-is).
+- **Outcome (after recrawl):** _open — check that position/impressions on the
+  five URLs and on the EXP-003 treated arm do not fall._
+
+### 2026-08-25 — Part D pillar redesign (design parity with the Advantage pillar; not an experiment)
+
+- **Pages:** `/part-d-plans-vernal.html` + `/es/part-d-plans-vernal.html`
+  (`src/components/content/PartDPlansPage.astro`, `src/i18n/content/{en,es}/part-d-plans-vernal.json`)
+- **Driver:** design parity, requested directly. The Part D pillar was still the
+  plain `ArticlePage` prose template while its sibling Advantage pillar had
+  already been redesigned in the entry below. Rebuilt on the same
+  `bareHeader`/`bareFooter` pattern: split hero (H1 + byline + lede | Vernal
+  photo), two-column body with icon-badged sections and a sticky agent card,
+  FAQ accordion, "Related Helpful Resources" card grid, navy CTA band.
+- **Copy:** unchanged, word for word. `keyHtml` was split into a `keyPoints[]`
+  array so the three "Key Factors" render as a checklist — same sentences, same
+  order, both locales. New strings are chrome only (`ui` block: agent-card
+  labels, CTA band, section headings), added to `en/` and `es/`.
+- **Editorial-gate check (the trap the Advantage redesign hit):** `bareHeader`/
+  `bareFooter` drop the components the completeness detector reads. Re-added
+  before shipping — the real `<SummaryBlock>` now doubles as the hero lede, and
+  the bespoke blocks carry the contract substrings the detector documents
+  (`pd-sources`, `related`, `page-cta`). Result: completeness **82%**, the two
+  remaining gaps (`comparisonTable`, `definitions`) both predate the redesign.
+  All 7 `relatedItemsHtml` internal links were kept (as a secondary list under
+  the four framework cards), so the link graph did not shrink.
+- **Metric:** none pre-registered. This is a presentation change made on
+  request; average position and CTR on the URL are recorded for **damage
+  control only** — the question is whether the redesign costs anything, not
+  whether it helps.
+- **Hypothesis:** none. Per the Scientific Rule, attaching a prediction to a
+  change whose reason was "make it look like the sibling pillar" would put an
+  untested pattern in the ledger that nobody chose to test.
+- **⚠ Observation-window note:** lands inside the Sprint 2B freeze
+  (2026-07-30 → ~2026-09-03) and inside the fresh-URL window opened by the
+  rename logged below. It touches none of EXP-001–003's pages (/medigap, /,
+  the drug cluster). It does mean any Sprint 2C baseline for the Part D pillar
+  must be taken after **this** build's recrawl, not after the rename's.
+- **Outcome (after recrawl):** _open — check that position/impressions on
+  `/part-d-plans-vernal.html` do not fall relative to the post-rename reading._
+
+### 2026-08-25 — Editorial-contract repair after three custom-layout redesigns
+
+- **Pages:** /medicare-advantage-plans-vernal.html · /part-d-plans-vernal.html ·
+  /medicare-supplement-vs-advantage.html
+- **Driver:** not optimization — closing a hole the redesigns opened. Three
+  pages were rebuilt into custom layouts (`bareHeader` + `bareFooter`) in
+  parallel across two sessions. That pair of flags suppresses `SummaryBlock`,
+  `PageCTA`, `SourcesList` and `RelatedPages`, which are exactly the markers
+  `scripts/seo/sources.mjs` detects — so a redesign that loses nothing a reader
+  can see still drops the page's completeness score. The Advantage page fell
+  70% → 50% and Part D 73% → 45% before this was caught by `npm run seo:gate`.
+- **Change:** restored the real components inside each custom layout rather than
+  lowering any floor. Advantage: `<SummaryBlock>`, `<SourcesList>`, `page-cta`
+  contract class on the CTA band, HMO-vs-PPO comparison table, in-content links
+  6 → 13. Part D: comparison table (standalone PDP vs MAPD) and a `<dl>` of six
+  Part D terms, links 9 → 12. Supplement-vs-Advantage: a Sources block with
+  three Medicare.gov/CMS citations, also carried into the page schema. Retired
+  the leftover `best-plans` taxonomy tag in `PartDPlansPage.astro` +
+  `pageIndex.ts`.
+- **Metric:** topical completeness (tracked metric). 100% on all three, up from
+  floors of 70 / 73 / 90. Words: 621 → 771, 666 → 943, 1376 → 1432.
+- **Hypothesis:** none — restoring a standard the pages already met is repair,
+  not a prediction, and does not earn a ledger data point.
+- **⚠ Gate note:** `npm run seo:gate` raises floors on a pass, so the three
+  floors are now 100%. Do **not** clear a future failure with
+  `npm run seo:gate -- --accept` — that resets *every* page's floor sitewide, not
+  just the failing one, and silently discards the standard.
+- **Outcome (after recrawl):** _open_
+
+### 2026-08-25 — CMS superlative scrub + two money-page URL renames (compliance, not an experiment)
+
+- **Pages:** `/best-medicare-advantage-vernal.html` → `/medicare-advantage-plans-vernal.html`
+  and `/best-part-d-plans-vernal.html` → `/part-d-plans-vernal.html` (plus their
+  `/es/` siblings); superlative anchor text, `<title>`s and FAQ questions scrubbed
+  across ~30 further files.
+- **Driver:** compliance, not optimization. 42 CFR §422.2262 / the Medicare
+  Communications and Marketing Guidelines bar absolute superlatives ("best",
+  "top", "#1") in MA/Part D marketing unless the claim cites current- or
+  prior-year data and its source and date. The site made the claim in two H1s,
+  two slugs, ~20 internal anchors and three page titles, with no substantiation.
+- **Change:** slugs renamed; components renamed to match
+  (`MedicareAdvantagePage`, `PartDPlansPage`); content JSON keys renamed in
+  `en/` and `es/`; real 301s added to `public/_redirects` (NOT to
+  `astro.config.mjs` — that emits a static `.html` at the old path which would
+  shadow the edge rule); `sitemap-money.xml` lastmod bumped. The Medicare
+  Advantage pillar was also redesigned (hero + trust strip + HMO/PPO cards +
+  dark CTA band) using the `medicare-roosevelt-utah.astro` bareHeader/bareFooter
+  pattern. The first cut of that redesign *regressed* the editorial gate 70% →
+  50%: `bareHeader`/`bareFooter` drop the components the completeness detector
+  reads (`summary-block`, `page-cta`, `sources`, `related`). Fixed by putting the
+  real `<SummaryBlock>` and `<SourcesList>` back in the custom layout, giving the
+  CTA band the `page-cta` contract class, adding an HMO-vs-PPO comparison table,
+  and raising in-content links 6 → 13. Net: completeness **70% → 100%**, words
+  621 → 771. Nothing was removed.
+- **Metric:** none pre-registered — this is a legal-risk removal that would have
+  been made regardless of its search effect. Average position and impressions on
+  the two URLs are recorded for **damage control only**: the question is whether
+  the 301s hold, not whether the change helped.
+- **Hypothesis:** none. Logging a hypothesis here would be retrofitting a
+  prediction onto a change whose reason was compliance; per the Scientific Rule
+  that would pollute the ledger with a pattern nobody chose to test.
+- **⚠ Observation-window note:** this lands inside the Sprint 2B freeze window
+  (2026-07-30 → ~2026-09-03). It does not touch EXP-001–003's pages (/medigap,
+  /, the drug cluster), so those tests are not directly confounded. It does
+  reset URL-level GSC history for the two renamed pages: Search Console tracks
+  the new URLs as new rows, and the old rows stop accruing. Any Sprint 2C
+  baseline for the Advantage or Part D pillars must be taken **after** the
+  recrawl of the new URLs, not carried over from the `best-*` rows.
+- **Outcome (after recrawl):** _open — check that (a) both old URLs return 301
+  (not 200 or 404), (b) the new URLs are indexed and the old ones dropped, and
+  (c) no "best" superlative survives a site-wide crawl._
+
 ### 2026-07-30 — `does-medicare-cover-[drug]` comparison table (Sprint 2B, experiment #3 — first cohort-based isolated test)
 
 - **Registry:** EXP-003 (`docs/seo/EXPERIMENTS.md`)

@@ -49,6 +49,7 @@ Types never import data; data never imports a page; pages never define facts.
 | `figures.ts` | accessor → `FIGURES` for the current year (no data) | `MedicareFigures` |
 | `conditions.ts` | condition taxonomy; `ConditionKey`; `condLabel()` | `Condition` |
 | `drugs.ts` | featured drugs, assistance programs, `programsForDrug()` | `Drug`, `Program` |
+| `medicationAssistance/` | Prescription Assistance project (docs/PRESCRIPTION-ASSISTANCE-PROJECT.md): one independently-researched, source-dated record per medication (`farxiga.ts`, …); `index.ts` is the registry + the locked title/H1/URL pattern; `shared.ts` holds cross-cutting organisational facts; `categories.ts` the nine-category directory taxonomy | `MedicationAssistanceRecord`, `AssistanceProgram`, `SourceRef` |
 | `plans.ts` / `parts.ts` | plan products / Medicare Parts A–D | `MedicarePlan` / `MedicarePart` |
 | `providers.ts` | hospitals, pharmacies, clinics | `Provider` |
 | `locations.ts` | hub/sub-page URL + breadcrumb helpers | `Place`, `Crumb` |

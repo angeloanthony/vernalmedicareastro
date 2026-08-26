@@ -6,10 +6,10 @@
 
 The editorial link graph — links inside page content only. Header, footer and other site furniture are excluded, because a nav link on every page tells you nothing about whether a page is genuinely supported.
 
-> Generated **2026-07-30 18:41 UTC** · 162 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
+> Generated **2026-08-26 07:27 UTC** · 162 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
 > Derived from `src/data/pageIndex.ts` · `data/search-console/*.csv` · `dist/` · `git log`. Never edited by hand.
 
-Site furniture excluded: **24 link targets** appear in the header/footer of ≥90% of pages.
+Site furniture excluded: **30 link targets** appear in the header/footer of ≥90% of pages.
 
 ## Orphans — no in-content link points here
 
@@ -23,20 +23,17 @@ _No orphans. Every page has at least one editorial link pointing at it._
 | [/does-medicare-cover-trelegy](https://vernalmedicare.com/does-medicare-cover-trelegy.html) | 2 | 72 | 154 | /prescription-drug-assistance, /part-d-plans-vernal, /tier-3-vs-tier-4-medicare-part-d |
 | [/skyrizi-assistance-program](https://vernalmedicare.com/skyrizi-assistance-program.html) | 2 | 71 | 111 | /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d |
 | [/enbrel-assistance-program](https://vernalmedicare.com/enbrel-assistance-program.html) | 2 | 70 | 164 | /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d |
-| [/life](https://vernalmedicare.com/life.html) | 2 | 66 | 444 | — |
-| [/entresto-assistance-program](https://vernalmedicare.com/entresto-assistance-program.html) | 2 | 65 | 64 | /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d |
+| [/life](https://vernalmedicare.com/life.html) | 2 | 67 | 444 | — |
 | [/repatha-assistance-program](https://vernalmedicare.com/repatha-assistance-program.html) | 2 | 63 | 83 | /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d |
 | [/dupixent-assistance-program](https://vernalmedicare.com/dupixent-assistance-program.html) | 2 | 62 | 142 | /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d |
-| [/jardiance-assistance-program](https://vernalmedicare.com/jardiance-assistance-program.html) | 2 | 61 | 31 | /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d |
-| [/farxiga-assistance-program](https://vernalmedicare.com/farxiga-assistance-program.html) | 2 | 61 | 124 | /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d |
 | [/does-medicare-cover-zepbound](https://vernalmedicare.com/does-medicare-cover-zepbound.html) | 1 | 59 | 33 | /prescription-drug-assistance, /part-d-plans-vernal, /tier-3-vs-tier-4-medicare-part-d |
 | [/medicare-coverage/ambulance](https://vernalmedicare.com/medicare-coverage/ambulance.html) | 2 | 58 | 180 | /medicare-help-center, /medicare-decision-center, /medicare-glossary |
 | [/rinvoq-assistance-program](https://vernalmedicare.com/rinvoq-assistance-program.html) | 2 | 51 | 30 | /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d |
 | [/humira-assistance-program](https://vernalmedicare.com/humira-assistance-program.html) | 2 | 50 | 5 | /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d |
+| [/medicare-enrollment-vernal](https://vernalmedicare.com/medicare-enrollment-vernal.html) | 2 | 47 | 8 | /medicare-quote-vernal, /free-medicare-comparison-vernal, /medicare-roosevelt-utah |
 | [/medicare-coverage/hospice](https://vernalmedicare.com/medicare-coverage/hospice.html) | 2 | 46 | 102 | /medicare-help-center, /medicare-decision-center, /medicare-glossary |
-| [/medicare-enrollment-vernal](https://vernalmedicare.com/medicare-enrollment-vernal.html) | 2 | 46 | 8 | /medicare-quote-vernal, /free-medicare-comparison-vernal, /medicare-roosevelt-utah |
 | [/medicare-ouray-utah](https://vernalmedicare.com/medicare-ouray-utah.html) | 1 | 37 | 1 | /medicare-quote-vernal, /free-medicare-comparison-vernal, /medicare-roosevelt-utah |
-| [/indemnity](https://vernalmedicare.com/indemnity.html) | 2 | 33 | 14 | — |
+| [/indemnity](https://vernalmedicare.com/indemnity.html) | 2 | 34 | 14 | — |
 | [/medicare-quiz](https://vernalmedicare.com/medicare-quiz.html) | 1 | 33 | 7 | — |
 | [/medicare-fort-duchesne-utah](https://vernalmedicare.com/medicare-fort-duchesne-utah.html) | 1 | 27 | 0 | /medicare-quote-vernal, /free-medicare-comparison-vernal, /medicare-roosevelt-utah |
 | [/medicare-neola-utah](https://vernalmedicare.com/medicare-neola-utah.html) | 1 | 27 | 0 | /medicare-quote-vernal, /free-medicare-comparison-vernal, /medicare-roosevelt-utah |
@@ -45,26 +42,26 @@ _No orphans. Every page has at least one editorial link pointing at it._
 
 | Page | Inbound | Outbound | Pillar | Silo |
 | --- | ---: | ---: | :---: | --- |
+| [/part-d-plans-vernal](https://vernalmedicare.com/part-d-plans-vernal.html) | 55 | 12 | · | part-d |
 | [/medicare-costs](https://vernalmedicare.com/medicare-costs.html) | 53 | 18 | ✓ | costs-irmaa |
 | [/medicare-help-center](https://vernalmedicare.com/medicare-help-center.html) | 51 | 60 | ✓ | medicare-101 |
-| [/part-d-plans-vernal](https://vernalmedicare.com/part-d-plans-vernal.html) | 50 | 9 | · | part-d |
+| [/medicare-extra-help-utah](https://vernalmedicare.com/medicare-extra-help-utah.html) | 41 | 4 | · | dual-eligible |
 | [/medicare-plans-vernal-utah](https://vernalmedicare.com/medicare-plans-vernal-utah.html) | 38 | 48 | ✓ | local |
 | [/medicare-drug-coverage](https://vernalmedicare.com/medicare-drug-coverage.html) | 36 | 20 | · | part-d |
-| [/medicare-extra-help-utah](https://vernalmedicare.com/medicare-extra-help-utah.html) | 36 | 4 | · | dual-eligible |
+| [/medicare-quote-vernal](https://vernalmedicare.com/medicare-quote-vernal.html) | 34 | 4 | · | local |
 | [/medigap](https://vernalmedicare.com/medigap.html) | 33 | 12 | ✓ | medigap |
 | [/medicare-supplement-vs-advantage](https://vernalmedicare.com/medicare-supplement-vs-advantage.html) | 33 | 10 | · | medigap |
 | [/medicare-glossary](https://vernalmedicare.com/medicare-glossary.html) | 33 | 31 | · | medicare-101 |
 | [/faq](https://vernalmedicare.com/faq.html) | 30 | 5 | · | trust |
+| [/prescription-drug-assistance](https://vernalmedicare.com/prescription-drug-assistance.html) | 30 | 22 | ✓ | part-d |
 | [/plan-g-vs-plan-n-vernal](https://vernalmedicare.com/plan-g-vs-plan-n-vernal.html) | 30 | 6 | · | medigap |
-| [/medicare-quote-vernal](https://vernalmedicare.com/medicare-quote-vernal.html) | 28 | 4 | · | local |
 | [/medicare-cost-estimator](https://vernalmedicare.com/medicare-cost-estimator.html) | 28 | 6 | · | costs-irmaa |
-| [/medicare-advantage-plans-vernal](https://vernalmedicare.com/medicare-advantage-plans-vernal.html) | 26 | 5 | ✓ | medicare-advantage |
+| [/medicare-savings-programs-utah](https://vernalmedicare.com/medicare-savings-programs-utah.html) | 28 | 4 | · | dual-eligible |
 | [/medicare-enrollment-periods](https://vernalmedicare.com/medicare-enrollment-periods.html) | 26 | 8 | ✓ | enrollment |
+| [/medicare-advantage-plans-vernal](https://vernalmedicare.com/medicare-advantage-plans-vernal.html) | 26 | 13 | ✓ | medicare-advantage |
 | [/when-to-enroll-medicare-utah](https://vernalmedicare.com/when-to-enroll-medicare-utah.html) | 26 | 10 | · | enrollment |
-| [/prescription-drug-assistance](https://vernalmedicare.com/prescription-drug-assistance.html) | 25 | 22 | ✓ | part-d |
+| [/tier-3-vs-tier-4-medicare-part-d](https://vernalmedicare.com/tier-3-vs-tier-4-medicare-part-d.html) | 25 | 6 | · | part-d |
 | [/medicare-irmaa](https://vernalmedicare.com/medicare-irmaa.html) | 24 | 7 | ✓ | costs-irmaa |
-| [/medicare-savings-programs-utah](https://vernalmedicare.com/medicare-savings-programs-utah.html) | 23 | 4 | · | dual-eligible |
-| [/tier-3-vs-tier-4-medicare-part-d](https://vernalmedicare.com/tier-3-vs-tier-4-medicare-part-d.html) | 23 | 6 | · | part-d |
 
 ## Pages that link out least — fewer than 4 outbound
 
@@ -87,8 +84,8 @@ Following in-content links only — nav shortcuts are excluded on purpose.
 | --- | ---: |
 | 0 click(s) | 1 |
 | 1 click(s) | 17 |
-| 2 click(s) | 59 |
-| 3 click(s) | 69 |
+| 2 click(s) | 60 |
+| 3 click(s) | 68 |
 
 ## Broken in-content links
 

@@ -25,7 +25,20 @@
     "h2How": "How Part D Plans Work",
     "howHtml": "Medicare Part D covers outpatient prescription drugs. Standalone Part D plans pair with Original Medicare and Medigap. If you have a Medicare Advantage plan, drug coverage is usually built in (MAPD). Each Part D plan has its own formulary (list of covered drugs), tier structure (which determines your copay), and pharmacy network (which affects pricing).",
     "h2Key": "Key Factors for Vernal Residents",
-    "keyHtml": "<strong>Pharmacy matters:</strong> Drug costs vary by pharmacy, even within the same plan. Smith's Pharmacy at 1080 W Hwy 40 is where many Vernal residents fill prescriptions. We check whether your plan offers preferred pricing at Smith's versus Walgreens or other options. <strong>Formulary coverage:</strong> Not all plans cover every drug. Some require prior authorization or step therapy. We verify that your specific medications are on the plan's formulary at a reasonable tier. <strong>The donut hole:</strong> After you and your plan spend a combined amount on covered drugs, you may enter a coverage gap. The Inflation Reduction Act has changed donut hole costs significantly — in 2026, insulin is capped at $35/month and total out-of-pocket drug costs are capped at $2,000 annually.",
+    "keyPoints": [
+      {
+        "title": "Pharmacy matters",
+        "html": "Drug costs vary by pharmacy, even within the same plan. Smith's Pharmacy at 1080 W Hwy 40 is where many Vernal residents fill prescriptions. We check whether your plan offers preferred pricing at Smith's versus Walgreens or other options."
+      },
+      {
+        "title": "Formulary coverage",
+        "html": "Not all plans cover every drug. Some require prior authorization or step therapy. We verify that your specific medications are on the plan's formulary at a reasonable tier."
+      },
+      {
+        "title": "The donut hole",
+        "html": "After you and your plan spend a combined amount on covered drugs, you may enter a coverage gap. The Inflation Reduction Act has changed donut hole costs significantly — in 2026, insulin is capped at $35/month and total out-of-pocket drug costs are capped at $2,000 annually."
+      }
+    ],
     "h2Costs": "Part D Costs in 2026",
     "costsHtml": "Part D premiums range from approximately $7 to $80+ per month. The national base beneficiary premium is around $36/month. There is no Part D deductible for some plans; others charge up to $590. After the $2,000 out-of-pocket cap, you pay nothing for covered prescriptions for the rest of the year. Low-income beneficiaries may qualify for Extra Help, which dramatically reduces Part D costs.",
     "h2Common": "Common Medications and Part D Coverage",
@@ -44,6 +57,93 @@
     ],
     "sourceHtml": "<em>Source: <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a>.</em>",
     "enrollLabel": "Compare Plans &amp; Enroll",
-    "callHtml": "<strong>Call Rocco:</strong> <a href=\"tel:+14352195120\">435-219-5120</a> (TTY: 711) &bull; <a href=\"mailto:rocco@vernalmedicare.com\">rocco@vernalmedicare.com</a>"
-  }
+    "callHtml": "<strong>Call Rocco:</strong> <a href=\"tel:+14352195120\">435-219-5120</a> (TTY: 711) &bull; <a href=\"mailto:rocco@vernalmedicare.com\">rocco@vernalmedicare.com</a>",
+    "h2Table": "Two Ways to Get Drug Coverage",
+    "h2Defs": "Part D Terms, Plainly"
+  },
+  "ui": {
+    "heroImageAlt": "Downtown Vernal, Utah — local, licensed Medicare Part D help in the Uintah Basin",
+    "agentHeading": "Talk to a Local Medicare Expert",
+    "agentRole": "Licensed Medicare Insurance Agent",
+    "agentPoints": [
+      "Personalized plan comparison",
+      "Find plans that cover your medications",
+      "Local experience you can trust",
+      "No cost. No obligation."
+    ],
+    "textBtn": "Text Us",
+    "faqHeading": "Part D questions from Vernal residents",
+    "resourcesHeading": "Related Helpful Resources",
+    "moreHeading": "Related Medicare Topics",
+    "ctaTitle": "Let's find the right Part D plan for you.",
+    "ctaSub": "Compare plans based on your medications and save.",
+    "ctaCall": "Call {phone}",
+    "ctaQuote": "Get a Free Quote"
+  },
+  "table": {
+    "caption": "Standalone Part D compared with drug coverage bundled into a Medicare Advantage plan, 2026.",
+    "cols": [
+      "",
+      "Standalone Part D (PDP)",
+      "Advantage plan with drugs (MAPD)"
+    ],
+    "rows": [
+      [
+        "Pairs with",
+        "Original Medicare, with or without Medigap",
+        "Replaces Original Medicare"
+      ],
+      [
+        "Doctor access",
+        "Any provider that accepts Medicare",
+        "The plan’s network"
+      ],
+      [
+        "Formulary",
+        "The drug plan’s own list",
+        "The Advantage plan’s list"
+      ],
+      [
+        "Monthly premium",
+        "About $7–$80, separate from Part B",
+        "Often $0, on top of Part B"
+      ],
+      [
+        "2026 cap on covered drug costs",
+        "$2,000",
+        "$2,000"
+      ],
+      [
+        "Changing your mind",
+        "Switch drug plans on their own during AEP",
+        "Changing drug coverage means changing the whole plan"
+      ]
+    ]
+  },
+  "definitions": [
+    {
+      "term": "Formulary",
+      "def": "The list of drugs a plan covers. Every plan sets its own, and they change each year — which is why the same medication can be cheap on one plan and uncovered on another."
+    },
+    {
+      "term": "Tier",
+      "def": "The pricing band a drug sits in on that formulary. Lower tiers cost you less; a move from <a href=\"tier-3-vs-tier-4-medicare-part-d.html\">tier 3 to tier 4</a> can change a copay substantially."
+    },
+    {
+      "term": "Deductible",
+      "def": "What you pay before the plan starts sharing drug costs. Some plans charge $0; others charge up to $590 in 2026."
+    },
+    {
+      "term": "Out-of-pocket cap",
+      "def": "Starting in 2025 and continuing in 2026, your covered drug costs stop at $2,000 for the year. After that you pay nothing more for covered prescriptions."
+    },
+    {
+      "term": "Preferred pharmacy",
+      "def": "A pharmacy the plan has contracted with for lower cost sharing. The same drug on the same plan can cost different amounts at different <a href=\"medicare-vernal-pharmacies.html\">Vernal pharmacies</a>."
+    },
+    {
+      "term": "Creditable coverage",
+      "def": "Drug coverage at least as good as Part D — employer coverage, for example. Keeping it lets you <a href=\"medicare-creditable-coverage.html\">delay Part D without the late penalty</a>."
+    }
+  ]
 }

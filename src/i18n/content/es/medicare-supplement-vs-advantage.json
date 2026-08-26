@@ -57,13 +57,41 @@
     "tableHeadMedigap": "Medigap (Suplemento)",
     "tableHeadAdvantage": "Medicare Advantage",
     "tableRows": [
-      { "label": "Funciona con", "medigap": "Medicare Original (Parte A + B)", "advantage": "Reemplaza a Medicare Original" },
-      { "label": "Prima mensual", "medigap": "$100–$250+ (varía según el plan, la edad y la aseguradora)", "advantage": "$0–$50 en la mayoría de los planes (más la prima de la Parte B)" },
-      { "label": "Red de proveedores", "medigap": "Cualquier proveedor que acepte Medicare en todo el país", "advantage": "Red HMO o PPO; fuera de la red es limitado" },
-      { "label": "Máximo de gastos de bolsillo", "medigap": "Prácticamente $0 con el Plan G (después del deducible de la Parte B)", "advantage": "Hasta $8,850 dentro de la red (2026)" },
-      { "label": "Cobertura de medicamentos", "medigap": "Se requiere un plan de la Parte D por separado", "advantage": "Generalmente incluida" },
-      { "label": "Dental / Visión / Audición", "medigap": "No incluido", "advantage": "A menudo incluido" },
-      { "label": "Ideal para", "medigap": "Personas que quieren costos predecibles y libertad de proveedores", "advantage": "Personas que quieren primas más bajas y beneficios adicionales" }
+      {
+        "label": "Funciona con",
+        "medigap": "Medicare Original (Parte A + B)",
+        "advantage": "Reemplaza a Medicare Original"
+      },
+      {
+        "label": "Prima mensual",
+        "medigap": "$100–$250+ (varía según el plan, la edad y la aseguradora)",
+        "advantage": "$0–$50 en la mayoría de los planes (más la prima de la Parte B)"
+      },
+      {
+        "label": "Red de proveedores",
+        "medigap": "Cualquier proveedor que acepte Medicare en todo el país",
+        "advantage": "Red HMO o PPO; fuera de la red es limitado"
+      },
+      {
+        "label": "Máximo de gastos de bolsillo",
+        "medigap": "Prácticamente $0 con el Plan G (después del deducible de la Parte B)",
+        "advantage": "Hasta $8,850 dentro de la red (2026)"
+      },
+      {
+        "label": "Cobertura de medicamentos",
+        "medigap": "Se requiere un plan de la Parte D por separado",
+        "advantage": "Generalmente incluida"
+      },
+      {
+        "label": "Dental / Visión / Audición",
+        "medigap": "No incluido",
+        "advantage": "A menudo incluido"
+      },
+      {
+        "label": "Ideal para",
+        "medigap": "Personas que quieren costos predecibles y libertad de proveedores",
+        "advantage": "Personas que quieren primas más bajas y beneficios adicionales"
+      }
     ],
     "h2Rural": "El factor rural de Utah",
     "ruralHtml1": "Dónde vive juega un papel importante en esta decisión. En áreas urbanas como Salt Lake City, los planes Medicare Advantage ofrecen redes sólidas con docenas de proveedores. En Uintah Basin — que abarca Vernal, Naples, Maeser, Jensen y las comunidades cercanas — las redes son más pequeñas. Si la red de su plan Advantage no incluye al especialista que necesita, puede enfrentar costos más altos o demoras para recibir atención.",
@@ -83,6 +111,25 @@
       "<a href=\"plan-g-vs-plan-n-vernal.html\">Plan G vs Plan N en Vernal</a>",
       "<a href=\"hmo-vs-ppo-medicare-advantage.html\">HMO vs PPO Medicare Advantage</a>",
       "<a href=\"medicare-out-of-state-utah.html\">Usar Medicare fuera del estado desde Utah</a>"
-    ]
-  }
+    ],
+    "sourcesHeading": "Fuentes",
+    "sourcesNote": "Los planes, las primas y los beneficios cambian cada año. Confirme los detalles del año en curso antes de inscribirse."
+  },
+  "sources": [
+    {
+      "title": "Seguro suplementario de Medicare (Medigap)",
+      "url": "https://es.medicare.gov/health-drug-plans/medigap",
+      "publisher": "Medicare.gov"
+    },
+    {
+      "title": "¿Cómo funcionan los planes Medicare Advantage?",
+      "url": "https://es.medicare.gov/health-drug-plans/health-plans/your-coverage-options/how-medicare-advantage-plans-work",
+      "publisher": "Medicare.gov"
+    },
+    {
+      "title": "Inscripción en Medigap y protecciones al consumidor",
+      "url": "https://www.cms.gov/medicare/health-drug-plans/medigap",
+      "publisher": "CMS"
+    }
+  ]
 }
