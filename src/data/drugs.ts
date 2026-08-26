@@ -175,7 +175,10 @@ export const PROGRAMS: Program[] = [
   },
   {
     id: 'abbvie', type: 'manufacturer', name: 'myAbbVie Assist',
-    tagline: 'Free AbbVie medicines for eligible patients (Humira, Skyrizi, Rinvoq).',
+    // TAGLINE CORRECTED 2026-08-26 (P1 cleanup). It previously led with Humira,
+    // which AbbVie stopped accepting new patients for on 2026-07-01 (Batch 3
+    // research). `drugs` is unchanged for the same reason as the Sanofi entry.
+    tagline: 'Free AbbVie medicines for eligible patients (Skyrizi, Rinvoq, Venclexta).',
     conditions: ['autoimmune', 'cancer'], drugs: ['Humira', 'Skyrizi', 'Rinvoq', 'Imbruvica', 'Venclexta', 'Linzess'],
     helps: 'Provides eligible AbbVie medications at no cost to qualifying patients.',
     eligibility: 'Income-based; serves uninsured and many Medicare patients who meet criteria.',
@@ -193,9 +196,18 @@ export const PROGRAMS: Program[] = [
   },
   {
     id: 'sanofi', type: 'manufacturer', name: 'Sanofi Patient Connection',
-    tagline: 'Free Sanofi/Regeneron medicines (Dupixent, Praluent, Lantus).',
+    // TAGLINE CORRECTED 2026-08-26 (P1 cleanup). It previously read "(Dupixent,
+    // Praluent, Lantus)". Batch 4 research read Sanofi Patient Connection's own
+    // medications-available list and Dupixent is not on it — the Dupixent route
+    // is the separate DUPIXENT MyWay Patient Assistance Program. The `drugs`
+    // array below is deliberately UNCHANGED: record precedence
+    // (isResearchedMedication) suppresses researched medications wherever this
+    // entry is rendered, and leaving the raw data intact keeps the fallback
+    // honest for the medications still awaiting research. Only the free-text
+    // tagline needed fixing, because precedence cannot filter prose.
+    tagline: 'Free Sanofi medicines for eligible patients (Lantus, Toujeo, Lovenox).',
     conditions: ['autoimmune', 'respiratory', 'cholesterol', 'heart', 'diabetes'], drugs: ['Dupixent', 'Praluent', 'Lantus', 'Toujeo', 'Admelog', 'Libtayo'],
-    helps: 'Connects eligible patients to free medication and support; Dupixent MyWay offers additional help.',
+    helps: 'Connects eligible patients to free medication and support. Each medicine must appear on the program\'s own medications-available list — check it before applying.',
     eligibility: 'Income-based; serves uninsured and qualifying Medicare patients.',
     url: 'https://www.sanofipatientconnection.com/', urlLabel: 'sanofipatientconnection.com',
     phone: '1-888-847-4877',

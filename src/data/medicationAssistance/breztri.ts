@@ -438,7 +438,11 @@ export const BREZTRI: MedicationAssistanceRecord = {
     goodDays,
     SRC.oigCoupons,
   ],
-  lastVerified: CHECKED,
+  // Per-record verification date (P1 cleanup, 2026-08-26). Deliberately a
+  // literal, not the shared CHECKED constant: re-verifying one medication
+  // must move one date, not all sixteen. Bump this when you re-read this
+  // record's sources; `checked` on each source records the research window.
+  lastVerified: '2026-08-26',
   datePublished: '2026-08-26',
   video: {
     title: 'How to Apply for Breztri Aerosphere Assistance',

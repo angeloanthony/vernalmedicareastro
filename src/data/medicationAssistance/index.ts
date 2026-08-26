@@ -100,6 +100,60 @@ export const MEDICATION_ASSISTANCE: MedicationAssistanceRecord[] = [
 export const medicationAssistanceFor = (slug: string): MedicationAssistanceRecord | undefined =>
   MEDICATION_ASSISTANCE.find((r) => r.slug === slug);
 
+// ── Record precedence over the legacy PROGRAMS layer (P1 cleanup) ───────────
+//
+// data/drugs.ts still carries the older assistance-program directory, and it
+// stays: it is the interim source for medications that have not been
+// researched yet. But its per-program `drugs` lists have drifted away from what
+// research established — the Sanofi entry claims Dupixent (not on Sanofi
+// Patient Connection's medicine list) and the AbbVie entry claims Humira
+// (removed from myAbbVie Assist on 2026-07-01) — so the hub was rendering
+// claims that the medication pages disprove.
+//
+// These two lookups are the precedence rule. They live here, next to the
+// registry they read, because the registry is what decides which medications
+// it owns. They are exported rather than inlined in the hub so the rule is
+// testable: an .astro <script> cannot be imported by vitest.
+
+/** Lowercased match tokens for every researched medication: slug, brand name,
+ *  and the brand's first word — so the legacy list's "Trelegy Ellipta" and
+ *  "Breztri" both resolve to their records. */
+const researchedTokens = (): Set<string> => {
+  const t = new Set<string>();
+  for (const r of MEDICATION_ASSISTANCE) {
+    t.add(r.slug);
+    t.add(r.brandName.toLowerCase());
+    t.add(r.brandName.toLowerCase().split(' ')[0]);
+  }
+  return t;
+};
+
+/**
+ * True when a medication name — typically an entry in a legacy program's
+ * `drugs` list — names a medication the registry now owns. Such a medication's
+ * program information must come from its record, never from the legacy layer.
+ */
+export function isResearchedMedication(name: string): boolean {
+  const k = name.trim().toLowerCase();
+  if (!k) return false;
+  for (const t of researchedTokens()) if (k === t || k.startsWith(`${t} `)) return true;
+  return false;
+}
+
+/** The researched record a hub search query refers to, if any. */
+export function recordForSearch(query: string): MedicationAssistanceRecord | undefined {
+  const k = query.trim().toLowerCase();
+  if (!k) return undefined;
+  for (const r of MEDICATION_ASSISTANCE) {
+    const brand = r.brandName.toLowerCase();
+    if (k === r.slug || k === brand || k === brand.split(' ')[0]) return r;
+  }
+  if (k.length < 4) return undefined;
+  return MEDICATION_ASSISTANCE.find(
+    (r) => r.brandName.toLowerCase().includes(k) || r.slug.includes(k),
+  );
+}
+
 // ── URL / title / H1 pattern (spec §21) — change here, never per page ────────
 export const assistanceHref = (slug: string): string => `/${slug}-assistance-program.html`;
 export const assistanceTitle = (r: MedicationAssistanceRecord): string =>

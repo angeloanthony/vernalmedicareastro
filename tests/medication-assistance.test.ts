@@ -68,6 +68,27 @@ describe('medication assistance registry', () => {
     }
   });
 
+  it('gives every record its OWN verification date, not the shared constant', () => {
+    // P1 cleanup, 2026-08-26. `CHECKED` dates the research window a source was
+    // read in and is legitimately shared. `lastVerified` dates the RECORD, and
+    // sharing one constant across all of them made re-verification
+    // all-or-nothing — unworkable past a handful of medications. Asserted at
+    // the source level because a literal and a constant are indistinguishable
+    // once the module is evaluated.
+    const infra = /\/(index|shared|categories|drugClasses)\.ts$/;
+    const sources = import.meta.glob('../src/data/medicationAssistance/*.ts', {
+      query: '?raw',
+      import: 'default',
+      eager: true,
+    }) as Record<string, string>;
+    const records = Object.entries(sources).filter(([path]) => !infra.test(path));
+    expect(records.length, 'record files').toBe(MEDICATION_ASSISTANCE.length);
+    const borrowed = records
+      .filter(([, src]) => /lastVerified:\s*CHECKED\b/.test(src))
+      .map(([path]) => path);
+    expect(borrowed, 'records must carry a literal lastVerified').toEqual([]);
+  });
+
   it('builds the Extra Help program from the data layer with dated sources', () => {
     const eh = extraHelpProgram();
     expect(eh.kind).toBe('government');
@@ -81,7 +102,17 @@ describe.each(MEDICATION_ASSISTANCE.map((r): [string, MedicationAssistanceRecord
   '%s record',
   (_name, r) => {
     it('carries a verification date, publish date and video frame', () => {
+      // lastVerified is per-record (P1 cleanup, 2026-08-26): present, ISO, a
+      // real calendar date, and never in the future. Re-verifying one
+      // medication must move one date — see the registry-level test below that
+      // no record borrows the shared CHECKED constant for it.
+      expect(r.lastVerified, 'lastVerified is required').toBeTruthy();
       expect(r.lastVerified).toMatch(ISO_DATE);
+      const verified = new Date(`${r.lastVerified}T00:00:00Z`);
+      expect(Number.isNaN(verified.getTime()), `${r.lastVerified} is not a real date`).toBe(false);
+      expect(verified.toISOString().slice(0, 10), 'round-trips').toBe(r.lastVerified);
+      expect(verified.getTime(), 'lastVerified cannot be in the future')
+        .toBeLessThanOrEqual(Date.now());
       expect(r.datePublished).toMatch(ISO_DATE);
       expect(r.video.title).toContain(r.brandName);
       if (r.video.status === 'coming-soon') expect(r.video.youtubeId).toBeUndefined();

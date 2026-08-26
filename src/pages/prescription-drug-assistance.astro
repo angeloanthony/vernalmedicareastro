@@ -10,6 +10,14 @@ import AuthorByline from '../components/content/AuthorByline.astro';
 import SummaryBlock from '../components/SummaryBlock.astro';
 import NextSteps from '../components/content/NextSteps.astro';
 import { FEATURED_DRUGS, PROGRAMS, FUND_STATUS_META } from '../data/drugs';
+import {
+  MEDICATION_ASSISTANCE,
+  assistanceHref,
+  isResearchedMedication,
+  verifiedMonth,
+  KIND_META,
+  STATUS_META,
+} from '../data/medicationAssistance';
 import { CONDITIONS, CONDITION_STYLE, FALLBACK_CONDITION_STYLE } from '../data/conditions';
 import { BUSINESS } from '../data/business';
 import { figuresFor } from '../data/annualMedicareData';
@@ -32,6 +40,59 @@ const FALLBACK_STYLE = FALLBACK_CONDITION_STYLE;
 // page's own .pda-pill classes).
 const FUND_PILL_CLS: Record<FundStatus, string> = { open: 'is-green', verify: 'is-amber', closed: 'is-red' };
 const foundations = PROGRAMS.filter((p) => p.type === 'foundation');
+
+// ── Record precedence, projected for the client (P1 cleanup, 2026-08-26) ─────
+//
+// The Program Finder must answer from a researched MedicationAssistanceRecord
+// whenever one exists, and fall back to the legacy PROGRAMS directory only for
+// medications nobody has researched yet.
+//
+// This projection is built at BUILD TIME on purpose. Importing the registry
+// into the finder's client script instead pulled all sixteen records — every
+// source, FAQ and application step — into the browser bundle and took it to
+// 479 KB. The finder needs a name, a status and a sentence per program, so we
+// ship exactly that as JSON and leave the prose on the medication pages where
+// it belongs. `isResearchedMedication` stays the single, unit-tested definition
+// of "the registry owns this medication" (tests/record-precedence.test.ts).
+const KIND_TO_TYPE: Record<string, string> = {
+  'manufacturer-pap': 'manufacturer',
+  'manufacturer-savings': 'manufacturer',
+  'manufacturer-direct': 'manufacturer',
+  charitable: 'foundation',
+  government: 'government',
+};
+const STATUS_PILL: Record<string, string> = {
+  open: 'is-green', limited: 'is-amber', verify: 'is-amber',
+  closed: 'is-red', 'not-found': 'is-red',
+};
+
+const RECORD_INDEX = MEDICATION_ASSISTANCE.map((r) => ({
+  brand: r.brandName,
+  href: assistanceHref(r.slug),
+  verified: verifiedMonth(r.lastVerified),
+  conditions: r.conditions,
+  // Lowercased match tokens, in the same shape isResearchedMedication uses.
+  tokens: [...new Set([r.slug, r.brandName.toLowerCase(), r.brandName.toLowerCase().split(' ')[0]])],
+  total: r.programs.length,
+  programs: r.programs.map((p) => ({
+    name: p.name,
+    summary: p.summary,
+    type: KIND_TO_TYPE[p.kind],
+    kindLabel: KIND_META[p.kind].label,
+    color: KIND_META[p.kind].color,
+    tint: KIND_META[p.kind].tint,
+    statusLabel: STATUS_META[p.status].label,
+    pill: STATUS_PILL[p.status],
+  })),
+}));
+
+// Legacy `drugs` lists with researched medications removed, so the fallback
+// layer can never speak for a medication the registry owns. The raw data in
+// data/drugs.ts is left intact — this is precedence, not deletion.
+const LEGACY_DRUGS: Record<string, string[]> = Object.fromEntries(
+  PROGRAMS.filter((p) => p.type === 'manufacturer' && p.drugs)
+    .map((p) => [p.id, (p.drugs ?? []).filter((d) => !isResearchedMedication(d))]),
+);
 
 // Compact "Related Medicare Tools" cards — real, existing tool pages only.
 const TOOLS = [
@@ -219,6 +280,11 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
         <label for="pf-search" class="pda-sr-only">Search a medication</label>
         <input type="text" id="pf-search" class="pda-finder__input" list="pf-drug-names" autocomplete="off" placeholder="Medication name — e.g. Eliquis, Ozempic, Humira" />
         <datalist id="pf-drug-names"></datalist>
+        {/* Record precedence data, projected at build time — see RECORD_INDEX
+            in the frontmatter. Rendered as JSON rather than imported by the
+            finder's script so the browser never downloads the full records. */}
+        <script type="application/json" id="pf-records" set:html={JSON.stringify(RECORD_INDEX)} />
+        <script type="application/json" id="pf-legacy-drugs" set:html={JSON.stringify(LEGACY_DRUGS)} />
       </div>
       <div class="pda-finder__filters">
         <div>
@@ -462,12 +528,45 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
   </section>
 
   <script>
-    // Program Finder — search a medication or filter by condition/type across
-    // the shared PROGRAMS database (data/drugs.ts) — same data every per-drug
-    // assistance page uses, so results here always match those pages.
+    // Program Finder — search a medication or filter by condition/type.
+    //
+    // RECORD PRECEDENCE (P1 cleanup, 2026-08-26). Two layers feed this finder,
+    // and they are NOT equals:
+    //
+    //   1. MEDICATION_ASSISTANCE — independently researched records with dated
+    //      sources. Authoritative for the medications it covers.
+    //   2. PROGRAMS (data/drugs.ts) — the older program directory. It is the
+    //      INTERIM source for medications that have not been researched yet,
+    //      and it stays for exactly that reason.
+    //
+    // Layer 2 must never speak for a medication layer 1 covers. Its per-program
+    // `drugs` lists have drifted away from what research established — the
+    // Sanofi entry still claims Dupixent (Sanofi Patient Connection's own
+    // medicine list does not include it) and the AbbVie entry still claims
+    // Humira (removed from myAbbVie Assist on 2026-07-01). Rendering those
+    // claims here put the hub in direct contradiction with the medication pages
+    // it links to. Precedence resolves that without deleting the fallback.
+    // The record projection arrives as JSON rendered by this page's frontmatter
+    // (see RECORD_INDEX above) rather than as a module import — importing the
+    // registry here put all sixteen records' prose into the browser bundle.
     import { PROGRAMS, TYPE_META } from '../data/drugs';
     import { CONDITIONS, condLabel } from '../data/conditions';
     import { BUSINESS } from '../data/business';
+
+    type RecordProgram = {
+      name: string; summary: string; type: string; kindLabel: string;
+      color: string; tint: string; statusLabel: string; pill: string;
+    };
+    type RecordEntry = {
+      brand: string; href: string; verified: string; conditions: string[];
+      tokens: string[]; total: number; programs: RecordProgram[];
+    };
+    const RECORDS: RecordEntry[] = JSON.parse(
+      document.getElementById('pf-records')?.textContent || '[]',
+    );
+    const LEGACY_DRUGS: Record<string, string[]> = JSON.parse(
+      document.getElementById('pf-legacy-drugs')?.textContent || '{}',
+    );
 
     const smsBase = `sms:${BUSINESS.phoneTel}?body=`;
 
@@ -485,8 +584,22 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
         '<option value="all">Any condition</option>' +
         CONDITIONS.map((c) => `<option value="${c.key}">${c.label}</option>`).join('');
 
-      // drug name -> { conditions[], mfr program ids[] }, built from the
-      // manufacturer programs' own `drugs` lists.
+      /** The researched record a search query refers to, if any. Mirrors
+       *  recordForSearch() in the registry, which is where the rule is defined
+       *  and unit tested; the tokens come from that same rule. */
+      function recordForSearch(q: string): RecordEntry | undefined {
+        const k = q.trim().toLowerCase();
+        if (!k) return undefined;
+        const exact = RECORDS.find((r) => r.tokens.includes(k));
+        if (exact) return exact;
+        if (k.length < 4) return undefined;
+        return RECORDS.find((r) => r.tokens.some((t) => t.includes(k)));
+      }
+
+      // drug name -> { conditions[], mfr program ids[] }. Researched medications
+      // are indexed from the registry projection; the legacy `drugs` lists —
+      // already stripped of researched medications at build time — supply only
+      // the medications the registry does not cover yet.
       const DRUG_INDEX: Record<string, { name: string; conditions: string[]; mfr: string[] }> = {};
       function indexDrug(name: string, conds: string[], mfrId?: string) {
         const k = name.toLowerCase();
@@ -497,9 +610,10 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
       PROGRAMS.forEach((p) => {
         if (p.type === 'manufacturer' && p.drugs) {
           const conds = p.conditions.filter((c) => c !== 'any');
-          p.drugs.forEach((d) => indexDrug(d, conds, p.id));
+          (LEGACY_DRUGS[p.id] ?? p.drugs).forEach((d) => indexDrug(d, conds, p.id));
         }
       });
+      RECORDS.forEach((r) => indexDrug(r.brand, r.conditions));
       datalist.innerHTML = Object.values(DRUG_INDEX).map((e) => `<option value="${e.name}"></option>`).join('');
 
       const TYPE_ORDER: Record<string, number> = { government: 0, foundation: 1, manufacturer: 2, database: 3 };
@@ -534,10 +648,46 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
         return `May provide ${drug || 'your medication'} at no cost if you qualify.`;
       }
 
+      /** Program cards for a researched medication, built from its record. */
+      function renderRecord(r: RecordEntry, cond: string, typeFilter: string) {
+        const programs = r.programs.filter((p) => {
+          if (typeFilter !== 'all' && p.type !== typeFilter) return false;
+          if (cond !== 'all' && !r.conditions.includes(cond)) return false;
+          return true;
+        });
+
+        countEl!.textContent = programs.length
+          ? `Showing ${programs.length} researched program${programs.length === 1 ? '' : 's'} for ${r.brand}, verified ${r.verified}.`
+          : `No ${r.brand} programs match those filters. ${r.total} were researched in total.`;
+
+        const head = `<div class="pda-prog pda-prog--record">
+          <div class="pda-prog__top"><h3>${r.brand} assistance</h3><span class="pda-pill is-blue">Researched ${r.verified}</span></div>
+          <div class="pda-prog__tagline">${r.total} programs checked against their official sources, with what each one says about Medicare. Full eligibility, documents and application steps are on the medication page.</div>
+          <a class="pda-prog__view" href="${r.href}">Open the ${r.brand} assistance page
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>`;
+
+        gridEl!.innerHTML = head + programs.map((p) => `<div class="pda-prog">
+            <div class="pda-prog__top"><h3>${p.name}</h3><span class="pda-pill" style="background:${p.tint};color:${p.color}">${p.kindLabel}</span></div>
+            <div class="pda-prog__tagline">${p.summary}</div>
+            <div class="pda-prog__status"><span class="pda-pill ${p.pill}">${p.statusLabel}</span></div>
+            <a class="pda-prog__view" href="${r.href}">See eligibility &amp; how to apply
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>`).join('');
+      }
+
       function render() {
         const q = searchEl!.value.trim().toLowerCase();
         const cond = condEl!.value;
         const typeFilter = typeEl!.value;
+
+        // Record precedence: a researched medication is answered from its
+        // record, and the legacy PROGRAMS layer is not consulted at all.
+        const rec = recordForSearch(q);
+        if (rec) { renderRecord(rec, cond, typeFilter); return; }
+
         const info = condsForQuery(q) ?? { name: null, conditions: [], mfr: [] };
 
         const list = PROGRAMS.filter((p) => programMatches(p, q, info, cond, typeFilter))
@@ -571,7 +721,16 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
         const t = TYPE_META[p.type];
         const typical = typicalLine(p, searchEl!.value.trim());
         const condText = p.conditions.includes('any') ? 'Any condition' : p.conditions.map((c) => condLabel(c)).join(', ');
-        const drugLine = p.drugs?.length ? `<div class="pda-modal__sec"><h4>Medications it may cover</h4><p>${p.drugs.join(', ')}</p></div>` : '';
+        // Record precedence again: never let a legacy entry name a medication
+        // the registry owns. Browsing to the Sanofi card must not reproduce the
+        // "Dupixent" claim that Dupixent's own researched page disproves.
+        const shownDrugs = LEGACY_DRUGS[p.id] ?? p.drugs ?? [];
+        const withheld = (p.drugs?.length ?? 0) - shownDrugs.length;
+        const drugLine = shownDrugs.length
+          ? `<div class="pda-modal__sec"><h4>Medications it may cover</h4><p>${shownDrugs.join(', ')}</p>${
+              withheld ? '<p class="pda-modal__note">Medications with a researched assistance page on this site are listed on that page instead, which is checked against the program\'s official source.</p>' : ''
+            }</div>`
+          : '';
         const phoneBtn = p.phone ? `<a class="pda-modal__ghost" href="tel:${p.phone.replace(/[^0-9]/g, '')}">${p.phone}</a>` : '';
 
         panel!.innerHTML = `
@@ -597,8 +756,11 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
 
       gridEl.addEventListener('click', (e) => {
         const btn = (e.target as HTMLElement).closest('.pda-prog__view');
-        if (!btn) return;
-        const p = PROGRAMS.find((x) => x.id === btn.getAttribute('data-id'));
+        // Record cards render an <a> to the medication page and carry no
+        // data-id — let the browser follow them instead of opening a modal.
+        const id = btn?.getAttribute('data-id');
+        if (!btn || !id) return;
+        const p = PROGRAMS.find((x) => x.id === id);
         if (p) openModal(p);
       });
       modal.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('[data-pf-close]')) closeModal(); });
@@ -962,6 +1124,10 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
     min-height: 36px; display: inline-flex; align-items: center; gap: 0.4rem;
   }
   .pda-prog__view svg { width: 15px; height: 15px; }
+  a.pda-prog__view { text-decoration: none; }
+  a.pda-prog__view:hover { text-decoration: underline; }
+  /* The lead card when a searched medication has a researched record. */
+  .pda-prog--record { border-color: #b9cdea; background: #f7faff; }
 
   /* ── Program Finder modal ─────────────────────────────────────────────── */
   .pda-modal { position: fixed; inset: 0; z-index: 60; display: none; align-items: flex-start; justify-content: center; padding: 8vh 18px 18px; }
@@ -983,6 +1149,7 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
   .pda-modal__sec { margin-top: 1rem; }
   .pda-modal__sec h4 { margin: 0 0 0.35rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: #2563eb; }
   .pda-modal__sec p { margin: 0; color: #5b6b7d; }
+  .pda-modal__note { margin-top: 0.5rem !important; font-size: 0.84rem; font-style: italic; color: #6b7b8d !important; }
   .pda-modal__actions { margin-top: 1.3rem; display: flex; flex-wrap: wrap; gap: 0.6rem; }
   .pda-modal__actions a, .pda-modal__ghost { text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1rem; border-radius: 10px; font-weight: 700; font-size: 0.92rem; min-height: 44px; }
   .pda-modal__primary { background: #2563eb; color: #fff; }
