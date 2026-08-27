@@ -157,7 +157,24 @@ export const PROGRAMS: Program[] = [
   },
   {
     id: 'azme', type: 'manufacturer', name: 'AZ&Me Prescription Savings Program',
-    tagline: 'Free AstraZeneca medicines (Farxiga, Brilinta, Symbicort, oncology).',
+    // TAGLINE CORRECTED 2026-08-26 (Batch 6). It previously named Symbicort.
+    // Batch 6 research read AZ&Me's own included-medications list on
+    // azandmeapp.com and Symbicort is not on it — the covered inhalers are
+    // Airsupra, Bevespi Aerosphere and Breztri Aerosphere. Only the Symbicort
+    // token was replaced (with Breztri, confirmed on the same list and already
+    // researched in Batch 2), following the Sanofi/AbbVie precedent: precedence
+    // cannot filter prose, so the disproven prose is fixed and nothing else is.
+    // The `drugs` array below is deliberately UNCHANGED, and so is the Farxiga
+    // claim in this tagline — AZ&Me stopped taking new Farxiga patients on
+    // 2026-05-01 (established in Batch 1, farxiga.ts) and correcting that
+    // belongs to the deferred legacy data-hygiene task, not to this batch.
+    //
+    // TAGLINE CORRECTED AGAIN 2026-08-26 (Batch 7). It also named Brilinta,
+    // which that batch's research disproved the same way: Brilinta is absent
+    // from AZ&Me's own included-medications list and from AstraZeneca Direct.
+    // Replaced with Airsupra, confirmed on the same AZ&Me list. Farxiga still
+    // stands and is still deferred — this batch corrects only what it disproved.
+    tagline: 'Free AstraZeneca medicines (Farxiga, Airsupra, Breztri, oncology).',
     conditions: ['diabetes', 'heart', 'kidney', 'respiratory', 'cancer'], drugs: ['Farxiga', 'Brilinta', 'Symbicort', 'Breztri', 'Tagrisso', 'Calquence', 'Lynparza'],
     helps: 'Provides eligible AstraZeneca medications at no cost, with a dedicated track for Medicare Part D patients.',
     eligibility: 'Income-based; AZ&Me has a specific Medicare Part D eligibility pathway.',
@@ -304,6 +321,25 @@ export const FEATURED_DRUGS: Drug[] = [
   { slug: 'zepbound',  drug: 'Zepbound',  generic: 'tirzepatide',   conditionLabel: 'weight management & sleep apnea',   conditions: ['weight'],                         blogSlug: 'does-medicare-cover-zepbound' },
   { slug: 'praluent',  drug: 'Praluent',  generic: 'alirocumab',    conditionLabel: 'high cholesterol',                  conditions: ['cholesterol', 'heart'],            blogSlug: 'does-medicare-cover-praluent' },
   { slug: 'leqvio',    drug: 'Leqvio',    generic: 'inclisiran',    conditionLabel: 'high cholesterol',                  conditions: ['cholesterol'],                    blogSlug: 'does-medicare-cover-leqvio' },
+  // Prescription Assistance Batch 6 (spec §24 Phase 4 list, the closing four),
+  // added 2026-08-26. Each carries a researched MedicationAssistanceRecord.
+  // `lung-disease` is the condition key added for Ofev (data/conditions.ts);
+  // Ofev deliberately does NOT carry `respiratory`, because the pulmonary
+  // fibrosis funds and the COPD/asthma funds are different funds with different
+  // medication lists. All four blogSlug values are forward references — nothing
+  // reads the field (types/Drug.ts only), so no link is generated from it (D8).
+  { slug: 'nexletol',  drug: 'Nexletol',  generic: 'bempedoic acid', conditionLabel: 'high cholesterol & heart risk',    conditions: ['cholesterol', 'heart'],           blogSlug: 'does-medicare-cover-nexletol' },
+  { slug: 'symbicort', drug: 'Symbicort', generic: 'budesonide/formoterol fumarate dihydrate', conditionLabel: 'asthma & COPD', conditions: ['respiratory'],       blogSlug: 'does-medicare-cover-symbicort' },
+  { slug: 'spiriva',   drug: 'Spiriva',   generic: 'tiotropium bromide', conditionLabel: 'COPD & asthma',                conditions: ['respiratory'],                    blogSlug: 'does-medicare-cover-spiriva' },
+  { slug: 'ofev',      drug: 'Ofev',      generic: 'nintedanib',    conditionLabel: 'pulmonary fibrosis & ILD',          conditions: ['lung-disease'],                   blogSlug: 'does-medicare-cover-ofev' },
+  // Prescription Assistance Batch 7 (2026-08-26) — selected by decision, not by
+  // the §24 order. Brilinta is the first `antiplatelet` in the registry;
+  // Vyndamax carries `heart` because its label's indication is a cardiomyopathy
+  // (no amyloidosis key was added — see vyndamax.ts). blogSlug values are
+  // forward references; nothing reads the field, so no link is generated (D8).
+  { slug: 'vyndamax',  drug: 'Vyndamax',  generic: 'tafamidis',     conditionLabel: 'ATTR cardiomyopathy',               conditions: ['heart'],                          blogSlug: 'does-medicare-cover-vyndamax' },
+  { slug: 'januvia',   drug: 'Januvia',   generic: 'sitagliptin',   conditionLabel: 'type 2 diabetes',                   conditions: ['diabetes'],                       blogSlug: 'does-medicare-cover-januvia' },
+  { slug: 'brilinta',  drug: 'Brilinta',  generic: 'ticagrelor',    conditionLabel: 'heart attack & stroke prevention',  conditions: ['heart'],                          blogSlug: 'does-medicare-cover-brilinta' },
 ];
 
 /** Group the programs relevant to a specific drug: the manufacturer program(s) that

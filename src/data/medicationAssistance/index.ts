@@ -49,6 +49,13 @@ import { ZEPBOUND } from './zepbound';
 import { PRALUENT } from './praluent';
 import { WEGOVY } from './wegovy';
 import { LEQVIO } from './leqvio';
+import { NEXLETOL } from './nexletol';
+import { SYMBICORT } from './symbicort';
+import { SPIRIVA } from './spiriva';
+import { OFEV } from './ofev';
+import { VYNDAMAX } from './vyndamax';
+import { JANUVIA } from './januvia';
+import { BRILINTA } from './brilinta';
 
 // ── Taxonomy (two axes; browse categories are derived, never stored) ─────────
 export {
@@ -108,6 +115,29 @@ export const MEDICATION_ASSISTANCE: MedicationAssistanceRecord[] = [
   ZEPBOUND,
   PRALUENT,
   LEQVIO,
+  // Batch 6 (2026-08-26) — the closing four of the spec §24 Phase 4 order
+  // (Nexletol, Symbicort, Spiriva, Ofev). Four NEW slugs, built LINK-DARK under
+  // D8: none of these records contains a does-medicare-cover-* link, so no page
+  // in the frozen EXP-003 cohort gains an inbound link. Ofev is the medication
+  // the project reserved to settle the `lung-disease` question (§31 #6); the
+  // key was added on the evidence recorded in data/conditions.ts.
+  NEXLETOL,
+  SYMBICORT,
+  SPIRIVA,
+  OFEV,
+  // Batch 7 (2026-08-26) — the first batch chosen by a selection DECISION
+  // rather than by the §24 order, which Batch 6 exhausted. Selected on
+  // information value, category coverage and research opportunity: Vyndamax
+  // (the registry's first record with two OPEN funds, and its first
+  // rare-disease picture), Januvia (the first manufacturer PAP that names
+  // Medicare as disqualifying coverage, plus a negotiated price already in
+  // effect) and Brilinta (the first ANTIPLATELET — the Blood Thinners view has
+  // described itself as holding both kinds since it was built and until now
+  // held only anticoagulants). Built LINK-DARK under D8: none of these records
+  // contains a does-medicare-cover-* link.
+  VYNDAMAX,
+  JANUVIA,
+  BRILINTA,
 ];
 
 export const medicationAssistanceFor = (slug: string): MedicationAssistanceRecord | undefined =>

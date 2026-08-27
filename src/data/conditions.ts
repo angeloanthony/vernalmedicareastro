@@ -33,6 +33,28 @@ export const CONDITIONS: Condition[] = [
   // the demonstration. No nonprofit fund in PROGRAMS matches this key, which is
   // correct: on 2026-08-26 none of the three foundations ran an obesity fund.
   { key: 'weight', label: 'Weight management / obesity' },
+  // Added 2026-08-26 (Batch 6, Ofev) — the pre-registered gate in
+  // PENDING_CATEGORY_VIEWS and project §31 #6, decided on evidence rather than
+  // on the fact that Ofev is a lung medicine. What the evidence showed:
+  //
+  //   • Ofev's label carries NO asthma or COPD indication. It treats idiopathic
+  //     pulmonary fibrosis, chronic fibrosing ILDs with a progressive phenotype
+  //     and systemic sclerosis-associated ILD (DailyMed, rev. 5/2025).
+  //   • The funds that pay for it are different funds from the inhaler funds,
+  //     with different money and different medication lists. On 2026-08-26
+  //     TotalAssist's Pulmonary fibrosis fund was OPEN ($3,500 guaranteed /
+  //     $7,000 maximum) and lists "Ofev (Nintedanib Esylate)"; its COPD and
+  //     Asthma funds were CLOSED ($1,200 / $3,500) and do not list Ofev at all.
+  //     HealthWell is the same shape: Pulmonary Fibrosis and Systemic Sclerosis
+  //     with ILD ($9,000 maximum, both list Ofev) versus COPD – Medicare Access
+  //     ($3,250) and Asthma ($4,500), which do not.
+  //
+  // `conditions` is what programsForDrug() matches disease funds on, so tagging
+  // Ofev `respiratory` would have pointed a fibrosis patient at COPD funds that
+  // are closed, smaller, and do not cover their medicine. That is a wrong
+  // answer, not an imprecise one — which is what makes this key necessary and
+  // keeps it inside D9. Inhalers stay on `respiratory`; nothing moved.
+  { key: 'lung-disease', label: 'Pulmonary fibrosis / interstitial lung disease' },
 ];
 
 /** Condition key values, e.g. 'diabetes' | 'heart' — derived from CONDITIONS. */
@@ -85,6 +107,13 @@ export const CONDITION_STYLE: Partial<Record<ConditionKey, { color: string; tint
   weight: {
     color: '#0f766e', tint: '#d9f0ec',
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12l1.5 4H4.5z"/><path d="M4.5 8h15v10a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2z"/><path d="M9 13h6"/><path d="M12 11v4"/></svg>',
+  },
+  // Added 2026-08-26 with the `lung-disease` key (Batch 6). Deliberately a
+  // different hue from `respiratory`: the two are distinct diagnoses with
+  // distinct funds, and the hero should not read as another inhaler page.
+  'lung-disease': {
+    color: '#4f46e5', tint: '#e6e7fd',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3.5v6C9 12 7 13 6 15c-1.2 2.4-.3 5.5 2 5.5 2.8 0 3-3 3-5.5V9"/><path d="M15 3.5v6c0 2.5 2 3.5 3 5.5 1.2 2.4.3 5.5-2 5.5-2.8 0-3-3-3-5.5V9"/><path d="M6.6 12.6l3.2 3.2M13.4 11.4l3.6 3.6M8 16.4l1.8 1.8M14.6 15.6l1.8 1.8"/></svg>',
   },
   bone: {
     color: '#64748b', tint: '#eef1f5',

@@ -54,7 +54,13 @@ export type DrugClassKey =
   | 'pcsk9'
   | 'arni'
   | 'triple-inhaler'
-  | 'jak-inhibitor';
+  | 'jak-inhibitor'
+  | 'acl-inhibitor'
+  | 'ics-laba'
+  | 'lama'
+  | 'kinase-inhibitor'
+  | 'dpp-4'
+  | 'transthyretin-stabilizer';
 
 export interface DrugClass {
   key: DrugClassKey;

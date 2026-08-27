@@ -92,6 +92,20 @@ export const ASSISTANCE_CATEGORIES: AssistanceCategory[] = [
     drugClass: ['biologic'],
   },
   {
+    // Promoted from PENDING_CATEGORY_VIEWS on 2026-08-26 (Batch 6, Ofev), once
+    // the `lung-disease` CONDITIONS key existed to back it — see the evidence
+    // recorded with that key in data/conditions.ts. Sits BEFORE 'copd-asthma'
+    // under the specific-before-general rule, so a fibrosis medicine leads with
+    // "Lung Disease" instead of reading as an inhaler. Nothing already in the
+    // directory moves into it: it matches `lung-disease` only, and every
+    // existing inhaler is tagged `respiratory`.
+    key: 'lung-disease',
+    label: 'Lung Disease',
+    blurb:
+      'Pulmonary fibrosis and interstitial lung disease — a different diagnosis from COPD and asthma, with its own charitable funds.',
+    conditions: ['lung-disease'],
+  },
+  {
     key: 'copd-asthma',
     label: 'COPD & Asthma',
     blurb: 'Maintenance inhalers.',
@@ -117,12 +131,12 @@ export const ASSISTANCE_CATEGORIES: AssistanceCategory[] = [
  * lists them); each needs a decision before it can become a live view.
  */
 export const PENDING_CATEGORY_VIEWS: { key: string; label: string; needs: string }[] = [
-  {
-    key: 'lung-disease',
-    label: 'Lung Disease',
-    needs:
-      'A condition key for pulmonary fibrosis / interstitial lung disease. Today the only lung key is `respiratory`, which would wrongly pull every COPD and asthma inhaler into this view. Decide when Ofev is researched — adding a CONDITIONS key also changes which nonprofit funds programsForDrug() matches.',
-  },
+  // Empty since 2026-08-26 (Batch 6). 'lung-disease' was the last entry; it was
+  // pending on "a condition key for pulmonary fibrosis / interstitial lung
+  // disease… decide when Ofev is researched". Ofev was researched in Batch 6,
+  // the key was added on the evidence recorded in data/conditions.ts, and the
+  // view is now live above. The list stays as the place a future deferred view
+  // is recorded rather than silently dropped.
 ];
 
 const BY_KEY = new Map(ASSISTANCE_CATEGORIES.map((c) => [c.key, c]));

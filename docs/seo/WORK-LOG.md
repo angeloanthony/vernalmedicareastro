@@ -118,6 +118,286 @@ strength of one real test.
      experiments (EXP-001 – EXP-003) are logged below and registered in
      docs/seo/EXPERIMENTS.md. -->
 
+### 2026-08-26 — D10: insulin architecture decided (project decision, not a content change)
+
+- **Pages:** none. Documentation only — `docs/PRESCRIPTION-ASSISTANCE-PROJECT.md`
+  §31 #4 and §32. No record, no `FEATURED_DRUGS` row, no taxonomy change, no
+  build output affected.
+- **Decision (Rocco):** one record per insulin brand under the existing
+  `MedicationAssistanceRecord`; **no** generic "insulin assistance" record and no
+  special record type, so D9 is untouched. Critically, **§31 #4 is no longer a
+  prerequisite for medication selection** — Lantus, Lyumjev, NovoLog, Toujeo and
+  Tresiba become ordinary Track A candidates.
+- **Reasoning:** the $35 Part D insulin cap is a strong, uniform statutory rule
+  that the existing `/insulin-cost-medicare-vernal.html` page already carries, so
+  the open question was never really "does insulin have an assistance story" but
+  "do five brand pages add value beyond that page". That is a **research**
+  question, and it was being treated as an architecture blocker. A resolved
+  statutory affordability rule should not become an artificial project blocker.
+- **Applied constraints, recorded so they are not re-derived:** brand records
+  cover the manufacturer layer (PAP, copay, Medicare exclusions, Extra Help,
+  TotalAssist, HealthWell) rather than re-explaining the cap five times; brand
+  pages may link to the insulin-cost page (it is not a `does-medicare-cover-*`
+  page, so D8 does not restrict it); and **NovoLog's negotiated price is
+  product-specific** — insulin aspart carries an MFP of $119.00 per 30-day
+  equivalent supply from 2026-01-01 and $122.22 from 2027-01-01, while Lantus,
+  Toujeo, Tresiba and Lyumjev are not selected at all.
+- **Correction made in the same pass:** the §32 reconciliation wrongly placed
+  Vyndamax outside the §15.2 confirmed list. It is on that list, as are Januvia
+  and Brilinta — so the figures are **24 of the 46 have pages, 22 outstanding**,
+  and the four off-list records are Humira, Enbrel, Skyrizi and Rinvoq. The
+  eligible candidate pool is now the full 22 rather than 17.
+- **Metric:** none — a decision record, not a manipulation.
+- **Not done:** insulin is **not** the next batch. D10 removes a blocker; it does
+  not make a selection. The next batch is still chosen on information value,
+  category coverage and research opportunity.
+- **Outcome (after recrawl):** not applicable — no content changed.
+
+### 2026-08-26 — Prescription Assistance Batch 7: Vyndamax, Januvia, Brilinta — the first batch chosen by decision, LINK-DARK (new content, not an experiment)
+
+- **Pages:** `/vyndamax-assistance-program.html` · `/januvia-assistance-program.html` ·
+  `/brilinta-assistance-program.html` — three NEW slugs, each an independently
+  researched record registered through `FEATURED_DRUGS` → registry → sitemap.
+  Sitewide: the hub directory grew 25 → 28. Nav, coverage cohort and the existing
+  25 medication pages untouched (byte-identical HTML before/after).
+- **Driver:** Batch 6 exhausted the §24 Phase 4 order, so this is the first batch
+  selected by a documented decision rather than from a queue. Criteria, set by
+  the user: information value, category coverage and research opportunity —
+  explicitly **not** demand, since the only Search Console export predates every
+  assistance page. Insulins were excluded from Batch 7 because §31 #4 was open at
+  the time; it was resolved as D10 immediately afterwards — see the entry above.
+- **Metric:** topical completeness (tracked). `npm run seo:gate` passed — 153
+  pages, site mean 76%, no `--accept`. Tests 435 → **468**, lint clean,
+  `astro check` 0 errors / 0 warnings, build 177 → 180 pages, `verify` passed.
+- **Hypothesis:** none pre-registered — content addition under a selection decision.
+
+- **✅ Observation-window discipline (EXP-003): LINK-DARK, machine-checked.**
+  `tests/observation-window.test.ts` passes (cohort 14, treated 12, control 2,
+  both controls present and unlinked, no new inbound links). Every
+  `does-medicare-cover-*.html` in `dist/` was byte-compared against a pre-batch
+  build — **all 17 identical**, including both controls. The three new records
+  contain zero `does-medicare-cover-*` strings in source and in rendered HTML.
+  `drugCoverage.ts` and the coverage route untouched.
+
+- **Selection process — worth recording because it changed the batch twice.**
+  Five were proposed; research dropped one and deferred another before anything
+  was authored. **Breo Ellipta was dropped** despite being the *only* candidate
+  with demand evidence: GSK's PAP still publishes no covered-medicine list (so it
+  would have been `verify`, exactly as Trelegy is), the same COPD and asthma
+  funds were closed, and `www.breo.com` is not GSK's — it serves a Chinese
+  massage-device company. **Xolair was deferred**: four indications spanning
+  asthma, nasal polyps, food allergy and chronic spontaneous urticaria, with
+  TotalAssist and HealthWell running separate CSU funds, deserve their own
+  taxonomy pass rather than a rushed one.
+
+- **Taxonomy (D9 — vocabulary, not architecture):** two class keys added, each
+  confirmed against its own label — `dpp-4` (Januvia) and
+  `transthyretin-stabilizer` (Vyndamax). **No condition key added, deliberately:**
+  the Ofev test was applied to Vyndamax and came out the other way. Ofev needed
+  `lung-disease` because `respiratory` was flatly wrong; Vyndamax's label
+  indication *is* a cardiomyopathy, so `heart` is true rather than adjacent, and
+  the amyloidosis funds live in the record's own program cards. Brilinta is the
+  first record to use `antiplatelet` — an existing key no record had ever
+  carried — which finally makes the "Blood Thinners" view hold both kinds of
+  blood thinner; it deliberately does not carry `blood-clots`, which means
+  AFib/DVT/PE on this site.
+
+- **Research findings worth carrying forward** (each checked, not inherited):
+  - **Vyndamax's funds are a prerequisite, not an alternative.** Pfizer states
+    patients "are required to apply for and provide proof of denial prior to
+    being considered for enrollment in the Pfizer Patient Assistance Program",
+    which serves people "uninsured or with government-issued insurance". Both
+    amyloidosis funds were **OPEN** — TotalAssist $2,500/$5,500 and HealthWell
+    **$8,000**, the largest award in the registry. First record with two open funds.
+  - **Merck's PAP names Medicare as disqualifying coverage** — the opposite of
+    AZ&Me's and Pfizer's rules — with a documented financial-and-medical-hardship
+    exception as the route through. Income $63,840 / $86,560 / $132,000.
+  - **Januvia's negotiated price is already in effect:** MFP **$113.00** per
+    30-day equivalent supply from 2026-01-01, **$116.06** from 2027-01-01;
+    Janumet/Janumet XR $80.00 from 2027.
+  - **Brilinta has no manufacturer route on Medicare** — absent from the AZ&Me
+    list and from AstraZeneca Direct, while brilinta.com still names AZ&Me in its
+    trademark footer. HealthWell runs **no** CAD, ACS or stroke fund at all.
+    Generic ticagrelor: **35 labelled products**.
+
+- **Uncertain claims left for human review:** the Januvia savings card
+  (januvia.com now serves the prescribing-information PDF; no Merck-owned savings
+  page found; third-party directories report a $5 card, not published here) and
+  the Brilinta savings card (client-rendered, "Last Updated 5/24"). The Pfizer
+  PAP's income thresholds are unstated on the VYNDAMAX pages and were recorded as
+  unstated rather than borrowed.
+
+- **Legacy PROGRAMS:** one prose correction under the Sanofi/AbbVie precedent —
+  the `azme` tagline also named **Brilinta**, disproved by this batch the same
+  way Symbicort was in Batch 6. Replaced with Airsupra; `drugs[]` untouched. The
+  Farxiga claim in the same tagline stands and remains Track C item C3. No other
+  legacy entry was touched.
+
+- **Checkpoint (2026-08-26):** Batch 7 CLOSED and verified — 28 records, 28
+  `FEATURED_DRUGS` rows, 28 sitemap entries, 28 built pages, 28 hub directory
+  entries, no orphans or duplicates, 468/468 tests passing, EXP-003 cohort
+  byte-identical and both controls unlinked. **No Batch 8 started and no
+  medications selected.** Xolair is the named follow-up; insulins were unblocked
+  by D10 the same day; Track B still gated on ~2026-09-03; Track C still deferred.
+
+- **Outcome (after recrawl):** not applicable — no experimental manipulation.
+
+### 2026-08-26 — Prescription Assistance Batch 6: the closing four (Nexletol, Symbicort, Spiriva, Ofev), built LINK-DARK (new content, not an experiment)
+
+- **Pages:** `/nexletol-assistance-program.html` · `/symbicort-assistance-program.html` ·
+  `/spiriva-assistance-program.html` · `/ofev-assistance-program.html` — four NEW
+  slugs, each an independently researched record registered through
+  `FEATURED_DRUGS` → registry → sitemap; hub directory and `PAGE_INDEX` picked
+  them up automatically. Sitewide: the hub directory grew 21 → 25 and gained a
+  "Pulmonary fibrosis / interstitial lung disease" group. Nav, coverage cohort
+  and the existing 21 medication pages untouched (byte-identical HTML
+  before/after).
+- **Driver:** `docs/PRESCRIPTION-ASSISTANCE-PROJECT.md` §24 Phase 4 order —
+  Batch 5 shipped Rybelsus/Wegovy/Zepbound/Praluent/Leqvio, leaving exactly
+  these four. This closes the documented Phase 4 order. Requested directly,
+  under D9.
+- **Metric:** topical completeness (tracked). `npm run seo:gate` passed —
+  153 pages, site mean 76%, no `--accept`. Tests 435/435, lint clean,
+  `astro check` 0 errors / 0 warnings, build 173 → 177 pages, `npm run verify`
+  passed.
+- **Hypothesis:** none pre-registered — content addition under the project spec.
+
+- **✅ Observation-window discipline (EXP-003): LINK-DARK, machine-checked.**
+  `tests/observation-window.test.ts` passes (cohort 14, treated 12, control 2,
+  both control pages present and unlinked, no new inbound links). On top of it,
+  every `does-medicare-cover-*.html` in `dist/` was byte-compared against a
+  pre-batch build — **all 17 identical**, including both CONTROL pages. The four
+  new records contain zero `does-medicare-cover-*` strings (grepped in source
+  and in the rendered pages). `drugCoverage.ts`, the coverage route and the
+  cohort definition untouched. Respiratory subject matter created no exception:
+  D8 governs links, not topic.
+
+- **Taxonomy (D9 — the pre-registered `lung-disease` gate, decided on evidence):**
+  Ofev was the medication the project reserved to settle open question §31 #6,
+  and the evidence said the existing `respiratory` key could not carry it.
+  Demonstration, measured not asserted: Ofev's label has **no asthma or COPD
+  indication** (IPF, chronic fibrosing ILDs with a progressive phenotype,
+  SSc-ILD); and the funds that pay for it are *different funds*. On 2026-08-26
+  TotalAssist's **Pulmonary fibrosis fund was OPEN** ($3,500 guaranteed /
+  $7,000 max) and lists "Ofev (Nintedanib Esylate)", while its **COPD and Asthma
+  funds were CLOSED** ($1,200 / $3,500) and **do not list Ofev at all**.
+  HealthWell splits identically: Pulmonary Fibrosis and Systemic Sclerosis with
+  ILD at **$9,000** max (both list Ofev) versus COPD – Medicare Access at $3,250
+  and Asthma at $4,500 (neither does). Because `conditions` is what
+  `programsForDrug()` matches disease funds on, tagging Ofev `respiratory` would
+  have pointed a fibrosis patient at funds that are closed, smaller and do not
+  cover their medicine — a wrong answer, not an imprecise one. So: `lung-disease`
+  added to `CONDITIONS`, the reserved `lung-disease` view promoted out of
+  `PENDING_CATEGORY_VIEWS` (which is now empty) and placed **before**
+  `copd-asthma` under specific-before-general. **Nothing moved**: every existing
+  inhaler keeps `respiratory`, and Ofev derives the single view "Lung Disease".
+  Four class keys added, each confirmed against its own label — `acl-inhibitor`
+  (Nexletol: "an adenosine triphosphate-citrate lyase (ACL) inhibitor"),
+  `ics-laba` (Symbicort: a corticosteroid + a LABA, deliberately **not**
+  `triple-inhaler`), `lama` (Spiriva: "an anticholinergic"), `kinase-inhibitor`
+  (Ofev: "OFEV is a kinase inhibitor", kept broader than `jak-inhibitor`).
+  No new axis, no category hub, no record-level category field.
+
+- **Research findings worth carrying forward** (each checked, not inherited):
+  - **Symbicort is NOT on AZ&Me.** AstraZeneca's own included-medications page
+    lists Airsupra, Baxfendy, Bevespi, Breztri, Calquence, Etcamah, Fasenra,
+    Imfinzi, Imjudo, Lokelma, Lynparza, Saphnelo, Tagrisso, Truqap, Wainua —
+    Symbicort appears in no logo, no application PDF and no trademark footer,
+    and is absent from the 2026 additions/removals notice. Recorded as
+    "not on the list", not "removed". AstraZeneca Direct does not carry it
+    either (`/symbicort` → "File not found"). This disproved the `azme` tagline.
+  - **Ofev is a CMS-negotiated drug.** IPAY 2027, **MFP $6,350.00 per 30-day
+    equivalent supply, effective 2027-01-01** (NDC-9 00597-0143 and 00597-0145,
+    per-unit $108.972348) — read from CMS's selected-drug data file dated
+    2026-05-26, not from a fact-sheet PDF. Nexletol, Symbicort and Spiriva
+    appear in **no** row for 2026, 2027 or 2028.
+  - **Generic nintedanib is on the U.S. market** — eleven capsule label entries
+    on DailyMed besides Ofev. Symbicort has Breyna plus a generic
+    budesonide/formoterol aerosol; the Spiriva **HandiHaler** has a generic
+    tiotropium capsule but the **Respimat** spray does not. Nexletol has no
+    generic (DailyMed returns only Nexletol and Nexlizet).
+  - **Esperion publishes no patient assistance program for Nexletol** — only the
+    NEXSTEP co-pay card ("as little as $10 per fill", commercial only, explicit
+    Medicare/Medigap/TRICARE/VA exclusion, annual re-enrolment) and a Navigator
+    access service. Honest negative, recorded as `not-found`.
+  - **One open fund per cholesterol/fibrosis record:** TotalAssist
+    Hypercholesterolemia OPEN ($1,900/$3,800, lists Nexletol and Nexlizet) and
+    TotalAssist Pulmonary fibrosis OPEN ($3,500/$7,000, lists Ofev). Everything
+    else checked was closed: TotalAssist COPD, Asthma and both health-equity
+    variants, TotalAssist CAD health equity, HealthWell Hypercholesterolemia –
+    Medicare Access ($2,500), COPD – Medicare Access ($3,250), Asthma ($4,500),
+    Pulmonary Fibrosis ($9,000) and SSc-ILD ($9,000). Good Days has no fund for
+    any of the four diagnoses.
+
+- **Uncertain claims left for human review:** every Boehringer Ingelheim
+  patient-facing host (`boehringer-ingelheim.com`, `patient.`, `pro.`, and
+  `spiriva.com`/`ofev.com`, which redirect into them) returned an Incapsula
+  block to every automated request on 2026-08-26. Only
+  `docs.boehringer-ingelheim.com` was readable, and the Spiriva Respimat and
+  Ofev savings-card terms it serves both state **"Benefits not to exceed Program
+  expiration on 12/31/2024"** — expired documents (the Ofev one is also headed
+  "nintedanib **tablets**" although Ofev is capsules). Consequences, all
+  deliberate: the **Boehringer Cares PAP** and both **savings cards** are
+  `verify`; the PAP's Medicare field is `unknown` rather than a borrowed
+  "conditional"; no dollar terms are published for either card. What could be
+  confirmed came from the foundation's own program description via PhRMA's
+  Partnership for Prescription Assistance (lists Ofev Capsules, Spiriva
+  HandiHaler, Spiriva Respimat) and an RxAssist entry updated 2026-04-27
+  ("Patients with Medicare Part D may be eligible, contact program for details";
+  income limit "Not Published"). Also unresolved: Symbicort's savings page
+  carries a 2025 copyright/update stamp while advertising "$35 per month", and
+  TrumpRx generic prices vary by location so no figure was quoted.
+
+- **Legacy PROGRAMS:** one PROSE correction, following the Sanofi/AbbVie
+  precedent — the `azme` tagline named **Symbicort**, which Batch 6 research
+  disproved; only that token was replaced (with Breztri, confirmed on the same
+  AZ&Me list and already researched in Batch 2). `drugs` arrays untouched
+  everywhere. The `bicares` tagline names **Ofev and Spiriva** and research
+  **confirmed** both are on the BI Cares therapy list, so it was correctly left
+  alone. Deferred items were **not** touched: the `novartis` → Entresto and
+  `lillycares` → Mounjaro taglines, and the `azme` tagline's Farxiga claim
+  (AZ&Me stopped taking new Farxiga patients 2026-05-01, established in Batch 1).
+  **New for the deferred task:** `bicares.org`, the URL the legacy `bicares`
+  entry still points at, is a **non-existent domain** (NXDOMAIN on 8.8.8.8 and
+  1.1.1.1); BI's program now lives under `boehringer-ingelheim.com`.
+  `tests/record-precedence.test.ts` fixtures moved Spiriva → Pradaxa (assertion
+  unchanged).
+
+- **Checkpoint (2026-08-26):** Batch 6 CLOSED and verified — 25 records in
+  `src/data/medicationAssistance/`, registry/directory/sitemap aligned, 435/435
+  tests passing, EXP-003 cohort byte-identical and both controls unlinked.
+  **The §24 Phase 4 order is complete. No Batch 7 started, no medications
+  selected beyond it.** Remaining work is unchanged and still three independent
+  tracks (project §32): (A) research expansion beyond §24, which needs a
+  selection decision, not a queue; (B) the controlled linking pass, gated on the
+  observation window closing ~2026-09-03; (C) legacy foundation data hygiene —
+  now the `novartis` and `lillycares` taglines, the `azme` Farxiga claim, and
+  the dead `bicares.org` URL, each its own change with its own entry.
+
+- **Phase 4 checkpoint (2026-08-26, verified after the entry above — audit, not a
+  content change).** Re-verified independently from the repository: 25 records =
+  25 `FEATURED_DRUGS` rows = 25 sitemap entries = 25 built pages = 25 hub
+  directory entries, no orphans or duplicates, all 25 suppressed from legacy
+  claims, no researched medication leaking through a legacy `drugs[]` entry, no
+  duplicate taxonomy tags, no fallback categories, `PENDING_CATEGORY_VIEWS`
+  empty, every `lastVerified` a literal valid non-future date, every program
+  dated-sourced, all `relatedMedications` and `relatedResources` resolving.
+  Cohort still 14/12/2, both controls link-dark, zero new cohort links,
+  `drugCoverage.ts` and the coverage route untouched. Gates: 435/435 tests, lint
+  clean, `astro check` 0/0, build 177 pages, `verify` passed, `seo:gate` passed
+  (153 pages, mean 76%). **One real state change came out of the audit and is why
+  this bullet exists:** the §32 reconciliation figure was wrong. 4 of the 25
+  records (Humira, Enbrel, Skyrizi, Rinvoq) are pre-existing inventory that never
+  appeared on the §15.2 confirmed-46 list, so **21 of the 46 have pages and 25 do
+  not** — not "21 remaining". §32 now states the corrected figure, classifies
+  Track C into three kinds (disproved taglines C1–C3, dead program URLs C4–C5,
+  broad unverified-directory hygiene C6), records that `jjpaf.org` is dead as
+  well as `bicares.org`, and lists the taglines that were audited and found
+  consistent so they are not re-litigated. No code changed; nothing was fixed,
+  selected or linked.
+
+- **Outcome (after recrawl):** not applicable — no experimental manipulation.
+
 ### 2026-08-26 — Prescription Assistance Batch 5: five NEW medication pages (Rybelsus, Wegovy, Zepbound, Praluent, Leqvio), built LINK-DARK (new content, not an experiment)
 
 - **Pages:** `/rybelsus-assistance-program.html` · `/wegovy-assistance-program.html` ·
