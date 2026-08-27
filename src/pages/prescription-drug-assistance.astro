@@ -1058,6 +1058,17 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
   .pda-pill.is-amber { background: #fff7ed; color: #b45309; }
   .pda-pill.is-red { background: #fef3f2; color: #b42318; }
   .pda-pill.is-blue { background: #e5edfe; color: #1d4ed8; }
+  /* The same pills, injected into the finder grid and the modal. */
+  .pda-finder__grid :global(.pda-pill),
+  .pda-modal__panel :global(.pda-pill) { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; padding: 0.22rem 0.65rem; border-radius: 20px; white-space: nowrap; display: inline-block; }
+  .pda-finder__grid :global(.pda-pill.is-green),
+  .pda-modal__panel :global(.pda-pill.is-green) { background: #e4f5ea; color: #16a34a; }
+  .pda-finder__grid :global(.pda-pill.is-amber),
+  .pda-modal__panel :global(.pda-pill.is-amber) { background: #fff7ed; color: #b45309; }
+  .pda-finder__grid :global(.pda-pill.is-red),
+  .pda-modal__panel :global(.pda-pill.is-red) { background: #fef3f2; color: #b42318; }
+  .pda-finder__grid :global(.pda-pill.is-blue),
+  .pda-modal__panel :global(.pda-pill.is-blue) { background: #e5edfe; color: #1d4ed8; }
 
   /* ── Copay-card vs PAP notice ─────────────────────────────────────────── */
   .pda-notice {
@@ -1104,30 +1115,33 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
   .pda-finder__count { margin: 1.4rem 0 0.85rem; font-size: 0.9rem; color: #5b6b7d; font-weight: 700; }
   .pda-finder__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   @media (max-width: 640px) { .pda-finder__grid { grid-template-columns: 1fr; } }
-  .pda-finder__empty {
+  /* Program cards, the empty state and their pills are written into #pf-grid
+     with innerHTML, so they never carry Astro's scope attribute. Scope through
+     the static grid and mark the injected descendants :global(). */
+  .pda-finder__grid :global(.pda-finder__empty) {
     grid-column: 1 / -1; text-align: center; color: #6b7280; padding: 1.8rem;
     background: #f8fafc; border: 1px dashed #dbe6f2; border-radius: 12px;
   }
-  .pda-finder__empty a { color: #1d4ed8; font-weight: 700; }
+  .pda-finder__grid :global(.pda-finder__empty a) { color: #1d4ed8; font-weight: 700; }
 
-  .pda-prog {
+  .pda-finder__grid :global(.pda-prog) {
     border: 1px solid #dbe6f2; border-radius: 14px; padding: 1.15rem; background: #fff;
     box-shadow: 0 6px 18px -16px rgba(11, 44, 69, 0.5); display: flex; flex-direction: column;
   }
-  .pda-prog__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.7rem; }
-  .pda-prog h3 { margin: 0; font-size: 1.05rem; color: #0b2c45; line-height: 1.25; }
-  .pda-prog__tagline { font-size: 0.88rem; color: #5b6b7d; margin-top: 0.4rem; }
-  .pda-prog__status { margin-top: 0.6rem; }
-  .pda-prog__view {
+  .pda-finder__grid :global(.pda-prog__top) { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.7rem; }
+  .pda-finder__grid :global(.pda-prog h3) { margin: 0; font-size: 1.05rem; color: #0b2c45; line-height: 1.25; }
+  .pda-finder__grid :global(.pda-prog__tagline) { font-size: 0.88rem; color: #5b6b7d; margin-top: 0.4rem; }
+  .pda-finder__grid :global(.pda-prog__status) { margin-top: 0.6rem; }
+  .pda-finder__grid :global(.pda-prog__view) {
     margin-top: auto; align-self: flex-start; background: none; border: 0; color: #2563eb;
     font-weight: 700; font-family: inherit; font-size: 0.95rem; cursor: pointer; padding: 0.6rem 0 0;
     min-height: 36px; display: inline-flex; align-items: center; gap: 0.4rem;
   }
-  .pda-prog__view svg { width: 15px; height: 15px; }
-  a.pda-prog__view { text-decoration: none; }
-  a.pda-prog__view:hover { text-decoration: underline; }
+  .pda-finder__grid :global(.pda-prog__view svg) { width: 15px; height: 15px; }
+  .pda-finder__grid :global(a.pda-prog__view) { text-decoration: none; }
+  .pda-finder__grid :global(a.pda-prog__view:hover) { text-decoration: underline; }
   /* The lead card when a searched medication has a researched record. */
-  .pda-prog--record { border-color: #b9cdea; background: #f7faff; }
+  .pda-finder__grid :global(.pda-prog--record) { border-color: #b9cdea; background: #f7faff; }
 
   /* ── Program Finder modal ─────────────────────────────────────────────── */
   .pda-modal { position: fixed; inset: 0; z-index: 60; display: none; align-items: flex-start; justify-content: center; padding: 8vh 18px 18px; }
@@ -1137,24 +1151,27 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
     position: relative; width: 100%; max-width: 600px; max-height: 84vh; overflow-y: auto;
     background: #fff; border-radius: 18px; box-shadow: 0 18px 50px -24px rgba(11, 44, 69, 0.5); padding: 1.75rem;
   }
-  .pda-modal__close { position: absolute; top: 0.9rem; right: 1rem; background: none; border: 0; font-size: 1.6rem; color: #6b7280; cursor: pointer; min-height: 44px; min-width: 44px; }
-  .pda-modal__panel h2 { margin: 0 0 0.5rem; color: #0b2c45; font-size: 1.4rem; padding-right: 2.2rem; }
-  .pda-modal__sub { margin: 0 0 0.9rem; }
-  .pda-modal__typical {
+  /* The modal body is written into #pf-modal-panel with innerHTML — same scope
+     problem as the grid, so scope through the static panel. */
+  .pda-modal__panel :global(.pda-modal__close) { position: absolute; top: 0.9rem; right: 1rem; background: none; border: 0; font-size: 1.6rem; color: #6b7280; cursor: pointer; min-height: 44px; min-width: 44px; }
+  .pda-modal__panel :global(h2) { margin: 0 0 0.5rem; color: #0b2c45; font-size: 1.4rem; padding-right: 2.2rem; }
+  .pda-modal__panel :global(.pda-modal__sub) { margin: 0 0 0.9rem; }
+  .pda-modal__panel :global(.pda-modal__typical) {
     margin: 0.6rem 0; background: #e4f5ea; border: 1px solid #bbf7d0; border-radius: 12px;
     padding: 0.85rem 1rem; display: flex; gap: 0.7rem; align-items: flex-start;
   }
-  .pda-modal__typical svg { width: 20px; height: 20px; color: #16a34a; flex: none; margin-top: 0.1rem; }
-  .pda-modal__typical span { color: #1f2a37; font-weight: 600; font-size: 0.95rem; }
-  .pda-modal__sec { margin-top: 1rem; }
-  .pda-modal__sec h4 { margin: 0 0 0.35rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: #2563eb; }
-  .pda-modal__sec p { margin: 0; color: #5b6b7d; }
-  .pda-modal__note { margin-top: 0.5rem !important; font-size: 0.84rem; font-style: italic; color: #6b7b8d !important; }
-  .pda-modal__actions { margin-top: 1.3rem; display: flex; flex-wrap: wrap; gap: 0.6rem; }
-  .pda-modal__actions a, .pda-modal__ghost { text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1rem; border-radius: 10px; font-weight: 700; font-size: 0.92rem; min-height: 44px; }
-  .pda-modal__primary { background: #2563eb; color: #fff; }
-  .pda-modal__ghost { background: #e5edfe; color: #1d4ed8; border: 1px solid #dbe6f2; }
-  .pda-modal__sms { text-decoration: none; padding: 0.55rem 0.9rem; }
+  .pda-modal__panel :global(.pda-modal__typical svg) { width: 20px; height: 20px; color: #16a34a; flex: none; margin-top: 0.1rem; }
+  .pda-modal__panel :global(.pda-modal__typical span) { color: #1f2a37; font-weight: 600; font-size: 0.95rem; }
+  .pda-modal__panel :global(.pda-modal__sec) { margin-top: 1rem; }
+  .pda-modal__panel :global(.pda-modal__sec h4) { margin: 0 0 0.35rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: #2563eb; }
+  .pda-modal__panel :global(.pda-modal__sec p) { margin: 0; color: #5b6b7d; }
+  .pda-modal__panel :global(.pda-modal__note) { margin-top: 0.5rem !important; font-size: 0.84rem; font-style: italic; color: #6b7b8d !important; }
+  .pda-modal__panel :global(.pda-modal__actions) { margin-top: 1.3rem; display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .pda-modal__panel :global(.pda-modal__actions a),
+  .pda-modal__panel :global(.pda-modal__ghost) { text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1rem; border-radius: 10px; font-weight: 700; font-size: 0.92rem; min-height: 44px; }
+  .pda-modal__panel :global(.pda-modal__primary) { background: #2563eb; color: #fff; }
+  .pda-modal__panel :global(.pda-modal__ghost) { background: #e5edfe; color: #1d4ed8; border: 1px solid #dbe6f2; }
+  .pda-modal__panel :global(.pda-modal__sms) { text-decoration: none; padding: 0.55rem 0.9rem; }
 
   /* ── Eligibility Estimator ─────────────────────────────────────────────── */
   .pda-estimator { margin: 0 0 2.75rem; }
@@ -1168,17 +1185,19 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
   .pda-estimator__btn:hover { background: #1d4ed8; }
   .pda-estimator__result { margin-top: 1.3rem; display: none; }
   .pda-estimator__result.is-shown { display: block; }
-  .pda-est-headline { font-weight: 700; color: #0b2c45; margin-bottom: 0.5rem; }
-  .pda-est-row { display: flex; gap: 0.8rem; align-items: flex-start; padding: 0.8rem 0; border-bottom: 1px solid #eef2f7; }
-  .pda-est-row:last-of-type { border-bottom: 0; }
-  .pda-est-row__ico { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; margin-top: 0.1rem; }
-  .pda-est-row__ico svg { width: 16px; height: 16px; }
-  .pda-est-row__ico.is-yes { background: #e4f5ea; color: #16a34a; }
-  .pda-est-row__ico.is-maybe { background: #fff7ed; color: #b45309; }
-  .pda-est-row__ico.is-no { background: #eef2f7; color: #6b7280; }
-  .pda-est-row h4 { margin: 0 0 0.15rem; font-size: 1rem; color: #0b2c45; }
-  .pda-est-row p { margin: 0; font-size: 0.9rem; color: #5b6b7d; }
-  .pda-est-note { margin-top: 1rem; background: #f8fafc; border: 1px solid #e6ebf2; border-radius: 10px; padding: 0.8rem 1rem; font-size: 0.85rem; color: #6b7280; }
+  /* The estimate is written into #est-result with innerHTML, so its rows must be
+     :global() or the icon SVGs render unsized at full container width. */
+  .pda-estimator__result :global(.pda-est-headline) { font-weight: 700; color: #0b2c45; margin-bottom: 0.5rem; }
+  .pda-estimator__result :global(.pda-est-row) { display: flex; gap: 0.8rem; align-items: flex-start; padding: 0.8rem 0; border-bottom: 1px solid #eef2f7; }
+  .pda-estimator__result :global(.pda-est-row:last-of-type) { border-bottom: 0; }
+  .pda-estimator__result :global(.pda-est-row__ico) { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; margin-top: 0.1rem; }
+  .pda-estimator__result :global(.pda-est-row__ico svg) { width: 16px; height: 16px; }
+  .pda-estimator__result :global(.pda-est-row__ico.is-yes) { background: #e4f5ea; color: #16a34a; }
+  .pda-estimator__result :global(.pda-est-row__ico.is-maybe) { background: #fff7ed; color: #b45309; }
+  .pda-estimator__result :global(.pda-est-row__ico.is-no) { background: #eef2f7; color: #6b7280; }
+  .pda-estimator__result :global(.pda-est-row h4) { margin: 0 0 0.15rem; font-size: 1rem; color: #0b2c45; }
+  .pda-estimator__result :global(.pda-est-row p) { margin: 0; font-size: 0.9rem; color: #5b6b7d; }
+  .pda-estimator__result :global(.pda-est-note) { margin-top: 1rem; background: #f8fafc; border: 1px solid #e6ebf2; border-radius: 10px; padding: 0.8rem 1rem; font-size: 0.85rem; color: #6b7280; }
 
   /* ── Foundation Fund Status ────────────────────────────────────────────── */
   .pda-fundstatus { margin: 0 0 2.75rem; }
