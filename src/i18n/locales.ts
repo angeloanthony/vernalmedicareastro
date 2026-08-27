@@ -87,6 +87,7 @@ export const strings = {
     'header.homeAria': 'Medicare Simplified — Home',
     'header.toggleAria': 'Toggle navigation',
     'header.searchAria': 'Search the site',
+    'header.searchLabel': 'Search',
     // Floating Call / Text buttons (ContactFab.astro)
     'contactFab.aria': 'Call or text {agent}',
     'contactFab.call': 'Call',
@@ -132,6 +133,7 @@ export const strings = {
     'header.homeAria': 'Medicare Simplified — Inicio',
     'header.toggleAria': 'Abrir o cerrar la navegación',
     'header.searchAria': 'Buscar en el sitio',
+    'header.searchLabel': 'Buscar',
     'contactFab.aria': 'Llame o envíe un mensaje de texto a {agent}',
     'contactFab.call': 'Llamar',
     'contactFab.text': 'Envíe un texto',

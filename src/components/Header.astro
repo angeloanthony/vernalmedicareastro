@@ -39,7 +39,10 @@ const navLinks = PRIMARY_NAV;
       href={localizeHref('/medicare-search.html', lang)}
       class="top-search"
       aria-label={t('header.searchAria', lang)}
-    >🔍</a>
+    >
+      <span class="top-search-icon" aria-hidden="true">🔍</span>
+      <span class="top-search-text">{t('header.searchLabel', lang)}</span>
+    </a>
     <LanguageSwitcher />
   </div>
 </div>

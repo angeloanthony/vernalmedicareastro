@@ -72,9 +72,35 @@ p {
 .top-bar a:visited { color:#fff; }          /* ← add this line */
 .top-bar a:hover,
 .top-bar a:focus { text-decoration: underline; }
-.top-bar a.top-search { text-decoration: none; }
+/* Search: a labeled pill, not a bare glyph — the icon alone read as decoration. */
+.top-bar a.top-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  margin: 0 0.25em;
+  padding: 0.15em 0.85em 0.2em;
+  background: #fff;
+  color: #0b2c45;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  text-shadow: none;
+  vertical-align: middle;
+  transition: background-color .2s ease, color .2s ease;
+}
+.top-bar a.top-search:visited { color: #0b2c45; }
 .top-bar a.top-search:hover,
-.top-bar a.top-search:focus { text-decoration: none; opacity: .8; }
+.top-bar a.top-search:focus {
+  text-decoration: none;
+  opacity: 1;
+  background: #ff4500;
+  color: #fff;
+}
+.top-bar a.top-search:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+.top-bar .top-search-icon { font-size: 0.9em; line-height: 1; }
 
 .container.header-top {
   display: flex;
