@@ -202,7 +202,19 @@ strength of one real test.
   on NPAF since Batch 2) and the `lillycares` tagline still names Mounjaro (not
   on Lilly Cares since Batch 1).
 
+- **Checkpoint (2026-08-26, after the entry above):** Batch 5 CLOSED and
+  verified — 21 records in `src/data/medicationAssistance/`, registry/directory/
+  sitemap aligned, 391/391 tests passing, EXP-003 controls untouched and
+  unlinked. **No Batch 6 started.** Remaining work is three independent tracks,
+  recorded in `docs/PRESCRIPTION-ASSISTANCE-PROJECT.md` §32: (A) research
+  expansion — Batch 6 is the four remaining §24 names, Nexletol/Symbicort/
+  Spiriva/Ofev; (B) the controlled linking pass, gated on the observation window
+  closing ~2026-09-03; (C) legacy foundation data hygiene — the `novartis`
+  and `lillycares` taglines only (`sanofi` and `abbvie` were already corrected
+  in the P1 cleanup), each its own change with its own entry.
+
 - **Outcome (after recrawl):** not applicable — no experimental manipulation.
+
 ### 2026-08-26 — Prescription Assistance Batch 4: Dupixent, the final legacy migration, LINK-DARK (new content, not an experiment)
 
 - **Pages:** `/dupixent-assistance-program.html` — same URL, legacy generic page

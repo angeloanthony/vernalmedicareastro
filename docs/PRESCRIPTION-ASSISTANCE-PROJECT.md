@@ -2,7 +2,7 @@
 
 **Status:** Batch 5 shipped (2026-08-26) — **21 medication pages, all structured; the 75-medication expansion has begun** with five new slugs (Rybelsus, Wegovy, Zepbound, Praluent, Leqvio) from the §24 Phase 4 order. `weight` added to `CONDITIONS` (pre-registered by the taxonomy audit). Navigation settled. Taxonomy: two axes + Autoimmune view (D7) + `jak-inhibitor` class, verified against Dupixent's autoimmune+respiratory pair with no third axis introduced. Batches 3 and 4 were built **link-dark** — no links added into the frozen `does-medicare-cover-*` cohort while EXP-003's observation window is open.
 **Created:** 2026-08-26
-**Last updated:** 2026-08-26 (latest) — Batch 4 shipped link-dark (Dupixent; legacy migration complete, architecture confirmed frozen under D9); earlier the same day — Batch 3 shipped link-dark (Trulicity, Humira, Enbrel, Skyrizi, Rinvoq) plus the two Batch 2 review fixes (Entresto fund naming; the shared FPL source-year note); earlier the same day — Batch 2 shipped (§32 inventory, §31 D7); earlier the same day, Batch 1 review: navigation rule + measurement (§14), current page inventory (§32), decisions log (§31), taxonomy audit split out to `PRESCRIPTION-ASSISTANCE-TAXONOMY-AUDIT.md`
+**Last updated:** 2026-08-26 (latest) — **Batch 5 checkpoint recorded: COMPLETE, 21 researched records, architecture PASS, observation window intact, no Batch 6 started; remaining work split into three independent tracks (§32)**; earlier the same day — Batch 5 shipped link-dark (Rybelsus, Wegovy, Zepbound, Praluent, Leqvio; five new slugs, `weight` added to `CONDITIONS`); earlier the same day — Batch 4 shipped link-dark (Dupixent; legacy migration complete, architecture confirmed frozen under D9); earlier the same day — Batch 3 shipped link-dark (Trulicity, Humira, Enbrel, Skyrizi, Rinvoq) plus the two Batch 2 review fixes (Entresto fund naming; the shared FPL source-year note); earlier the same day — Batch 2 shipped (§32 inventory, §31 D7); earlier the same day, Batch 1 review: navigation rule + measurement (§14), current page inventory (§32), decisions log (§31), taxonomy audit split out to `PRESCRIPTION-ASSISTANCE-TAXONOMY-AUDIT.md`
 **Owner:** Vernal Medicare
 
 > **Two open items before implementation starts:**
@@ -930,7 +930,9 @@ The implementation phase does **not** start from the 30-drug priority sample. It
 3. **URL pattern for category hubs** — e.g. `/prescription-assistance/diabetes` vs `/diabetes-prescription-assistance-utah`. Not needed until D3 is revisited.
 4. **Insulin pages** — one page per insulin brand, or a single "insulin assistance" page? The earlier outline listed "insulin assistance" as one entry but §15 lists six insulin brands individually. These conflict; pick one before Phase 4.
 5. ~~An `autoimmune` browse view~~ — **resolved 2026-08-26 as D7** (view added; numbering kept so later references stay valid).
-6. **A `lung-disease` view** needs a condition key that does not exist yet (`respiratory` would drag in every COPD inhaler). Decide when Ofev is researched — a new CONDITIONS key also changes nonprofit fund matching.
+6. **A `lung-disease` view** needs a condition key that does not exist yet (`respiratory` would drag in every COPD inhaler). Decide when Ofev is researched, and not before — a new CONDITIONS key also changes
+   nonprofit fund matching, so the key is created only if Ofev's own record demonstrates
+   the existing vocabulary cannot represent it (see the Batch 5 checkpoint in §32).
 7. ~~**Migration order for the legacy medication pages**~~ — **closed 2026-08-26 (Batch 4).** Dupixent was migrated; no legacy medication pages remain. History kept below.
    ~~settled~~. Batch 2 migrated Entresto, Xarelto and Repatha; Batch 3 (2026-08-26) migrated Trulicity and the four autoimmune pages the taxonomy audit flagged as highest-demand (Humira, Enbrel, Skyrizi, Rinvoq). **One remains: Dupixent**, which carries `conditions` only and is classified on one axis until it gets a researched record. Its two condition keys (`autoimmune`, `respiratory`) make it the natural first entry of the next batch.
 
@@ -951,14 +953,47 @@ The implementation phase does **not** start from the 30-drug priority sample. It
 | Legacy remaining | 0 | — |
 | 75-medication expansion | 21 of 46 confirmed medications have pages | **Started (Batch 5)** — Phase 4 list continues: Nexletol, Symbicort, Spiriva, Ofev |
 
-**What "complete" means here, precisely.** These 16 records complete the
-*current page inventory* — the 16 `FEATURED_DRUGS` rows that generate live
-assistance pages today. They do **not** complete §15's medication list or the
-75-page target in §30: most of that list has no `FEATURED_DRUGS` row yet and
-would need new slugs. Migrating Dupixent closed the legacy representation
-completely; it did **not** close Phase 1's inventory. "Legacy migration
-complete" and "prescription assistance project complete" are different
-statements, and only the first one is true.
+**Checkpoint recorded 2026-08-26 — Batch 5 COMPLETE. 21 researched records.
+Architecture PASS. Observation window intact. No Batch 6 started.**
+
+Measured at the checkpoint, not asserted: 21 medication records in
+`src/data/medicationAssistance/`; registry, hub directory and sitemap aligned;
+391/391 tests passing; all 17 `does-medicare-cover-*` coverage pages and the 16
+pre-Batch-5 assistance pages byte-identical to the pre-batch build; the EXP-003
+control pages (`does-medicare-cover-trelegy`, `does-medicare-cover-zepbound`)
+untouched and unlinked. The `weight` key was added only after a demonstrated
+need (D9), the `pcsk9` view was widened for Leqvio rather than given a new
+axis, the legacy layer stayed suppressed rather than rewritten, and the two
+legacy prose contradictions found in passing were logged rather than silently
+fixed. The MyPRALUENT and LEQVIO dollar terms remain `verify` — a record that
+says the terms could not be independently established is worth more than a
+plausible number sourced from a third party.
+
+**The remaining work is three independent tracks.** None of them is a
+continuation of Batch 5, and none blocks another:
+
+| Track | Work | Gate |
+| --- | --- | --- |
+| **A — Research expansion** | Batch 6 → subsequent batches → the 75-medication target | None. Starts whenever the five-at-a-time cycle is deliberately resumed. |
+| **B — Experiment** | The controlled linking pass into the `does-medicare-cover-*` cohort | Blocked until EXP-003's observation window closes (~2026-09-03). Nothing in Track A may link into the cohort before then. |
+| **C — Data hygiene** | Two legacy taglines in `src/data/drugs.ts` that record precedence cannot filter: `novartis` still names Entresto (disproved Batch 2), `lillycares` still names Mounjaro (disproved Batch 1). The `sanofi` and `abbvie` taglines were **already corrected** in the 2026-08-26 P1 cleanup and are the worked precedent — fix the disproved prose only, leave `drugs[]` intact so precedence keeps the fallback honest for unresearched medications | None. Each is its own change with its own log entry. |
+
+**Batch 6 is four medications, not five.** The documented §24 order has exactly
+four names left before the list needs extending: Nexletol, Symbicort, Spiriva,
+Ofev. Take the four; do not pad to five by picking ahead of the order.
+**Ofev's `lung-disease` question (§31 #6) is scoped to the Ofev research
+itself** — the condition key is not created in advance, and not created at all
+unless Ofev's own record demonstrates the existing vocabulary cannot represent
+it.
+
+**What "complete" means here, precisely.** These 21 records cover every
+`FEATURED_DRUGS` row that generates a live assistance page today, and Batch 4
+closed the legacy representation completely. They do **not** complete §15's
+medication list or the 75-page target in §30: 25 of the 46 confirmed
+medications still have no `FEATURED_DRUGS` row and would need new slugs.
+"Legacy migration complete", "current inventory complete" and "prescription
+assistance project complete" are three different statements, and only the first
+two are true.
 
 ### Batch 4 result — Dupixent, the legacy-migration test (2026-08-26, PASS)
 
