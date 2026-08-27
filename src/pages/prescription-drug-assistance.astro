@@ -6,6 +6,7 @@
 // photo + callout, numbered icon cards, condition-grouped card grid, FAQ ·
 // Sources · Related trio, dark person CTA) matching medicare-calculators.astro.
 import ArticlePage from '../components/layout/ArticlePage.astro';
+import MedicationTicker from '../components/MedicationTicker.astro';
 import AuthorByline from '../components/content/AuthorByline.astro';
 import SummaryBlock from '../components/SummaryBlock.astro';
 import NextSteps from '../components/content/NextSteps.astro';
@@ -230,6 +231,9 @@ const phoneTel = `tel:${BUSINESS.phoneTel}`;
 ---
 
 <ArticlePage context={context} bareHeader bareFooter>
+  {/* ─── Medication strip (data-driven from data/medicationAssistance) ─── */}
+  <MedicationTicker />
+
   {/* ─── Hero ─────────────────────────────────────────────────────────── */}
   <section class="pda-hero">
     <div class="pda-hero__copy">

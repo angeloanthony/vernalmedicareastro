@@ -1,0 +1,202 @@
+---
+// src/components/MedicationTicker.astro — "Find Your Medication" strip for the
+// Prescription Drug Assistance hub. Same visual language and mechanics as the
+// homepage NewsTicker, but driven by the assistance registry instead of news:
+// every researched MedicationAssistanceRecord scrolls past as a real crawlable
+// link to its own /<slug>-assistance-program.html page, so a visitor who spots
+// their medication can click straight through to it.
+//
+// Data-driven: reads MEDICATION_ASSISTANCE from data/medicationAssistance, so a
+// new record appears here automatically — never hardcode a medication. Brand
+// names are listed alphabetically (a scanning aid; the strip is meant to be
+// read, not ranked) with the generic name alongside, because people often know
+// only one of the two. The row pauses on hover/focus and freezes for visitors
+// who prefer reduced motion.
+import { MEDICATION_ASSISTANCE, assistanceHref } from '../data/medicationAssistance';
+
+// Short, professional condition badges (no emoji) to match the site's tone. The
+// full CONDITIONS labels ("Autoimmune (RA, Crohn's, psoriasis)") are too long
+// for a scrolling row, so this is a display-only shortening of the same keys —
+// it never reclassifies a record.
+const CONDITION_BADGE: Record<string, string> = {
+  cancer: 'CANCER',
+  diabetes: 'DIABETES',
+  heart: 'HEART',
+  'blood-clots': 'AFIB / CLOTS',
+  cholesterol: 'CHOLESTEROL',
+  autoimmune: 'AUTOIMMUNE',
+  respiratory: 'ASTHMA / COPD',
+  kidney: 'KIDNEY',
+  hiv: 'HIV',
+  bone: 'BONE',
+  weight: 'WEIGHT',
+  'lung-disease': 'LUNG',
+};
+
+const items = [...MEDICATION_ASSISTANCE]
+  .sort((a, b) => a.brandName.localeCompare(b.brandName))
+  .map((r) => ({
+    href: assistanceHref(r.slug),
+    brand: r.brandName,
+    generic: r.genericName,
+    badge: CONDITION_BADGE[r.conditions[0]] ?? 'MEDICATION',
+  }));
+
+// Pace the scroll to the amount of content — the strip carries far more items
+// than the homepage ticker, so time it per item (~4.5s each) rather than as a
+// fixed loop, keeping the on-screen speed comfortable to read at any length.
+const durationS = Math.max(40, Math.round(items.length * 4.5));
+---
+
+{items.length > 0 && (
+  <section class="vm-medticker" aria-label="Medications with an assistance page">
+    <div class="vm-medticker__inner">
+      <a class="vm-medticker__label" href="#all-medications">
+        <span aria-hidden="true">💊</span> <span class="vm-medticker__label-word">Find Your </span>Medication
+      </a>
+
+      <div class="vm-medticker__viewport">
+        <div class="vm-medticker__track" style={`--vm-medticker-duration:${durationS}s`}>
+          {/* Real links. */}
+          {items.map((it) => (
+            <a class="vm-medticker__item" href={it.href}>
+              <span class="vm-medticker__badge">{it.badge}</span>
+              <span class="vm-medticker__brand">{it.brand}</span>
+              <span class="vm-medticker__generic">({it.generic})</span>
+              <span class="vm-medticker__arrow" aria-hidden="true">→</span>
+            </a>
+          ))}
+          {/* Duplicate set for a seamless loop; hidden from a11y + crawlers. */}
+          {items.map((it) => (
+            <a class="vm-medticker__item" href={it.href} aria-hidden="true" tabindex="-1">
+              <span class="vm-medticker__badge">{it.badge}</span>
+              <span class="vm-medticker__brand">{it.brand}</span>
+              <span class="vm-medticker__generic">({it.generic})</span>
+              <span class="vm-medticker__arrow" aria-hidden="true">→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <a class="vm-medticker__all" href="#all-medications">All {items.length}</a>
+    </div>
+  </section>
+)}
+
+<style>
+  .vm-medticker {
+    background: #0b2c45;
+    color: #fff;
+    border-bottom: 3px solid var(--color-accent, #9e0853);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 0.2rem 0 1.4rem;
+    box-shadow: 0 10px 26px rgba(11, 44, 69, 0.16);
+  }
+  .vm-medticker__inner {
+    display: flex;
+    align-items: stretch;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  /* Fixed left label — jumps to the full medication directory on this page. */
+  .vm-medticker__label {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1rem;
+    background: var(--color-accent, #9e0853);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  /* Scrolling viewport. */
+  .vm-medticker__viewport {
+    flex: 1 1 auto;
+    overflow: hidden;
+    position: relative;
+    /* Fade the edges so names slide in/out cleanly. */
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 2.5rem, #000 calc(100% - 2.5rem), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 2.5rem, #000 calc(100% - 2.5rem), transparent);
+  }
+  .vm-medticker__track {
+    display: flex;
+    width: max-content;
+    animation: vm-medticker-scroll var(--vm-medticker-duration, 200s) linear infinite;
+  }
+  /* Pause when the visitor is reading — they need time to spot their drug. */
+  .vm-medticker__viewport:hover .vm-medticker__track,
+  .vm-medticker__track:focus-within {
+    animation-play-state: paused;
+  }
+
+  .vm-medticker__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.3rem;
+    color: #fff;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 0.92rem;
+  }
+
+  /* Condition badge — small, quiet, professional. */
+  .vm-medticker__badge {
+    flex: 0 0 auto;
+    padding: 0.12rem 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .vm-medticker__brand { font-weight: 700; border-bottom: 1px solid transparent; }
+  .vm-medticker__generic { color: rgba(255, 255, 255, 0.72); font-size: 0.82rem; }
+  .vm-medticker__item:hover .vm-medticker__brand,
+  .vm-medticker__item:focus-visible .vm-medticker__brand { border-bottom-color: #fff; }
+  .vm-medticker__arrow { color: #ffd27a; font-weight: 700; }
+
+  /* Right "all medications" link — hidden on small screens to save room. */
+  .vm-medticker__all {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    color: #ffd27a;
+    font-weight: 700;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .vm-medticker__all:hover { text-decoration: underline; }
+
+  @keyframes vm-medticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 640px) {
+    .vm-medticker__all { display: none; }
+    .vm-medticker__label { font-size: 0.8rem; padding: 0.6rem 0.75rem; }
+    /* Shorten "Find Your Medication" → "MEDICATION" to free up room. */
+    .vm-medticker__label-word { display: none; }
+    .vm-medticker__generic { display: none; }
+  }
+
+  /* No motion: freeze the track and let visitors scroll it manually. */
+  @media (prefers-reduced-motion: reduce) {
+    .vm-medticker__track { animation: none; }
+    .vm-medticker__viewport { overflow-x: auto; }
+  }
+</style>
