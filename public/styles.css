@@ -68,6 +68,31 @@ p {
   font-weight: 600;
   text-shadow: 1px 1px 2px rgba(0,0,0,.5);
 }
+.top-bar { position: relative; }
+
+/* Corner mascot — the smiley that used to sit here by accident, now on purpose.
+   Desktop only: on phones the top bar is full of text and it covered the email
+   address. Same bob as the carousel badge. */
+.top-bar-mascot {
+  display: none;
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #0b2a3a;
+  object-fit: contain;
+  z-index: 5;
+  animation: smile-bob 3.2s ease-in-out infinite;
+}
+@media (min-width: 769px) {
+  .top-bar-mascot { display: block; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .top-bar-mascot { animation: none; }
+}
+
 .top-bar a { color:#fff; text-decoration:none; font-weight:600; }
 .top-bar a:visited { color:#fff; }          /* ← add this line */
 .top-bar a:hover,
@@ -980,6 +1005,15 @@ p {
   }
 }
 
+/* Hero banner on phones — the photo is 3:2 (1536x1024) with the wordmark
+   running across it. A fixed height makes the box narrower than 3:2, so
+   object-fit:cover has to crop sideways and slices the wordmark off both
+   edges. Letting the image keep its own ratio fits the whole banner on
+   screen (~250px tall at 375px wide) with no letterboxing. */
+@media (max-width: 600px) {
+  .hero-banner { height: auto; }
+}
+
 /* Active nav item — same look on desktop and mobile */
 .main-nav .nav-menu li a.active {
   background-color: #9e0853;
@@ -1542,7 +1576,18 @@ body .btn-outline:hover, body .btn-outline:focus, body .btn-outline:active, body
 .vm-comic img.is-flipping { transform: rotateY(90deg); }
 
 /* ===== Smile Carousel ===== */
-.smile { padding: 12px 0; background:#f2f7fb; border-top:4px solid #0b2a3a; border-bottom:4px solid #0b2a3a; }
+.smile {
+  /* The badge below is position:absolute. Without a positioned ancestor it
+     anchored to the page's initial containing block and rode in the top-left
+     corner of the page, on top of the top bar — where on phones it covered the
+     email address. Keep it in this section; the corner mascot on desktop is now
+     its own element in the header (.top-bar-mascot). */
+  position: relative;
+  padding: 12px 0;
+  background:#f2f7fb;
+  border-top:4px solid #0b2a3a;
+  border-bottom:4px solid #0b2a3a;
+}
 .smile-wrap{
   max-width:1200px; margin:0 auto; padding:0 12px; position:relative;
 }

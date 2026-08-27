@@ -32,6 +32,16 @@ const navLinks = PRIMARY_NAV;
 
 <!-- Top Bar -->
 <div class="top-bar">
+  {/* Decorative corner mascot — desktop only (see .top-bar-mascot in styles.css). */}
+  <img
+    class="top-bar-mascot"
+    src="/pictures/smile.webp"
+    alt=""
+    width="56"
+    height="56"
+    aria-hidden="true"
+    decoding="async"
+  />
   <div class="container">
     <span>📧 <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a></span>
     <span>📞 <a href={`tel:${BUSINESS.phoneTel}`}>{BUSINESS.phone}</a> (TTY: {BUSINESS.tty})</span>
