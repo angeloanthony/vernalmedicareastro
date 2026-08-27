@@ -139,7 +139,18 @@ export const PROGRAMS: Program[] = [
   },
   {
     id: 'lillycares', type: 'manufacturer', name: 'Lilly Cares Foundation',
-    tagline: 'Free Eli Lilly medicines for eligible patients (Mounjaro, Trulicity, insulins).',
+    // Tagline corrected 2026-08-26 (Batch 8), under the Sanofi/AbbVie precedent:
+    // prose only, `drugs[]` untouched. It previously read "(Mounjaro, Trulicity,
+    // insulins)". Mounjaro is NOT on the Lilly Cares available-medications list —
+    // established by the Mounjaro record in Batch 1 and re-confirmed on
+    // 2026-08-26 while researching Lyumjev, when the published list showed
+    // Basaglar, Humalog, Humulin, Lyumjev and Trulicity but no Mounjaro at any
+    // point on either the available-medications page or the medication-groups
+    // page. `drugs[]` is deliberately left as-is: record precedence already
+    // suppresses Mounjaro, Trulicity and Zepbound from anything the hub derives
+    // from this list, so the data stays honest about what the legacy layer said
+    // while the rendered output follows the researched records.
+    tagline: 'Free Eli Lilly medicines for eligible patients (Trulicity, Lyumjev, and other insulins).',
     conditions: ['diabetes'], drugs: ['Mounjaro', 'Trulicity', 'Humalog', 'Basaglar', 'Jardiance', 'Zepbound', 'Verzenio'],
     helps: 'Provides eligible Lilly medications free of charge to qualifying patients.',
     eligibility: 'Income-based; available to many Medicare Part D patients who meet criteria. Lilly also offers an Insulin Value Program ($35/month).',
@@ -340,6 +351,46 @@ export const FEATURED_DRUGS: Drug[] = [
   { slug: 'vyndamax',  drug: 'Vyndamax',  generic: 'tafamidis',     conditionLabel: 'ATTR cardiomyopathy',               conditions: ['heart'],                          blogSlug: 'does-medicare-cover-vyndamax' },
   { slug: 'januvia',   drug: 'Januvia',   generic: 'sitagliptin',   conditionLabel: 'type 2 diabetes',                   conditions: ['diabetes'],                       blogSlug: 'does-medicare-cover-januvia' },
   { slug: 'brilinta',  drug: 'Brilinta',  generic: 'ticagrelor',    conditionLabel: 'heart attack & stroke prevention',  conditions: ['heart'],                          blogSlug: 'does-medicare-cover-brilinta' },
+  // ── Prescription Assistance Batch 8 (2026-08-26) — the 22 outstanding
+  // medications from the spec §15.2 confirmed list, built as one expansion.
+  // These 22 complete the CONFIRMED list; they do NOT complete the 75-medication
+  // target, because 25 of the 75 have never been named in the repository (see
+  // docs/PRESCRIPTION-ASSISTANCE-PROJECT.md §15.3).
+  //
+  // Every row carries a researched MedicationAssistanceRecord, so the legacy
+  // generic page never renders for any of them. `drug` is the short brand so
+  // programsForDrug()'s substring match hits the full product name in PROGRAMS.
+  // All blogSlug values are forward references — nothing reads the field
+  // (types/Drug.ts only), so no link is generated from it and the frozen
+  // does-medicare-cover-* cohort is untouched (D8).
+  //
+  // Respiratory (9).
+  { slug: 'anoro',     drug: 'Anoro',     generic: 'umeclidinium/vilanterol',       conditionLabel: 'COPD',                       conditions: ['respiratory'],                    blogSlug: 'does-medicare-cover-anoro' },
+  { slug: 'breo',      drug: 'Breo',      generic: 'fluticasone furoate/vilanterol', conditionLabel: 'COPD & asthma',             conditions: ['respiratory'],                    blogSlug: 'does-medicare-cover-breo' },
+  { slug: 'daliresp',  drug: 'Daliresp',  generic: 'roflumilast',                   conditionLabel: 'severe COPD',                conditions: ['respiratory'],                    blogSlug: 'does-medicare-cover-daliresp' },
+  { slug: 'incruse',   drug: 'Incruse',   generic: 'umeclidinium',                  conditionLabel: 'COPD',                       conditions: ['respiratory'],                    blogSlug: 'does-medicare-cover-incruse' },
+  { slug: 'nucala',    drug: 'Nucala',    generic: 'mepolizumab',                   conditionLabel: 'severe eosinophilic asthma', conditions: ['respiratory'],                    blogSlug: 'does-medicare-cover-nucala' },
+  { slug: 'stiolto',   drug: 'Stiolto',   generic: 'tiotropium/olodaterol',         conditionLabel: 'COPD',                       conditions: ['respiratory'],                    blogSlug: 'does-medicare-cover-stiolto' },
+  { slug: 'tezspire',  drug: 'Tezspire',  generic: 'tezepelumab-ekko',              conditionLabel: 'severe asthma',              conditions: ['respiratory'],                    blogSlug: 'does-medicare-cover-tezspire' },
+  { slug: 'xolair',    drug: 'Xolair',    generic: 'omalizumab',                    conditionLabel: 'asthma, hives & allergy',    conditions: ['respiratory'],                    blogSlug: 'does-medicare-cover-xolair' },
+  { slug: 'yupelri',   drug: 'Yupelri',   generic: 'revefenacin',                   conditionLabel: 'COPD (nebulized)',           conditions: ['respiratory'],                    blogSlug: 'does-medicare-cover-yupelri' },
+  // Diabetes and insulin (7). D10 resolved: one ordinary record per insulin
+  // brand. NovoLog's negotiated price is stated only on its own record.
+  { slug: 'invokana',  drug: 'Invokana',  generic: 'canagliflozin',                 conditionLabel: 'diabetes, heart & kidney',   conditions: ['diabetes', 'heart', 'kidney'],    blogSlug: 'does-medicare-cover-invokana' },
+  { slug: 'lantus',    drug: 'Lantus',    generic: 'insulin glargine',              conditionLabel: 'type 1 & type 2 diabetes',   conditions: ['diabetes'],                       blogSlug: 'does-medicare-cover-lantus' },
+  { slug: 'lyumjev',   drug: 'Lyumjev',   generic: 'insulin lispro-aabc',           conditionLabel: 'type 1 & type 2 diabetes',   conditions: ['diabetes'],                       blogSlug: 'does-medicare-cover-lyumjev' },
+  { slug: 'novolog',   drug: 'NovoLog',   generic: 'insulin aspart',                conditionLabel: 'type 1 & type 2 diabetes',   conditions: ['diabetes'],                       blogSlug: 'does-medicare-cover-novolog' },
+  { slug: 'toujeo',    drug: 'Toujeo',    generic: 'insulin glargine 300 units/mL', conditionLabel: 'type 1 & type 2 diabetes',   conditions: ['diabetes'],                       blogSlug: 'does-medicare-cover-toujeo' },
+  { slug: 'tresiba',   drug: 'Tresiba',   generic: 'insulin degludec',              conditionLabel: 'type 1 & type 2 diabetes',   conditions: ['diabetes'],                       blogSlug: 'does-medicare-cover-tresiba' },
+  { slug: 'victoza',   drug: 'Victoza',   generic: 'liraglutide',                   conditionLabel: 'type 2 diabetes',            conditions: ['diabetes'],                       blogSlug: 'does-medicare-cover-victoza' },
+  // Heart and cholesterol (6). Inpefa carries `heart` only — its label indication
+  // is cardiovascular, and TotalAssist's diabetes fund does not list it.
+  { slug: 'inpefa',    drug: 'Inpefa',    generic: 'sotagliflozin',                 conditionLabel: 'heart failure',              conditions: ['heart'],                          blogSlug: 'does-medicare-cover-inpefa' },
+  { slug: 'nexlizet',  drug: 'Nexlizet',  generic: 'bempedoic acid/ezetimibe',      conditionLabel: 'high cholesterol',           conditions: ['cholesterol', 'heart'],           blogSlug: 'does-medicare-cover-nexlizet' },
+  { slug: 'pradaxa',   drug: 'Pradaxa',   generic: 'dabigatran etexilate',          conditionLabel: 'blood clots & atrial fibrillation', conditions: ['blood-clots', 'heart'],    blogSlug: 'does-medicare-cover-pradaxa' },
+  { slug: 'ranexa',    drug: 'Ranexa',    generic: 'ranolazine',                    conditionLabel: 'chronic angina',             conditions: ['heart'],                          blogSlug: 'does-medicare-cover-ranexa' },
+  { slug: 'savaysa',   drug: 'Savaysa',   generic: 'edoxaban',                      conditionLabel: 'blood clots & atrial fibrillation', conditions: ['blood-clots', 'heart'],    blogSlug: 'does-medicare-cover-savaysa' },
+  { slug: 'vascepa',   drug: 'Vascepa',   generic: 'icosapent ethyl',               conditionLabel: 'triglycerides & heart risk', conditions: ['cholesterol', 'heart'],           blogSlug: 'does-medicare-cover-vascepa' },
 ];
 
 /** Group the programs relevant to a specific drug: the manufacturer program(s) that

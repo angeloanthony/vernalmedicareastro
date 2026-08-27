@@ -58,9 +58,13 @@ export type DrugClassKey =
   | 'acl-inhibitor'
   | 'ics-laba'
   | 'lama'
+  | 'lama-laba'
+  | 'pde4-inhibitor'
   | 'kinase-inhibitor'
   | 'dpp-4'
-  | 'transthyretin-stabilizer';
+  | 'transthyretin-stabilizer'
+  | 'antianginal'
+  | 'omega-3';
 
 export interface DrugClass {
   key: DrugClassKey;

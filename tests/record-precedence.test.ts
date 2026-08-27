@@ -54,9 +54,12 @@ describe('record precedence — the registry wins for what it owns', () => {
     // Batch 5 (2026-08-26) researched Praluent and Rybelsus, so they left this
     // list; Batch 6 (2026-08-26) researched Spiriva and Ofev, so Spiriva left
     // it too and Pradaxa — the other Boehringer Ingelheim entry in the legacy
-    // `bicares` list — took its place. The assertion is unchanged; only the
+    // `bicares` list — took its place. Batch 8 (2026-08-26) then researched all
+    // 22 remaining §15.2 medications, which took Victoza, Lantus AND Pradaxa
+    // out of this list in one go; Levemir, Stelara and Otezla replace them as
+    // legacy entries with no record. The assertion is unchanged; only the
     // fixtures move on as the registry takes ownership of more medications.
-    for (const name of ['Victoza', 'Lantus', 'Revlimid', 'Pradaxa', 'Xtandi', 'Cosentyx']) {
+    for (const name of ['Levemir', 'Stelara', 'Revlimid', 'Otezla', 'Xtandi', 'Cosentyx']) {
       expect(isResearchedMedication(name), `${name} must stay on the legacy layer`).toBe(false);
       expect(recordForSearch(name), `${name} has no record`).toBeUndefined();
     }

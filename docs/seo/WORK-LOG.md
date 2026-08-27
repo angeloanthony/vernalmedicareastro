@@ -118,6 +118,50 @@ strength of one real test.
      experiments (EXP-001 – EXP-003) are logged below and registered in
      docs/seo/EXPERIMENTS.md. -->
 
+### 2026-08-26 — Prescription Assistance Batch 8: the 22 remaining confirmed medications, built LINK-DARK (new content, not an experiment)
+
+- **Pages:** 22 NEW pages — `/anoro-assistance-program.html`, `/breo-…`, `/daliresp-…`, `/incruse-…`,
+  `/nucala-…`, `/stiolto-…`, `/tezspire-…`, `/xolair-…`, `/yupelri-…`, `/invokana-…`, `/lantus-…`,
+  `/lyumjev-…`, `/novolog-…`, `/toujeo-…`, `/tresiba-…`, `/victoza-…`, `/inpefa-…`, `/nexlizet-…`,
+  `/pradaxa-…`, `/ranexa-…`, `/savaysa-…`, `/vascepa-assistance-program.html`. Registry 28 → **50**.
+- **Change:** built every medication remaining on the §15.2 confirmed list in one expansion, rather
+  than as another five-drug selection. Each page is an independently researched
+  `MedicationAssistanceRecord` with dated primary sources. Four label-backed drug-class keys added
+  (`lama-laba`, `pde4-inhibitor`, `antianginal`, `omega-3`); **no new condition keys**. One legacy
+  tagline corrected (`lillycares`) under the Sanofi/AbbVie precedent — prose only, `drugs[]` intact.
+- **Metric:** topical completeness (the primary metric for this project), plus internal linking within
+  the prescription-assistance silo and AI extractability of program eligibility rules.
+- **Optimization Hypothesis:** *We expect completing the confirmed medication list to improve topical
+  completeness for the prescription-assistance silo, because the cluster now answers the assistance
+  question for every medication the project has named rather than for a demand-ranked subset.*
+- **Not an experiment.** This is new content, not a change to an existing page, so it has no EXP-NNN
+  and no before/after comparison on any page under observation. It is logged for the record and for the
+  topical-completeness metric only.
+- **Built LINK-DARK — and proved so.** EXP-003's observation window is open until ~2026-09-03. No link
+  was added into the frozen `does-medicare-cover-*` cohort. The proof is a byte-diff, not an assertion:
+  the pre-expansion source tree was restored and rebuilt to its 180-page baseline, the 17 cohort pages
+  were captured, the expansion was restored and rebuilt to 202 pages, and **all 17 cohort files are
+  byte-identical between the two builds**. Every occurrence of `does-medicare-cover` across the 22 new
+  record files is the LINK-DARK comment banner; all 22 built pages emit zero cohort hrefs.
+  `drugCoverage.ts`, `does-medicare-cover-[drug].astro` and `DRUG_COVERAGE` were untouched.
+- **Gates:** `npm test` 710/710 pass · `npm run lint` clean · `npm run typecheck` 0 errors, 0 warnings ·
+  `npm run build` 202 pages · `npm run verify` passed · `npm run seo:gate` passed (153 pages, site mean
+  76%). Two failures were found and fixed properly rather than accepted: seven records tripped the CMS
+  superlative guard on the idiomatic phrase "on top of" (rephrased — the guard was not weakened), and the
+  `record-precedence` fixture went stale exactly as its own comment anticipated (Victoza, Lantus and
+  Pradaxa are now researched, so Levemir, Stelara and Otezla replace them).
+- **Reconciliation:** 50 record files = 50 registry entries = 50 `FEATURED_DRUGS` rows = 50 sitemap
+  entries = 50 hub/`PAGE_INDEX` entries = 50 built pages. Zero duplicates, zero orphans, zero invalid or
+  duplicated taxonomy keys, zero fallback categories, zero legacy `categories` fields. 301 programs
+  carrying 850 dated source citations; every `lastVerified` and every source `checked` date literal and
+  non-future.
+- **Outcome:** *(open — new content; revisit with the September delta report. Note that the Sprint 2B
+  freeze governs interpretation: this is construction, and the observation window is still running.)*
+- **What this does NOT complete.** 50 pages, not 75. Every medication the repository has ever named now
+  has a page; the other 25 of the 75 have never been named in any revision of
+  `docs/PRESCRIPTION-ASSISTANCE-PROJECT.md`. There is no Batch 9 pending — the next expansion is blocked
+  on those 25 names being supplied, not on a selection decision.
+
 ### 2026-08-26 — D10: insulin architecture decided (project decision, not a content change)
 
 - **Pages:** none. Documentation only — `docs/PRESCRIPTION-ASSISTANCE-PROJECT.md`

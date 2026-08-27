@@ -1,13 +1,20 @@
-# Vernal Medicare — 75-Drug Prescription Assistance Project
+# Vernal Medicare — Prescription Assistance Project (75-medication target; 50 built)
 
-**Status:** Batch 5 shipped (2026-08-26) — **21 medication pages, all structured; the 75-medication expansion has begun** with five new slugs (Rybelsus, Wegovy, Zepbound, Praluent, Leqvio) from the §24 Phase 4 order. `weight` added to `CONDITIONS` (pre-registered by the taxonomy audit). Navigation settled. Taxonomy: two axes + Autoimmune view (D7) + `jak-inhibitor` class, verified against Dupixent's autoimmune+respiratory pair with no third axis introduced. Batches 3 and 4 were built **link-dark** — no links added into the frozen `does-medicare-cover-*` cohort while EXP-003's observation window is open.
+**Status:** **Batch 8 shipped (2026-08-26) — 50 medication pages, all structured.** Batch 8 built ALL 22 remaining medications from the §15.2 confirmed list in one expansion: Anoro Ellipta, Breo Ellipta, Daliresp, Incruse Ellipta, Nucala, Stiolto Respimat, Tezspire, Xolair, Yupelri, Invokana, Lantus, Lyumjev, NovoLog, Toujeo, Tresiba, Victoza, Inpefa, Nexlizet, Pradaxa, Ranexa, Savaysa and Vascepa. **This completes the CONFIRMED list, not the 75-medication target** — see §15.3, which is now the project's only blocking item: 25 of the 75 have never been named anywhere in the repository, and the implementation must not invent them. D10 resolved: five insulin brands built as ordinary records. Four label-backed drug-class keys added (`lama-laba`, `pde4-inhibitor`, `antianginal`, `omega-3`); NO new condition keys, and the Xolair taxonomy question was settled against the Ofev test without one. Built **link-dark** — the frozen `does-medicare-cover-*` cohort is byte-identical to the pre-expansion build.
 **Created:** 2026-08-26
-**Last updated:** 2026-08-26 (latest) — **Batch 5 checkpoint recorded: COMPLETE, 21 researched records, architecture PASS, observation window intact, no Batch 6 started; remaining work split into three independent tracks (§32)**; earlier the same day — Batch 5 shipped link-dark (Rybelsus, Wegovy, Zepbound, Praluent, Leqvio; five new slugs, `weight` added to `CONDITIONS`); earlier the same day — Batch 4 shipped link-dark (Dupixent; legacy migration complete, architecture confirmed frozen under D9); earlier the same day — Batch 3 shipped link-dark (Trulicity, Humira, Enbrel, Skyrizi, Rinvoq) plus the two Batch 2 review fixes (Entresto fund naming; the shared FPL source-year note); earlier the same day — Batch 2 shipped (§32 inventory, §31 D7); earlier the same day, Batch 1 review: navigation rule + measurement (§14), current page inventory (§32), decisions log (§31), taxonomy audit split out to `PRESCRIPTION-ASSISTANCE-TAXONOMY-AUDIT.md`
+**Last updated:** 2026-08-26 (latest) — **Batch 8 shipped: all 22 outstanding §15.2 medications built in one expansion, taking the registry from 28 to 50 researched records. 50/50 reconciled across record files, registry, FEATURED_DRUGS, sitemap, hub and built pages. D8 proved intact by byte-diff. §15.3 (the 25 unnamed medications) is now the single blocking item for the 75-page target.** Earlier entries: Batch 7 (Vyndamax, Januvia, Brilinta — first batch chosen by decision); Batch 6 (Nexletol, Symbicort, Spiriva, Ofev — `lung-disease` key); Batch 5 (Rybelsus, Wegovy, Zepbound, Praluent, Leqvio — `weight` key); Batch 4 (Dupixent — legacy migration complete); Batch 3; Batch 2 (§32 inventory, §31 D7); Batch 1 review
 **Owner:** Vernal Medicare
 
-> **Two open items before implementation starts:**
-> 1. The full 75-medication list is **not yet final**. 46 medications are confirmed (§15); ~29 remain to be supplied by the user.
-> 2. Every program-status claim in this document (fund open/closed, dollar figures, launch dates) is **as-reported and unverified**. Re-verify against the official source before it appears on a published page. See §29 for the snapshot and its caveat.
+> **One blocking item, one standing caution:**
+> 1. **BLOCKING — the full 75-medication list has never been completed.** 46 medications are confirmed
+>    (§15.2) and **all 46 now have pages**, together with 4 pre-existing records (Humira, Enbrel, Skyrizi,
+>    Rinvoq) that were never on that list — 50 pages in total. The remaining **25** medications of the 75
+>    have never been named anywhere in this repository, in any revision of this document. The
+>    implementation must **not** invent or substitute medications to reach 75. Until those 25 names are
+>    supplied, 50 is the honest ceiling. See §15.3.
+> 2. Every program-status claim in this document (fund open/closed, dollar figures, launch dates) is
+>    **as-reported and unverified**. Re-verify against the official source before it appears on a
+>    published page. See §29 for the snapshot and its caveat.
 
 ---
 
@@ -480,7 +487,9 @@ The final decision should be based on the existing site's navigation and mobile 
 
 The project contains **75 brand medications**. The earlier 30-drug ranking was a *priority sample*, not the list — it must not be treated as limiting the project.
 
-**Confirmed so far: 46 of 75.** The remaining ~29 must be supplied by the user. The implementation must **not** invent or substitute medications to reach 75.
+**Confirmed so far: 46 of 75 — and as of Batch 8 (2026-08-26) all 46 are built.** The remaining **25** have never been named in this repository and must be supplied by the user. The implementation must **not** invent or substitute medications to reach 75.
+
+> **Reconciliation, Batch 8 (2026-08-26).** 46 confirmed medications, all built. Plus 4 pre-existing records never on the §15.2 list — Humira, Enbrel, Skyrizi and Rinvoq — giving **50 pages**. 75 − 50 = **25 medications with no names anywhere in the repository**. A second, smaller ambiguity is recorded rather than resolved: this document has never said whether those 4 pre-existing records count toward the 75, so completing the list yields either 75 pages (if they do) or 79 (if they do not). Both questions are the user's to answer.
 
 ### 15.1 Confirmed medications by category (46)
 
@@ -556,9 +565,20 @@ Generic names marked *verify at research* were not supplied with the list. They 
 
 Anoro Ellipta · Breo Ellipta · Breztri · Brilinta · Daliresp · Dupixent · Eliquis · Entresto · Farxiga · Incruse Ellipta · Inpefa · Invokana · Januvia · Jardiance · Lantus · Leqvio · Lyumjev · Mounjaro · Nexletol · Nexlizet · NovoLog · Nucala · Ofev · Ozempic · Pradaxa · Praluent · Ranexa · Repatha · Rybelsus · Savaysa · Spiriva · Stiolto · Symbicort · Tezspire · Toujeo · Trelegy · Tresiba · Trulicity · Vascepa · Victoza · Vyndamax · Wegovy · Xarelto · Xolair · Yupelri · Zepbound
 
-### 15.3 Outstanding — ~29 medications
+### 15.3 Outstanding — 25 medications, and the project's only blocking item
 
-The remaining medications have not been supplied. When the user provides them, this section is updated to the **complete deduplicated, alphabetized, numbered master list of 75**, and that becomes the single source of truth for the build.
+**Status after Batch 8 (2026-08-26): every medication this repository has ever named is now built.**
+All 46 medications in §15.2 have pages. The 22 that were outstanding before Batch 8 — Anoro Ellipta,
+Breo Ellipta, Daliresp, Incruse Ellipta, Nucala, Stiolto Respimat, Tezspire, Xolair, Yupelri, Invokana,
+Lantus, Lyumjev, NovoLog, Toujeo, Tresiba, Victoza, Inpefa, Nexlizet, Pradaxa, Ranexa, Savaysa and
+Vascepa — were researched and shipped in a single expansion.
+
+The remaining medications have **not** been supplied, and never have been: a check of every revision of
+this document in git history found the "master list of 75" placeholder present in all of them. This is
+therefore not a list that was mislaid — it is a list that was never written down.
+
+When the user provides them, this section is updated to the **complete deduplicated, alphabetized,
+numbered master list of 75**, and that becomes the single source of truth for the build.
 
 Candidate gaps worth considering when the list is finalized (not approved, not assumed): additional insulins, oral oncology, autoimmune/biologic therapies, neurology, and ophthalmic drugs — all common among Medicare beneficiaries and all high-cost. **This is a prompt for the user's decision, not a proposed list.**
 
@@ -1034,6 +1054,58 @@ inputs exist and neither resolves on its own:
 deliberate decision that names both the medications and the evidence behind
 them; until then Track A is open, not queued.
 
+**The selection framework (six criteria, recorded 2026-08-26 after Batch 7).**
+Batch 7 was chosen on three criteria; two more proved themselves during it and
+one was implicit, so the framework is written down in full here. Read it as **an
+evaluation of whether a medication deserves a page — not as six binary gates**. A
+candidate can score poorly on one and still be worth building; the judgement is
+whether the record as a whole would be worth a reader's time.
+
+1. **Information value** — how much genuinely new assistance information the
+   record would add.
+2. **Category coverage** — whether it expands or meaningfully strengthens a
+   category. Brilinta is the worked example: it filled the empty antiplatelet
+   half of a browse view that had described itself as holding both kinds of blood
+   thinner since it was built.
+3. **Research opportunity** — whether the manufacturer's assistance ecosystem is
+   different enough to justify a page. Januvia qualified because Merck's program
+   names Medicare as disqualifying coverage, the opposite of every other
+   manufacturer rule in the registry.
+4. **Primary-source verifiability** — whether the core assistance picture can be
+   established honestly from sufficiently authoritative sources. This is a
+   criterion, **not a requirement that every source be perfectly accessible**.
+   Spiriva and Ofev are the worked example in both directions: Boehringer
+   Ingelheim's WAF forced three `verify` cards, and those records are still worth
+   having because the funds, the label and the negotiated price were all
+   establishable — what would have disqualified them is if the central picture
+   could not be. Secondary details landing on `verify` is a normal outcome, and
+   saying so is part of the product.
+5. **Material differentiation** — whether the resulting page would add
+   meaningfully different information rather than becoming a thin variation of an
+   existing record. **This is not "avoid duplicate content."** Breo Ellipta is the
+   worked example: it could have supported a perfectly valid page, and it was
+   dropped anyway because its assistance landscape — the same GSK program with no
+   published medicine list, the same closed COPD and asthma funds — added almost
+   nothing beyond the Trelegy record that already exists. The test is marginal
+   information value, not textual overlap.
+6. **Medicare-specific usefulness** — whether the research reveals genuinely
+   important Medicare rules, eligibility distinctions, negotiated pricing or
+   other product-specific information. Vyndamax qualified on Pfizer's
+   proof-of-denial requirement, which reorders the whole application sequence;
+   Januvia on a negotiated price already in effect.
+
+**What is deliberately absent from this list: demand.** The only Search Console
+export predates every assistance page, so it cannot rank candidates; and Batch 7
+demonstrated the failure mode directly, since the one candidate carrying demand
+evidence (Breo Ellipta) was the one dropped on criterion 5. Demand becomes an
+input again when a post-launch export exists — as evidence to weigh, not as the
+ranking.
+
+**Insulin is evaluated on exactly this footing** (D10). The $35 Part D cap is
+background context, not a reason to select or to reject an insulin brand; what
+matters is whether the manufacturer assistance layer differs enough to clear
+criteria 1, 5 and 6.
+
 **Phase 5 selection analysis run 2026-08-26 — evidence gathered, nothing
 selected.** The 25 outstanding §15.2 medications were checked against the only
 demand evidence the repository holds: `data/search-console/queries-2026-07-29.csv`.
@@ -1176,6 +1248,141 @@ Brilinta — were on the §15.2 list; an earlier draft of this section wrongly
 placed Vyndamax outside it, corrected 2026-08-26.) "Legacy migration complete", "current inventory complete",
 "the documented build order complete" and "prescription assistance project
 complete" are four different statements, and only the first three are true.
+
+### Batch 8 result — the confirmed list completed (2026-08-26, PASS)
+
+**The largest expansion in the project: 28 records → 50.** Batch 8 built every one of the 22 medications
+that remained on the §15.2 confirmed list, in a single pass rather than as a selection. It was scoped
+that way deliberately: with the §24 build order exhausted and the six selection criteria written down
+after Batch 7, there was no longer a queue to take names off, and the remaining pool WAS the whole
+confirmed list. Choosing five of 22 would have been an arbitrary act dressed as a decision.
+
+| # | Medication | Manufacturer | The finding that earns the page |
+| --- | --- | --- | --- |
+| 1 | Anoro Ellipta | GSK | Selected for Medicare negotiation, IPAY **2028** — no MFP published yet. GSK cash price $222.94 |
+| 2 | Breo Ellipta | GSK | **Negotiated MFP $67.00** per 30-day equivalent supply from 01/01/2027 (IPAY 2027) |
+| 3 | Daliresp | AstraZeneca | Not on AZ&Me and not on AstraZeneca Direct; roflumilast generic from 18 labelers at $13.48 |
+| 4 | Incruse Ellipta | GSK | The registry's lowest published inhaler cash price, $134.20; NOT a negotiated drug when three siblings are |
+| 5 | Nucala | GSK | GSK applies a **different Medicare rule per product category** — no $600 threshold, higher income limit, but Extra Help excluded |
+| 6 | Stiolto Respimat | Boehringer Ingelheim | BI blocked (Incapsula); savings-card terms readable but **expired 12/31/2024** |
+| 7 | Tezspire | Amgen | Amgen Safety Net eligibility page returns HTTP 403; enrolment form requires a prescriber **PTAN if the patient has Medicare** |
+| 8 | Xolair | Genentech | Genentech's **7.5%-of-income out-of-pocket-maximum** route; flat-dollar income limits; IPAY 2028 with Part B code J2357 |
+| 9 | Yupelri | Viatris | **The only Part B drug in the registry** — nebulized, DME benefit, 80/20, and Extra Help does not apply |
+| 10 | Invokana | Janssen (J&J) | No generic canagliflozin, and NOT negotiated while Farxiga and Jardiance both are |
+| 11 | Lantus | Sanofi | The **TrOOP trap**: Sanofi's $35 cash price does not count toward the Part D out-of-pocket cap |
+| 12 | Lyumjev | Eli Lilly | Lilly Cares names **Medicare Part D as a qualifying route** in so many words; excludes *full* LIS only |
+| 13 | NovoLog | Novo Nordisk | The only negotiated insulin — **$119.00**, and **deselected with effect from 12/31/2026** |
+| 14 | Toujeo | Sanofi | 300 units/mL changes every price comparison; TrumpRx shows $35.00 against a former $428.57 |
+| 15 | Tresiba | Novo Nordisk | Both U-100 and U-200 on the PAP; NOT negotiated although stablemate NovoLog is |
+| 16 | Victoza | Novo Nordisk | **Not on the Novo Nordisk PAP list** although Tresiba, NovoLog and Ozempic are; liraglutide generic from 13 labelers |
+| 17 | Inpefa | Lexicon | Copay card excludes **Medigap** too; on the heart funds and deliberately NOT the diabetes fund |
+| 18 | Nexlizet | Esperion | **An OPEN fund**; and half the tablet (ezetimibe) is a cheap generic, so the two-tablet comparison is real |
+| 19 | Pradaxa | Boehringer Ingelheim | Dabigatran generic from 19 labelers at $29.05 — the class reached affordability two different ways |
+| 20 | Ranexa | Gilead | **Gilead has left cardiovascular medicine**; ranexa.com serves nothing; 31 generic labelers |
+| 21 | Savaysa | Daiichi Sankyo | **The hardest case: no PAP, no savings card, no generic, no negotiated price, one closed fund** |
+| 22 | Vascepa | Amarin | Two funds at very different awards — hypercholesterolemia OPEN $1,900/$3,800, HTG closed $3,300/$6,600 |
+
+**D10 executed as written.** The five insulin brands were built as ordinary `MedicationAssistanceRecord`s
+— one per brand, no generic insulin record, no new record shape. The $35 Part D insulin cap appears once
+per record in `medicareContext` as background and is never presented as brand-specific assistance;
+`/insulin-cost-medicare-vernal.html` remains the broad insulin-cost resource. NovoLog's negotiated price
+is stated only on the NovoLog record, and three other insulin records explicitly warn that it does not
+transfer to them.
+
+**Taxonomy: four new drug-class keys, ZERO new condition keys.** Each class key was added because the
+existing vocabulary demonstrably could not represent the medication, and each is backed by the label:
+
+| Key | Medications | Label evidence |
+| --- | --- | --- |
+| `lama-laba` | Anoro Ellipta, Stiolto Respimat | "a combination of umeclidinium, an anticholinergic, and vilanterol, a long-acting beta2-agonist (LABA)"; two bronchodilators and no steroid, so not `lama`, `ics-laba` or `triple-inhaler` |
+| `pde4-inhibitor` | Daliresp | "DALIRESP is a selective phosphodiesterase 4 inhibitor"; an oral tablet the label says "is not a bronchodilator" |
+| `antianginal` | Ranexa | The label states no class at all; the mechanism section says the mechanism of its "antianginal effects has not been determined". Named for the effect the label does claim |
+| `omega-3` | Vascepa | "a lipid-regulating agent… icosapent ethyl, an omega-3 fatty acid ethyl ester"; targets triglycerides, so neither `acl-inhibitor` nor `pcsk9` |
+
+`PENDING_CATEGORY_VIEWS` is still empty, every record derives at least one non-fallback browse view, and
+no record uses the `specialty` catch-all.
+
+**The Xolair taxonomy decision — the Ofev test applied and answered NO.** The project reserved Xolair to
+settle whether a new condition key was needed. It is not. The Ofev precedent is that *topic similarity is
+not enough to create a condition key; incorrect program matching is.* Ofev needed `lung-disease` because
+tagging it `respiratory` would have matched it to COPD and asthma funds that **do not list it**. Xolair
+tagged `respiratory` matches the TotalAssist and HealthWell asthma funds, which **do** list it — correct
+matching, merely not exhaustive. `autoimmune` was considered and rejected: it would have matched Xolair
+to HealthWell's AutoImmune – Medicare Access fund, a different diagnosis set that does not list it, which
+is exactly the error the rule forbids. Xolair's chronic spontaneous urticaria fund (a materially larger
+award, $2,600/$5,200 against the asthma fund's $1,200/$3,500) is carried as an explicit program entry
+instead, so the reader loses nothing. **Conclusion: the existing respiratory condition is sufficient;
+the evidence does not demonstrate the need for another condition key.**
+
+**Legacy layer — one tagline correction, under the Sanofi/AbbVie precedent.** The `lillycares` tagline
+read "(Mounjaro, Trulicity, insulins)". Mounjaro is not on the Lilly Cares available-medications list —
+established by the Mounjaro record in Batch 1 and re-confirmed on 2026-08-26 during Lyumjev research,
+when the published list showed Basaglar, Humalog, Humulin, Lyumjev and Trulicity with Mounjaro appearing
+zero times on either the available-medications page or the medication-groups page. Prose corrected;
+`drugs[]` left intact, because record precedence already suppresses Mounjaro, Trulicity and Zepbound from
+anything the hub derives from it. No other tagline was contradicted by this batch's research, and the
+deferred Track C hygiene work was **not** started.
+
+**A standing project assumption corrected: GSK DOES publish a covered-medicine list.** Earlier research
+recorded that it did not. `gskpaf.org` carries a "List of eligible products" accordion naming 20
+medicines, and its screener embeds a per-product *category* that decides which Medicare page a patient is
+routed to. That category is load-bearing: "general" products (the Ellipta inhalers, including Trelegy)
+carry a **$600 prescription-spending threshold** and a $47,880 single-person income limit, while
+"specialty" products (Nucala) have no spending threshold, a $63,840 limit, and an **Extra Help
+exclusion**. This is a genuine per-medication rule the project had previously been unable to state, and
+it is what reversed the Batch 7 decision to drop Breo Ellipta on criterion 5.
+
+**Systemic research problems encountered** (all carried as `verify` or `not-found`, never papered over):
+
+- **Boehringer Ingelheim** blocks automated access site-wide (Incapsula), as recorded in Batch 6. The BI
+  Cares therapy list had to come from the PhRMA directory the foundation supplies, whose database was
+  last updated 2025-09-15. A Stiolto savings-card PDF was readable but carried a 2024 expiry; the
+  equivalent Pradaxa document 404s.
+- **Amgen Safety Net Foundation** returns HTTP 403 (AccessDenied) on its eligibility page, so income
+  limits and the Medicare rule for Tezspire could not be read. Amgen's own Tezspire access page publishes
+  no copay dollar figures either; figures circulating on third-party sites were **not** published here.
+- **Johnson & Johnson** publishes its patient assistance criteria only in font-encoded PDFs and a
+  client-rendered portal, so the Invokana income limits could not be established at source.
+- **Lexicon** asserts that help "may" exist for uninsured patients without publishing any criteria.
+- **Viatris** publishes a contact route for its patient assistance program but no eligibility rules, and
+  `viatris.com/en/patient-support/viatris-advocate` 404s.
+- **GSK's own screener** routes specialty products with Medicare to `/product-medicare/`, which returns
+  HTTP 404; the working page is a product-specific slug. Recorded because a reader following the screener
+  hits the same dead end.
+- **Gilead** has exited cardiovascular medicine, and `ranexa.com` no longer completes an HTTPS
+  connection. **Daiichi Sankyo** runs patient assistance for four oncology products only, so Savaysa has
+  no manufacturer route of any kind — a clean absence rather than an unreadable source.
+
+**Cross-record flags for EXISTING records — reported, not acted on** (out of Batch 8's scope):
+
+- **Trulicity** is on the CMS IPAY **2028** selected-drug list.
+- Novo Nordisk now states that "Medicare beneficiaries with prescription drug coverage will no longer be
+  eligible to receive **Ozempic** through the Patient Assistance Program."
+- The **Trelegy** record predates the discovery that GSK publishes an eligible-products list, and Trelegy
+  is on it as a "general" category product carrying the $600 threshold.
+
+**D8 held, and was proved rather than asserted.** The pre-expansion source tree was restored, rebuilt to
+its 180-page baseline, and the 17 `does-medicare-cover-*` pages captured; the expansion was then restored
+and rebuilt to 202 pages. **All 17 cohort files are byte-identical between the two builds.** Independently,
+every occurrence of the string `does-medicare-cover` across the 22 new record files is the LINK-DARK
+comment banner — there is not one such href in any of them — and all 22 built pages emit zero cohort
+links. `drugCoverage.ts`, the `does-medicare-cover-[drug].astro` route and `DRUG_COVERAGE` were not
+touched, no cohort page was created, and the post-observation linking experiment was not performed.
+
+**Reconciliation at completion: 50 = 50 = 50 = 50 = 50 = 50.** Record files, registry entries,
+`FEATURED_DRUGS` rows, sitemap entries, hub/`PAGE_INDEX` entries and built pages all agree, with zero
+duplicates, zero orphans in either direction, zero invalid taxonomy keys, zero duplicate taxonomy tags,
+zero fallback categories, zero legacy `categories` fields, and every `relatedMedications` and internal
+`relatedResources` target resolving to a real record or built page. Across the 50 records there are
+**301 programs carrying 850 dated source citations**; every `lastVerified` is a literal, valid,
+non-future ISO date, and every source `checked` date is likewise literal and non-future.
+
+**What is NOT complete.** 50 pages, not 75. Every medication this repository has ever named now has a
+page; the other 25 have never been named (§15.3). There is **no Batch 9 pending** — there is nothing left
+to select from. The next expansion is blocked on the user supplying the missing 25 names, not on a
+selection decision.
+
+---
 
 ### Batch 7 result — the first batch chosen by decision, not by the list (2026-08-26, PASS)
 

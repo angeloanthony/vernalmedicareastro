@@ -56,6 +56,28 @@ import { OFEV } from './ofev';
 import { VYNDAMAX } from './vyndamax';
 import { JANUVIA } from './januvia';
 import { BRILINTA } from './brilinta';
+import { ANORO } from './anoro';
+import { BREO } from './breo';
+import { DALIRESP } from './daliresp';
+import { INCRUSE } from './incruse';
+import { NUCALA } from './nucala';
+import { STIOLTO } from './stiolto';
+import { TEZSPIRE } from './tezspire';
+import { XOLAIR } from './xolair';
+import { YUPELRI } from './yupelri';
+import { INVOKANA } from './invokana';
+import { LANTUS } from './lantus';
+import { LYUMJEV } from './lyumjev';
+import { NOVOLOG } from './novolog';
+import { TOUJEO } from './toujeo';
+import { TRESIBA } from './tresiba';
+import { VICTOZA } from './victoza';
+import { INPEFA } from './inpefa';
+import { NEXLIZET } from './nexlizet';
+import { PRADAXA } from './pradaxa';
+import { RANEXA } from './ranexa';
+import { SAVAYSA } from './savaysa';
+import { VASCEPA } from './vascepa';
 
 // ── Taxonomy (two axes; browse categories are derived, never stored) ─────────
 export {
@@ -138,6 +160,48 @@ export const MEDICATION_ASSISTANCE: MedicationAssistanceRecord[] = [
   VYNDAMAX,
   JANUVIA,
   BRILINTA,
+  // Batch 8 (2026-08-26) — the 22 outstanding medications from the §15.2
+  // confirmed list, built as one expansion rather than as a selection. See
+  // docs/PRESCRIPTION-ASSISTANCE-PROJECT.md §15.3 for the reconciliation: these
+  // 22 complete the CONFIRMED list, not the 75-medication target, because 25 of
+  // the 75 have never been named in the repository.
+  //
+  // Respiratory (9). `lama-laba` is the class key added for Anoro Ellipta and
+  // Stiolto Respimat (two bronchodilators, no steroid, COPD-only labels) and
+  // `pde4-inhibitor` the key added for Daliresp (an oral tablet the label says
+  // "is not a bronchodilator"). Xolair deliberately carries `respiratory` only —
+  // see the taxonomy note in xolair.ts. Built LINK-DARK under D8.
+  ANORO,
+  BREO,
+  DALIRESP,
+  INCRUSE,
+  NUCALA,
+  STIOLTO,
+  TEZSPIRE,
+  XOLAIR,
+  YUPELRI,
+  // Diabetes and insulin (7). D10 is resolved: one ordinary record per insulin
+  // brand, no generic insulin record and no new record shape. The $35 Part D
+  // insulin cap is background context in `medicareContext`, never presented as
+  // brand-specific assistance — /insulin-cost-medicare-vernal.html remains the
+  // broad insulin-cost resource. NovoLog's negotiated price is stated only on
+  // the NovoLog record and is never generalised to the other four brands.
+  INVOKANA,
+  LANTUS,
+  LYUMJEV,
+  NOVOLOG,
+  TOUJEO,
+  TRESIBA,
+  VICTOZA,
+  // Heart and cholesterol (6). `antianginal` is the class key added for Ranexa
+  // (whose label states no class and says the mechanism "has not been
+  // determined") and `omega-3` the key added for Vascepa.
+  INPEFA,
+  NEXLIZET,
+  PRADAXA,
+  RANEXA,
+  SAVAYSA,
+  VASCEPA,
 ];
 
 export const medicationAssistanceFor = (slug: string): MedicationAssistanceRecord | undefined =>
