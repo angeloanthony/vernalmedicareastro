@@ -6,7 +6,7 @@
 
 The ordered list of what to work on, and what to do to each page. Tick a box if you like — the file is rewritten on the next run, so the queue is the source of truth, not the checkmarks.
 
-> Generated **2026-08-26 21:21 UTC** · 164 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
+> Generated **2026-08-27 00:08 UTC** · 169 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
 > Derived from `src/data/pageIndex.ts` · `data/search-console/*.csv` · `dist/` · `git log`. Never edited by hand.
 
 **How priority is computed** — impressions 30 · position 25 · business 20 · pillar 10 · linkWeakness 5 · freshness 5 · ctrOpportunity 5 (weights in `scripts/seo/config.mjs`).
@@ -92,10 +92,6 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
   - Medicare Cost Estimator 2026 — Original + Medigap vs Advantage | Vernal Medicare
   - Why: 178 impressions at position 26.5; thin (542 words)
   - Do: expand to depth — currently 542 words
-- [ ] **/mounjaro-assistance-program** — priority 63 · opportunity 85 · AI 89% · 63 impr · pos 10.0
-  - Mounjaro Assistance & Grants: How to Apply in Utah | Vernal Medicare
-  - Why: CTR 0.0% vs ~1.6% expected at position 10.0 — title/meta rewrite; 63 impressions at position 10.0
-  - Do: rewrite `<title>` + meta description — it ranks at 10.0 but earns 0.0% vs ~1.6% expected
 - [ ] **/medicare-plans-vernal-utah** — priority 63 · opportunity 63 · AI 79% · 13 impr · pos 5.5
   - Medicare Plans in Vernal, Utah 2026 — Complete Guide | Vernal Medicare
   - Why: CTR 0.0% vs ~4.4% expected at position 5.5 — title/meta rewrite; 13 impressions at position 5.5; pillar page
@@ -104,10 +100,6 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
   - Medicare Formulary Lookup | Is My Drug Covered? | Vernal Medicare
   - Why: 309 impressions at position 31.6; thin (563 words)
   - Do: expand to depth — currently 563 words
-- [ ] **/trulicity-assistance-program** — priority 62 · opportunity 74 · AI 89% · 83 impr · pos 10.5
-  - Trulicity Assistance & Grants: How to Apply in Utah | Vernal Medicare
-  - Why: 83 impressions at position 10.5
-  - Do: deepen the page and add internal links — it is one push from page 1
 - [ ] **/medicare-medicaid-utah** — priority 62 · opportunity 67 · AI 71% · 122 impr · pos 18.8
   - Medicare and Medicaid Together in Utah — Dual Eligibility Explained | Vernal Medicare
   - Why: position 18.8 on 122 impressions — striking distance; thin (576 words)
@@ -116,6 +108,14 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
   - Entresto Assistance & Grants: How to Apply in Utah | Vernal Medicare
   - Why: CTR 0.0% vs ~1.6% expected at position 10.8 — title/meta rewrite; 64 impressions at position 10.8
   - Do: rewrite `<title>` + meta description — it ranks at 10.8 but earns 0.0% vs ~1.6% expected
+- [ ] **/mounjaro-assistance-program** — priority 61 · opportunity 85 · AI 89% · 63 impr · pos 10.0
+  - Mounjaro Assistance & Grants: How to Apply in Utah | Vernal Medicare
+  - Why: CTR 0.0% vs ~1.6% expected at position 10.0 — title/meta rewrite; 63 impressions at position 10.0
+  - Do: rewrite `<title>` + meta description — it ranks at 10.0 but earns 0.0% vs ~1.6% expected
+- [ ] **/trulicity-assistance-program** — priority 61 · opportunity 74 · AI 89% · 83 impr · pos 10.5
+  - Trulicity Assistance & Grants: How to Apply in Utah | Vernal Medicare
+  - Why: 83 impressions at position 10.5
+  - Do: deepen the page and add internal links — it is one push from page 1
 - [ ] **/aca** — priority 61 · opportunity 68 · AI 63% · 412 impr · pos 25.6
   - Under-65 Health Insurance (ACA) in Vernal, Utah | Vernal Medicare
   - Why: 412 impressions at position 25.6; thin (487 words)
@@ -128,10 +128,6 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
   - What Is Medicare IRMAA? 2026 Income Surcharge Explained | Vernal Medicare
   - Why: 77 impressions at position 35.1; no AI summary block; pillar page
   - Do: add a `<SummaryBlock>` TL;DR under the H1
-- [ ] **/repatha-assistance-program** — priority 60 · opportunity 63 · AI 89% · 83 impr · pos 15.5
-  - Repatha Assistance & Grants: How to Apply in Utah | Vernal Medicare
-  - Why: 83 impressions at position 15.5
-  - Do: deepen the page and add internal links — it is one push from page 1
 - [ ] **/medicare-help-center** — priority 59 · opportunity 78 · AI 50% · 38 impr · pos 14.8
   - Medicare Help Center — Vernal & the Uintah Basin, Utah | Vernal Medicare
   - Why: CTR 0.0% vs ~1.6% expected at position 14.8 — title/meta rewrite; 38 impressions at position 14.8; no AI summary block; pillar page
@@ -152,6 +148,10 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
   - Does Medicare Cover Zepbound? — Coverage & Costs | Vernal Medicare
   - Why: CTR 0.0% vs ~1.1% expected at position 19.5 — title/meta rewrite; 33 impressions at position 19.5; only 1 in-content inbound link(s); thin (522 words)
   - Do: rewrite `<title>` + meta description — it ranks at 19.5 but earns 0.0% vs ~1.1% expected
+- [ ] **/repatha-assistance-program** — priority 59 · opportunity 63 · AI 89% · 83 impr · pos 15.5
+  - Repatha Assistance & Grants: How to Apply in Utah | Vernal Medicare
+  - Why: 83 impressions at position 15.5
+  - Do: deepen the page and add internal links — it is one push from page 1
 - [ ] **/medicare-coverage/ambulance** — priority 58 · opportunity 76 · AI 74% · 180 impr · pos 35.5
   - Does Medicare Cover Ambulance Services? — Coverage & Costs | Vernal Medicare
   - Why: 180 impressions at position 35.5; only 2 in-content inbound link(s); thin (448 words)
@@ -160,10 +160,6 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
   - Dupixent Assistance & Grants: How to Apply in Utah | Vernal Medicare
   - Why: 142 impressions at position 25.3
   - Do: monitor
-- [ ] **/eliquis-assistance-program** — priority 58 · opportunity 60 · AI 89% · 67 impr · pos 19.8
-  - Eliquis Assistance & Grants: How to Apply in Utah | Vernal Medicare
-  - Why: 67 impressions at position 19.8
-  - Do: deepen the page and add internal links — it is one push from page 1
 - [ ] **/faq** — priority 57 · opportunity 80 · AI 41% · 60 impr · pos 4.1
   - FAQ — Medicare & Health Insurance in Vernal, Utah | Vernal Medicare
   - Why: CTR 0.0% vs ~5.5% expected at position 4.1 — title/meta rewrite; 60 impressions at position 4.1; no AI summary block; thin (527 words)
@@ -176,6 +172,10 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
   - Jardiance Assistance & Grants: How to Apply in Utah | Vernal Medicare
   - Why: CTR 0.0% vs ~2.4% expected at position 9.4 — title/meta rewrite; 31 impressions at position 9.4
   - Do: rewrite `<title>` + meta description — it ranks at 9.4 but earns 0.0% vs ~2.4% expected
+- [ ] **/eliquis-assistance-program** — priority 57 · opportunity 60 · AI 89% · 67 impr · pos 19.8
+  - Eliquis Assistance & Grants: How to Apply in Utah | Vernal Medicare
+  - Why: 67 impressions at position 19.8
+  - Do: deepen the page and add internal links — it is one push from page 1
 - [ ] **/farxiga-assistance-program** — priority 57 · opportunity 59 · AI 89% · 124 impr · pos 27.6
   - Farxiga Assistance & Grants: How to Apply in Utah | Vernal Medicare
   - Why: 124 impressions at position 27.6
@@ -263,7 +263,7 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
 
 ## Priority 3 — maintain (score < 48)
 
-**88 pages**
+**93 pages**
 
 | Page | Pri | Opp | Impr | Pos | AI |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -286,8 +286,8 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
 | [/medicare-penalty-calculator](https://vernalmedicare.com/medicare-penalty-calculator.html) | 42 | 56 | 61 | 55.5 | 67% |
 | [/medicare-cost-uintah-county](https://vernalmedicare.com/medicare-cost-uintah-county.html) | 40 | 62 | 12 | 12.8 | 60% |
 | [/medicare-glossary](https://vernalmedicare.com/medicare-glossary.html) | 40 | 60 | 81 | 63.5 | 60% |
-| [/ozempic-assistance-program](https://vernalmedicare.com/ozempic-assistance-program.html) | 40 | 42 | 12 | 13.1 | 89% |
 | [/medicare-news](https://vernalmedicare.com/medicare-news.html) | 39 | 60 | 10 | 8.4 | 47% |
+| [/ozempic-assistance-program](https://vernalmedicare.com/ozempic-assistance-program.html) | 39 | 42 | 12 | 13.1 | 89% |
 | [/dual-eligible](https://vernalmedicare.com/dual-eligible.html) | 39 | 36 | 10 | 38.1 | 71% |
 | [/medicare-uintah-basin-medical-center](https://vernalmedicare.com/medicare-uintah-basin-medical-center.html) | 38 | 60 | 6 | 8.8 | 55% |
 | [/medicare-vernal-pharmacies](https://vernalmedicare.com/medicare-vernal-pharmacies.html) | 38 | 56 | 3 | 3.7 | 57% |
@@ -301,11 +301,11 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
 | [/medicare-news/extra-help-expanded](https://vernalmedicare.com/medicare-news/extra-help-expanded.html) | 34 | 50 | 38 | 66.4 | 54% |
 | [/medicare-altamont-utah](https://vernalmedicare.com/medicare-altamont-utah.html) | 34 | 36 | 2 | 33.5 | 77% |
 | [/indemnity](https://vernalmedicare.com/indemnity.html) | 33 | 45 | 14 | 1.4 | 63% |
-| [/medicare-extra-help-utah](https://vernalmedicare.com/medicare-extra-help-utah.html) | 33 | 45 | 2 | 20.5 | 70% |
+| [/medicare-extra-help-utah](https://vernalmedicare.com/medicare-extra-help-utah.html) | 33 | 45 | 2 | 20.5 | 66% |
 | [/about](https://vernalmedicare.com/about.html) | 33 | 41 | 10 | 1.6 | 47% |
 | [/medicare-quiz](https://vernalmedicare.com/medicare-quiz.html) | 33 | 36 | 7 | 37.9 | 63% |
 | [/medicare-news/part-d-2000-cap](https://vernalmedicare.com/medicare-news/part-d-2000-cap.html) | 32 | 50 | 39 | 76.0 | 54% |
-| [/medicare-duchesne-utah](https://vernalmedicare.com/medicare-duchesne-utah.html) | 32 | 36 | 2 | 33.0 | 40% |
+| [/medicare-duchesne-utah](https://vernalmedicare.com/medicare-duchesne-utah.html) | 32 | 36 | 2 | 33.0 | 37% |
 | [/prescription-drug-assistance](https://vernalmedicare.com/prescription-drug-assistance.html) | 32 | 20 | 0 | — | 74% |
 | [/medicare-calculators](https://vernalmedicare.com/medicare-calculators.html) | 31 | 42 | 22 | 61.9 | 47% |
 | [/medicare-news/medicare-scam-calls](https://vernalmedicare.com/medicare-news/medicare-scam-calls.html) | 30 | 48 | 25 | 41.3 | 52% |
@@ -321,11 +321,11 @@ The ordered list of what to work on, and what to do to each page. Tick a box if 
 | [/medicare-coverage/preventive-services](https://vernalmedicare.com/medicare-coverage/preventive-services.html) | 26 | 38 | 12 | 36.8 | 74% |
 | [/hmo-vs-ppo-medicare-advantage](https://vernalmedicare.com/hmo-vs-ppo-medicare-advantage.html) | 26 | 25 | 0 | — | 75% |
 | [/zero-premium-medicare-advantage](https://vernalmedicare.com/zero-premium-medicare-advantage.html) | 26 | 25 | 0 | — | 65% |
+| [/leqvio-assistance-program](https://vernalmedicare.com/leqvio-assistance-program.html) | 26 | 20 | 0 | — | 89% |
+| [/praluent-assistance-program](https://vernalmedicare.com/praluent-assistance-program.html) | 26 | 20 | 0 | — | 89% |
+| [/rybelsus-assistance-program](https://vernalmedicare.com/rybelsus-assistance-program.html) | 26 | 20 | 0 | — | 89% |
 | [/trelegy-assistance-program](https://vernalmedicare.com/trelegy-assistance-program.html) | 26 | 20 | 0 | — | 89% |
-| [/breztri-assistance-program](https://vernalmedicare.com/breztri-assistance-program.html) | 25 | 20 | 0 | — | 89% |
-| [/reviews](https://vernalmedicare.com/reviews.html) | 24 | 44 | 13 | 2.8 | 0% |
-| [/does-medicare-cover-dental-vernal](https://vernalmedicare.com/does-medicare-cover-dental-vernal.html) | 24 | 41 | 1 | 2.0 | 28% |
-| [/medicare-hospitals-uintah-county](https://vernalmedicare.com/medicare-hospitals-uintah-county.html) | 24 | 10 | 0 | — | 58% |
-| [/medicare-irmaa-calculator](https://vernalmedicare.com/medicare-irmaa-calculator.html) | 23 | 32 | 7 | 57.7 | 73% |
+| [/wegovy-assistance-program](https://vernalmedicare.com/wegovy-assistance-program.html) | 26 | 20 | 0 | — | 89% |
+| [/zepbound-assistance-program](https://vernalmedicare.com/zepbound-assistance-program.html) | 26 | 20 | 0 | — | 89% |
 
-_… and 28 more. Full data in `seo-snapshot.json`._
+_… and 33 more. Full data in `seo-snapshot.json`._

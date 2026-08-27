@@ -6,22 +6,22 @@
 
 How extractable each page is for AI Overviews and assistant answers. Scored from the built HTML, so it reflects what a crawler actually receives.
 
-> Generated **2026-08-26 21:21 UTC** · 164 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
+> Generated **2026-08-27 00:08 UTC** · 169 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
 > Derived from `src/data/pageIndex.ts` · `data/search-console/*.csv` · `dist/` · `git log`. Never edited by hand.
 
-**Site average: 67%**
+**Site average: 68%**
 
 ## Coverage by feature
 
 | Feature | Weight | Have | Missing | Coverage |
 | --- | ---: | ---: | ---: | ---: |
-| AI Summary | 20 | 123 | 25 | 83% |
-| FAQ | 20 | 118 | 30 | 80% |
-| Schema | 15 | 117 | 31 | 79% |
-| Tables | 10 | 41 | 107 | 28% |
-| Definitions | 10 | 19 | 129 | 13% |
-| Internal links | 15 | 85 | 63 | 57% |
-| Original insights | 10 | 48 | 100 | 32% |
+| AI Summary | 20 | 128 | 25 | 84% |
+| FAQ | 20 | 123 | 30 | 80% |
+| Schema | 15 | 117 | 36 | 76% |
+| Tables | 10 | 46 | 107 | 30% |
+| Definitions | 10 | 24 | 129 | 16% |
+| Internal links | 15 | 90 | 63 | 59% |
+| Original insights | 10 | 52 | 101 | 34% |
 
 > `Original insights` has no machine-readable marker. It is scored from three observable proxies — a named author byline, a cited sources list, and word count at or above the site median. Treat it as a hint, not a verdict.
 
@@ -38,8 +38,8 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 | [/does-medicare-cover-dental-vernal](https://vernalmedicare.com/does-medicare-cover-dental-vernal.html) | 28% | · | · | ✓ | · | · | · | · | 24 |
 | [/medicare-quote-vernal](https://vernalmedicare.com/medicare-quote-vernal.html) | 30% | · | · | ✓ | · | · | · | · | 64 |
 | [/free-medicare-comparison-vernal](https://vernalmedicare.com/free-medicare-comparison-vernal.html) | 30% | · | · | ✓ | · | · | · | · | 27 |
+| [/medicare-duchesne-utah](https://vernalmedicare.com/medicare-duchesne-utah.html) | 37% | · | · | ✓ | · | · | ✓ | · | 32 |
 | [/medicare-roosevelt-utah](https://vernalmedicare.com/medicare-roosevelt-utah.html) | 40% | · | · | ✓ | · | · | ✓ | · | 47 |
-| [/medicare-duchesne-utah](https://vernalmedicare.com/medicare-duchesne-utah.html) | 40% | · | · | ✓ | · | · | ✓ | · | 32 |
 | [/faq](https://vernalmedicare.com/faq.html) | 41% | · | ✓ | ✓ | · | · | · | · | 57 |
 | [/editorial-policy](https://vernalmedicare.com/editorial-policy.html) | 46% | · | ✓ | ✓ | · | · | · | · | 35 |
 | [/medicare-drug-coverage](https://vernalmedicare.com/medicare-drug-coverage.html) | 47% | · | ✓ | ✓ | · | · | ✓ | · | 56 |
@@ -85,10 +85,10 @@ How extractable each page is for AI Overviews and assistant answers. Scored from
 | [/medicare-eligibility-calculator](https://vernalmedicare.com/medicare-eligibility-calculator.html) | 65% | ✓ | ✓ | · | · | · | · | · | 44 |
 | [/zero-premium-medicare-advantage](https://vernalmedicare.com/zero-premium-medicare-advantage.html) | 65% | ✓ | ✓ | ✓ | · | · | · | · | 26 |
 | [/medicare-plan-g-high-deductible](https://vernalmedicare.com/medicare-plan-g-high-deductible.html) | 66% | ✓ | ✓ | ✓ | · | · | · | · | 37 |
+| [/medicare-extra-help-utah](https://vernalmedicare.com/medicare-extra-help-utah.html) | 66% | ✓ | ✓ | ✓ | · | · | · | · | 33 |
 | [/ (home)](https://vernalmedicare.com/) | 67% | ✓ | ✓ | · | · | · | ✓ | · | 77 |
 | [/medicare-cost-estimator](https://vernalmedicare.com/medicare-cost-estimator.html) | 67% | ✓ | ✓ | · | · | · | · | · | 63 |
 | [/medicare-part-d-cost-calculator](https://vernalmedicare.com/medicare-part-d-cost-calculator.html) | 67% | ✓ | ✓ | · | · | · | · | · | 49 |
-| [/medicare-penalty-calculator](https://vernalmedicare.com/medicare-penalty-calculator.html) | 67% | ✓ | ✓ | · | · | · | · | ✓ | 42 |
 
 ## Fix lists
 

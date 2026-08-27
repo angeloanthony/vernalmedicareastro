@@ -51,7 +51,9 @@ describe('record precedence — the registry wins for what it owns', () => {
   it('suppresses no legacy manufacturer claim for a medication it has NOT researched', () => {
     // The fallback must survive. These are real entries in the legacy `drugs`
     // lists with no record, and they must keep answering from PROGRAMS.
-    for (const name of ['Praluent', 'Lantus', 'Revlimid', 'Spiriva', 'Xtandi', 'Rybelsus']) {
+    // Batch 5 (2026-08-26) researched Praluent and Rybelsus, so they left this
+    // list; the assertion is unchanged, only the fixtures moved on.
+    for (const name of ['Victoza', 'Lantus', 'Revlimid', 'Spiriva', 'Xtandi', 'Cosentyx']) {
       expect(isResearchedMedication(name), `${name} must stay on the legacy layer`).toBe(false);
       expect(recordForSearch(name), `${name} has no record`).toBeUndefined();
     }

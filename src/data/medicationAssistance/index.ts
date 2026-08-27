@@ -44,6 +44,11 @@ import { ENBREL } from './enbrel';
 import { SKYRIZI } from './skyrizi';
 import { RINVOQ } from './rinvoq';
 import { DUPIXENT } from './dupixent';
+import { RYBELSUS } from './rybelsus';
+import { ZEPBOUND } from './zepbound';
+import { PRALUENT } from './praluent';
+import { WEGOVY } from './wegovy';
+import { LEQVIO } from './leqvio';
 
 // ── Taxonomy (two axes; browse categories are derived, never stored) ─────────
 export {
@@ -95,6 +100,14 @@ export const MEDICATION_ASSISTANCE: MedicationAssistanceRecord[] = [
   SKYRIZI,
   RINVOQ,
   DUPIXENT,
+  // Batch 5 (2026-08-26, spec §24 Phase 4 order: Rybelsus, Wegovy, Zepbound,
+  // Praluent, Leqvio) — five NEW slugs, built LINK-DARK under D8. Zepbound is
+  // a CONTROL page in the EXP-003 cohort and its record links to no coverage page.
+  RYBELSUS,
+  WEGOVY,
+  ZEPBOUND,
+  PRALUENT,
+  LEQVIO,
 ];
 
 export const medicationAssistanceFor = (slug: string): MedicationAssistanceRecord | undefined =>

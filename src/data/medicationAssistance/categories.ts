@@ -60,6 +60,12 @@ export const ASSISTANCE_CATEGORIES: AssistanceCategory[] = [
     label: 'Weight Management / GLP-1',
     blurb:
       'GLP-1 and GIP/GLP-1 medicines. Medicare Part D covers these for diabetes, not weight loss.',
+    // `conditions` added 2026-08-26 (Batch 5): the view is named for weight
+    // management, so the `weight` condition key belongs to it on the condition
+    // axis as well — the same shape as the diabetes view, which pairs the
+    // `diabetes` condition with the `insulin` class. Without it a conditions-only
+    // Drug row for Wegovy or Zepbound fell to the fallback view.
+    conditions: ['weight'],
     drugClass: ['glp-1'],
   },
   {

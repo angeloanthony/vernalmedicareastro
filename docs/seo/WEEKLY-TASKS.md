@@ -6,7 +6,7 @@
 
 10 concrete tasks, one per page, chosen so the week covers fast wins, deep work, structure, AI readiness and maintenance rather than fifteen variations of the same edit.
 
-> Generated **2026-08-26 21:21 UTC** · 164 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
+> Generated **2026-08-27 00:08 UTC** · 169 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
 > Derived from `src/data/pageIndex.ts` · `data/search-console/*.csv` · `dist/` · `git log`. Never edited by hand.
 
 ## Fastest wins — title/meta only
@@ -27,7 +27,7 @@
 
 ## Structural — internal links
 
-- [ ] **/does-medicare-cover-trelegy** — raise inbound links from 2 — link from /prescription-drug-assistance, /part-d-plans-vernal, /tier-3-vs-tier-4-medicare-part-d
+- [ ] **/does-medicare-cover-trelegy** — raise inbound links from 2 — link from /prescription-drug-assistance, /part-d-plans-vernal, /medicare-formulary-lookup
       _154 impr · pos 13.4 · priority 72 · opportunity 89_
 - [ ] **/life** — raise inbound links from 2 — link from its silo hub
       _444 impr · pos 29.2 · priority 66 · opportunity 85_

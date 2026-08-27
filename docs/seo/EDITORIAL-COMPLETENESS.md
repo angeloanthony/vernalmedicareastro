@@ -6,10 +6,10 @@
 
 Does each page contain what a page of its kind owes a reader? Measured against the editorial standard in `scripts/seo/standards.mjs` — a per-cluster spec, not a universal feature score. A page can be highly AI-readable and still incomplete.
 
-> Generated **2026-08-26 21:21 UTC** · 164 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
+> Generated **2026-08-27 00:08 UTC** · 169 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
 > Derived from `src/data/pageIndex.ts` · `data/search-console/*.csv` · `dist/` · `git log`. Never edited by hand.
 
-**Site completeness: 75%**
+**Site completeness: 76%**
 
 ## Build these components first
 
@@ -71,7 +71,7 @@ An element missing from ≥75% of a cluster is not a content problem, it is a te
 | dual-eligible | 7 | **73%** | 11 | Definitions 0% · Internal links 14% · Next steps 71% |
 | medicare-101 | 27 | **74%** | 10 | Definitions 4% · FAQ 67% · Sources 70% |
 | local | 21 | **77%** | 9 | Sources 48% · FAQ 67% · AI Summary 76% |
-| part-d | 42 | **77%** | 11 | Definitions 40% · Schema 52% · Comparison table 69% |
+| part-d | 47 | **79%** | 11 | Schema 47% · Definitions 47% · Comparison table 72% |
 | medicare-advantage | 4 | **80%** | 10 | Sources 25% · Internal links 50% · Comparison table 50% |
 | enrollment | 18 | **81%** | 10 | Internal links 33% · Next steps 61% · Schema 72% |
 | medigap | 4 | **88%** | 10 | Internal links 50% · Comparison table 50% · Sources 75% |
@@ -90,7 +90,7 @@ A dash means the element is **not required** for that cluster.
 | dual-eligible | 86% | 0% | — | 100% | 86% | 86% | 86% | 86% | 71% | 100% | 86% | 14% |
 | medicare-101 | 78% | 4% | — | 67% | 89% | 78% | 70% | 78% | — | 96% | 100% | 78% |
 | local | 76% | — | — | 67% | 81% | 81% | 48% | 76% | — | 95% | 95% | 76% |
-| part-d | 88% | 40% | 69% | 88% | 88% | 86% | 81% | 88% | — | 90% | 52% | 79% |
+| part-d | 89% | 47% | 72% | 89% | 89% | 87% | 83% | 89% | — | 91% | 47% | 81% |
 | medicare-advantage | 100% | — | 50% | 100% | 75% | 100% | 25% | 100% | — | 100% | 100% | 50% |
 | enrollment | 89% | — | — | 94% | 94% | 89% | 78% | 94% | 61% | 100% | 72% | 33% |
 | medigap | 100% | — | 50% | 100% | 100% | 100% | 75% | 100% | — | 100% | 100% | 50% |
@@ -142,7 +142,7 @@ A dash means the element is **not required** for that cluster.
 
 ## Fully compliant pages
 
-19 of 148 pages meet their cluster standard in full.
+19 of 153 pages meet their cluster standard in full.
 
 | Page | Cluster | Impressions | Pos |
 | --- | --- | ---: | ---: |

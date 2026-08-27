@@ -293,6 +293,17 @@ export const FEATURED_DRUGS: Drug[] = [
   // reference, as the type documents).
   { slug: 'trelegy',   drug: 'Trelegy',   generic: 'fluticasone furoate/umeclidinium/vilanterol', conditionLabel: 'COPD & asthma', conditions: ['respiratory'], blogSlug: 'does-medicare-cover-trelegy' },
   { slug: 'breztri',   drug: 'Breztri',   generic: 'budesonide/glycopyrrolate/formoterol',        conditionLabel: 'COPD',          conditions: ['respiratory'], blogSlug: 'does-medicare-cover-breztri' },
+  // Prescription Assistance Batch 5 (spec §24 Phase 4 list), added 2026-08-26.
+  // Each carries a researched MedicationAssistanceRecord. `weight` is the
+  // condition key added for Wegovy/Zepbound (data/conditions.ts). Zepbound's
+  // blogSlug names the EXP-003 CONTROL page; the field has no consumer outside
+  // the type, so no link is generated from it (D8). Rybelsus, Praluent and
+  // Leqvio coverage guides are forward references, as for Breztri.
+  { slug: 'rybelsus',  drug: 'Rybelsus',  generic: 'semaglutide',   conditionLabel: 'type 2 diabetes',                   conditions: ['diabetes', 'heart'],             blogSlug: 'does-medicare-cover-rybelsus' },
+  { slug: 'wegovy',    drug: 'Wegovy',    generic: 'semaglutide',   conditionLabel: 'weight management & heart disease', conditions: ['weight', 'heart'],                blogSlug: 'does-medicare-cover-ozempic-wegovy' },
+  { slug: 'zepbound',  drug: 'Zepbound',  generic: 'tirzepatide',   conditionLabel: 'weight management & sleep apnea',   conditions: ['weight'],                         blogSlug: 'does-medicare-cover-zepbound' },
+  { slug: 'praluent',  drug: 'Praluent',  generic: 'alirocumab',    conditionLabel: 'high cholesterol',                  conditions: ['cholesterol', 'heart'],            blogSlug: 'does-medicare-cover-praluent' },
+  { slug: 'leqvio',    drug: 'Leqvio',    generic: 'inclisiran',    conditionLabel: 'high cholesterol',                  conditions: ['cholesterol'],                    blogSlug: 'does-medicare-cover-leqvio' },
 ];
 
 /** Group the programs relevant to a specific drug: the manufacturer program(s) that

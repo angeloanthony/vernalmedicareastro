@@ -1,6 +1,6 @@
 {
   "threshold": 90,
-  "updated": "2026-08-26",
+  "updated": "2026-08-27",
   "pages": {
     "/": 33,
     "/about.html": 100,
@@ -42,6 +42,7 @@
     "/indemnity.html": 70,
     "/insulin-cost-medicare-vernal.html": 9,
     "/jardiance-assistance-program.html": 91,
+    "/leqvio-assistance-program.html": 91,
     "/life.html": 70,
     "/medicare-advantage-plans-vernal.html": 100,
     "/medicare-advantage-vs-medigap-vernal.html": 80,
@@ -136,19 +137,23 @@
     "/part-d-help-vernal.html": 0,
     "/part-d-plans-vernal.html": 100,
     "/plan-g-vs-plan-n-vernal.html": 70,
+    "/praluent-assistance-program.html": 91,
     "/prescription-drug-assistance.html": 64,
     "/repatha-assistance-program.html": 91,
     "/reviews.html": 0,
     "/rinvoq-assistance-program.html": 91,
+    "/rybelsus-assistance-program.html": 91,
     "/skyrizi-assistance-program.html": 91,
     "/tier-3-vs-tier-4-medicare-part-d.html": 55,
     "/trelegy-assistance-program.html": 91,
     "/trulicity-assistance-program.html": 91,
     "/turning-65.html": 50,
     "/vernal.html": 33,
+    "/wegovy-assistance-program.html": 91,
     "/when-to-enroll-medicare-utah.html": 80,
     "/working-past-65.html": 70,
     "/xarelto-assistance-program.html": 91,
+    "/zepbound-assistance-program.html": 91,
     "/zero-premium-medicare-advantage.html": 70
   }
 }

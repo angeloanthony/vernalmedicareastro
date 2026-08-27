@@ -118,6 +118,91 @@ strength of one real test.
      experiments (EXP-001 – EXP-003) are logged below and registered in
      docs/seo/EXPERIMENTS.md. -->
 
+### 2026-08-26 — Prescription Assistance Batch 5: five NEW medication pages (Rybelsus, Wegovy, Zepbound, Praluent, Leqvio), built LINK-DARK (new content, not an experiment)
+
+- **Pages:** `/rybelsus-assistance-program.html` · `/wegovy-assistance-program.html` ·
+  `/zepbound-assistance-program.html` · `/praluent-assistance-program.html` ·
+  `/leqvio-assistance-program.html` — five NEW slugs (the first new URLs since
+  Batch 2), each an independently researched record registered through
+  `FEATURED_DRUGS` → registry → sitemap; hub directory and `PAGE_INDEX` picked
+  them up automatically. Sitewide: the hub directory grew 16 → 21 and gained a
+  "Weight management / obesity" group. Nav, coverage cohort and the existing
+  16 medication pages untouched (byte-identical HTML before/after).
+- **Driver:** `docs/PRESCRIPTION-ASSISTANCE-PROJECT.md` §24 Phase 4 order
+  (Trulicity · Rybelsus · Wegovy · Zepbound · Praluent · Leqvio · …) — Trulicity
+  shipped in Batch 3, so these are the next five. Requested directly, under D9.
+- **Metric:** topical completeness (tracked). All five new pages admitted at
+  **91%** (`npm run seo:gate` passed — 153 pages, site mean 76%, no `--accept`);
+  AI readiness 89. Tests 336 → 391, lint clean, `astro check` 0 errors /
+  0 warnings, build 168 → 173 pages, `npm run verify` passed.
+- **Hypothesis:** none pre-registered — content addition under the project spec.
+
+- **✅ Observation-window discipline (EXP-003): LINK-DARK, now machine-checked.**
+  `tests/observation-window.test.ts` (P1 cleanup) passes; on top of it, every
+  `does-medicare-cover-*.html` in `dist/` was byte-compared against a pre-batch
+  build — all 17 identical, including the CONTROL page
+  `does-medicare-cover-zepbound.html`. The Zepbound record links to no coverage
+  page (the `/medicare-drug-coverage.html` hub instead, as Trelegy does); the
+  Wegovy record's only coverage link is `/does-medicare-cover-ozempic-wegovy.html`,
+  which is not a cohort member. `drugCoverage.ts` untouched. **Caveat for the
+  September read-out:** a Zepbound assistance page now exists and may compete
+  with the control page for "zepbound" queries — the same situation Trelegy has
+  had since Batch 2. D8 governs links, not query overlap; noting it so it is
+  not mistaken for a treatment effect.
+
+- **Taxonomy (D9 — vocabulary, not architecture):** `weight` added to
+  `CONDITIONS`, the one gap the taxonomy audit pre-registered for exactly this
+  batch (§2 step 5). Demonstration: Wegovy and Zepbound carry no diabetes
+  indication; obesity is not `heart`, and Zepbound's sleep-apnea indication is
+  not `respiratory` (asthma/COPD/lung) — using either would mis-match charitable
+  funds. No foundation in PROGRAMS matches `weight`, which is correct: no
+  obesity fund was open anywhere on 2026-08-26. The existing "Weight Management /
+  GLP-1" view gained `conditions: ['weight']` so a conditions-only
+  `FEATURED_DRUGS` row does not fall to the fallback (same shape as the diabetes
+  view + `insulin`). The `pcsk9` class blurb was widened for Leqvio, an siRNA
+  "directed to PCSK9 mRNA", instead of adding a one-drug key. No new axis, no
+  category hub, no record-level category field.
+
+- **Research findings worth carrying forward** (each checked, not inherited):
+  - **Rybelsus is being replaced in the U.S. by the "Ozempic pill"** (May 4,
+    2026, one combined label). It is off the 2026 Novo PAP list, has no self-pay
+    price, and its savings-offer URLs 301 to the Ozempic offer. Honest-negative page.
+  - **Wegovy pen AND tablet, and the Zepbound KwikPen, are Medicare GLP-1 Bridge
+    drugs** ($50/month, 2026-07-01 → 2027-12-31, Part D enrollees, weight
+    management only; T2D/OSA/MASH/CV-risk uses go to Part D). No plan opt-in, no
+    patient enrollment, Extra Help cannot lower the $50.
+  - **The semaglutide MFP is a blended $274** for the "Ozempic; Rybelsus; Wegovy"
+    entry; CMS's Wegovy-specific example is **$385.63 per 4-pen package**.
+  - **Regeneron, not Sanofi, runs Praluent's program**; Sanofi Patient
+    Connection's 22-item list omits it (confirms the P1 tagline fix). The
+    MyPRALUENT PAP's only published form is a RE-ENROLLMENT form; Praluent
+    sells for **$225 on TrumpRx** (from $537.21) with Medicare buy-outside-plan terms.
+  - **Leqvio is a Part B drug** (Novartis: "covered under traditional Medicare,
+    also called Part B") — Extra Help and the Part D cap do not apply; Medigap /
+    MSP / QMB do. It IS on the NPAF list.
+  - TotalAssist Hypercholesterolemia fund OPEN ($1,900/$3,800) and lists Praluent
+    and Leqvio; TotalAssist Obesity fund CLOSED; MASH funds OPEN at TotalAssist and
+    HealthWell (list Wegovy); HealthWell has no obesity fund; Good Days nothing.
+
+- **Uncertain claims left for human review:** MyPRALUENT copay-card dollar terms
+  (praluent.com is login-gated; recorded as `verify`, no figure); LEQVIO Co-pay
+  terms page (start.leqvio.com refused every connection); NPAF income table (JS
+  wizard, not reproduced); whether TotalAssist grants reimburse a Bridge $50
+  copay or Part B coinsurance (not addressed on totalassist.org); Novo's own
+  pages disagree on whether Medicare enrollees may use the Ozempic-pill self-pay
+  price; two agents read the CMS 12234 PDF URL differently (consumer booklet vs
+  PA form) — re-check before citing it as a booklet.
+
+- **Legacy PROGRAMS:** no cleanup performed (as instructed). Precedence now
+  suppresses Rybelsus, Zepbound, Praluent and Leqvio wherever a legacy entry
+  names them; `tests/record-precedence.test.ts` fixtures moved from
+  Praluent/Rybelsus to Victoza/Cosentyx (assertion unchanged). Two PROSE
+  contradictions precedence cannot filter were noticed and left for the
+  deferred data-hygiene task: the `novartis` tagline still names Entresto (not
+  on NPAF since Batch 2) and the `lillycares` tagline still names Mounjaro (not
+  on Lilly Cares since Batch 1).
+
+- **Outcome (after recrawl):** not applicable — no experimental manipulation.
 ### 2026-08-26 — Prescription Assistance Batch 4: Dupixent, the final legacy migration, LINK-DARK (new content, not an experiment)
 
 - **Pages:** `/dupixent-assistance-program.html` — same URL, legacy generic page

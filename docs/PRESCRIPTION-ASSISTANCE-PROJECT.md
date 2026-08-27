@@ -1,6 +1,6 @@
 # Vernal Medicare — 75-Drug Prescription Assistance Project
 
-**Status:** Batch 4 shipped — **the legacy migration is complete: all 16 pages in the current `FEATURED_DRUGS` inventory are now structured records.** This is NOT the 75-medication expansion, which has not started. Navigation settled. Taxonomy: two axes + Autoimmune view (D7) + `jak-inhibitor` class, verified against Dupixent's autoimmune+respiratory pair with no third axis introduced. Batches 3 and 4 were built **link-dark** — no links added into the frozen `does-medicare-cover-*` cohort while EXP-003's observation window is open.
+**Status:** Batch 5 shipped (2026-08-26) — **21 medication pages, all structured; the 75-medication expansion has begun** with five new slugs (Rybelsus, Wegovy, Zepbound, Praluent, Leqvio) from the §24 Phase 4 order. `weight` added to `CONDITIONS` (pre-registered by the taxonomy audit). Navigation settled. Taxonomy: two axes + Autoimmune view (D7) + `jak-inhibitor` class, verified against Dupixent's autoimmune+respiratory pair with no third axis introduced. Batches 3 and 4 were built **link-dark** — no links added into the frozen `does-medicare-cover-*` cohort while EXP-003's observation window is open.
 **Created:** 2026-08-26
 **Last updated:** 2026-08-26 (latest) — Batch 4 shipped link-dark (Dupixent; legacy migration complete, architecture confirmed frozen under D9); earlier the same day — Batch 3 shipped link-dark (Trulicity, Humira, Enbrel, Skyrizi, Rinvoq) plus the two Batch 2 review fixes (Entresto fund naming; the shared FPL source-year note); earlier the same day — Batch 2 shipped (§32 inventory, §31 D7); earlier the same day, Batch 1 review: navigation rule + measurement (§14), current page inventory (§32), decisions log (§31), taxonomy audit split out to `PRESCRIPTION-ASSISTANCE-TAXONOMY-AUDIT.md`
 **Owner:** Vernal Medicare
@@ -936,9 +936,9 @@ The implementation phase does **not** start from the 30-drug priority sample. It
 
 ---
 
-## 32. Current Page Inventory — 16 Medication Pages (16 structured, 0 legacy)
+## 32. Current Page Inventory — 21 Medication Pages (21 structured, 0 legacy)
 
-### Project state (Batch 4 checkpoint, 2026-08-26 — PASS)
+### Project state (Batch 5 checkpoint, 2026-08-26 — PASS)
 
 | Batch | Medications | Status |
 | --- | --- | --- |
@@ -946,9 +946,10 @@ The implementation phase does **not** start from the 30-drug priority sample. It
 | Batch 2 | 5 — Entresto, Xarelto, Repatha, Trelegy, Breztri | Complete |
 | Batch 3 | 5 — Trulicity, Humira, Enbrel, Skyrizi, Rinvoq | Complete (link-dark) |
 | Batch 4 | 1 — Dupixent | Complete (link-dark) |
-| **Total structured** | **16** | **Complete** |
+| Batch 5 | 5 — Rybelsus, Wegovy, Zepbound, Praluent, Leqvio | Complete (link-dark, NEW slugs) |
+| **Total structured** | **21** | **Complete** |
 | Legacy remaining | 0 | — |
-| 75-medication expansion | — | **Not started** |
+| 75-medication expansion | 21 of 46 confirmed medications have pages | **Started (Batch 5)** — Phase 4 list continues: Nexletol, Symbicort, Spiriva, Ofev |
 
 **What "complete" means here, precisely.** These 16 records complete the
 *current page inventory* — the 16 `FEATURED_DRUGS` rows that generate live
@@ -1011,6 +1012,73 @@ scope (which was Dupixent's record) and outside D9 (it is a data error, not an
 architectural one). **Fix it as its own change, with its own log entry**, and
 re-check Praluent at the same time — it is not on the Sanofi list either.
 
+### Batch 5 result — five NEW slugs, the first scale test of the frozen architecture (2026-08-26, PASS)
+
+Selected strictly from the §24 Phase 4 order (Trulicity · **Rybelsus · Wegovy ·
+Zepbound · Praluent · Leqvio** · Nexletol · Symbicort · Spiriva · Ofev) — Trulicity
+shipped in Batch 3, so these were the next five. Every one is a new
+`FEATURED_DRUGS` row, a new `/<slug>-assistance-program.html` URL, a sitemap
+entry and a researched record; the hub directory and `PAGE_INDEX` needed no
+edit. No redirects, no existing URL changed, no existing page redesigned (all 16
+prior assistance pages and all 17 coverage pages byte-identical before/after).
+
+**Taxonomy verification, measured not asserted:**
+
+| Medication | `conditions` | `drugClass` | Derived views | Note |
+| --- | --- | --- | --- | --- |
+| Rybelsus | `diabetes`, `heart` | `glp-1` | diabetes · glp-1 · heart | label carries a MACE indication |
+| Wegovy | `weight`, `heart` | `glp-1` | glp-1 · heart | MASH indication has no key — deliberately none added |
+| Zepbound | `weight` | `glp-1` | glp-1 | OSA indication is not `respiratory` |
+| Praluent | `cholesterol`, `heart` | `pcsk9` | cholesterol · heart | |
+| Leqvio | `cholesterol` | `pcsk9` | cholesterol | siRNA "directed to PCSK9 mRNA"; class blurb widened |
+
+**One vocabulary key added — `weight` — and why the existing vocabulary could
+not represent Wegovy and Zepbound:** neither carries a diabetes indication;
+obesity/overweight is not cardiovascular disease (`heart`), and obstructive
+sleep apnea in adults with obesity is not asthma, COPD or lung disease
+(`respiratory`). Either substitute would have matched the wrong charitable
+funds through `programsForDrug()`. The taxonomy audit pre-registered this
+exact addition (§2 step 5: "Extend `CONDITIONS` with `weight` only when
+Wegovy/Zepbound are built"). No foundation entry matches `weight`, which is
+correct — no obesity fund was open at TotalAssist, HealthWell or Good Days on
+2026-08-26. The existing "Weight Management / GLP-1" view gained
+`conditions: ['weight']` (the same shape as the diabetes view pairing
+`diabetes` with `insulin`) so a conditions-only `Drug` row does not fall to the
+fallback view. **No third axis, no category hub, no record-level category
+field. Architecture remains frozen under D9.**
+
+**Findings that were checked rather than inherited:**
+
+1. **Rybelsus is being replaced in the U.S. by "Ozempic" tablets** (from May 4,
+   2026; one combined label). It is not on Novo's 2026 PAP list, has no
+   self-pay price, and its savings-offer URLs redirect to the Ozempic offer.
+2. **The Medicare GLP-1 Bridge is live and covers Wegovy (pen and tablet) and
+   the Zepbound KwikPen at $50/month** through 2027-12-31 for Part D enrollees
+   prescribed them for weight management; Extra Help cannot lower the $50, and
+   type 2 diabetes / OSA / MASH / CV-risk uses go to the Part D plan instead.
+3. **The negotiated semaglutide price is one blended $274 figure** for
+   "Ozempic; Rybelsus; Wegovy"; CMS's Wegovy example is $385.63 per 4-pen
+   package. Never write "Wegovy's negotiated price is $274."
+4. **Regeneron runs Praluent's program** (Sanofi Patient Connection's own list
+   omits it — confirming the P1 tagline fix); the only published MyPRALUENT PAP
+   form is a re-enrollment form; Praluent is $225/month on TrumpRx.
+5. **Leqvio is a Part B drug.** Extra Help and the Part D cap do not apply;
+   Medigap, Medicare Savings Programs and Medicaid do. The record therefore
+   leads with coverage itself and links the Medigap and MSP pages.
+
+**Gaps carried as `verify` / omitted rather than guessed:** MyPRALUENT copay
+card dollar terms (login-gated), LEQVIO Co-pay terms (site unreachable), NPAF
+income table (JavaScript wizard), whether TotalAssist grants reimburse a Bridge
+copay or Part B coinsurance. The Leqvio research agent was cut off by a session
+limit; its sources were read directly on the same day.
+
+**Legacy layer:** untouched, per the batch brief. Two prose contradictions that
+precedence cannot filter were noted for the deferred data-hygiene task — the
+`novartis` tagline still names Entresto and the `lillycares` tagline still
+names Mounjaro, both disproved in earlier batches.
+
+**Next in §24 order:** Nexletol, Symbicort, Spiriva, Ofev (Ofev triggers open
+question §31 #6, the `lung-disease` key). Not started.
 ### Phase 1 completion gate — inventory reconciliation (run after Dupixent, before Batch 4)
 
 Do not start another batch until every medication in the inventory reconciles
@@ -1043,7 +1111,7 @@ renders the record-driven page when a `MedicationAssistanceRecord` exists for th
 slug, and the older condition-matched page when it does not. One medication, one
 URL, either way.
 
-### Structured (16) — researched records with dated sources
+### Structured (21) — researched records with dated sources
 
 | Brand | URL | Record |
 | --- | --- | --- |
@@ -1063,6 +1131,11 @@ URL, either way.
 | Skyrizi | `/skyrizi-assistance-program.html` | `skyrizi.ts` (Batch 3, migrated) |
 | Rinvoq | `/rinvoq-assistance-program.html` | `rinvoq.ts` (Batch 3, migrated) |
 | Dupixent | `/dupixent-assistance-program.html` | `dupixent.ts` (Batch 4, migrated) |
+| Rybelsus | `/rybelsus-assistance-program.html` | `rybelsus.ts` (Batch 5, new) |
+| Wegovy | `/wegovy-assistance-program.html` | `wegovy.ts` (Batch 5, new) |
+| Zepbound | `/zepbound-assistance-program.html` | `zepbound.ts` (Batch 5, new — EXP-003 control drug, record links to no coverage page) |
+| Praluent | `/praluent-assistance-program.html` | `praluent.ts` (Batch 5, new) |
+| Leqvio | `/leqvio-assistance-program.html` | `leqvio.ts` (Batch 5, new — Part B drug) |
 
 Batch 3 (2026-08-26) migrated the five highest-demand legacy pages in place. No
 new URLs: all five slugs were already in `FEATURED_DRUGS`, so the pages the

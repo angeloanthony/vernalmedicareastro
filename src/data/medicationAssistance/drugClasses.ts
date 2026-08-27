@@ -52,9 +52,13 @@ export const DRUG_CLASSES: DrugClass[] = [
       'Injected or infused proteins (often monoclonal antibodies) that target one part of the immune system.',
   },
   {
+    // Blurb widened 2026-08-26 (Batch 5, Leqvio): the key covers PCSK9-directed
+    // LDL-lowering injectables — the monoclonal antibodies (Repatha, Praluent)
+    // and the siRNA inclisiran (Leqvio), which the label calls "a small
+    // interfering RNA (siRNA) directed to PCSK9 mRNA", not an antibody.
     key: 'pcsk9',
     label: 'PCSK9 inhibitor',
-    blurb: 'Injected medicines that lower LDL cholesterol when statins are not enough.',
+    blurb: 'Injected medicines that lower LDL cholesterol by targeting PCSK9 — antibodies given every two to four weeks, or the twice-yearly siRNA inclisiran — when statins are not enough.',
   },
   {
     // Added 2026-08-26 for Batch 2 (Entresto); confirmed against the label —

@@ -25,6 +25,14 @@ export const CONDITIONS: Condition[] = [
   { key: 'kidney', label: 'Kidney disease' },
   { key: 'hiv', label: 'HIV' },
   { key: 'bone', label: 'Bone / osteoporosis' },
+  // Added 2026-08-26 (Batch 5, Wegovy and Zepbound). The taxonomy audit named
+  // this the one clear gap in the confirmed list and deferred it until those two
+  // medications were built (docs/PRESCRIPTION-ASSISTANCE-TAXONOMY-AUDIT.md §2
+  // step 5). Neither drug carries a diabetes indication, and obesity is not a
+  // respiratory, heart or metabolic-disease key — see project §32 Batch 5 for
+  // the demonstration. No nonprofit fund in PROGRAMS matches this key, which is
+  // correct: on 2026-08-26 none of the three foundations ran an obesity fund.
+  { key: 'weight', label: 'Weight management / obesity' },
 ];
 
 /** Condition key values, e.g. 'diabetes' | 'heart' — derived from CONDITIONS. */
@@ -73,6 +81,10 @@ export const CONDITION_STYLE: Partial<Record<ConditionKey, { color: string; tint
   hiv: {
     color: '#0891b2', tint: '#d7f0f5',
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.4 9.3a2.6 2.6 0 0 1 4.7 1.4c0 1.7-2.1 2.1-2.1 3.6"/><circle cx="12" cy="17.1" r="0.6" fill="currentColor" stroke="none"/></svg>',
+  },
+  weight: {
+    color: '#0f766e', tint: '#d9f0ec',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12l1.5 4H4.5z"/><path d="M4.5 8h15v10a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2z"/><path d="M9 13h6"/><path d="M12 11v4"/></svg>',
   },
   bone: {
     color: '#64748b', tint: '#eef1f5',

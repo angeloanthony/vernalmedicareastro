@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-26T21:21:20.468Z",
+  "generatedAt": "2026-08-27T00:08:07.714Z",
   "site": "https://vernalmedicare.com",
   "sources": {
     "registry": {
       "file": "src/data/pageIndex.ts",
-      "entries": 148,
+      "entries": 153,
       "duplicates": []
     },
     "searchConsole": [
@@ -24,8 +24,8 @@
     ],
     "rendered": {
       "dir": "dist",
-      "pages": 169,
-      "scored": 164,
+      "pages": 174,
+      "scored": 169,
       "stale": false,
       "notContent": [
         {
@@ -50,7 +50,7 @@
   "stats": {
     "p95Impressions": 180,
     "medianInbound": 7,
-    "medianWords": 567,
+    "medianWords": 576,
     "maxClicks": 23,
     "hasPerformanceData": true
   },
@@ -92,15 +92,27 @@
     ],
     "navLinks": [
       "/medicare-search.html",
+      "/es.html",
       "/",
+      "/medicare-decision-center.html",
+      "/turning-65.html",
+      "/working-past-65.html",
       "/medicare-financial-assistance.html",
       "/medicare-plans-vernal-utah.html",
+      "/medicare-advantage-plans-vernal.html",
+      "/medigap.html",
+      "/part-d-plans-vernal.html",
+      "/medicare-supplement-vs-advantage.html",
       "/aca.html",
       "/indemnity.html",
       "/life.html",
       "/medicare-coverage.html",
       "/medicare-drug-coverage.html",
+      "/medicare-costs.html",
+      "/medicare-irmaa.html",
       "/prescription-drug-assistance.html",
+      "/medicare-extra-help-utah.html",
+      "/medicare-help-center.html",
       "/medicare-calculators.html",
       "/medicare-glossary.html",
       "/medicare-news.html",
@@ -109,7 +121,9 @@
       "/medicare-roosevelt-utah.html",
       "/medicare-duchesne-utah.html",
       "/medicare-cost-uintah-county.html",
+      "/medicare-quote-vernal.html",
       "/reviews.html",
+      "/about.html",
       "/privacy.html",
       "/terms.html",
       "/medicare-help-vernal.html",
@@ -159,7 +173,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 33,
+      "inboundCount": 34,
       "outboundCount": 12,
       "linksOut": [
         "/medicare-plans-vernal-utah.html",
@@ -175,7 +189,7 @@
         "/when-to-enroll-medicare-utah.html",
         "/medicare-advantage-vs-medigap-vernal.html"
       ],
-      "navLinked": false,
+      "navLinked": true,
       "depth": 1,
       "lastModified": "2026-07-01T20:29:52-06:00",
       "ageDays": 56,
@@ -955,7 +969,7 @@
       "linkSuggestions": [
         "/prescription-drug-assistance.html",
         "/part-d-plans-vernal.html",
-        "/tier-3-vs-tier-4-medicare-part-d.html"
+        "/medicare-formulary-lookup.html"
       ],
       "nextAction": "rewrite `<title>` + meta description — it ranks at 13.4 but earns 0.6% vs ~1.6% expected"
     },
@@ -1417,7 +1431,7 @@
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
+      "lastModified": "2026-08-26T16:13:37-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -1691,7 +1705,7 @@
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
+      "lastModified": "2026-08-26T16:13:37-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -2465,7 +2479,7 @@
       "hasFaq": false,
       "hasByline": false,
       "hasSources": false,
-      "inboundCount": 45,
+      "inboundCount": 50,
       "outboundCount": 4,
       "linksOut": [
         "/free-medicare-comparison-vernal.html",
@@ -2473,7 +2487,7 @@
         "/",
         "/vernal.html"
       ],
-      "navLinked": false,
+      "navLinked": true,
       "depth": 2,
       "lastModified": "2026-07-01T21:35:26-06:00",
       "ageDays": 56,
@@ -2687,145 +2701,6 @@
       "nextAction": "expand to depth — currently 542 words"
     },
     {
-      "url": "/mounjaro-assistance-program.html",
-      "title": "Mounjaro Assistance & Grants: How to Apply in Utah | Vernal Medicare",
-      "locale": "en",
-      "silo": "part-d",
-      "tags": [
-        "drug-assistance",
-        "part-d",
-        "prescription-assistance",
-        "diabetes",
-        "glp-1"
-      ],
-      "pillar": false,
-      "registered": true,
-      "clicks": 0,
-      "impressions": 63,
-      "ctr": 0,
-      "position": 10.034444444444444,
-      "expectedCtr": 0.016,
-      "ctrGap": 1,
-      "words": 5175,
-      "tables": 1,
-      "definitions": 1,
-      "h2": 17,
-      "schemaTypes": [
-        "MedicalWebPage",
-        "CreativeWork",
-        "Organization",
-        "BreadcrumbList",
-        "ListItem",
-        "FAQPage",
-        "Question",
-        "Answer",
-        "Person",
-        "ImageObject"
-      ],
-      "hasSummary": true,
-      "hasFaq": true,
-      "hasByline": true,
-      "hasSources": true,
-      "inboundCount": 5,
-      "outboundCount": 14,
-      "linksOut": [
-        "/medicare-formulary-lookup.html",
-        "/medicare-drug-cost-calculator.html",
-        "/part-d-plans-vernal.html",
-        "/trulicity-assistance-program.html",
-        "/medicare-extra-help-utah.html",
-        "/medicare-extra-help-calculator.html",
-        "/medicare-savings-programs-utah.html",
-        "/medicare-financial-assistance.html",
-        "/ozempic-assistance-program.html",
-        "/jardiance-assistance-program.html",
-        "/farxiga-assistance-program.html",
-        "/prescription-drug-assistance.html",
-        "/does-medicare-cover-mounjaro-utah.html",
-        "/medicare-quote-vernal.html"
-      ],
-      "navLinked": false,
-      "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
-      "ageDays": 0,
-      "sourceFiles": [
-        "src/pages/[drug]-assistance-program.astro",
-        "src/data/medicationAssistance/index.ts",
-        "src/data/drugs.ts",
-        "src/data/business.ts",
-        "src/data/conditions.ts"
-      ],
-      "priority": 63,
-      "opportunity": 85,
-      "aiReadiness": 89,
-      "completeness": 91,
-      "missingElements": [
-        "schema"
-      ],
-      "aiFeatures": {
-        "summary": {
-          "got": true,
-          "score": 1
-        },
-        "faq": {
-          "got": true,
-          "score": 1
-        },
-        "schema": {
-          "got": false,
-          "score": 0.6
-        },
-        "tables": {
-          "got": true,
-          "score": 0.5
-        },
-        "definitions": {
-          "got": true,
-          "score": 1
-        },
-        "internalLinks": {
-          "got": true,
-          "score": 1
-        },
-        "insights": {
-          "got": true,
-          "score": 1
-        }
-      },
-      "factors": {
-        "impressions": 0.6287890826452056,
-        "position": 0.85,
-        "business": 0.8,
-        "pillar": 0,
-        "linkWeakness": 0.2857142857142857,
-        "freshness": 0,
-        "ctrOpportunity": 1
-      },
-      "tier": 2,
-      "flags": {
-        "orphan": false,
-        "weakLinks": false,
-        "lowOutbound": false,
-        "needsSummary": false,
-        "needsFaq": false,
-        "thin": false,
-        "stale": false,
-        "criticallyStale": false,
-        "aiGap": false,
-        "ctrProblem": true,
-        "strikingDistance": true,
-        "unregistered": false,
-        "duplicateTitle": false,
-        "noData": false
-      },
-      "reasons": [
-        "CTR 0.0% vs ~1.6% expected at position 10.0 — title/meta rewrite",
-        "63 impressions at position 10.0"
-      ],
-      "linkSuggestions": [],
-      "nextAction": "rewrite `<title>` + meta description — it ranks at 10.0 but earns 0.0% vs ~1.6% expected"
-    },
-    {
       "url": "/medicare-plans-vernal-utah.html",
       "title": "Medicare Plans in Vernal, Utah 2026 — Complete Guide | Vernal Medicare",
       "locale": "en",
@@ -3035,7 +2910,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 23,
+      "inboundCount": 28,
       "outboundCount": 5,
       "linksOut": [
         "/part-d-plans-vernal.html",
@@ -3123,145 +2998,6 @@
       ],
       "linkSuggestions": [],
       "nextAction": "expand to depth — currently 563 words"
-    },
-    {
-      "url": "/trulicity-assistance-program.html",
-      "title": "Trulicity Assistance & Grants: How to Apply in Utah | Vernal Medicare",
-      "locale": "en",
-      "silo": "part-d",
-      "tags": [
-        "drug-assistance",
-        "part-d",
-        "prescription-assistance",
-        "diabetes",
-        "heart",
-        "glp-1"
-      ],
-      "pillar": false,
-      "registered": true,
-      "clicks": 1,
-      "impressions": 83,
-      "ctr": 0.012048192771084338,
-      "position": 10.505180722891566,
-      "expectedCtr": 0.016,
-      "ctrGap": 0.2469879518072289,
-      "words": 6141,
-      "tables": 1,
-      "definitions": 1,
-      "h2": 17,
-      "schemaTypes": [
-        "MedicalWebPage",
-        "CreativeWork",
-        "Organization",
-        "BreadcrumbList",
-        "ListItem",
-        "FAQPage",
-        "Question",
-        "Answer",
-        "Person",
-        "ImageObject"
-      ],
-      "hasSummary": true,
-      "hasFaq": true,
-      "hasByline": true,
-      "hasSources": true,
-      "inboundCount": 4,
-      "outboundCount": 14,
-      "linksOut": [
-        "/medicare-formulary-lookup.html",
-        "/medicare-drug-cost-calculator.html",
-        "/part-d-plans-vernal.html",
-        "/medicare-extra-help-utah.html",
-        "/medicare-extra-help-calculator.html",
-        "/medicare-savings-programs-utah.html",
-        "/medicare-financial-assistance.html",
-        "/ozempic-assistance-program.html",
-        "/mounjaro-assistance-program.html",
-        "/jardiance-assistance-program.html",
-        "/farxiga-assistance-program.html",
-        "/prescription-drug-assistance.html",
-        "/medicare-drug-coverage.html",
-        "/medicare-quote-vernal.html"
-      ],
-      "navLinked": false,
-      "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
-      "ageDays": 0,
-      "sourceFiles": [
-        "src/pages/[drug]-assistance-program.astro",
-        "src/data/medicationAssistance/index.ts",
-        "src/data/drugs.ts",
-        "src/data/business.ts",
-        "src/data/conditions.ts"
-      ],
-      "priority": 62,
-      "opportunity": 74,
-      "aiReadiness": 89,
-      "completeness": 91,
-      "missingElements": [
-        "schema"
-      ],
-      "aiFeatures": {
-        "summary": {
-          "got": true,
-          "score": 1
-        },
-        "faq": {
-          "got": true,
-          "score": 1
-        },
-        "schema": {
-          "got": false,
-          "score": 0.6
-        },
-        "tables": {
-          "got": true,
-          "score": 0.5
-        },
-        "definitions": {
-          "got": true,
-          "score": 1
-        },
-        "internalLinks": {
-          "got": true,
-          "score": 1
-        },
-        "insights": {
-          "got": true,
-          "score": 1
-        }
-      },
-      "factors": {
-        "impressions": 0.7258873989843516,
-        "position": 0.85,
-        "business": 0.8,
-        "pillar": 0,
-        "linkWeakness": 0.42857142857142855,
-        "freshness": 0,
-        "ctrOpportunity": 0.2469879518072289
-      },
-      "tier": 2,
-      "flags": {
-        "orphan": false,
-        "weakLinks": false,
-        "lowOutbound": false,
-        "needsSummary": false,
-        "needsFaq": false,
-        "thin": false,
-        "stale": false,
-        "criticallyStale": false,
-        "aiGap": false,
-        "ctrProblem": false,
-        "strikingDistance": true,
-        "unregistered": false,
-        "duplicateTitle": false,
-        "noData": false
-      },
-      "reasons": [
-        "83 impressions at position 10.5"
-      ],
-      "linkSuggestions": [],
-      "nextAction": "deepen the page and add internal links — it is one push from page 1"
     },
     {
       "url": "/medicare-medicaid-utah.html",
@@ -3430,7 +3166,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 7,
+      "inboundCount": 9,
       "outboundCount": 14,
       "linksOut": [
         "/medicare-formulary-lookup.html",
@@ -3450,7 +3186,7 @@
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
+      "lastModified": "2026-08-26T16:13:37-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -3528,6 +3264,284 @@
       ],
       "linkSuggestions": [],
       "nextAction": "rewrite `<title>` + meta description — it ranks at 10.8 but earns 0.0% vs ~1.6% expected"
+    },
+    {
+      "url": "/mounjaro-assistance-program.html",
+      "title": "Mounjaro Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "prescription-assistance",
+        "diabetes",
+        "glp-1"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 0,
+      "impressions": 63,
+      "ctr": 0,
+      "position": 10.034444444444444,
+      "expectedCtr": 0.016,
+      "ctrGap": 1,
+      "words": 5175,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 17,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": true,
+      "inboundCount": 8,
+      "outboundCount": 14,
+      "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/trulicity-assistance-program.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/ozempic-assistance-program.html",
+        "/jardiance-assistance-program.html",
+        "/farxiga-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/does-medicare-cover-mounjaro-utah.html",
+        "/medicare-quote-vernal.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T16:13:37-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 61,
+      "opportunity": 85,
+      "aiReadiness": 89,
+      "completeness": 91,
+      "missingElements": [
+        "schema"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": true,
+          "score": 0.5
+        },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
+        "insights": {
+          "got": true,
+          "score": 1
+        }
+      },
+      "factors": {
+        "impressions": 0.6287890826452056,
+        "position": 0.85,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0,
+        "freshness": 0,
+        "ctrOpportunity": 1
+      },
+      "tier": 2,
+      "flags": {
+        "orphan": false,
+        "weakLinks": false,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": false,
+        "ctrProblem": true,
+        "strikingDistance": true,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": false
+      },
+      "reasons": [
+        "CTR 0.0% vs ~1.6% expected at position 10.0 — title/meta rewrite",
+        "63 impressions at position 10.0"
+      ],
+      "linkSuggestions": [],
+      "nextAction": "rewrite `<title>` + meta description — it ranks at 10.0 but earns 0.0% vs ~1.6% expected"
+    },
+    {
+      "url": "/trulicity-assistance-program.html",
+      "title": "Trulicity Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "prescription-assistance",
+        "diabetes",
+        "heart",
+        "glp-1"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 1,
+      "impressions": 83,
+      "ctr": 0.012048192771084338,
+      "position": 10.505180722891566,
+      "expectedCtr": 0.016,
+      "ctrGap": 0.2469879518072289,
+      "words": 6141,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 17,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": true,
+      "inboundCount": 6,
+      "outboundCount": 14,
+      "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/ozempic-assistance-program.html",
+        "/mounjaro-assistance-program.html",
+        "/jardiance-assistance-program.html",
+        "/farxiga-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/medicare-drug-coverage.html",
+        "/medicare-quote-vernal.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T16:13:37-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 61,
+      "opportunity": 74,
+      "aiReadiness": 89,
+      "completeness": 91,
+      "missingElements": [
+        "schema"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": true,
+          "score": 0.5
+        },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
+        "insights": {
+          "got": true,
+          "score": 1
+        }
+      },
+      "factors": {
+        "impressions": 0.7258873989843516,
+        "position": 0.85,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0.14285714285714285,
+        "freshness": 0,
+        "ctrOpportunity": 0.2469879518072289
+      },
+      "tier": 2,
+      "flags": {
+        "orphan": false,
+        "weakLinks": false,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": false,
+        "ctrProblem": false,
+        "strikingDistance": true,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": false
+      },
+      "reasons": [
+        "83 impressions at position 10.5"
+      ],
+      "linkSuggestions": [],
+      "nextAction": "deepen the page and add internal links — it is one push from page 1"
     },
     {
       "url": "/aca.html",
@@ -3697,7 +3711,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 39,
+      "inboundCount": 44,
       "outboundCount": 4,
       "linksOut": [
         "/medicare-extra-help-utah.html",
@@ -3835,7 +3849,7 @@
         "/medicare-costs.html",
         "/medicare-quote-vernal.html"
       ],
-      "navLinked": false,
+      "navLinked": true,
       "depth": 2,
       "lastModified": "2026-07-01T21:47:00-06:00",
       "ageDays": 56,
@@ -3916,144 +3930,6 @@
       ],
       "linkSuggestions": [],
       "nextAction": "add a `<SummaryBlock>` TL;DR under the H1"
-    },
-    {
-      "url": "/repatha-assistance-program.html",
-      "title": "Repatha Assistance & Grants: How to Apply in Utah | Vernal Medicare",
-      "locale": "en",
-      "silo": "part-d",
-      "tags": [
-        "drug-assistance",
-        "part-d",
-        "prescription-assistance",
-        "cholesterol",
-        "heart",
-        "pcsk9"
-      ],
-      "pillar": false,
-      "registered": true,
-      "clicks": 1,
-      "impressions": 83,
-      "ctr": 0.012048192771084338,
-      "position": 15.48024096385542,
-      "expectedCtr": 0.011,
-      "ctrGap": 0,
-      "words": 5905,
-      "tables": 1,
-      "definitions": 1,
-      "h2": 16,
-      "schemaTypes": [
-        "MedicalWebPage",
-        "CreativeWork",
-        "Organization",
-        "BreadcrumbList",
-        "ListItem",
-        "FAQPage",
-        "Question",
-        "Answer",
-        "Person",
-        "ImageObject"
-      ],
-      "hasSummary": true,
-      "hasFaq": true,
-      "hasByline": true,
-      "hasSources": true,
-      "inboundCount": 5,
-      "outboundCount": 13,
-      "linksOut": [
-        "/medicare-formulary-lookup.html",
-        "/medicare-drug-cost-calculator.html",
-        "/part-d-plans-vernal.html",
-        "/medicare-extra-help-utah.html",
-        "/medicare-extra-help-calculator.html",
-        "/medicare-savings-programs-utah.html",
-        "/medicare-financial-assistance.html",
-        "/entresto-assistance-program.html",
-        "/eliquis-assistance-program.html",
-        "/xarelto-assistance-program.html",
-        "/prescription-drug-assistance.html",
-        "/does-medicare-cover-repatha.html",
-        "/medicare-quote-vernal.html"
-      ],
-      "navLinked": false,
-      "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
-      "ageDays": 0,
-      "sourceFiles": [
-        "src/pages/[drug]-assistance-program.astro",
-        "src/data/medicationAssistance/index.ts",
-        "src/data/drugs.ts",
-        "src/data/business.ts",
-        "src/data/conditions.ts"
-      ],
-      "priority": 60,
-      "opportunity": 63,
-      "aiReadiness": 89,
-      "completeness": 91,
-      "missingElements": [
-        "schema"
-      ],
-      "aiFeatures": {
-        "summary": {
-          "got": true,
-          "score": 1
-        },
-        "faq": {
-          "got": true,
-          "score": 1
-        },
-        "schema": {
-          "got": false,
-          "score": 0.6
-        },
-        "tables": {
-          "got": true,
-          "score": 0.5
-        },
-        "definitions": {
-          "got": true,
-          "score": 1
-        },
-        "internalLinks": {
-          "got": true,
-          "score": 1
-        },
-        "insights": {
-          "got": true,
-          "score": 1
-        }
-      },
-      "factors": {
-        "impressions": 0.7258873989843516,
-        "position": 0.85,
-        "business": 0.8,
-        "pillar": 0,
-        "linkWeakness": 0.2857142857142857,
-        "freshness": 0,
-        "ctrOpportunity": 0
-      },
-      "tier": 2,
-      "flags": {
-        "orphan": false,
-        "weakLinks": false,
-        "lowOutbound": false,
-        "needsSummary": false,
-        "needsFaq": false,
-        "thin": false,
-        "stale": false,
-        "criticallyStale": false,
-        "aiGap": false,
-        "ctrProblem": false,
-        "strikingDistance": true,
-        "unregistered": false,
-        "duplicateTitle": false,
-        "noData": false
-      },
-      "reasons": [
-        "83 impressions at position 15.5"
-      ],
-      "linkSuggestions": [],
-      "nextAction": "deepen the page and add internal links — it is one push from page 1"
     },
     {
       "url": "/medicare-help-center.html",
@@ -4159,7 +4035,7 @@
         "/faq.html",
         "/reviews.html"
       ],
-      "navLinked": false,
+      "navLinked": true,
       "depth": 2,
       "lastModified": "2026-07-01T21:35:26-06:00",
       "ageDays": 56,
@@ -4416,7 +4292,7 @@
       "hasFaq": false,
       "hasByline": false,
       "hasSources": false,
-      "inboundCount": 13,
+      "inboundCount": 14,
       "outboundCount": 3,
       "linksOut": [
         "/does-medicare-cover-mounjaro-utah.html",
@@ -4571,7 +4447,7 @@
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
+      "lastModified": "2026-08-26T16:13:37-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -4787,9 +4663,147 @@
       "linkSuggestions": [
         "/prescription-drug-assistance.html",
         "/part-d-plans-vernal.html",
-        "/tier-3-vs-tier-4-medicare-part-d.html"
+        "/medicare-formulary-lookup.html"
       ],
       "nextAction": "rewrite `<title>` + meta description — it ranks at 19.5 but earns 0.0% vs ~1.1% expected"
+    },
+    {
+      "url": "/repatha-assistance-program.html",
+      "title": "Repatha Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "prescription-assistance",
+        "cholesterol",
+        "heart",
+        "pcsk9"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 1,
+      "impressions": 83,
+      "ctr": 0.012048192771084338,
+      "position": 15.48024096385542,
+      "expectedCtr": 0.011,
+      "ctrGap": 0,
+      "words": 5905,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 16,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": true,
+      "inboundCount": 7,
+      "outboundCount": 13,
+      "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/entresto-assistance-program.html",
+        "/eliquis-assistance-program.html",
+        "/xarelto-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/does-medicare-cover-repatha.html",
+        "/medicare-quote-vernal.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T16:13:37-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 59,
+      "opportunity": 63,
+      "aiReadiness": 89,
+      "completeness": 91,
+      "missingElements": [
+        "schema"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": true,
+          "score": 0.5
+        },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
+        "insights": {
+          "got": true,
+          "score": 1
+        }
+      },
+      "factors": {
+        "impressions": 0.7258873989843516,
+        "position": 0.85,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0,
+        "freshness": 0,
+        "ctrOpportunity": 0
+      },
+      "tier": 2,
+      "flags": {
+        "orphan": false,
+        "weakLinks": false,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": false,
+        "ctrProblem": false,
+        "strikingDistance": true,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": false
+      },
+      "reasons": [
+        "83 impressions at position 15.5"
+      ],
+      "linkSuggestions": [],
+      "nextAction": "deepen the page and add internal links — it is one push from page 1"
     },
     {
       "url": "/medicare-coverage/ambulance.html",
@@ -4990,7 +5004,7 @@
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
+      "lastModified": "2026-08-26T16:13:37-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -5067,145 +5081,6 @@
       ],
       "linkSuggestions": [],
       "nextAction": "monitor"
-    },
-    {
-      "url": "/eliquis-assistance-program.html",
-      "title": "Eliquis Assistance & Grants: How to Apply in Utah | Vernal Medicare",
-      "locale": "en",
-      "silo": "part-d",
-      "tags": [
-        "drug-assistance",
-        "part-d",
-        "prescription-assistance",
-        "blood-clots",
-        "heart",
-        "anticoagulant"
-      ],
-      "pillar": false,
-      "registered": true,
-      "clicks": 1,
-      "impressions": 67,
-      "ctr": 0.014925373134328358,
-      "position": 19.764328358208957,
-      "expectedCtr": 0.011,
-      "ctrGap": 0,
-      "words": 5356,
-      "tables": 1,
-      "definitions": 1,
-      "h2": 16,
-      "schemaTypes": [
-        "MedicalWebPage",
-        "CreativeWork",
-        "Organization",
-        "BreadcrumbList",
-        "ListItem",
-        "FAQPage",
-        "Question",
-        "Answer",
-        "Person",
-        "ImageObject"
-      ],
-      "hasSummary": true,
-      "hasFaq": true,
-      "hasByline": true,
-      "hasSources": true,
-      "inboundCount": 5,
-      "outboundCount": 14,
-      "linksOut": [
-        "/medicare-formulary-lookup.html",
-        "/medicare-drug-cost-calculator.html",
-        "/part-d-plans-vernal.html",
-        "/medicare-extra-help-utah.html",
-        "/medicare-extra-help-calculator.html",
-        "/medicare-savings-programs-utah.html",
-        "/medicare-financial-assistance.html",
-        "/xarelto-assistance-program.html",
-        "/entresto-assistance-program.html",
-        "/farxiga-assistance-program.html",
-        "/jardiance-assistance-program.html",
-        "/prescription-drug-assistance.html",
-        "/does-medicare-cover-eliquis.html",
-        "/medicare-quote-vernal.html"
-      ],
-      "navLinked": false,
-      "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
-      "ageDays": 0,
-      "sourceFiles": [
-        "src/pages/[drug]-assistance-program.astro",
-        "src/data/medicationAssistance/index.ts",
-        "src/data/drugs.ts",
-        "src/data/business.ts",
-        "src/data/conditions.ts"
-      ],
-      "priority": 58,
-      "opportunity": 60,
-      "aiReadiness": 89,
-      "completeness": 91,
-      "missingElements": [
-        "schema"
-      ],
-      "aiFeatures": {
-        "summary": {
-          "got": true,
-          "score": 1
-        },
-        "faq": {
-          "got": true,
-          "score": 1
-        },
-        "schema": {
-          "got": false,
-          "score": 0.6
-        },
-        "tables": {
-          "got": true,
-          "score": 0.5
-        },
-        "definitions": {
-          "got": true,
-          "score": 1
-        },
-        "internalLinks": {
-          "got": true,
-          "score": 1
-        },
-        "insights": {
-          "got": true,
-          "score": 1
-        }
-      },
-      "factors": {
-        "impressions": 0.6504360810565792,
-        "position": 0.85,
-        "business": 0.8,
-        "pillar": 0,
-        "linkWeakness": 0.2857142857142857,
-        "freshness": 0,
-        "ctrOpportunity": 0
-      },
-      "tier": 2,
-      "flags": {
-        "orphan": false,
-        "weakLinks": false,
-        "lowOutbound": false,
-        "needsSummary": false,
-        "needsFaq": false,
-        "thin": false,
-        "stale": false,
-        "criticallyStale": false,
-        "aiGap": false,
-        "ctrProblem": false,
-        "strikingDistance": true,
-        "unregistered": false,
-        "duplicateTitle": false,
-        "noData": false
-      },
-      "reasons": [
-        "67 impressions at position 19.8"
-      ],
-      "linkSuggestions": [],
-      "nextAction": "deepen the page and add internal links — it is one push from page 1"
     },
     {
       "url": "/faq.html",
@@ -5513,7 +5388,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 8,
+      "inboundCount": 9,
       "outboundCount": 14,
       "linksOut": [
         "/medicare-formulary-lookup.html",
@@ -5533,7 +5408,7 @@
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
+      "lastModified": "2026-08-26T16:13:37-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -5613,6 +5488,145 @@
       "nextAction": "rewrite `<title>` + meta description — it ranks at 9.4 but earns 0.0% vs ~2.4% expected"
     },
     {
+      "url": "/eliquis-assistance-program.html",
+      "title": "Eliquis Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "prescription-assistance",
+        "blood-clots",
+        "heart",
+        "anticoagulant"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 1,
+      "impressions": 67,
+      "ctr": 0.014925373134328358,
+      "position": 19.764328358208957,
+      "expectedCtr": 0.011,
+      "ctrGap": 0,
+      "words": 5356,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 16,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": true,
+      "inboundCount": 7,
+      "outboundCount": 14,
+      "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/xarelto-assistance-program.html",
+        "/entresto-assistance-program.html",
+        "/farxiga-assistance-program.html",
+        "/jardiance-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/does-medicare-cover-eliquis.html",
+        "/medicare-quote-vernal.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T16:13:37-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 57,
+      "opportunity": 60,
+      "aiReadiness": 89,
+      "completeness": 91,
+      "missingElements": [
+        "schema"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": true,
+          "score": 0.5
+        },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
+        "insights": {
+          "got": true,
+          "score": 1
+        }
+      },
+      "factors": {
+        "impressions": 0.6504360810565792,
+        "position": 0.85,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0,
+        "freshness": 0,
+        "ctrOpportunity": 0
+      },
+      "tier": 2,
+      "flags": {
+        "orphan": false,
+        "weakLinks": false,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": false,
+        "ctrProblem": false,
+        "strikingDistance": true,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": false
+      },
+      "reasons": [
+        "67 impressions at position 19.8"
+      ],
+      "linkSuggestions": [],
+      "nextAction": "deepen the page and add internal links — it is one push from page 1"
+    },
+    {
       "url": "/farxiga-assistance-program.html",
       "title": "Farxiga Assistance & Grants: How to Apply in Utah | Vernal Medicare",
       "locale": "en",
@@ -5674,7 +5688,7 @@
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
+      "lastModified": "2026-08-26T16:13:37-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -5791,7 +5805,7 @@
       "hasFaq": true,
       "hasByline": false,
       "hasSources": false,
-      "inboundCount": 44,
+      "inboundCount": 48,
       "outboundCount": 20,
       "linksOut": [
         "/does-medicare-cover-farxiga.html",
@@ -5939,7 +5953,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 20,
+      "inboundCount": 25,
       "outboundCount": 5,
       "linksOut": [
         "/part-d-plans-vernal.html",
@@ -6734,7 +6748,7 @@
         "/medigap.html",
         "/medicare-plan-g-high-deductible.html"
       ],
-      "navLinked": false,
+      "navLinked": true,
       "depth": 2,
       "lastModified": "2026-07-01T21:20:57-06:00",
       "ageDays": 56,
@@ -8066,7 +8080,7 @@
         "/when-to-enroll-medicare-utah.html",
         "/medicare-quote-vernal.html"
       ],
-      "navLinked": false,
+      "navLinked": true,
       "depth": 1,
       "lastModified": "2026-07-01T20:26:09-06:00",
       "ageDays": 56,
@@ -8344,7 +8358,7 @@
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
+      "lastModified": "2026-08-26T16:13:37-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -8774,7 +8788,7 @@
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
+      "lastModified": "2026-08-26T16:13:37-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -9320,7 +9334,7 @@
         "/medicare-cost-uintah-county.html",
         "/medicare-quote-vernal.html"
       ],
-      "navLinked": false,
+      "navLinked": true,
       "depth": 2,
       "lastModified": "2026-07-01T21:35:26-06:00",
       "ageDays": 56,
@@ -9862,7 +9876,7 @@
         "/medicare-decision-center.html",
         "/medicare-enrollment-periods.html"
       ],
-      "navLinked": false,
+      "navLinked": true,
       "depth": 1,
       "lastModified": "2026-07-01T20:29:52-06:00",
       "ageDays": 56,
@@ -10148,7 +10162,7 @@
         "/medicare-news.html",
         "/medicare-quote-vernal.html"
       ],
-      "navLinked": false,
+      "navLinked": true,
       "depth": 1,
       "lastModified": "2026-07-01T21:35:26-06:00",
       "ageDays": 56,
@@ -10795,7 +10809,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 26,
+      "inboundCount": 31,
       "outboundCount": 4,
       "linksOut": [
         "/medicare-extra-help-utah.html",
@@ -11703,146 +11717,6 @@
       "nextAction": "add a `<SummaryBlock>` TL;DR under the H1"
     },
     {
-      "url": "/ozempic-assistance-program.html",
-      "title": "Ozempic Assistance & Grants: How to Apply in Utah | Vernal Medicare",
-      "locale": "en",
-      "silo": "part-d",
-      "tags": [
-        "drug-assistance",
-        "part-d",
-        "prescription-assistance",
-        "diabetes",
-        "heart",
-        "kidney",
-        "glp-1"
-      ],
-      "pillar": false,
-      "registered": true,
-      "clicks": 1,
-      "impressions": 12,
-      "ctr": 0.08333333333333333,
-      "position": 13.08,
-      "expectedCtr": 0.016,
-      "ctrGap": 0,
-      "words": 5588,
-      "tables": 1,
-      "definitions": 1,
-      "h2": 17,
-      "schemaTypes": [
-        "MedicalWebPage",
-        "CreativeWork",
-        "Organization",
-        "BreadcrumbList",
-        "ListItem",
-        "FAQPage",
-        "Question",
-        "Answer",
-        "Person",
-        "ImageObject"
-      ],
-      "hasSummary": true,
-      "hasFaq": true,
-      "hasByline": true,
-      "hasSources": true,
-      "inboundCount": 5,
-      "outboundCount": 14,
-      "linksOut": [
-        "/medicare-formulary-lookup.html",
-        "/medicare-drug-cost-calculator.html",
-        "/part-d-plans-vernal.html",
-        "/medicare-extra-help-utah.html",
-        "/medicare-extra-help-calculator.html",
-        "/medicare-savings-programs-utah.html",
-        "/medicare-financial-assistance.html",
-        "/mounjaro-assistance-program.html",
-        "/trulicity-assistance-program.html",
-        "/jardiance-assistance-program.html",
-        "/farxiga-assistance-program.html",
-        "/prescription-drug-assistance.html",
-        "/does-medicare-cover-ozempic-wegovy.html",
-        "/medicare-quote-vernal.html"
-      ],
-      "navLinked": false,
-      "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
-      "ageDays": 0,
-      "sourceFiles": [
-        "src/pages/[drug]-assistance-program.astro",
-        "src/data/medicationAssistance/index.ts",
-        "src/data/drugs.ts",
-        "src/data/business.ts",
-        "src/data/conditions.ts"
-      ],
-      "priority": 40,
-      "opportunity": 42,
-      "aiReadiness": 89,
-      "completeness": 91,
-      "missingElements": [
-        "schema"
-      ],
-      "aiFeatures": {
-        "summary": {
-          "got": true,
-          "score": 1
-        },
-        "faq": {
-          "got": true,
-          "score": 1
-        },
-        "schema": {
-          "got": false,
-          "score": 0.6
-        },
-        "tables": {
-          "got": true,
-          "score": 0.5
-        },
-        "definitions": {
-          "got": true,
-          "score": 1
-        },
-        "internalLinks": {
-          "got": true,
-          "score": 1
-        },
-        "insights": {
-          "got": true,
-          "score": 1
-        }
-      },
-      "factors": {
-        "impressions": 0.059649353628407835,
-        "position": 0.85,
-        "business": 0.8,
-        "pillar": 0,
-        "linkWeakness": 0.2857142857142857,
-        "freshness": 0,
-        "ctrOpportunity": 0
-      },
-      "tier": 3,
-      "flags": {
-        "orphan": false,
-        "weakLinks": false,
-        "lowOutbound": false,
-        "needsSummary": false,
-        "needsFaq": false,
-        "thin": false,
-        "stale": false,
-        "criticallyStale": false,
-        "aiGap": false,
-        "ctrProblem": false,
-        "strikingDistance": true,
-        "unregistered": false,
-        "duplicateTitle": false,
-        "noData": false
-      },
-      "reasons": [
-        "12 impressions at position 13.1"
-      ],
-      "linkSuggestions": [],
-      "nextAction": "deepen the page and add internal links — it is one push from page 1"
-    },
-    {
       "url": "/medicare-news.html",
       "title": "Medicare News & Updates — Uintah Basin | Vernal Medicare",
       "locale": "en",
@@ -11976,6 +11850,146 @@
       ],
       "linkSuggestions": [],
       "nextAction": "rewrite `<title>` + meta description — it ranks at 8.4 but earns 0.0% vs ~2.7% expected"
+    },
+    {
+      "url": "/ozempic-assistance-program.html",
+      "title": "Ozempic Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "prescription-assistance",
+        "diabetes",
+        "heart",
+        "kidney",
+        "glp-1"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 1,
+      "impressions": 12,
+      "ctr": 0.08333333333333333,
+      "position": 13.08,
+      "expectedCtr": 0.016,
+      "ctrGap": 0,
+      "words": 5588,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 17,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": true,
+      "inboundCount": 8,
+      "outboundCount": 14,
+      "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/mounjaro-assistance-program.html",
+        "/trulicity-assistance-program.html",
+        "/jardiance-assistance-program.html",
+        "/farxiga-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/does-medicare-cover-ozempic-wegovy.html",
+        "/medicare-quote-vernal.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T16:13:37-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 39,
+      "opportunity": 42,
+      "aiReadiness": 89,
+      "completeness": 91,
+      "missingElements": [
+        "schema"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": true,
+          "score": 0.5
+        },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
+        "insights": {
+          "got": true,
+          "score": 1
+        }
+      },
+      "factors": {
+        "impressions": 0.059649353628407835,
+        "position": 0.85,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0,
+        "freshness": 0,
+        "ctrOpportunity": 0
+      },
+      "tier": 3,
+      "flags": {
+        "orphan": false,
+        "weakLinks": false,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": false,
+        "ctrProblem": false,
+        "strikingDistance": true,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": false
+      },
+      "reasons": [
+        "12 impressions at position 13.1"
+      ],
+      "linkSuggestions": [],
+      "nextAction": "deepen the page and add internal links — it is one push from page 1"
     },
     {
       "url": "/dual-eligible.html",
@@ -13235,7 +13249,7 @@
         "/medicare-plans-vernal-utah.html",
         "/medicare-quote-vernal.html"
       ],
-      "navLinked": false,
+      "navLinked": true,
       "depth": 2,
       "lastModified": "2026-08-25T16:05:22-06:00",
       "ageDays": 1,
@@ -14134,7 +14148,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 52,
+      "inboundCount": 57,
       "outboundCount": 4,
       "linksOut": [
         "/medicare-savings-programs-utah.html",
@@ -14142,7 +14156,7 @@
         "/medicare-financial-assistance.html",
         "/d-snp-plans-utah.html"
       ],
-      "navLinked": false,
+      "navLinked": true,
       "depth": 2,
       "lastModified": "2026-07-01T21:47:00-06:00",
       "ageDays": 56,
@@ -14151,7 +14165,7 @@
       ],
       "priority": 33,
       "opportunity": 45,
-      "aiReadiness": 70,
+      "aiReadiness": 66,
       "completeness": 82,
       "missingElements": [
         "internalLinks",
@@ -14183,8 +14197,8 @@
           "score": 0.5
         },
         "insights": {
-          "got": true,
-          "score": 1
+          "got": false,
+          "score": 0.6666666666666666
         }
       },
       "factors": {
@@ -14206,7 +14220,7 @@
         "thin": true,
         "stale": false,
         "criticallyStale": false,
-        "aiGap": false,
+        "aiGap": true,
         "ctrProblem": false,
         "strikingDistance": false,
         "unregistered": false,
@@ -14266,7 +14280,7 @@
         "/reviews.html",
         "/faq.html"
       ],
-      "navLinked": false,
+      "navLinked": true,
       "depth": 2,
       "lastModified": "2026-07-01T21:47:00-06:00",
       "ageDays": 56,
@@ -14813,7 +14827,7 @@
       ],
       "priority": 32,
       "opportunity": 36,
-      "aiReadiness": 40,
+      "aiReadiness": 37,
       "completeness": 33,
       "missingElements": [
         "summary",
@@ -14850,7 +14864,7 @@
         },
         "insights": {
           "got": false,
-          "score": 0.3333333333333333
+          "score": 0
         }
       },
       "factors": {
@@ -14907,7 +14921,7 @@
       "position": null,
       "expectedCtr": 0,
       "ctrGap": 0,
-      "words": 1078,
+      "words": 1098,
       "tables": 0,
       "definitions": 0,
       "h2": 11,
@@ -14927,18 +14941,22 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": false,
-      "inboundCount": 41,
-      "outboundCount": 24,
+      "inboundCount": 46,
+      "outboundCount": 29,
       "linksOut": [
         "/ozempic-assistance-program.html",
         "/mounjaro-assistance-program.html",
         "/trulicity-assistance-program.html",
         "/jardiance-assistance-program.html",
         "/farxiga-assistance-program.html",
+        "/rybelsus-assistance-program.html",
         "/eliquis-assistance-program.html",
         "/xarelto-assistance-program.html",
         "/entresto-assistance-program.html",
         "/repatha-assistance-program.html",
+        "/wegovy-assistance-program.html",
+        "/praluent-assistance-program.html",
+        "/leqvio-assistance-program.html",
         "/humira-assistance-program.html",
         "/enbrel-assistance-program.html",
         "/skyrizi-assistance-program.html",
@@ -14946,6 +14964,7 @@
         "/dupixent-assistance-program.html",
         "/trelegy-assistance-program.html",
         "/breztri-assistance-program.html",
+        "/zepbound-assistance-program.html",
         "/medicare-formulary-lookup.html",
         "/medicare-drug-cost-calculator.html",
         "/medicare-extra-help-calculator.html",
@@ -14957,7 +14976,7 @@
       ],
       "navLinked": true,
       "depth": 2,
-      "lastModified": "2026-08-26T10:18:58-06:00",
+      "lastModified": "2026-08-26T16:13:37-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/prescription-drug-assistance.astro"
@@ -16173,7 +16192,7 @@
       "hasFaq": true,
       "hasByline": false,
       "hasSources": false,
-      "inboundCount": 35,
+      "inboundCount": 40,
       "outboundCount": 19,
       "linksOut": [
         "/medicare-income-limits-2026.html",
@@ -16614,7 +16633,7 @@
         "/aca.html",
         "/faq.html"
       ],
-      "navLinked": false,
+      "navLinked": true,
       "depth": null,
       "lastModified": "2026-07-01T21:59:35-06:00",
       "ageDays": 56,
@@ -17515,16 +17534,16 @@
       "nextAction": "expand to depth — currently 522 words"
     },
     {
-      "url": "/trelegy-assistance-program.html",
-      "title": "Trelegy Ellipta Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "url": "/leqvio-assistance-program.html",
+      "title": "Leqvio Assistance & Grants: How to Apply in Utah | Vernal Medicare",
       "locale": "en",
       "silo": "part-d",
       "tags": [
         "drug-assistance",
         "part-d",
         "prescription-assistance",
-        "respiratory",
-        "triple-inhaler"
+        "cholesterol",
+        "pcsk9"
       ],
       "pillar": false,
       "registered": true,
@@ -17534,10 +17553,10 @@
       "position": null,
       "expectedCtr": 0,
       "ctrGap": 0,
-      "words": 5797,
+      "words": 5779,
       "tables": 1,
       "definitions": 1,
-      "h2": 16,
+      "h2": 17,
       "schemaTypes": [
         "MedicalWebPage",
         "CreativeWork",
@@ -17555,24 +17574,28 @@
       "hasByline": true,
       "hasSources": true,
       "inboundCount": 2,
-      "outboundCount": 12,
+      "outboundCount": 16,
       "linksOut": [
         "/medicare-formulary-lookup.html",
         "/medicare-drug-cost-calculator.html",
         "/part-d-plans-vernal.html",
+        "/medigap.html",
+        "/medicare-savings-programs-utah.html",
+        "/repatha-assistance-program.html",
         "/medicare-extra-help-utah.html",
         "/medicare-extra-help-calculator.html",
-        "/medicare-savings-programs-utah.html",
         "/medicare-financial-assistance.html",
-        "/breztri-assistance-program.html",
-        "/dupixent-assistance-program.html",
+        "/praluent-assistance-program.html",
+        "/entresto-assistance-program.html",
+        "/eliquis-assistance-program.html",
         "/prescription-drug-assistance.html",
+        "/medicare-part-a-vs-part-b.html",
         "/medicare-drug-coverage.html",
         "/medicare-quote-vernal.html"
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
+      "lastModified": "2026-08-26T16:13:37-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -17651,9 +17674,725 @@
       "linkSuggestions": [
         "/part-d-plans-vernal.html",
         "/medicare-drug-coverage.html",
-        "/tier-3-vs-tier-4-medicare-part-d.html"
+        "/medicare-formulary-lookup.html"
       ],
-      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /tier-3-vs-tier-4-medicare-part-d"
+      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /medicare-formulary-lookup"
+    },
+    {
+      "url": "/praluent-assistance-program.html",
+      "title": "Praluent Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "prescription-assistance",
+        "cholesterol",
+        "heart",
+        "pcsk9"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 0,
+      "impressions": 0,
+      "ctr": 0,
+      "position": null,
+      "expectedCtr": 0,
+      "ctrGap": 0,
+      "words": 5796,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 16,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": true,
+      "inboundCount": 2,
+      "outboundCount": 14,
+      "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/repatha-assistance-program.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/leqvio-assistance-program.html",
+        "/eliquis-assistance-program.html",
+        "/entresto-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/medicare-drug-coverage.html",
+        "/medicare-quote-vernal.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T16:13:37-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 26,
+      "opportunity": 20,
+      "aiReadiness": 89,
+      "completeness": 91,
+      "missingElements": [
+        "schema"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": true,
+          "score": 0.5
+        },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
+        "insights": {
+          "got": true,
+          "score": 1
+        }
+      },
+      "factors": {
+        "impressions": 0,
+        "position": 0.25,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0.7142857142857143,
+        "freshness": 0,
+        "ctrOpportunity": 0
+      },
+      "tier": 3,
+      "flags": {
+        "orphan": false,
+        "weakLinks": true,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": false,
+        "ctrProblem": false,
+        "strikingDistance": false,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": true
+      },
+      "reasons": [
+        "only 2 in-content inbound link(s)",
+        "no Search Console data yet"
+      ],
+      "linkSuggestions": [
+        "/part-d-plans-vernal.html",
+        "/medicare-drug-coverage.html",
+        "/medicare-formulary-lookup.html"
+      ],
+      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /medicare-formulary-lookup"
+    },
+    {
+      "url": "/rybelsus-assistance-program.html",
+      "title": "Rybelsus Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "prescription-assistance",
+        "diabetes",
+        "heart",
+        "glp-1"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 0,
+      "impressions": 0,
+      "ctr": 0,
+      "position": null,
+      "expectedCtr": 0,
+      "ctrGap": 0,
+      "words": 6086,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 17,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": true,
+      "inboundCount": 2,
+      "outboundCount": 14,
+      "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/ozempic-assistance-program.html",
+        "/trulicity-assistance-program.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/mounjaro-assistance-program.html",
+        "/jardiance-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/medicare-drug-coverage.html",
+        "/medicare-quote-vernal.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T16:13:37-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 26,
+      "opportunity": 20,
+      "aiReadiness": 89,
+      "completeness": 91,
+      "missingElements": [
+        "schema"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": true,
+          "score": 0.5
+        },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
+        "insights": {
+          "got": true,
+          "score": 1
+        }
+      },
+      "factors": {
+        "impressions": 0,
+        "position": 0.25,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0.7142857142857143,
+        "freshness": 0,
+        "ctrOpportunity": 0
+      },
+      "tier": 3,
+      "flags": {
+        "orphan": false,
+        "weakLinks": true,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": false,
+        "ctrProblem": false,
+        "strikingDistance": false,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": true
+      },
+      "reasons": [
+        "only 2 in-content inbound link(s)",
+        "no Search Console data yet"
+      ],
+      "linkSuggestions": [
+        "/part-d-plans-vernal.html",
+        "/medicare-drug-coverage.html",
+        "/medicare-formulary-lookup.html"
+      ],
+      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /medicare-formulary-lookup"
+    },
+    {
+      "url": "/trelegy-assistance-program.html",
+      "title": "Trelegy Ellipta Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "prescription-assistance",
+        "respiratory",
+        "triple-inhaler"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 0,
+      "impressions": 0,
+      "ctr": 0,
+      "position": null,
+      "expectedCtr": 0,
+      "ctrGap": 0,
+      "words": 5797,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 16,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": true,
+      "inboundCount": 2,
+      "outboundCount": 12,
+      "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/breztri-assistance-program.html",
+        "/dupixent-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/medicare-drug-coverage.html",
+        "/medicare-quote-vernal.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T16:13:37-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 26,
+      "opportunity": 20,
+      "aiReadiness": 89,
+      "completeness": 91,
+      "missingElements": [
+        "schema"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": true,
+          "score": 0.5
+        },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
+        "insights": {
+          "got": true,
+          "score": 1
+        }
+      },
+      "factors": {
+        "impressions": 0,
+        "position": 0.25,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0.7142857142857143,
+        "freshness": 0,
+        "ctrOpportunity": 0
+      },
+      "tier": 3,
+      "flags": {
+        "orphan": false,
+        "weakLinks": true,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": false,
+        "ctrProblem": false,
+        "strikingDistance": false,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": true
+      },
+      "reasons": [
+        "only 2 in-content inbound link(s)",
+        "no Search Console data yet"
+      ],
+      "linkSuggestions": [
+        "/part-d-plans-vernal.html",
+        "/medicare-drug-coverage.html",
+        "/medicare-formulary-lookup.html"
+      ],
+      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /medicare-formulary-lookup"
+    },
+    {
+      "url": "/wegovy-assistance-program.html",
+      "title": "Wegovy Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "prescription-assistance",
+        "weight",
+        "heart",
+        "glp-1"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 0,
+      "impressions": 0,
+      "ctr": 0,
+      "position": null,
+      "expectedCtr": 0,
+      "ctrGap": 0,
+      "words": 7015,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 17,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": true,
+      "inboundCount": 2,
+      "outboundCount": 14,
+      "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/zepbound-assistance-program.html",
+        "/ozempic-assistance-program.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/rybelsus-assistance-program.html",
+        "/mounjaro-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/does-medicare-cover-ozempic-wegovy.html",
+        "/medicare-quote-vernal.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T16:13:37-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 26,
+      "opportunity": 20,
+      "aiReadiness": 89,
+      "completeness": 91,
+      "missingElements": [
+        "schema"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": true,
+          "score": 0.5
+        },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
+        "insights": {
+          "got": true,
+          "score": 1
+        }
+      },
+      "factors": {
+        "impressions": 0,
+        "position": 0.25,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0.7142857142857143,
+        "freshness": 0,
+        "ctrOpportunity": 0
+      },
+      "tier": 3,
+      "flags": {
+        "orphan": false,
+        "weakLinks": true,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": false,
+        "ctrProblem": false,
+        "strikingDistance": false,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": true
+      },
+      "reasons": [
+        "only 2 in-content inbound link(s)",
+        "no Search Console data yet"
+      ],
+      "linkSuggestions": [
+        "/part-d-plans-vernal.html",
+        "/medicare-drug-coverage.html",
+        "/medicare-formulary-lookup.html"
+      ],
+      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /medicare-formulary-lookup"
+    },
+    {
+      "url": "/zepbound-assistance-program.html",
+      "title": "Zepbound Assistance & Grants: How to Apply in Utah | Vernal Medicare",
+      "locale": "en",
+      "silo": "part-d",
+      "tags": [
+        "drug-assistance",
+        "part-d",
+        "prescription-assistance",
+        "weight",
+        "glp-1"
+      ],
+      "pillar": false,
+      "registered": true,
+      "clicks": 0,
+      "impressions": 0,
+      "ctr": 0,
+      "position": null,
+      "expectedCtr": 0,
+      "ctrGap": 0,
+      "words": 6564,
+      "tables": 1,
+      "definitions": 1,
+      "h2": 17,
+      "schemaTypes": [
+        "MedicalWebPage",
+        "CreativeWork",
+        "Organization",
+        "BreadcrumbList",
+        "ListItem",
+        "FAQPage",
+        "Question",
+        "Answer",
+        "Person",
+        "ImageObject"
+      ],
+      "hasSummary": true,
+      "hasFaq": true,
+      "hasByline": true,
+      "hasSources": true,
+      "inboundCount": 2,
+      "outboundCount": 14,
+      "linksOut": [
+        "/medicare-formulary-lookup.html",
+        "/medicare-drug-cost-calculator.html",
+        "/part-d-plans-vernal.html",
+        "/mounjaro-assistance-program.html",
+        "/wegovy-assistance-program.html",
+        "/medicare-extra-help-utah.html",
+        "/medicare-extra-help-calculator.html",
+        "/medicare-savings-programs-utah.html",
+        "/medicare-financial-assistance.html",
+        "/ozempic-assistance-program.html",
+        "/trulicity-assistance-program.html",
+        "/prescription-drug-assistance.html",
+        "/medicare-drug-coverage.html",
+        "/medicare-quote-vernal.html"
+      ],
+      "navLinked": false,
+      "depth": 3,
+      "lastModified": "2026-08-26T16:13:37-06:00",
+      "ageDays": 0,
+      "sourceFiles": [
+        "src/pages/[drug]-assistance-program.astro",
+        "src/data/medicationAssistance/index.ts",
+        "src/data/drugs.ts",
+        "src/data/business.ts",
+        "src/data/conditions.ts"
+      ],
+      "priority": 26,
+      "opportunity": 20,
+      "aiReadiness": 89,
+      "completeness": 91,
+      "missingElements": [
+        "schema"
+      ],
+      "aiFeatures": {
+        "summary": {
+          "got": true,
+          "score": 1
+        },
+        "faq": {
+          "got": true,
+          "score": 1
+        },
+        "schema": {
+          "got": false,
+          "score": 0.6
+        },
+        "tables": {
+          "got": true,
+          "score": 0.5
+        },
+        "definitions": {
+          "got": true,
+          "score": 1
+        },
+        "internalLinks": {
+          "got": true,
+          "score": 1
+        },
+        "insights": {
+          "got": true,
+          "score": 1
+        }
+      },
+      "factors": {
+        "impressions": 0,
+        "position": 0.25,
+        "business": 0.8,
+        "pillar": 0,
+        "linkWeakness": 0.7142857142857143,
+        "freshness": 0,
+        "ctrOpportunity": 0
+      },
+      "tier": 3,
+      "flags": {
+        "orphan": false,
+        "weakLinks": true,
+        "lowOutbound": false,
+        "needsSummary": false,
+        "needsFaq": false,
+        "thin": false,
+        "stale": false,
+        "criticallyStale": false,
+        "aiGap": false,
+        "ctrProblem": false,
+        "strikingDistance": false,
+        "unregistered": false,
+        "duplicateTitle": false,
+        "noData": true
+      },
+      "reasons": [
+        "only 2 in-content inbound link(s)",
+        "no Search Console data yet"
+      ],
+      "linkSuggestions": [
+        "/part-d-plans-vernal.html",
+        "/medicare-drug-coverage.html",
+        "/medicare-formulary-lookup.html"
+      ],
+      "nextAction": "raise inbound links from 2 — link from /part-d-plans-vernal, /medicare-drug-coverage, /medicare-formulary-lookup"
     },
     {
       "url": "/breztri-assistance-program.html",
@@ -17714,7 +18453,7 @@
       ],
       "navLinked": false,
       "depth": 3,
-      "lastModified": "2026-08-26T11:19:24-06:00",
+      "lastModified": "2026-08-26T16:13:37-06:00",
       "ageDays": 0,
       "sourceFiles": [
         "src/pages/[drug]-assistance-program.astro",
@@ -19449,7 +20188,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": true,
-      "inboundCount": 66,
+      "inboundCount": 71,
       "outboundCount": 12,
       "linksOut": [
         "/medicare-plans-vernal-utah.html",
@@ -19465,7 +20204,7 @@
         "/when-to-enroll-medicare-utah.html",
         "/medicare-supplement-vs-advantage.html"
       ],
-      "navLinked": false,
+      "navLinked": true,
       "depth": 1,
       "lastModified": "2026-08-25T16:05:22-06:00",
       "ageDays": 1,
@@ -21904,7 +22643,7 @@
       "hasFaq": true,
       "hasByline": true,
       "hasSources": false,
-      "inboundCount": 19,
+      "inboundCount": 20,
       "outboundCount": 7,
       "linksOut": [
         "/medicare-plans-vernal-utah.html",
