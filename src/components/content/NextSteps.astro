@@ -17,7 +17,7 @@ const lang = getLangFromUrl(Astro.url);
   <section class="next-steps" aria-label={t('nextSteps.aria', lang)}>
     {steps.map((s) => (
       <aside class="next-step" role="note">
-        <strong class="next-step-when">{s.when}</strong> {s.action}
+        <strong class="next-step-when">{s.when}</strong>{" "}{s.action}
         {s.href && <Fragment> <a href={localizeHref(s.href, lang)}>{s.cta ?? t('nextSteps.learnMore', lang)}</a></Fragment>}
       </aside>
     ))}

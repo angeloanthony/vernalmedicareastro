@@ -64,6 +64,7 @@
       "A <a href=\"medicare-savings-programs-utah.html\">Medicare Savings Program (QMB, SLMB, or QI)</a>"
     ],
     "h2Apply": "How to Apply",
+    "applyMethods": ["Online", "By phone", "In person"],
     "applyHtml": "Apply for free through Social Security — online, by phone, or in person. There's never a fee. If you're a Uintah Basin resident, we can sit down and complete the application with you, and check whether a <a href=\"medicare-savings-programs-utah.html\">Medicare Savings Program</a> would qualify you automatically. Not sure where to start? See the <a href=\"dual-eligible.html\">dual-eligible overview</a>."
   }
 }

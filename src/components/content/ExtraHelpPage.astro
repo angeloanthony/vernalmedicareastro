@@ -2,11 +2,18 @@
 // src/components/content/ExtraHelpPage.astro — Extra Help (Part D LIS) spoke
 // template (M4 batch 3; playbook §4.5). Eligibility limits interpolate from
 // annualMedicareData so both languages stay synchronized with CMS figures.
+// PRESENTATION: the body renders as cards (covers grid · limit stat tiles ·
+// auto-qualify checklist · apply steps) rather than bare lists. The article has
+// no <main> ancestor, so styles.css `main …` rules never reach it, and this
+// CSS ships inside the shared /es/ route bundle — every selector is nested
+// under .xh. FAQ, sources, related and CTA stay on the shared layout so the
+// editorial-gate marker classes are untouched.
 import ArticlePage from '../layout/ArticlePage.astro';
 import { figuresFor } from '../../data/annualMedicareData';
 import { usd } from '../../lib/formatters';
+import { BUSINESS } from '../../data/business';
 import { getPageContent, interp, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
-import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
+import { getLangFromUrl, getLocaleMeta, t } from '../../i18n/locales';
 import type { PageContext } from '../../types/Page';
 
 const SLUG = 'medicare-extra-help-utah';
@@ -46,6 +53,7 @@ interface Content {
     autoHtml: string;
     autoItemsHtml: string[];
     h2Apply: string;
+    applyMethods: string[];
     applyHtml: string;
   };
 }
@@ -54,6 +62,46 @@ const lang = getLangFromUrl(Astro.url);
 const c = getPageContent<Content>(SLUG, lang);
 const b = c.body;
 const pagePath = lang === 'en' ? `/${SLUG}.html` : `/${lang}/${SLUG}.html`;
+
+// "<strong>Head</strong> — tail" → { head, tail } so a list item can render as
+// a card title + caption. Items with no <strong> lead keep everything in tail.
+const splitLead = (html: string) => {
+  const m = html.match(/^\s*<strong>([\s\S]*?)<\/strong>\s*(?:—\s*)?([\s\S]*)$/);
+  return m ? { head: m[1], tail: m[2] } : { head: '', tail: html };
+};
+const covers = b.coverItemsHtml.map((item) => splitLead(t9(item)));
+const limits = b.limitItemsHtml.map((item) => splitLead(t9(item)));
+const callLabel = t('cta.call', lang, { phone: BUSINESS.phone });
+const quoteLabel = t('cta.quote', lang);
+
+// Icon paths (24×24, stroke) — one per cover card, in content order.
+const coverIcons = [
+  // premium: receipt
+  '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6M9 16h3"/>',
+  // deductible: stacked coins
+  '<ellipse cx="12" cy="6" rx="7" ry="2.6"/><path d="M5 6v6c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6V6"/><path d="M5 12v6c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6v-6"/>',
+  // copays: capsule
+  '<path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/>',
+  // no gap: shield check
+  '<path d="M12 2.5 3.8 6v5.4c0 4.6 3.3 8.9 8.2 10.1 4.9-1.2 8.2-5.5 8.2-10.1V6Z"/><path d="m8.6 12.1 2.3 2.3 4.5-4.6"/>',
+  // no penalty: calendar check
+  '<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/>',
+];
+const autoIcons = [
+  '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  '<path d="M12 2.5 3.8 6v5.4c0 4.6 3.3 8.9 8.2 10.1 4.9-1.2 8.2-5.5 8.2-10.1V6Z"/><path d="m8.6 12.1 2.3 2.3 4.5-4.6"/>',
+  '<circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.2A5 5 0 0 1 21 19"/>',
+];
+// Filled person / couple glyphs for the limit tiles.
+const statIcons = [
+  '<circle cx="12" cy="6.5" r="3.5"/><path d="M5.5 21v-4.5a6.5 6.5 0 0 1 13 0V21Z"/>',
+  '<circle cx="8" cy="6.5" r="3.2"/><circle cx="16.5" cy="6.5" r="3.2"/><path d="M2 21v-4a6 6 0 0 1 12 0v4Z"/><path d="M15 21v-4a7.4 7.4 0 0 0-1.6-4.6A6 6 0 0 1 22.5 17v4Z"/>',
+];
+const methodIcons = [
+  '<rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M2 19.5h20"/>',
+  '<path d="M21 16.4v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.1 3.7 2 2 0 0 1 3.1 1.5h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L7.1 9.3a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2Z"/>',
+  '<path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M10 21v-5h4v5"/>',
+];
 
 const context: PageContext = {
   page: {
@@ -87,27 +135,395 @@ const context: PageContext = {
 ---
 
 <ArticlePage context={context}>
-  <p set:html={t9(b.introHtml)} />
+  <div class="xh">
+    {/* Page-local chrome polish — breadcrumb · H1 · byline · summary. Same
+        block as SupplementVsAdvantagePage; `is:inline` so it ships with this
+        page only. Promote to styles.css when a site-wide chrome pass lands. */}
+    <style is:inline>
+      .page > .breadcrumbs { margin: 0 0 1.35rem; font-size: 0.9rem; }
+      .page > .breadcrumbs ol {
+        list-style: none; margin: 0; padding: 0;
+        display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+      }
+      .page > .breadcrumbs li { display: flex; align-items: center; gap: 0.5rem; }
+      .page > .breadcrumbs li + li::before { content: "\203A"; color: #a8b8c9; font-weight: 700; }
+      .page > .breadcrumbs a { color: #55627a; font-weight: 600; text-decoration: none; }
+      .page > .breadcrumbs a:hover { color: #dc3545; text-decoration: underline; }
+      .page > .breadcrumbs [aria-current="page"] { color: #0b2c45; font-weight: 700; }
 
-  <h2>{b.h2Covers}</h2>
-  <ul>
-    {b.coverItemsHtml.map((item) => <li set:html={t9(item)} />)}
-  </ul>
-  <p set:html={t9(b.layersHtml)} />
+      .page > .page-header {
+        margin: 0 0 1.5rem;
+        padding-bottom: 1.15rem;
+        border-bottom: 1px solid #e2e9f1;
+      }
+      .page > .page-header h1 {
+        color: #0b2c45;
+        font-size: clamp(1.75rem, 1.15rem + 2.1vw, 2.6rem);
+        line-height: 1.18;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.65rem;
+      }
+      .page > .page-header .byline { margin: 0; font-size: 0.92rem; line-height: 1.65; color: #55627a; }
+      .page > .page-header .byline a { color: #0b6ea3; font-weight: 600; text-decoration: none; }
+      .page > .page-header .byline a:hover { color: #dc3545; text-decoration: underline; }
 
-  <h2>{t9(b.h2Limits)}</h2>
-  <p set:html={t9(b.limitsHtml)} />
-  <ul>
-    {b.limitItemsHtml.map((item) => <li set:html={t9(item)} />)}
-  </ul>
-  <p set:html={t9(b.limitsOutroHtml)} />
+      .page > .summary-block { margin: 0 0 1.8rem; }
+      .page > .summary-block p { margin: 0; font-size: 1.18rem; line-height: 1.7; color: #43526b; }
 
-  <h2>{b.h2Auto}</h2>
-  <p set:html={t9(b.autoHtml)} />
-  <ul>
-    {b.autoItemsHtml.map((item) => <li set:html={item} />)}
-  </ul>
+      .page > .next-steps { margin: 0 0 1.8rem; }
+      .page > .next-steps .next-step {
+        display: block;
+        padding: 1rem 1.2rem;
+        border-radius: 14px;
+        border: 1px solid #cfe6d7;
+        border-left: 6px solid #1f9d55;
+        background: #f1f9f4;
+        font-size: 1.02rem;
+        line-height: 1.6;
+        color: #2c4a3a;
+      }
+      .page > .next-steps .next-step-when { color: #145c34; }
+    </style>
 
-  <h2>{b.h2Apply}</h2>
-  <p set:html={t9(b.applyHtml)} />
+    {/* Lead + primary actions */}
+    <section class="xh-lead">
+      <p set:html={t9(b.introHtml)} />
+      <p class="xh-actions">
+        <a class="xh-btn xh-btn--primary" href={`tel:${BUSINESS.phoneTel}`}>
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={methodIcons[1]} />
+          {callLabel}
+        </a>
+        <a class="xh-btn xh-btn--ghost" href={BUSINESS.quoteUrl} target="_blank" rel="noopener noreferrer">{quoteLabel}</a>
+      </p>
+    </section>
+
+    {/* What Extra Help covers — one card per benefit */}
+    <section class="xh-panel xh-panel--blue">
+      <h2>{b.h2Covers}</h2>
+      <ul class="xh-covers">
+        {covers.map((item, i) => (
+          <li class={`xh-cover xh-tone-${i % 5}`}>
+            <span class="xh-cover-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={coverIcons[i % coverIcons.length]} />
+            </span>
+            {item.head && <strong class="xh-cover-title" set:html={item.head} />}
+            <span class="xh-cover-text" set:html={item.tail} />
+          </li>
+        ))}
+      </ul>
+      <p class="xh-note" set:html={t9(b.layersHtml)} />
+    </section>
+
+    <div class="xh-duo">
+      {/* Eligibility limits — resource thresholds as stat tiles */}
+      <section class="xh-panel xh-panel--warm">
+        <h2>{t9(b.h2Limits)}</h2>
+        <p set:html={t9(b.limitsHtml)} />
+        <ul class="xh-stats">
+          {limits.map((item, i) => (
+            <li class="xh-stat">
+              <span class="xh-stat-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" set:html={statIcons[i % statIcons.length]} />
+              </span>
+              <span>
+                {item.head && <strong class="xh-stat-num" set:html={item.head} />}
+                <span class="xh-stat-label" set:html={item.tail} />
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p class="xh-small" set:html={t9(b.limitsOutroHtml)} />
+      </section>
+
+      {/* Automatic qualification — checklist */}
+      <section class="xh-panel xh-panel--blue">
+        <h2>{b.h2Auto}</h2>
+        <p set:html={t9(b.autoHtml)} />
+        <ul class="xh-checks">
+          {b.autoItemsHtml.map((item, i) => (
+            <li class={`xh-check xh-check-${i % 3}`}>
+              <span class="xh-check-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" set:html={autoIcons[i % autoIcons.length]} />
+              </span>
+              <span set:html={item} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+
+    {/* How to apply — the three ways to reach Social Security */}
+    <section class="xh-panel xh-panel--green">
+      <h2>{b.h2Apply}</h2>
+      <ol class="xh-methods">
+        {b.applyMethods.map((m, i) => (
+          <li>
+            <span class="xh-method-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={methodIcons[i % methodIcons.length]} />
+            </span>
+            <span class="xh-method-label">{m}</span>
+          </li>
+        ))}
+      </ol>
+      <p set:html={t9(b.applyHtml)} />
+    </section>
+  </div>
 </ArticlePage>
+
+<style>
+  /* Palette mirrors the shared chrome: navy #0b2c45 · border #e2e9f1 ·
+     red #dc3545 · copy #43526b. Panels are tinted by role — blue for what
+     you get, warm for limits, green for the action step. */
+  .xh {
+    --navy: #0b2c45;
+    --line: #e2e9f1;
+    --copy: #43526b;
+    --blue: #0b6ea3;
+    --shadow: 0 2px 14px rgba(11, 44, 69, 0.06);
+    color: var(--copy);
+  }
+
+  .xh :global(p) {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--copy);
+    margin: 0 0 1rem;
+  }
+  .xh :global(p:last-child) { margin-bottom: 0; }
+  .xh :global(strong) { color: var(--navy); font-weight: 700; }
+  .xh :global(a) {
+    color: var(--blue);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(11, 110, 163, 0.32);
+  }
+  .xh :global(a:hover),
+  .xh :global(a:focus) { color: #dc3545; border-bottom-color: #dc3545; }
+
+  .xh h2 {
+    color: var(--navy);
+    font-size: clamp(1.3rem, 1.05rem + 1vw, 1.65rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    font-weight: 800;
+    margin: 0 0 1rem;
+  }
+  .xh h2::after { display: none; } /* kill the global orange underline */
+
+  /* ---- Lead + buttons -------------------------------------------------- */
+  .xh-lead { margin: 0 0 1.75rem; }
+  .xh-lead :global(p) { font-size: 1.15rem; color: #2c3c53; max-width: 74ch; }
+  .xh .xh-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.25rem;
+  }
+  .xh .xh-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    padding: 0.85rem 1.6rem;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border: 2px solid var(--navy);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+  .xh .xh-btn svg { width: 20px; height: 20px; }
+  .xh .xh-btn--primary {
+    background: #0b5cad;
+    border-color: #0b5cad;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(11, 92, 173, 0.28);
+  }
+  .xh .xh-btn--ghost { background: #fff; color: var(--navy); }
+  .xh .xh-btn:hover,
+  .xh .xh-btn:focus { transform: translateY(-2px); border-bottom-color: inherit; }
+  .xh .xh-btn--primary:hover,
+  .xh .xh-btn--primary:focus { color: #fff; border-color: #0b5cad; background: #0a4f95; }
+  .xh .xh-btn--ghost:hover,
+  .xh .xh-btn--ghost:focus { color: var(--navy); border-color: var(--navy); background: #f2f7fc; }
+
+  /* ---- Panels ---------------------------------------------------------- */
+  .xh-panel {
+    border-radius: 18px;
+    padding: 1.6rem 1.7rem;
+    margin: 0 0 1.5rem;
+    border: 1px solid var(--line);
+  }
+  .xh-panel--blue { background: linear-gradient(180deg, #eef6fd 0%, #f6fafe 100%); border-color: #d6e6f5; }
+  .xh-panel--warm { background: linear-gradient(180deg, #fff3ea 0%, #fffaf6 100%); border-color: #f6dfcf; }
+  .xh-panel--green { background: linear-gradient(180deg, #ecf7ef 0%, #f6fbf7 100%); border-color: #d3ecd9; }
+
+  .xh-duo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: 1.5rem;
+    margin: 0 0 1.5rem;
+  }
+  .xh-duo .xh-panel { margin: 0; }
+
+  /* ---- Covers grid ----------------------------------------------------- */
+  .xh-covers {
+    list-style: none;
+    margin: 0 0 1.2rem;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+    gap: 0.9rem;
+  }
+  .xh-cover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.35rem;
+    padding: 1.3rem 1rem 1.2rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+  }
+  .xh-cover-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    margin-bottom: 0.45rem;
+    color: #fff;
+    background: var(--tone);
+    box-shadow: 0 6px 14px color-mix(in srgb, var(--tone) 35%, transparent);
+  }
+  .xh-cover-icon svg { width: 26px; height: 26px; }
+  .xh-tone-0 { --tone: #d93349; }
+  .xh-tone-1 { --tone: #2f7fe0; }
+  .xh-tone-2 { --tone: #1f9d55; }
+  .xh-tone-3 { --tone: #7b3fc4; }
+  .xh-tone-4 { --tone: #f06c1f; }
+  .xh .xh-cover-title { font-size: 1.02rem; line-height: 1.3; }
+  .xh-cover-text { font-size: 0.93rem; line-height: 1.45; color: #5a6880; }
+
+  .xh .xh-note {
+    margin: 0;
+    padding: 0.85rem 1.1rem;
+    border-radius: 12px;
+    background: #fff;
+    border-left: 4px solid var(--blue);
+    font-size: 0.98rem;
+  }
+
+  /* ---- Limit stat tiles ------------------------------------------------ */
+  .xh-stats {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+    gap: 0.8rem;
+  }
+  .xh-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1rem 1.1rem;
+    background: #fff;
+    border: 1px solid #f1e0d3;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+  }
+  .xh-stat-icon { flex: 0 0 auto; color: #d93349; }
+  .xh-stat-icon svg { width: 34px; height: 34px; display: block; }
+  .xh .xh-stat-num {
+    display: block;
+    font-size: 1.45rem;
+    line-height: 1.15;
+    color: #0b3f7a;
+    font-weight: 800;
+  }
+  .xh-stat-label { display: block; font-size: 0.92rem; line-height: 1.4; color: #5a6880; }
+  .xh .xh-small { font-size: 0.95rem; color: #5a6880; }
+
+  /* ---- Auto-qualify checklist ------------------------------------------ */
+  .xh-checks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.7rem;
+  }
+  .xh-check {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.75rem 1rem;
+    background: #fff;
+    border: 1px solid #dbe8f4;
+    border-radius: 12px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.4;
+  }
+  .xh-check-icon {
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    background: var(--tone);
+  }
+  .xh-check-icon svg { width: 18px; height: 18px; }
+  .xh-check-0 { --tone: #1f9d55; }
+  .xh-check-1 { --tone: #2f7fe0; }
+  .xh-check-2 { --tone: #7b3fc4; }
+
+  /* ---- Apply methods --------------------------------------------------- */
+  .xh-methods {
+    list-style: none;
+    margin: 0 0 1.2rem;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+    gap: 0.8rem;
+  }
+  .xh-methods li {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 1.1rem;
+    background: #fff;
+    border: 1px solid #d3ecd9;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+  }
+  .xh-method-icon {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #e3f3e8;
+    color: #1a7f45;
+  }
+  .xh-method-icon svg { width: 22px; height: 22px; }
+  .xh-method-label { font-weight: 700; color: var(--navy); font-size: 1.02rem; }
+
+  @media (max-width: 760px) {
+    .xh-panel { padding: 1.2rem 1.1rem; border-radius: 14px; }
+    .xh .xh-btn { flex: 1 1 100%; }
+    .xh-covers { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem; }
+    .xh-cover { padding: 1rem 0.7rem; }
+    .xh-cover:last-child:nth-child(odd) { grid-column: 1 / -1; }
+    .xh-cover-icon { width: 46px; height: 46px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .xh .xh-btn { transition: none; }
+  }
+</style>

@@ -1,9 +1,25 @@
 ---
 // src/pages/dual-eligible.astro — NET-NEW hub for the Dual-Eligible / Medicaid
 // silo (M6). Content adapted from AltaMedicare, rebranded to Vernal/Rocco. URL:
-// /dual-eligible.html. Built on ArticlePage; header/byline/summary/FAQ/related/
-// CTA/disclaimer + schema come from the framework.
+// /dual-eligible.html. Built on ArticlePage; schema/breadcrumb/disclaimer come
+// from the framework.
+// PRESENTATION: bareHeader + bareFooter — this page lays out its own hero,
+// benefit cards, qualify/more-help panels, steps, FAQ + agent card, and
+// sources + related row. It still renders the shared components (AuthorByline,
+// SummaryBlock, NextSteps, SourcesList, RelatedPages, PageCTA) and the
+// `.faq` section markup, so every editorial-gate marker class survives. The
+// article has no <main> ancestor, so styles.css `main …` rules never reach it;
+// every selector is nested under .de.
 import ArticlePage from '../components/layout/ArticlePage.astro';
+import AuthorByline from '../components/content/AuthorByline.astro';
+import SummaryBlock from '../components/SummaryBlock.astro';
+import NextSteps from '../components/content/NextSteps.astro';
+import SourcesList from '../components/content/SourcesList.astro';
+import RelatedPages from '../components/content/RelatedPages.astro';
+import PageCTA from '../components/content/PageCTA.astro';
+import { BUSINESS } from '../data/business';
+import { relatedFor } from '../lib/related';
+import { PAGE_INDEX } from '../data/pageIndex';
 import type { PageContext } from '../types/Page';
 
 const context: PageContext = {
@@ -58,35 +74,606 @@ const context: PageContext = {
     { name: 'Dual Eligible & Medicaid', href: '/dual-eligible.html' },
   ],
 };
+
+const { page } = context;
+const related = relatedFor(page.taxonomy, PAGE_INDEX, '/dual-eligible.html');
+
+// Icons are 24×24 stroke paths, rendered inside a tinted circle.
+const icon = {
+  basket: '<path d="M3 9h18l-1.8 10.2a2 2 0 0 1-2 1.8H6.8a2 2 0 0 1-2-1.8Z"/><path d="m8 9 3-6M16 9l-3-6M9 13v4M12 13v4M15 13v4"/>',
+  car: '<path d="M4 16.5V12l2-5.5h12L20 12v4.5"/><path d="M3 16.5h18v2H3Z"/><path d="M4 12h16"/><circle cx="7.5" cy="14.3" r=".9"/><circle cx="16.5" cy="14.3" r=".9"/>',
+  eye: '<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
+  coin: '<circle cx="12" cy="12" r="9"/><path d="M15 9.2c-.6-1-1.7-1.5-3-1.5-1.8 0-3 .9-3 2.2 0 3 6 1.6 6 4.4 0 1.4-1.3 2.3-3 2.3-1.4 0-2.6-.6-3.1-1.6M12 6v1.7M12 16.6v1.6"/>',
+  check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  people: '<circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.2A5 5 0 0 1 21 19"/>',
+  list: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>',
+  search: '<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/>',
+  calendar: '<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14h2M12 14h2M16 14h.01M8 17h2M12 17h2"/>',
+  phone: '<path d="M21 16.4v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.1 3.7 2 2 0 0 1 3.1 1.5h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L7.1 9.3a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2Z"/>',
+};
+
+const benefits = [
+  { tone: 'orange', icon: icon.basket, title: 'Grocery &amp; OTC cards',
+    text: 'A monthly allowance for healthy groceries at participating stores, plus pharmacy items like vitamins, pain relievers, and first aid.' },
+  { tone: 'blue', icon: icon.car, title: 'Transportation',
+    text: 'Rides to medical appointments, and sometimes to the pharmacy or grocery store.' },
+  { tone: 'teal', icon: icon.eye, title: 'Dental, vision, hearing',
+    text: 'Often more generous than standard Medicare Advantage plans.' },
+  { tone: 'gold', icon: icon.coin, title: '$0 or very low premium',
+    text: 'Many D-SNPs have a $0 monthly premium, with <strong>$0 copays</strong> for many services.' },
+];
+
+const programs = [
+  'Medicaid',
+  'Qualified Medicare Beneficiary (QMB)',
+  'Specified Low-Income Medicare Beneficiary (SLMB)',
+  'Qualifying Individual (QI)',
+  'Qualified Disabled and Working Individuals (QDWI)',
+];
+
+const moreHelp = [
+  '<a href="medicare-extra-help-utah.html">Extra Help</a> with Part D — drastically reduced prescription costs',
+  'Extra benefits like grocery/OTC cards, transportation, and dental, vision, and hearing',
+  'Plans designed specifically for people in your situation',
+  'A Special Enrollment Period that lets you change D-SNP plans more flexibly',
+];
+
+const steps = [
+  { tone: 'red', icon: icon.list, title: 'Check your eligibility',
+    text: 'We review your Medicare and Medicaid status against the current income and asset limits.' },
+  { tone: 'blue', icon: icon.search, title: 'Compare D-SNP options',
+    text: 'We look at the plans available where you live and the benefits each one offers.' },
+  { tone: 'green', icon: icon.people, title: 'Get help enrolling',
+    text: 'We walk through the application with you — at no cost to you.' },
+];
 ---
 
-<ArticlePage context={context}>
-  <h2>Medicare + Medicaid = More Help</h2>
-  <p>If you qualify for both Medicare and Medicaid, you're considered <strong>dual eligible</strong>. Special plans called <strong>D-SNPs (Dual-Eligible Special Needs Plans)</strong> are designed specifically for people in your situation — with extra benefits beyond what either program offers alone.</p>
+<ArticlePage context={context} bareHeader bareFooter>
+  <div class="de">
+    {/* Breadcrumb polish — StandardPageLayout renders it above this wrapper
+        and styles.css has no rule for it (no <main> ancestor). `is:inline` so
+        it ships with this page only. */}
+    <style is:inline>
+      .page > .breadcrumbs { margin: 0 0 1rem; font-size: 0.9rem; }
+      .page > .breadcrumbs ol {
+        list-style: none; margin: 0; padding: 0;
+        display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+      }
+      .page > .breadcrumbs li { display: flex; align-items: center; gap: 0.5rem; }
+      .page > .breadcrumbs li + li::before { content: "\203A"; color: #a8b8c9; font-weight: 700; }
+      .page > .breadcrumbs a { color: #55627a; font-weight: 600; text-decoration: none; }
+      .page > .breadcrumbs a:hover { color: #dc3545; text-decoration: underline; }
+      .page > .breadcrumbs [aria-current="page"] { color: #0b2c45; font-weight: 700; }
+    </style>
 
-  <h2>Common D-SNP Benefits</h2>
-  <ul>
-    <li><strong>Grocery cards</strong> — a monthly allowance for healthy groceries at participating stores</li>
-    <li><strong>Over-the-counter (OTC) cards</strong> — an allowance for pharmacy items like vitamins, pain relievers, and first aid</li>
-    <li><strong>Transportation</strong> — rides to medical appointments, and sometimes to the pharmacy or grocery store</li>
-    <li><strong>Dental, vision, hearing</strong> — often more generous than standard Medicare Advantage plans</li>
-    <li><strong>$0 or very low premium</strong> — many D-SNPs have a $0 monthly premium</li>
-    <li><strong>$0 copays</strong> for many services</li>
-    <li><strong><a href="medicare-extra-help-utah.html">Extra Help</a> with Part D</strong> — drastically reduced prescription costs</li>
-  </ul>
-  <p>These benefits are delivered through a <a href="d-snp-plans-utah.html">D-SNP (Dual-Eligible Special Needs Plan)</a> — a Medicare Advantage plan built for people with both programs.</p>
+    {/* ---- Hero ---- */}
+    <header class="de-hero">
+      <div class="de-hero-copy">
+        <h1>{(page.heading ?? '').replace('D-SNP', 'D‑SNP')}</h1>
+        <p class="de-tagline">More benefits. Lower costs. Extra help.</p>
+        <AuthorByline authorId={context.author} updated={context.lastUpdated} />
+        <SummaryBlock text={page.summary} />
+        <p class="de-actions">
+          <a class="de-btn de-btn--red" href={`tel:${BUSINESS.phoneTel}`}>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icon.phone} />
+            Call {BUSINESS.phone}
+          </a>
+          <a class="de-btn de-btn--ghost" href="/medicare-quote-vernal.html">Get Help Today</a>
+        </p>
+      </div>
+      <div class="de-hero-media">
+        <img src="/pictures/dual-eligible-hero.webp" alt="Main Street in Vernal, Utah, with the mountains behind" width="1100" height="618" fetchpriority="high" />
+        <p class="de-hero-quote" aria-hidden="true">Local help for a healthier tomorrow.</p>
+      </div>
+    </header>
 
-  <h2>Do You Qualify?</h2>
-  <p>You may be dual eligible if you're on Medicare <em>and</em> any of the following:</p>
-  <ul>
-    <li>Medicaid</li>
-    <li>Qualified Medicare Beneficiary (QMB)</li>
-    <li>Specified Low-Income Medicare Beneficiary (SLMB)</li>
-    <li>Qualifying Individual (QI)</li>
-    <li>Qualified Disabled and Working Individuals (QDWI)</li>
-  </ul>
-  <p>Income and asset limits apply — see our <a href="medicare-savings-programs-utah.html">Medicare Savings Programs</a> page for the current limits, or read how <a href="medicare-medicaid-utah.html">Medicare and Medicaid work together in Utah</a>. We can help you check whether you qualify and walk through the application if you're close — at no cost to you, anywhere in the Uintah Basin or by phone across Utah.</p>
+    <NextSteps steps={page.nextSteps ?? []} />
 
-  <h2>You Can Switch Plans More Freely</h2>
-  <p>Most Medicare beneficiaries can only change plans during certain enrollment windows. <strong>Dual-eligible beneficiaries get a Special Enrollment Period</strong> that lets them change D-SNP plans more flexibly throughout the year — so if your needs change, you're not stuck waiting until fall.</p>
+    {/* ---- Benefits ---- */}
+    <section class="de-panel de-panel--white">
+      <h2 class="de-h2--accent">Common D-SNP Benefits</h2>
+      <ul class="de-benefits">
+        {benefits.map((b) => (
+          <li class={`de-tone-${b.tone}`}>
+            <span class="de-bubble de-bubble--lg" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" set:html={b.icon} />
+            </span>
+            <h3 set:html={b.title} />
+            <p set:html={b.text} />
+          </li>
+        ))}
+      </ul>
+      <p class="de-note">These benefits are delivered through a <a href="d-snp-plans-utah.html">D-SNP (Dual-Eligible Special Needs Plan)</a> — a Medicare Advantage plan built for people with both programs.</p>
+    </section>
+
+    {/* ---- Qualify + More Help ---- */}
+    <div class="de-duo">
+      <section class="de-panel de-panel--blue">
+        <h2>Do You Qualify?</h2>
+        <p>You may be dual eligible if you're on Medicare <em>and</em> any of the following:</p>
+        <ul class="de-ticks de-ticks--green">
+          {programs.map((p) => (
+            <li>
+              <span class="de-tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" set:html={icon.check} /></span>
+              <span>{p}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="de-callout">
+          <span class="de-callout-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icon.people} /></span>
+          <p>Income and asset limits apply — see our <a href="medicare-savings-programs-utah.html">Medicare Savings Programs</a> page for the current limits, or read how <a href="medicare-medicaid-utah.html">Medicare and Medicaid work together in Utah</a>. We can help you check whether you qualify and walk through the application if you're close — at no cost to you, anywhere in the Uintah Basin or by phone across Utah.</p>
+        </div>
+      </section>
+
+      <section class="de-panel de-panel--peach">
+        <h2 class="de-h2--accent">Medicare + Medicaid = More Help</h2>
+        <p>If you qualify for both Medicare and Medicaid, you're considered <strong>dual eligible</strong>. Special plans called <strong>D-SNPs (Dual-Eligible Special Needs Plans)</strong> are designed specifically for people in your situation — with extra benefits beyond what either program offers alone.</p>
+        <ul class="de-ticks de-ticks--red de-ticks--boxed">
+          {moreHelp.map((m) => (
+            <li>
+              <span class="de-tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" set:html={icon.check} /></span>
+              <span set:html={m} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+
+    {/* ---- Steps + SEP ---- */}
+    <div class="de-duo de-duo--wide">
+      <section class="de-panel de-panel--white">
+        <h2>How to Get Started</h2>
+        <p>It's easy to see if you qualify and find the right D-SNP plan for your needs.</p>
+        <ol class="de-steps">
+          {steps.map((s, i) => (
+            <li class={`de-tone-${s.tone}`}>
+              <span class="de-step-top">
+                <span class="de-step-num" aria-hidden="true">{i + 1}</span>
+                <svg class="de-step-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" set:html={s.icon} />
+              </span>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="de-panel de-panel--blue de-sep">
+        <div class="de-sep-media" aria-hidden="true">
+          <img src="/pictures/dual-eligible-sep.webp" alt="" width="300" height="600" loading="lazy" />
+          <span class="de-sep-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icon.calendar} /></span>
+        </div>
+        <div>
+          <h2>You Can Switch Plans More Freely</h2>
+          <p>Most Medicare beneficiaries can only change plans during certain enrollment windows. <strong>Dual-eligible beneficiaries get a Special Enrollment Period</strong> that lets them change D-SNP plans more flexibly throughout the year — so if your needs change, you're not stuck waiting until fall.</p>
+          <p class="de-more"><a href="d-snp-plans-utah.html">Learn more about D-SNP plans →</a></p>
+        </div>
+      </section>
+    </div>
+
+    {/* ---- FAQ + agent ---- */}
+    <div class="de-duo de-duo--faq">
+      <section class="faq de-panel de-panel--white" aria-label="Frequently Asked Questions">
+        <h2>Frequently Asked Questions</h2>
+        {(page.faqs ?? []).map((f) => (
+          <details>
+            <summary set:html={f.question} />
+            <div class="faq-answer" set:html={f.answer} />
+          </details>
+        ))}
+      </section>
+
+      <aside class="de-panel de-panel--blue de-agent">
+        <img src="/pictures/rocco.webp" alt={BUSINESS.legalAgent} width="120" height="120" loading="lazy" />
+        <div>
+          <h2>Have Questions?</h2>
+          <p class="de-agent-name"><strong>{BUSINESS.legalAgent}</strong><br />Licensed Medicare Insurance Agent</p>
+          <p>I can walk you through your options — free, no pressure. Let's see if you qualify for a D-SNP plan or other programs.</p>
+        </div>
+        <p class="de-actions de-agent-actions">
+          <a class="de-btn de-btn--red" href={`tel:${BUSINESS.phoneTel}`}>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icon.phone} />
+            Call {BUSINESS.phone}
+          </a>
+          <a class="de-btn de-btn--ghost" href={BUSINESS.quoteUrl} target="_blank" rel="noopener noreferrer">Get a Free Quote</a>
+        </p>
+      </aside>
+    </div>
+
+    {/* ---- Sources + related ---- */}
+    <div class="de-duo de-duo--foot">
+      <div class="de-panel de-panel--blue de-foot-sources">
+        <SourcesList sources={page.sources ?? []} />
+      </div>
+      <div class="de-foot-related">
+        <RelatedPages related={related} heading="Related Topics" />
+      </div>
+    </div>
+
+    <div class="de-cta">
+      <PageCTA cta={context.cta} />
+    </div>
+  </div>
 </ArticlePage>
+
+<style>
+  /* Palette mirrors the shared chrome — navy #0b2c45, red #dc3545 — plus the
+     mockup's orange accent headings and blue/peach tinted panels. */
+  .de {
+    --navy: #0b2c45;
+    --ink: #0d2350;
+    --copy: #43526b;
+    --line: #e2e9f1;
+    --red: #d9263b;
+    --orange: #e8590c;
+    --blue: #0b6ea3;
+    --shadow: 0 4px 18px rgba(11, 44, 69, 0.07);
+    color: var(--copy);
+  }
+  .de :global(p) { font-size: 1.04rem; line-height: 1.65; color: var(--copy); margin: 0 0 0.9rem; }
+  .de :global(p:last-child) { margin-bottom: 0; }
+  .de :global(strong) { color: var(--navy); font-weight: 700; }
+  .de :global(a) {
+    color: var(--blue);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(11, 110, 163, 0.32);
+  }
+  .de :global(a:hover), .de :global(a:focus) { color: var(--red); border-bottom-color: var(--red); }
+
+  .de h2, .de :global(h2) {
+    color: var(--ink);
+    font-size: clamp(1.35rem, 1.05rem + 1vw, 1.75rem);
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.8rem;
+  }
+  .de :global(h2::after) { display: none; } /* kill the global orange underline */
+  .de .de-h2--accent { color: var(--orange); }
+  .de h3 { color: var(--ink); font-size: 1.08rem; line-height: 1.3; font-weight: 800; margin: 0 0 0.35rem; }
+
+  /* ---- Hero ---------------------------------------------------------- */
+  .de-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: stretch;
+    margin: 0 0 1.5rem;
+    border-radius: 22px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #eef5fd 0%, #f8fbff 60%, #e9f2fb 100%);
+    border: 1px solid #d9e7f5;
+  }
+  .de-hero-copy { padding: 2.2rem 2rem 2.2rem 2.4rem; position: relative; z-index: 1; }
+  .de-hero h1 {
+    color: var(--ink);
+    font-size: clamp(2rem, 1.3rem + 2.6vw, 3.1rem);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    font-weight: 800;
+    margin: 0 0 0.6rem;
+  }
+  .de .de-tagline { font-size: 1.25rem; font-weight: 800; color: var(--ink); margin: 0 0 0.6rem; }
+  .de-hero :global(.byline) { margin: 0 0 1rem; font-size: 0.9rem; color: #55627a; }
+  .de-hero :global(.byline a) { border-bottom: none; }
+  .de-hero :global(.summary-block) { margin: 0; padding: 0; background: none; border: 0; box-shadow: none; }
+  .de-hero :global(.summary-block p) { font-size: 1.08rem; color: #2c3c53; }
+  .de-hero-media { position: relative; min-height: 320px; }
+  .de-hero-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 22%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 22%);
+  }
+  .de .de-hero-quote {
+    position: absolute;
+    right: 1.2rem;
+    top: 1.2rem;
+    max-width: 11rem;
+    margin: 0;
+    padding: 0.7rem 0.9rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--ink);
+    font: italic 700 1.05rem/1.3 Georgia, 'Times New Roman', serif;
+    transform: rotate(-4deg);
+    box-shadow: 0 8px 20px rgba(11, 44, 69, 0.18);
+    border-bottom: 4px solid var(--orange);
+  }
+
+  /* ---- Buttons ------------------------------------------------------- */
+  .de .de-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.3rem 0 0; }
+  .de .de-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: 10px;
+    font-size: 1.04rem;
+    font-weight: 700;
+    border: 2px solid var(--navy);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .de .de-btn svg { width: 19px; height: 19px; }
+  .de .de-btn--red { background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 8px 18px rgba(217, 38, 59, 0.28); }
+  .de .de-btn--red:hover, .de .de-btn--red:focus { background: #bf1d31; border-color: #bf1d31; color: #fff; transform: translateY(-2px); }
+  .de .de-btn--ghost { background: #fff; color: var(--ink); }
+  .de .de-btn--ghost:hover, .de .de-btn--ghost:focus { background: #f2f7fc; color: var(--ink); border-color: var(--navy); transform: translateY(-2px); }
+
+  /* ---- Next step callout -------------------------------------------- */
+  .de :global(.next-steps) { margin: 0 0 1.5rem; }
+  .de :global(.next-step) {
+    display: block;
+    padding: 1rem 1.2rem;
+    border-radius: 14px;
+    border: 1px solid #cfe6d7;
+    border-left: 6px solid #1f9d55;
+    background: #f1f9f4;
+    line-height: 1.6;
+    color: #2c4a3a;
+  }
+  .de :global(.next-step-when) { color: #145c34; }
+
+  /* ---- Panels -------------------------------------------------------- */
+  .de-panel {
+    border-radius: 18px;
+    padding: 1.6rem 1.7rem;
+    margin: 0 0 1.5rem;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+  .de-panel--white { background: #fff; }
+  .de-panel--blue { background: linear-gradient(180deg, #edf5fd 0%, #f6faff 100%); border-color: #d6e6f5; }
+  .de-panel--peach { background: linear-gradient(180deg, #fff1e6 0%, #fff8f2 100%); border-color: #f7dcc8; }
+
+  .de-duo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: 1.5rem;
+    margin: 0 0 1.5rem;
+  }
+  .de-duo > * { margin: 0; }
+  .de-duo--wide { grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); }
+  .de-duo--faq { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); }
+  .de-duo--foot { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); align-items: start; }
+
+  /* Tones */
+  .de-tone-orange { --tone: #e8590c; --tone-soft: #fff0e6; }
+  .de-tone-blue   { --tone: #1f6fd6; --tone-soft: #e6f0fd; }
+  .de-tone-teal   { --tone: #0e8a8a; --tone-soft: #e3f5f5; }
+  .de-tone-gold   { --tone: #c98a00; --tone-soft: #fff5d9; }
+  .de-tone-red    { --tone: #d9263b; --tone-soft: #fde8eb; }
+  .de-tone-green  { --tone: #2f9e44; --tone-soft: #e6f6ea; }
+
+  /* ---- Benefits ------------------------------------------------------ */
+  .de-benefits {
+    list-style: none;
+    margin: 0.4rem 0 1.2rem;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .de-benefits li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0.6rem 1.1rem;
+  }
+  .de-benefits li + li { border-left: 1px solid var(--line); }
+  .de-benefits :global(p) { font-size: 0.96rem; line-height: 1.5; }
+  .de-bubble {
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--tone-soft);
+    color: var(--tone);
+  }
+  .de-bubble--lg { width: 76px; height: 76px; margin-bottom: 0.8rem; }
+  .de-bubble--lg svg { width: 38px; height: 38px; }
+  .de .de-note {
+    padding: 0.85rem 1.1rem;
+    border-radius: 12px;
+    background: #f4f8fc;
+    border-left: 4px solid var(--blue);
+    font-size: 0.98rem;
+  }
+
+  /* ---- Tick lists ---------------------------------------------------- */
+  .de-ticks { list-style: none; margin: 0 0 1.1rem; padding: 0; display: grid; gap: 0.55rem; }
+  .de-ticks li { display: flex; align-items: flex-start; gap: 0.7rem; line-height: 1.45; color: var(--ink); font-size: 1.02rem; }
+  .de-tick {
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    margin-top: 0.05rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    background: var(--tick);
+  }
+  .de-tick svg { width: 14px; height: 14px; }
+  .de-ticks--green { --tick: #2f9e44; }
+  .de-ticks--red { --tick: var(--red); }
+  .de-ticks--boxed {
+    margin: 1rem 0 0;
+    padding: 1.1rem 1.2rem;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid #f5d6c0;
+    gap: 0.75rem;
+  }
+  .de-callout {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    padding: 1rem 1.1rem;
+    border-radius: 14px;
+    background: #dfeefb;
+  }
+  .de-callout-icon { flex: 0 0 auto; color: #1f6fd6; }
+  .de-callout-icon svg { width: 34px; height: 34px; display: block; }
+  .de-callout :global(p) { font-size: 0.96rem; }
+
+  /* ---- Steps --------------------------------------------------------- */
+  .de-steps {
+    list-style: none;
+    margin: 1.2rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.6rem;
+  }
+  .de-steps li { position: relative; text-align: center; }
+  .de-steps li + li::before {
+    content: "\2192";
+    position: absolute;
+    left: -1.25rem;
+    top: 0.7rem;
+    color: #8aa0b8;
+    font-size: 1.3rem;
+  }
+  .de-step-top { display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin-bottom: 0.7rem; }
+  .de-step-num {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--tone);
+    color: #fff;
+    font-weight: 800;
+  }
+  .de-step-icon { width: 38px; height: 38px; color: var(--tone); }
+  .de-steps :global(p) { font-size: 0.95rem; line-height: 1.5; }
+
+  /* ---- SEP card ------------------------------------------------------ */
+  .de-sep { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 1.2rem; align-items: start; }
+  .de-sep-media { position: relative; height: 100%; min-height: 200px; border-radius: 12px; overflow: hidden; }
+  .de-sep-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .de-sep-badge {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #fff;
+    color: #1f6fd6;
+    box-shadow: 0 6px 16px rgba(11, 44, 69, 0.25);
+  }
+  .de-sep-badge svg { width: 30px; height: 30px; }
+  .de-sep h2 { font-size: 1.3rem; }
+  .de-sep :global(p) { font-size: 0.96rem; }
+  .de .de-more { margin-top: 0.6rem; }
+
+  /* ---- FAQ ----------------------------------------------------------- */
+  .de .faq { margin: 0; }
+  .de .faq :global(details) {
+    margin: 0 0 0.7rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(11, 44, 69, 0.05);
+  }
+  .de .faq :global(summary) {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.9rem 1rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .de .faq :global(summary::-webkit-details-marker) { display: none; }
+  .de .faq :global(summary::after) { display: none; } /* shared +/− marker; ours is ::before */
+  .de .faq :global(summary::before) {
+    content: "+";
+    flex: 0 0 auto;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--red);
+    color: #fff;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .de .faq :global(details[open] summary::before) { content: "\2212"; }
+  .de .faq :global(.faq-answer) { padding: 0 1rem 1rem 3.2rem; line-height: 1.6; color: var(--copy); }
+
+  /* ---- Agent card ---------------------------------------------------- */
+  .de-agent { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 1.1rem; align-content: start; }
+  .de-agent img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 25%;
+    border: 4px solid #fff;
+    box-shadow: 0 6px 16px rgba(11, 44, 69, 0.16);
+  }
+  .de-agent h2 { font-size: 1.35rem; margin-bottom: 0.4rem; }
+  .de .de-agent-name { font-size: 0.93rem; margin-bottom: 0.5rem; }
+  .de-agent :global(p) { font-size: 0.96rem; }
+  .de .de-agent-actions { grid-column: 1 / -1; margin: 0.3rem 0 0; }
+  .de .de-agent-actions .de-btn { flex: 1 1 auto; }
+
+  /* ---- Sources + related -------------------------------------------- */
+  .de-foot-sources :global(.sources) { margin: 0; padding: 0; background: none; border: 0; box-shadow: none; }
+  .de-foot-sources :global(.sources ul) { margin: 0; padding-left: 1.1rem; }
+  .de-foot-sources :global(.sources li) { margin: 0 0 0.45rem; line-height: 1.5; }
+  .de :global(.sources h2), .de :global(.related h2) { color: var(--orange); font-size: 1.3rem; }
+  .de-foot-related :global(.related) { margin: 0; }
+
+  /* ---- Bottom CTA band ---------------------------------------------- */
+  .de-cta :global(.page-cta) {
+    margin: 0.5rem 0 1rem;
+    padding: 2rem 1.5rem;
+    border-radius: 18px;
+    text-align: center;
+    background: linear-gradient(135deg, #0b2c45 0%, #123e66 100%);
+    border: 0;
+  }
+  .de-cta :global(.page-cta h2) { color: #fff; }
+  .de-cta :global(.page-cta p) { color: #d6e4f2; }
+  .de-cta :global(.page-cta-actions) { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 1rem; }
+  .de-cta :global(.page-cta .button) { border-bottom: none; }
+
+  /* ---- Responsive ---------------------------------------------------- */
+  @media (max-width: 980px) {
+    .de-hero { grid-template-columns: 1fr; }
+    .de-hero-media { min-height: 220px; order: -1; }
+    .de-hero-media img { -webkit-mask-image: none; mask-image: none; }
+    .de-benefits { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1rem; }
+    .de-benefits li:nth-child(3) { border-left: 0; }
+    .de-duo--wide, .de-duo--faq, .de-duo--foot { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .de-hero-copy { padding: 1.4rem 1.2rem 1.5rem; }
+    .de-panel { padding: 1.2rem 1.1rem; border-radius: 14px; }
+    .de .de-btn { flex: 1 1 100%; }
+    .de-benefits { grid-template-columns: minmax(0, 1fr); }
+    .de-benefits li + li { border-left: 0; border-top: 1px solid var(--line); padding-top: 1rem; }
+    .de-steps { grid-template-columns: minmax(0, 1fr); gap: 1.9rem; }
+    .de-steps li + li::before { content: "\2193"; left: 50%; top: -1.75rem; transform: translateX(-50%); }
+    .de-sep { grid-template-columns: minmax(0, 1fr); }
+    .de-sep-media { min-height: 140px; }
+    .de-agent { grid-template-columns: 84px minmax(0, 1fr); }
+    .de-agent img { width: 84px; height: 84px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .de .de-btn { transition: none; }
+  }
+</style>
