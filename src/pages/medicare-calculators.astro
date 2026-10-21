@@ -542,6 +542,9 @@ const context: PageContext = {
   @media (max-width: 900px) {
     .cx-hero { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
     .cx-hero__lede { max-width: none; }
+    /* Once the callout is static it becomes a flex item beside the image —
+       stack them, or the row overflows the viewport by the callout's width. */
+    .cx-hero__art { flex-direction: column; }
     .cx-hero__callout { position: static; margin-top: 1rem; left: auto; right: auto; bottom: auto; }
     .cx-plan { grid-template-columns: 1fr; text-align: center; justify-items: center; }
     .cx-plan__msg p { max-width: none; }
