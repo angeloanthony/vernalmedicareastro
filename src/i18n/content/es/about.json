@@ -1,5 +1,5 @@
 {
-  "__translation_note": "AI-translated from en/about.json (2026-07-01) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. The Carriers paragraph mirrors the CMS multi-plan disclosure wording in Spanish. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
+  "__translation_note": "AI-translated from en/about.json (2026-07-01; About redesign segments 2026-10-20) using src/i18n/glossary.json (CMS es.medicare.gov terminology). Machine-generated — pending human spot-check. The Carriers paragraph mirrors the CMS multi-plan disclosure wording in Spanish. Do not hand-edit copy here; fix the English master or pin the term in the glossary, then re-run npm run translate.",
   "page": {
     "title": "Sobre nosotros — Vernal Medicare | Ayuda local con licencia en el Condado de Uintah",
     "heading": "Sobre Vernal Medicare",
@@ -14,38 +14,104 @@
     "self": "Sobre nosotros"
   },
   "body": {
-    "introHtml": "Soy <strong>Rocco DeLuca</strong>, un agente local con licencia con base en Vernal. Mi trabajo es simple: ayudarle a elegir una cobertura que se ajuste a sus necesidades y su presupuesto — <em>sin vueltas</em>.",
-    "h2Help": "En qué le ayudo",
-    "helpItemsHtml": [
-      "<strong>Medicare Advantage</strong> y <strong>Medigap</strong>",
-      "<strong>Planes de medicamentos (Parte D)</strong>",
-      "<strong>Seguro de salud para menores de 65</strong> (el Mercado)",
-      "<strong>Cobertura de copagos</strong> (indemnización fija)",
-      "<strong>Seguro de vida</strong> (a término y de gastos finales)"
-    ],
-    "noteHtml": "No hay costo adicional para usted — a los agentes generalmente les paga el plan o la aseguradora si usted se inscribe.",
-    "h2Together": "Cómo trabajaremos juntos",
-    "togetherItemsHtml": [
-      "<strong>Escuchar:</strong> primero sus necesidades y su presupuesto.",
-      "<strong>Comparar:</strong> opciones simples, lado a lado, en lenguaje sencillo.",
-      "<strong>Inscribir y apoyar:</strong> lo hacemos bien — y estoy aquí durante todo el año."
-    ],
-    "h2Local": "Por qué importa lo local",
-    "localHtml": "Los planes funcionan distinto según el condado. Como vivo y trabajo aquí, conozco las redes locales, las farmacias y lo que realmente funciona en la cuenca. Vea los <a href=\"medicare-plans-vernal-utah.html\">planes de Medicare en Vernal</a> o <a href=\"medicare-agent-vernal.html\">más sobre trabajar con un agente local</a>.",
-    "h2Carriers": "Aseguradoras",
-    "carriersHtml": "Trabajo con varias aseguradoras (la disponibilidad varía según el condado). <em>No ofrecemos todos los planes disponibles en su área.</em> Cualquier información que proporciono se limita a los planes que sí ofrezco. Para información sobre todas sus opciones, visite <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a> o llame al 1-800-MEDICARE (TTY: 711).",
-    "h2Credentials": "Credenciales y confianza",
-    "credentialsHtml": "Soy un agente de seguros de Medicare con licencia, y — como todo agente que puede ofrecer Medicare Advantage y la Parte D — completo cada año la certificación AHIP y la capacitación de cada aseguradora antes de poder hablar de planes con usted. Esto es lo que respalda los consejos de este sitio:",
-    "credentialItemsHtml": [
-      "<a href=\"medicare-agent-credentials.html\"><strong>Mis credenciales y certificaciones</strong></a> — licencias, capacitación anual y cumplimiento.",
-      "<a href=\"editorial-policy.html\"><strong>Cómo mantenemos este sitio preciso</strong></a> — fuentes oficiales, cifras anuales de fuente única, y revisión.",
-      "<a href=\"reviews.html\"><strong>Lo que dicen los clientes</strong></a> — reseñas de beneficiarios locales de Medicare y sus familias."
-    ],
-    "h2Talk": "¿Listo para hablar?",
-    "talkHtml": "Llame o escriba para una conversación amigable y sin presión.",
-    "callLabel": "Llame al (435) 219-5120 (TTY: 711)",
-    "emailLabel": "Escríbanos",
-    "quoteText": "\"La cobertura debería ser simple, local y hecha a su medida.\"",
-    "quoteAttribution": "— Rocco DeLuca"
+    "hero": {
+      "headingLead": "Sobre",
+      "headingAccent": "Vernal Medicare",
+      "tagline": "Ayuda local y con licencia con Medicare en Vernal y Uintah Basin.",
+      "callLabel": "Llame al (435) 219-5120",
+      "emailLabel": "Escriba a Vernal Medicare",
+      "ttyNote": "Usuarios de TTY llamen al 711.",
+      "photoAlt": "Rocco DeLuca, agente de seguros con licencia de Vernal Medicare",
+      "nameCaption": "Rocco DeLuca",
+      "roleCaption": "Agente de seguros con licencia",
+      "motto": "Ayuda local. Soluciones reales."
+    },
+    "services": {
+      "h2": "En qué le ayudo",
+      "intro": "Elija un tema para ver cómo funciona y qué hay disponible en Uintah Basin.",
+      "learnMore": "Más información",
+      "items": [
+        {
+          "title": "Medicare Advantage",
+          "text": "Planes todo en uno que combinan cobertura de hospital, médica y, a menudo, de medicamentos.",
+          "href": "medicare-advantage-plans-vernal.html"
+        },
+        {
+          "title": "Seguro suplementario de Medicare (Medigap)",
+          "text": "Ayuda a pagar los costos que Medicare Original no cubre.",
+          "href": "medigap.html"
+        },
+        {
+          "title": "Planes de medicamentos recetados (Parte D)",
+          "text": "Compare planes de medicamentos para los medicamentos que usted realmente toma.",
+          "href": "part-d-plans-vernal.html"
+        },
+        {
+          "title": "Seguro de salud del Mercado para menores de 65",
+          "text": "Planes del Mercado para personas y familias menores de 65 años.",
+          "href": "aca.html"
+        },
+        {
+          "title": "Seguro de vida",
+          "text": "Cobertura a término y de gastos finales para el futuro de su familia.",
+          "href": "life.html"
+        }
+      ],
+      "noteHtml": "También ayudo con la <a href=\"indemnity.html\">cobertura de copagos (indemnización fija)</a>. No hay costo adicional para usted — a los agentes generalmente les paga el plan o la aseguradora si usted se inscribe."
+    },
+    "together": {
+      "h2Lead": "Cómo",
+      "h2Accent": "trabajaremos juntos",
+      "intro": "Un proceso simple y sin presión. Abra cualquier paso para ver lo que incluye.",
+      "steps": [
+        {
+          "title": "Escuchar",
+          "short": "Primero, sus necesidades y su presupuesto.",
+          "detailHtml": "Empezamos con lo que es importante para usted: sus médicos, sus recetas y lo que puede pagar cómodamente cada mes. Si los tiene a mano, traiga su tarjeta de Medicare y una lista de sus medicamentos."
+        },
+        {
+          "title": "Comparar",
+          "short": "Opciones simples, lado a lado, en lenguaje sencillo.",
+          "detailHtml": "Le presento lado a lado los planes que ofrezco en su condado — primas, copagos, costos de medicamentos y si sus médicos y su farmacia están en la red. Usted decide, sin presión."
+        },
+        {
+          "title": "Inscribir y apoyar",
+          "short": "Lo hacemos bien — y estoy aquí durante todo el año.",
+          "detailHtml": "Cuando esté listo, le ayudo con los pasos de inscripción que correspondan a su situación y al momento. Después, estoy aquí todo el año para preguntas sobre una factura, un reclamo o si su plan todavía le conviene cuando llegue la temporada de inscripción."
+        }
+      ]
+    },
+    "local": {
+      "h2": "Por qué importa lo local",
+      "html": "Los planes, los costos y las redes de proveedores pueden variar según el condado, y no todos los planes se ofrecen en todas partes. Como vivo y trabajo aquí, conozco los hospitales y las farmacias locales que usan las personas de la cuenca, y puedo ayudarle a verificar si los suyos están en la red de un plan.",
+      "ctaLabel": "Vea los planes de Medicare en Vernal",
+      "ctaHref": "medicare-plans-vernal-utah.html",
+      "moreHtml": "O lea más sobre <a href=\"medicare-agent-vernal.html\">trabajar con un agente local</a>.",
+      "imageAlt": "La calle principal de Vernal, Utah, con las montañas al fondo"
+    },
+    "carriers": {
+      "h2": "Aseguradoras",
+      "html": "Trabajo con varias aseguradoras (la disponibilidad varía según el condado). <em>No ofrecemos todos los planes disponibles en su área.</em> Cualquier información que proporciono se limita a los planes que sí ofrezco. Para información sobre todas sus opciones, visite <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a> o llame al 1-800-MEDICARE (TTY: 711)."
+    },
+    "credentials": {
+      "h2": "Credenciales y confianza",
+      "html": "Soy un agente de seguros de Medicare con licencia, y — como todo agente que puede ofrecer Medicare Advantage y la Parte D — completo cada año la certificación AHIP y la capacitación de cada aseguradora antes de poder hablar de planes con usted. Esto es lo que respalda los consejos de este sitio:",
+      "itemsHtml": [
+        "<a href=\"medicare-agent-credentials.html\"><strong>Mis credenciales y certificaciones</strong></a> — licencias, capacitación anual y cumplimiento.",
+        "<a href=\"editorial-policy.html\"><strong>Cómo mantenemos este sitio preciso</strong></a> — fuentes oficiales, cifras anuales de fuente única, y revisión.",
+        "<a href=\"reviews.html\"><strong>Lo que dicen los clientes</strong></a> — reseñas de beneficiarios locales de Medicare y sus familias."
+      ]
+    },
+    "contact": {
+      "h2": "Hable con un agente local con licencia",
+      "text": "Llame o escriba para una conversación amigable y sin presión. Puedo explicarle sus opciones en persona, por teléfono o por video.",
+      "callLabel": "Llame al (435) 219-5120 (TTY: 711)",
+      "emailLabel": "Escríbanos",
+      "officeLabel": "Oficina",
+      "hoursLabel": "Horario",
+      "hours": "Lunes a viernes, de 1 pm a 5 pm; sábados con cita",
+      "quoteText": "\"La cobertura debería ser simple, local y hecha a su medida.\"",
+      "quoteAttribution": "— Rocco DeLuca"
+    }
   }
 }

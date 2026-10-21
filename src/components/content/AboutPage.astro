@@ -3,7 +3,19 @@
 // template (M4 batch 3; playbook §4.5). The Carriers paragraph carries the
 // first-person CMS multi-plan disclosure — its Spanish mirrors the official
 // CMS wording (see es/about.json note), never free machine translation.
+// PRESENTATION (2026-10 redesign): bareHeader + bareFooter — the page lays out
+// its own hero, service cards, expandable steps, local panel, trust cards and
+// contact panel. It still renders AuthorByline, SummaryBlock and RelatedPages,
+// and the contact panel carries `page-cta`, so every editorial-gate marker
+// class survives. The article has no <main> ancestor, so styles.css `main …`
+// rules never reach it; every selector is nested under .ab.
 import ArticlePage from '../layout/ArticlePage.astro';
+import AuthorByline from './AuthorByline.astro';
+import SummaryBlock from '../SummaryBlock.astro';
+import RelatedPages from './RelatedPages.astro';
+import { BUSINESS } from '../../data/business';
+import { relatedFor } from '../../lib/related';
+import { PAGE_INDEX } from '../../data/pageIndex';
 import { getPageContent, hreflangAlternates, localizeHref, SITE_ORIGIN } from '../../i18n/content';
 import { getLangFromUrl, getLocaleMeta } from '../../i18n/locales';
 import type { PageContext } from '../../types/Page';
@@ -15,25 +27,45 @@ interface Content {
   meta: { ogDescription: string };
   breadcrumb: { home: string; self: string };
   body: {
-    introHtml: string;
-    h2Help: string;
-    helpItemsHtml: string[];
-    noteHtml: string;
-    h2Together: string;
-    togetherItemsHtml: string[];
-    h2Local: string;
-    localHtml: string;
-    h2Carriers: string;
-    carriersHtml: string;
-    h2Credentials: string;
-    credentialsHtml: string;
-    credentialItemsHtml: string[];
-    h2Talk: string;
-    talkHtml: string;
-    callLabel: string;
-    emailLabel: string;
-    quoteText: string;
-    quoteAttribution: string;
+    hero: {
+      headingLead: string;
+      headingAccent: string;
+      tagline: string;
+      callLabel: string;
+      emailLabel: string;
+      ttyNote: string;
+      photoAlt: string;
+      nameCaption: string;
+      roleCaption: string;
+      motto: string;
+    };
+    services: {
+      h2: string;
+      intro: string;
+      learnMore: string;
+      items: { title: string; text: string; href: string }[];
+      noteHtml: string;
+    };
+    together: {
+      h2Lead: string;
+      h2Accent: string;
+      intro: string;
+      steps: { title: string; short: string; detailHtml: string }[];
+    };
+    local: { h2: string; html: string; ctaLabel: string; ctaHref: string; moreHtml: string; imageAlt: string };
+    carriers: { h2: string; html: string };
+    credentials: { h2: string; html: string; itemsHtml: string[] };
+    contact: {
+      h2: string;
+      text: string;
+      callLabel: string;
+      emailLabel: string;
+      officeLabel: string;
+      hoursLabel: string;
+      hours: string;
+      quoteText: string;
+      quoteAttribution: string;
+    };
   };
 }
 
@@ -60,49 +92,647 @@ const context: PageContext = {
   },
   author: 'rocco',
   datePublished: '2026-04-04',
-  lastUpdated: '2026-07-01',
+  lastUpdated: '2026-10-20',
   breadcrumb: [
     { name: c.breadcrumb.home, href: localizeHref('/', lang) },
     { name: c.breadcrumb.self, href: pagePath },
   ],
 };
+
+const related = relatedFor(context.page.taxonomy, PAGE_INDEX, `/${SLUG}.html`);
+
+// Icons are 24×24 stroke paths, rendered inside a tinted circle.
+const icon = {
+  heart: '<path d="M19.5 12.6 12 20l-7.5-7.4A4.6 4.6 0 0 1 12 6.3a4.6 4.6 0 0 1 7.5 6.3Z"/><path d="M4 12h3.5L9 9.5l2.5 5L13 12h7"/>',
+  shield: '<path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6Z"/><path d="m8.8 12.2 2.3 2.3 4.4-4.6"/>',
+  pill: '<path d="M10.5 20.5a4.95 4.95 0 0 1-7-7l6-6a4.95 4.95 0 0 1 7 7Z"/><path d="m8.5 8.5 7 7"/>',
+  people: '<circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.2A5 5 0 0 1 21 19"/>',
+  doc: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
+  ear: '<path d="M6.5 9a5.5 5.5 0 0 1 11 0c0 3-2.5 4-3 6.5-.4 2.2-1.8 3.5-3.7 3.5-1.6 0-2.8-1-3.1-2.4"/><path d="M9.5 9.5a2.5 2.5 0 0 1 5 0c0 1.2-1 1.8-1.6 2.6"/>',
+  compare: '<path d="M13 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"/><path d="M13 3v5h5v2"/><circle cx="15.5" cy="15.5" r="3.5"/><path d="m21 21-3-3"/>',
+  handshake: '<path d="m11 17 2 2a1.4 1.4 0 0 0 2-2"/><path d="m14 14 2.5 2.5a1.4 1.4 0 0 0 2-2l-3.8-3.8a2.8 2.8 0 0 0-4 0l-.9.9a1.4 1.4 0 0 1-2-2l2.8-2.8a5 5 0 0 1 5.7-1L19 6.3"/><path d="m21 3 1 11h-2M3 3 2 14l6.5 6.5a1.4 1.4 0 0 0 2-2M3 4h8"/>',
+  building: '<path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M9 21v-5h6v5"/>',
+  award: '<circle cx="12" cy="9" r="5.5"/><path d="m8.5 13.5-1.5 7.5 5-2.5 5 2.5-1.5-7.5"/>',
+  check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  chevron: '<path d="m6 9 6 6 6-6"/>',
+  arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  phone: '<path d="M21 16.4v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.1 3.7 2 2 0 0 1 3.1 1.5h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L7.1 9.3a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2Z"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>',
+  pin: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+};
+
+// One look per service card, in content order (MA, Medigap, Part D, under-65, life).
+const serviceLooks = [
+  { tone: 'red', icon: icon.heart },
+  { tone: 'green', icon: icon.shield },
+  { tone: 'blue', icon: icon.pill },
+  { tone: 'orange', icon: icon.people },
+  { tone: 'purple', icon: icon.doc },
+];
+const stepIcons = [icon.ear, icon.compare, icon.handshake];
 ---
 
-<ArticlePage context={context}>
-  <p set:html={b.introHtml} />
+<ArticlePage context={context} bareHeader bareFooter>
+  <div class="ab">
+    {/* Breadcrumb polish — StandardPageLayout renders it above this wrapper
+        and styles.css has no rule for it (no <main> ancestor). `is:inline` so
+        it ships with this page only. */}
+    <style is:inline>
+      .page > .breadcrumbs { margin: 0 0 1rem; font-size: 0.95rem; }
+      .page > .breadcrumbs ol {
+        list-style: none; margin: 0; padding: 0;
+        display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+      }
+      .page > .breadcrumbs li { display: flex; align-items: center; gap: 0.5rem; }
+      .page > .breadcrumbs li + li::before { content: "\203A"; color: #a8b8c9; font-weight: 700; }
+      .page > .breadcrumbs a { color: #1a5fd0; font-weight: 600; text-decoration: none; }
+      .page > .breadcrumbs a:hover { color: #dc3545; text-decoration: underline; }
+      .page > .breadcrumbs [aria-current="page"] { color: #0b2c45; font-weight: 700; }
+    </style>
 
-  <h2>{b.h2Help}</h2>
-  <ul>
-    {b.helpItemsHtml.map((item) => <li set:html={item} />)}
-  </ul>
-  <p class="note" set:html={b.noteHtml} />
+    {/* ---- Hero ---- */}
+    <header class="ab-hero">
+      <div class="ab-hero-copy">
+        <h1>{b.hero.headingLead} <span class="ab-accent">{b.hero.headingAccent}</span></h1>
+        <p class="ab-tagline">{b.hero.tagline}</p>
+        <SummaryBlock text={c.page.summary} />
+        <p class="ab-actions">
+          <a class="ab-btn ab-btn--red" href={`tel:${BUSINESS.phoneTel}`}>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icon.phone} />
+            {b.hero.callLabel}
+          </a>
+          <a class="ab-btn ab-btn--outline" href={`mailto:${BUSINESS.email}`}>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icon.mail} />
+            {b.hero.emailLabel}
+          </a>
+        </p>
+        <p class="ab-tty">{b.hero.ttyNote}</p>
+        <AuthorByline authorId={context.author} updated={context.lastUpdated} />
+      </div>
+      <figure class="ab-hero-media">
+        <span class="ab-motto" aria-hidden="true">{b.hero.motto}</span>
+        <img src="/pictures/rocco.webp" alt={b.hero.photoAlt} width="1371" height="1148" fetchpriority="high" />
+        <figcaption>
+          <strong>{b.hero.nameCaption}</strong>
+          <span>{b.hero.roleCaption}</span>
+        </figcaption>
+      </figure>
+    </header>
 
-  <h2>{b.h2Together}</h2>
-  <ol>
-    {b.togetherItemsHtml.map((item) => <li set:html={item} />)}
-  </ol>
+    {/* ---- Services ---- */}
+    <section class="ab-section" aria-labelledby="ab-services-h">
+      <h2 id="ab-services-h">{b.services.h2}</h2>
+      <p class="ab-lede">{b.services.intro}</p>
+      <ul class="ab-services">
+        {b.services.items.map((s, i) => {
+          const look = serviceLooks[i] ?? serviceLooks[0];
+          return (
+            <li class={`ab-tone-${look.tone}`}>
+              <a class="ab-service" href={localizeHref(s.href, lang)}>
+                <span class="ab-bubble" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" set:html={look.icon} />
+                </span>
+                <span class="ab-service-title">{s.title}</span>
+                <span class="ab-service-text">{s.text}</span>
+                <span class="ab-service-more">
+                  {b.services.learnMore}
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" set:html={icon.arrow} />
+                </span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+      <p class="ab-note" set:html={b.services.noteHtml} />
+    </section>
 
-  <h2>{b.h2Local}</h2>
-  <p set:html={b.localHtml} />
+    {/* ---- How we'll work together + why local ---- */}
+    <div class="ab-duo">
+      <section class="ab-section ab-together" aria-labelledby="ab-together-h">
+        <h2 id="ab-together-h">{b.together.h2Lead} <span class="ab-accent">{b.together.h2Accent}</span></h2>
+        <p class="ab-lede">{b.together.intro}</p>
+        <ol class="ab-steps">
+          {b.together.steps.map((s, i) => (
+            <li class="ab-step">
+              <span class="ab-step-num" aria-hidden="true">{i + 1}</span>
+              <span class="ab-step-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={stepIcons[i] ?? icon.check} />
+              </span>
+              <h3>
+                <button type="button" class="ab-step-toggle" aria-expanded="true" aria-controls={`ab-step-${i + 1}`}>
+                  <span>{s.title}</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" set:html={icon.chevron} />
+                </button>
+              </h3>
+              <p class="ab-step-short">{s.short}</p>
+              <div class="ab-step-detail" id={`ab-step-${i + 1}`}>
+                <p set:html={s.detailHtml} />
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
 
-  <h2 set:html={b.h2Carriers} />
-  <p set:html={b.carriersHtml} />
+      <section class="ab-local" aria-labelledby="ab-local-h">
+        <img src="/pictures/dual-eligible-hero.webp" alt={b.local.imageAlt} width="1100" height="618" loading="lazy" decoding="async" />
+        <div class="ab-local-copy">
+          <h2 id="ab-local-h">{b.local.h2}</h2>
+          <p>{b.local.html}</p>
+          <p class="ab-local-actions">
+            <a class="ab-btn ab-btn--white" href={localizeHref(b.local.ctaHref, lang)}>
+              {b.local.ctaLabel}
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" set:html={icon.arrow} />
+            </a>
+          </p>
+          <p class="ab-local-more" set:html={b.local.moreHtml} />
+        </div>
+      </section>
+    </div>
 
-  <h2 set:html={b.h2Credentials} />
-  <p set:html={b.credentialsHtml} />
-  <ul>
-    {b.credentialItemsHtml.map((item) => <li set:html={item} />)}
-  </ul>
+    {/* ---- Carriers + credentials ---- */}
+    <div class="ab-duo ab-duo--even">
+      <section class="ab-card" aria-labelledby="ab-carriers-h">
+        <span class="ab-card-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" set:html={icon.building} />
+        </span>
+        <div>
+          <h2 id="ab-carriers-h" set:html={b.carriers.h2} />
+          <p set:html={b.carriers.html} />
+        </div>
+      </section>
 
-  <h2>{b.h2Talk}</h2>
-  <p set:html={b.talkHtml} />
-  <p style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
-    <a class="button primary" href="tel:+14352195120">{b.callLabel}</a>
-    <a class="button" href="mailto:rocco@vernalmedicare.com">{b.emailLabel}</a>
-  </p>
+      <section class="ab-card" aria-labelledby="ab-cred-h">
+        <span class="ab-card-icon ab-card-icon--red" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" set:html={icon.award} />
+        </span>
+        <div>
+          <h2 id="ab-cred-h" set:html={b.credentials.h2} />
+          <p set:html={b.credentials.html} />
+          <ul class="ab-ticks">
+            {b.credentials.itemsHtml.map((item) => (
+              <li>
+                <span class="ab-tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" set:html={icon.check} /></span>
+                <span set:html={item} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </div>
 
-  <blockquote class="pull-quote" style="font-style:italic; margin: 1.5rem 0; color:#555;">
-    {b.quoteText}
-    <span style="display:block; margin-top:.5rem;">{b.quoteAttribution}</span>
-  </blockquote>
+    {/* ---- Contact (carries the page-cta marker + its shared navy styling) ---- */}
+    <section class="page-cta ab-contact" aria-labelledby="ab-contact-h">
+      <h2 id="ab-contact-h">{b.contact.h2}</h2>
+      <p>{b.contact.text}</p>
+      <p class="page-cta-actions">
+        <a class="button" href={`tel:${BUSINESS.phoneTel}`}>{b.contact.callLabel}</a>
+        <a class="button" href={`mailto:${BUSINESS.email}`}>{b.contact.emailLabel}</a>
+      </p>
+      <dl class="ab-contact-info">
+        <div>
+          <dt>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icon.pin} />
+            {b.contact.officeLabel}
+          </dt>
+          <dd>{BUSINESS.containedInPlace}, {BUSINESS.street}, {BUSINESS.city}, {BUSINESS.region} {BUSINESS.postal}</dd>
+        </div>
+        <div>
+          <dt>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icon.clock} />
+            {b.contact.hoursLabel}
+          </dt>
+          <dd>{b.contact.hours}</dd>
+        </div>
+      </dl>
+      <blockquote class="ab-quote">
+        <p>{b.contact.quoteText}</p>
+        <footer>{b.contact.quoteAttribution}</footer>
+      </blockquote>
+    </section>
+
+    <div class="ab-related">
+      <RelatedPages related={related} />
+    </div>
+
+    {/* Step disclosure: open by default so the details read without JS; once
+        the script runs each step collapses behind its native button, which
+        already handles Enter/Space, touch and screen readers. */}
+    <script is:inline>
+      (() => {
+        document.querySelectorAll('.ab-step-toggle').forEach((btn) => {
+          const panel = document.getElementById(btn.getAttribute('aria-controls'));
+          if (!panel) return;
+          btn.setAttribute('aria-expanded', 'false');
+          panel.hidden = true;
+          btn.addEventListener('click', () => {
+            const open = btn.getAttribute('aria-expanded') === 'true';
+            btn.setAttribute('aria-expanded', String(!open));
+            panel.hidden = open;
+          });
+        });
+      })();
+    </script>
+  </div>
 </ArticlePage>
+
+<style>
+  /* Palette mirrors the shared chrome — navy #0b2c45, red #dc3545 — plus the
+     reference design's bright blue accent and per-service icon tints. */
+  .ab {
+    --navy: #0b2c45;
+    --ink: #0d2350;
+    --copy: #3d4a5e;
+    --line: #e2e9f1;
+    --red: #d9263b;
+    --bright: #1a5fd0;
+    --soft: #f3f7fc;
+    --shadow: 0 6px 22px rgba(11, 44, 69, 0.08);
+    color: var(--copy);
+  }
+  .ab :global(p) { font-size: 1.06rem; line-height: 1.65; color: var(--copy); margin: 0 0 0.9rem; }
+  .ab :global(p:last-child) { margin-bottom: 0; }
+  .ab :global(strong) { color: var(--navy); font-weight: 700; }
+  .ab :global(a) {
+    color: var(--bright);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .ab :global(a:hover) { color: var(--red); }
+  .ab :global(a:focus-visible),
+  .ab :global(button:focus-visible) {
+    outline: 3px solid #f0a500;
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+
+  .ab h2, .ab :global(h2) {
+    color: var(--ink);
+    font-size: clamp(1.45rem, 1.1rem + 1.1vw, 1.9rem);
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.5rem;
+  }
+  .ab-accent { color: var(--bright); }
+  .ab-lede { font-size: 1.1rem !important; margin-bottom: 1.4rem !important; }
+  .ab-section { margin: 0 0 2.75rem; }
+
+  /* ---- Buttons ---- */
+  .ab .ab-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-height: 52px;
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    font-size: 1.08rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  }
+  .ab .ab-btn svg { width: 20px; height: 20px; flex: none; }
+  .ab .ab-btn:hover { transform: translateY(-2px); }
+  .ab .ab-btn--red { background: var(--red); color: #fff; box-shadow: 0 8px 18px rgba(217, 38, 59, 0.3); }
+  .ab .ab-btn--red:hover { background: #b81d30; color: #fff; }
+  .ab .ab-btn--outline { background: #fff; color: var(--navy); border-color: var(--navy); }
+  .ab .ab-btn--outline:hover { background: var(--navy); color: #fff; }
+  .ab .ab-btn--white { background: #fff; color: var(--bright); }
+  .ab .ab-btn--white:hover { background: #eaf2ff; color: var(--navy); }
+
+  /* ---- Hero ---- */
+  .ab-hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+    margin: 0 0 2.75rem;
+    padding: 1.75rem 1.25rem;
+    border-radius: 24px;
+    background:
+      radial-gradient(circle at 85% 20%, rgba(26, 95, 208, 0.1), transparent 55%),
+      linear-gradient(180deg, #ffffff 0%, var(--soft) 100%);
+    border: 1px solid var(--line);
+  }
+  .ab-hero h1 {
+    color: var(--ink);
+    font-size: clamp(2.1rem, 1.4rem + 3vw, 3.3rem);
+    line-height: 1.08;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.6rem;
+  }
+  .ab-tagline { font-size: clamp(1.15rem, 1rem + 0.6vw, 1.4rem) !important; color: var(--navy) !important; font-weight: 500; margin-bottom: 1rem !important; }
+  .ab-hero :global(.summary-block) { margin: 0 0 1.4rem; padding: 0; background: none; border: 0; box-shadow: none; }
+  .ab-hero :global(.summary-block p) { font-size: 1.1rem; color: #2c3c53; }
+  .ab-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 0 0 0.5rem !important; }
+  .ab-tty { font-size: 0.95rem !important; margin-bottom: 1rem !important; }
+  .ab-hero :global(.byline) { margin: 0; font-size: 0.92rem; color: #55627a; }
+
+  .ab-hero-media { position: relative; margin: 0; max-width: 460px; justify-self: center; width: 100%; }
+  .ab-hero-media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: 50% 15%;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 18px 44px rgba(11, 44, 69, 0.18);
+  }
+  .ab-hero-media figcaption {
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;
+    display: grid;
+    padding: 0.6rem 1rem;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: var(--shadow);
+    line-height: 1.3;
+  }
+  .ab-hero-media figcaption strong { font-size: 1.05rem; }
+  .ab-hero-media figcaption span { font-size: 0.92rem; color: #55627a; }
+  .ab-motto {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    background: var(--navy);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: var(--shadow);
+  }
+
+  /* ---- Service cards ---- */
+  .ab-services {
+    list-style: none;
+    margin: 0 0 1.2rem;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1rem;
+  }
+  .ab-services li { display: flex; }
+  .ab .ab-service {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 1.4rem 1.1rem 1.2rem;
+    text-align: center;
+    text-decoration: none;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+  .ab .ab-service:hover,
+  .ab .ab-service:focus-visible {
+    transform: translateY(-4px);
+    border-color: var(--tone);
+    box-shadow: 0 14px 30px rgba(11, 44, 69, 0.14);
+  }
+  .ab-bubble {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 0.35rem;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--tone);
+    box-shadow: 0 0 0 6px var(--tint);
+  }
+  .ab-bubble svg { width: 30px; height: 30px; }
+  .ab-service-title { color: var(--ink); font-size: 1.12rem; font-weight: 800; line-height: 1.25; }
+  .ab-service-text { color: var(--copy); font-size: 1rem; font-weight: 400; line-height: 1.5; }
+  .ab-service-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    color: var(--bright);
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .ab-service-more svg { width: 18px; height: 18px; transition: transform 0.18s ease; }
+  .ab .ab-service:hover .ab-service-more svg { transform: translateX(4px); }
+  .ab-tone-red { --tone: #d9263b; --tint: #fde8ea; }
+  .ab-tone-green { --tone: #1e8a4c; --tint: #e3f4ea; }
+  .ab-tone-blue { --tone: #1a5fd0; --tint: #e5eefc; }
+  .ab-tone-orange { --tone: #e8590c; --tint: #fdebe0; }
+  .ab-tone-purple { --tone: #6741b8; --tint: #efe9fa; }
+  .ab-note { font-size: 1rem !important; text-align: center; }
+
+  /* ---- Steps + local ---- */
+  .ab-duo { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin: 0 0 2.75rem; }
+  .ab-duo > .ab-section { margin: 0; }
+  .ab-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+  }
+  .ab-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    column-gap: 0.9rem;
+    align-items: start;
+    padding: 1.3rem 1.1rem 1.1rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+  .ab-step:hover, .ab-step:focus-within { border-color: #b9cdea; box-shadow: 0 12px 28px rgba(11, 44, 69, 0.12); }
+  /* Connector: vertical on mobile, horizontal on desktop (below). */
+  .ab-step + .ab-step::before {
+    content: "";
+    position: absolute;
+    left: 2.6rem;
+    top: -1.6rem;
+    width: 3px;
+    height: 1.6rem;
+    background: #b9cdea;
+  }
+  .ab-step-num {
+    position: absolute;
+    top: -0.85rem;
+    left: 0.9rem;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #e5eefc;
+    color: var(--bright);
+    font-weight: 800;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 6px rgba(11, 44, 69, 0.12);
+  }
+  .ab-step-icon { grid-row: span 3; color: var(--bright); }
+  .ab-step-icon svg { width: 46px; height: 46px; }
+  .ab-step h3 { margin: 0; font-size: 1.2rem; }
+  .ab .ab-step-toggle {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0;
+    background: none;
+    border: 0;
+    color: var(--ink);
+    font: inherit;
+    font-weight: 800;
+    text-align: left;
+    cursor: pointer;
+  }
+  .ab-step-toggle svg {
+    width: 30px;
+    height: 30px;
+    flex: none;
+    padding: 5px;
+    border-radius: 50%;
+    background: #eef3fa;
+    color: var(--bright);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .ab-step-toggle:hover svg { background: #dce8fb; }
+  .ab-step-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .ab-step-short { font-size: 1rem !important; margin: 0 !important; }
+  .ab-step-detail { margin-top: 0.7rem; padding-top: 0.7rem; border-top: 1px dashed var(--line); }
+  .ab-step-detail :global(p) { font-size: 1rem; }
+
+  .ab-local {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    background: linear-gradient(160deg, #0f4fb6 0%, var(--navy) 100%);
+    box-shadow: 0 16px 36px rgba(11, 44, 69, 0.24);
+  }
+  .ab-local img { display: block; width: 100%; height: 200px; object-fit: cover; }
+  .ab-local-copy { padding: 1.5rem 1.4rem 1.6rem; }
+  .ab-local h2 { color: #fff !important; }
+  .ab-local :global(p) { color: #e3ecf8; }
+  .ab-local-actions { margin: 1.1rem 0 0.8rem !important; }
+  .ab-local-more :global(a) { color: #fff; }
+  .ab-local-more :global(a:hover) { color: #ffd2d7; }
+
+  /* ---- Carriers + credentials ---- */
+  .ab-card {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 1.5rem 1.3rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+  }
+  .ab-card h2 { font-size: 1.35rem; }
+  .ab-card-icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: #e5eefc;
+    color: var(--bright);
+  }
+  .ab-card-icon--red { background: #fde8ea; color: var(--red); }
+  .ab-card-icon svg { width: 28px; height: 28px; }
+  .ab-ticks { list-style: none; margin: 0.4rem 0 0; padding: 0; display: grid; gap: 0.65rem; }
+  .ab-ticks li { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 1.04rem; line-height: 1.5; }
+  .ab-tick {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    margin-top: 2px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+  }
+  .ab-tick svg { width: 13px; height: 13px; }
+
+  /* ---- Contact (layers on the shared .page-cta navy panel) ---- */
+  .ab .ab-contact { margin: 0 0 2.5rem; padding: 2.4rem 1.4rem; }
+  .ab .ab-contact :global(p) { color: #d5e2f0; }
+  .ab .ab-contact .page-cta-actions { margin-bottom: 1.6rem; }
+  .ab .ab-contact .button { min-height: 52px; display: inline-flex; align-items: center; font-size: 1.08rem; text-decoration: none; }
+  .ab-contact-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem 2rem;
+    margin: 0 0 1.4rem;
+    color: #fff;
+  }
+  .ab-contact-info div { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.35rem 0.5rem; }
+  .ab-contact-info dt { display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 700; }
+  .ab-contact-info dt::after { content: ":"; }
+  .ab-contact-info dt svg { width: 18px; height: 18px; }
+  .ab-contact-info dd { margin: 0; color: #d5e2f0; }
+  .ab-quote { margin: 0 auto; max-width: 34rem; padding-top: 1.2rem; border-top: 1px solid rgba(255, 255, 255, 0.18); }
+  .ab .ab-quote p { color: #fff; font-style: italic; font-size: 1.12rem; margin: 0 0 0.3rem; }
+  .ab-quote footer { color: #b9cce2; font-size: 0.95rem; }
+
+  .ab-related :global(.related) { margin-top: 0; }
+
+  @media (min-width: 720px) {
+    .ab-hero { padding: 2.25rem 2rem; }
+    .ab-duo--even { grid-template-columns: 1fr 1fr; align-items: start; }
+  }
+
+  @media (min-width: 960px) {
+    .ab-hero { grid-template-columns: 1.25fr 0.85fr; padding: 2.75rem 2.5rem; gap: 2.5rem; }
+    .ab-duo { grid-template-columns: 1.6fr 1fr; align-items: stretch; }
+    .ab-steps { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: start; }
+    .ab-step { grid-template-columns: 1fr; row-gap: 0.4rem; padding-top: 1.6rem; }
+    .ab-step-icon { grid-row: auto; }
+    .ab-step-icon svg { width: 42px; height: 42px; }
+    /* horizontal connector with an arrowhead between cards */
+    .ab-step + .ab-step::before {
+      left: -1.5rem;
+      top: 3.1rem;
+      width: 1.5rem;
+      height: 3px;
+    }
+    .ab-step + .ab-step::after {
+      content: "";
+      position: absolute;
+      left: -0.55rem;
+      top: calc(3.1rem - 5px);
+      border: 6.5px solid transparent;
+      border-left-color: #b9cdea;
+      border-right: 0;
+    }
+    .ab-local img { height: 210px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ab *, .ab *::before, .ab *::after { transition: none !important; }
+  }
+</style>

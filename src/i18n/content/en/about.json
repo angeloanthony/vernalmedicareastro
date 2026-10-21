@@ -13,38 +13,104 @@
     "self": "About"
   },
   "body": {
-    "introHtml": "I'm <strong>Rocco DeLuca</strong>, a local, licensed agent based in Vernal. My job is simple: help you choose coverage that fits your needs and budget—<em>without the runaround</em>.",
-    "h2Help": "What I help with",
-    "helpItemsHtml": [
-      "<strong>Medicare Advantage</strong> and <strong>Medigap</strong>",
-      "<strong>Prescription plans (Part D)</strong>",
-      "<strong>Under-65 health insurance</strong> (Marketplace)",
-      "<strong>Copay coverage</strong> (fixed indemnity)",
-      "<strong>Life insurance</strong> (term & final expense)"
-    ],
-    "noteHtml": "There's no extra cost to you—agents are typically paid by the plan or carrier if you enroll.",
-    "h2Together": "How we'll work together",
-    "togetherItemsHtml": [
-      "<strong>Listen:</strong> your needs and budget first.",
-      "<strong>Compare:</strong> simple, side-by-side options in plain English.",
-      "<strong>Enroll & support:</strong> we get it done right—and I'm here year-round."
-    ],
-    "h2Local": "Why local matters",
-    "localHtml": "Plans perform differently by county. Because I live and work here, I know the local networks, pharmacies, and what actually works in the Basin. See <a href=\"medicare-plans-vernal-utah.html\">Medicare plans in Vernal</a> or <a href=\"medicare-agent-vernal.html\">more about working with a local agent</a>.",
-    "h2Carriers": "Carriers",
-    "carriersHtml": "I work with multiple carriers (availability varies by county). <em>We do not offer every plan available in your area.</em> Any information I provide is limited to the plans I do offer. For info on all your options, visit <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a> or call 1-800-MEDICARE (TTY: 711).",
-    "h2Credentials": "Credentials &amp; Trust",
-    "credentialsHtml": "I’m a licensed Medicare insurance agent, and — like every agent who can offer Medicare Advantage and Part D — I complete the AHIP certification and each carrier’s training every year before I can talk plans with you. Here’s what stands behind the advice on this site:",
-    "credentialItemsHtml": [
-      "<a href=\"medicare-agent-credentials.html\"><strong>My credentials &amp; certifications</strong></a> — licensing, annual training, and compliance.",
-      "<a href=\"editorial-policy.html\"><strong>How we keep this site accurate</strong></a> — official sources, single-source annual figures, and review.",
-      "<a href=\"reviews.html\"><strong>What clients say</strong></a> — reviews from local Medicare beneficiaries and their families."
-    ],
-    "h2Talk": "Ready to talk?",
-    "talkHtml": "Call or email for a friendly, no-pressure chat.",
-    "callLabel": "Call (435) 219-5120 (TTY: 711)",
-    "emailLabel": "Email us",
-    "quoteText": "\"Coverage should be simple, local, and matched to you.\"",
-    "quoteAttribution": "— Rocco DeLuca"
+    "hero": {
+      "headingLead": "About",
+      "headingAccent": "Vernal Medicare",
+      "tagline": "Local, licensed Medicare help in Vernal and the Uintah Basin.",
+      "callLabel": "Call (435) 219-5120",
+      "emailLabel": "Email Vernal Medicare",
+      "ttyNote": "TTY users call 711.",
+      "photoAlt": "Rocco DeLuca, licensed insurance agent at Vernal Medicare",
+      "nameCaption": "Rocco DeLuca",
+      "roleCaption": "Licensed Insurance Agent",
+      "motto": "Local help. Real solutions."
+    },
+    "services": {
+      "h2": "What I Help With",
+      "intro": "Pick a topic to see how it works and what's available in the Uintah Basin.",
+      "learnMore": "Learn more",
+      "items": [
+        {
+          "title": "Medicare Advantage",
+          "text": "All-in-one plans that combine hospital, medical, and often drug coverage.",
+          "href": "medicare-advantage-plans-vernal.html"
+        },
+        {
+          "title": "Medicare Supplement (Medigap)",
+          "text": "Helps pay the costs Original Medicare leaves behind.",
+          "href": "medigap.html"
+        },
+        {
+          "title": "Prescription Drug Plans (Part D)",
+          "text": "Compare drug plans for the medications you actually take.",
+          "href": "part-d-plans-vernal.html"
+        },
+        {
+          "title": "Under-65 Marketplace Health Insurance",
+          "text": "Marketplace plans for individuals and families under 65.",
+          "href": "aca.html"
+        },
+        {
+          "title": "Life Insurance",
+          "text": "Term and final-expense coverage for your family's future.",
+          "href": "life.html"
+        }
+      ],
+      "noteHtml": "I also help with <a href=\"indemnity.html\">copay coverage (fixed indemnity)</a>. There's no extra cost to you — agents are typically paid by the plan or carrier if you enroll."
+    },
+    "together": {
+      "h2Lead": "How We'll",
+      "h2Accent": "Work Together",
+      "intro": "A simple, no-pressure process. Open any step to see what it involves.",
+      "steps": [
+        {
+          "title": "Listen",
+          "short": "Your needs and budget come first.",
+          "detailHtml": "We start with what matters to you: your doctors, your prescriptions, and what you can comfortably spend each month. If you have them handy, bring your Medicare card and a list of your medications."
+        },
+        {
+          "title": "Compare",
+          "short": "Simple, side-by-side options in plain English.",
+          "detailHtml": "I lay out the plans I offer in your county side by side — premiums, copays, drug costs, and whether your doctors and pharmacy are in network. You decide, with no pressure."
+        },
+        {
+          "title": "Enroll & Support",
+          "short": "We get it done right — and I'm here year-round.",
+          "detailHtml": "When you're ready, I help with the enrollment steps that apply to your situation and timing. After that, I'm here year-round for questions about a bill, a claim, or whether your plan still fits when enrollment season comes around."
+        }
+      ]
+    },
+    "local": {
+      "h2": "Why Local Matters",
+      "html": "Plans, costs, and provider networks can vary by county, and not every plan is offered everywhere. Because I live and work here, I know the local hospitals and pharmacies people in the Basin use, and I can help you check whether yours are in a plan's network.",
+      "ctaLabel": "See Medicare plans in Vernal",
+      "ctaHref": "medicare-plans-vernal-utah.html",
+      "moreHtml": "Or read more about <a href=\"medicare-agent-vernal.html\">working with a local agent</a>.",
+      "imageAlt": "Main Street in Vernal, Utah, with the mountains behind"
+    },
+    "carriers": {
+      "h2": "Carriers",
+      "html": "I work with multiple carriers (availability varies by county). <em>We do not offer every plan available in your area.</em> Any information I provide is limited to the plans I do offer. For info on all your options, visit <a href=\"https://www.medicare.gov\" target=\"_blank\" rel=\"nofollow\">Medicare.gov</a> or call 1-800-MEDICARE (TTY: 711)."
+    },
+    "credentials": {
+      "h2": "Credentials &amp; Trust",
+      "html": "I’m a licensed Medicare insurance agent, and — like every agent who can offer Medicare Advantage and Part D — I complete the AHIP certification and each carrier’s training every year before I can talk plans with you. Here’s what stands behind the advice on this site:",
+      "itemsHtml": [
+        "<a href=\"medicare-agent-credentials.html\"><strong>My credentials &amp; certifications</strong></a> — licensing, annual training, and compliance.",
+        "<a href=\"editorial-policy.html\"><strong>How we keep this site accurate</strong></a> — official sources, single-source annual figures, and review.",
+        "<a href=\"reviews.html\"><strong>What clients say</strong></a> — reviews from local Medicare beneficiaries and their families."
+      ]
+    },
+    "contact": {
+      "h2": "Talk to a Local, Licensed Agent",
+      "text": "Call or email for a friendly, no-pressure chat. I can walk you through your options in person, by phone, or by video.",
+      "callLabel": "Call (435) 219-5120 (TTY: 711)",
+      "emailLabel": "Email us",
+      "officeLabel": "Office",
+      "hoursLabel": "Hours",
+      "hours": "Mon–Fri 1pm–5pm, Sat by appointment",
+      "quoteText": "\"Coverage should be simple, local, and matched to you.\"",
+      "quoteAttribution": "— Rocco DeLuca"
+    }
   }
 }
