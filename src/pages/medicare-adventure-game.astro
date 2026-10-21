@@ -1,9 +1,10 @@
 ---
 // src/pages/medicare-adventure-game.astro — NET-NEW page. "Medicare Adventure",
 // a five-stage educational board game that runs entirely in the browser (no
-// server, no signup). Built on CalculatorPage for the shared header/byline/
-// summary/FAQ/related/CTA/disclaimer + schema, like medicare-quiz; the game
-// itself lives in the slot with its own inline script and styles.
+// server, no signup). Built on StandardPageLayout for the shared header/byline/
+// summary/FAQ/related/CTA/disclaimer + schema; the game itself lives in the
+// slot with its own inline script and styles. Not CalculatorPage: a game is
+// not a HowTo, so the primary schema stays WebPage.
 //
 // Accuracy: every question was checked against Medicare.gov on 2026-10-20
 // (pages listed in `sources`). The game deliberately avoids dollar amounts that
@@ -14,7 +15,7 @@
 // Styles are `is:global` but every selector is prefixed with `.mag`: the game
 // builds its screens with innerHTML, and Astro's scoped attribute selectors do
 // not match elements created at runtime.
-import CalculatorPage from '../components/layout/CalculatorPage.astro';
+import StandardPageLayout from '../components/layout/StandardPageLayout.astro';
 import { BUSINESS } from '../data/business';
 import type { PageContext } from '../types/Page';
 
@@ -87,7 +88,7 @@ const context: PageContext = {
 };
 ---
 
-<CalculatorPage context={context}>
+<StandardPageLayout context={context}>
   <p>Medicare has a lot of new words and dates. This game turns them into a short adventure. Travel five stages, answer a few friendly questions at each stop, and collect a badge for every stage you finish. Wrong answers are part of learning — each one shows you the right answer and why.</p>
 
   <div class="mag" id="mag">
@@ -485,7 +486,7 @@ const context: PageContext = {
             '<p>' + Q.why + '</p>' + (Q.cal ? calendar(Q.cal) : '') +
             '<div class="mag-actions">' + btn('next', last ? 'Finish the stage' : 'Next question', 'mag-btn-primary', ' data-focus') + '</div></div>';
         }
-        html += '</div>';
+        html += '<div class="mag-leave">' + btn('map', 'Leave this stage and go back to the map', 'mag-btn-link') + '</div></div>';
         show(html);
       }
 
@@ -571,7 +572,7 @@ const context: PageContext = {
       renderMap();
     })();
   </script>
-</CalculatorPage>
+</StandardPageLayout>
 
 <style is:global>
   .mag {
@@ -603,6 +604,7 @@ const context: PageContext = {
   }
   .mag *, .mag *::before, .mag *::after { box-sizing: border-box; }
   .mag svg { width: 1em; height: 1em; flex: none; }
+  .mag h2, .mag h3 { color: var(--mag-ink); }
   .mag-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
   .mag-noscript { font-weight: 700; padding: 1rem; }
 
@@ -637,6 +639,8 @@ const context: PageContext = {
   .mag-btn-primary:active { transform: translateY(3px); box-shadow: 0 3px 0 #1e3a8a; }
   .mag-btn-ghost { background: #fff; color: var(--mag-blue); border-color: var(--mag-line); }
   .mag-btn-ghost:hover { border-color: var(--mag-blue); background: var(--mag-blue-soft); }
+  .mag-leave { margin-top: 1.25rem; border-top: 1px solid #e2e8f0; padding-top: 0.5rem; }
+  .mag-btn-link { min-height: 48px; padding: 0.5rem 0; background: none; color: var(--mag-blue); text-decoration: underline; font-size: 1.05rem; }
   .mag button:focus-visible, .mag a:focus-visible, .mag summary:focus-visible { outline: 4px solid #f59e0b; outline-offset: 3px; }
 
   /* ---- Map trail ---- */

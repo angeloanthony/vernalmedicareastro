@@ -4,9 +4,9 @@
 
 > **PERFORMANCE MODE: ON** — impressions, position and CTR are live; all 7 priority factors active.
 
-Movement since **2026-08-27**. Current position tells you where you stand; only movement tells you whether the last round of edits worked.
+Movement since **2026-08-26**. Current position tells you where you stand; only movement tells you whether the last round of edits worked.
 
-> Generated **2026-10-21 05:45 UTC** · 199 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
+> Generated **2026-08-27 00:08 UTC** · 169 pages scored · performance window: `pages-2026-07-29.csv` (exported 2026-07-30)
 > Derived from `src/data/pageIndex.ts` · `data/search-console/*.csv` · `dist/` · `git log`. Never edited by hand.
 
 ## Site totals
@@ -45,13 +45,10 @@ _None._
 
 Did the structural work land? These pages gained readiness points since the last snapshot.
 
-| Page | AI readiness | Change | Priority change |
-| --- | ---: | ---: | ---: |
-| [/about](https://vernalmedicare.com/about.html) | 60% | ▲ +13 | · |
-| [/dual-eligible](https://vernalmedicare.com/dual-eligible.html) | 73% | ▲ +2 | ▲ -1 |
+_Nothing to report._
 
 ## Editorial completeness movement
 
-Site mean: **75% → 78%** — the number the publish gate protects and the sprint goal is measured in.
+Site mean: **75% → 76%** — the number the publish gate protects and the sprint goal is measured in.
 
 _No page moved._
