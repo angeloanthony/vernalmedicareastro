@@ -322,6 +322,11 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     taxonomy: { silo: 'tools', tags: ['tools', 'quiz', 'decision-support', 'medicare-advantage', 'medigap', 'part-d', 'dual-eligible'] },
   },
   {
+    href: '/medicare-adventure-game.html',
+    title: 'Medicare Adventure Game',
+    taxonomy: { silo: 'tools', tags: ['tools', 'game', 'quiz', 'medicare-101', 'turning-65', 'enrollment', 'costs'] },
+  },
+  {
     href: '/medicare-extra-help-calculator.html',
     title: 'Extra Help & Savings Program Estimator',
     taxonomy: { silo: 'dual-eligible', tags: ['extra-help', 'msp', 'qmb', 'slmb', 'qi', 'tools', 'costs'] },

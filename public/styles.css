@@ -1550,7 +1550,40 @@ body .btn-outline:hover, body .btn-outline:focus, body .btn-outline:active, body
 .vm2-up .vm{ max-width:100%; margin:0; }  /* let video fill its column */
 
 @media (min-width: 860px){
-  .vm2-up{ grid-template-columns: 2fr 1fr; } /* side-by-side on desktop; video gets 2/3 */
+  /* side-by-side on desktop. Row widened 1200→1260 and the extra width given
+     to the comic, so the video stays ~776px (same height as before) while the
+     comic box grows to match it. */
+  .vm2-up{
+    max-width:1260px;
+    grid-template-columns: minmax(0, 774fr) minmax(0, 446fr);
+    align-items:stretch;
+  }
+  /* The comic fits inside the row height the video sets and never adds to it:
+     the image is taken out of flow, scaled to the largest size that fits the
+     cell, and centered. The white card moves onto the image itself so it hugs
+     square, landscape and portrait cartoons alike (the rotation has all three). */
+  .vm2-up .vm-comic{
+    position:relative;
+    background:none;
+    border:0;
+    padding:0;
+    box-shadow:none;
+  }
+  .vm2-up .vm-comic img{
+    position:absolute;
+    inset:0;
+    margin:auto;
+    width:auto;
+    height:auto;
+    max-width:100%;
+    max-height:100%;
+    box-sizing:border-box;
+    padding:8px;
+    background:#fff;
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:12px;
+    box-shadow:0 6px 24px rgba(0,0,0,.08);
+  }
 }
 
 .vm-comic{

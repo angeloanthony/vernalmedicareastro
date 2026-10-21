@@ -1,0 +1,773 @@
+---
+// src/pages/medicare-adventure-game.astro — NET-NEW page. "Medicare Adventure",
+// a five-stage educational board game that runs entirely in the browser (no
+// server, no signup). Built on CalculatorPage for the shared header/byline/
+// summary/FAQ/related/CTA/disclaimer + schema, like medicare-quiz; the game
+// itself lives in the slot with its own inline script and styles.
+//
+// Accuracy: every question was checked against Medicare.gov on 2026-10-20
+// (pages listed in `sources`). The game deliberately avoids dollar amounts that
+// change every year — the only numbers in it are fixed rules (7-month IEP,
+// 24 months of disability benefits, 8-month SEP, 10% Part B penalty, 63 days)
+// and clearly-labelled examples ("like $20", "like 20%").
+//
+// Styles are `is:global` but every selector is prefixed with `.mag`: the game
+// builds its screens with innerHTML, and Astro's scoped attribute selectors do
+// not match elements created at runtime.
+import CalculatorPage from '../components/layout/CalculatorPage.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Medicare Adventure Game | Learn Medicare by Playing | Vernal Medicare',
+    heading: 'Medicare Adventure: Learn Medicare by Playing',
+    description:
+      'A free, no-signup Medicare learning game. Travel five stages — Medicare basics, Parts A–D, enrollment periods, and costs — earn points and badges, and learn why each answer is right.',
+    taxonomy: { silo: 'tools', tags: ['tools', 'game', 'quiz', 'medicare-101', 'turning-65', 'enrollment', 'costs'] },
+    summary:
+      'Medicare Adventure is a free game that teaches Medicare basics in five short stages: who Medicare is for, what Parts A, B, C, and D do, when you can sign up or make changes, and what premiums, deductibles, copayments, and coinsurance mean. There is no time limit and no signup. Every answer comes with a plain-English explanation and a link to learn more. It is general education, not advice about your own coverage.',
+    faqs: [
+      {
+        question: 'Is the Medicare Adventure game free?',
+        answer:
+          'Yes. It is free, needs no signup, and runs right in your web browser. Your progress is saved only on your own device so you can come back later.',
+      },
+      {
+        question: 'Is there a time limit?',
+        answer:
+          'No. Take as long as you like on every question. You can leave and come back, replay any stage you have finished, or start the whole game over.',
+      },
+      {
+        question: 'Will the game tell me which Medicare plan to choose?',
+        answer:
+          'No. The game teaches general Medicare concepts. Your own choices depend on your doctors, prescriptions, budget, and situation — for that, use Medicare.gov or talk with a licensed agent.',
+      },
+      {
+        question: 'Where do the answers come from?',
+        answer:
+          'Each question was checked against official Medicare.gov pages, listed in the sources below. Medicare rules and costs can change each year, so always confirm details for your situation.',
+      },
+    ],
+    sources: [
+      { title: 'Get started with Medicare', url: 'https://www.medicare.gov/basics/get-started-with-medicare', publisher: 'Medicare.gov' },
+      { title: 'When can I sign up for Medicare?', url: 'https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-can-i-sign-up-for-medicare', publisher: 'Medicare.gov' },
+      { title: 'When does Medicare coverage start?', url: 'https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start', publisher: 'Medicare.gov' },
+      { title: 'Joining a health or drug plan', url: 'https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/joining-a-plan', publisher: 'Medicare.gov' },
+      { title: 'What Part A covers', url: 'https://www.medicare.gov/what-medicare-covers/what-part-a-covers', publisher: 'Medicare.gov' },
+      { title: 'What Part B covers', url: 'https://www.medicare.gov/what-medicare-covers/what-part-b-covers', publisher: 'Medicare.gov' },
+      { title: 'Medicare costs', url: 'https://www.medicare.gov/basics/costs/medicare-costs', publisher: 'Medicare.gov' },
+      { title: 'Avoid late enrollment penalties', url: 'https://www.medicare.gov/basics/costs/medicare-costs/avoid-penalties', publisher: 'Medicare.gov' },
+      { title: 'What’s not covered by Original Medicare', url: 'https://www.medicare.gov/providers-services/original-medicare/not-covered', publisher: 'Medicare.gov' },
+      { title: 'Medigap basics', url: 'https://www.medicare.gov/health-drug-plans/medigap/basics', publisher: 'Medicare.gov' },
+    ],
+    nextSteps: [
+      {
+        when: 'Have a question the game raised about your own situation?',
+        action: `call or text Rocco free at ${BUSINESS.phone} — no pressure, no obligation.`,
+      },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-adventure-game.html',
+    ogType: 'website',
+    ogTitle: 'Medicare Adventure — Learn Medicare by Playing',
+    ogDescription: 'A free five-stage game that teaches Medicare Parts A–D, enrollment periods, and costs in plain English.',
+  },
+  author: 'rocco',
+  datePublished: '2026-10-20',
+  lastUpdated: '2026-10-20',
+  medicalDisclaimer:
+    'Medicare Adventure is general education only. It does not determine your eligibility, enrollment rights, or costs, and it does not recommend any plan or carrier. Rules and amounts can change each year — confirm your options with Medicare.gov, Social Security, or a licensed agent.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Calculators', href: '/medicare-calculators.html' },
+    { name: 'Medicare Adventure Game', href: '/medicare-adventure-game.html' },
+  ],
+};
+---
+
+<CalculatorPage context={context}>
+  <p>Medicare has a lot of new words and dates. This game turns them into a short adventure. Travel five stages, answer a few friendly questions at each stop, and collect a badge for every stage you finish. Wrong answers are part of learning — each one shows you the right answer and why.</p>
+
+  <div class="mag" id="mag">
+    <div class="mag-hud" aria-label="Your progress">
+      <div class="mag-hud-score"><span class="mag-hud-label">Points</span><span class="mag-hud-num" id="mag-score">0</span></div>
+      <div class="mag-hud-prog">
+        <span class="mag-hud-label" id="mag-prog-label">0 of 5 stages complete</span>
+        <div class="mag-bar"><div class="mag-bar-fill" id="mag-bar"></div></div>
+      </div>
+      <ul class="mag-hud-badges" id="mag-badges" aria-label="Badges earned"></ul>
+    </div>
+    <div class="mag-screen" id="mag-screen">
+      <noscript><p class="mag-noscript">Medicare Adventure needs JavaScript turned on in your browser. You can still learn everything it covers from the guides listed below.</p></noscript>
+    </div>
+    <p class="mag-sr" id="mag-live" aria-live="polite"></p>
+  </div>
+
+  <h2>How to play</h2>
+  <ol>
+    <li>Pick the first stage on the adventure map. Each stage starts with a short lesson.</li>
+    <li>Answer each question by choosing one of the large buttons. You earn 10 points for every correct answer.</li>
+    <li>After every answer you will see the correct answer and a plain-English explanation.</li>
+    <li>Finishing a stage earns you a badge and unlocks the next stage. There is no timer.</li>
+    <li>Finish all five stages to see your final score, a review of every question, and guides to keep learning.</li>
+  </ol>
+
+  <h2>What you’ll learn at each stage</h2>
+  <ul class="mag-learn-list">
+    <li><strong>Stage 1 — Meet Medicare:</strong> who Medicare is for, what Original Medicare means, and how younger people can qualify. Read more in <a href="/turning-65.html">Turning 65: your Medicare checklist</a> and <a href="/medicare-coverage.html">what Medicare covers</a>.</li>
+    <li><strong>Stage 2 — Discover the Parts:</strong> match Parts A, B, C, and D to the care they help pay for. See <a href="/medicare-part-a-vs-part-b.html">Part A vs. Part B</a>, <a href="/medicare-advantage-plans-vernal.html">Medicare Advantage (Part C)</a>, and <a href="/part-d-plans-vernal.html">Part D drug plans</a>.</li>
+    <li><strong>Stage 3 — Enrollment Calendar:</strong> solve calendar puzzles about the Initial Enrollment Period, fall Open Enrollment, the General Enrollment Period, and Special Enrollment Periods. Go deeper with <a href="/medicare-enrollment-periods.html">Medicare enrollment periods explained</a>, <a href="/medicare-general-enrollment-period.html">the General Enrollment Period</a>, and <a href="/working-past-65.html">working past 65</a>.</li>
+    <li><strong>Stage 4 — Cost Puzzle:</strong> match premiums, deductibles, copayments, and coinsurance to what they mean. Learn more in <a href="/medicare-costs.html">Medicare costs</a> and the <a href="/medicare-glossary.html">Medicare glossary</a>.</li>
+    <li><strong>Stage 5 — Final Challenge:</strong> mixed questions on Medigap, out-of-pocket limits, what Original Medicare doesn’t cover, and late penalties. See <a href="/medigap.html">Medigap (Medicare Supplement)</a>, <a href="/medicare-supplement-vs-advantage.html">Medigap vs. Medicare Advantage</a>, and <a href="/delaying-medicare-part-b.html">delaying Part B</a>.</li>
+  </ul>
+
+  <h2>Medicare words you’ll practice</h2>
+  <dl class="mag-terms">
+    <dt>Premium</dt>
+    <dd>The amount you pay for your coverage, usually every month — even in months you don’t use any care.</dd>
+    <dt>Deductible</dt>
+    <dd>What you pay for covered care each year before Medicare or your plan starts to pay.</dd>
+    <dt>Copayment</dt>
+    <dd>A set dollar amount you pay for a covered service, like a doctor visit.</dd>
+    <dt>Coinsurance</dt>
+    <dd>A percentage of the cost you pay for a covered service, usually after your deductible.</dd>
+  </dl>
+
+  <p>Prefer a different style? Try the <a href="/medicare-quiz.html">Medicare plan quiz</a> or browse our <a href="/medicare-calculators.html">free Medicare calculators</a>.</p>
+
+  <script is:inline>
+    (function () {
+      'use strict';
+
+      var root = document.getElementById('mag');
+      var screen = document.getElementById('mag-screen');
+      var scoreEl = document.getElementById('mag-score');
+      var barEl = document.getElementById('mag-bar');
+      var progLabel = document.getElementById('mag-prog-label');
+      var badgesEl = document.getElementById('mag-badges');
+      var live = document.getElementById('mag-live');
+      if (!root || !screen || !scoreEl || !barEl || !progLabel || !badgesEl || !live) return;
+
+      var STORE = 'vm-medicare-adventure-v1';
+      var PTS = 10;
+      var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      var ICONS = {
+        compass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>',
+        puzzle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h3.2a2 2 0 1 1 3.6 0H15v3.2a2 2 0 1 1 0 3.6V17h-3.2a2 2 0 1 0-3.6 0H5v-3.2a2 2 0 1 0 0-3.6z"/></svg>',
+        calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14h2M12 14h2M8 17h2"/></svg>',
+        coins: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="9" cy="7" rx="5.5" ry="2.5"/><path d="M3.5 7v4c0 1.4 2.5 2.5 5.5 2.5s5.5-1.1 5.5-2.5V7"/><path d="M9.5 16.4c.9.4 2.2.6 3.5.6 3 0 5.5-1.1 5.5-2.5v-4"/><path d="M13 10.6c3 0 5.5-1.1 5.5-2.5"/><path d="M3.5 11v4c0 1.4 2.5 2.5 5.5 2.5"/></svg>',
+        trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4v1.5A3.5 3.5 0 0 0 7.5 11M17 6h3v1.5a3.5 3.5 0 0 1-3.5 3.5"/><path d="M12 14v3M8.5 20h7M9.5 17h5v3h-5z"/></svg>',
+        lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+        check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>',
+        cross: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+        star: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg>',
+      };
+
+      // ── Content. Checked against Medicare.gov 2026-10-20 (see page sources). ──
+      var STAGES = [
+        {
+          id: 'meet', title: 'Meet Medicare', badge: 'Explorer', icon: 'compass', tone: 'blue',
+          lesson: 'Medicare is federal health insurance for people 65 or older who meet citizenship or residency requirements. Some younger people can get it earlier — for example, people with certain disabilities, End-Stage Renal Disease (permanent kidney failure), or ALS. “Original Medicare” means Part A and Part B together.',
+          learn: [{ href: '/turning-65.html', text: 'Turning 65: your Medicare checklist' }, { href: '/medicare-coverage.html', text: 'What Medicare covers' }],
+          questions: [
+            {
+              q: 'Who is Medicare mainly for?',
+              opts: ['Only people with low income', 'People 65 or older, plus some younger people with certain disabilities or conditions', 'Only people who have retired from work', 'Only military veterans'],
+              a: 1,
+              why: 'Medicare is health insurance for people 65 or older who meet citizenship or residency requirements, and for some younger people with a disability, End-Stage Renal Disease, or ALS. Income does not decide who gets Medicare — and you don’t have to be retired.',
+            },
+            {
+              q: 'Sam is 58 and has been getting Social Security disability benefits for 24 months. Can Sam get Medicare?',
+              opts: ['No — Sam has to wait until 65', 'Yes — people usually get Medicare after 24 months of disability benefits', 'Only if Sam goes back to work'],
+              a: 1,
+              why: 'People who get disability benefits usually qualify for Medicare after 24 months. People with ALS can get Medicare as soon as their disability benefits start.',
+            },
+            {
+              q: 'What does “Original Medicare” mean?',
+              opts: ['A private plan that replaces Medicare', 'Part A and Part B together', 'A plan that only covers prescriptions'],
+              a: 1,
+              why: 'Original Medicare is Part A (hospital insurance) plus Part B (medical insurance), run by the federal government. Medicare Advantage is the private-plan alternative you’ll meet in Stage 2.',
+            },
+            {
+              q: 'Do most people pay a monthly premium for Part A?',
+              opts: ['Yes, everyone pays the same Part A premium', 'No — most people pay $0 because they or a spouse paid Medicare taxes long enough while working', 'Only people under 65 pay for Part A'],
+              a: 1,
+              why: 'Part A is premium-free for most people because they or their spouse paid Medicare taxes long enough while working — generally at least 10 years. People who didn’t may be able to buy Part A.',
+            },
+          ],
+        },
+        {
+          id: 'parts', title: 'Discover the Parts', badge: 'Parts Pro', icon: 'puzzle', tone: 'green', match: true,
+          lesson: 'Medicare is split into “Parts.” Each Part helps pay for a different kind of care. In this stage you’ll match each description to the Part it belongs to. Watch the match board fill up as you go!',
+          learn: [{ href: '/medicare-part-a-vs-part-b.html', text: 'Part A vs. Part B' }, { href: '/medicare-advantage-plans-vernal.html', text: 'Medicare Advantage (Part C)' }, { href: '/part-d-plans-vernal.html', text: 'Part D drug plans' }],
+          questions: [
+            {
+              prompt: 'Which Part matches this?',
+              q: 'Helps pay for inpatient hospital stays, skilled nursing facility care, hospice, and some home health care.',
+              opts: ['Part A', 'Part B', 'Part C', 'Part D'], a: 0, tag: 'Hospital stays',
+              why: 'Part A is Hospital Insurance. It helps pay for inpatient care in hospitals and skilled nursing facilities, plus hospice and some home health care.',
+            },
+            {
+              prompt: 'Which Part matches this?',
+              q: 'Helps pay for medically necessary doctor services, outpatient care, preventive services, and medical equipment like walkers.',
+              opts: ['Part A', 'Part B', 'Part C', 'Part D'], a: 1, tag: 'Doctors & outpatient',
+              why: 'Part B is Medical Insurance. It covers medically necessary services like doctor visits and outpatient care, preventive services, and durable medical equipment.',
+            },
+            {
+              prompt: 'Which Part matches this?',
+              q: 'Helps cover the cost of prescription drugs.',
+              opts: ['Part A', 'Part B', 'Part C', 'Part D'], a: 3, tag: 'Prescription drugs',
+              why: 'Part D is Medicare drug coverage. You can get it as a separate drug plan with Original Medicare, or built into many Medicare Advantage plans.',
+            },
+            {
+              prompt: 'Which Part matches this?',
+              q: 'A Medicare-approved plan from a private company — an alternative to Original Medicare that bundles Part A, Part B, and usually drug coverage.',
+              opts: ['Part A', 'Part B', 'Part C', 'Part D'], a: 2, tag: 'Medicare Advantage',
+              why: 'Part C is Medicare Advantage. These plans come from private companies approved by Medicare and include Part A, Part B, and usually Part D.',
+            },
+          ],
+        },
+        {
+          id: 'calendar', title: 'Enrollment Calendar', badge: 'Calendar Keeper', icon: 'calendar', tone: 'amber',
+          lesson: 'Medicare has set times of year when you can sign up or make changes. These are called enrollment periods. Read each story and pick the right window. After each answer, the calendar lights up to show it.',
+          learn: [{ href: '/medicare-enrollment-periods.html', text: 'Medicare enrollment periods explained' }, { href: '/medicare-general-enrollment-period.html', text: 'The General Enrollment Period' }, { href: '/working-past-65.html', text: 'Working past 65' }],
+          questions: [
+            {
+              q: 'Linda’s 65th birthday is July 20. When is her Initial Enrollment Period to sign up for Medicare?',
+              opts: ['July only', 'April through October', 'January 1 to March 31', 'October 15 to December 7'],
+              a: 1,
+              why: 'The Initial Enrollment Period lasts 7 months: it starts 3 months before the month you turn 65, includes your birthday month, and ends 3 months after it. For a July birthday, that’s April through October.',
+              cal: { months: [3, 4, 5, 6, 7, 8, 9], key: 6, label: 'Initial Enrollment Period: April – October (birthday month: July)' },
+            },
+            {
+              q: 'Robert has a Medicare Advantage plan. He wants to switch to a different Medicare Advantage plan for next year. Which yearly window lets him do that?',
+              opts: ['Open Enrollment, October 15 to December 7', 'His Initial Enrollment Period', 'He can never switch plans'],
+              a: 0,
+              why: 'During Open Enrollment (October 15 – December 7) you can join, drop, or switch Medicare Advantage plans. People in Original Medicare can also join, drop, or switch drug plans. Changes start January 1 if the plan gets the request by December 7.',
+              cal: { months: [9, 10, 11], label: 'Open Enrollment: October 15 – December 7 (changes start January 1)' },
+            },
+            {
+              q: 'Ann didn’t sign up for Part B when she was first eligible, and she doesn’t qualify for a Special Enrollment Period. When can she sign up?',
+              opts: ['Any day of the year', 'During the General Enrollment Period, January 1 to March 31', 'Only on her next birthday'],
+              a: 1,
+              why: 'The General Enrollment Period runs January 1 – March 31 each year. Coverage starts the month after you sign up. Because she signed up late, Ann may have to pay a monthly late enrollment penalty.',
+              cal: { months: [0, 1, 2], label: 'General Enrollment Period: January 1 – March 31' },
+            },
+            {
+              q: 'Joe is 67, still working, and covered by his employer’s group health plan through his current job. When can he sign up for Part B, usually without a penalty?',
+              opts: ['Only from October 15 to December 7', 'Any time while he has that coverage, or within 8 months after the job or coverage ends (whichever happens first)', 'Never — he missed his chance at 65'],
+              a: 1,
+              why: 'This is a Special Enrollment Period. If you or your spouse have group health coverage from current work, you can sign up while covered or during the 8 months after the job or coverage ends — whichever happens first. Note: COBRA doesn’t count as this kind of coverage.',
+            },
+            {
+              q: 'Kim is already in a Medicare Advantage plan. In February she decides she’d rather go back to Original Medicare. Is there a window for that?',
+              opts: ['No — she must wait until next fall', 'Yes — the Medicare Advantage Open Enrollment Period, January 1 to March 31', 'Yes, but only on her birthday'],
+              a: 1,
+              why: 'From January 1 – March 31, people already in a Medicare Advantage plan can switch to another Medicare Advantage plan, or drop their plan and return to Original Medicare (and join a separate drug plan).',
+              cal: { months: [0, 1, 2], key: 1, label: 'Medicare Advantage Open Enrollment: January 1 – March 31' },
+            },
+          ],
+        },
+        {
+          id: 'costs', title: 'Cost Puzzle', badge: 'Cost Cracker', icon: 'coins', tone: 'purple', match: true,
+          lesson: 'Four words come up again and again when you compare coverage: premium, deductible, copayment, and coinsurance. Match each description to the right word. The dollar amounts and percentages here are examples only — real amounts depend on your coverage and change over time.',
+          learn: [{ href: '/medicare-costs.html', text: 'Medicare costs' }, { href: '/medicare-glossary.html', text: 'Medicare glossary' }],
+          questions: [
+            {
+              prompt: 'Which word matches this?',
+              q: 'The amount you pay for your coverage, usually every month — even in months you don’t use any care.',
+              opts: ['Premium', 'Deductible', 'Copayment', 'Coinsurance'], a: 0, tag: 'Pay for coverage',
+              why: 'A premium is what you pay to have coverage. For example, Part B has a monthly premium you pay even if you don’t get any Part B services that month.',
+            },
+            {
+              prompt: 'Which word matches this?',
+              q: 'The amount you pay for covered care each year before Medicare or your plan starts to pay.',
+              opts: ['Premium', 'Deductible', 'Copayment', 'Coinsurance'], a: 1, tag: 'Pay first each year',
+              why: 'A deductible is what you pay first. For example, Part B has a yearly deductible you pay before Original Medicare starts to pay.',
+            },
+            {
+              prompt: 'Which word matches this?',
+              q: 'A set dollar amount — like $20 — that you pay for a covered service, such as a doctor visit.',
+              opts: ['Premium', 'Deductible', 'Copayment', 'Coinsurance'], a: 2, tag: 'Set dollar amount',
+              why: 'A copayment (or copay) is a fixed dollar amount for a service. It stays the same no matter what the service costs.',
+            },
+            {
+              prompt: 'Which word matches this?',
+              q: 'A percentage of the cost — like 20% — that you pay for a covered service, usually after your deductible.',
+              opts: ['Premium', 'Deductible', 'Copayment', 'Coinsurance'], a: 3, tag: 'Share of the cost',
+              why: 'Coinsurance is a percentage, so what you pay goes up or down with the cost of the service.',
+            },
+            {
+              prompt: 'Bonus puzzle',
+              q: 'With Original Medicare Part B, after you’ve paid your yearly deductible, what do you usually pay for most covered services?',
+              opts: ['Nothing at all', 'Usually 20% of the Medicare-approved cost (coinsurance)', 'Exactly $20 per visit (a copayment)'],
+              a: 1,
+              why: 'Part B usually has 20% coinsurance after the deductible. Original Medicare on its own has no yearly limit on what you pay out of pocket — which is why many people add a Medigap policy or choose a Medicare Advantage plan instead.',
+            },
+          ],
+        },
+        {
+          id: 'final', title: 'Final Challenge', badge: 'Medicare Navigator', icon: 'trophy', tone: 'gold',
+          lesson: 'You made it to the last stage! These questions mix everything together, plus a few new facts about Medigap, out-of-pocket limits, and late penalties. Do your best — every answer teaches something.',
+          learn: [{ href: '/medigap.html', text: 'Medigap (Medicare Supplement)' }, { href: '/medicare-supplement-vs-advantage.html', text: 'Medigap vs. Medicare Advantage' }, { href: '/delaying-medicare-part-b.html', text: 'Delaying Part B' }],
+          questions: [
+            {
+              q: 'Which Part of Medicare is Medicare Advantage?',
+              opts: ['Part A', 'Part B', 'Part C', 'Part D'], a: 2,
+              why: 'Medicare Advantage is Part C — a Medicare-approved plan from a private company that bundles Part A, Part B, and usually Part D.',
+            },
+            {
+              q: 'Can you use a Medigap (Medicare Supplement) policy with a Medicare Advantage plan?',
+              opts: ['Yes, they’re designed to work together', 'No — Medigap works only with Original Medicare'], a: 1,
+              why: 'Medigap is extra insurance from a private company that helps pay your share of costs in Original Medicare, like copayments, coinsurance, and deductibles. You can only buy Medigap if you have Original Medicare.',
+            },
+            {
+              q: 'Does Original Medicare (Parts A and B) on its own have a yearly limit on what you pay out of pocket?',
+              opts: ['Yes, every year', 'No — there’s no yearly limit unless you add other coverage'], a: 1,
+              why: 'Original Medicare has no yearly out-of-pocket limit by itself. Medicare Advantage plans do have a yearly limit, and the amount varies by plan. A Medigap policy can also help limit what you pay.',
+            },
+            {
+              q: 'Which of these does Original Medicare generally NOT cover?',
+              opts: ['An inpatient hospital stay', 'Hearing aids', 'Doctor visits', 'Hospice care'], a: 1,
+              why: 'Original Medicare generally doesn’t cover hearing aids, most dental care, eye exams for prescription glasses, or non-medical long-term care. Some Medicare Advantage plans offer extra benefits like these.',
+            },
+            {
+              q: 'What can happen if you sign up for Part B late, without a Special Enrollment Period?',
+              opts: ['Nothing — there’s no penalty', 'Your monthly Part B premium can go up 10% for each full 12-month period you could have had Part B, usually for as long as you have it', 'You can never get Part B'], a: 1,
+              why: 'The Part B late enrollment penalty adds 10% to your monthly premium for each full 12-month period you could have signed up but didn’t. You usually pay it for as long as you have Part B.',
+            },
+            {
+              q: 'Maria didn’t join a drug plan when she first got Medicare, and she had no other creditable drug coverage. What might happen if she joins later?',
+              opts: ['A late enrollment penalty may be added to her monthly drug premium', 'Her Part A coverage ends', 'Nothing ever changes'], a: 0,
+              why: 'If you go 63 days or more without Part D or other creditable drug coverage after first becoming eligible, you may owe a Part D late enrollment penalty — an extra 1% for each month you went without.',
+            },
+            {
+              q: 'If you switch plans during fall Open Enrollment (October 15 – December 7), when does the new coverage usually start?',
+              opts: ['The next day', 'January 1 of the next year', 'On your next birthday'], a: 1,
+              why: 'Changes made during Open Enrollment start January 1 of the next year, as long as the plan gets your request by December 7.',
+            },
+          ],
+        },
+      ];
+
+      var MAX = STAGES.reduce(function (s, st) { return s + st.questions.length * PTS; }, 0);
+
+      // ── State. Saved only at stage completion, only on this device. ──
+      function fresh() { return { done: {}, results: {} }; }
+      function load() {
+        try {
+          var raw = window.localStorage.getItem(STORE);
+          var s = raw ? JSON.parse(raw) : null;
+          return s && s.done && s.results ? s : fresh();
+        } catch (e) { return fresh(); }
+      }
+      function save() {
+        try { window.localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) { /* private mode — play still works */ }
+      }
+
+      var state = load();
+      var run = null; // { stage, q, picks: [], answered: bool }
+
+      function unlocked(i) { return i === 0 || !!state.done[STAGES[i - 1].id]; }
+      function doneCount() { return STAGES.filter(function (s) { return state.done[s.id]; }).length; }
+      function correctIn(id) { return (state.results[id] || []).filter(function (p) { return p.c; }).length; }
+      function totalScore() { return STAGES.reduce(function (s, st) { return s + correctIn(st.id) * PTS; }, 0); }
+      function liveScore() {
+        if (!run) return totalScore();
+        var st = STAGES[run.stage];
+        var prior = state.done[st.id] ? correctIn(st.id) * PTS : 0;
+        return totalScore() - prior + run.picks.filter(function (p) { return p.c; }).length * PTS;
+      }
+
+      function announce(msg) { live.textContent = ''; window.setTimeout(function () { live.textContent = msg; }, 30); }
+
+      function renderHud() {
+        scoreEl.textContent = String(liveScore());
+        var n = doneCount();
+        progLabel.textContent = n + ' of ' + STAGES.length + ' stages complete';
+        barEl.style.width = (n / STAGES.length * 100) + '%';
+        badgesEl.innerHTML = STAGES.map(function (s) {
+          var got = !!state.done[s.id];
+          return '<li class="mag-hud-badge mag-tone-' + s.tone + (got ? ' is-got' : '') + '" title="' + s.badge + (got ? ' badge earned' : ' badge not yet earned') + '">' +
+            ICONS[s.icon] + '<span class="mag-sr">' + s.badge + (got ? ' — earned' : ' — not yet earned') + '</span></li>';
+        }).join('');
+      }
+
+      function show(html) {
+        screen.innerHTML = html;
+        renderHud();
+        var f = screen.querySelector('[data-focus]');
+        if (f) f.focus({ preventScroll: true });
+        var top = root.getBoundingClientRect().top;
+        if (top < 0) root.scrollIntoView({ block: 'start' });
+      }
+
+      function btn(act, label, cls, extra) {
+        return '<button type="button" class="mag-btn ' + (cls || '') + '" data-act="' + act + '"' + (extra || '') + '>' + label + '</button>';
+      }
+
+      // ── Map ──
+      function renderMap() {
+        run = null;
+        var next = STAGES.findIndex(function (s) { return !state.done[s.id]; });
+        var html = '<div class="mag-view"><h2 class="mag-title" tabindex="-1" data-focus>The Adventure Map</h2>' +
+          '<p class="mag-lead">' + (doneCount() === 0 ? 'Your journey starts at Stage 1. Choose it to begin.' :
+            next === -1 ? 'You’ve finished every stage. Replay any stage, or see your final score.' :
+            'Welcome back! Stage ' + (next + 1) + ' is ready for you.') + '</p><ol class="mag-trail">';
+        STAGES.forEach(function (s, i) {
+          var isDone = !!state.done[s.id], open = unlocked(i), isNext = i === next;
+          var status = isDone ? correctIn(s.id) + ' of ' + s.questions.length + ' correct · badge earned' : open ? 'Ready to play' : 'Locked — finish Stage ' + i + ' first';
+          html += '<li class="mag-stop mag-tone-' + s.tone + (isDone ? ' is-done' : '') + (open ? '' : ' is-locked') + (isNext ? ' is-next' : '') + '">' +
+            '<button type="button" class="mag-stop-btn" data-act="open" data-i="' + i + '"' + (open ? '' : ' aria-disabled="true"') + '>' +
+            '<span class="mag-node">' + (open ? ICONS[s.icon] : ICONS.lock) + (isDone ? '<span class="mag-node-check">' + ICONS.check + '</span>' : '') + '</span>' +
+            '<span class="mag-stop-text"><span class="mag-stop-num">Stage ' + (i + 1) + '</span><span class="mag-stop-title">' + s.title + '</span>' +
+            '<span class="mag-stop-status">' + status + '</span></span></button></li>';
+        });
+        html += '</ol><div class="mag-actions">';
+        if (next === -1) html += btn('final', 'See my final score', 'mag-btn-primary');
+        if (doneCount() > 0) html += btn('restart', 'Start the game over', 'mag-btn-ghost');
+        html += '</div></div>';
+        show(html);
+      }
+
+      // ── Stage intro ──
+      function renderIntro(i) {
+        var s = STAGES[i];
+        show('<div class="mag-view"><div class="mag-banner mag-tone-' + s.tone + '"><span class="mag-banner-icon">' + ICONS[s.icon] + '</span>' +
+          '<div><span class="mag-stop-num">Stage ' + (i + 1) + ' of ' + STAGES.length + '</span><h2 class="mag-title" tabindex="-1" data-focus>' + s.title + '</h2></div></div>' +
+          '<div class="mag-lesson"><h3>Quick lesson</h3><p>' + s.lesson + '</p><p class="mag-meta">' + s.questions.length + ' questions · ' + (s.questions.length * PTS) + ' points possible · no time limit</p></div>' +
+          '<div class="mag-actions">' + btn('start', 'Start Stage ' + (i + 1), 'mag-btn-primary', ' data-i="' + i + '"') + btn('map', 'Back to the map', 'mag-btn-ghost') + '</div></div>');
+      }
+
+      function matchBoard(s) {
+        var opts = s.questions[0].opts;
+        return '<div class="mag-board" aria-label="Match board"><p class="mag-board-title">Match board</p><ul>' + opts.map(function (o, oi) {
+          var found = null;
+          run.picks.forEach(function (p, qi) { if (s.questions[qi].a === oi && s.questions[qi].tag) found = s.questions[qi].tag; });
+          return '<li class="' + (found ? 'is-matched' : '') + '"><strong>' + o + '</strong><span>' + (found ? found : '?') + '</span></li>';
+        }).join('') + '</ul></div>';
+      }
+
+      function calendar(cal) {
+        return '<figure class="mag-cal"><div class="mag-cal-grid" aria-hidden="true">' + MONTHS.map(function (m, mi) {
+          var on = cal.months.indexOf(mi) > -1;
+          return '<span class="mag-cal-m' + (on ? ' is-on' : '') + (cal.key === mi ? ' is-key' : '') + '">' + m + '</span>';
+        }).join('') + '</div><figcaption>' + cal.label + '</figcaption></figure>';
+      }
+
+      // ── Question ──
+      function renderQuestion() {
+        var s = STAGES[run.stage], Q = s.questions[run.q], pick = run.picks[run.q];
+        var html = '<div class="mag-view"><div class="mag-qhead"><span class="mag-chip mag-tone-' + s.tone + '">' + ICONS[s.icon] + 'Stage ' + (run.stage + 1) + ': ' + s.title + '</span>' +
+          '<span class="mag-qcount">Question ' + (run.q + 1) + ' of ' + s.questions.length + '</span></div>' +
+          '<div class="mag-dots" aria-hidden="true">' + s.questions.map(function (_, qi) {
+            var p = run.picks[qi];
+            return '<span class="' + (p ? (p.c ? 'is-right' : 'is-wrong') : qi === run.q ? 'is-now' : '') + '"></span>';
+          }).join('') + '</div>';
+        if (s.match) html += matchBoard(s);
+        html += (Q.prompt ? '<p class="mag-prompt">' + Q.prompt + '</p>' : '') +
+          '<h2 class="mag-q" tabindex="-1"' + (pick ? '' : ' data-focus') + '>' + Q.q + '</h2>' +
+          '<div class="mag-opts" role="group" aria-label="Answer choices">' + Q.opts.map(function (o, oi) {
+            var cls = '';
+            if (pick) { if (oi === Q.a) cls = ' is-right'; else if (oi === pick.o) cls = ' is-wrong'; else cls = ' is-dim'; }
+            var mark = pick && oi === Q.a ? ICONS.check : pick && oi === pick.o ? ICONS.cross : String.fromCharCode(65 + oi);
+            var sr = pick && oi === Q.a ? '<span class="mag-sr"> (correct answer)</span>' : pick && oi === pick.o ? '<span class="mag-sr"> (your answer)</span>' : '';
+            return '<button type="button" class="mag-opt' + cls + '" data-act="pick" data-o="' + oi + '"' + (pick ? ' disabled' : '') + '>' +
+              '<span class="mag-opt-key">' + mark + '</span><span>' + o + sr + '</span></button>';
+          }).join('') + '</div>';
+        if (pick) {
+          var last = run.q === s.questions.length - 1;
+          html += '<div class="mag-fb ' + (pick.c ? 'is-right' : 'is-wrong') + '">' +
+            '<p class="mag-fb-title">' + (pick.c ? ICONS.check + 'Correct! +' + PTS + ' points' : ICONS.cross + 'Not quite — the answer is: ' + Q.opts[Q.a]) + '</p>' +
+            '<p>' + Q.why + '</p>' + (Q.cal ? calendar(Q.cal) : '') +
+            '<div class="mag-actions">' + btn('next', last ? 'Finish the stage' : 'Next question', 'mag-btn-primary', ' data-focus') + '</div></div>';
+        }
+        html += '</div>';
+        show(html);
+      }
+
+      // ── Stage complete ──
+      function finishStage() {
+        var s = STAGES[run.stage];
+        state.results[s.id] = run.picks.map(function (p) { return { o: p.o, c: p.c }; });
+        state.done[s.id] = true;
+        save();
+        var i = run.stage, got = correctIn(s.id), n = s.questions.length, perfect = got === n;
+        run = null;
+        var nextBtn = i < STAGES.length - 1 ? btn('open', 'Continue to Stage ' + (i + 2), 'mag-btn-primary', ' data-i="' + (i + 1) + '"') : btn('final', 'See my final score', 'mag-btn-primary');
+        show('<div class="mag-view mag-done"><div class="mag-medal mag-tone-' + s.tone + '">' + ICONS[s.icon] + (perfect ? '<span class="mag-medal-star">' + ICONS.star + '</span>' : '') + '</div>' +
+          '<h2 class="mag-title" tabindex="-1" data-focus>Badge earned: ' + s.badge + '!</h2>' +
+          '<p class="mag-lead">You finished Stage ' + (i + 1) + ', ' + s.title + '. You got <strong>' + got + ' of ' + n + '</strong> correct for <strong>' + (got * PTS) + ' points</strong>.' +
+          (perfect ? ' A perfect stage — you earned a gold star!' : ' You can replay this stage any time from the map.') + '</p>' +
+          (i < STAGES.length - 1 ? '<p class="mag-unlock">' + ICONS.check + 'Stage ' + (i + 2) + ', ' + STAGES[i + 1].title + ', is now unlocked.</p>' : '') +
+          '<div class="mag-keep"><h3>Learn more about this stage</h3><ul>' + s.learn.map(function (l) { return '<li><a href="' + l.href + '">' + l.text + '</a></li>'; }).join('') + '</ul></div>' +
+          '<div class="mag-actions">' + nextBtn + btn('map', 'Back to the map', 'mag-btn-ghost') + '</div></div>');
+        announce('Stage ' + (i + 1) + ' complete. ' + got + ' of ' + n + ' correct.');
+      }
+
+      // ── Final score ──
+      function renderFinal() {
+        run = null;
+        var score = totalScore(), pct = score / MAX;
+        var rank = pct >= 0.9 ? 'Medicare Navigator' : pct >= 0.6 ? 'Medicare Explorer' : 'Medicare Learner';
+        var msg = pct >= 0.9 ? 'Outstanding! You know your way around Medicare.' :
+          pct >= 0.6 ? 'Great job! You have a strong start — review the questions below to fill in the gaps.' :
+          'Nice work finishing the adventure! Medicare takes practice. Review the explanations below, then try again.';
+        var html = '<div class="mag-view mag-final"><div class="mag-medal mag-tone-gold">' + ICONS.trophy + '</div>' +
+          '<h2 class="mag-title" tabindex="-1" data-focus>Adventure complete!</h2>' +
+          '<p class="mag-final-score"><strong>' + score + '</strong> of ' + MAX + ' points</p>' +
+          '<p class="mag-rank">Your title: <strong>' + rank + '</strong></p><p class="mag-lead">' + msg + '</p>' +
+          '<h3>Review every question</h3>';
+        STAGES.forEach(function (s, i) {
+          var res = state.results[s.id] || [];
+          html += '<details class="mag-review mag-tone-' + s.tone + '"><summary><span>' + ICONS[s.icon] + 'Stage ' + (i + 1) + ': ' + s.title + '</span><span>' + correctIn(s.id) + ' of ' + s.questions.length + ' correct</span></summary><ol>' +
+            s.questions.map(function (Q, qi) {
+              var r = res[qi], ok = r && r.c;
+              return '<li class="' + (ok ? 'is-right' : 'is-wrong') + '"><p class="mag-review-q">' + (ok ? ICONS.check : ICONS.cross) + '<span>' + (Q.prompt ? Q.prompt + ' ' : '') + Q.q + '</span></p>' +
+                '<p><strong>Answer:</strong> ' + Q.opts[Q.a] + (ok ? '' : (r ? ' <span class="mag-review-you">(you chose: ' + Q.opts[r.o] + ')</span>' : '')) + '</p><p>' + Q.why + '</p></li>';
+            }).join('') + '</ol><p class="mag-review-more">Learn more: ' + s.learn.map(function (l) { return '<a href="' + l.href + '">' + l.text + '</a>'; }).join(' · ') + '</p></details>';
+        });
+        html += '<p class="mag-note">This game is general education, not advice about your own coverage. For your own situation, check Medicare.gov or talk with a licensed agent.</p>' +
+          '<div class="mag-actions">' + btn('replay', 'Play again from the start', 'mag-btn-primary') + btn('map', 'Back to the map', 'mag-btn-ghost') + '</div></div>';
+        show(html);
+        announce('Adventure complete. ' + score + ' of ' + MAX + ' points.');
+      }
+
+      function reset() { state = fresh(); save(); }
+
+      root.addEventListener('click', function (e) {
+        var t = e.target.closest('[data-act]');
+        if (!t || !screen.contains(t)) return;
+        var act = t.getAttribute('data-act');
+        var i = parseInt(t.getAttribute('data-i') || '0', 10);
+        if (act === 'open') {
+          if (!unlocked(i)) { announce('Stage ' + (i + 1) + ' is locked. Finish Stage ' + i + ' to unlock it.'); return; }
+          renderIntro(i);
+        } else if (act === 'start') {
+          run = { stage: i, q: 0, picks: [] };
+          renderQuestion();
+        } else if (act === 'pick' && run && !run.picks[run.q]) {
+          var o = parseInt(t.getAttribute('data-o'), 10), Q = STAGES[run.stage].questions[run.q];
+          run.picks[run.q] = { o: o, c: o === Q.a };
+          renderQuestion();
+          announce(o === Q.a ? 'Correct! Plus ' + PTS + ' points.' : 'Not quite. The answer is: ' + Q.opts[Q.a] + '.');
+        } else if (act === 'next' && run) {
+          if (run.q < STAGES[run.stage].questions.length - 1) { run.q++; renderQuestion(); }
+          else finishStage();
+        } else if (act === 'map') {
+          renderMap();
+        } else if (act === 'final') {
+          renderFinal();
+        } else if (act === 'restart') {
+          if (window.confirm('Start over? This erases your points and badges.')) { reset(); renderMap(); }
+        } else if (act === 'replay') {
+          reset(); renderMap();
+        }
+      });
+
+      renderMap();
+    })();
+  </script>
+</CalculatorPage>
+
+<style is:global>
+  .mag {
+    --mag-ink: #0b2c45;
+    --mag-ink-soft: #334155;
+    --mag-line: #cfdcec;
+    --mag-blue: #1d4ed8;
+    --mag-blue-soft: #e5edfe;
+    --mag-green: #166534;
+    --mag-green-soft: #dcfce7;
+    --mag-red: #991b1b;
+    --mag-red-soft: #fee2e2;
+    --mag-amber: #92400e;
+    --mag-amber-soft: #fef3c7;
+    --mag-purple: #6b21a8;
+    --mag-purple-soft: #f3e8ff;
+    --mag-gold: #a16207;
+    --mag-gold-soft: #fef9c3;
+
+    font-size: 1.15rem;
+    line-height: 1.55;
+    color: var(--mag-ink);
+    background: linear-gradient(180deg, #f2f7ff 0%, #ffffff 260px);
+    border: 2px solid var(--mag-line);
+    border-radius: 22px;
+    box-shadow: 0 18px 50px -24px rgba(11, 44, 69, 0.35);
+    padding: 1.25rem;
+    margin: 1.5rem 0 2rem;
+  }
+  .mag *, .mag *::before, .mag *::after { box-sizing: border-box; }
+  .mag svg { width: 1em; height: 1em; flex: none; }
+  .mag-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .mag-noscript { font-weight: 700; padding: 1rem; }
+
+  /* Tones — each stage has its own color, always paired with an icon and text. */
+  .mag .mag-tone-blue { --t: var(--mag-blue); --ts: var(--mag-blue-soft); }
+  .mag .mag-tone-green { --t: var(--mag-green); --ts: var(--mag-green-soft); }
+  .mag .mag-tone-amber { --t: var(--mag-amber); --ts: var(--mag-amber-soft); }
+  .mag .mag-tone-purple { --t: var(--mag-purple); --ts: var(--mag-purple-soft); }
+  .mag .mag-tone-gold { --t: var(--mag-gold); --ts: var(--mag-gold-soft); }
+
+  /* ---- HUD ---- */
+  .mag-hud { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; padding: 0.85rem 1rem; background: #fff; border: 2px solid var(--mag-line); border-radius: 16px; margin-bottom: 1.25rem; }
+  .mag-hud-label { display: block; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mag-ink-soft); }
+  .mag-hud-num { display: block; font-size: 1.9rem; font-weight: 800; line-height: 1.1; color: var(--mag-blue); font-variant-numeric: tabular-nums; }
+  .mag-hud-prog { flex: 1 1 200px; }
+  .mag-bar { height: 12px; background: var(--mag-blue-soft); border-radius: 8px; overflow: hidden; margin-top: 6px; }
+  .mag-bar-fill { height: 100%; width: 0; background: linear-gradient(90deg, #2563eb, #16a34a); border-radius: 8px; transition: width 0.5s ease; }
+  .mag-hud-badges { display: flex; gap: 6px; list-style: none; margin: 0; padding: 0; }
+  .mag-hud-badge { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-size: 1.3rem; background: #f1f5f9; color: #94a3b8; border: 2px dashed #cbd5e1; }
+  .mag-hud-badge.is-got { background: var(--ts); color: var(--t); border: 2px solid var(--t); }
+
+  /* ---- Shared ---- */
+  .mag-view { animation: mag-in 0.35s ease both; }
+  .mag .mag-title { font-size: 1.7rem; line-height: 1.25; margin: 0 0 0.5rem; color: var(--mag-ink); }
+  .mag .mag-title:focus, .mag .mag-q:focus { outline: none; }
+  .mag .mag-title:focus-visible, .mag .mag-q:focus-visible { outline: 3px dashed var(--mag-blue); outline-offset: 4px; }
+  .mag-lead { font-size: 1.15rem; color: var(--mag-ink-soft); margin: 0 0 1rem; }
+  .mag-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
+  .mag-btn { font: inherit; font-weight: 700; font-size: 1.15rem; min-height: 60px; padding: 0.75rem 1.5rem; border-radius: 14px; cursor: pointer; border: 2px solid transparent; transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease; }
+  .mag-btn-primary { background: var(--mag-blue); color: #fff; box-shadow: 0 6px 0 #1e3a8a; }
+  .mag-btn-primary:hover { background: #1e40af; transform: translateY(-1px); }
+  .mag-btn-primary:active { transform: translateY(3px); box-shadow: 0 3px 0 #1e3a8a; }
+  .mag-btn-ghost { background: #fff; color: var(--mag-blue); border-color: var(--mag-line); }
+  .mag-btn-ghost:hover { border-color: var(--mag-blue); background: var(--mag-blue-soft); }
+  .mag button:focus-visible, .mag a:focus-visible, .mag summary:focus-visible { outline: 4px solid #f59e0b; outline-offset: 3px; }
+
+  /* ---- Map trail ---- */
+  .mag-trail { list-style: none; margin: 0.5rem 0 0; padding: 0; position: relative; display: grid; gap: 1rem; }
+  .mag-trail::before { content: ''; position: absolute; left: 39px; top: 30px; bottom: 30px; border-left: 6px dotted #b6c8de; }
+  .mag-stop { position: relative; }
+  .mag-stop-btn { width: 100%; display: flex; align-items: center; gap: 1rem; text-align: left; font: inherit; color: inherit; background: #fff; border: 2px solid var(--mag-line); border-radius: 18px; padding: 0.85rem 1rem 0.85rem 0.6rem; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease; }
+  .mag-stop:not(.is-locked) .mag-stop-btn:hover { transform: translateY(-2px); border-color: var(--t); box-shadow: 0 12px 28px -18px rgba(11, 44, 69, 0.55); }
+  .mag-node { position: relative; flex: none; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; font-size: 2rem; background: var(--ts); color: var(--t); border: 3px solid var(--t); box-shadow: 0 0 0 5px #fff; }
+  .mag-node-check { position: absolute; right: -6px; bottom: -6px; width: 28px; height: 28px; border-radius: 50%; background: var(--mag-green); color: #fff; display: grid; place-items: center; font-size: 0.95rem; border: 3px solid #fff; }
+  .mag-stop-text { display: flex; flex-direction: column; }
+  .mag-stop-num { font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: var(--mag-ink-soft); }
+  .mag-stop-title { font-size: 1.3rem; font-weight: 800; color: var(--mag-ink); }
+  .mag-stop-status { font-size: 1rem; color: var(--mag-ink-soft); }
+  .mag-stop.is-locked .mag-stop-btn { background: #f8fafc; border-style: dashed; cursor: not-allowed; }
+  .mag-stop.is-locked .mag-node { background: #f1f5f9; color: #64748b; border-color: #94a3b8; }
+  .mag-stop.is-next .mag-node { animation: mag-pulse 2.2s ease-in-out infinite; }
+  .mag-stop.is-next .mag-stop-btn { border-color: var(--t); }
+  @media (min-width: 760px) {
+    .mag-trail::before { left: 50%; margin-left: -3px; }
+    .mag-stop { width: calc(50% + 32px); }
+    .mag-stop:nth-child(odd) { justify-self: start; }
+    .mag-stop:nth-child(even) { justify-self: end; }
+    .mag-stop:nth-child(odd) .mag-stop-btn { flex-direction: row-reverse; text-align: right; padding: 0.85rem 0.6rem 0.85rem 1rem; }
+    .mag-stop:nth-child(odd) .mag-stop-text { align-items: flex-end; }
+  }
+
+  /* ---- Stage intro ---- */
+  .mag-banner { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.25rem; border-radius: 18px; background: var(--ts); border: 2px solid var(--t); margin-bottom: 1rem; }
+  .mag-banner-icon { flex: none; width: 76px; height: 76px; border-radius: 22px; display: grid; place-items: center; font-size: 2.6rem; background: #fff; color: var(--t); box-shadow: 0 8px 18px -12px rgba(11, 44, 69, 0.6); transform: rotate(-4deg); }
+  .mag-banner .mag-title { margin: 0; }
+  .mag-lesson { background: #fff; border: 2px solid var(--mag-line); border-radius: 16px; padding: 1rem 1.25rem; }
+  .mag-lesson h3 { margin: 0 0 0.35rem; font-size: 1.15rem; color: var(--mag-ink); }
+  .mag-lesson p { margin: 0 0 0.5rem; }
+  .mag-meta { font-size: 1rem; font-weight: 700; color: var(--mag-ink-soft); }
+
+  /* ---- Question ---- */
+  .mag-qhead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .mag-chip { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 1rem; font-weight: 800; padding: 0.35rem 0.8rem; border-radius: 999px; background: var(--ts); color: var(--t); }
+  .mag-qcount { font-size: 1rem; font-weight: 700; color: var(--mag-ink-soft); }
+  .mag-dots { display: flex; gap: 8px; margin: 0.25rem 0 1rem; }
+  .mag-dots span { width: 16px; height: 16px; border-radius: 50%; background: #e2e8f0; border: 2px solid #cbd5e1; }
+  .mag-dots .is-now { background: #fff; border-color: var(--mag-blue); box-shadow: 0 0 0 3px var(--mag-blue-soft); }
+  .mag-dots .is-right { background: var(--mag-green); border-color: var(--mag-green); }
+  .mag-dots .is-wrong { background: #fff; border-color: var(--mag-red); }
+  .mag-prompt { margin: 0 0 0.25rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.95rem; color: var(--mag-ink-soft); }
+  .mag .mag-q { font-size: 1.45rem; line-height: 1.35; margin: 0 0 1rem; color: var(--mag-ink); }
+  .mag-opts { display: grid; gap: 0.75rem; }
+  .mag-opt { display: flex; align-items: center; gap: 0.9rem; width: 100%; min-height: 64px; text-align: left; font: inherit; font-size: 1.15rem; font-weight: 600; color: var(--mag-ink); background: #fff; border: 2px solid var(--mag-line); border-radius: 16px; padding: 0.8rem 1rem; cursor: pointer; transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease; }
+  .mag-opt:not([disabled]):hover { border-color: var(--mag-blue); background: var(--mag-blue-soft); transform: translateX(3px); }
+  .mag-opt[disabled] { cursor: default; }
+  .mag-opt-key { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-weight: 800; background: var(--mag-blue-soft); color: var(--mag-blue); }
+  .mag-opt.is-right { border-color: var(--mag-green); background: var(--mag-green-soft); }
+  .mag-opt.is-right .mag-opt-key { background: var(--mag-green); color: #fff; }
+  .mag-opt.is-wrong { border-color: var(--mag-red); background: var(--mag-red-soft); }
+  .mag-opt.is-wrong .mag-opt-key { background: var(--mag-red); color: #fff; }
+  .mag-opt.is-dim { color: #475569; }
+  .mag-opt.is-right { animation: mag-pop 0.35s ease; }
+  .mag-opt.is-wrong { animation: mag-shake 0.35s ease; }
+
+  .mag-board { background: #fff; border: 2px dashed var(--mag-line); border-radius: 16px; padding: 0.75rem 1rem; margin-bottom: 1rem; }
+  .mag-board-title { margin: 0 0 0.5rem; font-size: 0.9rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mag-ink-soft); }
+  .mag-board ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem; }
+  .mag-board li { display: flex; flex-direction: column; padding: 0.5rem 0.75rem; border-radius: 12px; background: #f1f5f9; font-size: 1rem; }
+  .mag-board li span { color: #64748b; }
+  .mag-board li.is-matched { background: var(--mag-green-soft); animation: mag-pop 0.4s ease; }
+  .mag-board li.is-matched span { color: var(--mag-green); font-weight: 700; }
+
+  .mag-fb { margin-top: 1.1rem; border-radius: 16px; padding: 1rem 1.25rem; border: 2px solid; animation: mag-in 0.3s ease both; }
+  .mag-fb.is-right { background: var(--mag-green-soft); border-color: var(--mag-green); }
+  .mag-fb.is-wrong { background: #fff7ed; border-color: #c2410c; }
+  .mag-fb p { margin: 0 0 0.5rem; }
+  .mag-fb-title { display: flex; align-items: center; gap: 0.5rem; font-size: 1.25rem; font-weight: 800; }
+  .mag-fb.is-right .mag-fb-title { color: var(--mag-green); }
+  .mag-fb.is-wrong .mag-fb-title { color: #9a3412; }
+
+  .mag-cal { margin: 0.75rem 0 0; }
+  .mag-cal-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+  .mag-cal-m { text-align: center; font-weight: 700; font-size: 1rem; padding: 0.45rem 0; border-radius: 10px; background: #fff; color: #64748b; border: 2px solid #e2e8f0; }
+  .mag-cal-m.is-on { background: var(--mag-amber-soft); color: var(--mag-amber); border-color: #d97706; }
+  .mag-cal-m.is-key { background: var(--mag-amber); color: #fff; border-color: var(--mag-amber); }
+  .mag-cal figcaption { margin-top: 0.4rem; font-weight: 700; font-size: 1rem; color: var(--mag-ink-soft); }
+  @media (min-width: 640px) { .mag-cal-grid { grid-template-columns: repeat(12, 1fr); } }
+
+  /* ---- Stage complete + final ---- */
+  .mag-done, .mag-final { text-align: center; }
+  .mag-done .mag-actions, .mag-final .mag-actions { justify-content: center; }
+  .mag-medal { position: relative; width: 120px; height: 120px; margin: 0.5rem auto 1rem; border-radius: 50%; display: grid; place-items: center; font-size: 3.6rem; background: radial-gradient(circle at 35% 30%, #fff, var(--ts) 70%); color: var(--t); border: 5px solid var(--t); box-shadow: 0 0 0 8px var(--ts), 0 16px 30px -16px rgba(11, 44, 69, 0.7); animation: mag-medal 0.6s cubic-bezier(.2, 1.4, .4, 1) both; }
+  .mag-medal-star { position: absolute; top: -8px; right: -8px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-size: 1.6rem; background: #facc15; color: #78350f; border: 3px solid #fff; animation: mag-pop 0.5s 0.4s ease both; }
+  .mag-unlock { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--mag-green); background: var(--mag-green-soft); padding: 0.5rem 1rem; border-radius: 999px; }
+  .mag-keep { text-align: left; background: #fff; border: 2px solid var(--mag-line); border-radius: 16px; padding: 0.9rem 1.25rem; margin-top: 1rem; }
+  .mag-keep h3 { margin: 0 0 0.35rem; font-size: 1.1rem; }
+  .mag-keep ul { margin: 0; padding-left: 1.2rem; }
+  .mag a { color: var(--mag-blue); font-weight: 700; }
+  .mag-final-score { font-size: 1.35rem; margin: 0; }
+  .mag-final-score strong { font-size: 3rem; color: var(--mag-blue); font-variant-numeric: tabular-nums; }
+  .mag-rank { font-size: 1.2rem; margin: 0.25rem 0 0.5rem; }
+  .mag-final h3 { text-align: left; margin: 1.5rem 0 0.5rem; }
+  .mag-review { text-align: left; background: #fff; border: 2px solid var(--mag-line); border-left: 8px solid var(--t); border-radius: 14px; margin-bottom: 0.6rem; }
+  .mag-review summary { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; padding: 0.9rem 1rem; min-height: 56px; cursor: pointer; font-weight: 800; }
+  .mag-review summary span:first-child { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--t); }
+  .mag-review ol { margin: 0; padding: 0 1rem 0.5rem 2.2rem; }
+  .mag-review li { padding: 0.6rem 0; border-top: 1px solid #e2e8f0; }
+  .mag-review li p { margin: 0 0 0.3rem; font-size: 1.05rem; }
+  .mag-review-q { display: flex; gap: 0.5rem; font-weight: 700; }
+  .mag-review li.is-right .mag-review-q svg { color: var(--mag-green); margin-top: 0.3em; }
+  .mag-review li.is-wrong .mag-review-q svg { color: var(--mag-red); margin-top: 0.3em; }
+  .mag-review-you { color: var(--mag-ink-soft); }
+  .mag-review-more { padding: 0 1rem 0.9rem; margin: 0; font-size: 1rem; }
+  .mag-note { font-size: 1rem; color: var(--mag-ink-soft); margin-top: 1rem; }
+
+  /* Static content below the game */
+  .mag-learn-list li { margin-bottom: 0.6rem; }
+  .mag-terms dt { font-weight: 700; margin-top: 0.6rem; }
+  .mag-terms dd { margin: 0.1rem 0 0; }
+
+  @media (max-width: 520px) {
+    .mag { padding: 0.85rem; border-radius: 16px; }
+    .mag .mag-title { font-size: 1.45rem; }
+    .mag .mag-q { font-size: 1.25rem; }
+    .mag-btn { width: 100%; }
+    .mag-banner-icon { width: 60px; height: 60px; font-size: 2rem; }
+  }
+
+  @keyframes mag-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes mag-pop { 0% { transform: scale(0.96); } 60% { transform: scale(1.03); } 100% { transform: scale(1); } }
+  @keyframes mag-shake { 0%, 100% { transform: translateX(0); } 30% { transform: translateX(-5px); } 60% { transform: translateX(5px); } }
+  @keyframes mag-pulse { 0%, 100% { box-shadow: 0 0 0 5px #fff, 0 0 0 7px var(--ts); } 50% { box-shadow: 0 0 0 5px #fff, 0 0 0 14px var(--ts); } }
+  @keyframes mag-medal { from { opacity: 0; transform: scale(0.4) rotate(-20deg); } to { opacity: 1; transform: none; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mag *, .mag *::before, .mag *::after { animation: none !important; transition: none !important; }
+  }
+</style>
