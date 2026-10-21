@@ -250,7 +250,11 @@ const context: PageContext = {
   </script>
 </CalculatorPage>
 
-<style>
+<!-- is:global, not scoped: the questions and results are built with innerHTML,
+     and Astro's scoped attribute selectors never match runtime-created
+     elements (the answer buttons rendered as bare browser buttons). Every
+     selector below uses the page-unique `mq` prefix, so nothing leaks. -->
+<style is:global>
   .mq {
     --mq-blue: #2563eb;
     --mq-blue-dark: #1d4ed8;
