@@ -1,10 +1,11 @@
 ---
-// src/pages/medicare-adventure-game.astro — NET-NEW page. "Medicare Adventure",
-// a five-stage educational board game that runs entirely in the browser (no
-// server, no signup). Built on StandardPageLayout for the shared header/byline/
-// summary/FAQ/related/CTA/disclaimer + schema; the game itself lives in the
-// slot with its own inline script and styles. Not CalculatorPage: a game is
-// not a HowTo, so the primary schema stays WebPage.
+// src/pages/medicare-adventure-game.astro — "Medicare Adventure", a five-stage
+// educational board game that runs entirely in the browser (no server, no
+// signup). Built on StandardPageLayout with bareHeader + bareFooter: the page
+// draws its own illustrated hero, FAQ, sources, related tools and CTA band, but
+// reuses SummaryBlock / AuthorByline / SourcesList / PageCTA so every editorial
+// marker the gate scores is still the real component. Not CalculatorPage: a
+// game is not a HowTo, so the primary schema stays WebPage.
 //
 // Accuracy: every question was checked against Medicare.gov on 2026-10-20
 // (pages listed in `sources`). The game deliberately avoids dollar amounts that
@@ -14,8 +15,13 @@
 //
 // Styles are `is:global` but every selector is prefixed with `.mag`: the game
 // builds its screens with innerHTML, and Astro's scoped attribute selectors do
-// not match elements created at runtime.
+// not match elements created at runtime. All illustrations are inline SVG —
+// no image requests beyond the agent photo already used across the site.
 import StandardPageLayout from '../components/layout/StandardPageLayout.astro';
+import SummaryBlock from '../components/SummaryBlock.astro';
+import AuthorByline from '../components/content/AuthorByline.astro';
+import SourcesList from '../components/content/SourcesList.astro';
+import PageCTA from '../components/content/PageCTA.astro';
 import { BUSINESS } from '../data/business';
 import type { PageContext } from '../types/Page';
 
@@ -62,12 +68,6 @@ const context: PageContext = {
       { title: 'What’s not covered by Original Medicare', url: 'https://www.medicare.gov/providers-services/original-medicare/not-covered', publisher: 'Medicare.gov' },
       { title: 'Medigap basics', url: 'https://www.medicare.gov/health-drug-plans/medigap/basics', publisher: 'Medicare.gov' },
     ],
-    nextSteps: [
-      {
-        when: 'Have a question the game raised about your own situation?',
-        action: `call or text Rocco free at ${BUSINESS.phone} — no pressure, no obligation.`,
-      },
-    ],
   },
   meta: {
     canonical: 'https://vernalmedicare.com/medicare-adventure-game.html',
@@ -77,7 +77,7 @@ const context: PageContext = {
   },
   author: 'rocco',
   datePublished: '2026-10-20',
-  lastUpdated: '2026-10-20',
+  lastUpdated: '2026-10-21',
   medicalDisclaimer:
     'Medicare Adventure is general education only. It does not determine your eligibility, enrollment rights, or costs, and it does not recommend any plan or carrier. Rules and amounts can change each year — confirm your options with Medicare.gov, Social Security, or a licensed agent.',
   breadcrumb: [
@@ -86,13 +86,116 @@ const context: PageContext = {
     { name: 'Medicare Adventure Game', href: '/medicare-adventure-game.html' },
   ],
 };
+const { page } = context;
+
+// What each stage covers — titles and links match the game's own STAGES data.
+// Previews describe the subject only; they never give away an answer.
+const LEARN = [
+  { title: 'Meet Medicare', teaser: 'Who Medicare is for and how it works.',
+    body: 'Who Medicare is for, what “Original Medicare” means, and how some younger people can qualify.',
+    links: [{ href: '/turning-65.html', text: 'Turning 65: your Medicare checklist' }, { href: '/medicare-coverage.html', text: 'What Medicare covers' }] },
+  { title: 'Discover the Parts', teaser: 'What Parts A, B, C, and D do.',
+    body: 'Match Parts A, B, C, and D to the kinds of care each one helps pay for.',
+    links: [{ href: '/medicare-part-a-vs-part-b.html', text: 'Part A vs. Part B' }, { href: '/medicare-advantage-plans-vernal.html', text: 'Medicare Advantage (Part C)' }, { href: '/part-d-plans-vernal.html', text: 'Part D drug plans' }] },
+  { title: 'Enrollment Calendar', teaser: 'When you can sign up or make changes.',
+    body: 'Calendar puzzles about the Initial Enrollment Period, fall Open Enrollment, the General Enrollment Period, and Special Enrollment Periods.',
+    links: [{ href: '/medicare-enrollment-periods.html', text: 'Medicare enrollment periods explained' }, { href: '/medicare-general-enrollment-period.html', text: 'The General Enrollment Period' }, { href: '/working-past-65.html', text: 'Working past 65' }] },
+  { title: 'Cost Puzzle', teaser: 'Premiums, deductibles, copayments, and coinsurance.',
+    body: 'Match the four cost words you’ll see on every plan to what they mean.',
+    links: [{ href: '/medicare-costs.html', text: 'Medicare costs' }, { href: '/medicare-glossary.html', text: 'Medicare glossary' }] },
+  { title: 'Final Challenge', teaser: 'Mixed questions to put it all together.',
+    body: 'Mixed questions on Medigap, yearly out-of-pocket limits, what Original Medicare doesn’t cover, and late enrollment penalties.',
+    links: [{ href: '/medigap.html', text: 'Medigap (Medicare Supplement)' }, { href: '/medicare-supplement-vs-advantage.html', text: 'Medigap vs. Medicare Advantage' }, { href: '/delaying-medicare-part-b.html', text: 'Delaying Part B' }] },
+];
+
+const TERMS = [
+  { term: 'Premium', def: 'The amount you pay for your coverage, usually every month — even in months you don’t use any care.' },
+  { term: 'Deductible', def: 'What you pay for covered care each year before Medicare or your plan starts to pay.' },
+  { term: 'Copayment', def: 'A set dollar amount you pay for a covered service, like a doctor visit. It stays the same no matter what the service costs.' },
+  { term: 'Coinsurance', def: 'A percentage of the cost you pay for a covered service, usually after your deductible — so what you pay goes up or down with the cost.' },
+];
+
+const TOOLS = [
+  { href: '/medicare-calculators.html', name: 'Free Medicare Calculators', desc: 'Estimate costs, penalties, and important dates.',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><rect x="8" y="6" width="8" height="3" rx="0.6"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01M15.5 16.5h.01"/></svg>' },
+  { href: '/medicare-quiz.html', name: 'Medicare Plan Quiz', desc: 'Seven questions to see which type of coverage may fit you.',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M8.5 10l1.5 1.5L13 8.5M8.5 15.5l1.5 1.5 3-3"/></svg>' },
+  { href: '/medicare-eligibility-calculator.html', name: 'Eligibility & Timeline Calculator', desc: 'See when you qualify and your enrollment dates.',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14h2M12 14h2M8 17h2"/></svg>' },
+  { href: '/turning-65.html', name: 'Turning 65: Your Medicare Step-by-Step', desc: 'A simple guide to what to do, and when.',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 5h11l3 3-3 3H5z"/><path d="M19 13H8l-3 3 3 3h11z"/></svg>' },
+];
+
+const PLUS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
 ---
 
-<StandardPageLayout context={context}>
-  <p>Medicare has a lot of new words and dates. This game turns them into a short adventure. Travel five stages, answer a few friendly questions at each stop, and collect a badge for every stage you finish. Wrong answers are part of learning — each one shows you the right answer and why.</p>
+<StandardPageLayout context={context} bareHeader bareFooter>
+<div class="mag-page">
 
+  {/* ─── Hero ─────────────────────────────────────────────────────────── */}
+  <section class="mag-hero">
+    <div class="mag-hero__copy">
+      <h1><span>Medicare Adventure:</span> <span class="mag-hero__accent">Learn Medicare by Playing</span></h1>
+      <p class="mag-hero__tag">A friendly, interactive game to help you understand Medicare.</p>
+      <SummaryBlock text={page.summary} />
+      <AuthorByline authorId={context.author} updated={context.lastUpdated} />
+      <div class="mag-callout">
+        <span class="mag-callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/><path d="M22 9v6"/></svg></span>
+        <p><strong>Have a question about your own situation?</strong> Call or text {BUSINESS.legalAgent} at <a href={`tel:${BUSINESS.phoneTel}`}>{BUSINESS.phone}</a> — no pressure, no obligation.</p>
+      </div>
+    </div>
+    <svg class="mag-hero__art" viewBox="0 0 520 420" role="img" aria-labelledby="mag-art-t">
+      <title id="mag-art-t">A mountain trail with a wooden signpost reading Learn, Play, Build Confidence, and Make Informed Choices, beside a Medicare Adventure map and compass</title>
+      <defs>
+        <linearGradient id="magSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9e0fb" /><stop offset="1" stop-color="#eef8ff" /></linearGradient>
+        <linearGradient id="magBoard" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9783f" /><stop offset="1" stop-color="#94592b" /></linearGradient>
+        <clipPath id="magClip"><rect width="520" height="420" rx="28" /></clipPath>
+      </defs>
+      <g clip-path="url(#magClip)">
+        <rect width="520" height="420" fill="url(#magSky)" />
+        <circle cx="430" cy="74" r="32" fill="#fde68a" />
+        <g fill="#fff" opacity=".9"><ellipse cx="108" cy="70" rx="46" ry="13" /><ellipse cx="136" cy="60" rx="28" ry="13" /><ellipse cx="300" cy="46" rx="38" ry="10" /></g>
+        <path d="M0 250 L92 138 L152 196 L232 104 L322 206 L392 146 L520 252 V420 H0Z" fill="#9cc3e4" />
+        <path d="M232 104 L254 130 L243 128 L233 140 L222 128 L210 131Z M92 138 L108 157 L99 155 L92 163 L84 155 L76 157Z M392 146 L407 163 L398 161 L391 169 L384 161 L376 163Z" fill="#fff" />
+        <path d="M0 302 Q130 244 262 292 T520 278 V420 H0Z" fill="#86c97a" />
+        <path d="M0 346 Q160 304 300 338 T520 330 V420 H0Z" fill="#5aa95a" />
+        <path d="M150 432 C172 384 268 372 256 342 C246 318 300 306 336 298" fill="none" stroke="#f1dbad" stroke-width="22" stroke-linecap="round" />
+        <g fill="#2f7d4f">
+          <path d="M34 336 l20 -58 l20 58z M18 352 l22 -48 l22 48z M484 330 l18 -54 l18 54z M462 352 l20 -44 l20 44z" />
+        </g>
+        <g fill="#7a4a26"><rect x="50" y="334" width="6" height="12" /><rect x="497" y="328" width="6" height="12" /></g>
+        <g transform="translate(66 196) rotate(-7)">
+          <rect width="232" height="150" rx="8" fill="#fbf1d6" stroke="#d9c08a" stroke-width="2" />
+          <path d="M77 0 V150 M155 0 V150" stroke="#eadbb2" stroke-width="2" />
+          <text x="116" y="40" text-anchor="middle" font-size="25" font-weight="800" fill="#0b2c45" font-family="Georgia, 'Times New Roman', serif">Medicare</text>
+          <text x="116" y="68" text-anchor="middle" font-size="23" font-weight="700" fill="#0b2c45" font-family="Georgia, 'Times New Roman', serif">Adventure</text>
+          <path d="M22 126 C50 100 70 132 96 112" fill="none" stroke="#c2410c" stroke-width="3" stroke-dasharray="5 6" stroke-linecap="round" />
+          <path d="M196 92 l12 12 M208 92 l-12 12" stroke="#c2410c" stroke-width="3.5" stroke-linecap="round" />
+          <circle cx="146" cy="112" r="24" fill="#fff" stroke="#a16207" stroke-width="3" />
+          <path d="M146 92 L152 112 L146 132 L140 112Z" fill="#0b2c45" />
+          <path d="M146 92 L152 112 L140 112Z" fill="#d0343d" />
+          <circle cx="146" cy="112" r="3" fill="#a16207" />
+        </g>
+        <rect x="402" y="150" width="15" height="240" rx="3" fill="#7a4a26" />
+        <g font-family="inherit" font-weight="800" fill="#fff8e6" text-anchor="middle">
+          <path d="M346 158 H478 L494 176 L478 194 H346Z" fill="url(#magBoard)" stroke="#6b3f1f" stroke-width="2" />
+          <text x="416" y="183" font-size="20">Learn</text>
+          <path d="M346 202 H478 L494 220 L478 238 H346Z" fill="url(#magBoard)" stroke="#6b3f1f" stroke-width="2" />
+          <text x="416" y="227" font-size="20">Play</text>
+          <path d="M336 246 H486 L502 266 L486 286 H336Z" fill="url(#magBoard)" stroke="#6b3f1f" stroke-width="2" />
+          <text x="415" y="272" font-size="17">Build Confidence</text>
+          <path d="M336 292 H486 L502 318 L486 344 H336Z" fill="url(#magBoard)" stroke="#6b3f1f" stroke-width="2" />
+          <text x="415" y="314" font-size="15">Make Informed</text>
+          <text x="415" y="333" font-size="15">Choices</text>
+        </g>
+      </g>
+    </svg>
+  </section>
+
+  {/* ─── Game ─────────────────────────────────────────────────────────── */}
   <div class="mag" id="mag">
     <div class="mag-hud" aria-label="Your progress">
+      <span class="mag-hud-star" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z" /></svg></span>
       <div class="mag-hud-score"><span class="mag-hud-label">Points</span><span class="mag-hud-num" id="mag-score">0</span></div>
       <div class="mag-hud-prog">
         <span class="mag-hud-label" id="mag-prog-label">0 of 5 stages complete</span>
@@ -106,37 +209,131 @@ const context: PageContext = {
     <p class="mag-sr" id="mag-live" aria-live="polite"></p>
   </div>
 
-  <h2>How to play</h2>
-  <ol>
-    <li>Pick the first stage on the adventure map. Each stage starts with a short lesson.</li>
-    <li>Answer each question by choosing one of the large buttons. You earn 10 points for every correct answer.</li>
-    <li>After every answer you will see the correct answer and a plain-English explanation.</li>
-    <li>Finishing a stage earns you a badge and unlocks the next stage. There is no timer.</li>
-    <li>Finish all five stages to see your final score, a review of every question, and guides to keep learning.</li>
-  </ol>
-
-  <h2>What you’ll learn at each stage</h2>
-  <ul class="mag-learn-list">
-    <li><strong>Stage 1 — Meet Medicare:</strong> who Medicare is for, what Original Medicare means, and how younger people can qualify. Read more in <a href="/turning-65.html">Turning 65: your Medicare checklist</a> and <a href="/medicare-coverage.html">what Medicare covers</a>.</li>
-    <li><strong>Stage 2 — Discover the Parts:</strong> match Parts A, B, C, and D to the care they help pay for. See <a href="/medicare-part-a-vs-part-b.html">Part A vs. Part B</a>, <a href="/medicare-advantage-plans-vernal.html">Medicare Advantage (Part C)</a>, and <a href="/part-d-plans-vernal.html">Part D drug plans</a>.</li>
-    <li><strong>Stage 3 — Enrollment Calendar:</strong> solve calendar puzzles about the Initial Enrollment Period, fall Open Enrollment, the General Enrollment Period, and Special Enrollment Periods. Go deeper with <a href="/medicare-enrollment-periods.html">Medicare enrollment periods explained</a>, <a href="/medicare-general-enrollment-period.html">the General Enrollment Period</a>, and <a href="/working-past-65.html">working past 65</a>.</li>
-    <li><strong>Stage 4 — Cost Puzzle:</strong> match premiums, deductibles, copayments, and coinsurance to what they mean. Learn more in <a href="/medicare-costs.html">Medicare costs</a> and the <a href="/medicare-glossary.html">Medicare glossary</a>.</li>
-    <li><strong>Stage 5 — Final Challenge:</strong> mixed questions on Medigap, out-of-pocket limits, what Original Medicare doesn’t cover, and late penalties. See <a href="/medigap.html">Medigap (Medicare Supplement)</a>, <a href="/medicare-supplement-vs-advantage.html">Medigap vs. Medicare Advantage</a>, and <a href="/delaying-medicare-part-b.html">delaying Part B</a>.</li>
+  <ul class="mag-trio">
+    <li>
+      <span class="mag-trio__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 6a13 13 0 0 0-7.5 23.6c1.5 1.1 2.5 2.8 2.5 4.6V36h10v-1.8c0-1.8 1-3.5 2.5-4.6A13 13 0 0 0 24 6z" fill="#facc15" stroke="#a16207" stroke-width="2" /><rect x="19" y="37" width="10" height="5" rx="1.5" fill="#94a3b8" /><path d="M21 22l3 4 3-4" fill="none" stroke="#a16207" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+      <div><h3>Learn at your own pace</h3><p>Each stage starts with a short lesson, then a few friendly questions with clear explanations.</p></div>
+    </li>
+    <li>
+      <span class="mag-trio__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="#fff" stroke="#d0343d" stroke-width="4" /><circle cx="24" cy="24" r="11" fill="#fecaca" stroke="#d0343d" stroke-width="4" /><circle cx="24" cy="24" r="4" fill="#d0343d" /><path d="M24 24L40 8M34 8h6v6" fill="none" stroke="#0b2c45" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+      <div><h3>Earn points and badges</h3><p>Get 10 points for every correct answer and collect a badge for each stage you finish.</p></div>
+    </li>
+    <li>
+      <span class="mag-trio__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="8" y="26" width="8" height="14" rx="2" fill="#93c5fd" /><rect x="20" y="17" width="8" height="23" rx="2" fill="#3b82f6" /><rect x="32" y="8" width="8" height="32" rx="2" fill="#1d4ed8" /></svg></span>
+      <div><h3>Build real confidence</h3><p>Turn Medicare’s new words and dates into simple, practical knowledge.</p></div>
+    </li>
   </ul>
 
-  <h2>Medicare words you’ll practice</h2>
-  <dl class="mag-terms">
-    <dt>Premium</dt>
-    <dd>The amount you pay for your coverage, usually every month — even in months you don’t use any care.</dd>
-    <dt>Deductible</dt>
-    <dd>What you pay for covered care each year before Medicare or your plan starts to pay.</dd>
-    <dt>Copayment</dt>
-    <dd>A set dollar amount you pay for a covered service, like a doctor visit.</dd>
-    <dt>Coinsurance</dt>
-    <dd>A percentage of the cost you pay for a covered service, usually after your deductible.</dd>
-  </dl>
+  {/* ─── How to play ──────────────────────────────────────────────────── */}
+  <section class="mag-howto" aria-labelledby="mag-howto-h">
+    <div>
+      <h2 id="mag-howto-h" class="mag-sec-h">How to play</h2>
+      <ol class="mag-steps">
+        <li><span class="mag-steps__n" aria-hidden="true">1</span><p><strong>Pick a stage.</strong> Start with Stage 1 on the adventure map. Each stage begins with a short lesson.</p></li>
+        <li><span class="mag-steps__n" aria-hidden="true">2</span><p><strong>Choose your answer.</strong> Tap one of the large buttons. You earn 10 points for every correct answer.</p></li>
+        <li><span class="mag-steps__n" aria-hidden="true">3</span><p><strong>Learn why.</strong> After every answer you see the correct answer and a plain-English explanation.</p></li>
+        <li><span class="mag-steps__n" aria-hidden="true">4</span><p><strong>Earn a badge.</strong> Finishing a stage earns a badge and unlocks the next one. There is no timer.</p></li>
+        <li><span class="mag-steps__n" aria-hidden="true">5</span><p><strong>See your results.</strong> Finish all five stages for your final score, a review of every question, and guides to keep learning.</p></li>
+      </ol>
+    </div>
+    <svg class="mag-howto__art" viewBox="0 0 360 270" aria-hidden="true">
+      <ellipse cx="180" cy="236" rx="170" ry="26" fill="#bbe3b0" />
+      <path d="M40 236 q10 -22 20 0 M300 232 q8 -18 16 0 M90 240 q6 -14 12 0" fill="#5aa95a" />
+      <ellipse cx="96" cy="232" rx="26" ry="11" fill="#94a3b8" /><ellipse cx="270" cy="236" rx="18" ry="8" fill="#94a3b8" />
+      <rect x="168" y="120" width="16" height="116" rx="3" fill="#7a4a26" />
+      <g transform="rotate(-8 180 90)">
+        <rect x="62" y="34" width="236" height="122" rx="14" fill="#b9783f" stroke="#6b3f1f" stroke-width="3" />
+        <rect x="72" y="44" width="216" height="102" rx="9" fill="none" stroke="#d9a066" stroke-width="2" />
+        <g font-family="inherit" font-weight="800" fill="#fff8e6" text-anchor="middle" font-size="22">
+          <text x="180" y="78">Small steps</text>
+          <text x="180" y="106">lead to big Medicare</text>
+          <text x="180" y="134">confidence!</text>
+        </g>
+      </g>
+      <g transform="translate(276 196)">
+        <circle r="34" fill="#fff" stroke="#a16207" stroke-width="5" />
+        <path d="M0 -24 L7 0 L0 24 L-7 0Z" fill="#0b2c45" /><path d="M0 -24 L7 0 L-7 0Z" fill="#d0343d" />
+        <circle r="4" fill="#a16207" />
+      </g>
+    </svg>
+  </section>
 
-  <p>Prefer a different style? Try the <a href="/medicare-quiz.html">Medicare plan quiz</a> or browse our <a href="/medicare-calculators.html">free Medicare calculators</a>.</p>
+  {/* ─── What you'll learn ────────────────────────────────────────────── */}
+  <section class="mag-learn" aria-labelledby="mag-learn-h">
+    <h2 id="mag-learn-h" class="mag-sec-h">What you’ll learn at each stage</h2>
+    <p class="mag-sec-sub">Open a stage to see what it covers and where to read more.</p>
+    <ol class="mag-learn__grid">
+      {LEARN.map((l, i) => (
+        <li>
+          <details class="mag-learn-card">
+            <summary>
+              <span class="mag-learn-card__n" aria-hidden="true">{i + 1}</span>
+              <span class="mag-learn-card__head"><strong>Stage {i + 1}: {l.title}</strong><span>{l.teaser}</span></span>
+              <span class="mag-plus" set:html={PLUS} />
+            </summary>
+            <div class="mag-learn-card__body">
+              <p>{l.body}</p>
+              <p class="mag-learn-card__more">Read more:</p>
+              <ul>{l.links.map((k) => <li><a href={k.href}>{k.text}</a></li>)}</ul>
+            </div>
+          </details>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  {/* ─── Words + FAQ ──────────────────────────────────────────────────── */}
+  <div class="mag-two">
+    <section class="mag-words" aria-labelledby="mag-words-h">
+      <h2 id="mag-words-h" class="mag-sec-h mag-sec-h--accent">Medicare words you’ll practice</h2>
+      {TERMS.map((t) => (
+        <details class="mag-term">
+          <summary>
+            <span class="mag-term__tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7" /></svg></span>
+            <dfn>{t.term}</dfn>
+            <span class="mag-plus" set:html={PLUS} />
+          </summary>
+          <p>{t.def}</p>
+        </details>
+      ))}
+      <p class="mag-words__note">Real amounts depend on your coverage and change over time. See the <a href="/medicare-glossary.html">Medicare glossary</a> for more terms.</p>
+    </section>
+
+    <section class="mag-faq" aria-label="Frequently Asked Questions">
+      <h2 class="mag-sec-h mag-sec-h--accent">Frequently Asked Questions</h2>
+      {page.faqs?.map((f) => (
+        <details class="mag-faq__item">
+          <summary><span set:html={f.question} /><span class="mag-plus" set:html={PLUS} /></summary>
+          <div class="mag-faq__a" set:html={f.answer} />
+        </details>
+      ))}
+    </section>
+  </div>
+
+  {/* ─── Sources + related tools ──────────────────────────────────────── */}
+  <div class="mag-two">
+    <SourcesList sources={page.sources ?? []} />
+    <nav class="related mag-tools" aria-labelledby="mag-tools-h">
+      <h2 id="mag-tools-h" class="mag-sec-h">Related tools</h2>
+      <ul>
+        {TOOLS.map((tl) => (
+          <li>
+            <a href={tl.href}>
+              <span class="mag-tools__icon" aria-hidden="true" set:html={tl.icon} />
+              <span class="mag-tools__text"><strong>{tl.name}</strong><span>{tl.desc}</span></span>
+              <span class="mag-tools__go" aria-hidden="true">›</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+
+  {/* ─── Agent CTA ────────────────────────────────────────────────────── */}
+  <div class="mag-cta">
+    <img class="mag-cta__photo" src="/pictures/rocco.webp" alt={`${BUSINESS.legalAgent}, licensed Medicare agent in Vernal, Utah`} width="96" height="96" loading="lazy" decoding="async" />
+    <PageCTA />
+  </div>
 
   <script is:inline>
     (function () {
@@ -166,6 +363,35 @@ const context: PageContext = {
         cross: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
         star: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg>',
       };
+
+      // Colour illustrations for each stage (map cards, banners, medals, badges).
+      var ILLUS = {
+        meet: '<svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="57" rx="27" ry="5" fill="#86d27a"/><path d="M7 57c6-10 14-14 25-14s19 4 25 14z" fill="#5aa95a"/><rect x="29" y="10" width="6" height="42" rx="2" fill="#7a4a26"/><path d="M12 13h32l7 7-7 7H12z" fill="#d0343d"/><path d="M52 31H21l-7 7 7 7h31z" fill="#2563eb"/><path d="M18 20h20M27 38h19" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>',
+        parts: '<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="26" height="26" rx="6" fill="#ef4444"/><rect x="34" y="4" width="26" height="26" rx="6" fill="#2563eb"/><rect x="4" y="34" width="26" height="26" rx="6" fill="#f59e0b"/><rect x="34" y="34" width="26" height="26" rx="6" fill="#16a34a"/><g font-family="Arial, sans-serif" font-weight="800" font-size="18" text-anchor="middle" fill="#fff"><text x="17" y="23.5">A</text><text x="47" y="23.5">B</text><text x="17" y="53.5">C</text><text x="47" y="53.5">D</text></g></svg>',
+        calendar: '<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="10" width="52" height="46" rx="8" fill="#fff" stroke="#2563eb" stroke-width="3"/><path d="M6 18a8 8 0 0 1 8-8h36a8 8 0 0 1 8 8v6H6z" fill="#2563eb"/><rect x="17" y="5" width="5" height="11" rx="2.5" fill="#0b2c45"/><rect x="42" y="5" width="5" height="11" rx="2.5" fill="#0b2c45"/><g fill="#bfdbfe"><rect x="13" y="30" width="8" height="7" rx="2"/><rect x="25" y="30" width="8" height="7" rx="2"/><rect x="37" y="30" width="8" height="7" rx="2"/><rect x="13" y="41" width="8" height="7" rx="2"/><rect x="25" y="41" width="8" height="7" rx="2"/></g><circle cx="47" cy="47" r="11" fill="#16a34a"/><path d="M42 47l3.5 3.5L52 44" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        costs: '<svg viewBox="0 0 64 64" aria-hidden="true"><g stroke="#a16207" stroke-width="1.8"><path d="M6 50v6a14 5 0 0 0 28 0v-6" fill="#f59e0b"/><ellipse cx="20" cy="50" rx="14" ry="5" fill="#fcd34d"/><path d="M6 42v6a14 5 0 0 0 28 0v-6" fill="#f59e0b"/><ellipse cx="20" cy="42" rx="14" ry="5" fill="#fcd34d"/><path d="M6 34v6a14 5 0 0 0 28 0v-6" fill="#f59e0b"/><ellipse cx="20" cy="34" rx="14" ry="5" fill="#fcd34d"/><path d="M30 50v6a14 5 0 0 0 28 0v-6" fill="#f59e0b"/><ellipse cx="44" cy="50" rx="14" ry="5" fill="#fcd34d"/><path d="M30 42v6a14 5 0 0 0 28 0v-6" fill="#f59e0b"/><ellipse cx="44" cy="42" rx="14" ry="5" fill="#fcd34d"/><path d="M30 34v6a14 5 0 0 0 28 0v-6" fill="#f59e0b"/><ellipse cx="44" cy="34" rx="14" ry="5" fill="#fcd34d"/><path d="M30 26v6a14 5 0 0 0 28 0v-6" fill="#f59e0b"/><ellipse cx="44" cy="26" rx="14" ry="5" fill="#fcd34d"/><path d="M30 18v6a14 5 0 0 0 28 0v-6" fill="#f59e0b"/><ellipse cx="44" cy="18" rx="14" ry="5" fill="#fcd34d"/></g></svg>',
+        final: '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M18 8h28v14a14 14 0 0 1-28 0z" fill="#facc15" stroke="#a16207" stroke-width="2.5"/><path d="M18 13H9v4a10 10 0 0 0 10 10M46 13h9v4a10 10 0 0 1-10 10" fill="none" stroke="#a16207" stroke-width="3"/><rect x="28" y="36" width="8" height="10" fill="#eab308" stroke="#a16207" stroke-width="2"/><rect x="17" y="46" width="30" height="10" rx="2.5" fill="#0b2c45"/><path d="M32 13l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8z" fill="#fff8db"/></svg>',
+      };
+
+      // One-line subject preview per stage — describes the topic, never an answer.
+      var PREVIEW = {
+        meet: 'Who Medicare is for and how it works',
+        parts: 'What Parts A, B, C, and D help pay for',
+        calendar: 'When you can sign up or make changes',
+        costs: 'Premiums, deductibles, copayments, and coinsurance',
+        final: 'Mixed questions to put it all together',
+      };
+
+      var SCENE = '<svg class="mag-scene" viewBox="0 0 1000 190" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M0 150L90 70L150 110L240 40L330 120L420 60L520 130L610 50L700 115L790 65L880 120L1000 70V190H0Z" fill="#cfe4f5"/><path d="M240 40L256 58L246 56L240 64L233 56L224 58ZM610 50L625 67L616 65L610 72L603 65L595 67ZM790 65L803 80L795 78L790 85L784 78L777 80Z" fill="#fff"/><path d="M0 172Q120 132 250 162T520 156T780 152T1000 160V190H0Z" fill="#c3e6b8"/><path d="M20 178l13 -34l13 34zM52 178l13 -26l13 26zM150 178l13 -30l13 30zM330 178l13 -36l13 36zM470 178l13 -28l13 28zM640 178l13 -34l13 34zM760 178l13 -26l13 26zM900 178l13 -36l13 36zM950 178l13 -28l13 28z" fill="#86c48c"/></svg>';
+
+      // A short, one-time confetti fall (hidden entirely under reduced motion).
+      function confetti() {
+        var colors = ['#2563eb', '#d0343d', '#f59e0b', '#16a34a', '#38bdf8', '#a855f7'], s = '';
+        for (var k = 0; k < 18; k++) {
+          s += '<i style="--x:' + (k * 37 % 100) + '%;--d:' + (k % 6) * 0.09 + 's;--c:' + colors[k % colors.length] + ';--r:' + (k * 47 % 360) + 'deg"></i>';
+        }
+        return '<div class="mag-confetti" aria-hidden="true">' + s + '</div>';
+      }
 
       // ── Content. Checked against Medicare.gov 2026-10-20 (see page sources). ──
       var STAGES = [
@@ -371,6 +597,9 @@ const context: PageContext = {
 
       var state = load();
       var run = null; // { stage, q, picks: [], answered: bool }
+      // A stage left part-way through during this visit. Kept in memory only, so
+      // saved progress still changes only when a stage is finished.
+      var paused = null;
 
       function unlocked(i) { return i === 0 || !!state.done[STAGES[i - 1].id]; }
       function doneCount() { return STAGES.filter(function (s) { return state.done[s.id]; }).length; }
@@ -397,11 +626,14 @@ const context: PageContext = {
         }).join('');
       }
 
+      // Focus moves with each new screen so keyboard and screen-reader users
+      // land on it — but not on page load, where it would steal focus.
+      var interacted = false;
       function show(html) {
         screen.innerHTML = html;
         renderHud();
         var f = screen.querySelector('[data-focus]');
-        if (f) f.focus({ preventScroll: true });
+        if (f && interacted) f.focus({ preventScroll: true });
         var top = root.getBoundingClientRect().top;
         if (top < 0) root.scrollIntoView({ block: 'start' });
       }
@@ -414,18 +646,31 @@ const context: PageContext = {
       function renderMap() {
         run = null;
         var next = STAGES.findIndex(function (s) { return !state.done[s.id]; });
-        var html = '<div class="mag-view"><h2 class="mag-title" tabindex="-1" data-focus>The Adventure Map</h2>' +
-          '<p class="mag-lead">' + (doneCount() === 0 ? 'Your journey starts at Stage 1. Choose it to begin.' :
-            next === -1 ? 'You’ve finished every stage. Replay any stage, or see your final score.' :
-            'Welcome back! Stage ' + (next + 1) + ' is ready for you.') + '</p><ol class="mag-trail">';
+        var lead = doneCount() === 0 ? 'Your journey through Medicare starts here. Complete each stage to unlock the next one.' :
+          next === -1 ? 'You’ve finished every stage. Replay any stage, or see your final score.' :
+          'Welcome back! Stage ' + (next + 1) + ' is ready for you.';
+        var html = '<div class="mag-view mag-view--map">' + SCENE +
+          '<div class="mag-map-head"><h2 class="mag-title" tabindex="-1" data-focus>The Adventure Map</h2><p class="mag-lead">' + lead + '</p></div>' +
+          '<ol class="mag-trail">';
         STAGES.forEach(function (s, i) {
           var isDone = !!state.done[s.id], open = unlocked(i), isNext = i === next;
-          var status = isDone ? correctIn(s.id) + ' of ' + s.questions.length + ' correct · badge earned' : open ? 'Ready to play' : 'Locked — finish Stage ' + i + ' first';
-          html += '<li class="mag-stop mag-tone-' + s.tone + (isDone ? ' is-done' : '') + (open ? '' : ' is-locked') + (isNext ? ' is-next' : '') + '">' +
+          var inProg = !!(paused && paused.stage === i);
+          var state_ = inProg ? ' is-progress' : isDone ? ' is-done' : open ? ' is-open' : ' is-locked';
+          var status, cta;
+          if (inProg) { status = 'In progress · ' + paused.picks.length + ' of ' + s.questions.length + ' answered'; cta = 'Continue'; }
+          else if (isDone) { status = correctIn(s.id) + ' of ' + s.questions.length + ' correct · ' + s.badge + ' badge'; cta = 'Replay'; }
+          else if (open) { status = 'Ready to play'; cta = 'Start Stage ' + (i + 1); }
+          else { status = 'Locked — finish Stage ' + i + ' first'; cta = ''; }
+          html += '<li class="mag-stop mag-tone-' + s.tone + state_ + (isNext ? ' is-next' : '') + '">' +
             '<button type="button" class="mag-stop-btn" data-act="open" data-i="' + i + '"' + (open ? '' : ' aria-disabled="true"') + '>' +
-            '<span class="mag-node">' + (open ? ICONS[s.icon] : ICONS.lock) + (isDone ? '<span class="mag-node-check">' + ICONS.check + '</span>' : '') + '</span>' +
-            '<span class="mag-stop-text"><span class="mag-stop-num">Stage ' + (i + 1) + '</span><span class="mag-stop-title">' + s.title + '</span>' +
-            '<span class="mag-stop-status">' + status + '</span></span></button></li>';
+            '<span class="mag-node" aria-hidden="true">' + (isDone && !inProg ? ICONS.check : String(i + 1)) + '</span>' +
+            '<span class="mag-stop-art">' + ILLUS[s.id] + (open ? '' : '<span class="mag-stop-lock">' + ICONS.lock + '</span>') + '</span>' +
+            '<span class="mag-stop-num">Stage ' + (i + 1) + '</span>' +
+            '<span class="mag-stop-title">' + s.title + '</span>' +
+            '<span class="mag-stop-preview">' + PREVIEW[s.id] + '</span>' +
+            '<span class="mag-stop-status">' + status + '</span>' +
+            (cta ? '<span class="mag-stop-cta">' + cta + ' <span aria-hidden="true">›</span></span>' : '') +
+            '</button></li>';
         });
         html += '</ol><div class="mag-actions">';
         if (next === -1) html += btn('final', 'See my final score', 'mag-btn-primary');
@@ -436,11 +681,15 @@ const context: PageContext = {
 
       // ── Stage intro ──
       function renderIntro(i) {
-        var s = STAGES[i];
-        show('<div class="mag-view"><div class="mag-banner mag-tone-' + s.tone + '"><span class="mag-banner-icon">' + ICONS[s.icon] + '</span>' +
+        var s = STAGES[i], resume = !!(paused && paused.stage === i);
+        var actions = resume
+          ? btn('resume', 'Continue where you left off', 'mag-btn-primary', ' data-i="' + i + '"') + btn('start', 'Start this stage over', 'mag-btn-ghost', ' data-i="' + i + '"')
+          : btn('start', 'Start Stage ' + (i + 1), 'mag-btn-primary', ' data-i="' + i + '"');
+        show('<div class="mag-view"><div class="mag-banner mag-tone-' + s.tone + '"><span class="mag-banner-icon">' + ILLUS[s.id] + '</span>' +
           '<div><span class="mag-stop-num">Stage ' + (i + 1) + ' of ' + STAGES.length + '</span><h2 class="mag-title" tabindex="-1" data-focus>' + s.title + '</h2></div></div>' +
           '<div class="mag-lesson"><h3>Quick lesson</h3><p>' + s.lesson + '</p><p class="mag-meta">' + s.questions.length + ' questions · ' + (s.questions.length * PTS) + ' points possible · no time limit</p></div>' +
-          '<div class="mag-actions">' + btn('start', 'Start Stage ' + (i + 1), 'mag-btn-primary', ' data-i="' + i + '"') + btn('map', 'Back to the map', 'mag-btn-ghost') + '</div></div>');
+          (resume ? '<p class="mag-resume-note">You’ve answered ' + paused.picks.length + ' of ' + s.questions.length + ' questions in this stage so far.</p>' : '') +
+          '<div class="mag-actions">' + actions + btn('map', 'Back to the map', 'mag-btn-ghost') + '</div></div>');
       }
 
       function matchBoard(s) {
@@ -493,13 +742,14 @@ const context: PageContext = {
       // ── Stage complete ──
       function finishStage() {
         var s = STAGES[run.stage];
+        if (paused && paused.stage === run.stage) paused = null;
         state.results[s.id] = run.picks.map(function (p) { return { o: p.o, c: p.c }; });
         state.done[s.id] = true;
         save();
         var i = run.stage, got = correctIn(s.id), n = s.questions.length, perfect = got === n;
         run = null;
         var nextBtn = i < STAGES.length - 1 ? btn('open', 'Continue to Stage ' + (i + 2), 'mag-btn-primary', ' data-i="' + (i + 1) + '"') : btn('final', 'See my final score', 'mag-btn-primary');
-        show('<div class="mag-view mag-done"><div class="mag-medal mag-tone-' + s.tone + '">' + ICONS[s.icon] + (perfect ? '<span class="mag-medal-star">' + ICONS.star + '</span>' : '') + '</div>' +
+        show('<div class="mag-view mag-done">' + confetti() + '<div class="mag-medal mag-tone-' + s.tone + '">' + ILLUS[s.id] + (perfect ? '<span class="mag-medal-star">' + ICONS.star + '</span>' : '') + '</div>' +
           '<h2 class="mag-title" tabindex="-1" data-focus>Badge earned: ' + s.badge + '!</h2>' +
           '<p class="mag-lead">You finished Stage ' + (i + 1) + ', ' + s.title + '. You got <strong>' + got + ' of ' + n + '</strong> correct for <strong>' + (got * PTS) + ' points</strong>.' +
           (perfect ? ' A perfect stage — you earned a gold star!' : ' You can replay this stage any time from the map.') + '</p>' +
@@ -517,10 +767,28 @@ const context: PageContext = {
         var msg = pct >= 0.9 ? 'Outstanding! You know your way around Medicare.' :
           pct >= 0.6 ? 'Great job! You have a strong start — review the questions below to fill in the gaps.' :
           'Nice work finishing the adventure! Medicare takes practice. Review the explanations below, then try again.';
-        var html = '<div class="mag-view mag-final"><div class="mag-medal mag-tone-gold">' + ICONS.trophy + '</div>' +
+        var missed = [];
+        STAGES.forEach(function (s, i) {
+          (state.results[s.id] || []).forEach(function (r, qi) { if (!r.c) missed.push({ s: s, i: i, Q: s.questions[qi], r: r }); });
+        });
+        var html = '<div class="mag-view mag-final">' + confetti() + '<div class="mag-medal mag-tone-gold">' + ILLUS.final + '</div>' +
           '<h2 class="mag-title" tabindex="-1" data-focus>Adventure complete!</h2>' +
           '<p class="mag-final-score"><strong>' + score + '</strong> of ' + MAX + ' points</p>' +
           '<p class="mag-rank">Your title: <strong>' + rank + '</strong></p><p class="mag-lead">' + msg + '</p>' +
+          '<h3>Your badges</h3><ul class="mag-achieve">' + STAGES.map(function (s) {
+            var got = correctIn(s.id), n = s.questions.length;
+            return '<li class="mag-tone-' + s.tone + '">' +
+              (got === n ? '<span class="mag-achieve-star" title="Perfect stage">' + ICONS.star + '<span class="mag-sr"> Perfect stage</span></span>' : '') +
+              '<span class="mag-achieve-art">' + ILLUS[s.id] + '</span><strong>' + s.badge + '</strong>' +
+              '<span class="mag-achieve-score">' + s.title + ' · ' + got + ' of ' + n + '</span></li>';
+          }).join('') + '</ul>' +
+          '<h3>Questions to review' + (missed.length ? ' (' + missed.length + ')' : '') + '</h3>' +
+          (missed.length ? '<ol class="mag-missed">' + missed.map(function (m) {
+            return '<li><span class="mag-chip mag-tone-' + m.s.tone + '">Stage ' + (m.i + 1) + ': ' + m.s.title + '</span>' +
+              '<p class="mag-missed-q">' + (m.Q.prompt ? m.Q.prompt + ' ' : '') + m.Q.q + '</p>' +
+              '<p><strong>Correct answer:</strong> ' + m.Q.opts[m.Q.a] + ' <span class="mag-review-you">(you chose: ' + m.Q.opts[m.r.o] + ')</span></p>' +
+              '<p>' + m.Q.why + '</p></li>';
+          }).join('') + '</ol>' : '<p class="mag-perfect">You answered every question correctly — nothing to review!</p>') +
           '<h3>Review every question</h3>';
         STAGES.forEach(function (s, i) {
           var res = state.results[s.id] || [];
@@ -537,18 +805,24 @@ const context: PageContext = {
         announce('Adventure complete. ' + score + ' of ' + MAX + ' points.');
       }
 
-      function reset() { state = fresh(); save(); }
+      function reset() { state = fresh(); paused = null; save(); }
 
       root.addEventListener('click', function (e) {
         var t = e.target.closest('[data-act]');
         if (!t || !screen.contains(t)) return;
+        interacted = true;
         var act = t.getAttribute('data-act');
         var i = parseInt(t.getAttribute('data-i') || '0', 10);
         if (act === 'open') {
           if (!unlocked(i)) { announce('Stage ' + (i + 1) + ' is locked. Finish Stage ' + i + ' to unlock it.'); return; }
           renderIntro(i);
         } else if (act === 'start') {
+          if (paused && paused.stage === i) paused = null;
           run = { stage: i, q: 0, picks: [] };
+          renderQuestion();
+        } else if (act === 'resume' && paused) {
+          run = paused;
+          paused = null;
           renderQuestion();
         } else if (act === 'pick' && run && !run.picks[run.q]) {
           var o = parseInt(t.getAttribute('data-o'), 10), Q = STAGES[run.stage].questions[run.q];
@@ -559,6 +833,7 @@ const context: PageContext = {
           if (run.q < STAGES[run.stage].questions.length - 1) { run.q++; renderQuestion(); }
           else finishStage();
         } else if (act === 'map') {
+          if (run && run.picks.length) paused = run;
           renderMap();
         } else if (act === 'final') {
           renderFinal();
@@ -572,15 +847,19 @@ const context: PageContext = {
       renderMap();
     })();
   </script>
+</div>
 </StandardPageLayout>
 
 <style is:global>
-  .mag {
+  /* ── Tokens (page-wide) ─────────────────────────────────────────────── */
+  .mag-page {
     --mag-ink: #0b2c45;
     --mag-ink-soft: #334155;
-    --mag-line: #cfdcec;
+    --mag-line: #d3e0ee;
     --mag-blue: #1d4ed8;
     --mag-blue-soft: #e5edfe;
+    --mag-coral: #d0343d;
+    --mag-coral-dark: #a8262f;
     --mag-green: #166534;
     --mag-green-soft: #dcfce7;
     --mag-red: #991b1b;
@@ -591,93 +870,175 @@ const context: PageContext = {
     --mag-purple-soft: #f3e8ff;
     --mag-gold: #a16207;
     --mag-gold-soft: #fef9c3;
-
-    font-size: 1.15rem;
-    line-height: 1.55;
+    --mag-shadow: 0 14px 34px -22px rgba(11, 44, 69, 0.55);
     color: var(--mag-ink);
-    background: linear-gradient(180deg, #f2f7ff 0%, #ffffff 260px);
-    border: 2px solid var(--mag-line);
-    border-radius: 22px;
-    box-shadow: 0 18px 50px -24px rgba(11, 44, 69, 0.35);
-    padding: 1.25rem;
-    margin: 1.5rem 0 2rem;
   }
-  .mag *, .mag *::before, .mag *::after { box-sizing: border-box; }
-  .mag svg { width: 1em; height: 1em; flex: none; }
-  .mag h2, .mag h3 { color: var(--mag-ink); }
+  .mag-page *, .mag-page *::before, .mag-page *::after { box-sizing: border-box; }
+  .mag-page svg { flex: none; }
   .mag-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .mag-page a { color: var(--mag-blue); }
+  .mag-page a:focus-visible, .mag-page button:focus-visible, .mag-page summary:focus-visible { outline: 4px solid #f59e0b; outline-offset: 3px; }
+  .mag-page .mag-sec-h { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; font-weight: 800; color: var(--mag-ink); margin: 0 0 0.75rem; }
+  .mag-page .mag-sec-h--accent { color: var(--mag-coral); }
+  .mag-sec-sub { margin: -0.25rem 0 1rem; color: var(--mag-ink-soft); font-size: 1.05rem; }
+
+  /* Shared expand/collapse indicator: a plus that turns into a minus. */
+  .mag-plus { margin-left: auto; width: 30px; height: 30px; flex: none; border-radius: 50%; display: grid; place-items: center; color: var(--mag-coral); background: #fff1f1; transition: transform 0.2s ease; }
+  .mag-plus svg { width: 16px; height: 16px; }
+  details[open] > summary .mag-plus { transform: rotate(45deg); }
+  .mag-page summary { list-style: none; cursor: pointer; }
+  .mag-page summary::-webkit-details-marker { display: none; }
+  .mag-page details[open] > summary ~ * { animation: mag-in 0.25s ease both; }
+
+  /* ── Hero ───────────────────────────────────────────────────────────── */
+  .mag-hero {
+    display: grid; grid-template-columns: 1.05fr 1fr; gap: 2rem; align-items: center;
+    background: linear-gradient(180deg, #eef7ff 0%, #ffffff 100%);
+    border: 1px solid var(--mag-line); border-radius: 26px; padding: 2rem 2.25rem; margin: 0.5rem 0 1.5rem;
+  }
+  .mag-hero h1 { font-size: clamp(2rem, 4.2vw, 3rem); line-height: 1.08; font-weight: 800; color: var(--mag-ink); margin: 0 0 0.6rem; }
+  .mag-hero h1 span { display: block; }
+  .mag-hero .mag-hero__accent { color: var(--mag-coral); }
+  .mag-hero__tag { font-size: 1.2rem; font-weight: 700; color: var(--mag-ink); margin: 0 0 0.75rem; }
+  .mag-hero .summary-block { background: none; border: 0; padding: 0; margin: 0 0 0.6rem; box-shadow: none; }
+  .mag-hero .summary-block p { margin: 0; font-size: 1.05rem; line-height: 1.6; color: var(--mag-ink-soft); }
+  .mag-hero .byline { margin: 0 0 1rem; font-size: 0.92rem; color: #5b6b7d; }
+  .mag-callout { display: flex; gap: 0.8rem; align-items: flex-start; background: #fff; border: 1px solid var(--mag-line); border-radius: 16px; padding: 0.9rem 1.1rem; box-shadow: var(--mag-shadow); }
+  .mag-callout__icon { flex: none; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--mag-blue-soft); color: var(--mag-blue); }
+  .mag-callout__icon svg { width: 24px; height: 24px; }
+  .mag-callout p { margin: 0; font-size: 1rem; line-height: 1.5; color: var(--mag-ink-soft); }
+  .mag-callout strong { display: block; color: var(--mag-ink); }
+  .mag-callout a { font-weight: 800; }
+  .mag-hero__art { width: 100%; height: auto; display: block; filter: drop-shadow(0 18px 30px rgba(11, 44, 69, 0.18)); }
+
+  /* ── Game shell ─────────────────────────────────────────────────────── */
+  .mag {
+    font-size: 1.15rem; line-height: 1.55; color: var(--mag-ink);
+    background: linear-gradient(180deg, #f2f8ff 0%, #ffffff 320px);
+    border: 2px solid var(--mag-line); border-radius: 26px;
+    box-shadow: 0 18px 50px -26px rgba(11, 44, 69, 0.4);
+    padding: 1.25rem; margin: 0 0 1.5rem;
+  }
+  .mag svg { width: 1em; height: 1em; }
+  .mag h2, .mag h3 { color: var(--mag-ink); }
   .mag-noscript { font-weight: 700; padding: 1rem; }
 
   /* Tones — each stage has its own color, always paired with an icon and text. */
-  .mag .mag-tone-blue { --t: var(--mag-blue); --ts: var(--mag-blue-soft); }
-  .mag .mag-tone-green { --t: var(--mag-green); --ts: var(--mag-green-soft); }
-  .mag .mag-tone-amber { --t: var(--mag-amber); --ts: var(--mag-amber-soft); }
-  .mag .mag-tone-purple { --t: var(--mag-purple); --ts: var(--mag-purple-soft); }
-  .mag .mag-tone-gold { --t: var(--mag-gold); --ts: var(--mag-gold-soft); }
+  .mag-page .mag-tone-blue { --t: var(--mag-blue); --ts: var(--mag-blue-soft); }
+  .mag-page .mag-tone-green { --t: var(--mag-green); --ts: var(--mag-green-soft); }
+  .mag-page .mag-tone-amber { --t: var(--mag-amber); --ts: var(--mag-amber-soft); }
+  .mag-page .mag-tone-purple { --t: var(--mag-purple); --ts: var(--mag-purple-soft); }
+  .mag-page .mag-tone-gold { --t: var(--mag-gold); --ts: var(--mag-gold-soft); }
 
-  /* ---- HUD ---- */
-  .mag-hud { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; padding: 0.85rem 1rem; background: #fff; border: 2px solid var(--mag-line); border-radius: 16px; margin-bottom: 1.25rem; }
-  .mag-hud-label { display: block; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mag-ink-soft); }
-  .mag-hud-num { display: block; font-size: 1.9rem; font-weight: 800; line-height: 1.1; color: var(--mag-blue); font-variant-numeric: tabular-nums; }
-  .mag-hud-prog { flex: 1 1 200px; }
-  .mag-bar { height: 12px; background: var(--mag-blue-soft); border-radius: 8px; overflow: hidden; margin-top: 6px; }
-  .mag-bar-fill { height: 100%; width: 0; background: linear-gradient(90deg, #2563eb, #16a34a); border-radius: 8px; transition: width 0.5s ease; }
+  /* ── HUD ────────────────────────────────────────────────────────────── */
+  .mag-hud { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; padding: 0.9rem 1.1rem; background: #fff; border: 2px solid var(--mag-line); border-radius: 18px; margin-bottom: 1.25rem; }
+  .mag-hud-star { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 35% 30%, #fde68a, #f59e0b 70%); color: #fff; box-shadow: inset 0 -3px 0 rgba(146, 64, 14, 0.35), 0 6px 14px -8px rgba(146, 64, 14, 0.8); }
+  .mag-hud-star svg { width: 30px; height: 30px; filter: drop-shadow(0 1px 0 rgba(146, 64, 14, 0.5)); }
+  .mag-hud-label { display: block; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mag-ink-soft); }
+  .mag-hud-num { display: block; font-size: 2rem; font-weight: 800; line-height: 1.05; color: var(--mag-ink); font-variant-numeric: tabular-nums; }
+  .mag-hud-prog { flex: 1 1 220px; }
+  .mag-bar { height: 14px; background: var(--mag-blue-soft); border-radius: 8px; overflow: hidden; margin-top: 6px; }
+  .mag-bar-fill { height: 100%; width: 0; background: linear-gradient(90deg, #2563eb, #38bdf8); border-radius: 8px; transition: width 0.5s ease; }
   .mag-hud-badges { display: flex; gap: 6px; list-style: none; margin: 0; padding: 0; }
-  .mag-hud-badge { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-size: 1.3rem; background: #f1f5f9; color: #94a3b8; border: 2px dashed #cbd5e1; }
-  .mag-hud-badge.is-got { background: var(--ts); color: var(--t); border: 2px solid var(--t); }
+  .mag-hud-badge { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-size: 1.3rem; background: #f1f5f9; color: #94a3b8; border: 2px dashed #cbd5e1; }
+  .mag-hud-badge.is-got { background: var(--ts); color: var(--t); border: 2px solid var(--t); animation: mag-pop 0.4s ease; }
 
-  /* ---- Shared ---- */
-  .mag-view { animation: mag-in 0.35s ease both; }
-  .mag .mag-title { font-size: 1.7rem; line-height: 1.25; margin: 0 0 0.5rem; color: var(--mag-ink); }
+  /* ── Shared game pieces ─────────────────────────────────────────────── */
+  .mag-view { animation: mag-in 0.35s ease both; position: relative; }
+  .mag .mag-title { font-size: 1.75rem; line-height: 1.25; margin: 0 0 0.5rem; }
   .mag .mag-title:focus, .mag .mag-q:focus { outline: none; }
   .mag .mag-title:focus-visible, .mag .mag-q:focus-visible { outline: 3px dashed var(--mag-blue); outline-offset: 4px; }
   .mag-lead { font-size: 1.15rem; color: var(--mag-ink-soft); margin: 0 0 1rem; }
   .mag-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
-  .mag-btn { font: inherit; font-weight: 700; font-size: 1.15rem; min-height: 60px; padding: 0.75rem 1.5rem; border-radius: 14px; cursor: pointer; border: 2px solid transparent; transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease; }
-  .mag-btn-primary { background: var(--mag-blue); color: #fff; box-shadow: 0 6px 0 #1e3a8a; }
-  .mag-btn-primary:hover { background: #1e40af; transform: translateY(-1px); }
-  .mag-btn-primary:active { transform: translateY(3px); box-shadow: 0 3px 0 #1e3a8a; }
+  .mag-btn { font: inherit; font-weight: 800; font-size: 1.15rem; min-height: 60px; padding: 0.75rem 1.5rem; border-radius: 999px; cursor: pointer; border: 2px solid transparent; transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease; }
+  .mag-btn-primary { background: var(--mag-coral); color: #fff; box-shadow: 0 5px 0 var(--mag-coral-dark); }
+  .mag-btn-primary:hover { background: #bb2d36; transform: translateY(-1px); }
+  .mag-btn-primary:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--mag-coral-dark); }
   .mag-btn-ghost { background: #fff; color: var(--mag-blue); border-color: var(--mag-line); }
   .mag-btn-ghost:hover { border-color: var(--mag-blue); background: var(--mag-blue-soft); }
+  .mag-btn-ghost:active { transform: translateY(2px); }
   .mag-leave { margin-top: 1.25rem; border-top: 1px solid #e2e8f0; padding-top: 0.5rem; }
-  .mag-btn-link { min-height: 48px; padding: 0.5rem 0; background: none; color: var(--mag-blue); text-decoration: underline; font-size: 1.05rem; }
-  .mag button:focus-visible, .mag a:focus-visible, .mag summary:focus-visible { outline: 4px solid #f59e0b; outline-offset: 3px; }
+  .mag-btn-link { min-height: 48px; padding: 0.5rem 0; background: none; color: var(--mag-blue); text-decoration: underline; font-size: 1.05rem; font-weight: 700; border-radius: 6px; }
 
-  /* ---- Map trail ---- */
-  .mag-trail { list-style: none; margin: 0.5rem 0 0; padding: 0; position: relative; display: grid; gap: 1rem; }
-  .mag-trail::before { content: ''; position: absolute; left: 39px; top: 30px; bottom: 30px; border-left: 6px dotted #b6c8de; }
+  /* ── Adventure map ──────────────────────────────────────────────────── */
+  .mag-view--map {
+    border-radius: 20px; padding: 1.25rem 1rem 1.5rem; overflow: hidden;
+    background: linear-gradient(180deg, #e3f2fe 0%, #f1f9ff 140px, #e9f7e4 300px, #dcf1d2 100%);
+  }
+  .mag-scene { position: absolute; left: 0; top: 64px; width: 100%; height: 190px; pointer-events: none; }
+  .mag-map-head, .mag-trail, .mag-view--map .mag-actions { position: relative; }
+  .mag-map-head .mag-title { font-size: clamp(1.7rem, 3.4vw, 2.2rem); }
+
+  .mag-trail { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; gap: 1.4rem; }
+  .mag-trail::before { content: ''; position: absolute; left: 52px; top: 30px; bottom: 30px; border-left: 6px dashed #c8a56a; }
   .mag-stop { position: relative; }
-  .mag-stop-btn { width: 100%; display: flex; align-items: center; gap: 1rem; text-align: left; font: inherit; color: inherit; background: #fff; border: 2px solid var(--mag-line); border-radius: 18px; padding: 0.85rem 1rem 0.85rem 0.6rem; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease; }
-  .mag-stop:not(.is-locked) .mag-stop-btn:hover { transform: translateY(-2px); border-color: var(--t); box-shadow: 0 12px 28px -18px rgba(11, 44, 69, 0.55); }
-  .mag-node { position: relative; flex: none; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; font-size: 2rem; background: var(--ts); color: var(--t); border: 3px solid var(--t); box-shadow: 0 0 0 5px #fff; }
-  .mag-node-check { position: absolute; right: -6px; bottom: -6px; width: 28px; height: 28px; border-radius: 50%; background: var(--mag-green); color: #fff; display: grid; place-items: center; font-size: 0.95rem; border: 3px solid #fff; }
-  .mag-stop-text { display: flex; flex-direction: column; }
-  .mag-stop-num { font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: var(--mag-ink-soft); }
-  .mag-stop-title { font-size: 1.3rem; font-weight: 800; color: var(--mag-ink); }
-  .mag-stop-status { font-size: 1rem; color: var(--mag-ink-soft); }
-  .mag-stop.is-locked .mag-stop-btn { background: #f8fafc; border-style: dashed; cursor: not-allowed; }
-  .mag-stop.is-locked .mag-node { background: #f1f5f9; color: #64748b; border-color: #94a3b8; }
-  .mag-stop.is-next .mag-node { animation: mag-pulse 2.2s ease-in-out infinite; }
-  .mag-stop.is-next .mag-stop-btn { border-color: var(--t); }
-  @media (min-width: 760px) {
-    .mag-trail::before { left: 50%; margin-left: -3px; }
-    .mag-stop { width: calc(50% + 32px); }
-    .mag-stop:nth-child(odd) { justify-self: start; }
-    .mag-stop:nth-child(even) { justify-self: end; }
-    .mag-stop:nth-child(odd) .mag-stop-btn { flex-direction: row-reverse; text-align: right; padding: 0.85rem 0.6rem 0.85rem 1rem; }
-    .mag-stop:nth-child(odd) .mag-stop-text { align-items: flex-end; }
+  .mag-stop-btn {
+    position: relative; width: 100%; height: 100%;
+    display: grid; grid-template-columns: 76px 1fr; column-gap: 1rem; align-items: center; align-content: center;
+    text-align: left; font: inherit; color: inherit; cursor: pointer;
+    background: #fff; border: 2px solid var(--mag-line); border-radius: 20px; padding: 1.2rem 1rem 1rem;
+    box-shadow: var(--mag-shadow);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .mag-stop-art { grid-row: 1 / span 6; position: relative; width: 76px; height: 76px; }
+  .mag-stop-art > svg { width: 100%; height: 100%; }
+  .mag-stop-num, .mag-stop-title, .mag-stop-preview, .mag-stop-status, .mag-stop-cta { grid-column: 2; }
+  .mag-node {
+    position: absolute; top: -16px; left: -10px; z-index: 1;
+    width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
+    font-weight: 800; font-size: 1.1rem; background: #fff; color: var(--mag-ink); border: 3px solid var(--mag-line);
+  }
+  .mag-node svg { width: 18px; height: 18px; }
+  .mag-stop-num { font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: #5b6b7d; }
+  .mag-stop-title { font-size: 1.25rem; font-weight: 800; line-height: 1.2; color: var(--mag-ink); }
+  .mag-stop-preview { font-size: 1rem; line-height: 1.4; color: var(--mag-ink-soft); margin-top: 0.15rem; }
+  .mag-stop-status { font-size: 0.95rem; font-weight: 700; color: var(--t); margin-top: 0.3rem; }
+  .mag-stop-cta { justify-self: start; display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.6rem; padding: 0.5rem 1.1rem; border-radius: 999px; font-size: 1rem; font-weight: 800; background: var(--mag-coral); color: #fff; box-shadow: 0 3px 0 var(--mag-coral-dark); }
+  .mag-stop-lock { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: #475569; border: 3px solid #94a3b8; }
+  .mag-stop-lock svg { width: 18px; height: 18px; }
+
+  .mag-stop:not(.is-locked) .mag-stop-btn:hover { transform: translateY(-4px); border-color: var(--t); box-shadow: 0 22px 36px -22px rgba(11, 44, 69, 0.65); }
+  .mag-stop:not(.is-locked) .mag-stop-btn:active { transform: translateY(1px); box-shadow: 0 8px 16px -14px rgba(11, 44, 69, 0.6); }
+  .mag-stop.is-next .mag-stop-btn { border-color: var(--mag-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.16), 0 22px 36px -22px rgba(11, 44, 69, 0.6); }
+  .mag-stop.is-next .mag-node { background: var(--mag-blue); color: #fff; border-color: #fff; animation: mag-pulse 2.2s ease-in-out infinite; }
+  .mag-stop.is-done .mag-node { background: var(--mag-green); color: #fff; border-color: #fff; }
+  .mag-stop.is-done .mag-stop-cta { background: #fff; color: var(--mag-green); border: 2px solid var(--mag-green); box-shadow: none; }
+  .mag-stop.is-progress .mag-stop-btn { border-color: #d97706; }
+  .mag-stop.is-progress .mag-node { background: #d97706; color: #fff; border-color: #fff; }
+  .mag-stop.is-progress .mag-stop-status { color: var(--mag-amber); }
+  .mag-stop.is-progress .mag-stop-cta { background: #b45309; box-shadow: 0 3px 0 #7c2d12; }
+  .mag-stop.is-locked .mag-stop-btn { background: #f6f8fb; border-style: dashed; cursor: not-allowed; box-shadow: none; }
+  .mag-stop.is-locked .mag-stop-art > svg { filter: grayscale(1); opacity: 0.4; }
+  .mag-stop.is-locked .mag-stop-title { color: #475569; }
+  .mag-stop.is-locked .mag-stop-status { color: #475569; }
+
+  @media (min-width: 980px) {
+    .mag-trail { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; align-items: stretch; padding-top: 0.5rem; }
+    .mag-trail::before { left: 3%; right: 3%; top: 48%; bottom: auto; border-left: 0; border-top: 6px dashed #c8a56a; }
+    .mag-stop:nth-child(even) { margin-top: 2.25rem; }
+    .mag-stop:nth-child(odd) { margin-bottom: 2.25rem; }
+    .mag-stop-btn { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; text-align: center; padding: 1.7rem 0.75rem 1rem; }
+    .mag-stop-art { width: 84px; height: 84px; margin-bottom: 0.45rem; }
+    .mag-node { left: 50%; top: -19px; margin-left: -19px; }
+    .mag-stop-title { font-size: 1.15rem; }
+    .mag-stop-preview { font-size: 0.95rem; }
+    .mag-stop-status { font-size: 0.9rem; }
+    .mag-stop-cta { margin-top: auto; justify-self: auto; font-size: 0.98rem; }
+    .mag-stop-status { margin-bottom: 0.7rem; }
   }
 
-  /* ---- Stage intro ---- */
-  .mag-banner { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.25rem; border-radius: 18px; background: var(--ts); border: 2px solid var(--t); margin-bottom: 1rem; }
-  .mag-banner-icon { flex: none; width: 76px; height: 76px; border-radius: 22px; display: grid; place-items: center; font-size: 2.6rem; background: #fff; color: var(--t); box-shadow: 0 8px 18px -12px rgba(11, 44, 69, 0.6); transform: rotate(-4deg); }
+  /* ── Stage intro ────────────────────────────────────────────────────── */
+  .mag-banner { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.25rem; border-radius: 20px; background: var(--ts); border: 2px solid var(--t); margin-bottom: 1rem; }
+  .mag-banner-icon { flex: none; width: 84px; height: 84px; border-radius: 22px; display: grid; place-items: center; background: #fff; box-shadow: 0 8px 18px -12px rgba(11, 44, 69, 0.6); transform: rotate(-4deg); padding: 8px; }
+  .mag-banner-icon svg { width: 100%; height: 100%; }
   .mag-banner .mag-title { margin: 0; }
-  .mag-lesson { background: #fff; border: 2px solid var(--mag-line); border-radius: 16px; padding: 1rem 1.25rem; }
-  .mag-lesson h3 { margin: 0 0 0.35rem; font-size: 1.15rem; color: var(--mag-ink); }
+  .mag-lesson { background: #fff; border: 2px solid var(--mag-line); border-radius: 18px; padding: 1rem 1.25rem; }
+  .mag-lesson h3 { margin: 0 0 0.35rem; font-size: 1.15rem; }
   .mag-lesson p { margin: 0 0 0.5rem; }
   .mag-meta { font-size: 1rem; font-weight: 700; color: var(--mag-ink-soft); }
+  .mag-resume-note { margin: 1rem 0 0; padding: 0.75rem 1rem; border-radius: 14px; background: var(--mag-amber-soft); color: var(--mag-amber); font-weight: 700; font-size: 1.05rem; }
 
-  /* ---- Question ---- */
+  /* ── Question ───────────────────────────────────────────────────────── */
   .mag-qhead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
   .mag-chip { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 1rem; font-weight: 800; padding: 0.35rem 0.8rem; border-radius: 999px; background: var(--ts); color: var(--t); }
   .mag-qcount { font-size: 1rem; font-weight: 700; color: var(--mag-ink-soft); }
@@ -687,19 +1048,18 @@ const context: PageContext = {
   .mag-dots .is-right { background: var(--mag-green); border-color: var(--mag-green); }
   .mag-dots .is-wrong { background: #fff; border-color: var(--mag-red); }
   .mag-prompt { margin: 0 0 0.25rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.95rem; color: var(--mag-ink-soft); }
-  .mag .mag-q { font-size: 1.45rem; line-height: 1.35; margin: 0 0 1rem; color: var(--mag-ink); }
+  .mag .mag-q { font-size: 1.45rem; line-height: 1.35; margin: 0 0 1rem; }
   .mag-opts { display: grid; gap: 0.75rem; }
   .mag-opt { display: flex; align-items: center; gap: 0.9rem; width: 100%; min-height: 64px; text-align: left; font: inherit; font-size: 1.15rem; font-weight: 600; color: var(--mag-ink); background: #fff; border: 2px solid var(--mag-line); border-radius: 16px; padding: 0.8rem 1rem; cursor: pointer; transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease; }
   .mag-opt:not([disabled]):hover { border-color: var(--mag-blue); background: var(--mag-blue-soft); transform: translateX(3px); }
+  .mag-opt:not([disabled]):active { transform: translateX(1px) scale(0.995); }
   .mag-opt[disabled] { cursor: default; }
   .mag-opt-key { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-weight: 800; background: var(--mag-blue-soft); color: var(--mag-blue); }
-  .mag-opt.is-right { border-color: var(--mag-green); background: var(--mag-green-soft); }
+  .mag-opt.is-right { border-color: var(--mag-green); background: var(--mag-green-soft); animation: mag-pop 0.35s ease; }
   .mag-opt.is-right .mag-opt-key { background: var(--mag-green); color: #fff; }
-  .mag-opt.is-wrong { border-color: var(--mag-red); background: var(--mag-red-soft); }
+  .mag-opt.is-wrong { border-color: var(--mag-red); background: var(--mag-red-soft); animation: mag-shake 0.35s ease; }
   .mag-opt.is-wrong .mag-opt-key { background: var(--mag-red); color: #fff; }
   .mag-opt.is-dim { color: #475569; }
-  .mag-opt.is-right { animation: mag-pop 0.35s ease; }
-  .mag-opt.is-wrong { animation: mag-shake 0.35s ease; }
 
   .mag-board { background: #fff; border: 2px dashed var(--mag-line); border-radius: 16px; padding: 0.75rem 1rem; margin-bottom: 1rem; }
   .mag-board-title { margin: 0 0 0.5rem; font-size: 0.9rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mag-ink-soft); }
@@ -725,22 +1085,41 @@ const context: PageContext = {
   .mag-cal figcaption { margin-top: 0.4rem; font-weight: 700; font-size: 1rem; color: var(--mag-ink-soft); }
   @media (min-width: 640px) { .mag-cal-grid { grid-template-columns: repeat(12, 1fr); } }
 
-  /* ---- Stage complete + final ---- */
-  .mag-done, .mag-final { text-align: center; }
+  /* ── Stage complete + final ─────────────────────────────────────────── */
+  .mag-done, .mag-final { text-align: center; overflow: hidden; border-radius: 20px; padding: 0.5rem 0.25rem; }
   .mag-done .mag-actions, .mag-final .mag-actions { justify-content: center; }
-  .mag-medal { position: relative; width: 120px; height: 120px; margin: 0.5rem auto 1rem; border-radius: 50%; display: grid; place-items: center; font-size: 3.6rem; background: radial-gradient(circle at 35% 30%, #fff, var(--ts) 70%); color: var(--t); border: 5px solid var(--t); box-shadow: 0 0 0 8px var(--ts), 0 16px 30px -16px rgba(11, 44, 69, 0.7); animation: mag-medal 0.6s cubic-bezier(.2, 1.4, .4, 1) both; }
+  .mag-medal { position: relative; width: 128px; height: 128px; margin: 0.75rem auto 1rem; border-radius: 50%; display: grid; place-items: center; padding: 18px; background: radial-gradient(circle at 35% 30%, #fff, var(--ts) 70%); border: 5px solid var(--t); box-shadow: 0 0 0 8px var(--ts), 0 16px 30px -16px rgba(11, 44, 69, 0.7); animation: mag-medal 0.6s cubic-bezier(.2, 1.4, .4, 1) both; }
+  .mag-medal > svg { width: 100%; height: 100%; }
   .mag-medal-star { position: absolute; top: -8px; right: -8px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-size: 1.6rem; background: #facc15; color: #78350f; border: 3px solid #fff; animation: mag-pop 0.5s 0.4s ease both; }
   .mag-unlock { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--mag-green); background: var(--mag-green-soft); padding: 0.5rem 1rem; border-radius: 999px; }
   .mag-keep { text-align: left; background: #fff; border: 2px solid var(--mag-line); border-radius: 16px; padding: 0.9rem 1.25rem; margin-top: 1rem; }
   .mag-keep h3 { margin: 0 0 0.35rem; font-size: 1.1rem; }
   .mag-keep ul { margin: 0; padding-left: 1.2rem; }
   .mag a { color: var(--mag-blue); font-weight: 700; }
+
+  .mag-confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .mag-confetti i { position: absolute; top: -16px; left: var(--x); width: 10px; height: 16px; border-radius: 3px; background: var(--c); opacity: 0; transform: rotate(var(--r)); animation: mag-fall 2.2s ease-in var(--d) forwards; }
+
+  .mag-final .mag-medal { width: 140px; height: 140px; }
   .mag-final-score { font-size: 1.35rem; margin: 0; }
-  .mag-final-score strong { font-size: 3rem; color: var(--mag-blue); font-variant-numeric: tabular-nums; }
+  .mag-final-score strong { font-size: 3.2rem; color: var(--mag-ink); font-variant-numeric: tabular-nums; }
   .mag-rank { font-size: 1.2rem; margin: 0.25rem 0 0.5rem; }
-  .mag-final h3 { text-align: left; margin: 1.5rem 0 0.5rem; }
+  .mag-final h3 { text-align: left; margin: 1.5rem 0 0.6rem; font-size: 1.3rem; }
+  .mag-achieve { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; text-align: center; }
+  .mag-achieve li { position: relative; background: #fff; border: 2px solid var(--t); border-radius: 18px; padding: 0.9rem 0.6rem 0.8rem; }
+  .mag-achieve-art { display: block; width: 64px; height: 64px; margin: 0 auto 0.35rem; }
+  .mag-achieve-art svg { width: 100%; height: 100%; }
+  .mag-achieve strong { display: block; font-size: 1.05rem; color: var(--t); }
+  .mag-achieve span.mag-achieve-score { display: block; font-size: 0.95rem; color: var(--mag-ink-soft); }
+  .mag-achieve-star { position: absolute; top: 8px; right: 8px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 1.05rem; background: #facc15; color: #78350f; }
+  .mag-missed { text-align: left; list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
+  .mag-missed li { background: #fff7ed; border: 2px solid #fdba74; border-radius: 16px; padding: 0.9rem 1.1rem; }
+  .mag-missed p { margin: 0 0 0.35rem; font-size: 1.05rem; }
+  .mag-missed .mag-chip { font-size: 0.9rem; margin-bottom: 0.4rem; }
+  .mag-missed-q { font-weight: 700; }
+  .mag-perfect { text-align: left; font-weight: 700; color: var(--mag-green); background: var(--mag-green-soft); border-radius: 14px; padding: 0.8rem 1rem; }
   .mag-review { text-align: left; background: #fff; border: 2px solid var(--mag-line); border-left: 8px solid var(--t); border-radius: 14px; margin-bottom: 0.6rem; }
-  .mag-review summary { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; padding: 0.9rem 1rem; min-height: 56px; cursor: pointer; font-weight: 800; }
+  .mag-review summary { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; padding: 0.9rem 1rem; min-height: 56px; font-weight: 800; }
   .mag-review summary span:first-child { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--t); }
   .mag-review ol { margin: 0; padding: 0 1rem 0.5rem 2.2rem; }
   .mag-review li { padding: 0.6rem 0; border-top: 1px solid #e2e8f0; }
@@ -752,26 +1131,137 @@ const context: PageContext = {
   .mag-review-more { padding: 0 1rem 0.9rem; margin: 0; font-size: 1rem; }
   .mag-note { font-size: 1rem; color: var(--mag-ink-soft); margin-top: 1rem; }
 
-  /* Static content below the game */
-  .mag-learn-list li { margin-bottom: 0.6rem; }
-  .mag-terms dt { font-weight: 700; margin-top: 0.6rem; }
-  .mag-terms dd { margin: 0.1rem 0 0; }
+  /* ── Feature trio ───────────────────────────────────────────────────── */
+  .mag-trio { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .mag-trio li { display: flex; gap: 0.9rem; align-items: flex-start; background: #fff; border: 1px solid var(--mag-line); border-radius: 18px; padding: 1.1rem 1.2rem; box-shadow: var(--mag-shadow); }
+  .mag-trio__icon { flex: none; width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: #f1f7ff; }
+  .mag-trio__icon svg { width: 38px; height: 38px; }
+  .mag-page .mag-trio h3 { margin: 0 0 0.2rem; font-size: 1.15rem; color: var(--mag-blue); }
+  .mag-trio p { margin: 0; color: var(--mag-ink-soft); font-size: 1rem; line-height: 1.5; }
 
+  /* ── How to play ────────────────────────────────────────────────────── */
+  .mag-howto { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; align-items: center; margin: 0 0 2rem; }
+  .mag-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
+  .mag-steps li { display: flex; gap: 0.9rem; align-items: flex-start; }
+  .mag-steps__n { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 1.15rem; color: #fff; background: var(--mag-blue); box-shadow: 0 0 0 4px var(--mag-blue-soft); }
+  .mag-steps p { margin: 0.35rem 0 0; font-size: 1.08rem; line-height: 1.5; color: var(--mag-ink-soft); }
+  .mag-steps strong { color: var(--mag-ink); }
+  .mag-howto__art { width: 100%; max-width: 380px; height: auto; justify-self: center; }
+
+  /* ── What you'll learn ──────────────────────────────────────────────── */
+  .mag-learn { margin: 0 0 2rem; }
+  .mag-learn__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.85rem; align-items: start; }
+  .mag-learn-card { background: #fff; border: 1px solid var(--mag-line); border-radius: 18px; box-shadow: var(--mag-shadow); }
+  /* Number and +/− share the top row; the title gets the card's full width. */
+  .mag-learn-card summary { display: grid; grid-template-columns: auto 1fr; grid-template-areas: 'n plus' 'head head'; row-gap: 0.6rem; align-items: center; padding: 1rem; min-height: 64px; border-radius: 18px; }
+  .mag-learn-card__n { grid-area: n; }
+  .mag-learn-card .mag-plus { grid-area: plus; justify-self: end; }
+  .mag-learn-card__head { grid-area: head; }
+  .mag-learn-card summary:hover { background: #f6faff; }
+  .mag-learn-card__n { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; background: var(--mag-blue); }
+  .mag-learn-card__head { display: flex; flex-direction: column; gap: 0.15rem; }
+  .mag-learn-card__head strong { color: var(--mag-blue); font-size: 1.05rem; line-height: 1.25; }
+  .mag-learn-card__head span { color: var(--mag-ink-soft); font-size: 0.95rem; line-height: 1.4; }
+  .mag-learn-card .mag-plus { width: 26px; height: 26px; }
+  .mag-learn-card__body { padding: 0 1rem 1rem 1rem; border-top: 1px solid #eef2f7; }
+  .mag-learn-card__body p { margin: 0.75rem 0 0; font-size: 1rem; line-height: 1.5; color: var(--mag-ink-soft); }
+  .mag-learn-card__more { font-weight: 800; color: var(--mag-ink) !important; }
+  .mag-learn-card__body ul { margin: 0.3rem 0 0; padding-left: 1.1rem; }
+  .mag-learn-card__body li { margin: 0.25rem 0; font-size: 1rem; }
+  .mag-learn-card__body a { font-weight: 700; }
+
+  /* ── Two-column sections ────────────────────────────────────────────── */
+  .mag-two { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 0 0 2rem; align-items: start; }
+  .mag-term, .mag-faq__item { background: #fff; border: 1px solid var(--mag-line); border-radius: 14px; margin-bottom: 0.6rem; box-shadow: 0 6px 16px -14px rgba(11, 44, 69, 0.6); }
+  .mag-term summary, .mag-faq__item summary { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1rem; min-height: 56px; font-weight: 800; font-size: 1.08rem; color: var(--mag-ink); border-radius: 14px; }
+  .mag-term summary:hover, .mag-faq__item summary:hover { background: #f6faff; }
+  .mag-term dfn { font-style: normal; }
+  .mag-term__tick { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--mag-blue); color: #fff; }
+  .mag-term__tick svg { width: 16px; height: 16px; }
+  .mag-term > p, .mag-faq__a { margin: 0; padding: 0 1rem 1rem 3.4rem; color: var(--mag-ink-soft); font-size: 1.05rem; line-height: 1.55; }
+  .mag-faq__a { padding-left: 1rem; }
+  .mag-faq__a p { margin: 0; }
+  .mag-words__note { font-size: 0.98rem; color: var(--mag-ink-soft); margin: 0.75rem 0 0; }
+
+  .mag-page .sources { background: #fff; border: 1px solid var(--mag-line); border-radius: 18px; padding: 1.1rem 1.35rem; margin: 0; box-shadow: var(--mag-shadow); }
+  .mag-page .sources h2 { font-size: 1.5rem; margin: 0 0 0.6rem; color: var(--mag-ink); }
+  .mag-page .sources ul { margin: 0; padding-left: 1.2rem; }
+  .mag-page .sources li { margin: 0.3rem 0; font-size: 1rem; color: var(--mag-ink-soft); }
+  /* The tools list carries the sitewide `.related` class (the gate's marker),
+     so undo that component's card-per-li chrome and arrow here only. */
+  .mag-page .mag-tools { margin: 0; }
+  .mag-page .mag-tools li { padding: 0; border: 0; background: none; box-shadow: none; border-radius: 16px; }
+  .mag-page .mag-tools li::before { content: none; }
+  .mag-page .mag-tools li:hover { transform: none; box-shadow: none; }
+  .mag-page .mag-tools li a, .mag-page .mag-tools li:hover a { display: flex; color: var(--mag-ink) !important; font-weight: 400; }
+  .mag-tools ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .mag-tools a { display: flex; align-items: center; gap: 0.8rem; height: 100%; padding: 1rem; background: #fff; border: 1px solid var(--mag-line); border-radius: 16px; text-decoration: none; box-shadow: var(--mag-shadow); transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease; }
+  .mag-tools a:hover { transform: translateY(-3px); border-color: var(--mag-blue); box-shadow: 0 20px 34px -22px rgba(11, 44, 69, 0.6); }
+  .mag-tools a:active { transform: translateY(0); }
+  .mag-tools__icon { flex: none; width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: var(--mag-blue-soft); color: var(--mag-blue); }
+  .mag-tools__icon svg { width: 26px; height: 26px; }
+  .mag-tools__text { display: flex; flex-direction: column; gap: 0.15rem; }
+  .mag-tools__text strong { color: var(--mag-ink); font-size: 1.02rem; line-height: 1.25; }
+  .mag-tools__text span { color: var(--mag-ink-soft); font-size: 0.93rem; line-height: 1.4; }
+  .mag-tools__go { margin-left: auto; font-size: 1.6rem; font-weight: 800; color: var(--mag-coral); }
+
+  /* ── Agent CTA band ─────────────────────────────────────────────────── */
+  .mag-cta { display: flex; align-items: center; gap: 1.5rem; background: linear-gradient(135deg, #0b2c45, #12406a); color: #fff; border-radius: 24px; padding: 1.5rem 1.75rem; margin: 0 0 1.5rem; }
+  .mag-cta__photo { flex: none; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; background: #fff; }
+  .mag-cta .page-cta { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; margin: 0; padding: 0; background: none; border: 0; }
+  .mag-cta .page-cta h2 { flex: 1 1 100%; margin: 0; color: #fff; font-size: 1.6rem; }
+  .mag-cta .page-cta > p:not(.page-cta-actions) { flex: 1 1 280px; margin: 0; color: #dbeafe; font-size: 1.05rem; }
+  .mag-cta .page-cta-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0; }
+  .mag-cta .page-cta-actions .button { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0.7rem 1.4rem; border-radius: 12px; font-weight: 800; font-size: 1.05rem; text-decoration: none; }
+  .mag-cta .page-cta-actions .button:first-child { background: var(--mag-coral); color: #fff; border: 2px solid var(--mag-coral); }
+  .mag-cta .page-cta-actions .button:first-child:hover { background: #bb2d36; }
+  .mag-cta .page-cta-actions .button + .button { background: transparent; color: #fff; border: 2px solid #fff; }
+  .mag-cta .page-cta-actions .button + .button:hover { background: rgba(255, 255, 255, 0.12); }
+
+  /* ── Responsive ─────────────────────────────────────────────────────── */
+  @media (max-width: 1080px) {
+    .mag-learn__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 900px) {
+    .mag-hero { grid-template-columns: 1fr; padding: 1.5rem; }
+    .mag-hero__art { max-width: 520px; justify-self: center; }
+    .mag-trio { grid-template-columns: 1fr; }
+    .mag-howto { grid-template-columns: 1fr; }
+    .mag-howto__art { max-width: 320px; }
+    .mag-two { grid-template-columns: 1fr; }
+    .mag-cta { flex-direction: column; text-align: center; }
+    .mag-cta .page-cta { justify-content: center; }
+    .mag-cta .page-cta-actions { justify-content: center; }
+  }
+  @media (max-width: 600px) {
+    .mag-learn__grid { grid-template-columns: 1fr; }
+    .mag-tools ul { grid-template-columns: 1fr; }
+  }
   @media (max-width: 520px) {
-    .mag { padding: 0.85rem; border-radius: 16px; }
+    .mag-hero { padding: 1.15rem; border-radius: 20px; }
+    .mag { padding: 0.85rem; border-radius: 18px; }
     .mag .mag-title { font-size: 1.45rem; }
     .mag .mag-q { font-size: 1.25rem; }
     .mag-btn { width: 100%; }
-    .mag-banner-icon { width: 60px; height: 60px; font-size: 2rem; }
+    .mag-banner-icon { width: 64px; height: 64px; }
+    .mag-hud-star { width: 46px; height: 46px; }
+    .mag-view--map { padding: 1rem 0.6rem 1.25rem; }
+    .mag-scene { display: none; }
+    .mag-stop-btn { grid-template-columns: 64px 1fr; padding: 1.2rem 0.85rem 0.9rem; }
+    .mag-stop-art { width: 64px; height: 64px; }
+    .mag-trail::before { left: 44px; }
+    .mag-cta .page-cta-actions .button { width: 100%; }
   }
 
   @keyframes mag-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   @keyframes mag-pop { 0% { transform: scale(0.96); } 60% { transform: scale(1.03); } 100% { transform: scale(1); } }
   @keyframes mag-shake { 0%, 100% { transform: translateX(0); } 30% { transform: translateX(-5px); } 60% { transform: translateX(5px); } }
-  @keyframes mag-pulse { 0%, 100% { box-shadow: 0 0 0 5px #fff, 0 0 0 7px var(--ts); } 50% { box-shadow: 0 0 0 5px #fff, 0 0 0 14px var(--ts); } }
+  @keyframes mag-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.45); } 50% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); } }
   @keyframes mag-medal { from { opacity: 0; transform: scale(0.4) rotate(-20deg); } to { opacity: 1; transform: none; } }
+  @keyframes mag-fall { 0% { opacity: 1; transform: translateY(0) rotate(var(--r)); } 100% { opacity: 0; transform: translateY(420px) rotate(calc(var(--r) + 540deg)); } }
 
   @media (prefers-reduced-motion: reduce) {
-    .mag *, .mag *::before, .mag *::after { animation: none !important; transition: none !important; }
+    .mag-page *, .mag-page *::before, .mag-page *::after { animation: none !important; transition: none !important; }
+    .mag-confetti { display: none; }
   }
 </style>
