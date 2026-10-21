@@ -449,8 +449,13 @@ const context: PageContext = {
      on this page. This global rule ships only on pages using QuotePage. */
   :global(.page-cta) { display: none; }
   /* The site-wide floating Call / Text buttons (ContactFab) would stack on
-     top of this page's own floating badge; hide them here only. */
-  :global(.contact-fab) { display: none; }
+     top of this page's own floating badge; hide them here only. Keyed on
+     body:has(.qp-fab) for two reasons: a bare .contact-fab loses to
+     ContactFab's own scoped rule (so this never applied), and this CSS also
+     ships on every /es/ page via the localized route, where it must not hide
+     the buttons. */
+  :global(body:has(.qp-fab) .contact-fab),
+  :global(body:has(.qp-fab) .contact-fab-spacer) { display: none; }
 
   .qp-fab {
     position: fixed;

@@ -32,6 +32,10 @@ const telHref = `tel:${BUSINESS.phoneTel}`;
     <span aria-hidden="true">💬</span> {t('contactFab.text', lang)}
   </a>
 </div>
+{/* In-flow spacer: on phones the buttons become a bar docked to the bottom of
+    the screen, and this reserves that much room at the end of the page so the
+    footer can scroll clear of it. Pages that hide .contact-fab hide this too. */}
+<div class="contact-fab-spacer" aria-hidden="true"></div>
 
 <style>
   .contact-fab {
@@ -94,12 +98,57 @@ const telHref = `tel:${BUSINESS.phoneTel}`;
     cursor: pointer;
   }
 
+  .contact-fab-spacer { display: none; }
+
+  /* Phones: floating pills sit on top of full-width content (answer buttons,
+     form fields) wherever they land. Dock them instead as a full-width bar —
+     content scrolls under an opaque strip rather than behind loose pills, and
+     both buttons stay one tap away. */
+  @media (max-width: 640px) {
+    .contact-fab {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 1px;
+      background: #fff;
+      padding-bottom: env(safe-area-inset-bottom);
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.18);
+    }
+    .contact-fab__btn {
+      flex: 1;
+      justify-content: center;
+      min-height: 56px;
+      padding: 0.8rem 0.6rem;
+      border-radius: 0;
+      box-shadow: none;
+      font-size: 1.1rem;
+    }
+    .contact-fab__btn:hover,
+    .contact-fab__btn:focus-visible { transform: none; box-shadow: none; }
+    .contact-fab__btn:focus-visible { outline: 3px solid #f59e0b; outline-offset: -3px; }
+    .contact-fab-spacer { display: block; height: calc(56px + env(safe-area-inset-bottom)); }
+  }
+
   @media print {
-    .contact-fab { display: none; }
+    .contact-fab, .contact-fab-spacer { display: none; }
   }
 </style>
 
 <script is:inline>
+  (function () {
+    // The docked phone bar grows when a label wraps (longer Spanish labels,
+    // narrow phones, large text settings); keep the spacer exactly as tall so
+    // the footer always scrolls clear. The CSS height is the no-JS fallback.
+    var fab = document.querySelector('.contact-fab');
+    var spacer = document.querySelector('.contact-fab-spacer');
+    if (fab && spacer && 'ResizeObserver' in window) {
+      new ResizeObserver(function () {
+        if (fab.offsetHeight) spacer.style.height = fab.offsetHeight + 'px';
+      }).observe(fab);
+    }
+  })();
   (function () {
     var link = document.querySelector('[data-fab-sms]');
     var hint = document.getElementById('contact-fab-hint');
