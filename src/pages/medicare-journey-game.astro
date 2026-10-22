@@ -1,0 +1,1490 @@
+---
+// src/pages/medicare-journey-game.astro — "Medicare Journey", an explorable
+// 2D browser game. The player walks Linda (a fictional neighbor turning 65)
+// along a road through six places, explores illustrated scenes, talks to
+// characters, solves puzzles, collects knowledge cards and items, and finishes
+// by helping her neighbor Joe make enrollment decisions. No server, no signup.
+//
+// Separate from medicare-adventure-game (the questionnaire), which is kept
+// as-is. Built on StandardPageLayout with bareHeader + bareFooter; the page's
+// own hero/FAQ/sources/related/CTA reuse SummaryBlock / AuthorByline /
+// SourcesList / PageCTA so every editorial marker the gate scores is real.
+//
+// Accuracy: every fact in the game was checked against Medicare.gov on
+// 2026-10-20 and 2026-10-22 (pages in `sources`). Wording follows the
+// official pages, including their conditions (e.g. automatic enrollment only
+// when Social Security benefits started at least 4 months before 65). No
+// yearly dollar amounts are used; "$20" / "20%" appear only as labelled
+// examples. Characters and their situations are fictional.
+//
+// Styles are `is:global` with every selector under `.mj-page`: the game builds
+// its screens with innerHTML, which Astro's scoped selectors never match.
+import StandardPageLayout from '../components/layout/StandardPageLayout.astro';
+import SummaryBlock from '../components/SummaryBlock.astro';
+import AuthorByline from '../components/content/AuthorByline.astro';
+import SourcesList from '../components/content/SourcesList.astro';
+import PageCTA from '../components/content/PageCTA.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Medicare Journey Game | Explore, Solve Puzzles & Learn Medicare | Vernal Medicare',
+    heading: 'Medicare Journey: An Interactive Medicare Adventure',
+    description:
+      'A free Medicare adventure game. Walk Linda through Medicare Valley, explore six places, solve puzzles, collect knowledge cards, and help her neighbor Joe make smart enrollment choices. No signup, no timer.',
+    taxonomy: { silo: 'tools', tags: ['tools', 'game', 'medicare-101', 'turning-65', 'enrollment', 'costs', 'part-d'] },
+    summary:
+      'Medicare Journey is a free browser game. You walk Linda, a fictional neighbor turning 65, through Medicare Valley: explore six places, talk to characters, solve puzzles, collect knowledge cards and items, and finish by helping her neighbor Joe make enrollment decisions. There is no timer and no signup. It teaches general Medicare concepts — it is not advice about your own coverage.',
+    faqs: [
+      {
+        question: 'How do I play Medicare Journey?',
+        answer:
+          'Tap a place on the map (or use the arrow keys) to walk Linda along the road, then go inside to explore. Tap objects and characters to learn, solve each place’s puzzles, and collect the item that opens the next door.',
+      },
+      {
+        question: 'How is this different from Medicare Adventure?',
+        answer:
+          'Medicare Adventure is a quick five-stage quiz. Medicare Journey is an explorable game with a map, characters, puzzles, decisions with consequences, and a collection of knowledge cards.',
+      },
+      {
+        question: 'Is there a time limit or signup?',
+        answer:
+          'No. Play at your own pace. Your progress is saved only on your own device, and you can start over any time.',
+      },
+      {
+        question: 'Will the game tell me what to do about my own Medicare?',
+        answer:
+          'No. Linda, Joe, and Ray are fictional, and the game teaches general concepts. Your choices depend on your own situation — check Medicare.gov or talk with a licensed agent.',
+      },
+    ],
+    sources: [
+      { title: 'Get started with Medicare', url: 'https://www.medicare.gov/basics/get-started-with-medicare', publisher: 'Medicare.gov' },
+      { title: 'How do I sign up for Medicare?', url: 'https://www.medicare.gov/basics/get-started-with-medicare/sign-up/how-do-i-sign-up-for-medicare', publisher: 'Medicare.gov' },
+      { title: 'When can I sign up for Medicare?', url: 'https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-can-i-sign-up-for-medicare', publisher: 'Medicare.gov' },
+      { title: 'When does Medicare coverage start?', url: 'https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start', publisher: 'Medicare.gov' },
+      { title: 'Joining a health or drug plan', url: 'https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/joining-a-plan', publisher: 'Medicare.gov' },
+      { title: 'What Part A covers', url: 'https://www.medicare.gov/what-medicare-covers/what-part-a-covers', publisher: 'Medicare.gov' },
+      { title: 'What Part B covers', url: 'https://www.medicare.gov/what-medicare-covers/what-part-b-covers', publisher: 'Medicare.gov' },
+      { title: 'Skilled nursing facility care', url: 'https://www.medicare.gov/coverage/skilled-nursing-facility-snf-care', publisher: 'Medicare.gov' },
+      { title: 'Hospice care', url: 'https://www.medicare.gov/coverage/hospice-care', publisher: 'Medicare.gov' },
+      { title: 'What’s not covered by Original Medicare', url: 'https://www.medicare.gov/providers-services/original-medicare/not-covered', publisher: 'Medicare.gov' },
+      { title: 'Medicare costs', url: 'https://www.medicare.gov/basics/costs/medicare-costs', publisher: 'Medicare.gov' },
+      { title: 'Avoid late enrollment penalties', url: 'https://www.medicare.gov/basics/costs/medicare-costs/avoid-penalties', publisher: 'Medicare.gov' },
+      { title: 'Medigap basics', url: 'https://www.medicare.gov/health-drug-plans/medigap/basics', publisher: 'Medicare.gov' },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-journey-game.html',
+    ogType: 'website',
+    ogTitle: 'Medicare Journey — An Interactive Medicare Adventure Game',
+    ogDescription: 'Walk through Medicare Valley, solve puzzles, collect knowledge cards, and help a neighbor make smart Medicare choices.',
+  },
+  author: 'rocco',
+  datePublished: '2026-10-22',
+  lastUpdated: '2026-10-22',
+  medicalDisclaimer:
+    'Medicare Journey is general education only. Its characters and situations are fictional. It does not determine your eligibility, enrollment rights, or costs, and it does not recommend any plan or carrier. Rules and amounts can change — confirm your options with Medicare.gov, Social Security, or a licensed agent.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Calculators', href: '/medicare-calculators.html' },
+    { name: 'Medicare Journey Game', href: '/medicare-journey-game.html' },
+  ],
+};
+const { page } = context;
+
+const PLACES = [
+  { n: 1, name: 'Linda’s House', learn: 'who Medicare is for, and whether you’re enrolled automatically or sign up yourself', href: '/turning-65.html', link: 'Turning 65 checklist' },
+  { n: 2, name: 'Social Security Office', learn: 'where you sign up, and what Original Medicare means', href: '/medicare-enrollment-vernal.html', link: 'Medicare enrollment help' },
+  { n: 3, name: 'Medicare Market', learn: 'what Parts A, B, C, and D cover — and what Original Medicare doesn’t', href: '/medicare-part-a-vs-part-b.html', link: 'Part A vs. Part B' },
+  { n: 4, name: 'Calendar Clocktower', learn: 'your 7-month Initial Enrollment Period and the yearly enrollment windows', href: '/medicare-enrollment-periods.html', link: 'Medicare enrollment periods' },
+  { n: 5, name: 'Cost Canyon', learn: 'premiums, deductibles, copayments, coinsurance, and late penalties', href: '/medicare-costs.html', link: 'Medicare costs' },
+  { n: 6, name: 'Joe’s Porch', learn: 'how working past 65 and COBRA affect when to sign up for Part B', href: '/working-past-65.html', link: 'Working past 65' },
+];
+
+const TOOLS = [
+  { href: '/medicare-adventure-game.html', name: 'Medicare Adventure (quiz game)', desc: 'A quicker five-stage quiz with points and badges.' },
+  { href: '/medicare-quiz.html', name: 'Medicare Plan Quiz', desc: 'Seven questions to see which type of coverage may fit you.' },
+  { href: '/medicare-eligibility-calculator.html', name: 'Eligibility & Timeline Calculator', desc: 'See when you qualify and your enrollment dates.' },
+  { href: '/medicare-calculators.html', name: 'Free Medicare Calculators', desc: 'Estimate costs, penalties, and important dates.' },
+];
+---
+
+<StandardPageLayout context={context} bareHeader bareFooter>
+<div class="mj-page">
+
+  <section class="mj-hero">
+    <div>
+      <h1><span>Medicare Journey:</span> <span class="mj-hero__accent">An Interactive Medicare Adventure</span></h1>
+      <p class="mj-hero__tag">Explore a valley, solve puzzles, and help your neighbors with Medicare.</p>
+      <SummaryBlock text={page.summary} />
+      <AuthorByline authorId={context.author} updated={context.lastUpdated} />
+      <p class="mj-hero__start"><a class="mj-btn mj-btn-primary" href="#mj">Start the journey <span aria-hidden="true">↓</span></a></p>
+    </div>
+    <ul class="mj-hero__facts" aria-label="Game at a glance">
+      <li><strong>6</strong><span>places to explore</span></li>
+      <li><strong>15</strong><span>knowledge cards</span></li>
+      <li><strong>7</strong><span>puzzles &amp; decisions</span></li>
+      <li><strong>0</strong><span>timers or signups</span></li>
+    </ul>
+  </section>
+
+  <div class="mj" id="mj" aria-label="Medicare Journey game">
+    <div class="mj-hud" id="mj-hud"></div>
+    <div class="mj-stage" id="mj-stage">
+      <noscript><p class="mj-noscript">Medicare Journey needs JavaScript turned on in your browser. Everything it teaches is also covered in the guides below.</p></noscript>
+    </div>
+    <div class="mj-panel" id="mj-panel"></div>
+    <p class="mj-sr" id="mj-live" aria-live="polite"></p>
+  </div>
+
+  <section class="mj-sec" aria-labelledby="mj-how-h">
+    <h2 id="mj-how-h">How to play</h2>
+    <ol class="mj-steps">
+      <li><span aria-hidden="true">1</span><p><strong>Walk the road.</strong> Tap a place on the map — or use the arrow keys — and Linda walks there. The “Travel to” buttons under the map do the same.</p></li>
+      <li><span aria-hidden="true">2</span><p><strong>Go inside and explore.</strong> Tap the glowing spots: objects, signs, and characters. Each one teaches something and may give you a knowledge card, an item, or coins.</p></li>
+      <li><span aria-hidden="true">3</span><p><strong>Solve puzzles and make choices.</strong> Sort services, set the enrollment clock, build a bridge, and see the consequences of different decisions.</p></li>
+      <li><span aria-hidden="true">4</span><p><strong>Unlock the next door.</strong> Finishing a place earns a badge and an item. Some doors only open when you bring the right item.</p></li>
+      <li><span aria-hidden="true">5</span><p><strong>Finish the mission.</strong> Use what you learned to help Joe — then read every card you collected in your journal.</p></li>
+    </ol>
+  </section>
+
+  <section class="mj-sec" aria-labelledby="mj-learn-h">
+    <h2 id="mj-learn-h">What you’ll discover along the road</h2>
+    <ul class="mj-places">
+      {PLACES.map((p) => (
+        <li>
+          <span class="mj-places__n" aria-hidden="true">{p.n}</span>
+          <div><strong>{p.name}</strong><p>Learn {p.learn}. Read more: <a href={p.href}>{p.link}</a>.</p></div>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <div class="mj-two">
+    <section class="mj-faq" aria-label="Frequently Asked Questions">
+      <h2>Frequently Asked Questions</h2>
+      {page.faqs?.map((f) => (
+        <details class="mj-faq__item">
+          <summary><span set:html={f.question} /><span class="mj-faq__plus" aria-hidden="true">+</span></summary>
+          <div class="mj-faq__a" set:html={f.answer} />
+        </details>
+      ))}
+    </section>
+    <nav class="related mj-tools" aria-labelledby="mj-tools-h">
+      <h2 id="mj-tools-h">More ways to learn</h2>
+      <ul>
+        {TOOLS.map((t) => (
+          <li><a href={t.href}><strong>{t.name}</strong><span>{t.desc}</span></a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+
+  <SourcesList sources={page.sources ?? []} />
+
+  <div class="mj-cta">
+    <img class="mj-cta__photo" src="/pictures/rocco.webp" alt={`${BUSINESS.legalAgent}, licensed Medicare agent in Vernal, Utah`} width="96" height="96" loading="lazy" decoding="async" />
+    <PageCTA />
+  </div>
+
+  <script is:inline>
+    (function () {
+      'use strict';
+
+      var root = document.getElementById('mj');
+      var hudEl = document.getElementById('mj-hud');
+      var stageEl = document.getElementById('mj-stage');
+      var panelEl = document.getElementById('mj-panel');
+      var live = document.getElementById('mj-live');
+      if (!root || !hudEl || !stageEl || !panelEl || !live) return;
+
+      var STORE = 'vm-medicare-journey-v1';
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      // ─────────────────────────────────────────────────────────────────────
+      // Content. Facts checked against Medicare.gov (see page sources).
+      // ─────────────────────────────────────────────────────────────────────
+      var CARDS = {
+        who: { t: 'Who Medicare is for', x: 'Medicare is health insurance for people 65 or older who meet citizenship or residency requirements. Some younger people qualify earlier — with a disability, End-Stage Renal Disease, or ALS. Income doesn’t decide who gets Medicare.', href: '/turning-65.html', ht: 'Turning 65 checklist' },
+        auto: { t: 'Automatic or sign up?', x: 'If you already get Social Security or Railroad Retirement Board benefits — starting at least 4 months before you turn 65 — you get Part A and Part B automatically. Your Medicare card comes in a welcome package 3 months before your coverage starts.', href: '/medicare-enrollment-vernal.html', ht: 'Medicare enrollment help' },
+        signup: { t: 'How to sign up', x: 'If you aren’t getting Social Security benefits, getting Medicare is your choice. To sign up, contact Social Security — online or at your local Social Security office.', href: '/medicare-enrollment-periods.html', ht: 'Enrollment periods' },
+        original: { t: 'Original Medicare', x: 'Original Medicare is Part A plus Part B. Most people pay no Part A premium because they or a spouse paid Medicare taxes long enough while working — generally at least 10 years.', href: '/medicare-part-a-vs-part-b.html', ht: 'Part A vs. Part B' },
+        partA: { t: 'Part A: Hospital Insurance', x: 'Part A helps pay for inpatient hospital stays, skilled nursing facility care (after a qualifying inpatient hospital stay of at least 3 days in a row), hospice care, and some home health care.', href: '/medicare-part-a-vs-part-b.html', ht: 'Part A vs. Part B' },
+        partB: { t: 'Part B: Medical Insurance', x: 'Part B covers medically necessary services like doctor visits and outpatient care, preventive services, and durable medical equipment such as walkers.', href: '/medicare-part-a-vs-part-b.html', ht: 'Part A vs. Part B' },
+        partD: { t: 'Part D: Drug coverage', x: 'Part D helps cover the cost of prescription drugs. You can get it as a separate drug plan with Original Medicare, and most Medicare Advantage plans include it.', href: '/part-d-plans-vernal.html', ht: 'Part D drug plans' },
+        partC: { t: 'Part C: Medicare Advantage', x: 'Medicare Advantage is a Medicare-approved plan from a private company — an alternative to Original Medicare that bundles Part A, Part B, and usually drug coverage. You can only buy a Medigap policy if you have Original Medicare.', href: '/medicare-advantage-plans-vernal.html', ht: 'Medicare Advantage' },
+        notcovered: { t: 'Not covered by Original Medicare', x: 'Original Medicare generally doesn’t cover most dental care, eye exams for prescription glasses, hearing aids and exams for fitting them, or non-medical long-term care.', href: '/medicare-dental-vision-hearing.html', ht: 'Dental, vision & hearing' },
+        iep: { t: 'Initial Enrollment Period', x: 'Your Initial Enrollment Period lasts 7 months: it starts 3 months before the month you turn 65, includes your birthday month, and ends 3 months after it.', href: '/medicare-enrollment-periods.html', ht: 'Enrollment periods' },
+        windows: { t: 'Yearly enrollment windows', x: 'Open Enrollment (Oct 15 – Dec 7): join, switch, or drop Medicare Advantage or drug plans; changes start Jan 1. General Enrollment (Jan 1 – Mar 31): sign up for Part A or B if you missed your window and don’t qualify for a Special Enrollment Period. Medicare Advantage Open Enrollment (Jan 1 – Mar 31): if you’re already in a Medicare Advantage plan, switch plans or return to Original Medicare.', href: '/medicare-general-enrollment-period.html', ht: 'General Enrollment Period' },
+        costs: { t: 'The four cost words', x: 'Premium: what you pay for coverage, usually monthly. Deductible: what you pay each year before Medicare or your plan pays. Copayment: a set dollar amount for a service. Coinsurance: a percentage of the cost, usually after the deductible.', href: '/medicare-costs.html', ht: 'Medicare costs' },
+        penalty: { t: 'Part D late penalty', x: 'If you don’t join a Medicare drug plan when you first get Medicare, or you go 63 days or more without creditable drug coverage, you may pay an extra 1% for each month — added for as long as you have Medicare drug coverage.', href: '/medicare-penalty-calculator.html', ht: 'Penalty calculator' },
+        oop: { t: 'Yearly out-of-pocket limits', x: 'Original Medicare has no yearly limit on what you pay out of pocket. Medicare Advantage plans have a yearly limit that varies by plan, and a Medigap policy can help pay your share of costs in Original Medicare.', href: '/medicare-supplement-vs-advantage.html', ht: 'Medigap vs. Medicare Advantage' },
+        sep: { t: 'Working past 65', x: 'If you or your spouse have group health coverage from current work, you can sign up for Part B while covered or within 8 months after the job or coverage ends — whichever happens first. COBRA doesn’t count as that coverage. Without a Special Enrollment Period, Part B’s late penalty is 10% for each full 12-month period you could have had it.', href: '/working-past-65.html', ht: 'Working past 65' },
+      };
+      var CARD_ORDER = ['who', 'auto', 'signup', 'original', 'partA', 'partB', 'partD', 'partC', 'notcovered', 'iep', 'windows', 'costs', 'penalty', 'oop', 'sep'];
+
+      var ICON = {
+        coin: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#fbbf24" stroke="#a16207" stroke-width="2"/><circle cx="12" cy="12" r="6" fill="none" stroke="#a16207" stroke-width="1.5"/></svg>',
+        card: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="13" height="17" rx="2"/><path d="M8 3v0M20 7v13a1 1 0 0 1-1 1H8"/><path d="M7.5 8h6M7.5 12h6"/></svg>',
+        lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+        check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>',
+        cross: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+        look: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>',
+        talk: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z"/></svg>',
+        puzzle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h3.2a2 2 0 1 1 3.6 0H15v3.2a2 2 0 1 1 0 3.6V17h-3.2a2 2 0 1 0-3.6 0H5v-3.2a2 2 0 1 0 0-3.6z"/></svg>',
+        door: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 21V4h12v17M3 21h18"/><circle cx="14.5" cy="12.5" r="1" fill="currentColor"/></svg>',
+        star: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg>',
+      };
+
+      var ITEMS = {
+        birthday: { t: 'Birthday note', d: 'Linda turns 65 on July 20.', ic: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2" fill="#fff" stroke="#d0343d" stroke-width="2"/><rect x="3" y="5" width="18" height="5" fill="#d0343d"/><text x="12" y="18" font-size="7" font-weight="800" text-anchor="middle" fill="#0b2c45" font-family="Arial">JUL</text></svg>' },
+        receipt: { t: 'Sign-up receipt', d: 'Proof Linda signed up through Social Security.', ic: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-2-1.5L14 21l-2-1.5L10 21l-2-1.5L6 21z" fill="#fff" stroke="#1d4ed8" stroke-width="2"/><path d="M9 8h6M9 12h6" stroke="#1d4ed8" stroke-width="2"/></svg>' },
+        partsmap: { t: 'Parts map', d: 'A map of what Parts A, B, C, and D cover.', ic: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z" fill="#fbf1d6" stroke="#a16207" stroke-width="2"/><path d="M9 4v14M15 6v14" stroke="#a16207" stroke-width="1.5"/></svg>' },
+        key: { t: 'Clocktower key', d: 'Opens the trail to Cost Canyon.', ic: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="12" r="4.5" fill="none" stroke="#a16207" stroke-width="2.6"/><path d="M12.5 12H21M18 12v3M21 12v3" stroke="#a16207" stroke-width="2.6" stroke-linecap="round"/></svg>' },
+        pass: { t: 'Bridge pass', d: 'Lets Linda cross Cost Canyon to Joe’s Porch.', ic: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="2"/><path d="M6 14h12M8 14v-3M12 14v-3M16 14v-3" stroke="#166534" stroke-width="1.8"/></svg>' },
+      };
+
+      // Map nodes (where Linda stands on the road) and pin positions, in 1000×560 map units.
+      var NODES = [[120, 440], [300, 345], [470, 440], [640, 305], [755, 430], [930, 300]];
+      var LOCS = [
+        { id: 'home', name: 'Linda’s House', pin: [120, 282], req: null, badge: 'Home Base' },
+        { id: 'ssa', name: 'Social Security Office', pin: [300, 176], req: 'birthday', badge: 'Signed Up' },
+        { id: 'market', name: 'Medicare Market', pin: [470, 318], req: 'receipt', badge: 'Parts Pro' },
+        { id: 'clock', name: 'Calendar Clocktower', pin: [640, 96], req: 'partsmap', badge: 'Calendar Keeper' },
+        { id: 'canyon', name: 'Cost Canyon', pin: [745, 352], req: 'key', badge: 'Canyon Crosser' },
+        { id: 'town', name: 'Joe’s Porch', pin: [930, 178], req: 'pass', badge: 'Medicare Navigator' },
+      ];
+      var LOC_INDEX = {}; LOCS.forEach(function (l, i) { LOC_INDEX[l.id] = i; });
+
+      // ── Characters ──
+      var LINDA = { skin: '#f3c9a6', hair: '#cbd5e1', bun: 1, glasses: 1, top: '#d0343d', legs: '#0b2c45' };
+      var CLERK = { skin: '#8d5524', hair: '#1f2937', top: '#1d4ed8', legs: '#334155', tie: '#facc15' };
+      var KEEPER = { skin: '#e0ac69', hair: '#6b7280', top: '#92400e', legs: '#44403c', glasses: 1 };
+      var RANGER = { skin: '#c68642', cap: '#166534', top: '#4d7c0f', legs: '#3f3f46', badge: 1 };
+      var JOE = { skin: '#f1c27d', cap: '#1d4ed8', top: '#0f766e', legs: '#1e293b', glasses: 1 };
+      var MABEL = { skin: '#ffdbac', hair: '#e5e7eb', bun: 1, top: '#7c3aed', legs: '#312e81', glasses: 1 };
+      var OFFICER = { skin: '#a0663d', hair: '#111827', top: '#be185d', legs: '#1f2937' };
+
+      function person(x, y, s, c, flip) {
+        return '<g transform="translate(' + x + ' ' + y + ') scale(' + (flip ? -s : s) + ' ' + s + ')">' +
+          '<ellipse cx="0" cy="0" rx="17" ry="5" fill="rgba(0,0,0,.18)"/>' +
+          '<rect x="-9" y="-27" width="8" height="26" rx="3" fill="' + c.legs + '"/><rect x="1" y="-27" width="8" height="26" rx="3" fill="' + c.legs + '"/>' +
+          '<path d="M-15 -25Q-15 -53 0 -55Q15 -53 15 -25Z" fill="' + c.top + '"/>' +
+          '<circle cx="0" cy="-65" r="12" fill="' + c.skin + '"/>' +
+          (c.hair ? '<path d="M-12.5 -66Q-12 -80 0 -80Q12.5 -80 12.5 -66Q8 -74 0 -73Q-8 -73 -12.5 -66Z" fill="' + c.hair + '"/>' : '') +
+          (c.bun ? '<circle cx="9" cy="-77" r="6" fill="' + c.hair + '"/>' : '') +
+          (c.cap ? '<path d="M-13 -68Q-12 -81 0 -81Q12 -81 13 -68Z" fill="' + c.cap + '"/><rect x="3" y="-71" width="16" height="4" rx="2" fill="' + c.cap + '"/>' : '') +
+          (c.glasses ? '<circle cx="-4.5" cy="-65" r="3.4" fill="#fff" fill-opacity=".35" stroke="#0b2c45" stroke-width="1.4"/><circle cx="4.5" cy="-65" r="3.4" fill="#fff" fill-opacity=".35" stroke="#0b2c45" stroke-width="1.4"/><path d="M-1.1 -65h2.2" stroke="#0b2c45" stroke-width="1.4"/>' : '<circle cx="-4" cy="-65" r="1.6" fill="#0b2c45"/><circle cx="4" cy="-65" r="1.6" fill="#0b2c45"/>') +
+          '<path d="M-3.5 -58Q0 -55.5 3.5 -58" fill="none" stroke="#7c2d12" stroke-width="1.6" stroke-linecap="round"/>' +
+          (c.tie ? '<path d="M0 -53l3 6-3 13-3-13z" fill="' + c.tie + '"/>' : '') +
+          (c.badge ? '<path d="M-8 -45l3 1.5v3.5l-3 1.5-3-1.5v-3.5z" fill="#facc15"/>' : '') +
+          '</g>';
+      }
+      function pine(x, y, h) {
+        return '<path d="M' + x + ' ' + (y - h) + 'l' + (h * 0.42) + ' ' + h + 'h' + (-h * 0.84) + 'z" fill="#2f7d4f"/><rect x="' + (x - 3) + '" y="' + y + '" width="6" height="9" fill="#7a4a26"/>';
+      }
+
+      function segD(a, b) {
+        var mx = (a[0] + b[0]) / 2;
+        return 'M' + a[0] + ' ' + a[1] + 'C' + mx + ' ' + a[1] + ' ' + mx + ' ' + b[1] + ' ' + b[0] + ' ' + b[1];
+      }
+      var ROAD = 'M0 470C60 470 60 ' + NODES[0][1] + ' ' + NODES[0][0] + ' ' + NODES[0][1] + NODES.slice(1).map(function (b, i) { return segD(NODES[i], b).replace(/^M[^C]+/, ''); }).join('');
+
+      // ── World map art (1000 × 560) ──
+      function mapArt() {
+        var bridgeBuilt = !!S.badges.canyon;
+        return '' +
+          '<defs><linearGradient id="mjSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9e0fb"/><stop offset="1" stop-color="#eef8ff"/></linearGradient></defs>' +
+          '<rect width="1000" height="560" fill="url(#mjSky)"/>' +
+          '<circle cx="860" cy="78" r="38" fill="#fde68a"/>' +
+          '<g fill="#fff" opacity=".9"><ellipse cx="170" cy="70" rx="56" ry="15"/><ellipse cx="205" cy="58" rx="32" ry="15"/><ellipse cx="520" cy="54" rx="46" ry="12"/></g>' +
+          '<path d="M0 300L110 180L190 250L300 140L410 260L520 170L640 280L760 160L880 250L1000 190V560H0Z" fill="#a9c9e6"/>' +
+          '<path d="M300 140L318 162L306 160L300 170L292 160L281 162ZM760 160L777 180L766 178L760 188L752 178L742 180ZM110 180L124 197L115 195L110 203L104 195L96 197Z" fill="#fff"/>' +
+          '<path d="M0 372Q250 322 500 362T1000 332V560H0Z" fill="#9ad18b"/>' +
+          '<path d="M0 470Q300 432 600 482T1000 462V560H0Z" fill="#7cc576"/>' +
+          // canyon cut between the canyon node and town
+          '<path d="M792 560L800 410L818 425L832 404L848 428L862 408L874 560Z" fill="#92400e"/>' +
+          '<path d="M806 560L812 470Q832 455 852 472L860 560Z" fill="#60a5fa"/>' +
+          '<path d="M' + ROAD.slice(1) + '" fill="none" stroke="#e9cf9c" stroke-width="40" stroke-linecap="round"/>' +
+          '<path d="M' + ROAD.slice(1) + '" fill="none" stroke="#f6e3b9" stroke-width="30" stroke-linecap="round"/>' +
+          '<path d="M' + ROAD.slice(1) + '" fill="none" stroke="#fff8e6" stroke-width="3" stroke-dasharray="14 12"/>' +
+          // bridge over the canyon
+          (bridgeBuilt
+            ? '<g><path d="M795 392L870 374" stroke="#7a4a26" stroke-width="16" stroke-linecap="round"/><path d="M800 391L866 375" stroke="#b9783f" stroke-width="10" stroke-dasharray="7 4"/><path d="M795 378L870 360" stroke="#6b3f1f" stroke-width="2.5"/></g>'
+            : '<g><path d="M795 392L812 389M853 378L870 374" stroke="#7a4a26" stroke-width="12" stroke-linecap="round"/><path d="M795 378Q832 400 870 360" fill="none" stroke="#6b3f1f" stroke-width="2.5" stroke-dasharray="5 5"/></g>') +
+          // trees
+          pine(30, 380, 46) + pine(62, 392, 34) + pine(205, 300, 38) + pine(395, 330, 42) + pine(560, 360, 36) + pine(700, 360, 40) + pine(985, 410, 44) + pine(560, 520, 40) + pine(30, 535, 38) +
+          // 1 Linda's house
+          '<g><rect x="74" y="346" width="92" height="76" fill="#fef3c7" stroke="#b45309" stroke-width="2"/><path d="M62 352L120 300L178 352Z" fill="#d0343d"/><rect x="146" y="306" width="12" height="26" fill="#7a4a26"/><rect x="110" y="384" width="22" height="38" rx="2" fill="#7a4a26"/><rect x="84" y="364" width="18" height="16" fill="#bfe3fb" stroke="#fff" stroke-width="3"/><rect x="140" y="364" width="18" height="16" fill="#bfe3fb" stroke="#fff" stroke-width="3"/><rect x="174" y="396" width="8" height="26" fill="#475569"/><rect x="168" y="388" width="20" height="12" rx="3" fill="#2563eb"/></g>' +
+          // 2 Social Security office
+          '<g><rect x="236" y="232" width="128" height="96" fill="#e0e7ff" stroke="#1e3a8a" stroke-width="2"/><path d="M224 236L300 192L376 236Z" fill="#1d4ed8"/><rect x="246" y="244" width="108" height="18" rx="3" fill="#1e3a8a"/><text x="300" y="257" font-size="11" font-weight="800" text-anchor="middle" fill="#fff" font-family="Arial">SOCIAL SECURITY</text><g fill="#fff"><rect x="250" y="270" width="10" height="58"/><rect x="274" y="270" width="10" height="58"/><rect x="316" y="270" width="10" height="58"/><rect x="340" y="270" width="10" height="58"/></g><rect x="290" y="292" width="20" height="36" fill="#1e3a8a"/><path d="M374 236V196" stroke="#475569" stroke-width="3"/><path d="M374 198h22l-5 7 5 7h-22z" fill="#d0343d"/></g>' +
+          // 3 Medicare Market
+          '<g><path d="M398 412L422 372L446 412Z" fill="#ef4444"/><path d="M446 412L470 366L494 412Z" fill="#2563eb"/><path d="M494 412L518 372L542 412Z" fill="#16a34a"/><g fill="#fff" opacity=".55"><path d="M418 380l4 -8 4 8zM466 376l4 -9 4 9zM514 380l4 -8 4 8z"/></g></g>' +
+          // 4 Calendar Clocktower
+          '<g><rect x="606" y="242" width="68" height="50" fill="#fcd34d" stroke="#a16207" stroke-width="2"/><rect x="616" y="126" width="48" height="118" fill="#fde68a" stroke="#a16207" stroke-width="2"/><path d="M608 130L640 86L672 130Z" fill="#d0343d"/><circle cx="640" cy="164" r="19" fill="#fff" stroke="#a16207" stroke-width="3"/><path d="M640 164V151M640 164l9 5" stroke="#0b2c45" stroke-width="3" stroke-linecap="round"/><rect x="630" y="262" width="20" height="30" rx="10" fill="#7a4a26"/></g>' +
+          // 5 Cost Canyon sign
+          '<g><path d="M738 430V378" stroke="#7a4a26" stroke-width="5"/><rect x="700" y="362" width="78" height="24" rx="4" fill="#b9783f" stroke="#6b3f1f" stroke-width="2"/><text x="739" y="378" font-size="11" font-weight="800" text-anchor="middle" fill="#fff8e6" font-family="Arial">COST CANYON</text></g>' +
+          // 6 Joe's porch
+          '<g><rect x="884" y="216" width="96" height="76" fill="#e0f2fe" stroke="#0e7490" stroke-width="2"/><path d="M872 222L932 180L992 222Z" fill="#0e7490"/><rect x="920" y="252" width="22" height="40" rx="2" fill="#7a4a26"/><rect x="890" y="236" width="20" height="16" fill="#bfe3fb" stroke="#fff" stroke-width="3"/><rect x="952" y="236" width="20" height="16" fill="#bfe3fb" stroke="#fff" stroke-width="3"/><rect x="878" y="290" width="108" height="8" fill="#94a3b8"/></g>' +
+          // signpost + Mabel on her bench (interactive extras)
+          '<g><path d="M205 492V446" stroke="#7a4a26" stroke-width="5"/><path d="M178 440h52l10 9-10 9h-52z" fill="#b9783f" stroke="#6b3f1f" stroke-width="2"/></g>' +
+          '<g><rect x="590" y="486" width="64" height="8" rx="3" fill="#7a4a26"/><path d="M596 494v12M648 494v12" stroke="#7a4a26" stroke-width="4"/></g>' + person(610, 500, 0.62, MABEL) +
+          // walkable road segments (invisible) + Linda
+          NODES.slice(1).map(function (b, i) { return '<path id="mj-seg-' + i + '" d="' + segD(NODES[i], b) + '" fill="none" stroke="none"/>'; }).join('') +
+          '<g id="mj-avatar" transform="translate(' + NODES[S.loc][0] + ' ' + NODES[S.loc][1] + ')"><g id="mj-av-inner"><g class="mj-av-bob">' + person(0, 0, 1.05, LINDA) + '</g></g></g>';
+      }
+
+      // ── Scenes (1000 × 560) ──
+      var SCENES = {
+        home: {
+          title: 'Linda’s House',
+          mission: 'Find out when and how Linda gets Medicare.',
+          intro: 'Linda turns 65 this summer and her kitchen is full of Medicare mail. Explore the kitchen to help her get started.',
+          art: function () {
+            return '<rect width="1000" height="400" fill="#fef3c7"/><rect y="400" width="1000" height="160" fill="#e9c99a"/><rect y="396" width="1000" height="8" fill="#b45309"/>' +
+              '<rect x="640" y="66" width="190" height="190" fill="#bfe3fb" stroke="#fff" stroke-width="10"/><path d="M735 66V256M640 161H830" stroke="#fff" stroke-width="6"/><path d="M628 60h40v204h-40zM802 60h40v204h-40z" fill="#d0343d" opacity=".85"/>' +
+              '<g><rect x="150" y="96" width="104" height="134" rx="6" fill="#fff" stroke="#94a3b8" stroke-width="2"/><rect x="150" y="96" width="104" height="30" rx="6" fill="#d0343d"/><text x="202" y="117" font-size="17" font-weight="800" text-anchor="middle" fill="#fff" font-family="Arial">JULY</text><g fill="#cbd5e1">' +
+              [0, 1, 2, 3, 4].map(function (r) { return [0, 1, 2, 3, 4].map(function (c) { return '<rect x="' + (160 + c * 18) + '" y="' + (136 + r * 18) + '" width="12" height="11" rx="2"/>'; }).join(''); }).join('') +
+              '</g><circle cx="222" cy="187" r="11" fill="none" stroke="#d0343d" stroke-width="3"/></g>' +
+              '<g><rect x="384" y="100" width="100" height="84" rx="4" fill="#b9783f"/><rect x="394" y="110" width="80" height="64" fill="#e0f2fe"/>' + person(420, 168, 0.52, LINDA) + person(450, 168, 0.52, JOE) + '</g>' +
+              '<g><rect x="380" y="378" width="290" height="22" rx="6" fill="#b45309"/><rect x="400" y="400" width="14" height="100" fill="#92400e"/><rect x="636" y="400" width="14" height="100" fill="#92400e"/><rect x="496" y="360" width="62" height="20" rx="3" fill="#1d4ed8" transform="rotate(-6 527 370)"/><text x="527" y="374" font-size="10" font-weight="800" text-anchor="middle" fill="#fff" font-family="Arial" transform="rotate(-6 527 370)">MEDICARE</text><circle cx="610" cy="370" r="12" fill="#fff" stroke="#94a3b8"/></g>' +
+              '<g><rect x="760" y="300" width="240" height="100" fill="#cbd5e1"/><rect x="760" y="292" width="240" height="12" fill="#94a3b8"/><path d="M820 300l14 -36h52l14 36z" fill="#d4a373" stroke="#92400e" stroke-width="2"/><rect x="836" y="258" width="34" height="22" fill="#fff" stroke="#64748b" transform="rotate(-8 853 269)"/><rect x="852" y="252" width="34" height="22" fill="#e0f2fe" stroke="#64748b" transform="rotate(10 869 263)"/></g>' +
+              person(300, 520, 1.6, LINDA);
+          },
+          spots: [
+            { id: 'calendar', x: 202, y: 160, label: 'Wall calendar', kind: 'look', required: 1,
+              text: 'Linda circled her birthday: <strong>July 20</strong>. She’ll turn 65 that day. Her birthday month sets her sign-up window — you’ll work that out at the Calendar Clocktower.',
+              give: { item: 'birthday', coins: 10 } },
+            { id: 'booklet', x: 527, y: 356, label: 'Medicare booklet', kind: 'look', required: 1,
+              text: 'A booklet called “Medicare basics.” Linda’s friend told her Medicare depends on your income. Let’s check.',
+              quiz: { q: 'Does Linda’s income decide whether she can get Medicare?', opts: ['Yes — Medicare is only for people with low income', 'No — it’s for people 65 or older who meet citizenship or residency requirements, plus some younger people with a disability, ESRD, or ALS'], a: 1 },
+              give: { card: 'who', coins: 10 } },
+            { id: 'mail', x: 862, y: 252, label: 'Mail basket', kind: 'look', required: 1,
+              text: 'A note from Linda’s planner: “Not collecting Social Security yet — planning to wait.” That matters for Medicare.',
+              quiz: { q: 'Linda isn’t getting Social Security benefits yet. What happens when she turns 65?', opts: ['Medicare starts automatically anyway', 'Getting Medicare is her choice — she contacts Social Security to sign up', 'Her doctor signs her up'], a: 1,
+                why: 'Automatic enrollment is for people already getting Social Security or Railroad Retirement Board benefits (starting at least 4 months before 65). Linda isn’t, so she contacts Social Security to sign up.' },
+              give: { card: 'auto', coins: 10 } },
+            { id: 'photo', x: 434, y: 142, label: 'Family photo', kind: 'look',
+              text: 'A photo of Linda with her neighbor <strong>Joe</strong>. Joe is 67 and still working. He’ll need your help at the end of the road.',
+              give: { coins: 5 } },
+          ],
+        },
+        ssa: {
+          title: 'Social Security Office',
+          mission: 'Help Linda sign up for Medicare.',
+          intro: 'The office is busy but friendly. Talk to the clerk, read the poster, and fill out Linda’s form.',
+          art: function () {
+            return '<rect width="1000" height="560" fill="#dbeafe"/><rect y="420" width="1000" height="140" fill="#cbd5e1"/><rect x="0" y="414" width="1000" height="8" fill="#94a3b8"/>' +
+              '<rect x="340" y="70" width="320" height="44" rx="8" fill="#1e3a8a"/><text x="500" y="99" font-size="20" font-weight="800" text-anchor="middle" fill="#fff" font-family="Arial">MEDICARE SIGN-UP</text>' +
+              person(500, 330, 1.5, CLERK) +
+              '<rect x="300" y="320" width="400" height="100" rx="6" fill="#1e40af"/><rect x="290" y="312" width="420" height="14" rx="4" fill="#3b82f6"/>' +
+              '<g><rect x="104" y="250" width="74" height="170" rx="8" fill="#d0343d"/><rect x="118" y="270" width="46" height="30" rx="4" fill="#fee2e2"/><text x="141" y="291" font-size="15" font-weight="800" text-anchor="middle" fill="#991b1b" font-family="Arial">65</text><rect x="126" y="314" width="30" height="8" rx="2" fill="#111827"/></g>' +
+              '<g><rect x="740" y="80" width="170" height="170" rx="6" fill="#fff" stroke="#94a3b8" stroke-width="2"/><text x="825" y="118" font-size="16" font-weight="800" text-anchor="middle" fill="#0b2c45" font-family="Arial">Original</text><text x="825" y="138" font-size="16" font-weight="800" text-anchor="middle" fill="#0b2c45" font-family="Arial">Medicare</text><rect x="764" y="156" width="52" height="52" rx="8" fill="#ef4444"/><text x="790" y="190" font-size="24" font-weight="800" text-anchor="middle" fill="#fff" font-family="Arial">A</text><text x="825" y="190" font-size="22" font-weight="800" text-anchor="middle" fill="#0b2c45" font-family="Arial">+</text><rect x="834" y="156" width="52" height="52" rx="8" fill="#2563eb"/><text x="860" y="190" font-size="24" font-weight="800" text-anchor="middle" fill="#fff" font-family="Arial">B</text></g>' +
+              '<g><rect x="760" y="392" width="170" height="16" rx="3" fill="#92400e"/><rect x="772" y="408" width="10" height="80" fill="#7c2d12"/><rect x="908" y="408" width="10" height="80" fill="#7c2d12"/><rect x="800" y="364" width="64" height="30" fill="#fff" stroke="#64748b" transform="rotate(-5 832 379)"/><path d="M806 372h44M806 380h36" stroke="#94a3b8" stroke-width="2" transform="rotate(-5 832 379)"/></g>' +
+              person(230, 530, 1.5, LINDA);
+          },
+          spots: [
+            { id: 'clerk', x: 500, y: 166, label: 'Talk to the clerk', kind: 'talk', speaker: 'Clerk', required: 1,
+              text: '“Welcome! Signing up for Medicare? I can help. First, a quick question for you.”',
+              quiz: { q: 'Where can Linda sign up for Part A and Part B?', opts: ['At her doctor’s office', 'Through Social Security — online, or at a local Social Security office', 'Only at the Medicare Market'], a: 1 },
+              give: { card: 'signup', coins: 10 } },
+            { id: 'poster', x: 825, y: 268, label: 'Read the poster', kind: 'look', required: 1,
+              text: 'The poster says <strong>Original Medicare = Part A + Part B</strong>.',
+              quiz: { q: 'Do most people pay a monthly premium for Part A?', opts: ['Yes, everyone pays the same Part A premium', 'No — most pay $0 because they or a spouse paid Medicare taxes long enough while working (generally at least 10 years)'], a: 1 },
+              give: { card: 'original', coins: 10 } },
+            { id: 'form', x: 834, y: 360, label: 'Sign-up form', kind: 'use', required: 1, needs: 'birthday',
+              text: 'The form asks for Linda’s date of birth.',
+              used: 'You fill in <strong>July 20</strong> from the Birthday note. The clerk stamps it: “All set!” Linda gets a <strong>Sign-up receipt</strong>.',
+              give: { item: 'receipt', coins: 10 } },
+            { id: 'ticket', x: 141, y: 230, label: 'Ticket machine', kind: 'look',
+              text: 'You take a ticket. It’s number <strong>65</strong> — fitting!',
+              give: { coins: 5 } },
+          ],
+        },
+        market: {
+          title: 'Medicare Market',
+          mission: 'Sort Linda’s care into the right Medicare Part.',
+          intro: 'Each stall handles a different Part of Medicare. Open the sorting crate, then visit the Medicare Advantage office.',
+          art: function () {
+            var stall = function (x, col, label, sub) {
+              return '<g><rect x="' + (x - 80) + '" y="220" width="160" height="150" fill="#fff" stroke="#cbd5e1" stroke-width="2"/><path d="M' + (x - 92) + ' 226L' + (x - 80) + ' 176H' + (x + 80) + 'L' + (x + 92) + ' 226Z" fill="' + col + '"/>' +
+                '<path d="M' + (x - 92) + ' 226q23 18 46 0q23 18 46 0q23 18 46 0q23 18 46 0" fill="' + col + '" opacity=".75"/>' +
+                '<text x="' + x + '" y="296" font-size="44" font-weight="800" text-anchor="middle" fill="' + col + '" font-family="Arial">' + label + '</text>' +
+                '<text x="' + x + '" y="330" font-size="14" font-weight="800" text-anchor="middle" fill="#334155" font-family="Arial">' + sub + '</text></g>';
+            };
+            return '<rect width="1000" height="560" fill="#e0f2fe"/><rect y="370" width="1000" height="190" fill="#e7d3ad"/><path d="M0 370h1000" stroke="#c8a56a" stroke-width="4"/>' +
+              stall(110, '#ef4444', 'A', 'HOSPITAL') + stall(300, '#2563eb', 'B', 'MEDICAL') + stall(490, '#16a34a', 'D', 'DRUGS') + stall(680, '#64748b', '✕', 'NOT COVERED') +
+              '<g><rect x="806" y="150" width="180" height="220" fill="#f3e8ff" stroke="#6b21a8" stroke-width="2"/><path d="M796 156L896 104L996 156Z" fill="#6b21a8"/><rect x="826" y="168" width="140" height="28" rx="4" fill="#6b21a8"/><text x="896" y="188" font-size="15" font-weight="800" text-anchor="middle" fill="#fff" font-family="Arial">PART C OFFICE</text><rect x="876" y="300" width="40" height="70" fill="#4c1d95"/></g>' +
+              '<g><rect x="380" y="430" width="120" height="70" rx="6" fill="#b9783f" stroke="#6b3f1f" stroke-width="3"/><path d="M380 450h120M380 476h120" stroke="#6b3f1f" stroke-width="2"/><rect x="398" y="414" width="30" height="22" fill="#fff" transform="rotate(-10 413 425)"/><rect x="440" y="410" width="30" height="22" fill="#fef3c7" transform="rotate(8 455 421)"/></g>' +
+              person(260, 540, 1.4, LINDA);
+          },
+          spots: [
+            { id: 'crate', x: 440, y: 448, label: 'Sorting crate', kind: 'puzzle', puzzle: 'sort', required: 1 },
+            { id: 'partc', x: 896, y: 250, label: 'Medicare Advantage office', kind: 'talk', speaker: 'Advisor', required: 1,
+              text: '“Medicare Advantage — that’s Part C — is a Medicare-approved plan from a private company. It’s an alternative to Original Medicare that bundles Part A, Part B, and usually drug coverage.”',
+              quiz: { q: 'Linda likes the sound of Medicare Advantage. Could she add a Medigap policy to it?', opts: ['Yes, they’re designed to work together', 'No — you can only buy Medigap if you have Original Medicare'], a: 1 },
+              give: { card: 'partC', coins: 10 } },
+          ],
+        },
+        clock: {
+          title: 'Calendar Clocktower',
+          mission: 'Set the enrollment clock and ring the bells.',
+          intro: 'Inside the tower, a giant clock shows all twelve months. Light up Linda’s sign-up window, then ring each bell at the right time of year.',
+          art: function () {
+            var face = MONTHS.map(function (m, i) {
+              var a = (i / 12) * Math.PI * 2 - Math.PI / 2;
+              var x = 420 + Math.cos(a) * 112, y = 230 + Math.sin(a) * 112;
+              return '<g class="mj-cm' + (S.months && S.months[i] ? ' is-on' : '') + '" id="mj-cm-' + i + '"><circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="24"/><text x="' + x.toFixed(1) + '" y="' + (y + 5).toFixed(1) + '" text-anchor="middle" font-size="14" font-weight="800" font-family="Arial">' + m + '</text></g>';
+            }).join('');
+            var bell = function (x, i) {
+              return '<g class="mj-bell' + (S.bells && S.bells[i] ? ' is-rung' : '') + '" id="mj-bell-' + i + '"><path d="M' + x + ' 100v22" stroke="#6b3f1f" stroke-width="3"/><path d="M' + (x - 26) + ' 176q0 -54 26 -54q26 0 26 54z" fill="#fbbf24" stroke="#a16207" stroke-width="3"/><circle cx="' + x + '" cy="182" r="7" fill="#a16207"/></g>';
+            };
+            return '<rect width="1000" height="560" fill="#fde68a"/><rect y="440" width="1000" height="120" fill="#d6b56f"/><g fill="#f5d77a">' +
+              [0, 1, 2, 3, 4, 5, 6].map(function (r) { return '<rect x="' + (r % 2 ? 0 : 60) + '" y="' + (r * 64) + '" width="1000" height="2"/>'; }).join('') + '</g>' +
+              '<circle cx="420" cy="230" r="160" fill="#fffbeb" stroke="#a16207" stroke-width="10"/>' + face +
+              '<path d="M420 230V160M420 230l50 30" stroke="#0b2c45" stroke-width="8" stroke-linecap="round"/><circle cx="420" cy="230" r="12" fill="#d0343d"/>' +
+              '<path d="M760 100h180" stroke="#6b3f1f" stroke-width="8"/>' + bell(790, 0) + bell(850, 1) + bell(910, 2) +
+              person(170, 500, 1.5, KEEPER) + person(620, 530, 1.4, LINDA);
+          },
+          spots: [
+            { id: 'clockface', x: 420, y: 230, label: 'Set the clock', kind: 'puzzle', puzzle: 'months', required: 1 },
+            { id: 'bells', x: 850, y: 150, label: 'Ring the bells', kind: 'puzzle', puzzle: 'bells', required: 1 },
+            { id: 'keeper', x: 170, y: 322, label: 'Talk to the keeper', kind: 'talk', speaker: 'Clock keeper',
+              text: '“I keep these clocks on time. Medicare has a few sign-up windows — light up Linda’s window on the clock face first, then ring each bell for the right season.”',
+              give: { coins: 5 } },
+          ],
+        },
+        canyon: {
+          title: 'Cost Canyon',
+          mission: 'Build the bridge and learn to avoid costly surprises.',
+          intro: 'The bridge to Joe’s Porch is missing four planks. Each plank is a cost word. Talk to the ranger and read the lookout sign, too.',
+          art: function () {
+            var planks = [0, 1, 2, 3].map(function (i) {
+              var x = 400 + i * 52;
+              return '<rect class="mj-plank' + (S.planks && S.planks[i] ? ' is-set' : '') + '" id="mj-plank-' + i + '" x="' + x + '" y="306" width="46" height="18" rx="3"/>';
+            }).join('');
+            return '<rect width="1000" height="560" fill="#bfe3fb"/><path d="M0 220L160 120L300 200L460 100L640 190L820 110L1000 190V560H0Z" fill="#c7d2fe" opacity=".6"/>' +
+              '<path d="M0 320H392L370 560H0Z" fill="#b45309"/><path d="M0 320H392" stroke="#7cc576" stroke-width="16"/>' +
+              '<path d="M612 320H1000V560H630Z" fill="#b45309"/><path d="M612 320H1000" stroke="#7cc576" stroke-width="16"/>' +
+              '<path d="M370 560L392 330H612L630 560Z" fill="#7c2d12" opacity=".5"/><path d="M420 560Q500 520 590 560" fill="#60a5fa"/>' +
+              '<path d="M392 300L612 300M392 330L612 330" stroke="#6b3f1f" stroke-width="4"/>' + planks +
+              '<g><rect x="196" y="282" width="110" height="14" rx="3" fill="#92400e"/><rect x="204" y="296" width="10" height="26" fill="#7c2d12"/><rect x="288" y="296" width="10" height="26" fill="#7c2d12"/><g fill="#b9783f" stroke="#6b3f1f" stroke-width="1.5"><rect x="206" y="262" width="90" height="10" rx="2"/><rect x="210" y="250" width="86" height="10" rx="2"/></g></g>' +
+              '<g><path d="M860 320V214" stroke="#7a4a26" stroke-width="6"/><rect x="784" y="170" width="150" height="70" rx="6" fill="#b9783f" stroke="#6b3f1f" stroke-width="3"/><text x="859" y="200" font-size="15" font-weight="800" text-anchor="middle" fill="#fff8e6" font-family="Arial">LOOKOUT</text><text x="859" y="222" font-size="13" font-weight="700" text-anchor="middle" fill="#fff8e6" font-family="Arial">Yearly limits ahead</text></g>' +
+              person(92, 322, 1.25, RANGER) + person(340, 322, 1.2, LINDA);
+          },
+          spots: [
+            { id: 'bridge', x: 250, y: 236, label: 'Bridge workbench', kind: 'puzzle', puzzle: 'bridge', required: 1 },
+            { id: 'ranger', x: 92, y: 166, label: 'Talk to the ranger', kind: 'decide', speaker: 'Ranger Rosa', required: 1, decision: 'ray' },
+            { id: 'lookout', x: 860, y: 150, label: 'Lookout sign', kind: 'decide', speaker: 'Lookout sign', required: 1, decision: 'oop' },
+          ],
+        },
+        town: {
+          title: 'Joe’s Porch',
+          mission: 'Final mission: help Joe plan his Medicare.',
+          intro: 'Joe waves from his rocking chair. “Linda says you’ve learned a lot. I could use some help!”',
+          art: function () {
+            return '<rect width="1000" height="560" fill="#bfe3fb"/><rect x="80" y="80" width="840" height="320" fill="#e0f2fe" stroke="#0e7490" stroke-width="4"/><g stroke="#bae6fd" stroke-width="3">' +
+              [0, 1, 2, 3, 4, 5, 6, 7].map(function (r) { return '<path d="M80 ' + (110 + r * 38) + 'H920"/>'; }).join('') + '</g>' +
+              '<rect x="140" y="140" width="150" height="130" fill="#bfe3fb" stroke="#fff" stroke-width="10"/><rect x="430" y="170" width="120" height="230" rx="4" fill="#7a4a26"/><circle cx="530" cy="290" r="6" fill="#facc15"/>' +
+              '<rect y="400" width="1000" height="160" fill="#d6b56f"/><rect y="396" width="1000" height="10" fill="#92400e"/>' +
+                            person(700, 460, 1.55, JOE) +
+              '<g><rect x="780" y="150" width="120" height="110" rx="6" fill="#fff" stroke="#94a3b8" stroke-width="2"/><text x="840" y="182" font-size="14" font-weight="800" text-anchor="middle" fill="#0b2c45" font-family="Arial">JOE’S TO-DO</text><path d="M800 204h80M800 224h70M800 244h60" stroke="#cbd5e1" stroke-width="4"/></g>' +
+              person(330, 530, 1.5, LINDA);
+          },
+          spots: [
+            { id: 'joe', x: 700, y: 282, label: 'Talk to Joe', kind: 'story', speaker: 'Joe', required: 1 },
+          ],
+        },
+      };
+
+      // Things to sort at the Market. Stall keys: A, B, D, X (not covered by Original Medicare).
+      var SORT = [
+        { id: 'hosp', t: 'Inpatient hospital stay', p: 'A' },
+        { id: 'hospice', t: 'Hospice care', p: 'A' },
+        { id: 'snf', t: 'Skilled nursing facility care (after a qualifying hospital stay)', p: 'A' },
+        { id: 'doc', t: 'Doctor visit', p: 'B' },
+        { id: 'walker', t: 'Walker (medical equipment)', p: 'B' },
+        { id: 'prev', t: 'Preventive screening', p: 'B' },
+        { id: 'rx', t: 'Prescription drugs at the pharmacy', p: 'D' },
+        { id: 'hear', t: 'Hearing aids', p: 'X' },
+        { id: 'dental', t: 'Most dental care', p: 'X' },
+      ];
+      var STALLS = { A: 'Part A — Hospital', B: 'Part B — Medical', D: 'Part D — Drugs', X: 'Not covered by Original Medicare' };
+      var STALL_WHY = { A: CARDS.partA.x, B: CARDS.partB.x, D: CARDS.partD.x, X: CARDS.notcovered.x };
+
+      var BELLS = [
+        { q: 'Robert has a Medicare Advantage plan and wants a different one for next year. Which bell?', a: 0,
+          why: 'During Open Enrollment (October 15 – December 7) you can join, switch, or drop a Medicare Advantage plan. Changes start January 1.' },
+        { q: 'Ann missed signing up for Part B when she was first eligible and doesn’t qualify for a Special Enrollment Period. Which bell?', a: 1,
+          why: 'The General Enrollment Period runs January 1 – March 31. Coverage starts the month after you sign up, and a late enrollment penalty may apply.' },
+        { q: 'Kim is already in a Medicare Advantage plan. In February she wants to return to Original Medicare. Which bell?', a: 2,
+          why: 'The Medicare Advantage Open Enrollment Period (January 1 – March 31) is for people already in a Medicare Advantage plan: switch plans, or drop it and return to Original Medicare (and join a separate drug plan).' },
+      ];
+      var BELL_OPTS = ['Open Enrollment · Oct 15 – Dec 7', 'General Enrollment · Jan 1 – Mar 31', 'Medicare Advantage Open Enrollment · Jan 1 – Mar 31', 'Initial Enrollment Period'];
+
+      var PLANKS = [
+        { term: 'Premium', def: 'The amount you pay for your coverage, usually every month — even in months you don’t use any care.' },
+        { term: 'Deductible', def: 'The amount you pay for covered care each year before Medicare or your plan starts to pay.' },
+        { term: 'Copayment', def: 'A set dollar amount — like $20 — that you pay for a covered service such as a doctor visit.' },
+        { term: 'Coinsurance', def: 'A percentage of the cost — like 20% — that you pay for a covered service, usually after your deductible.' },
+      ];
+
+      var DECISIONS = {
+        ray: {
+          setup: '“See that fellow? That’s Ray. He’s 65, takes no prescriptions, and has no other drug coverage. He’s thinking of skipping a drug plan for now. What would you tell him?”',
+          opts: [
+            { label: 'Skip it — he can always join later at no extra cost', good: false,
+              out: 'Joining later can cost more. If you don’t join a Medicare drug plan when you first get Medicare, or go 63 days or more without creditable drug coverage, a late enrollment penalty may be added — an extra 1% for each month — for as long as you have Medicare drug coverage.' },
+            { label: 'Get drug coverage when he’s first eligible — or keep other creditable drug coverage', good: true,
+              out: 'That protects Ray from the Part D late enrollment penalty, which can add 1% for each month he goes without creditable drug coverage — and lasts as long as he has Medicare drug coverage.' },
+          ],
+          card: 'penalty',
+        },
+        oop: {
+          setup: 'The sign reads: “Linda wonders whether Original Medicare caps what she pays each year.” What’s the answer?',
+          opts: [
+            { label: 'Yes — Original Medicare has a yearly cap on out-of-pocket costs', good: false,
+              out: 'Not on its own. Original Medicare has no yearly limit on what you pay out of pocket.' },
+            { label: 'No — there’s no yearly limit unless she adds coverage like Medigap, or chooses a Medicare Advantage plan (which has a yearly limit)', good: true,
+              out: 'Right. Original Medicare has no yearly out-of-pocket limit. Medicare Advantage plans have a yearly limit that varies by plan, and a Medigap policy can help pay her share in Original Medicare.' },
+          ],
+          card: 'oop',
+        },
+      };
+
+      // Final mission: three decisions for Joe. Bad choices show the consequence and let you rewind.
+      var STORY = [
+        { setup: '“I’m 67 and still working. I have group health insurance from my current job. Do I have to sign up for Part B right now?”',
+          opts: [
+            { label: 'Yes — he must sign up now or pay a penalty forever', good: false,
+              out: 'Not in Joe’s case. Group health coverage from current work lets him wait: he can sign up while he’s covered, or within 8 months after the job or coverage ends.' },
+            { label: 'He can wait while he has coverage from his current job, then use a Special Enrollment Period', good: true,
+              out: 'Right. With group coverage from current work, Joe can sign up for Part B while covered or within 8 months after the job or coverage ends — whichever happens first — usually without a penalty.' },
+          ] },
+        { setup: '“I’m retiring at the end of March. My employer offered me COBRA. Can I just keep COBRA instead of signing up for Part B?”',
+          opts: [
+            { label: 'Keep COBRA and skip Part B', good: false,
+              out: 'Risky. COBRA doesn’t count as group coverage from current work, so Joe’s 8-month Special Enrollment Period still starts when his job ends. If he misses it, he may wait for the General Enrollment Period and pay a Part B late penalty — 10% for each full 12 months he could have had Part B.' },
+            { label: 'Sign up for Part B within 8 months after his job ends', good: true,
+              out: 'Right. COBRA doesn’t count as coverage from current work, so Joe signs up during his 8-month Special Enrollment Period and avoids a gap and a late penalty.' },
+          ] },
+        { setup: '“I’m going with Original Medicare. Is there a way to get help with my share of the costs — deductibles, copays, and coinsurance?”',
+          opts: [
+            { label: 'Add a Medigap policy to his Medicare Advantage plan', good: false,
+              out: 'That combination doesn’t work — you can only buy Medigap if you have Original Medicare, and Joe would also be mixing up two different paths.' },
+            { label: 'A Medigap (Medicare Supplement) policy, which works with Original Medicare', good: true,
+              out: 'Right. Medigap is extra insurance from a private company that helps pay your share of costs in Original Medicare, like copayments, coinsurance, and deductibles.' },
+          ] },
+      ];
+
+      // ─────────────────────────────────────────────────────────────────────
+      // State
+      // ─────────────────────────────────────────────────────────────────────
+      function fresh() {
+        return { loc: 0, coins: 0, cards: [], items: [], badges: {}, spots: {}, firstTry: {}, sorted: {}, months: [], bells: [], planks: [], story: 0, storyMiss: 0, done: false };
+      }
+      function load() {
+        try {
+          var s = JSON.parse(window.localStorage.getItem(STORE) || 'null');
+          if (s && typeof s.loc === 'number' && s.badges) { var f = fresh(); for (var k in f) if (!(k in s)) s[k] = f[k]; return s; }
+        } catch (e) { /* storage blocked */ }
+        return fresh();
+      }
+      function save() { try { window.localStorage.setItem(STORE, JSON.stringify(S)); } catch (e) { /* play still works */ } }
+      var S = load();
+
+      var view = 'map'; // 'map' | 'scene'
+      var sceneId = null;
+      var busy = false;
+      var interacted = false;
+      var panelRender = null; // re-renders the current panel (used after closing the journal)
+      var keepMapFocus = false; // keyboard walking: leave focus on the map, announce instead
+
+      // Click actions are registered closures, referenced by index from data-a.
+      var ACTS = [];
+      function act(fn) { ACTS.push(fn); return ACTS.length - 1; }
+      function bt(label, fn, cls, extra) {
+        return '<button type="button" class="mj-btn ' + (cls || '') + '" data-a="' + act(fn) + '"' + (extra || '') + '>' + label + '</button>';
+      }
+      root.addEventListener('click', function (e) {
+        var el = e.target.closest('[data-a]');
+        if (!el || !root.contains(el) || busy) return;
+        interacted = true;
+        var fn = ACTS[+el.getAttribute('data-a')];
+        if (fn) fn(el);
+      });
+
+      function announce(msg) { live.textContent = ''; window.setTimeout(function () { live.textContent = msg; }, 40); }
+      function has(item) { return S.items.indexOf(item) > -1; }
+      function spotKey(sc, id) { return sc + '.' + id; }
+      function isDone(sc, id) { return !!S.spots[spotKey(sc, id)]; }
+
+      // Rewards: coins, a card, an item — with a toast and an announcement.
+      function grant(g, firstTry) {
+        if (!g) return '';
+        var bits = [], html = '';
+        var coins = g.coins && firstTry !== false ? g.coins : 0;
+        if (coins) { S.coins += coins; bits.push('+' + coins + ' coins'); }
+        if (g.card && S.cards.indexOf(g.card) < 0) { S.cards.push(g.card); bits.push('New card: ' + CARDS[g.card].t); }
+        if (g.item && !has(g.item)) { S.items.push(g.item); bits.push('Item: ' + ITEMS[g.item].t); }
+        save();
+        renderHud();
+        if (bits.length) {
+          html = '<ul class="mj-rewards">' + bits.map(function (b) { return '<li>' + b + '</li>'; }).join('') + '</ul>';
+          toast(bits.join(' · '));
+          announce(bits.join('. ') + '.');
+        }
+        return html;
+      }
+      var toastTimer = null;
+      function toast(text) {
+        var t = document.getElementById('mj-toast');
+        if (!t) return;
+        t.textContent = text;
+        t.classList.remove('is-on'); void t.offsetWidth; t.classList.add('is-on');
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(function () { t.classList.remove('is-on'); }, 2600);
+      }
+
+      // ─────────────────────────────────────────────────────────────────────
+      // HUD
+      // ─────────────────────────────────────────────────────────────────────
+      function renderHud() {
+        var badgeCount = Object.keys(S.badges).length;
+        hudEl.innerHTML =
+          '<div class="mj-hud-coins" title="Coins">' + ICON.coin + '<span><span class="mj-hud-k">Coins</span><strong id="mj-coins">' + S.coins + '</strong></span></div>' +
+          '<button type="button" class="mj-hud-cards" data-a="' + act(openJournal) + '">' + ICON.card + '<span><span class="mj-hud-k">Journal</span><strong id="mj-cardcount">' + S.cards.length + ' / ' + CARD_ORDER.length + '</strong> cards</span></button>' +
+          '<div class="mj-hud-badges"><span class="mj-hud-k">Badges ' + badgeCount + ' / ' + LOCS.length + '</span><ul>' + LOCS.map(function (l, i) {
+            var got = !!S.badges[l.id];
+            return '<li class="' + (got ? 'is-got' : '') + '" title="' + l.badge + (got ? ' — earned' : ' — not yet') + '">' + (got ? ICON.star : (i + 1)) + '<span class="mj-sr">' + l.badge + (got ? ' earned' : ' not earned yet') + '</span></li>';
+          }).join('') + '</ul></div>' +
+          '<div class="mj-hud-items"><span class="mj-hud-k">Items</span><ul>' + (S.items.length ? S.items.map(function (it) {
+            return '<li title="' + ITEMS[it].t + ': ' + ITEMS[it].d + '">' + ITEMS[it].ic + '<span class="mj-sr">' + ITEMS[it].t + '</span></li>';
+          }).join('') : '<li class="mj-hud-empty">None yet</li>') + '</ul></div>' +
+          '<div class="mj-toast" id="mj-toast" aria-hidden="true"></div>';
+      }
+
+      function setPanel(html, render) {
+        panelEl.innerHTML = html;
+        if (render) panelRender = render;
+        var f = panelEl.querySelector('[data-focus]');
+        if (keepMapFocus) return;
+        if (f && interacted) f.focus({ preventScroll: true });
+        if (interacted) {
+          var r = panelEl.getBoundingClientRect();
+          if (r.top > window.innerHeight - 80 || r.top < 0) panelEl.scrollIntoView({ block: 'nearest', behavior: RM ? 'auto' : 'smooth' });
+        }
+      }
+
+      // ─────────────────────────────────────────────────────────────────────
+      // Map
+      // ─────────────────────────────────────────────────────────────────────
+      function maxReach() { return S.badges.canyon ? LOCS.length - 1 : LOC_INDEX.canyon; }
+      function locState(i) {
+        var l = LOCS[i];
+        if (S.badges[l.id]) return 'done';
+        if (l.req && !has(l.req)) return 'locked';
+        return 'open';
+      }
+
+      function renderMap() {
+        view = 'map'; sceneId = null;
+        var pins = LOCS.map(function (l, i) {
+          var st = locState(i), here = S.loc === i;
+          return '<button type="button" class="mj-pin is-' + st + (here ? ' is-here' : '') + '" style="left:' + (l.pin[0] / 10) + '%;top:' + (l.pin[1] / 5.6) + '%" data-a="' + act(function () { goTo(i, true); }) + '" aria-label="' + l.name + (st === 'done' ? ', explored' : st === 'locked' ? ', locked' : '') + (here ? ', Linda is here' : '') + '">' +
+            '<span class="mj-pin-dot">' + (st === 'done' ? ICON.check : st === 'locked' ? ICON.lock : String(i + 1)) + '</span><span class="mj-pin-label" aria-hidden="true">' + l.name + '</span></button>';
+        }).join('');
+        var extras =
+          '<button type="button" class="mj-pin mj-pin--extra" style="left:20.5%;top:76%" data-a="' + act(readSignpost) + '" aria-label="Read the signpost"><span class="mj-pin-dot">' + ICON.look + '</span></button>' +
+          '<button type="button" class="mj-pin mj-pin--extra" style="left:61%;top:80%" data-a="' + act(askMabel) + '" aria-label="Ask Mabel for a hint"><span class="mj-pin-dot">' + ICON.talk + '</span></button>';
+        stageEl.innerHTML =
+          '<div class="mj-map" id="mj-map" tabindex="0" role="group" aria-label="Map of Medicare Valley. Use the left and right arrow keys to walk, and Enter to go inside.">' +
+          '<svg class="mj-art" viewBox="0 0 1000 560" aria-hidden="true">' + mapArt() + '</svg>' + pins + extras + '</div>' +
+          '<div class="mj-travel"><span class="mj-travel-k">Travel to:</span>' + LOCS.map(function (l, i) {
+            var st = locState(i);
+            return '<button type="button" class="mj-chip is-' + st + (S.loc === i ? ' is-here' : '') + '" data-a="' + act(function () { goTo(i, false); }) + '">' +
+              '<span class="mj-chip-n" aria-hidden="true">' + (st === 'done' ? ICON.check : st === 'locked' ? ICON.lock : String(i + 1)) + '</span>' + l.name + (S.loc === i ? '<span class="mj-sr"> (Linda is here)</span>' : '') + '</button>';
+          }).join('') + '</div>';
+        renderMapPanel();
+      }
+
+      function renderMapPanel() {
+        var i = S.loc, l = LOCS[i], st = locState(i), sc = SCENES[l.id];
+        var status = st === 'done' ? '<p class="mj-status is-done">' + ICON.check + 'Explored — badge earned: ' + l.badge + '</p>' :
+          st === 'locked' ? '<p class="mj-status is-locked">' + ICON.lock + 'Locked. Bring the <strong>' + ITEMS[l.req].t + '</strong> to open it.</p>' :
+          '<p class="mj-status">' + ICON.door + 'Open — mission: ' + sc.mission + '</p>';
+        var html = '<div class="mj-dlg"><p class="mj-dlg-k">You are at</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>' + l.name + '</h2>' + status +
+          '<div class="mj-actions">' +
+          (st !== 'locked' ? bt((st === 'done' ? 'Visit ' : 'Go inside ') + l.name, function () { enterScene(l.id); }, 'mj-btn-primary') : '') +
+          (i > 0 ? bt('<span aria-hidden="true">◀</span> Walk back', function () { goTo(i - 1, false); }, 'mj-btn-ghost') : '') +
+          (i < LOCS.length - 1 ? bt('Walk on <span aria-hidden="true">▶</span>', function () { goTo(i + 1, false); }, 'mj-btn-ghost') : '') +
+          '</div>' + (S.done ? '<div class="mj-actions">' + bt('See the ending again', renderEnding, 'mj-btn-ghost') + bt('Start a new journey', restart, 'mj-btn-link') + '</div>' : '') + '</div>';
+        setPanel(html, renderMapPanel);
+      }
+
+      function readSignpost() {
+        var first = !isDone('map', 'sign');
+        var rewards = '';
+        if (first) { S.spots[spotKey('map', 'sign')] = 1; rewards = grant({ coins: 5 }); }
+        setPanel('<div class="mj-dlg"><p class="mj-dlg-k">Signpost</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>Welcome to Medicare Valley</h2>' +
+          '<p>Walk Linda down the road and explore each place. Tap the glowing spots inside to learn, solve puzzles, and collect knowledge cards. Some doors only open when you bring the right item.</p>' + rewards +
+          '<div class="mj-actions">' + bt('Back to the map', renderMapPanel, 'mj-btn-ghost') + '</div></div>', null);
+      }
+
+      function askMabel() {
+        var next = LOCS.findIndex(function (l) { return !S.badges[l.id]; });
+        var hint;
+        if (next === -1) hint = '“You did it! Joe is all set. Open your journal to review every card you collected.”';
+        else if (LOCS[next].req && !has(LOCS[next].req)) hint = '“To get into ' + LOCS[next].name + ', you’ll need the ' + ITEMS[LOCS[next].req].t + '. Finish the place before it first.”';
+        else hint = '“Head to <strong>' + LOCS[next].name + '</strong> next. ' + SCENES[LOCS[next].id].mission + '”';
+        setPanel('<div class="mj-dlg"><div class="mj-speaker"><svg viewBox="-24 -90 48 96" aria-hidden="true">' + person(0, 0, 1, MABEL) + '</svg><div><p class="mj-dlg-k">Mabel, on her bench</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>A friendly hint</h2></div></div><p>' + hint + '</p>' +
+          '<div class="mj-actions">' + bt('Thanks, Mabel', renderMapPanel, 'mj-btn-ghost') + '</div></div>', null);
+      }
+
+      // Walk Linda along the road. `enter`: go inside on arrival when already there.
+      function goTo(target, enter) {
+        if (busy) return;
+        var reach = maxReach();
+        if (target === S.loc) {
+          if (enter && locState(target) !== 'locked') enterScene(LOCS[target].id); else renderMapPanel();
+          return;
+        }
+        var blocked = target > reach;
+        var dest = blocked ? reach : target;
+        var finish = function () {
+          if (blocked) {
+            setPanel('<div class="mj-dlg"><p class="mj-dlg-k">Cost Canyon</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>The bridge is out</h2><p>The bridge to Joe’s Porch is missing its planks. Finish Cost Canyon to build it.</p>' +
+              '<div class="mj-actions">' + (locState(dest) !== 'locked' ? bt('Go inside Cost Canyon', function () { enterScene('canyon'); }, 'mj-btn-primary') : '') + bt('Back to the map', renderMapPanel, 'mj-btn-ghost') + '</div></div>', null);
+            announce('The bridge is out. Finish Cost Canyon to build it.');
+          } else {
+            renderMapPanel();
+            announce('Linda walked to ' + LOCS[S.loc].name + '.');
+          }
+        };
+        if (dest === S.loc) { finish(); return; }
+        walk(dest, finish);
+      }
+
+      function walk(dest, done) {
+        var av = document.getElementById('mj-avatar'), inner = document.getElementById('mj-av-inner');
+        if (!av || !inner) { S.loc = dest; save(); done(); return; }
+        busy = true;
+        root.classList.add('is-walking');
+        var step = function () {
+          if (S.loc === dest) {
+            busy = false; root.classList.remove('is-walking'); save();
+            // Refresh pins/chips so "here" markers move.
+            keepMapFocus = !!(document.activeElement && document.activeElement.id === 'mj-map');
+            renderMap();
+            done();
+            if (keepMapFocus) { var m = document.getElementById('mj-map'); if (m) m.focus({ preventScroll: true }); }
+            keepMapFocus = false;
+            return;
+          }
+          var dir = dest > S.loc ? 1 : -1;
+          var seg = document.getElementById('mj-seg-' + (dir > 0 ? S.loc : S.loc - 1));
+          inner.setAttribute('transform', dir < 0 ? 'scale(-1 1)' : '');
+          if (!seg || RM || !seg.getTotalLength) { S.loc += dir; var n = NODES[S.loc]; av.setAttribute('transform', 'translate(' + n[0] + ' ' + n[1] + ')'); step(); return; }
+          var L = seg.getTotalLength(), dur = 750, t0 = null;
+          var frame = function (ts) {
+            if (t0 === null) t0 = ts;
+            var k = Math.min(1, (ts - t0) / dur);
+            var ease = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+            var pt = seg.getPointAtLength(dir > 0 ? ease * L : (1 - ease) * L);
+            av.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1) + ')');
+            if (k < 1) window.requestAnimationFrame(frame); else { S.loc += dir; step(); }
+          };
+          window.requestAnimationFrame(frame);
+        };
+        step();
+      }
+
+      root.addEventListener('keydown', function (e) {
+        if (!e.target || e.target.id !== 'mj-map' || busy) return;
+        interacted = true;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); if (S.loc < LOCS.length - 1) goTo(S.loc + 1, false); }
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); if (S.loc > 0) goTo(S.loc - 1, false); }
+        else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (locState(S.loc) !== 'locked') enterScene(LOCS[S.loc].id); else renderMapPanel(); }
+      });
+
+      // ─────────────────────────────────────────────────────────────────────
+      // Scenes
+      // ─────────────────────────────────────────────────────────────────────
+      function sceneDone(id) {
+        return SCENES[id].spots.filter(function (s) { return s.required; }).every(function (s) { return isDone(id, s.id); });
+      }
+
+      function enterScene(id) {
+        view = 'scene'; sceneId = id;
+        renderScene();
+        sceneIntro();
+        announce('Inside ' + SCENES[id].title + '.');
+      }
+
+      function renderScene() {
+        var sc = SCENES[sceneId];
+        var spots = sc.spots.map(function (s) {
+          var done = isDone(sceneId, s.id);
+          return '<button type="button" class="mj-spot' + (done ? ' is-done' : '') + (s.required ? '' : ' is-extra') + '" style="left:' + (s.x / 10) + '%;top:' + (s.y / 5.6) + '%" data-a="' + act(function () { openSpot(s); }) + '" aria-label="' + s.label + (done ? ', done' : '') + '">' +
+            '<span class="mj-spot-dot">' + (done ? ICON.check : ICON[s.kind === 'talk' || s.kind === 'story' || s.kind === 'decide' ? 'talk' : s.kind === 'puzzle' ? 'puzzle' : 'look']) + '</span><span class="mj-spot-label" aria-hidden="true">' + s.label + '</span></button>';
+        }).join('');
+        stageEl.innerHTML =
+          '<div class="mj-scene"><svg class="mj-art" viewBox="0 0 1000 560" aria-hidden="true">' + sc.art() + '</svg>' + spots +
+          '<button type="button" class="mj-back" data-a="' + act(leaveScene) + '"><span aria-hidden="true">◀</span> Map</button></div>';
+      }
+
+      function leaveScene() { renderMap(); }
+
+      function exploreList() {
+        var sc = SCENES[sceneId];
+        return '<h3 class="mj-sub">Things to explore</h3><ul class="mj-todo">' + sc.spots.map(function (s) {
+          var done = isDone(sceneId, s.id);
+          return '<li><button type="button" class="mj-todo-btn' + (done ? ' is-done' : '') + '" data-a="' + act(function () { openSpot(s); }) + '">' +
+            '<span class="mj-todo-ic" aria-hidden="true">' + (done ? ICON.check : '') + '</span>' + s.label + (s.required ? '' : ' <em>(bonus)</em>') + (done ? '<span class="mj-sr"> — done</span>' : '') + '</button></li>';
+        }).join('') + '</ul>';
+      }
+
+      function sceneIntro() {
+        var sc = SCENES[sceneId];
+        var finished = !!S.badges[sceneId];
+        setPanel('<div class="mj-dlg"><p class="mj-dlg-k">' + (finished ? 'Explored · ' + LOCS[LOC_INDEX[sceneId]].badge + ' badge' : 'Mission') + '</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>' + sc.title + '</h2>' +
+          '<p class="mj-mission">' + sc.mission + '</p><p>' + sc.intro + '</p>' + exploreList() +
+          '<div class="mj-actions">' + bt('<span aria-hidden="true">◀</span> Back to the map', leaveScene, 'mj-btn-ghost') + '</div></div>', sceneIntro);
+      }
+
+      function markDone(spot) {
+        S.spots[spotKey(sceneId, spot.id)] = 1;
+        save();
+        renderScene();
+      }
+
+      function nextButtons() {
+        if (sceneDone(sceneId) && !S.badges[sceneId]) return bt('Finish this place', completeScene, 'mj-btn-primary');
+        return bt('Keep exploring', sceneIntro, 'mj-btn-primary');
+      }
+
+      function speakerHead(spot) {
+        var who = { 'Clerk': CLERK, 'Advisor': OFFICER, 'Clock keeper': KEEPER, 'Ranger Rosa': RANGER, 'Joe': JOE }[spot.speaker];
+        return who ? '<svg viewBox="-24 -90 48 96" aria-hidden="true">' + person(0, 0, 1, who) + '</svg>' : '';
+      }
+
+      function openSpot(spot) {
+        if (spot.kind === 'puzzle') return ({ sort: puzzleSort, months: puzzleMonths, bells: puzzleBells, bridge: puzzleBridge })[spot.puzzle](spot);
+        if (spot.kind === 'decide') return decide(spot);
+        if (spot.kind === 'story') return story(spot);
+        var done = isDone(sceneId, spot.id);
+        var head = '<div class="mj-dlg">' + (spot.speaker ? '<div class="mj-speaker">' + speakerHead(spot) + '<div><p class="mj-dlg-k">' + spot.speaker + '</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>' + spot.label + '</h2></div></div>' :
+          '<p class="mj-dlg-k">' + SCENES[sceneId].title + '</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>' + spot.label + '</h2>');
+        if (spot.kind === 'use' && !done) {
+          var ok = has(spot.needs);
+          setPanel(head + '<p>' + spot.text + '</p>' + (ok
+            ? '<div class="mj-actions">' + bt('Use: ' + ITEMS[spot.needs].t, function () {
+              markDone(spot);
+              var rw = grant(spot.give);
+              setPanel(head + '<p>' + spot.used + '</p>' + rw + '<div class="mj-actions">' + nextButtons() + '</div></div>', null);
+            }, 'mj-btn-primary') + bt('Not now', sceneIntro, 'mj-btn-ghost') + '</div>'
+            : '<p class="mj-status is-locked">' + ICON.lock + 'You need the ' + ITEMS[spot.needs].t + '.</p><div class="mj-actions">' + bt('Back', sceneIntro, 'mj-btn-ghost') + '</div>') + '</div>', null);
+          return;
+        }
+        if (spot.quiz && !done) {
+          return quiz(head + '<p>' + spot.text + '</p>', spot.quiz, function (first) {
+            markDone(spot);
+            return grant(spot.give, first) + (spot.give && spot.give.card ? cardHtml(spot.give.card) : '');
+          });
+        }
+        var rewards = '';
+        if (!done) { markDone(spot); rewards = grant(spot.give); }
+        setPanel(head + '<p>' + (spot.used && done && spot.kind === 'use' ? spot.used : spot.text) + '</p>' + rewards +
+          (spot.give && spot.give.card && done ? cardHtml(spot.give.card) : '') +
+          '<div class="mj-actions">' + nextButtons() + '</div></div>', null);
+      }
+
+      // Multiple-choice: wrong answers explain and let you try again; coins only on the first try.
+      function quiz(headHtml, q, onRight) {
+        var tries = 0;
+        var render = function (msg) {
+          setPanel(headHtml + '<p class="mj-q">' + q.q + '</p>' + (msg || '') +
+            '<div class="mj-opts">' + q.opts.map(function (o, oi) {
+              return '<button type="button" class="mj-opt" data-a="' + act(function () { pick(oi); }) + '"><span class="mj-opt-k" aria-hidden="true">' + String.fromCharCode(65 + oi) + '</span><span>' + o + '</span></button>';
+            }).join('') + '</div></div>', null);
+        };
+        var pick = function (oi) {
+          tries++;
+          if (oi === q.a) {
+            var extra = onRight(tries === 1);
+            setPanel(headHtml + '<p class="mj-q">' + q.q + '</p><div class="mj-fb is-right"><p class="mj-fb-h">' + ICON.check + 'Correct!</p>' + (q.why ? '<p>' + q.why + '</p>' : '') + '</div>' + extra +
+              '<div class="mj-actions">' + nextButtons() + '</div></div>', null);
+            announce('Correct!');
+          } else {
+            render('<div class="mj-fb is-wrong"><p class="mj-fb-h">' + ICON.cross + 'Not quite — try again.</p><p>“' + q.opts[oi] + '” isn’t right. Think about it and pick another answer.</p></div>');
+            announce('Not quite. Try again.');
+            var f = panelEl.querySelector('.mj-fb'); if (f) f.setAttribute('tabindex', '-1');
+          }
+        };
+        render('');
+      }
+
+      function cardHtml(id) {
+        var c = CARDS[id];
+        return '<div class="mj-card mj-card--new"><p class="mj-card-k">' + ICON.card + 'Knowledge card</p><h3>' + c.t + '</h3><p>' + c.x + '</p><a href="' + c.href + '">' + c.ht + ' <span aria-hidden="true">›</span></a></div>';
+      }
+
+      // ── Puzzle: sort services into Parts ──
+      function puzzleSort(spot) {
+        var sel = null, msg = '';
+        var render = function () {
+          var left = SORT.filter(function (t) { return !S.sorted[t.id]; });
+          var head = '<div class="mj-dlg"><p class="mj-dlg-k">Puzzle</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>Sorting crate</h2>';
+          if (!left.length) {
+            if (!isDone(sceneId, spot.id)) {
+              markDone(spot);
+              grant({ card: 'partA' }); grant({ card: 'partB' }); grant({ card: 'partD' }); grant({ card: 'notcovered', coins: 10 });
+            }
+            setPanel(head + '<div class="mj-fb is-right"><p class="mj-fb-h">' + ICON.check + 'Everything’s in the right stall!</p><p>You collected four knowledge cards: Parts A, B, and D, and what Original Medicare doesn’t cover.</p></div>' +
+              '<div class="mj-actions">' + nextButtons() + '</div></div>', null);
+            return;
+          }
+          setPanel(head + '<p>' + (sel ? 'Now choose the stall for <strong>' + sel.t + '</strong>.' : 'Choose an item from the crate, then choose the stall where it belongs.') + '</p>' + msg +
+            '<h3 class="mj-sub">In the crate (' + left.length + ' left)</h3><div class="mj-tokens">' + left.map(function (t) {
+              return '<button type="button" class="mj-token' + (sel && sel.id === t.id ? ' is-sel' : '') + '" aria-pressed="' + (sel && sel.id === t.id) + '" data-a="' + act(function () { sel = t; msg = ''; render(); }) + '">' + t.t + '</button>';
+            }).join('') + '</div>' +
+            '<h3 class="mj-sub">Stalls</h3><div class="mj-stalls">' + Object.keys(STALLS).map(function (k) {
+              var inStall = SORT.filter(function (t) { return S.sorted[t.id] === k; });
+              return '<button type="button" class="mj-stall mj-stall--' + k + '"' + (sel ? '' : ' aria-disabled="true"') + ' data-a="' + act(function () { place(k); }) + '"><strong>' + STALLS[k] + '</strong>' +
+                (inStall.length ? '<span>' + inStall.map(function (t) { return t.t; }).join(' · ') + '</span>' : '<span class="mj-muted">Empty</span>') + '</button>';
+            }).join('') + '</div>' +
+            '<div class="mj-actions">' + bt('Back', sceneIntro, 'mj-btn-ghost') + '</div></div>', null);
+        };
+        var miss = {};
+        var place = function (k) {
+          if (!sel) { msg = '<p class="mj-status">Choose an item from the crate first.</p>'; render(); return; }
+          if (sel.p === k) {
+            S.sorted[sel.id] = k;
+            if (!miss[sel.id]) { S.coins += 5; }
+            save(); renderHud();
+            msg = '<div class="mj-fb is-right"><p class="mj-fb-h">' + ICON.check + sel.t + ' → ' + STALLS[k] + '</p><p>' + STALL_WHY[k] + '</p></div>';
+            announce('Correct. ' + sel.t + ' goes to ' + STALLS[k] + '.');
+            sel = null;
+          } else {
+            miss[sel.id] = 1;
+            msg = '<div class="mj-fb is-wrong"><p class="mj-fb-h">' + ICON.cross + 'Not this stall.</p><p>' + STALL_WHY[k] + ' Try another stall for “' + sel.t + '.”</p></div>';
+            announce('Not this stall. Try another.');
+          }
+          render();
+        };
+        render();
+      }
+
+      // ── Puzzle: light up the Initial Enrollment Period on the clock ──
+      var IEP = [3, 4, 5, 6, 7, 8, 9]; // April–October for a July birthday
+      function puzzleMonths(spot) {
+        if (!S.months || S.months.length !== 12) S.months = MONTHS.map(function () { return false; });
+        var checks = 0, msg = '';
+        var paint = function () {
+          MONTHS.forEach(function (_, i) { var g = document.getElementById('mj-cm-' + i); if (g) g.classList.toggle('is-on', !!S.months[i]); });
+        };
+        var render = function () {
+          var done = isDone(sceneId, spot.id);
+          setPanel('<div class="mj-dlg"><p class="mj-dlg-k">Puzzle</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>Set the clock</h2>' +
+            '<p>Linda’s 65th birthday is <strong>July 20</strong>. Light up every month of her <strong>Initial Enrollment Period</strong> — the window when she can first sign up — then press Check.</p>' + msg +
+            '<div class="mj-months" role="group" aria-label="Months">' + MONTHS.map(function (m, i) {
+              return '<button type="button" class="mj-month' + (S.months[i] ? ' is-on' : '') + (i === 6 ? ' is-bday' : '') + '" aria-pressed="' + !!S.months[i] + '"' + (done ? ' disabled' : '') + ' data-a="' + act(function () { S.months[i] = !S.months[i]; save(); paint(); msg = ''; render(); }) + '">' + m + (i === 6 ? '<span class="mj-sr"> (birthday month)</span>' : '') + '</button>';
+            }).join('') + '</div>' +
+            '<div class="mj-actions">' + (done ? nextButtons() : bt('Check', check, 'mj-btn-primary') + bt('Clear', function () { S.months = MONTHS.map(function () { return false; }); save(); paint(); msg = ''; render(); }, 'mj-btn-ghost') + bt('Back', sceneIntro, 'mj-btn-ghost')) + '</div></div>', null);
+        };
+        var check = function () {
+          checks++;
+          var on = []; S.months.forEach(function (v, i) { if (v) on.push(i); });
+          if (on.join() === IEP.join()) {
+            markDone(spot); paint();
+            var rw = grant({ card: 'iep', coins: checks === 1 ? 15 : 0 });
+            msg = '<div class="mj-fb is-right"><p class="mj-fb-h">' + ICON.check + 'The clock chimes! April through October.</p><p>' + CARDS.iep.x + '</p></div>' + rw;
+            announce('Correct. April through October.');
+          } else {
+            var hint = on.length !== 7 ? 'The Initial Enrollment Period is 7 months long — you have ' + on.length + ' lit.' :
+              S.months[6] ? 'Seven months, including July — now check where it starts: 3 months before the birthday month.' : 'It always includes the birthday month.';
+            msg = '<div class="mj-fb is-wrong"><p class="mj-fb-h">' + ICON.cross + 'Not quite.</p><p>' + hint + '</p></div>';
+            announce('Not quite. ' + hint);
+          }
+          render();
+        };
+        render();
+      }
+
+      // ── Puzzle: ring the right enrollment bell for each person ──
+      function puzzleBells(spot) {
+        if (!S.bells || S.bells.length !== 3) S.bells = [false, false, false];
+        var idx = S.bells.indexOf(false), msg = '', tries = 0;
+        var render = function () {
+          if (idx === -1) {
+            if (!isDone(sceneId, spot.id)) { markDone(spot); }
+            var rw = grant({ card: 'windows' });
+            setPanel('<div class="mj-dlg"><p class="mj-dlg-k">Puzzle</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>All three bells rang!</h2>' + msg + rw + cardHtml('windows') + '<div class="mj-actions">' + nextButtons() + '</div></div>', null);
+            return;
+          }
+          var b = BELLS[idx];
+          setPanel('<div class="mj-dlg"><p class="mj-dlg-k">Bell ' + (idx + 1) + ' of 3</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>Ring the right bell</h2>' + msg +
+            '<p class="mj-q">' + b.q + '</p><div class="mj-opts">' + BELL_OPTS.map(function (o, oi) {
+              return '<button type="button" class="mj-opt" data-a="' + act(function () { ring(oi); }) + '"><span class="mj-opt-k" aria-hidden="true">' + String.fromCharCode(65 + oi) + '</span><span>' + o + '</span></button>';
+            }).join('') + '</div><div class="mj-actions">' + bt('Back', sceneIntro, 'mj-btn-ghost') + '</div></div>', null);
+        };
+        var ring = function (oi) {
+          tries++;
+          var b = BELLS[idx];
+          if (oi === b.a) {
+            S.bells[idx] = true;
+            if (tries === 1) S.coins += 10;
+            save(); renderHud();
+            var g = document.getElementById('mj-bell-' + idx); if (g) g.classList.add('is-rung');
+            msg = '<div class="mj-fb is-right"><p class="mj-fb-h">' + ICON.check + 'Ding! ' + BELL_OPTS[b.a] + '</p><p>' + b.why + '</p></div>';
+            announce('Correct. ' + BELL_OPTS[b.a] + '.');
+            idx = S.bells.indexOf(false); tries = 0;
+          } else {
+            msg = '<div class="mj-fb is-wrong"><p class="mj-fb-h">' + ICON.cross + 'That bell doesn’t fit.</p><p>Re-read the situation and try another bell.</p></div>';
+            announce('That bell does not fit. Try another.');
+          }
+          render();
+        };
+        render();
+      }
+
+      // ── Puzzle: build the bridge, one cost-word plank at a time ──
+      function puzzleBridge(spot) {
+        if (!S.planks || S.planks.length !== 4) S.planks = [false, false, false, false];
+        var msg = '', tries = 0;
+        var render = function () {
+          var gap = S.planks.indexOf(false);
+          var head = '<div class="mj-dlg"><p class="mj-dlg-k">Puzzle</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>Build the bridge</h2>';
+          if (gap === -1) {
+            if (!isDone(sceneId, spot.id)) markDone(spot);
+            var rw = grant({ card: 'costs' });
+            setPanel(head + msg + '<div class="mj-fb is-right"><p class="mj-fb-h">' + ICON.check + 'The bridge is complete!</p><p>All four planks are in place.</p></div>' + rw + cardHtml('costs') + '<div class="mj-actions">' + nextButtons() + '</div></div>', null);
+            return;
+          }
+          var options = PLANKS.map(function (_, i) { return i; }).filter(function (i) { return !S.planks[i]; });
+          setPanel(head + msg + '<p>Gap ' + (gap + 1) + ' of 4. The sign over this gap says:</p><blockquote class="mj-sign">' + PLANKS[gap].def + '</blockquote><p class="mj-q">Which plank fits?</p>' +
+            '<div class="mj-planks">' + options.map(function (i) {
+              return '<button type="button" class="mj-plank-btn" data-a="' + act(function () { lay(i, gap); }) + '">' + PLANKS[i].term + '</button>';
+            }).join('') + '</div><div class="mj-actions">' + bt('Back', sceneIntro, 'mj-btn-ghost') + '</div></div>', null);
+        };
+        var lay = function (i, gap) {
+          tries++;
+          if (i === gap) {
+            S.planks[gap] = true;
+            if (tries === 1) S.coins += 5;
+            save(); renderHud();
+            var el = document.getElementById('mj-plank-' + gap); if (el) el.classList.add('is-set');
+            msg = '<div class="mj-fb is-right"><p class="mj-fb-h">' + ICON.check + 'Thunk! “' + PLANKS[i].term + '” fits.</p></div>';
+            announce(PLANKS[i].term + ' fits.');
+            tries = 0;
+          } else {
+            msg = '<div class="mj-fb is-wrong"><p class="mj-fb-h">' + ICON.cross + 'The “' + PLANKS[i].term + '” plank wobbles and falls.</p><p>' + PLANKS[i].term + ' means: ' + PLANKS[i].def + ' Try another plank.</p></div>';
+            announce(PLANKS[i].term + ' does not fit. Try another plank.');
+          }
+          render();
+        };
+        render();
+      }
+
+      // ── Decisions with consequences (Ranger Rosa, Lookout) ──
+      function decide(spot) {
+        var d = DECISIONS[spot.decision], first = true;
+        var head = '<div class="mj-dlg"><div class="mj-speaker">' + speakerHead(spot) + '<div><p class="mj-dlg-k">' + spot.speaker + '</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>' + spot.label + '</h2></div></div>';
+        var ask = function () {
+          setPanel(head + '<p>' + d.setup + '</p><div class="mj-opts">' + d.opts.map(function (o, oi) {
+            return '<button type="button" class="mj-opt" data-a="' + act(function () { choose(oi); }) + '"><span class="mj-opt-k" aria-hidden="true">' + String.fromCharCode(65 + oi) + '</span><span>' + o.label + '</span></button>';
+          }).join('') + '</div><div class="mj-actions">' + bt('Back', sceneIntro, 'mj-btn-ghost') + '</div></div>', null);
+        };
+        var choose = function (oi) {
+          var o = d.opts[oi];
+          if (o.good) {
+            var already = isDone(sceneId, spot.id);
+            if (!already) markDone(spot);
+            var rw = already ? '' : grant({ card: d.card, coins: 10 }, first);
+            setPanel(head + '<div class="mj-fb is-right"><p class="mj-fb-h">' + ICON.check + 'Good call.</p><p>' + o.out + '</p></div>' + rw + cardHtml(d.card) + '<div class="mj-actions">' + nextButtons() + '</div></div>', null);
+            announce('Good call.');
+          } else {
+            first = false;
+            setPanel(head + '<div class="mj-fb is-wrong"><p class="mj-fb-h">' + ICON.cross + 'Here’s what could happen</p><p>' + o.out + '</p></div><div class="mj-actions">' + bt('Rewind and choose again', ask, 'mj-btn-primary') + '</div></div>', null);
+            announce('Here is what could happen. ' + o.out);
+          }
+        };
+        ask();
+      }
+
+      // ── Final mission: help Joe ──
+      function story(spot) {
+        var head = '<div class="mj-dlg"><div class="mj-speaker">' + speakerHead(spot) + '<div><p class="mj-dlg-k">Joe · decision ' + Math.min(S.story + 1, STORY.length) + ' of ' + STORY.length + '</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>Help Joe plan</h2></div></div>';
+        var stepFirst = true;
+        if (S.story >= STORY.length) { renderEndingPanel(); return; }
+        var st = STORY[S.story];
+        var ask = function () {
+          setPanel(head + '<div class="mj-meter" aria-label="Joe’s plan">' + STORY.map(function (_, i) { return '<span class="' + (i < S.story ? 'is-done' : i === S.story ? 'is-now' : '') + '"></span>'; }).join('') + '</div>' +
+            '<p>' + st.setup + '</p><div class="mj-opts">' + st.opts.map(function (o, oi) {
+              return '<button type="button" class="mj-opt" data-a="' + act(function () { choose(oi); }) + '"><span class="mj-opt-k" aria-hidden="true">' + String.fromCharCode(65 + oi) + '</span><span>' + o.label + '</span></button>';
+            }).join('') + '</div><div class="mj-actions">' + bt('Back', sceneIntro, 'mj-btn-ghost') + '</div></div>', null);
+        };
+        var choose = function (oi) {
+          var o = st.opts[oi];
+          if (o.good) {
+            if (stepFirst) S.coins += 10;
+            S.story++;
+            save(); renderHud();
+            var last = S.story >= STORY.length;
+            setPanel(head + '<div class="mj-fb is-right"><p class="mj-fb-h">' + ICON.check + 'Joe nods. “That makes sense.”</p><p>' + o.out + '</p></div>' +
+              '<div class="mj-actions">' + (last ? bt('Wrap up the mission', finishStory, 'mj-btn-primary') : bt('Next question from Joe', function () { story(spot); }, 'mj-btn-primary')) + '</div></div>', null);
+            announce('Good choice.');
+          } else {
+            stepFirst = false; S.storyMiss++; save();
+            setPanel(head + '<div class="mj-fb is-wrong"><p class="mj-fb-h">' + ICON.cross + 'Uh-oh — here’s what could happen</p><p>' + o.out + '</p></div><div class="mj-actions">' + bt('Rewind and choose again', ask, 'mj-btn-primary') + '</div></div>', null);
+            announce('Here is what could happen. ' + o.out);
+          }
+        };
+        var finishStory = function () {
+          markDone(spot);
+          grant({ card: 'sep', coins: 20 });
+          completeScene();
+        };
+        ask();
+      }
+
+      function confetti() {
+        var colors = ['#2563eb', '#d0343d', '#f59e0b', '#16a34a', '#38bdf8', '#a855f7'], s = '';
+        for (var k = 0; k < 22; k++) s += '<i style="--x:' + (k * 37 % 100) + '%;--d:' + (k % 7) * 0.08 + 's;--c:' + colors[k % colors.length] + ';--r:' + (k * 47 % 360) + 'deg"></i>';
+        return '<div class="mj-confetti" aria-hidden="true">' + s + '</div>';
+      }
+
+      function completeScene() {
+        var i = LOC_INDEX[sceneId], l = LOCS[i];
+        S.badges[sceneId] = 1;
+        S.coins += 20;
+        var rewardItem = { home: null, ssa: null, market: 'partsmap', clock: 'key', canyon: 'pass', town: null }[sceneId];
+        if (rewardItem && !has(rewardItem)) S.items.push(rewardItem);
+        if (sceneId === 'town') S.done = true;
+        save(); renderHud(); renderScene();
+        if (sceneId === 'town') { renderEnding(); return; }
+        var next = LOCS[i + 1];
+        setPanel('<div class="mj-dlg mj-dlg--win">' + confetti() + '<div class="mj-medal">' + ICON.star + '</div><p class="mj-dlg-k">Place complete</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>Badge earned: ' + l.badge + '!</h2>' +
+          '<p>+20 coins' + (rewardItem ? ' and a new item: <strong>' + ITEMS[rewardItem].t + '</strong> — ' + ITEMS[rewardItem].d : '') + '</p>' +
+          (next ? '<p class="mj-status">' + ICON.door + 'Next stop: <strong>' + next.name + '</strong>.</p>' : '') +
+          '<div class="mj-actions">' + bt('Back to the map', leaveScene, 'mj-btn-primary') + bt('Stay and look around', sceneIntro, 'mj-btn-ghost') + '</div></div>', null);
+        announce('Badge earned: ' + l.badge + '.');
+      }
+
+      // ── Ending ──
+      function renderEnding() {
+        if (view !== 'scene' || sceneId !== 'town') { view = 'scene'; sceneId = 'town'; renderScene(); }
+        renderEndingPanel();
+      }
+      function renderEndingPanel() {
+        var perfect = S.storyMiss === 0;
+        setPanel('<div class="mj-dlg mj-dlg--win">' + confetti() + '<div class="mj-medal mj-medal--gold">' + ICON.star + '</div><p class="mj-dlg-k">Mission complete</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>Joe is on track — and so is Linda!</h2>' +
+          '<p>' + (perfect ? 'You guided Joe without a single wrong turn.' : 'You helped Joe find the right path — rewinding when a choice could have cost him.') + '</p>' +
+          '<ul class="mj-final-stats"><li><strong>' + S.coins + '</strong><span>coins</span></li><li><strong>' + S.cards.length + ' / ' + CARD_ORDER.length + '</strong><span>knowledge cards</span></li><li><strong>' + Object.keys(S.badges).length + ' / ' + LOCS.length + '</strong><span>badges</span></li></ul>' +
+          '<p>Your journal holds everything you learned, with links to read more.</p>' +
+          '<div class="mj-actions">' + bt('Open my journal', openJournal, 'mj-btn-primary') + bt('Back to the map', leaveScene, 'mj-btn-ghost') + bt('Start a new journey', restart, 'mj-btn-link') + '</div>' +
+          '<p class="mj-note">Linda, Joe, and Ray are fictional. For your own situation, check Medicare.gov or talk with a licensed agent.</p></div>', renderEndingPanel);
+        announce('Mission complete.');
+      }
+
+      // ── Journal ──
+      function openJournal() {
+        var back = panelRender || renderMapPanel;
+        setPanel('<div class="mj-dlg"><p class="mj-dlg-k">Journal</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>Knowledge cards: ' + S.cards.length + ' of ' + CARD_ORDER.length + '</h2>' +
+          '<ul class="mj-journal">' + CARD_ORDER.map(function (id) {
+            var got = S.cards.indexOf(id) > -1, c = CARDS[id];
+            return got ? '<li class="mj-card"><p class="mj-card-k">' + ICON.card + 'Knowledge card</p><h3>' + c.t + '</h3><p>' + c.x + '</p><a href="' + c.href + '">' + c.ht + ' <span aria-hidden="true">›</span></a></li>'
+              : '<li class="mj-card is-locked"><p class="mj-card-k">' + ICON.lock + 'Not found yet</p><h3>???</h3><p>Keep exploring to find this card.</p></li>';
+          }).join('') + '</ul><div class="mj-actions">' + bt('Close the journal', function () { back(); }, 'mj-btn-primary') + '</div></div>', null);
+      }
+
+      function restart() {
+        if (!window.confirm('Start a new journey? This erases your coins, cards, badges, and items.')) return;
+        S = fresh(); save(); renderHud(); renderMap();
+        announce('New journey started.');
+      }
+
+      renderHud();
+      renderMap();
+    })();
+  </script>
+</div>
+</StandardPageLayout>
+
+<style is:global>
+  .mj-page {
+    --mj-ink: #0b2c45; --mj-soft: #334155; --mj-line: #d3e0ee;
+    --mj-blue: #1d4ed8; --mj-blue-soft: #e5edfe; --mj-coral: #d0343d; --mj-coral-dark: #a8262f;
+    --mj-green: #166534; --mj-green-soft: #dcfce7; --mj-red: #991b1b; --mj-amber: #92400e; --mj-amber-soft: #fef3c7;
+    --mj-shadow: 0 14px 34px -22px rgba(11, 44, 69, 0.55);
+    color: var(--mj-ink);
+  }
+  .mj-page *, .mj-page *::before, .mj-page *::after { box-sizing: border-box; }
+  .mj-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .mj-page a { color: var(--mj-blue); }
+  .mj-page a:focus-visible, .mj-page button:focus-visible, .mj-page summary:focus-visible, .mj-page [tabindex]:focus-visible { outline: 4px solid #f59e0b; outline-offset: 3px; }
+  .mj-page h2 { color: var(--mj-ink); }
+
+  /* Buttons */
+  .mj-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; font: inherit; font-weight: 800; font-size: 1.1rem; min-height: 56px; padding: 0.7rem 1.4rem; border-radius: 999px; cursor: pointer; border: 2px solid transparent; text-decoration: none; transition: transform 0.15s ease, background 0.15s ease; }
+  .mj-btn-primary { background: var(--mj-coral); color: #fff !important; box-shadow: 0 5px 0 var(--mj-coral-dark); }
+  .mj-btn-primary:hover { background: #bb2d36; transform: translateY(-1px); }
+  .mj-btn-primary:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--mj-coral-dark); }
+  .mj-btn-ghost { background: #fff; color: var(--mj-blue); border-color: var(--mj-line); }
+  .mj-btn-ghost:hover { border-color: var(--mj-blue); background: var(--mj-blue-soft); }
+  .mj-btn-link { background: none; color: var(--mj-blue); text-decoration: underline; min-height: 48px; padding: 0.5rem 0.75rem; }
+  .mj-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+
+  /* Hero */
+  .mj-hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; align-items: center; background: linear-gradient(180deg, #eef7ff, #fff); border: 1px solid var(--mj-line); border-radius: 26px; padding: 2rem 2.25rem; margin: 0.5rem 0 1.5rem; }
+  .mj-hero h1 { font-size: clamp(2rem, 4.2vw, 2.9rem); line-height: 1.08; font-weight: 800; margin: 0 0 0.6rem; color: var(--mj-ink); }
+  .mj-hero h1 span { display: block; }
+  .mj-hero .mj-hero__accent { color: var(--mj-coral); }
+  .mj-hero__tag { font-size: 1.2rem; font-weight: 700; margin: 0 0 0.75rem; }
+  .mj-hero .summary-block { background: none; border: 0; padding: 0; margin: 0 0 0.6rem; box-shadow: none; }
+  .mj-hero .summary-block p { margin: 0; font-size: 1.05rem; line-height: 1.6; color: var(--mj-soft); }
+  .mj-hero .byline { margin: 0 0 1rem; font-size: 0.92rem; color: #5b6b7d; }
+  .mj-hero__start { margin: 0; }
+  .mj-hero__facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .mj-hero__facts li { background: #fff; border: 1px solid var(--mj-line); border-radius: 18px; padding: 1rem; text-align: center; box-shadow: var(--mj-shadow); }
+  .mj-hero__facts strong { display: block; font-size: 2.2rem; line-height: 1; color: var(--mj-blue); }
+  .mj-hero__facts span { color: var(--mj-soft); font-weight: 700; }
+
+  /* Game shell */
+  .mj { position: relative; font-size: 1.12rem; line-height: 1.55; background: #fff; border: 2px solid var(--mj-line); border-radius: 26px; box-shadow: 0 18px 50px -26px rgba(11, 44, 69, 0.4); padding: 1rem; margin: 0 0 2rem; scroll-margin-top: 140px; }
+  .mj-noscript { font-weight: 700; padding: 1rem; }
+  .mj svg { flex: none; }
+
+  /* HUD */
+  .mj-hud { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.25rem; padding: 0.7rem 0.9rem; background: #f6faff; border: 1px solid var(--mj-line); border-radius: 18px; margin-bottom: 0.9rem; }
+  .mj-hud-k { display: block; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #5b6b7d; }
+  .mj-hud-coins { display: flex; align-items: center; gap: 0.5rem; }
+  .mj-hud-coins svg { width: 40px; height: 40px; }
+  .mj-hud-coins strong { font-size: 1.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
+  .mj-hud-cards { display: flex; align-items: center; gap: 0.5rem; font: inherit; color: var(--mj-ink); background: #fff; border: 2px solid var(--mj-line); border-radius: 14px; padding: 0.35rem 0.8rem; min-height: 52px; cursor: pointer; text-align: left; }
+  .mj-hud-cards:hover { border-color: var(--mj-blue); }
+  .mj-hud-cards svg { width: 28px; height: 28px; color: var(--mj-blue); }
+  .mj-hud-badges ul, .mj-hud-items ul { list-style: none; margin: 0.15rem 0 0; padding: 0; display: flex; gap: 5px; flex-wrap: wrap; }
+  .mj-hud-badges li { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-size: 0.85rem; font-weight: 800; color: #94a3b8; background: #fff; border: 2px dashed #cbd5e1; }
+  .mj-hud-badges li.is-got { background: #fef3c7; color: #b45309; border: 2px solid #d97706; }
+  .mj-hud-badges li svg { width: 18px; height: 18px; }
+  .mj-hud-items li { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: #fff; border: 1px solid var(--mj-line); }
+  .mj-hud-items li svg { width: 24px; height: 24px; }
+  .mj-hud-items li.mj-hud-empty { width: auto; padding: 0 0.6rem; font-size: 0.9rem; color: #64748b; border-style: dashed; }
+  .mj-toast { position: absolute; right: 12px; top: -14px; z-index: 5; max-width: 80%; background: var(--mj-ink); color: #fff; font-weight: 800; font-size: 0.95rem; padding: 0.45rem 0.9rem; border-radius: 999px; opacity: 0; transform: translateY(6px); pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; }
+  .mj-toast.is-on { opacity: 1; transform: none; }
+
+  /* Map + scenes share a 1000×560 stage */
+  .mj-map, .mj-scene { position: relative; width: 100%; aspect-ratio: 1000 / 560; border-radius: 18px; overflow: hidden; background: #e8f4fd; border: 1px solid var(--mj-line); }
+  .mj-art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .mj-map:focus-visible { outline: 4px solid #f59e0b; outline-offset: 3px; }
+  .mj-av-bob { transform-box: fill-box; }
+  .mj.is-walking .mj-av-bob { animation: mj-bob 0.32s ease-in-out infinite alternate; }
+
+  .mj-pin, .mj-spot { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: 0; padding: 0; cursor: pointer; font: inherit; z-index: 2; }
+  .mj-pin-dot, .mj-spot-dot { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 1.25rem; color: #fff; background: var(--mj-blue); border: 4px solid #fff; box-shadow: 0 6px 14px -6px rgba(11, 44, 69, 0.7); transition: transform 0.15s ease; }
+  .mj-pin-dot svg, .mj-spot-dot svg { width: 24px; height: 24px; }
+  .mj-pin:hover .mj-pin-dot, .mj-spot:hover .mj-spot-dot { transform: scale(1.08); }
+  .mj-pin:active .mj-pin-dot, .mj-spot:active .mj-spot-dot { transform: scale(0.96); }
+  .mj-pin-label, .mj-spot-label { background: rgba(11, 44, 69, 0.88); color: #fff; font-size: 0.85rem; font-weight: 800; padding: 0.15rem 0.6rem; border-radius: 999px; white-space: nowrap; }
+  .mj-pin.is-done .mj-pin-dot { background: var(--mj-green); }
+  .mj-pin.is-locked .mj-pin-dot { background: #64748b; }
+  .mj-pin.is-here .mj-pin-dot { box-shadow: 0 0 0 5px rgba(208, 52, 61, 0.35), 0 6px 14px -6px rgba(11, 44, 69, 0.7); }
+  .mj-pin.is-open:not(.is-here) .mj-pin-dot { animation: mj-glow 2.2s ease-in-out infinite; }
+  .mj-pin--extra .mj-pin-dot { width: 44px; height: 44px; background: #b45309; }
+  .mj-spot-dot { background: #f59e0b; animation: mj-glow 2.2s ease-in-out infinite; }
+  .mj-spot.is-extra .mj-spot-dot { background: #7c3aed; }
+  .mj-spot.is-done .mj-spot-dot { background: var(--mj-green); animation: none; }
+  .mj-back { position: absolute; left: 10px; top: 10px; z-index: 3; font: inherit; font-weight: 800; font-size: 1rem; min-height: 46px; padding: 0.4rem 1rem; border-radius: 999px; background: #fff; color: var(--mj-blue); border: 2px solid var(--mj-line); cursor: pointer; }
+  .mj-back:hover { border-color: var(--mj-blue); }
+
+  .mj-cm circle { fill: #fff; stroke: #d6b56f; stroke-width: 3; transition: fill 0.2s ease; }
+  .mj-cm text { fill: #92400e; }
+  .mj-cm.is-on circle { fill: #f59e0b; stroke: #92400e; }
+  .mj-cm.is-on text { fill: #fff; }
+  .mj-bell { transform-box: fill-box; transform-origin: 50% 0; }
+  .mj-bell.is-rung path:nth-child(2) { fill: #16a34a; }
+  .mj-bell.is-rung { animation: mj-ring 0.8s ease 1; }
+  .mj-plank { fill: transparent; stroke: #6b3f1f; stroke-width: 2; stroke-dasharray: 4 4; }
+  .mj-plank.is-set { fill: #b9783f; stroke-dasharray: none; animation: mj-drop 0.4s ease 1; transform-box: fill-box; }
+
+  .mj-travel { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-top: 0.75rem; }
+  .mj-travel-k { font-weight: 800; color: var(--mj-soft); margin-right: 0.25rem; }
+  .mj-chip { display: inline-flex; align-items: center; gap: 0.4rem; font: inherit; font-size: 1rem; font-weight: 700; min-height: 48px; padding: 0.35rem 0.85rem 0.35rem 0.4rem; border-radius: 999px; background: #fff; color: var(--mj-ink); border: 2px solid var(--mj-line); cursor: pointer; }
+  .mj-chip:hover { border-color: var(--mj-blue); }
+  .mj-chip-n { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; background: var(--mj-blue); }
+  .mj-chip-n svg { width: 16px; height: 16px; }
+  .mj-chip.is-done .mj-chip-n { background: var(--mj-green); }
+  .mj-chip.is-locked .mj-chip-n { background: #64748b; }
+  .mj-chip.is-here { border-color: var(--mj-coral); background: #fff5f5; }
+
+  /* Panel / dialog */
+  .mj-panel { margin-top: 1rem; scroll-margin-top: 140px; }
+  .mj-dlg { position: relative; overflow: hidden; background: #f8fbff; border: 2px solid var(--mj-line); border-radius: 20px; padding: 1.1rem 1.25rem 1.25rem; }
+  .mj-dlg--win { text-align: center; background: linear-gradient(180deg, #fffbeb, #fff); border-color: #fcd34d; }
+  .mj-dlg--win .mj-actions { justify-content: center; }
+  .mj-dlg-k { margin: 0; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: #5b6b7d; }
+  .mj-page .mj-dlg-h { margin: 0.1rem 0 0.5rem; font-size: 1.55rem; line-height: 1.25; color: var(--mj-ink); }
+  .mj-dlg-h:focus { outline: none; }
+  .mj-dlg-h:focus-visible { outline: 3px dashed var(--mj-blue); outline-offset: 4px; }
+  .mj-dlg p { margin: 0 0 0.6rem; }
+  .mj-mission { font-weight: 800; color: var(--mj-coral); }
+  .mj-speaker { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.4rem; }
+  .mj-speaker svg { width: 62px; height: 124px; flex: none; margin: -16px 0 -24px; }
+  .mj-status { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--mj-blue); }
+  .mj-status svg { width: 22px; height: 22px; flex: none; }
+  .mj-status.is-done { color: var(--mj-green); }
+  .mj-status.is-locked { color: #475569; }
+  .mj-sub { margin: 1rem 0 0.5rem; font-size: 1.05rem; color: var(--mj-ink); }
+  .mj-todo { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .mj-todo-btn { width: 100%; display: flex; align-items: center; gap: 0.6rem; font: inherit; font-weight: 700; font-size: 1.05rem; min-height: 54px; padding: 0.5rem 0.9rem; border-radius: 14px; background: #fff; color: var(--mj-ink); border: 2px solid var(--mj-line); cursor: pointer; text-align: left; }
+  .mj-todo-btn:hover { border-color: var(--mj-blue); }
+  .mj-todo-btn em { font-style: normal; color: #6b21a8; font-weight: 700; }
+  .mj-todo-ic { width: 28px; height: 28px; flex: none; border-radius: 50%; display: grid; place-items: center; border: 2px solid #f59e0b; color: #fff; }
+  .mj-todo-btn.is-done .mj-todo-ic { background: var(--mj-green); border-color: var(--mj-green); }
+  .mj-todo-ic svg { width: 16px; height: 16px; }
+
+  .mj-q { font-size: 1.25rem; font-weight: 800; line-height: 1.35; margin: 0.4rem 0 0.75rem !important; }
+  .mj-opts { display: grid; gap: 0.6rem; }
+  .mj-opt { display: flex; align-items: center; gap: 0.8rem; width: 100%; min-height: 60px; text-align: left; font: inherit; font-weight: 600; color: var(--mj-ink); background: #fff; border: 2px solid var(--mj-line); border-radius: 16px; padding: 0.7rem 1rem; cursor: pointer; }
+  .mj-opt:hover { border-color: var(--mj-blue); background: var(--mj-blue-soft); }
+  .mj-opt-k { flex: none; width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; font-weight: 800; background: var(--mj-blue-soft); color: var(--mj-blue); }
+  .mj-fb { border-radius: 16px; padding: 0.8rem 1rem; border: 2px solid; margin: 0.4rem 0 0.8rem; animation: mj-in 0.3s ease both; }
+  .mj-fb p { margin: 0 0 0.3rem; }
+  .mj-fb-h { display: flex; align-items: center; gap: 0.45rem; font-weight: 800; font-size: 1.12rem; }
+  .mj-fb-h svg { width: 20px; height: 20px; flex: none; }
+  .mj-fb.is-right { background: var(--mj-green-soft); border-color: var(--mj-green); }
+  .mj-fb.is-right .mj-fb-h { color: var(--mj-green); }
+  .mj-fb.is-wrong { background: #fff7ed; border-color: #c2410c; }
+  .mj-fb.is-wrong .mj-fb-h { color: #9a3412; }
+  .mj-rewards { list-style: none; margin: 0.3rem 0 0.6rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: inherit; }
+  .mj-rewards li { background: #fef3c7; color: #92400e; font-weight: 800; border-radius: 999px; padding: 0.25rem 0.75rem; font-size: 0.98rem; }
+
+  .mj-card { list-style: none; background: #fff; border: 2px solid #c7d2fe; border-radius: 16px; padding: 0.9rem 1rem; text-align: left; box-shadow: var(--mj-shadow); }
+  .mj-card--new { border-color: #f59e0b; margin: 0.4rem 0 0.4rem; animation: mj-pop 0.4s ease; }
+  .mj-card-k { display: flex; align-items: center; gap: 0.35rem; margin: 0 0 0.2rem !important; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mj-blue); }
+  .mj-card-k svg { width: 18px; height: 18px; }
+  .mj-page .mj-card h3 { margin: 0 0 0.3rem; font-size: 1.15rem; color: var(--mj-ink); }
+  .mj-card p { font-size: 1rem; color: var(--mj-soft); margin: 0 0 0.4rem; }
+  .mj-card a { font-weight: 800; }
+  .mj-card.is-locked { background: #f8fafc; border-style: dashed; border-color: #cbd5e1; box-shadow: none; }
+  .mj-card.is-locked .mj-card-k { color: #64748b; }
+  .mj-journal { list-style: none; margin: 0.5rem 0 0; padding: 0; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+
+  /* Puzzles */
+  .mj-tokens { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .mj-token { font: inherit; font-weight: 700; font-size: 1rem; min-height: 52px; padding: 0.45rem 0.9rem; border-radius: 12px; background: #fff; color: var(--mj-ink); border: 2px solid #f59e0b; cursor: pointer; text-align: left; box-shadow: 0 3px 0 #d97706; }
+  .mj-token.is-sel { background: #fef3c7; border-color: #b45309; box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.35); }
+  .mj-stalls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.6rem; }
+  .mj-stall { display: flex; flex-direction: column; gap: 0.25rem; text-align: left; font: inherit; min-height: 86px; padding: 0.7rem 0.9rem; border-radius: 16px; background: #fff; border: 3px solid; cursor: pointer; color: var(--mj-ink); }
+  .mj-stall span { font-size: 0.95rem; color: var(--mj-soft); }
+  .mj-stall .mj-muted { color: #94a3b8; }
+  .mj-stall[aria-disabled="true"] { opacity: 0.7; cursor: default; }
+  .mj-stall--A { border-color: #ef4444; } .mj-stall--A strong { color: #b91c1c; }
+  .mj-stall--B { border-color: #2563eb; } .mj-stall--B strong { color: #1d4ed8; }
+  .mj-stall--D { border-color: #16a34a; } .mj-stall--D strong { color: #166534; }
+  .mj-stall--X { border-color: #64748b; } .mj-stall--X strong { color: #334155; }
+  .mj-months { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.45rem; margin: 0.5rem 0; }
+  .mj-month { font: inherit; font-weight: 800; min-height: 54px; border-radius: 12px; background: #fff; color: #92400e; border: 2px solid #e5c98a; cursor: pointer; }
+  .mj-month.is-bday { border-style: dashed; border-color: var(--mj-coral); }
+  .mj-month.is-on { background: #f59e0b; color: #fff; border-color: #92400e; }
+  .mj-month[disabled] { cursor: default; }
+  .mj-sign { margin: 0.4rem 0 0.6rem; padding: 0.8rem 1rem; background: #b9783f; color: #fff8e6; border: 3px solid #6b3f1f; border-radius: 12px; font-weight: 700; font-size: 1.08rem; }
+  .mj-planks { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .mj-plank-btn { font: inherit; font-weight: 800; font-size: 1.1rem; min-height: 56px; padding: 0.5rem 1.4rem; border-radius: 8px; color: #fff8e6; background: repeating-linear-gradient(90deg, #b9783f 0 22px, #a86b36 22px 24px); border: 3px solid #6b3f1f; cursor: pointer; box-shadow: 0 4px 0 #6b3f1f; }
+  .mj-plank-btn:hover { transform: translateY(-1px); }
+  .mj-meter { display: flex; gap: 6px; margin: 0.2rem 0 0.8rem; }
+  .mj-meter span { flex: 1; height: 10px; border-radius: 6px; background: #e2e8f0; }
+  .mj-meter .is-done { background: var(--mj-green); }
+  .mj-meter .is-now { background: #f59e0b; }
+
+  .mj-medal { width: 96px; height: 96px; margin: 0.25rem auto 0.6rem; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 35% 30%, #fff, #fde68a 70%); color: #d97706; border: 5px solid #f59e0b; animation: mj-medal 0.6s cubic-bezier(.2, 1.4, .4, 1) both; }
+  .mj-medal svg { width: 52px; height: 52px; }
+  .mj-final-stats { list-style: none; margin: 0.6rem 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.75rem; }
+  .mj-final-stats li { background: #fff; border: 2px solid var(--mj-line); border-radius: 16px; padding: 0.6rem 1rem; min-width: 120px; }
+  .mj-final-stats strong { display: block; font-size: 1.6rem; color: var(--mj-blue); }
+  .mj-note { font-size: 0.98rem; color: var(--mj-soft); margin-top: 0.8rem !important; }
+  .mj-confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .mj-confetti i { position: absolute; top: -16px; left: var(--x); width: 10px; height: 16px; border-radius: 3px; background: var(--c); opacity: 0; animation: mj-fall 2.2s ease-in var(--d) forwards; }
+
+  /* Sections below the game */
+  .mj-sec { margin: 0 0 2rem; }
+  .mj-page .mj-sec h2, .mj-faq h2, .mj-tools h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin: 0 0 0.8rem; }
+  .mj-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+  .mj-steps li { display: flex; gap: 0.9rem; align-items: flex-start; }
+  .mj-steps li > span { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; background: var(--mj-blue); box-shadow: 0 0 0 4px var(--mj-blue-soft); }
+  .mj-steps p { margin: 0.35rem 0 0; font-size: 1.08rem; color: var(--mj-soft); }
+  .mj-steps strong { color: var(--mj-ink); }
+  .mj-places { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.8rem; }
+  .mj-places li { display: flex; gap: 0.8rem; background: #fff; border: 1px solid var(--mj-line); border-radius: 18px; padding: 1rem; box-shadow: var(--mj-shadow); }
+  .mj-places__n { flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; background: var(--mj-coral); }
+  .mj-places strong { font-size: 1.1rem; }
+  .mj-places p { margin: 0.2rem 0 0; color: var(--mj-soft); font-size: 1rem; }
+  .mj-two { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 0 0 2rem; align-items: start; }
+  .mj-faq__item { background: #fff; border: 1px solid var(--mj-line); border-radius: 14px; margin-bottom: 0.6rem; }
+  .mj-faq__item summary { display: flex; align-items: center; gap: 0.75rem; list-style: none; cursor: pointer; padding: 0.85rem 1rem; min-height: 56px; font-weight: 800; font-size: 1.05rem; }
+  .mj-faq__item summary::-webkit-details-marker { display: none; }
+  .mj-faq__plus { margin-left: auto; width: 30px; height: 30px; flex: none; border-radius: 50%; display: grid; place-items: center; color: var(--mj-coral); background: #fff1f1; font-weight: 800; transition: transform 0.2s ease; }
+  .mj-faq__item[open] .mj-faq__plus { transform: rotate(45deg); }
+  .mj-faq__a { padding: 0 1rem 1rem; color: var(--mj-soft); }
+  .mj-page .mj-tools { margin: 0; }
+  .mj-page .mj-tools ul { grid-template-columns: 1fr; }
+  .mj-page .mj-tools li { padding: 0; border: 0; background: none; box-shadow: none; }
+  .mj-page .mj-tools li::before { content: none; }
+  .mj-page .mj-tools li:hover { transform: none; box-shadow: none; }
+  .mj-page .mj-tools li a, .mj-page .mj-tools li:hover a { display: flex; flex-direction: column; gap: 0.1rem; padding: 0.9rem 1rem; background: #fff; border: 1px solid var(--mj-line); border-radius: 14px; color: var(--mj-ink) !important; box-shadow: var(--mj-shadow); }
+  .mj-page .mj-tools li a:hover { border-color: var(--mj-blue); }
+  .mj-tools strong { font-size: 1.05rem; color: var(--mj-blue); }
+  .mj-tools span { font-weight: 400; color: var(--mj-soft); font-size: 0.98rem; }
+  .mj-page .sources { background: #fff; border: 1px solid var(--mj-line); border-radius: 18px; padding: 1.1rem 1.35rem; margin: 0 0 2rem; box-shadow: var(--mj-shadow); }
+  .mj-page .sources li { margin: 0.3rem 0; color: var(--mj-soft); }
+  .mj-cta { display: flex; align-items: center; gap: 1.5rem; background: linear-gradient(135deg, #0b2c45, #12406a); color: #fff; border-radius: 24px; padding: 1.5rem 1.75rem; margin: 0 0 1.5rem; }
+  .mj-cta__photo { flex: none; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; background: #fff; }
+  .mj-cta .page-cta { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; margin: 0; padding: 0; background: none; border: 0; }
+  .mj-cta .page-cta h2 { flex: 1 1 100%; margin: 0; color: #fff; font-size: 1.6rem; }
+  .mj-cta .page-cta > p:not(.page-cta-actions) { flex: 1 1 280px; margin: 0; color: #dbeafe; }
+  .mj-cta .page-cta-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0; }
+  .mj-cta .page-cta-actions .button { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0.7rem 1.4rem; border-radius: 12px; font-weight: 800; text-decoration: none; }
+  .mj-cta .page-cta-actions .button:first-child { background: var(--mj-coral); color: #fff; border: 2px solid var(--mj-coral); }
+  .mj-cta .page-cta-actions .button + .button { background: transparent; color: #fff; border: 2px solid #fff; }
+
+  @media (max-width: 900px) {
+    .mj-hero { grid-template-columns: 1fr; padding: 1.5rem; }
+    .mj-two { grid-template-columns: 1fr; }
+    .mj-cta { flex-direction: column; text-align: center; }
+    .mj-cta .page-cta, .mj-cta .page-cta-actions { justify-content: center; }
+  }
+  @media (max-width: 700px) {
+    .mj-pin-label, .mj-spot-label { display: none; }
+    .mj-pin-dot, .mj-spot-dot { width: 44px; height: 44px; border-width: 3px; font-size: 1.05rem; }
+    .mj-pin--extra .mj-pin-dot { width: 40px; height: 40px; }
+    .mj-pin-dot svg, .mj-spot-dot svg { width: 20px; height: 20px; }
+  }
+  @media (max-width: 520px) {
+    .mj { padding: 0.6rem; border-radius: 18px; }
+    .mj-hero { padding: 1.1rem; }
+    .mj-hud { gap: 0.5rem 0.9rem; }
+    .mj-dlg { padding: 0.9rem 0.9rem 1rem; }
+    .mj-page .mj-dlg-h { font-size: 1.35rem; }
+    .mj-btn { width: 100%; }
+    .mj-months { grid-template-columns: repeat(4, 1fr); }
+    .mj-back { min-height: 44px; font-size: 0.95rem; padding: 0.3rem 0.8rem; }
+    .mj-cta .page-cta-actions .button { width: 100%; }
+  }
+
+  @keyframes mj-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @keyframes mj-pop { 0% { transform: scale(0.96); } 60% { transform: scale(1.03); } 100% { transform: scale(1); } }
+  @keyframes mj-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.55), 0 6px 14px -6px rgba(11, 44, 69, 0.7); } 50% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0), 0 6px 14px -6px rgba(11, 44, 69, 0.7); } }
+  @keyframes mj-bob { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+  @keyframes mj-ring { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(12deg); } 50% { transform: rotate(-10deg); } 75% { transform: rotate(6deg); } }
+  @keyframes mj-drop { from { transform: translateY(-30px); opacity: 0; } to { transform: none; opacity: 1; } }
+  @keyframes mj-medal { from { opacity: 0; transform: scale(0.4) rotate(-20deg); } to { opacity: 1; transform: none; } }
+  @keyframes mj-fall { 0% { opacity: 1; transform: translateY(0) rotate(var(--r)); } 100% { opacity: 0; transform: translateY(380px) rotate(calc(var(--r) + 540deg)); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mj-page *, .mj-page *::before, .mj-page *::after { animation: none !important; transition: none !important; }
+    .mj-confetti { display: none; }
+  }
+</style>
