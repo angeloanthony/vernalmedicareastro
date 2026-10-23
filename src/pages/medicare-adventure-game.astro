@@ -582,6 +582,28 @@ const PLUS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
 
       var MAX = STAGES.reduce(function (s, st) { return s + st.questions.length * PTS; }, 0);
 
+      // ── Analytics: GA4 custom events through the site's existing GA tag ──
+      // BaseLayout's gtag() lives inside a define:vars wrapper, so it isn't a
+      // global; events go onto window.dataLayer exactly as gtag() would push
+      // them (an `arguments` object), and gtag.js picks them up. Product
+      // measurement only — no personal data, no new identifiers, no extra tag
+      // or page view. Events fire on the real action, never on render or
+      // reload; `once` keys stop double-fires within a page view. If analytics
+      // is blocked or missing, this is a silent no-op.
+      var GAME = 'medicare_adventure';
+      var sentOnce = {};
+      function track(name, params, once) {
+        if (once) { if (sentOnce[once]) return; sentOnce[once] = 1; }
+        try {
+          var dl = window.dataLayer;
+          if (!dl || typeof dl.push !== 'function') return;
+          var p = { game_name: GAME };
+          for (var k in params) p[k] = params[k];
+          (function () { dl.push(arguments); })('event', name, p);
+        } catch (e) { /* analytics unavailable — keep playing */ }
+      }
+
+
       // ── State. Saved only at stage completion, only on this device. ──
       function fresh() { return { done: {}, results: {} }; }
       function load() {
@@ -743,10 +765,13 @@ const PLUS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
       function finishStage() {
         var s = STAGES[run.stage];
         if (paused && paused.stage === run.stage) paused = null;
+        var wasDone = !!state.done[s.id], allBefore = doneCount() === STAGES.length;
         state.results[s.id] = run.picks.map(function (p) { return { o: p.o, c: p.c }; });
         state.done[s.id] = true;
         save();
         var i = run.stage, got = correctIn(s.id), n = s.questions.length, perfect = got === n;
+        track('game_stage_completed', { stage_id: s.id, stage_name: s.title, stage_number: i + 1, correct: got, questions: n, is_replay: wasDone ? 1 : 0 });
+        if (!allBefore && doneCount() === STAGES.length) track('game_completed', { score: totalScore(), max_score: MAX }, 'completed');
         run = null;
         var nextBtn = i < STAGES.length - 1 ? btn('open', 'Continue to Stage ' + (i + 2), 'mag-btn-primary', ' data-i="' + (i + 1) + '"') : btn('final', 'See my final score', 'mag-btn-primary');
         show('<div class="mag-view mag-done">' + confetti() + '<div class="mag-medal mag-tone-' + s.tone + '">' + ILLUS[s.id] + (perfect ? '<span class="mag-medal-star">' + ICONS.star + '</span>' : '') + '</div>' +
@@ -811,6 +836,7 @@ const PLUS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
         var t = e.target.closest('[data-act]');
         if (!t || !screen.contains(t)) return;
         interacted = true;
+        track('game_started', { resumed: doneCount() > 0 || paused ? 1 : 0 }, 'started');
         var act = t.getAttribute('data-act');
         var i = parseInt(t.getAttribute('data-i') || '0', 10);
         if (act === 'open') {

@@ -582,6 +582,32 @@ const TOOLS = [
       // ─────────────────────────────────────────────────────────────────────
       // State
       // ─────────────────────────────────────────────────────────────────────
+      // ── Analytics: GA4 custom events through the site's existing GA tag ──
+      // BaseLayout's gtag() lives inside a define:vars wrapper, so it isn't a
+      // global; events go onto window.dataLayer exactly as gtag() would push
+      // them (an `arguments` object), and gtag.js picks them up. Product
+      // measurement only — no personal data, no new identifiers, no extra tag
+      // or page view. Events fire on the real action, never on render or
+      // reload; `once` keys stop double-fires within a page view. If analytics
+      // is blocked or missing, this is a silent no-op.
+      var GAME = 'medicare_journey';
+      var sentOnce = {};
+      function track(name, params, once) {
+        if (once) { if (sentOnce[once]) return; sentOnce[once] = 1; }
+        try {
+          var dl = window.dataLayer;
+          if (!dl || typeof dl.push !== 'function') return;
+          var p = { game_name: GAME };
+          for (var k in params) p[k] = params[k];
+          (function () { dl.push(arguments); })('event', name, p);
+        } catch (e) { /* analytics unavailable — keep playing */ }
+      }
+
+      function startPlaying() {
+        track('game_started', { resumed: S.cards.length || Object.keys(S.badges).length ? 1 : 0 }, 'started');
+      }
+      function stageName(id) { return LOCS[LOC_INDEX[id]].name.replace(/’/g, "'"); }
+
       function fresh() {
         return { loc: 0, coins: 0, cards: [], items: [], badges: {}, spots: {}, firstTry: {}, sorted: {}, months: [], bells: [], planks: [], story: 0, storyMiss: 0, done: false };
       }
@@ -612,6 +638,7 @@ const TOOLS = [
         var el = e.target.closest('[data-a]');
         if (!el || !root.contains(el) || busy) return;
         interacted = true;
+        startPlaying();
         var fn = ACTS[+el.getAttribute('data-a')];
         if (fn) fn(el);
       });
@@ -804,6 +831,8 @@ const TOOLS = [
       root.addEventListener('keydown', function (e) {
         if (!e.target || e.target.id !== 'mj-map' || busy) return;
         interacted = true;
+        var playKey = ['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', 'Enter', ' '].indexOf(e.key) > -1;
+        if (playKey) startPlaying();
         if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); if (S.loc < LOCS.length - 1) goTo(S.loc + 1, false); }
         else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); if (S.loc > 0) goTo(S.loc - 1, false); }
         else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (locState(S.loc) !== 'locked') enterScene(LOCS[S.loc].id); else renderMapPanel(); }
@@ -1158,8 +1187,11 @@ const TOOLS = [
 
       function completeScene() {
         var i = LOC_INDEX[sceneId], l = LOCS[i];
+        if (S.badges[sceneId]) return; // already finished — never re-award or re-report
         S.badges[sceneId] = 1;
+        track('game_stage_completed', { stage_id: sceneId, stage_name: stageName(sceneId), stage_number: i + 1 }, 'stage:' + sceneId);
         S.coins += 20;
+        if (sceneId === 'town') track('game_completed', { cards_collected: S.cards.length, coins: S.coins }, 'completed');
         var rewardItem = { home: null, ssa: null, market: 'partsmap', clock: 'key', canyon: 'pass', town: null }[sceneId];
         if (rewardItem && !has(rewardItem)) S.items.push(rewardItem);
         if (sceneId === 'town') S.done = true;
@@ -1192,6 +1224,7 @@ const TOOLS = [
       // ── Journal ──
       function openJournal() {
         var back = panelRender || renderMapPanel;
+        track('game_journal_opened', { cards_collected: S.cards.length });
         setPanel('<div class="mj-dlg"><p class="mj-dlg-k">Journal</p><h2 class="mj-dlg-h" tabindex="-1" data-focus>Knowledge cards: ' + S.cards.length + ' of ' + CARD_ORDER.length + '</h2>' +
           '<ul class="mj-journal">' + CARD_ORDER.map(function (id) {
             var got = S.cards.indexOf(id) > -1, c = CARDS[id];
