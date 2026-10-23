@@ -1,0 +1,387 @@
+---
+// src/pages/games.astro — the Vernal Medicare game library (/games).
+//
+// A browsable, dark-themed portal in the spirit of a casual-games homepage —
+// featured games up top, then category rows — rendered entirely from the
+// typed catalog in data/games.ts. Every Play link is a published game; an
+// unpublished game renders a labelled "Coming soon" card with no link, and
+// tests/games-catalog.test.ts enforces both. Categories without a game do not
+// render; planned ones are listed honestly as upcoming, with no fake cards.
+//
+// Built on StandardPageLayout with bareHeader + bareFooter; the page's own
+// hero/FAQ/learning links/sources/CTA reuse SummaryBlock / AuthorByline /
+// SourcesList / PageCTA so every editorial marker the gate scores is real.
+// No client script: the portal is links and HTML. Analytics stay exactly as
+// the games already implement them (a card click that becomes a play is
+// measured by that game's own game_started event).
+import StandardPageLayout from '../components/layout/StandardPageLayout.astro';
+import SummaryBlock from '../components/SummaryBlock.astro';
+import AuthorByline from '../components/content/AuthorByline.astro';
+import SourcesList from '../components/content/SourcesList.astro';
+import PageCTA from '../components/content/PageCTA.astro';
+import GameCard from '../components/games/GameCard.astro';
+import { BUSINESS } from '../data/business';
+import { GAME_CATEGORIES, GAMES, featuredGames, categoriesWithGames, publishedGames } from '../data/games';
+import type { PageContext } from '../types/Page';
+
+const featured = featuredGames();
+const categories = categoriesWithGames();
+const playableCount = publishedGames().length;
+const upcoming = GAME_CATEGORIES.filter((c) => !GAMES.some((g) => g.category === c.key));
+
+const context: PageContext = {
+  page: {
+    title: 'Games for Seniors: Puzzles, Brain Games & Medicare Adventures | Vernal Medicare',
+    heading: 'Games for Your Mind and Your Free Time',
+    description:
+      'Free browser games at Vernal Medicare: interactive Medicare adventures you can play today, with puzzles, word games, and classic games on the way. Untimed, no signup, built for comfortable play.',
+    taxonomy: { silo: 'tools', tags: ['tools', 'game', 'games-hub', 'medicare-101', 'calculators'], pillar: true },
+    summary:
+      'The Vernal Medicare game library is a growing collection of free browser games built for older adults: large text, big buttons, no timers, and no account required. Today it holds our interactive Medicare adventures — a five-stage quiz game and an explorable valley — with puzzles, word games, and classic games planned next. Every game runs in your browser on a phone, tablet, or computer, and the Medicare games teach general concepts, not advice about your own coverage.',
+    faqs: [
+      {
+        question: 'Are the games free?',
+        answer: 'Yes. Every game is free to play, with no account, no download, and no ads. Your progress is saved only on your own device.',
+      },
+      {
+        question: 'Are the games timed?',
+        answer: 'No. None of our games has a time limit or a countdown. Play at your own pace, leave, and come back whenever you like.',
+      },
+      {
+        question: 'Do the Medicare games give me advice about my own coverage?',
+        answer:
+          'No. They teach general Medicare concepts using fictional characters and simplified situations. For your own choices, check Medicare.gov or talk with a licensed agent.',
+      },
+      {
+        question: 'Will there be more games?',
+        answer:
+          'Yes — the library is designed to grow. Puzzles, word games, and classic games are planned next. We don’t promise release dates, and a game only appears here once it is finished and tested.',
+      },
+      {
+        question: 'Will the games work on my phone?',
+        answer: 'Yes. Every game is built for phones, tablets, and computers, works with a keyboard, and respects your device’s reduced-motion setting.',
+      },
+    ],
+    sources: [
+      { title: 'Get started with Medicare', url: 'https://www.medicare.gov/basics/get-started-with-medicare', publisher: 'Medicare.gov' },
+      { title: 'When can I sign up for Medicare?', url: 'https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-can-i-sign-up-for-medicare', publisher: 'Medicare.gov' },
+      { title: 'Joining a health or drug plan', url: 'https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/joining-a-plan', publisher: 'Medicare.gov' },
+      { title: 'Medicare costs', url: 'https://www.medicare.gov/basics/costs/medicare-costs', publisher: 'Medicare.gov' },
+      { title: 'Avoid late enrollment penalties', url: 'https://www.medicare.gov/basics/costs/medicare-costs/avoid-penalties', publisher: 'Medicare.gov' },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/games.html',
+    ogType: 'website',
+    ogTitle: 'Vernal Medicare Games — Puzzles, Brain Games & Medicare Adventures',
+    ogDescription: 'Free, untimed browser games built for older adults — play our Medicare adventures today, with puzzles and classic games on the way.',
+  },
+  author: 'rocco',
+  datePublished: '2026-10-23',
+  lastUpdated: '2026-10-23',
+  medicalDisclaimer:
+    'The games in this library are for entertainment and general education. They are not medical or insurance advice, and playing them does not determine your Medicare eligibility, enrollment rights, or costs. Medicare games use fictional characters. Confirm your own options with Medicare.gov, Social Security, or a licensed agent.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Games', href: '/games.html' },
+  ],
+};
+const { page } = context;
+
+const LEARN = [
+  { href: '/medicare-calculators.html', title: 'Free Medicare Calculators', desc: 'Estimate costs, penalties, and important dates.' },
+  { href: '/medicare-quiz.html', title: 'Medicare Plan Quiz', desc: 'Seven questions to see which type of coverage may fit you.' },
+  { href: '/medicare-help-center.html', title: 'Medicare Help Center', desc: 'Guides, answers, and where to start.' },
+  { href: '/turning-65.html', title: 'Turning 65', desc: 'A step-by-step Medicare checklist.' },
+  { href: '/medicare-enrollment-periods.html', title: 'Enrollment Periods', desc: 'When you can sign up or make changes.' },
+  { href: '/medicare-costs.html', title: 'Medicare Costs', desc: 'Premiums, deductibles, copays, and coinsurance.' },
+  { href: '/medicare-glossary.html', title: 'Medicare Glossary', desc: 'Plain-English definitions of the terms you’ll meet in the games.' },
+];
+
+const COMFORT = [
+  { t: 'No timers', d: 'Nothing counts down. Take as long as you like.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/><path d="M4 4l16 16"/></svg>' },
+  { t: 'No signup', d: 'Play right away. Progress stays on your device.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg>' },
+  { t: 'Easy to read', d: 'Large text, big buttons, and strong contrast.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>' },
+  { t: 'Any device', d: 'Phone, tablet, or computer — mouse, touch, or keyboard.', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>' },
+];
+---
+
+<StandardPageLayout context={context} bareHeader bareFooter>
+<div class="gp-page">
+
+  <div class="gp">
+    {/* ─── Hero ────────────────────────────────────────────────────────── */}
+    <section class="gp-hero">
+      <div class="gp-hero__copy">
+        <p class="gp-eyebrow">Vernal Medicare Games</p>
+        <h1>{page.heading}</h1>
+        <p class="gp-hero__tag">Enjoy puzzles, brain challenges, and interactive Medicare adventures. Choose a game, play at your own pace, and come back whenever you like.</p>
+        <SummaryBlock text={page.summary} />
+        <AuthorByline authorId={context.author} updated={context.lastUpdated} />
+        <p class="gp-hero__cta"><a class="gp-btn" href="#gp-featured">See the games <span aria-hidden="true">↓</span></a></p>
+      </div>
+      <svg class="gp-hero__art" viewBox="0 0 420 320" role="img" aria-labelledby="gp-art-t">
+        <title id="gp-art-t">Puzzle pieces, playing cards, a crossword grid, and a compass on a table</title>
+        <defs>
+          <linearGradient id="gpGlow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1d4ed8" /><stop offset="1" stop-color="#0f766e" /></linearGradient>
+        </defs>
+        <circle cx="210" cy="160" r="150" fill="url(#gpGlow)" opacity=".35" />
+        <g transform="translate(58 92) rotate(-12)">
+          <path d="M0 0h50a12 12 0 1 1 24 0h50v50a12 12 0 1 0 0 24v50H74a12 12 0 1 1-24 0H0V74a12 12 0 1 0 0-24z" fill="#38bdf8" />
+          <path d="M18 18h30v30H18z" fill="#0b2c45" opacity=".25" />
+        </g>
+        <g transform="translate(236 70) rotate(8)">
+          <rect width="76" height="104" rx="9" fill="#fff" stroke="#cbd5e1" stroke-width="2" />
+          <text x="10" y="26" font-family="Georgia, serif" font-size="20" font-weight="700" fill="#d0343d">A</text>
+          <path d="M38 40c-8-12-24 0-12 14l12 12 12-12c12-14-4-26-12-14z" fill="#d0343d" />
+          <text x="66" y="98" font-family="Georgia, serif" font-size="20" font-weight="700" fill="#d0343d" transform="rotate(180 66 92)">A</text>
+        </g>
+        <g transform="translate(268 60) rotate(22)">
+          <rect width="76" height="104" rx="9" fill="#fff" stroke="#cbd5e1" stroke-width="2" />
+          <text x="10" y="26" font-family="Georgia, serif" font-size="20" font-weight="700" fill="#0b2c45">K</text>
+          <path d="M38 36l6 14 15 2-11 10 3 15-13-7-13 7 3-15-11-10 15-2z" fill="#0b2c45" />
+        </g>
+        <g transform="translate(150 196)">
+          {[0, 1, 2, 3, 4].map((r) => [0, 1, 2, 3, 4].map((c) => (
+            <rect x={c * 22} y={r * 22} width="20" height="20" rx="3" fill={(r + c) % 3 === 0 ? '#0b2c45' : '#fff'} opacity={(r + c) % 3 === 0 ? 0.9 : 0.95} />
+          )))}
+          <g font-family="Arial, sans-serif" font-size="13" font-weight="800" fill="#0b2c45" text-anchor="middle">
+            <text x="33" y="15">P</text><text x="55" y="15">L</text><text x="77" y="15">A</text><text x="99" y="15">Y</text>
+            <text x="33" y="59">A</text><text x="77" y="59">T</text>
+          </g>
+        </g>
+        <g transform="translate(78 236)">
+          <circle r="36" fill="#fff" stroke="#f59e0b" stroke-width="5" />
+          <path d="M0 -24L7 0 0 24 -7 0Z" fill="#0b2c45" /><path d="M0 -24L7 0 -7 0Z" fill="#d0343d" />
+          <circle r="4" fill="#f59e0b" />
+        </g>
+      </svg>
+    </section>
+
+    {/* ─── Featured ────────────────────────────────────────────────────── */}
+    <section class="gp-sec" id="gp-featured" aria-labelledby="gp-featured-h">
+      <div class="gp-sec__head">
+        <h2 id="gp-featured-h">Featured games</h2>
+        <p>{playableCount} {playableCount === 1 ? 'game' : 'games'} ready to play today.</p>
+      </div>
+      <div class="gp-grid gp-grid--featured">
+        {featured.map((g) => <GameCard game={g} size="featured" />)}
+      </div>
+    </section>
+
+    {/* ─── Browse by category (only categories that have a game) ──────── */}
+    <section class="gp-sec" aria-labelledby="gp-browse-h">
+      <div class="gp-sec__head">
+        <h2 id="gp-browse-h">Explore our games</h2>
+        <p>Browse by category. A category appears once it has a game.</p>
+      </div>
+      {categories.map(({ category, games }) => (
+        <section class="gp-cat" aria-labelledby={`gp-cat-${category.key}`}>
+          <div class="gp-cat__head">
+            <h3 id={`gp-cat-${category.key}`}>{category.label}</h3>
+            <p>{category.blurb}</p>
+          </div>
+          <div class="gp-grid">
+            {games.map((g) => <GameCard game={g} size="compact" />)}
+          </div>
+        </section>
+      ))}
+    </section>
+
+    {/* ─── Upcoming (labelled; no fake cards) ──────────────────────────── */}
+    {upcoming.length > 0 && (
+      <section class="gp-sec gp-upcoming" aria-labelledby="gp-upcoming-h">
+        <div class="gp-sec__head">
+          <h2 id="gp-upcoming-h">On the way</h2>
+          <p>Categories we are building next. No release dates yet — a game is listed above only once it is finished and tested.</p>
+        </div>
+        <ul class="gp-upcoming__list">
+          {upcoming.map((c) => <li><strong>{c.label}</strong><span>{c.blurb}</span></li>)}
+        </ul>
+      </section>
+    )}
+
+    {/* ─── Comfortable play ────────────────────────────────────────────── */}
+    <section class="gp-sec" aria-labelledby="gp-comfort-h">
+      <div class="gp-sec__head"><h2 id="gp-comfort-h">Designed for comfortable play</h2></div>
+      <ul class="gp-comfort">
+        {COMFORT.map((c) => (
+          <li><span class="gp-comfort__icon" aria-hidden="true" set:html={c.icon} /><div><strong>{c.t}</strong><p>{c.d}</p></div></li>
+        ))}
+      </ul>
+    </section>
+  </div>
+
+  {/* ─── Keep learning ───────────────────────────────────────────────── */}
+  <nav class="related gp-learn" aria-labelledby="gp-learn-h">
+    <h2 id="gp-learn-h">Keep learning</h2>
+    <p class="gp-learn__sub">The Medicare games link to these guides and tools — explore them any time.</p>
+    <ul>
+      {LEARN.map((l) => (
+        <li><a href={l.href}><strong>{l.title}</strong><span>{l.desc}</span></a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <div class="gp-two">
+    <section class="gp-faq" aria-label="Frequently Asked Questions">
+      <h2>Frequently Asked Questions</h2>
+      {page.faqs?.map((f) => (
+        <details class="gp-faq__item">
+          <summary><span set:html={f.question} /><span class="gp-faq__plus" aria-hidden="true">+</span></summary>
+          <div class="gp-faq__a" set:html={f.answer} />
+        </details>
+      ))}
+    </section>
+    <div>
+      <h2 class="gp-src-h">How we keep the Medicare games accurate</h2>
+      <p class="gp-src-p">Every Medicare fact in our games is checked against official Medicare.gov pages before release, and reviewed when Medicare rules change. The pages we check against:</p>
+      <SourcesList sources={page.sources ?? []} />
+    </div>
+  </div>
+
+  <div class="gp-cta">
+    <img class="gp-cta__photo" src="/pictures/rocco.webp" alt={`${BUSINESS.legalAgent}, licensed Medicare agent in Vernal, Utah`} width="96" height="96" loading="lazy" decoding="async" />
+    <PageCTA />
+  </div>
+</div>
+</StandardPageLayout>
+
+<style is:global>
+  .gp-page {
+    --gp-navy: #0b1f33; --gp-navy-2: #10294a; --gp-surface: #16375a; --gp-surface-2: #1b4470;
+    --gp-line: rgba(255, 255, 255, 0.14); --gp-text: #f8fafc; --gp-muted: #c7d6e6;
+    --gp-teal: #2dd4bf; --gp-teal-ink: #042f2e; --gp-sky: #7dd3fc; --gp-coral: #ff6b6b; --gp-gold: #fbbf24;
+    --gp-ink: #0b2c45; --gp-soft: #334155; --gp-light-line: #d3e0ee; --gp-blue: #1d4ed8;
+    --gp-shadow: 0 14px 34px -22px rgba(11, 44, 69, 0.55);
+    color: var(--gp-ink);
+  }
+  .gp-page *, .gp-page *::before, .gp-page *::after { box-sizing: border-box; }
+  .gp-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .gp-page a:focus-visible, .gp-page summary:focus-visible { outline: 4px solid var(--gp-gold); outline-offset: 3px; }
+
+  /* ── The dark portal ─────────────────────────────────────────────── */
+  .gp { background: radial-gradient(1200px 500px at 20% -10%, #1b4b7a 0%, var(--gp-navy-2) 40%, var(--gp-navy) 100%); color: var(--gp-text); border-radius: 28px; padding: 2rem 2rem 2.25rem; margin: 0.5rem 0 2rem; box-shadow: 0 30px 60px -40px rgba(11, 31, 51, 0.9); }
+  .gp h1, .gp h2, .gp h3 { color: var(--gp-text); }
+  .gp a { color: var(--gp-sky); }
+
+  .gp-hero { display: grid; grid-template-columns: 1.3fr 1fr; gap: 2rem; align-items: center; padding-bottom: 2rem; border-bottom: 1px solid var(--gp-line); margin-bottom: 2rem; }
+  .gp-eyebrow { margin: 0 0 0.5rem; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gp-teal); }
+  .gp-hero h1 { font-size: clamp(2.1rem, 4.4vw, 3.1rem); line-height: 1.08; font-weight: 800; margin: 0 0 0.75rem; }
+  .gp-hero__tag { font-size: 1.22rem; line-height: 1.5; margin: 0 0 0.9rem; color: #e2eefb; }
+  .gp .summary-block { background: rgba(255, 255, 255, 0.06); border: 1px solid var(--gp-line); border-radius: 16px; padding: 0.9rem 1.1rem; margin: 0 0 0.75rem; box-shadow: none; }
+  .gp .summary-block p { margin: 0; font-size: 1.02rem; line-height: 1.6; color: var(--gp-muted); }
+  .gp .byline { margin: 0 0 1rem; font-size: 0.9rem; color: var(--gp-muted); }
+  .gp .byline a { color: var(--gp-sky); }
+  .gp-hero__cta { margin: 0; }
+  .gp-btn { display: inline-flex; align-items: center; gap: 0.45rem; font-weight: 800; font-size: 1.1rem; min-height: 56px; padding: 0.7rem 1.5rem; border-radius: 999px; background: var(--gp-teal); color: var(--gp-teal-ink) !important; text-decoration: none; box-shadow: 0 5px 0 #0f766e; }
+  .gp-btn:hover { background: #5eead4; }
+  .gp-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #0f766e; }
+  .gp-hero__art { width: 100%; max-width: 420px; height: auto; justify-self: center; filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.35)); }
+
+  .gp-sec { margin: 0 0 2.25rem; }
+  .gp-sec:last-child { margin-bottom: 0; }
+  .gp-sec__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem 1rem; margin-bottom: 1rem; }
+  .gp-sec__head h2 { margin: 0; font-size: clamp(1.5rem, 3vw, 2rem); }
+  .gp-sec__head p { margin: 0; color: var(--gp-muted); font-size: 1.05rem; }
+  .gp-cat { margin-top: 1.25rem; }
+  .gp-cat__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem 0.9rem; margin-bottom: 0.75rem; }
+  .gp-cat__head h3 { margin: 0; font-size: 1.35rem; }
+  .gp-cat__head p { margin: 0; color: var(--gp-muted); }
+
+  /* ── Grids ───────────────────────────────────────────────────────── */
+  .gp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+  .gp-grid--featured { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+
+  /* ── Cards ───────────────────────────────────────────────────────── */
+  .gp-card { position: relative; display: flex; flex-direction: column; background: var(--gp-surface); border: 1px solid var(--gp-line); border-radius: 20px; overflow: hidden; box-shadow: 0 12px 28px -18px rgba(0, 0, 0, 0.7); transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease; }
+  .gp-card:hover { transform: translateY(-4px); border-color: var(--gp-teal); box-shadow: 0 26px 40px -22px rgba(0, 0, 0, 0.75); }
+  .gp-card:focus-within { outline: 4px solid var(--gp-gold); outline-offset: 3px; }
+  .gp-card__art { aspect-ratio: 16 / 10; background: #12304f; }
+  .gp-card__art svg { display: block; width: 100%; height: 100%; }
+  .gp-card__body { display: flex; flex-direction: column; gap: 0.35rem; padding: 1rem 1.1rem 1.15rem; flex: 1; }
+  .gp-card__title { margin: 0; font-size: 1.3rem; line-height: 1.2; }
+  .gp-card--featured .gp-card__title { font-size: 1.5rem; }
+  .gp-card__tagline { margin: 0; color: #e2eefb; font-weight: 700; font-size: 1.02rem; }
+  .gp-card__desc { margin: 0.2rem 0 0; color: var(--gp-muted); font-size: 1rem; line-height: 1.5; }
+  .gp-card__meta { margin: 0.2rem 0 0; color: var(--gp-sky); font-size: 0.92rem; font-weight: 700; }
+  .gp-card__a11y { list-style: none; margin: 0.15rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .gp-card__a11y li { font-size: 0.82rem; font-weight: 700; color: var(--gp-muted); background: rgba(255, 255, 255, 0.07); border: 1px solid var(--gp-line); border-radius: 999px; padding: 0.15rem 0.6rem; }
+  .gp-play { margin-top: auto; padding-top: 0.75rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; align-self: flex-start; min-height: 52px; min-width: 128px; padding: 0.6rem 1.4rem; border-radius: 999px; background: var(--gp-teal); color: var(--gp-teal-ink) !important; font-weight: 800; font-size: 1.08rem; text-decoration: none; box-shadow: 0 4px 0 #0f766e; }
+  .gp-play:hover { background: #5eead4; }
+  .gp-play:focus-visible { outline: none; } /* the card's focus ring shows instead */
+  /* Stretched link: the whole card is clickable, with one interactive element. */
+  .gp-play::after { content: ''; position: absolute; inset: 0; border-radius: 20px; }
+  .gp-play--soon { background: transparent; color: var(--gp-muted) !important; border: 2px dashed var(--gp-line); box-shadow: none; cursor: default; }
+  .gp-play--soon::after { content: none; }
+  .gp-card.is-soon { opacity: 0.92; }
+  .gp-card.is-soon:hover { transform: none; border-color: var(--gp-line); }
+  .gp-card.is-soon .gp-card__art { filter: saturate(0.6); }
+  .gp-badge { position: absolute; top: 12px; left: 12px; z-index: 1; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; }
+  .gp-badge--new { background: var(--gp-gold); color: #4a2c05; }
+  .gp-badge--soon { background: #fff; color: var(--gp-ink); }
+
+  /* ── Upcoming + comfort ──────────────────────────────────────────── */
+  .gp-upcoming__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 0.6rem; }
+  .gp-upcoming__list li { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.8rem 1rem; border-radius: 14px; border: 1px dashed var(--gp-line); background: rgba(255, 255, 255, 0.04); }
+  .gp-upcoming__list strong { font-size: 1.05rem; }
+  .gp-upcoming__list span { color: var(--gp-muted); font-size: 0.95rem; }
+  .gp-comfort { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; }
+  .gp-comfort li { display: flex; gap: 0.8rem; align-items: flex-start; padding: 0.9rem 1rem; border-radius: 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--gp-line); }
+  .gp-comfort__icon { flex: none; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: rgba(45, 212, 191, 0.15); color: var(--gp-teal); }
+  .gp-comfort__icon svg { width: 24px; height: 24px; }
+  .gp-comfort strong { display: block; font-size: 1.08rem; margin-bottom: 0.15rem; }
+  .gp-comfort p { margin: 0; color: var(--gp-muted); font-size: 0.98rem; line-height: 1.45; }
+
+  /* ── Light sections below the portal ─────────────────────────────── */
+  .gp-page .gp-learn { margin: 0 0 2rem; }
+  .gp-page .gp-learn h2, .gp-faq h2, .gp-src-h { font-size: clamp(1.5rem, 3vw, 2rem); margin: 0 0 0.5rem; color: var(--gp-ink); }
+  .gp-learn__sub { margin: 0 0 1rem; color: var(--gp-soft); }
+  .gp-page .gp-learn ul { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .gp-page .gp-learn li { padding: 0; border: 0; background: none; box-shadow: none; }
+  .gp-page .gp-learn li::before { content: none; }
+  .gp-page .gp-learn li:hover { transform: none; box-shadow: none; }
+  .gp-page .gp-learn li a, .gp-page .gp-learn li:hover a { display: flex; flex-direction: column; gap: 0.1rem; height: 100%; padding: 0.9rem 1rem; background: #fff; border: 1px solid var(--gp-light-line); border-radius: 14px; color: var(--gp-ink) !important; box-shadow: var(--gp-shadow); }
+  .gp-page .gp-learn li a:hover { border-color: var(--gp-blue); }
+  .gp-learn strong { font-size: 1.05rem; color: var(--gp-blue); }
+  .gp-learn span { font-weight: 400; color: var(--gp-soft); font-size: 0.96rem; }
+  .gp-two { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 0 0 2rem; align-items: start; }
+  .gp-faq__item { background: #fff; border: 1px solid var(--gp-light-line); border-radius: 14px; margin-bottom: 0.6rem; }
+  .gp-faq__item summary { display: flex; align-items: center; gap: 0.75rem; list-style: none; cursor: pointer; padding: 0.85rem 1rem; min-height: 56px; font-weight: 800; font-size: 1.05rem; }
+  .gp-faq__item summary::-webkit-details-marker { display: none; }
+  .gp-faq__plus { margin-left: auto; width: 30px; height: 30px; flex: none; border-radius: 50%; display: grid; place-items: center; color: #d0343d; background: #fff1f1; font-weight: 800; transition: transform 0.2s ease; }
+  .gp-faq__item[open] .gp-faq__plus { transform: rotate(45deg); }
+  .gp-faq__a { padding: 0 1rem 1rem; color: var(--gp-soft); }
+  .gp-src-p { margin: 0 0 0.75rem; color: var(--gp-soft); }
+  .gp-page .sources { background: #fff; border: 1px solid var(--gp-light-line); border-radius: 18px; padding: 1.1rem 1.35rem; margin: 0; box-shadow: var(--gp-shadow); }
+  .gp-page .sources h2 { font-size: 1.2rem; margin: 0 0 0.5rem; }
+  .gp-page .sources li { margin: 0.3rem 0; color: var(--gp-soft); }
+  .gp-cta { display: flex; align-items: center; gap: 1.5rem; background: linear-gradient(135deg, #0b2c45, #12406a); color: #fff; border-radius: 24px; padding: 1.5rem 1.75rem; margin: 0 0 1.5rem; }
+  .gp-cta__photo { flex: none; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; background: #fff; }
+  .gp-cta .page-cta { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; margin: 0; padding: 0; background: none; border: 0; }
+  .gp-cta .page-cta h2 { flex: 1 1 100%; margin: 0; color: #fff; font-size: 1.6rem; }
+  .gp-cta .page-cta > p:not(.page-cta-actions) { flex: 1 1 280px; margin: 0; color: #dbeafe; }
+  .gp-cta .page-cta-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0; }
+  .gp-cta .page-cta-actions .button { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0.7rem 1.4rem; border-radius: 12px; font-weight: 800; text-decoration: none; }
+  .gp-cta .page-cta-actions .button:first-child { background: #d0343d; color: #fff; border: 2px solid #d0343d; }
+  .gp-cta .page-cta-actions .button + .button { background: transparent; color: #fff; border: 2px solid #fff; }
+
+  @media (max-width: 900px) {
+    .gp { padding: 1.5rem 1.25rem 1.75rem; border-radius: 22px; }
+    .gp-hero { grid-template-columns: 1fr; }
+    .gp-hero__art { max-width: 340px; }
+    .gp-two { grid-template-columns: 1fr; }
+    .gp-cta { flex-direction: column; text-align: center; }
+    .gp-cta .page-cta, .gp-cta .page-cta-actions { justify-content: center; }
+  }
+  @media (max-width: 520px) {
+    .gp { padding: 1.1rem 0.9rem 1.4rem; border-radius: 18px; }
+    .gp-grid, .gp-grid--featured { grid-template-columns: 1fr; }
+    .gp-btn, .gp-play { width: 100%; }
+    .gp-cta .page-cta-actions .button { width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gp-page *, .gp-page *::before, .gp-page *::after { transition: none !important; animation: none !important; }
+    .gp-card:hover { transform: none; }
+  }
+</style>

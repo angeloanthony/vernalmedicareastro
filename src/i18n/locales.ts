@@ -197,6 +197,7 @@ const LABELS: Record<string, Record<string, string>> = {
     'Medicare Extra Help': 'Ayuda Adicional de Medicare',
     'Learn': 'Aprenda',
     'Medicare Help Center': 'Centro de Ayuda de Medicare',
+    'Games': 'Juegos',
     'Calculators': 'Calculadoras',
     'Glossary': 'Glosario',
     'News': 'Noticias',

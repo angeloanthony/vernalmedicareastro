@@ -1,0 +1,41 @@
+---
+// src/components/games/GameCard.astro — one card in the game library.
+//
+// The card's single interactive element is the Play link; a stretched
+// pseudo-element makes the whole card clickable without nesting controls. A
+// 'coming-soon' game renders the same card with a badge and NO link, so an
+// unpublished game can never be launched from the portal (data/games.ts).
+import { isPlayable, isNew, type GameEntry } from '../../data/games';
+
+interface Props {
+  game: GameEntry;
+  /** 'featured' = large card with description; 'compact' = row card. */
+  size?: 'featured' | 'compact';
+}
+const { game, size = 'compact' } = Astro.props;
+const playable = isPlayable(game);
+const fresh = isNew(game);
+const titleId = `gp-card-${game.id}-title`;
+---
+
+<article class:list={['gp-card', `gp-card--${size}`, { 'is-soon': !playable }]} aria-labelledby={titleId}>
+  <div class="gp-card__art" set:html={game.art} />
+  {fresh && <span class="gp-badge gp-badge--new">New</span>}
+  {!playable && <span class="gp-badge gp-badge--soon">Coming soon</span>}
+  <div class="gp-card__body">
+    <h3 class="gp-card__title" id={titleId}>{game.title}</h3>
+    <p class="gp-card__tagline">{game.tagline}</p>
+    {size === 'featured' && <p class="gp-card__desc">{game.description}</p>}
+    <p class="gp-card__meta">{game.format}</p>
+    <ul class="gp-card__a11y" aria-label="Good to know">
+      {game.accessibility.map((a) => <li>{a}</li>)}
+    </ul>
+    {playable ? (
+      <a class="gp-play" href={game.path} aria-describedby={titleId}>
+        Play <span aria-hidden="true">▶</span><span class="gp-sr"> {game.title}</span>
+      </a>
+    ) : (
+      <span class="gp-play gp-play--soon">Not available yet</span>
+    )}
+  </div>
+</article>

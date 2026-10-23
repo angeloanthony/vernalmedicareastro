@@ -80,6 +80,7 @@ export const PRIMARY_NAV: NavLink[] = [
     label: 'Learn',
     children: [
       { href: '/medicare-help-center.html', label: 'Medicare Help Center' },
+      { href: '/games.html', label: 'Games' },
       { href: '/medicare-calculators.html', label: 'Calculators' },
       { href: '/medicare-glossary.html', label: 'Glossary' },
       { href: '/medicare-news.html', label: 'News' },
