@@ -97,8 +97,9 @@ export const GAMES: GameEntry[] = [
       'A turn-based decision game. Each month you choose what Joe does — Part B, COBRA, drug coverage, Medigap or Medicare Advantage — but only when a real enrollment window is open. Then you see the consequences.',
     path: '/medicare-life-simulator.html',
     category: 'medicare-adventures',
-    status: 'coming-soon',
+    status: 'published',
     featured: true,
+    released: '2026-10-23',
     format: 'Decision simulation · about 10 minutes · untimed',
     accessibility: ['No timer', 'Keyboard play', 'Replay and compare runs'],
     art:

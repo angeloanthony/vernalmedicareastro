@@ -337,6 +337,11 @@ export const PAGE_INDEX: PageIndexEntry[] = [
     taxonomy: { silo: 'tools', tags: ['tools', 'game', 'games-hub', 'medicare-101', 'calculators'], pillar: true },
   },
   {
+    href: '/medicare-life-simulator.html',
+    title: 'Medicare Life Simulator',
+    taxonomy: { silo: 'tools', tags: ['tools', 'game', 'working-past-65', 'enrollment', 'penalties', 'part-d', 'costs'] },
+  },
+  {
     href: '/medicare-extra-help-calculator.html',
     title: 'Extra Help & Savings Program Estimator',
     taxonomy: { silo: 'dual-eligible', tags: ['extra-help', 'msp', 'qmb', 'slmb', 'qi', 'tools', 'costs'] },

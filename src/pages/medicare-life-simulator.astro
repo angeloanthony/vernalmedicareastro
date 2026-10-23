@@ -1,0 +1,393 @@
+---
+// src/pages/medicare-life-simulator.astro — "Medicare Life Simulator", a
+// turn-based decision game: one turn = one month of a fictional man's life
+// (Joe, 67, retiring). Different from the quiz (medicare-adventure-game) and
+// the explorer (medicare-journey-game): here there are no right-answer buttons,
+// only choices made in real enrollment windows and their delayed consequences.
+//
+// The Medicare rules live in src/lib/games/lifeSim.ts (unit-tested in
+// tests/life-sim.test.ts); the interface in src/lib/games/lifeSimUi.ts. Rules
+// were checked against Medicare.gov on 2026-10-23; dollar amounts are
+// illustrative examples and labelled as such.
+//
+// Built on StandardPageLayout with bareHeader + bareFooter; the page's own
+// hero/FAQ/sources/related/CTA reuse SummaryBlock / AuthorByline /
+// SourcesList / PageCTA so every editorial marker the gate scores is real.
+// Styles are `is:global` under `.ls-page` because the UI renders with innerHTML.
+import StandardPageLayout from '../components/layout/StandardPageLayout.astro';
+import SummaryBlock from '../components/SummaryBlock.astro';
+import AuthorByline from '../components/content/AuthorByline.astro';
+import SourcesList from '../components/content/SourcesList.astro';
+import PageCTA from '../components/content/PageCTA.astro';
+import { BUSINESS } from '../data/business';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Medicare Life Simulator | Plan a Retirement Without Penalties | Vernal Medicare',
+    heading: 'Medicare Life Simulator: Plan Joe’s Retirement',
+    description:
+      'A free Medicare decision game. Guide Joe, 67, through retirement month by month — Part B, COBRA, drug coverage, Medigap or Medicare Advantage — and see the penalties and coverage gaps your choices create.',
+    taxonomy: { silo: 'tools', tags: ['tools', 'game', 'working-past-65', 'enrollment', 'penalties', 'part-d', 'costs'] },
+    summary:
+      'Medicare Life Simulator is a free decision game. You guide Joe, a fictional 67-year-old, through 30 months of his life as he retires. Each month you choose what to do — sign up for Part B, accept COBRA, join a drug plan, buy Medigap, or pick Medicare Advantage — but only when a real enrollment window is open. Then you see the consequences: late penalties, coverage gaps, and bills. It teaches general Medicare rules — it is not advice about your own coverage.',
+    faqs: [
+      {
+        question: 'How does the Medicare Life Simulator work?',
+        answer:
+          'Each turn is one month of Joe’s life. Read what happens, choose any actions that are open that month, then end the month to see his bills. Choices are only available in the enrollment windows Medicare actually allows, and some consequences show up months later.',
+      },
+      {
+        question: 'Is there one right answer?',
+        answer:
+          'No. Several paths protect Joe; others cost him penalties or leave him without coverage for a while. Play again with different choices and compare the report cards.',
+      },
+      {
+        question: 'Are the dollar amounts real?',
+        answer:
+          'No — they are round example amounts, so the game never goes out of date. The rules are real: enrollment windows, the 8-month Special Enrollment Period, and how late penalties are calculated.',
+      },
+      {
+        question: 'Will this tell me what to do about my own Medicare?',
+        answer:
+          'No. Joe is fictional and his story is simplified. Your situation may be different — check Medicare.gov or talk with a licensed agent.',
+      },
+    ],
+    sources: [
+      { title: 'When does Medicare coverage start?', url: 'https://www.medicare.gov/basics/get-started-with-medicare/sign-up/when-does-medicare-coverage-start', publisher: 'Medicare.gov' },
+      { title: 'Special Enrollment Periods', url: 'https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/joining-a-plan/special-enrollment-periods', publisher: 'Medicare.gov' },
+      { title: 'Joining a health or drug plan', url: 'https://www.medicare.gov/basics/get-started-with-medicare/get-more-coverage/joining-a-plan', publisher: 'Medicare.gov' },
+      { title: 'Avoid late enrollment penalties', url: 'https://www.medicare.gov/basics/costs/medicare-costs/avoid-penalties', publisher: 'Medicare.gov' },
+      { title: 'Medicare costs', url: 'https://www.medicare.gov/basics/costs/medicare-costs', publisher: 'Medicare.gov' },
+      { title: 'Part D costs', url: 'https://www.medicare.gov/health-drug-plans/part-d/basics/costs', publisher: 'Medicare.gov' },
+      { title: 'Medigap basics', url: 'https://www.medicare.gov/health-drug-plans/medigap/basics', publisher: 'Medicare.gov' },
+      { title: 'Your health plan options', url: 'https://www.medicare.gov/health-drug-plans/health-plans/your-health-plan-options', publisher: 'Medicare.gov' },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/medicare-life-simulator.html',
+    ogType: 'website',
+    ogTitle: 'Medicare Life Simulator — Plan Joe’s Retirement',
+    ogDescription: 'Guide a fictional retiree month by month and see how Medicare choices create — or avoid — penalties and coverage gaps.',
+  },
+  author: 'rocco',
+  datePublished: '2026-10-23',
+  lastUpdated: '2026-10-23',
+  medicalDisclaimer:
+    'Medicare Life Simulator is general education only. Joe and his story are fictional and simplified, and the dollar amounts are illustrative examples. It does not determine your eligibility, enrollment rights, penalties, or costs, and it does not recommend any plan or carrier. Confirm your options with Medicare.gov, Social Security, or a licensed agent.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Calculators', href: '/medicare-calculators.html' },
+    { name: 'Medicare Life Simulator', href: '/medicare-life-simulator.html' },
+  ],
+};
+const { page } = context;
+
+const LEARN = [
+  { t: 'The 8-month Special Enrollment Period', d: 'why working past 65 lets you delay Part B — and when that window closes.', href: '/working-past-65.html', link: 'Working past 65' },
+  { t: 'The COBRA trap', d: 'why COBRA doesn’t count as coverage from current work, and what that means for Part B.', href: '/cobra-and-medicare.html', link: 'COBRA and Medicare' },
+  { t: 'Late penalties', d: 'how the Part B (10% per full year) and Part D (1% per month) penalties build.', href: '/medicare-penalty-calculator.html', link: 'Penalty calculator' },
+  { t: 'Medigap vs. Medicare Advantage', d: 'the Medigap Open Enrollment window, and why Original Medicare has no yearly cap.', href: '/medicare-supplement-vs-advantage.html', link: 'Medigap vs. Medicare Advantage' },
+  { t: 'Enrollment windows', d: 'General Enrollment, Open Enrollment, and the 2-month window after losing employer coverage.', href: '/medicare-enrollment-periods.html', link: 'Enrollment periods' },
+  { t: 'Drug coverage', d: 'the 63-day rule and creditable coverage.', href: '/medicare-creditable-coverage.html', link: 'Creditable coverage' },
+];
+
+const MORE = [
+  { href: '/medicare-journey-game.html', name: 'Medicare Journey', desc: 'Explore Medicare Valley: walk, solve puzzles, collect knowledge cards.' },
+  { href: '/medicare-adventure-game.html', name: 'Medicare Adventure', desc: 'A quick five-stage quiz with points and badges.' },
+  { href: '/medicare-part-b-penalty-calculator.html', name: 'Part B Penalty Calculator', desc: 'Estimate a real Part B late penalty.' },
+  { href: '/medicare-calculators.html', name: 'Free Medicare Calculators', desc: 'Costs, penalties, and important dates.' },
+];
+---
+
+<StandardPageLayout context={context} bareHeader bareFooter>
+<div class="ls-page">
+
+  <section class="ls-hero">
+    <div>
+      <h1><span>Medicare Life Simulator:</span> <span class="ls-hero__accent">Plan Joe’s Retirement</span></h1>
+      <p class="ls-hero__tag">Every choice opens — or closes — a door. Can you get Joe through retirement without a penalty?</p>
+      <SummaryBlock text={page.summary} />
+      <AuthorByline authorId={context.author} updated={context.lastUpdated} />
+      <p class="ls-hero__start"><a class="ls-btn ls-btn-primary" href="#ls">Start Joe’s story <span aria-hidden="true">↓</span></a></p>
+    </div>
+    <ul class="ls-hero__facts" aria-label="Game at a glance">
+      <li><strong>30</strong><span>months to manage</span></li>
+      <li><strong>7</strong><span>kinds of decisions</span></li>
+      <li><strong>5</strong><span>enrollment windows</span></li>
+      <li><strong>∞</strong><span>ways to replay</span></li>
+    </ul>
+  </section>
+
+  <div class="ls" id="ls" aria-label="Medicare Life Simulator game">
+    <div class="ls-top" id="ls-top"></div>
+    <div class="ls-line" id="ls-line"></div>
+    <div class="ls-panel" id="ls-panel">
+      <noscript><p class="ls-muted">The Medicare Life Simulator needs JavaScript turned on in your browser. Everything it teaches is also covered in the guides below.</p></noscript>
+    </div>
+    <p class="ls-sr" id="ls-live" aria-live="polite"></p>
+  </div>
+
+  <section class="ls-sec" aria-labelledby="ls-how-h">
+    <h2 id="ls-how-h">How to play</h2>
+    <ol class="ls-steps">
+      <li><span aria-hidden="true">1</span><p><strong>Read the month.</strong> Each turn is one month of Joe’s life. Life events, letters, and bills arrive.</p></li>
+      <li><span aria-hidden="true">2</span><p><strong>Choose — if you can.</strong> Actions are only open in the enrollment windows Medicare allows. “Why can’t Joe do something else?” explains every closed door.</p></li>
+      <li><span aria-hidden="true">3</span><p><strong>End the month.</strong> See what Joe paid. Penalty and coverage-gap meters update — some consequences arrive months later.</p></li>
+      <li><span aria-hidden="true">4</span><p><strong>Read the report card.</strong> After 30 months, review penalties, gaps, and every decision.</p></li>
+      <li><span aria-hidden="true">5</span><p><strong>Play again.</strong> Try a different strategy and compare it with your last run.</p></li>
+    </ol>
+    <p class="ls-prices" id="ls-prices"></p>
+  </section>
+
+  <section class="ls-sec" aria-labelledby="ls-learn-h">
+    <h2 id="ls-learn-h">What you’ll learn</h2>
+    <ul class="ls-learn">
+      {LEARN.map((l) => (
+        <li><strong>{l.t}</strong><p>Learn {l.d} Read more: <a href={l.href}>{l.link}</a>.</p></li>
+      ))}
+    </ul>
+  </section>
+
+  <div class="ls-two">
+    <section class="ls-faq" aria-label="Frequently Asked Questions">
+      <h2>Frequently Asked Questions</h2>
+      {page.faqs?.map((f) => (
+        <details class="ls-faq__item">
+          <summary><span set:html={f.question} /><span class="ls-faq__plus" aria-hidden="true">+</span></summary>
+          <div class="ls-faq__a" set:html={f.answer} />
+        </details>
+      ))}
+    </section>
+    <nav class="related ls-tools" aria-labelledby="ls-tools-h">
+      <h2 id="ls-tools-h">More games and tools</h2>
+      <ul>
+        {MORE.map((t) => (<li><a href={t.href}><strong>{t.name}</strong><span>{t.desc}</span></a></li>))}
+      </ul>
+    </nav>
+  </div>
+
+  <SourcesList sources={page.sources ?? []} />
+
+  <div class="ls-cta">
+    <img class="ls-cta__photo" src="/pictures/rocco.webp" alt={`${BUSINESS.legalAgent}, licensed Medicare agent in Vernal, Utah`} width="96" height="96" loading="lazy" decoding="async" />
+    <PageCTA />
+  </div>
+</div>
+</StandardPageLayout>
+
+<script>
+  import { mount } from '../lib/games/lifeSimUi';
+  mount();
+</script>
+
+<style is:global>
+  .ls-page {
+    --ls-ink: #0b2c45; --ls-soft: #334155; --ls-line: #d3e0ee;
+    --ls-blue: #1d4ed8; --ls-blue-soft: #e5edfe; --ls-coral: #d0343d; --ls-coral-dark: #a8262f;
+    --ls-green: #166534; --ls-green-soft: #dcfce7; --ls-red: #991b1b; --ls-red-soft: #fee2e2;
+    --ls-amber: #92400e; --ls-amber-soft: #fef3c7; --ls-teal: #0f766e;
+    --ls-shadow: 0 14px 34px -22px rgba(11, 44, 69, 0.55);
+    color: var(--ls-ink);
+  }
+  .ls-page *, .ls-page *::before, .ls-page *::after { box-sizing: border-box; }
+  .ls-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .ls-page a { color: var(--ls-blue); }
+  .ls-page a:focus-visible, .ls-page button:focus-visible, .ls-page summary:focus-visible { outline: 4px solid #f59e0b; outline-offset: 3px; }
+  .ls-page h2 { color: var(--ls-ink); }
+  .ls-page svg { flex: none; }
+  .ls-k { display: block; margin: 0; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #5b6b7d; }
+  .ls-muted { color: #5b6b7d; margin: 0.25rem 0; }
+
+  .ls-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; font: inherit; font-weight: 800; font-size: 1.1rem; min-height: 56px; padding: 0.7rem 1.4rem; border-radius: 999px; cursor: pointer; border: 2px solid transparent; text-decoration: none; }
+  .ls-btn-primary { background: var(--ls-coral); color: #fff !important; box-shadow: 0 5px 0 var(--ls-coral-dark); }
+  .ls-btn-primary:hover { background: #bb2d36; }
+  .ls-btn-primary:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--ls-coral-dark); }
+  .ls-btn-ghost { background: #fff; color: var(--ls-blue); border-color: var(--ls-line); }
+  .ls-btn-ghost:hover { border-color: var(--ls-blue); background: var(--ls-blue-soft); }
+
+  /* Hero */
+  .ls-hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; align-items: center; background: linear-gradient(180deg, #eef7ff, #fff); border: 1px solid var(--ls-line); border-radius: 26px; padding: 2rem 2.25rem; margin: 0.5rem 0 1.5rem; }
+  .ls-hero h1 { font-size: clamp(2rem, 4.2vw, 2.9rem); line-height: 1.08; font-weight: 800; margin: 0 0 0.6rem; color: var(--ls-ink); }
+  .ls-hero h1 span { display: block; }
+  .ls-hero .ls-hero__accent { color: var(--ls-coral); }
+  .ls-hero__tag { font-size: 1.2rem; font-weight: 700; margin: 0 0 0.75rem; }
+  .ls-hero .summary-block { background: none; border: 0; padding: 0; margin: 0 0 0.6rem; box-shadow: none; }
+  .ls-hero .summary-block p { margin: 0; font-size: 1.05rem; line-height: 1.6; color: var(--ls-soft); }
+  .ls-hero .byline { margin: 0 0 1rem; font-size: 0.92rem; color: #5b6b7d; }
+  .ls-hero__start { margin: 0; }
+  .ls-hero__facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .ls-hero__facts li { background: #fff; border: 1px solid var(--ls-line); border-radius: 18px; padding: 1rem; text-align: center; box-shadow: var(--ls-shadow); }
+  .ls-hero__facts strong { display: block; font-size: 2.2rem; line-height: 1; color: var(--ls-blue); }
+  .ls-hero__facts span { color: var(--ls-soft); font-weight: 700; }
+
+  /* Game shell */
+  .ls { font-size: 1.1rem; line-height: 1.55; background: #fff; border: 2px solid var(--ls-line); border-radius: 26px; box-shadow: 0 18px 50px -26px rgba(11, 44, 69, 0.4); padding: 1rem; margin: 0 0 2rem; scroll-margin-top: 140px; }
+
+  /* Top: Joe + chips + meters */
+  .ls-top { display: grid; grid-template-columns: auto 1fr; gap: 0.75rem 1.25rem; align-items: start; background: #f6faff; border: 1px solid var(--ls-line); border-radius: 18px; padding: 0.9rem 1rem; }
+  .ls-joe { display: flex; align-items: center; gap: 0.6rem; grid-row: span 2; }
+  .ls-joe svg { width: 64px; height: 108px; }
+  .ls-joe-name { margin: 0; font-size: 1.4rem; font-weight: 800; line-height: 1.1; }
+  .ls-joe-sub { margin: 0.15rem 0 0; color: var(--ls-soft); font-size: 0.98rem; }
+  .ls-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .ls-chip { display: flex; align-items: center; gap: 0.45rem; background: #fff; border: 2px solid var(--ls-line); border-radius: 12px; padding: 0.3rem 0.65rem 0.3rem 0.4rem; }
+  .ls-chip strong { display: block; font-size: 0.95rem; line-height: 1.2; }
+  .ls-chip em { display: block; font-style: normal; font-size: 0.82rem; color: #5b6b7d; line-height: 1.2; }
+  .ls-chip-ic { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; color: #fff; flex: none; }
+  .ls-chip-ic svg { width: 15px; height: 15px; }
+  .ls-chip.is-on { border-color: #86efac; } .ls-chip.is-on .ls-chip-ic { background: var(--ls-green); }
+  .ls-chip.is-off .ls-chip-ic { background: #94a3b8; }
+  .ls-chip.is-soon { border-color: #fcd34d; } .ls-chip.is-soon .ls-chip-ic { background: #d97706; }
+  .ls-meters { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.5rem; }
+  .ls-meters li { background: #fff; border: 2px solid var(--ls-line); border-radius: 14px; padding: 0.45rem 0.7rem; }
+  .ls-meters strong { display: block; font-size: 1.45rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .ls-meters em { display: block; font-style: normal; font-size: 0.8rem; color: #5b6b7d; }
+  .ls-meters li.is-bad { border-color: #fca5a5; background: #fff5f5; }
+  .ls-meters li.is-bad strong { color: var(--ls-red); }
+
+  /* Timeline */
+  .ls-line { margin: 0.9rem 0 0; }
+  .ls-cells { list-style: none; margin: 0; padding: 4px 2px 8px; display: flex; gap: 3px; overflow-x: auto; scroll-behavior: smooth; }
+  .ls-cell { position: relative; flex: 1 0 34px; min-width: 34px; height: 46px; border-radius: 8px; display: grid; place-items: center; background: #f1f5f9; border: 2px solid #e2e8f0; color: #64748b; }
+  .ls-cell-m { font-size: 0.72rem; font-weight: 800; }
+  .ls-cell.is-jan { margin-left: 8px; }
+  .ls-cell.is-jan::before { content: ''; position: absolute; left: -7px; top: 4px; bottom: 4px; border-left: 2px dashed #94a3b8; }
+  .ls-cell.is-work { background: #e0e7ff; border-color: #a5b4fc; color: #3730a3; }
+  .ls-cell.is-covered { background: var(--ls-green-soft); border-color: #86efac; color: var(--ls-green); }
+  .ls-cell.is-cobra { background: var(--ls-amber-soft); border-color: #fcd34d; color: var(--ls-amber); }
+  .ls-cell.is-gap { background: var(--ls-red-soft); border-color: #fca5a5; color: var(--ls-red); }
+  .ls-cell.is-now { background: #fff; border-color: var(--ls-coral); color: var(--ls-coral); box-shadow: 0 0 0 3px rgba(208, 52, 61, 0.25); }
+  .ls-cell-rx { position: absolute; right: 3px; top: 3px; width: 8px; height: 8px; border-radius: 50%; background: #be185d; }
+  .ls-legend { list-style: none; margin: 0.25rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; font-size: 0.85rem; color: var(--ls-soft); }
+  .ls-legend li::before { content: ''; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; border: 2px solid; }
+  .ls-legend .is-work::before { background: #e0e7ff; border-color: #a5b4fc; }
+  .ls-legend .is-covered::before { background: var(--ls-green-soft); border-color: #86efac; }
+  .ls-legend .is-cobra::before { background: var(--ls-amber-soft); border-color: #fcd34d; }
+  .ls-legend .is-gap::before { background: var(--ls-red-soft); border-color: #fca5a5; }
+  .ls-legend .is-rx::before { background: #be185d; border-color: #be185d; border-radius: 50%; width: 9px; height: 9px; }
+
+  /* Panel */
+  .ls-panel { margin-top: 0.9rem; }
+  .ls-sum { background: #fffbeb; border: 2px solid #fcd34d; border-radius: 16px; padding: 0.75rem 1rem; margin-bottom: 0.9rem; animation: ls-in 0.3s ease both; }
+  .ls-sum-h { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; margin: 0 0 0.35rem; font-weight: 700; color: var(--ls-amber); }
+  .ls-sum-h strong { color: var(--ls-ink); font-size: 1.15rem; }
+  .ls-bills { list-style: none; margin: 0 0 0.35rem; padding: 0; display: grid; gap: 0.35rem; }
+  .ls-bills li { padding: 0.5rem 0.7rem; border-radius: 10px; background: #fff; border-left: 5px solid #94a3b8; font-size: 1rem; }
+  .ls-bills li.is-good { border-left-color: var(--ls-green); }
+  .ls-bills li.is-warn { border-left-color: #d97706; }
+  .ls-bills li.is-bad { border-left-color: var(--ls-red); background: #fff5f5; }
+  .ls-sum-line { display: flex; align-items: center; gap: 0.4rem; margin: 0.15rem 0 0; font-size: 0.98rem; color: var(--ls-soft); }
+  .ls-sum-line svg { width: 18px; height: 18px; color: #be185d; }
+  .ls-prem { list-style: none; margin: 0.2rem 0 0; padding: 0; display: grid; gap: 0.2rem; }
+  .ls-prem li { display: flex; justify-content: space-between; gap: 0.75rem; font-size: 0.95rem; color: var(--ls-soft); padding: 0.15rem 0.6rem; border-radius: 8px; background: rgba(255, 255, 255, 0.6); }
+  .ls-prem li.is-bad { color: var(--ls-red); font-weight: 700; background: #fff5f5; }
+  .ls-month, .ls-report { background: #f8fbff; border: 2px solid var(--ls-line); border-radius: 20px; padding: 1rem 1.2rem 1.2rem; }
+  .ls-page .ls-month-h { margin: 0.1rem 0 0.6rem; font-size: 1.6rem; color: var(--ls-ink); }
+  .ls-month-h:focus { outline: none; }
+  .ls-month-h:focus-visible { outline: 3px dashed var(--ls-blue); outline-offset: 4px; }
+  .ls-events { list-style: none; margin: 0 0 0.6rem; padding: 0; display: grid; gap: 0.45rem; }
+  .ls-events li { padding: 0.65rem 0.85rem; border-radius: 12px; background: #fff; border: 2px solid var(--ls-line); }
+  .ls-events li.is-warn { border-color: #fcd34d; background: #fffbeb; }
+  .ls-events li.is-bad { border-color: #fca5a5; background: #fff5f5; }
+  .ls-events li.is-good { border-color: #86efac; background: #f0fdf4; }
+  .ls-tag { display: inline-block; margin-right: 0.45rem; padding: 0.05rem 0.5rem; border-radius: 999px; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; background: var(--ls-ink); color: #fff; vertical-align: 1px; }
+  .ls-sub { margin: 0.9rem 0 0.45rem; font-size: 1.05rem; color: var(--ls-ink); }
+  .ls-windows { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .ls-windows li { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.3rem 0.75rem; border-radius: 999px; background: #ede9fe; color: #5b21b6; font-weight: 700; font-size: 0.95rem; }
+  .ls-windows svg { width: 16px; height: 16px; }
+  .ls-acts { display: grid; gap: 0.55rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .ls-act { display: flex; flex-direction: column; gap: 0.2rem; text-align: left; font: inherit; color: var(--ls-ink); background: #fff; border: 2px solid var(--ls-blue); border-radius: 14px; padding: 0.75rem 0.9rem; min-height: 64px; cursor: pointer; box-shadow: 0 3px 0 #bfd0f5; }
+  .ls-act:hover { background: var(--ls-blue-soft); }
+  .ls-act:active { transform: translateY(2px); box-shadow: none; }
+  .ls-act strong { color: var(--ls-blue); font-size: 1.05rem; }
+  .ls-act span { font-size: 0.95rem; color: var(--ls-soft); }
+  .ls-why { margin-top: 0.7rem; background: #fff; border: 1px dashed #cbd5e1; border-radius: 12px; }
+  .ls-why summary { cursor: pointer; padding: 0.6rem 0.85rem; font-weight: 700; color: var(--ls-soft); min-height: 48px; display: flex; align-items: center; }
+  .ls-why ul { list-style: none; margin: 0; padding: 0 0.85rem 0.7rem; display: grid; gap: 0.45rem; }
+  .ls-why li { display: flex; gap: 0.5rem; font-size: 0.98rem; color: var(--ls-soft); }
+  .ls-why li svg { width: 18px; height: 18px; margin-top: 0.2rem; color: #64748b; }
+  .ls-nav { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+  .ls-note { margin: 0.8rem 0 0; font-size: 0.9rem; color: #5b6b7d; }
+
+  /* Report */
+  .ls-verdict { padding: 0.8rem 1rem; border-radius: 14px; font-weight: 700; margin: 0 0 0.8rem; }
+  .ls-verdict.is-good { background: var(--ls-green-soft); color: var(--ls-green); border: 2px solid #86efac; }
+  .ls-verdict.is-warn { background: #fff7ed; color: #9a3412; border: 2px solid #fdba74; }
+  .ls-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; font-size: 1rem; }
+  .ls-table th, .ls-table td { padding: 0.55rem 0.7rem; border-bottom: 1px solid #e2e8f0; text-align: left; }
+  .ls-table thead th { background: var(--ls-ink); color: #fff; font-size: 0.9rem; }
+  .ls-table tr.is-bad td { color: var(--ls-red); font-weight: 800; }
+  .ls-decisions { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.4rem; }
+  .ls-decisions li span { display: block; font-size: 0.82rem; font-weight: 800; color: #5b6b7d; text-transform: uppercase; letter-spacing: 0.04em; }
+  .ls-decisions li.is-warn { color: #9a3412; } .ls-decisions li.is-good { color: var(--ls-green); }
+  .ls-lessons { margin: 0; padding-left: 1.2rem; color: var(--ls-soft); }
+  .ls-lessons li { margin: 0.3rem 0; }
+
+  /* Sections below the game */
+  .ls-sec { margin: 0 0 2rem; }
+  .ls-page .ls-sec h2, .ls-faq h2, .ls-tools h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin: 0 0 0.8rem; }
+  .ls-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+  .ls-steps li { display: flex; gap: 0.9rem; align-items: flex-start; }
+  .ls-steps li > span { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; background: var(--ls-blue); box-shadow: 0 0 0 4px var(--ls-blue-soft); }
+  .ls-steps p { margin: 0.35rem 0 0; font-size: 1.08rem; color: var(--ls-soft); }
+  .ls-steps strong { color: var(--ls-ink); }
+  .ls-prices { margin: 0.9rem 0 0; font-size: 0.95rem; color: #5b6b7d; }
+  .ls-learn { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.8rem; }
+  .ls-learn li { background: #fff; border: 1px solid var(--ls-line); border-radius: 18px; padding: 1rem; box-shadow: var(--ls-shadow); }
+  .ls-learn strong { font-size: 1.08rem; color: var(--ls-coral); }
+  .ls-learn p { margin: 0.25rem 0 0; color: var(--ls-soft); font-size: 1rem; }
+  .ls-two { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 0 0 2rem; align-items: start; }
+  .ls-faq__item { background: #fff; border: 1px solid var(--ls-line); border-radius: 14px; margin-bottom: 0.6rem; }
+  .ls-faq__item summary { display: flex; align-items: center; gap: 0.75rem; list-style: none; cursor: pointer; padding: 0.85rem 1rem; min-height: 56px; font-weight: 800; font-size: 1.05rem; }
+  .ls-faq__item summary::-webkit-details-marker { display: none; }
+  .ls-faq__plus { margin-left: auto; width: 30px; height: 30px; flex: none; border-radius: 50%; display: grid; place-items: center; color: var(--ls-coral); background: #fff1f1; font-weight: 800; transition: transform 0.2s ease; }
+  .ls-faq__item[open] .ls-faq__plus { transform: rotate(45deg); }
+  .ls-faq__a { padding: 0 1rem 1rem; color: var(--ls-soft); }
+  .ls-page .ls-tools { margin: 0; }
+  .ls-page .ls-tools ul { grid-template-columns: 1fr; }
+  .ls-page .ls-tools li { padding: 0; border: 0; background: none; box-shadow: none; }
+  .ls-page .ls-tools li::before { content: none; }
+  .ls-page .ls-tools li:hover { transform: none; box-shadow: none; }
+  .ls-page .ls-tools li a, .ls-page .ls-tools li:hover a { display: flex; flex-direction: column; gap: 0.1rem; padding: 0.9rem 1rem; background: #fff; border: 1px solid var(--ls-line); border-radius: 14px; color: var(--ls-ink) !important; box-shadow: var(--ls-shadow); }
+  .ls-page .ls-tools li a:hover { border-color: var(--ls-blue); }
+  .ls-tools strong { font-size: 1.05rem; color: var(--ls-blue); }
+  .ls-tools span { font-weight: 400; color: var(--ls-soft); font-size: 0.98rem; }
+  .ls-page .sources { background: #fff; border: 1px solid var(--ls-line); border-radius: 18px; padding: 1.1rem 1.35rem; margin: 0 0 2rem; box-shadow: var(--ls-shadow); }
+  .ls-page .sources li { margin: 0.3rem 0; color: var(--ls-soft); }
+  .ls-cta { display: flex; align-items: center; gap: 1.5rem; background: linear-gradient(135deg, #0b2c45, #12406a); color: #fff; border-radius: 24px; padding: 1.5rem 1.75rem; margin: 0 0 1.5rem; }
+  .ls-cta__photo { flex: none; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; background: #fff; }
+  .ls-cta .page-cta { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; margin: 0; padding: 0; background: none; border: 0; }
+  .ls-cta .page-cta h2 { flex: 1 1 100%; margin: 0; color: #fff; font-size: 1.6rem; }
+  .ls-cta .page-cta > p:not(.page-cta-actions) { flex: 1 1 280px; margin: 0; color: #dbeafe; }
+  .ls-cta .page-cta-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0; }
+  .ls-cta .page-cta-actions .button { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0.7rem 1.4rem; border-radius: 12px; font-weight: 800; text-decoration: none; }
+  .ls-cta .page-cta-actions .button:first-child { background: var(--ls-coral); color: #fff; border: 2px solid var(--ls-coral); }
+  .ls-cta .page-cta-actions .button + .button { background: transparent; color: #fff; border: 2px solid #fff; }
+
+  @media (max-width: 900px) {
+    .ls-hero { grid-template-columns: 1fr; padding: 1.5rem; }
+    .ls-two { grid-template-columns: 1fr; }
+    .ls-top { grid-template-columns: 1fr; }
+    .ls-joe { grid-row: auto; }
+    .ls-meters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ls-cta { flex-direction: column; text-align: center; }
+    .ls-cta .page-cta, .ls-cta .page-cta-actions { justify-content: center; }
+  }
+  @media (max-width: 520px) {
+    .ls { padding: 0.6rem; border-radius: 18px; }
+    .ls-hero { padding: 1.1rem; }
+    .ls-month, .ls-report { padding: 0.85rem 0.85rem 1rem; }
+    .ls-page .ls-month-h { font-size: 1.35rem; }
+    .ls-btn { width: 100%; }
+    .ls-acts { grid-template-columns: 1fr; }
+    .ls-table { font-size: 0.92rem; }
+    .ls-table th, .ls-table td { padding: 0.45rem 0.5rem; }
+    .ls-cta .page-cta-actions .button { width: 100%; }
+  }
+
+  @keyframes ls-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .ls-page *, .ls-page *::before, .ls-page *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
