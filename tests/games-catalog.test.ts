@@ -52,8 +52,8 @@ describe('game catalog', () => {
     }
   });
 
-  it('the games this portal launches are the two live games', () => {
-    expect(publishedGames().map((g) => g.path).sort()).toEqual(['/medicare-adventure-game.html', '/medicare-journey-game.html']);
+  it('the games this portal launches are exactly the published games (update when one ships)', () => {
+    expect(publishedGames().map((g) => g.path).sort()).toEqual(['/medicare-adventure-game.html', '/medicare-journey-game.html', '/medicare-life-simulator.html']);
   });
 
   it('featured strip lists published games before upcoming ones', () => {
