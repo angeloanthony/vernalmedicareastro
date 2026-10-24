@@ -1,0 +1,295 @@
+---
+// src/pages/memory-match.astro — Vernal Memory Match: a classic card-matching
+// game with large cards, original line-art, and no timer. Entertainment only;
+// no Medicare content. Engine: src/lib/games/memoryMatch.ts (unit-tested);
+// interface: src/lib/games/memoryMatchUi.ts. Same shell as the other games
+// (StandardPageLayout bareHeader + bareFooter with the real SummaryBlock /
+// AuthorByline / SourcesList / PageCTA). Styles are `is:global` under
+// `.mm-page` because the board renders with innerHTML.
+import StandardPageLayout from '../components/layout/StandardPageLayout.astro';
+import SummaryBlock from '../components/SummaryBlock.astro';
+import AuthorByline from '../components/content/AuthorByline.astro';
+import SourcesList from '../components/content/SourcesList.astro';
+import PageCTA from '../components/content/PageCTA.astro';
+import { BUSINESS } from '../data/business';
+import { THEMES, LEVELS, LEVEL_ORDER, iconSvg } from '../lib/games/memoryMatch';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Free Memory Match Game for Seniors — Large Cards, Untimed | Vernal Medicare Games',
+    heading: 'Vernal Memory Match',
+    description:
+      'A free, untimed memory card game with big cards and original artwork. Four themes — nature, animals, landmarks, everyday objects — three difficulty levels, hints, a move counter, and touch or keyboard play. Your game is saved on your device.',
+    taxonomy: { silo: 'tools', tags: ['tools', 'game', 'brain-memory', 'puzzles', 'seniors'] },
+    summary:
+      'Vernal Memory Match is the classic pairs game, built for comfortable play: large cards with clear line-art and a name on every face, no timer, and no account. Turn two cards; a matching pair stays up, a miss turns back. Pick a theme and a size, use a hint when you like, and watch your move count fall as you play again. Your board is saved on your device.',
+    faqs: [
+      { question: 'How do I play?', answer: 'Turn over two cards. If they match, they stay face up. If not, they turn back after a moment — or as soon as you turn the next card. Match every pair to finish.' },
+      { question: 'Is there a time limit?', answer: 'No. There is no clock. The game counts your moves so you can try to beat your own number, but nothing is timed.' },
+      { question: 'What do the difficulty levels change?', answer: `${LEVEL_ORDER.map((l) => `${LEVELS[l].label}: ${LEVELS[l].hint}`).join('. ')}.` },
+      { question: 'How do hints work?', answer: 'A hint briefly shows you one matching pair. Hints are counted so you can see them, but nothing is taken away.' },
+      { question: 'Can I play with a keyboard?', answer: 'Yes. Use the arrow keys to move between cards and press Enter or the space bar to turn one. Every card has a spoken name for screen readers.' },
+    ],
+    sources: [
+      { title: 'WCAG 2.2 — Target Size (Minimum)', url: 'https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html', publisher: 'W3C Web Accessibility Initiative' },
+      { title: 'WCAG 2.1 — Animation from Interactions (reduced motion)', url: 'https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html', publisher: 'W3C Web Accessibility Initiative' },
+      { title: 'ARIA Authoring Practices — Keyboard navigation inside components', url: 'https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/', publisher: 'W3C Web Accessibility Initiative' },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/memory-match.html',
+    ogType: 'website',
+    ogTitle: 'Vernal Memory Match — Large Cards, No Timer',
+    ogDescription: 'The classic pairs game with big cards, original artwork, four themes, three sizes, hints, and no clock.',
+  },
+  author: 'rocco',
+  datePublished: '2026-10-24',
+  lastUpdated: '2026-10-24',
+  medicalDisclaimer:
+    'Vernal Memory Match is an entertainment game. It is not medical advice, makes no health claims, and is not a test of memory or cognition. For questions about Medicare, check Medicare.gov or talk with a licensed agent.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Games', href: '/games.html' },
+    { name: 'Memory Match', href: '/memory-match.html' },
+  ],
+};
+const { page } = context;
+
+const MORE = [
+  { href: '/games.html', name: 'All games', desc: 'Browse the Vernal Medicare game library.' },
+  { href: '/word-search.html', name: 'Vernal Word Search', desc: 'Big letters, six themes, no timer.' },
+  { href: '/medicare-journey-game.html', name: 'Medicare Journey', desc: 'Explore a valley, solve puzzles, collect knowledge cards.' },
+  { href: '/medicare-adventure-game.html', name: 'Medicare Adventure', desc: 'A five-stage quiz game with points and badges.' },
+  { href: '/medicare-life-simulator.html', name: 'Medicare Life Simulator', desc: 'Guide Joe’s retirement month by month.' },
+  { href: '/medicare-calculators.html', name: 'Free Medicare Calculators', desc: 'Costs, penalties, and important dates.' },
+  { href: '/medicare-help-center.html', name: 'Medicare Help Center', desc: 'Guides and where to start.' },
+  { href: '/medicare-glossary.html', name: 'Medicare Glossary', desc: 'Plain-English definitions.' },
+];
+---
+
+<StandardPageLayout context={context} bareHeader bareFooter>
+<div class="mm-page">
+
+  <section class="mm-hero">
+    <div>
+      <p class="mm-eyebrow">Vernal Medicare Games · Brain &amp; Memory</p>
+      <h1>{page.heading}</h1>
+      <p class="mm-hero__tag">Turn two cards, find the pairs. Big cards, clear pictures, no clock.</p>
+      <SummaryBlock text={page.summary} />
+      <AuthorByline authorId={context.author} updated={context.lastUpdated} />
+      <p class="mm-hero__cta"><a class="mm-btn mm-btn-primary" href="#mm">Start playing <span aria-hidden="true">↓</span></a></p>
+    </div>
+    <ul class="mm-hero__preview" aria-label="Sample cards">
+      {THEMES.map((t) => (<li style={`--theme:${t.color}`}><span set:html={iconSvg(t.icons[0])} /><span>{t.icons[0].label}</span></li>))}
+    </ul>
+  </section>
+
+  <div class="mm" id="mm" aria-label="Memory Match game">
+    <div class="mm-controls" id="mm-controls"></div>
+    <p class="mm-status" id="mm-status" aria-live="off"></p>
+    <div class="mm-grid" id="mm-grid" role="group"><noscript><p class="mm-muted">Vernal Memory Match needs JavaScript turned on in your browser.</p></noscript></div>
+    <div id="mm-done" hidden></div>
+    <p class="mm-sr" id="mm-live" aria-live="polite"></p>
+  </div>
+
+  <section class="mm-sec" aria-labelledby="mm-how-h">
+    <h2 id="mm-how-h">How to play</h2>
+    <ol class="mm-steps">
+      <li><span aria-hidden="true">1</span><p><strong>Pick a theme and a size.</strong> {LEVEL_ORDER.map((l) => `${LEVELS[l].label}: ${LEVELS[l].hint}`).join('. ')}.</p></li>
+      <li><span aria-hidden="true">2</span><p><strong>Turn two cards.</strong> Tap or click — or use the arrow keys and Enter. A matching pair stays face up; a miss turns back after a moment.</p></li>
+      <li><span aria-hidden="true">3</span><p><strong>Stuck?</strong> Hint briefly shows one pair. Hints are counted, never penalized.</p></li>
+      <li><span aria-hidden="true">4</span><p><strong>Beat your own score.</strong> Fewer moves is better. Your board is saved on this device; “New game” deals a fresh one.</p></li>
+    </ol>
+  </section>
+
+  <section class="mm-sec" aria-labelledby="mm-themes-h">
+    <h2 id="mm-themes-h">Themes</h2>
+    <ul class="mm-themes">
+      {THEMES.map((t) => (
+        <li style={`--theme:${t.color}`}><strong>{t.label}</strong><p>{t.blurb}</p><ul class="mm-themes__icons" aria-label={`${t.label} cards`}>{t.icons.slice(0, 6).map((ic) => <li title={ic.label} set:html={iconSvg(ic)} />)}</ul></li>
+      ))}
+    </ul>
+  </section>
+
+  <div class="mm-two">
+    <section class="mm-faq" aria-label="Frequently Asked Questions">
+      <h2>Frequently Asked Questions</h2>
+      {page.faqs?.map((f) => (
+        <details class="mm-faq__item"><summary><span set:html={f.question} /><span class="mm-faq__plus" aria-hidden="true">+</span></summary><div class="mm-faq__a" set:html={f.answer} /></details>
+      ))}
+    </section>
+    <nav class="related mm-more" aria-labelledby="mm-more-h">
+      <h2 id="mm-more-h">More games and tools</h2>
+      <ul>{MORE.map((m) => (<li><a href={m.href}><strong>{m.name}</strong><span>{m.desc}</span></a></li>))}</ul>
+    </nav>
+  </div>
+
+  <div class="mm-src">
+    <h2 class="mm-src-h">Built for comfortable play</h2>
+    <p class="mm-src-p">Cards are large touch targets, motion is optional, and the board works with a keyboard and a screen reader. The guidelines we follow:</p>
+    <SourcesList sources={page.sources ?? []} />
+  </div>
+
+  <div class="mm-cta">
+    <img class="mm-cta__photo" src="/pictures/rocco.webp" alt={`${BUSINESS.legalAgent}, licensed Medicare agent in Vernal, Utah`} width="96" height="96" loading="lazy" decoding="async" />
+    <PageCTA />
+  </div>
+</div>
+</StandardPageLayout>
+
+<script>
+  import { mount } from '../lib/games/memoryMatchUi';
+  mount();
+</script>
+
+<style is:global>
+  .mm-page {
+    --mm-ink: #0b2c45; --mm-soft: #334155; --mm-line: #d3e0ee; --mm-blue: #1d4ed8; --mm-blue-soft: #e5edfe;
+    --mm-coral: #d0343d; --mm-coral-dark: #a8262f; --mm-teal: #0f766e; --mm-gold: #f59e0b; --mm-navy: #0f2744;
+    --mm-shadow: 0 14px 34px -22px rgba(11, 44, 69, 0.55);
+    color: var(--mm-ink);
+  }
+  .mm-page *, .mm-page *::before, .mm-page *::after { box-sizing: border-box; }
+  .mm-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .mm-page a:focus-visible, .mm-page button:focus-visible, .mm-page select:focus-visible, .mm-page summary:focus-visible { outline: 4px solid var(--mm-gold); outline-offset: 3px; }
+  .mm-page h2 { color: var(--mm-ink); }
+  .mm-muted { color: #5b6b7d; }
+  .mm-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; font: inherit; font-weight: 800; font-size: 1.1rem; min-height: 56px; padding: 0.7rem 1.4rem; border-radius: 999px; cursor: pointer; border: 2px solid transparent; text-decoration: none; }
+  .mm-btn svg { width: 22px; height: 22px; }
+  .mm-btn-primary { background: var(--mm-coral); color: #fff !important; box-shadow: 0 5px 0 var(--mm-coral-dark); }
+  .mm-btn-primary:hover { background: #bb2d36; }
+  .mm-btn-primary:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--mm-coral-dark); }
+  .mm-btn-ghost { background: #fff; color: var(--mm-blue); border-color: var(--mm-line); }
+  .mm-btn-ghost:hover { border-color: var(--mm-blue); background: var(--mm-blue-soft); }
+  .mm-btn[disabled] { opacity: 0.5; cursor: default; }
+
+  /* Hero */
+  /* minmax(0, …) so neither column can be pushed wider than the viewport by its content. */
+  .mm-hero { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 2rem; align-items: center; background: linear-gradient(180deg, #eef7ff, #fff); border: 1px solid var(--mm-line); border-radius: 26px; padding: 2rem 2.25rem; margin: 0.5rem 0 1.5rem; }
+  .mm-eyebrow { margin: 0 0 0.4rem; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mm-teal); }
+  .mm-hero h1 { font-size: clamp(2rem, 4.2vw, 2.9rem); line-height: 1.08; font-weight: 800; margin: 0 0 0.6rem; color: var(--mm-ink); }
+  .mm-hero__tag { font-size: 1.2rem; font-weight: 700; margin: 0 0 0.75rem; }
+  .mm-hero .summary-block { background: none; border: 0; padding: 0; margin: 0 0 0.6rem; box-shadow: none; }
+  .mm-hero .summary-block p { margin: 0; font-size: 1.05rem; line-height: 1.6; color: var(--mm-soft); }
+  .mm-hero .byline { margin: 0 0 1rem; font-size: 0.92rem; color: #5b6b7d; }
+  .mm-hero__cta { margin: 0; }
+  .mm-hero__preview { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+  .mm-hero__preview li { aspect-ratio: 4 / 5; min-width: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.3rem; background: #fff; border: 2px solid var(--mm-line); border-radius: 16px; color: var(--theme); font-weight: 800; box-shadow: var(--mm-shadow); transform: rotate(-3deg); }
+  .mm-hero__preview li:nth-child(even) { transform: rotate(3deg); }
+  .mm-hero__preview li svg { width: 56px; height: 56px; }
+  .mm-hero__preview li span:last-child { color: var(--mm-ink); font-size: 0.95rem; }
+
+  /* Game shell */
+  .mm { background: #fff; border: 2px solid var(--mm-line); border-radius: 26px; box-shadow: 0 18px 50px -26px rgba(11, 44, 69, 0.4); padding: 1rem; margin: 0 0 2rem; scroll-margin-top: 140px; font-size: 1.1rem; }
+  .mm-controls { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.75rem 1.25rem; padding: 0.75rem 0.9rem; background: #f6faff; border: 1px solid var(--mm-line); border-radius: 18px; margin-bottom: 0.75rem; }
+  .mm-ctl { display: flex; flex-direction: column; gap: 0.3rem; border: 0; margin: 0; padding: 0; min-width: 0; }
+  .mm-ctl--actions { flex-direction: row; gap: 0.5rem; margin-left: auto; }
+  .mm-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #5b6b7d; padding: 0; }
+  .mm-select { font: inherit; font-weight: 700; min-height: 52px; padding: 0.4rem 0.8rem; border-radius: 12px; border: 2px solid var(--mm-line); background: #fff; color: var(--mm-ink); }
+  .mm-levels { flex-direction: row; flex-wrap: wrap; align-items: flex-end; gap: 0.35rem; }
+  .mm-levels legend { float: left; width: 100%; margin-bottom: 0.3rem; }
+  .mm-level { font: inherit; font-weight: 800; min-height: 52px; padding: 0.4rem 1rem; border-radius: 12px; border: 2px solid var(--mm-line); background: #fff; color: var(--mm-blue); cursor: pointer; }
+  .mm-level.is-on { background: var(--mm-blue); color: #fff; border-color: var(--mm-blue); }
+  .mm-levelhint { flex-basis: 100%; margin: -0.25rem 0 0; font-size: 0.92rem; color: #5b6b7d; }
+  .mm-controls .mm-btn { min-height: 52px; font-size: 1.02rem; padding: 0.5rem 1.1rem; }
+  .mm-status { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin: 0 0 0.75rem; padding: 0 0.3rem; color: var(--mm-soft); font-size: 1.05rem; }
+  .mm-status strong { color: var(--mm-ink); font-size: 1.25rem; }
+
+  /* Cards */
+  .mm-grid { display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 10px; max-width: calc(var(--cols, 4) * 150px + (var(--cols, 4) - 1) * 10px); margin: 0 auto; perspective: 1200px; }
+  .mm-card { position: relative; aspect-ratio: 4 / 5; min-width: 0; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; font: inherit; border-radius: 16px; }
+  .mm-card__inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 0.45s cubic-bezier(.2, .8, .3, 1); border-radius: 16px; }
+  .mm-card.is-up .mm-card__inner { transform: rotateY(180deg); }
+  .mm-face { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.25rem; border-radius: 16px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .mm-face--back { background: linear-gradient(160deg, #1b4b7a, var(--mm-navy)); border: 3px solid #2d5f8a; box-shadow: 0 6px 14px -8px rgba(11, 44, 69, 0.8); }
+  .mm-face--back svg { width: 46%; height: 46%; }
+  .mm-face--front { background: #fff; border: 3px solid var(--mm-line); color: var(--theme, var(--mm-blue)); transform: rotateY(180deg); padding: 6px; }
+  .mm-face--front svg { width: 58%; height: 58%; }
+  .mm-face__label { font-size: clamp(0.72rem, 1.6vw, 0.95rem); font-weight: 800; color: var(--mm-ink); line-height: 1.1; text-align: center; }
+  .mm-card:hover .mm-face--back { border-color: #7dd3fc; }
+  .mm-card.is-matched .mm-face--front { border-color: var(--theme, var(--mm-blue)); background: #f0fdf4; box-shadow: inset 0 0 0 3px rgba(22, 101, 52, 0.15); }
+  .mm-card.is-matched { cursor: default; }
+  .mm-card.is-hint .mm-face--front { border-color: var(--mm-gold); background: #fffbeb; }
+  .mm-win { margin-top: 1rem; text-align: center; background: #fffbeb; border: 2px solid #fcd34d; border-radius: 16px; padding: 1rem; animation: mm-in 0.3s ease both; }
+  .mm-win__star { display: inline-grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: #facc15; color: #78350f; margin-bottom: 0.3rem; animation: mm-pop 0.5s ease; }
+  .mm-win__star svg { width: 32px; height: 32px; }
+  .mm-page .mm-win h3 { margin: 0 0 0.25rem; font-size: 1.3rem; color: var(--mm-ink); }
+  .mm-win h3:focus { outline: none; }
+  .mm-win p { margin: 0 0 0.6rem; color: var(--mm-soft); font-size: 0.98rem; }
+  .mm-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+
+  /* Sections */
+  .mm-sec { margin: 0 0 2rem; }
+  .mm-page .mm-sec h2, .mm-faq h2, .mm-more h2, .mm-src-h { font-size: clamp(1.5rem, 3vw, 2rem); margin: 0 0 0.8rem; }
+  .mm-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+  .mm-steps li { display: flex; gap: 0.9rem; align-items: flex-start; }
+  .mm-steps li > span { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; background: var(--mm-blue); box-shadow: 0 0 0 4px var(--mm-blue-soft); }
+  .mm-steps p { margin: 0.35rem 0 0; font-size: 1.08rem; color: var(--mm-soft); }
+  .mm-steps strong { color: var(--mm-ink); }
+  .mm-themes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem; }
+  .mm-themes > li { background: #fff; border: 1px solid var(--mm-line); border-radius: 16px; padding: 0.9rem 1rem; box-shadow: var(--mm-shadow); }
+  .mm-themes strong { font-size: 1.08rem; color: var(--theme); }
+  .mm-themes p { margin: 0.2rem 0 0.5rem; color: var(--mm-soft); font-size: 0.98rem; }
+  .mm-themes__icons { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.35rem; color: var(--theme); }
+  .mm-themes__icons li { width: 34px; height: 34px; border-radius: 8px; background: #f6faff; border: 1px solid var(--mm-line); display: grid; place-items: center; }
+  .mm-themes__icons svg { width: 24px; height: 24px; }
+  .mm-two { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 0 0 2rem; align-items: start; }
+  .mm-faq__item { background: #fff; border: 1px solid var(--mm-line); border-radius: 14px; margin-bottom: 0.6rem; }
+  .mm-faq__item summary { display: flex; align-items: center; gap: 0.75rem; list-style: none; cursor: pointer; padding: 0.85rem 1rem; min-height: 56px; font-weight: 800; font-size: 1.05rem; }
+  .mm-faq__item summary::-webkit-details-marker { display: none; }
+  .mm-faq__plus { margin-left: auto; width: 30px; height: 30px; flex: none; border-radius: 50%; display: grid; place-items: center; color: var(--mm-coral); background: #fff1f1; font-weight: 800; transition: transform 0.2s ease; }
+  .mm-faq__item[open] .mm-faq__plus { transform: rotate(45deg); }
+  .mm-faq__a { padding: 0 1rem 1rem; color: var(--mm-soft); }
+  .mm-page .mm-more { margin: 0; }
+  .mm-page .mm-more ul { grid-template-columns: 1fr; gap: 0.5rem; }
+  .mm-page .mm-more li { padding: 0; border: 0; background: none; box-shadow: none; }
+  .mm-page .mm-more li::before { content: none; }
+  .mm-page .mm-more li:hover { transform: none; box-shadow: none; }
+  .mm-page .mm-more li a, .mm-page .mm-more li:hover a { display: flex; flex-direction: column; gap: 0.05rem; padding: 0.7rem 0.9rem; background: #fff; border: 1px solid var(--mm-line); border-radius: 12px; color: var(--mm-ink) !important; box-shadow: var(--mm-shadow); }
+  .mm-page .mm-more li a:hover { border-color: var(--mm-blue); }
+  .mm-more strong { font-size: 1.02rem; color: var(--mm-blue); }
+  .mm-more span { font-weight: 400; color: var(--mm-soft); font-size: 0.94rem; }
+  .mm-src { margin: 0 0 2rem; }
+  .mm-src-p { margin: 0 0 0.75rem; color: var(--mm-soft); }
+  .mm-page .sources { background: #fff; border: 1px solid var(--mm-line); border-radius: 18px; padding: 1.1rem 1.35rem; margin: 0; box-shadow: var(--mm-shadow); }
+  .mm-page .sources h2 { font-size: 1.2rem; margin: 0 0 0.5rem; }
+  .mm-page .sources li { margin: 0.3rem 0; color: var(--mm-soft); }
+  .mm-cta { display: flex; align-items: center; gap: 1.5rem; background: linear-gradient(135deg, #0b2c45, #12406a); color: #fff; border-radius: 24px; padding: 1.5rem 1.75rem; margin: 0 0 1.5rem; }
+  .mm-cta__photo { flex: none; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; background: #fff; }
+  .mm-cta .page-cta { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; margin: 0; padding: 0; background: none; border: 0; }
+  .mm-cta .page-cta h2 { flex: 1 1 100%; margin: 0; color: #fff; font-size: 1.6rem; }
+  .mm-cta .page-cta > p:not(.page-cta-actions) { flex: 1 1 280px; margin: 0; color: #dbeafe; }
+  .mm-cta .page-cta-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0; }
+  .mm-cta .page-cta-actions .button { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0.7rem 1.4rem; border-radius: 12px; font-weight: 800; text-decoration: none; }
+  .mm-cta .page-cta-actions .button:first-child { background: var(--mm-coral); color: #fff; border: 2px solid var(--mm-coral); }
+  .mm-cta .page-cta-actions .button + .button { background: transparent; color: #fff; border: 2px solid #fff; }
+
+  @media (max-width: 900px) {
+    .mm-hero { grid-template-columns: minmax(0, 1fr); padding: 1.5rem; }
+    .mm-hero__preview { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .mm-hero__preview li svg { width: 40px; height: 40px; }
+    .mm-two { grid-template-columns: 1fr; }
+    .mm-cta { flex-direction: column; text-align: center; }
+    .mm-cta .page-cta, .mm-cta .page-cta-actions { justify-content: center; }
+  }
+  @media (max-width: 600px) {
+    .mm { padding: 0.6rem; border-radius: 18px; }
+    .mm-hero { padding: 1.1rem; }
+    .mm-controls { padding: 0.6rem; gap: 0.6rem; }
+    .mm-ctl--actions { margin-left: 0; width: 100%; }
+    .mm-ctl--actions .mm-btn { flex: 1; }
+    .mm-grid { gap: 7px; }
+    .mm-face--front svg { width: 54%; height: 54%; }
+    .mm-face__label { font-size: 0.72rem; }
+    .mm-hero__cta .mm-btn { width: 100%; }
+    .mm-cta .page-cta-actions .button { width: 100%; }
+  }
+
+  @keyframes mm-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @keyframes mm-pop { 0% { transform: scale(0.8); } 60% { transform: scale(1.1); } 100% { transform: scale(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    .mm-page *, .mm-page *::before, .mm-page *::after { animation: none !important; transition: none !important; }
+    .mm-card__inner { transition: none; }
+  }
+</style>
