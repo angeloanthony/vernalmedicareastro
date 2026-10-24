@@ -5,6 +5,14 @@ This project documents an in-progress migration; entries are grouped by mileston
 
 ## [Unreleased]
 
+### Known issue — 7px horizontal overflow at 320px (site chrome, 2026-10-24)
+- At a 320px viewport the document scrolls 7px horizontally. The overflowing
+  elements are `.site-name-center` (header logo block) and `.contact-fab`
+  (Call / Text Us bar), not page content — the same measurement appears on
+  every game page, including the already-live Memory Match. Logged here as a
+  separate site-wide layout task; the Solitaire release deliberately made no
+  global layout changes.
+
 ### Fixed — Supplement vs Advantage page styling (2026-08-25)
 - The page body rendered with browser-default styling: `StandardPageLayout`
   emits `<article class="page container">` with no `<main>` ancestor, so every
