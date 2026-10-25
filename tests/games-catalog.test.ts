@@ -53,7 +53,7 @@ describe('game catalog', () => {
   });
 
   it('the games this portal launches are exactly the published games (update when one ships)', () => {
-    expect(publishedGames().map((g) => g.path).sort()).toEqual(['/medicare-adventure-game.html', '/medicare-journey-game.html', '/medicare-life-simulator.html', '/memory-match.html', '/solitaire.html', '/word-search.html']);
+    expect(publishedGames().map((g) => g.path).sort()).toEqual(['/mahjong-solitaire.html', '/medicare-adventure-game.html', '/medicare-journey-game.html', '/medicare-life-simulator.html', '/memory-match.html', '/solitaire.html', '/word-search.html']);
   });
 
   it('featured strip lists published games before upcoming ones', () => {

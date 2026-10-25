@@ -1,0 +1,332 @@
+---
+// src/pages/mahjong-solitaire.astro — Vernal Mahjong Solitaire: the
+// single-player tile-matching puzzle (not the four-player game), with large
+// original tiles, two layouts, unlimited undo, hints and always-finishable
+// shuffles, and no timer. Entertainment only; no Medicare content.
+// Engine: src/lib/games/mahjong.ts (pure, unit-tested); interface:
+// src/lib/games/mahjongUi.ts. Same shell as the other games (StandardPageLayout
+// bareHeader + bareFooter with the real SummaryBlock / AuthorByline /
+// SourcesList / PageCTA). Styles are `is:global` under `.mj-page` because the
+// board renders with innerHTML.
+import StandardPageLayout from '../components/layout/StandardPageLayout.astro';
+import SummaryBlock from '../components/SummaryBlock.astro';
+import AuthorByline from '../components/content/AuthorByline.astro';
+import SourcesList from '../components/content/SourcesList.astro';
+import PageCTA from '../components/content/PageCTA.astro';
+import { BUSINESS } from '../data/business';
+import { KINDS, FAMILIES, LAYOUTS, LAYOUT_ORDER, tileSvg } from '../lib/games/mahjong';
+import { faceHtml } from '../lib/games/mahjongUi';
+import type { PageContext } from '../types/Page';
+
+const context: PageContext = {
+  page: {
+    title: 'Free Mahjong Solitaire for Seniors — Large Tiles, Untimed | Vernal Medicare Games',
+    heading: 'Vernal Mahjong Solitaire',
+    description:
+      'Free, untimed Mahjong Solitaire — the single-player tile-matching puzzle — with large, original, easy-to-read tiles. Two layouts, free-tile highlighting, unlimited undo, hints, and shuffles that are always finishable. Tap or use the keyboard. Your board is saved on your device.',
+    taxonomy: { silo: 'tools', tags: ['tools', 'game', 'cards-classic', 'puzzles', 'seniors'] },
+    summary:
+      'Vernal Mahjong Solitaire is the single-player tile-matching puzzle, built for comfortable play: big tiles with a large numeral or a clear picture on every face, no clock, no account, and no ads. Clear the board by removing pairs of matching free tiles. Start with the Garden layout and move up to the traditional Turtle; free tiles are highlighted, every deal can be finished, and when no matches remain a shuffle always gives you a way forward. Your board is saved on this device.',
+    faqs: [
+      { question: 'Is this the four-player Mahjong game?', answer: 'No. This is Mahjong Solitaire, a single-player puzzle played with the same kind of tiles. You match pairs of identical free tiles until the board is empty. There are no opponents, no hands, and no scoring like the table game.' },
+      { question: 'When is a tile free?', answer: 'A tile is free when no tile lies on top of any part of it and at least one of its two long sides is open — nothing touching that side on the same layer. Free tiles are bright; covered or closed-in tiles are dimmed. You can turn the highlighting off.' },
+      { question: 'Which tiles match?', answer: 'Two tiles match when they are exactly the same: the same number of the same family, the same Wind, or the same Dragon. The four Flowers match any other Flower, and the four Seasons match any other Season.' },
+      { question: 'What happens when no moves are left?', answer: 'The game tells you. You can Shuffle the remaining tiles — the shuffle is always finishable — undo your last matches, replay the same layout, or start a new game. Shuffles and hints are counted but never penalized.' },
+      { question: 'Can every board be finished?', answer: 'Yes. Every deal is built so that at least one winning order exists from the start, and every shuffle is built the same way. The order you choose may still lead to a dead end, which is where Undo and Shuffle come in.' },
+      { question: 'Why does the board look sideways on my phone?', answer: 'On narrow screens the board is turned so the tiles stay large and nothing scrolls sideways. The rules are unchanged: a tile is free when nothing is on top of it and one of its long sides is open.' },
+      { question: 'Can I play with a keyboard?', answer: 'Yes. Tab to the board, use the arrow keys to move between tiles, press Enter or the space bar to pick up a tile and again on its match, and Escape to put it back. Every tile has a spoken name and says whether it is free.' },
+    ],
+    sources: [
+      { title: 'WCAG 2.2 — Target Size (Minimum)', url: 'https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html', publisher: 'W3C Web Accessibility Initiative' },
+      { title: 'WCAG 2.2 — Use of Color (highlighting must not be the only cue)', url: 'https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html', publisher: 'W3C Web Accessibility Initiative' },
+      { title: 'WCAG 2.1 — Animation from Interactions (reduced motion)', url: 'https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html', publisher: 'W3C Web Accessibility Initiative' },
+      { title: 'ARIA Authoring Practices — Keyboard navigation inside components', url: 'https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/', publisher: 'W3C Web Accessibility Initiative' },
+    ],
+  },
+  meta: {
+    canonical: 'https://vernalmedicare.com/mahjong-solitaire.html',
+    ogType: 'website',
+    ogTitle: 'Vernal Mahjong Solitaire — Large Tiles, No Timer',
+    ogDescription: 'The single-player tile-matching puzzle with big original tiles, two layouts, free-tile highlighting, unlimited undo, hints, and shuffles that always finish.',
+  },
+  author: 'rocco',
+  datePublished: '2026-10-24',
+  lastUpdated: '2026-10-24',
+  medicalDisclaimer:
+    'Vernal Mahjong Solitaire is an entertainment game. It is not medical advice, makes no health claims, and is not a test of memory or cognition. For questions about Medicare, check Medicare.gov or talk with a licensed agent.',
+  breadcrumb: [
+    { name: 'Home', href: '/' },
+    { name: 'Games', href: '/games.html' },
+    { name: 'Mahjong Solitaire', href: '/mahjong-solitaire.html' },
+  ],
+};
+const { page } = context;
+
+const SAMPLE = ['d5', 'b7', 'l3', 'we', 'dsun', 'frose'];
+const FAMILY_KEYS = Object.keys(FAMILIES) as (keyof typeof FAMILIES)[];
+const familySample = (f: string) => KINDS.filter((k) => k.family === f).slice(0, f === 'wind' || f === 'dragon' || f === 'flower' || f === 'season' ? 4 : 3);
+
+const MORE = [
+  { href: '/games.html', name: 'All games', desc: 'Browse the Vernal Medicare game library.' },
+  { href: '/solitaire.html', name: 'Vernal Solitaire', desc: 'Classic Klondike with big cards and no clock.' },
+  { href: '/memory-match.html', name: 'Vernal Memory Match', desc: 'Turn two cards, find the pairs.' },
+  { href: '/word-search.html', name: 'Vernal Word Search', desc: 'Big letters, six themes, no timer.' },
+  { href: '/medicare-journey-game.html', name: 'Medicare Journey', desc: 'Explore a valley, solve puzzles, collect knowledge cards.' },
+  { href: '/medicare-adventure-game.html', name: 'Medicare Adventure', desc: 'A five-stage quiz game with points and badges.' },
+  { href: '/medicare-life-simulator.html', name: 'Medicare Life Simulator', desc: 'Guide Joe’s retirement month by month.' },
+  { href: '/medicare-calculators.html', name: 'Free Medicare Calculators', desc: 'Costs, penalties, and important dates.' },
+];
+---
+
+<StandardPageLayout context={context} bareHeader bareFooter>
+<div class="mj-page">
+
+  <section class="mj-hero">
+    <div>
+      <p class="mj-eyebrow">Vernal Medicare Games · Cards &amp; Classic Games · Single-player puzzle</p>
+      <h1>{page.heading}</h1>
+      <p class="mj-hero__tag">Match pairs of free tiles and clear the board. Big tiles, no clock, always finishable.</p>
+      <SummaryBlock text={page.summary} />
+      <AuthorByline authorId={context.author} updated={context.lastUpdated} />
+      <p class="mj-hero__cta"><a class="mj-btn mj-btn-primary" href="#mj">Start playing <span aria-hidden="true">↓</span></a></p>
+    </div>
+    <ul class="mj-hero__preview" aria-label="Sample tiles">
+      {SAMPLE.map((id) => (<li class="mj-tile is-free is-static" set:html={faceHtml(id)} />))}
+    </ul>
+  </section>
+
+  <div class="mj" id="mj" aria-label="Mahjong Solitaire game">
+    <p class="mj-kind"><strong>Single-player tile matching.</strong> This is Mahjong Solitaire, not the four-player table game.</p>
+    <div class="mj-controls" id="mj-controls"></div>
+    <p class="mj-status" id="mj-status" aria-live="off"></p>
+    <p class="mj-msg" id="mj-msg"></p>
+    <div class="mj-frame" id="mj-frame"><div class="mj-board" id="mj-board" role="group" aria-label="Mahjong board"><noscript><p class="mj-muted mj-noscript">Vernal Mahjong Solitaire needs JavaScript turned on in your browser.</p></noscript></div></div>
+    <div id="mj-panel" hidden></div>
+    <p class="mj-sr" id="mj-live" aria-live="polite"></p>
+  </div>
+
+  <section class="mj-sec" aria-labelledby="mj-how-h">
+    <h2 id="mj-how-h">How to play</h2>
+    <ol class="mj-steps">
+      <li><span aria-hidden="true">1</span><p><strong>The goal.</strong> Remove every tile from the board by taking them off two at a time.</p></li>
+      <li><span aria-hidden="true">2</span><p><strong>Free tiles.</strong> You can only take a tile that has nothing on top of it and at least one long side open. Free tiles are bright; the rest are dimmed until they come free.</p></li>
+      <li><span aria-hidden="true">3</span><p><strong>Matching.</strong> Tap a free tile, then tap another free tile with the same face. Every tile that matches your pick lights up. Flowers match any Flower; Seasons match any Season.</p></li>
+      <li><span aria-hidden="true">4</span><p><strong>Choose your layout.</strong> {LAYOUT_ORDER.map((k) => `${LAYOUTS[k].label}: ${LAYOUTS[k].hint}`).join('. ')}. Start with the Garden, then try the Turtle.</p></li>
+      <li><span aria-hidden="true">5</span><p><strong>Stuck?</strong> Hint shows a matching pair. Undo takes back as many matches as you like. Shuffle rearranges what is left and always leaves a way to finish. Your board is saved on this device.</p></li>
+    </ol>
+  </section>
+
+  <section class="mj-sec" aria-labelledby="mj-tiles-h">
+    <h2 id="mj-tiles-h">The tiles</h2>
+    <p class="mj-sec__p">An original set of 144 tiles. Numbered tiles lead with a big numeral and a family mark; the rest carry a clear picture and a word.</p>
+    <ul class="mj-families">
+      {FAMILY_KEYS.map((f) => (
+        <li style={`--kc:${FAMILIES[f].color}`}><strong>{FAMILIES[f].label}</strong><p>{FAMILIES[f].blurb}</p><ul class="mj-families__icons" aria-label={`${FAMILIES[f].label} tiles`}>{familySample(f).map((k) => <li title={k.label} set:html={tileSvg(k)} />)}</ul></li>
+      ))}
+    </ul>
+  </section>
+
+  <div class="mj-two">
+    <section class="mj-faq" aria-label="Frequently Asked Questions">
+      <h2>Frequently Asked Questions</h2>
+      {page.faqs?.map((f) => (
+        <details class="mj-faq__item"><summary><span set:html={f.question} /><span class="mj-faq__plus" aria-hidden="true">+</span></summary><div class="mj-faq__a" set:html={f.answer} /></details>
+      ))}
+    </section>
+    <nav class="related mj-more" aria-labelledby="mj-more-h">
+      <h2 id="mj-more-h">More games and tools</h2>
+      <ul>{MORE.map((m) => (<li><a href={m.href}><strong>{m.name}</strong><span>{m.desc}</span></a></li>))}</ul>
+    </nav>
+  </div>
+
+  <div class="mj-src">
+    <h2 class="mj-src-h">Built for comfortable play</h2>
+    <p class="mj-src-p">Tiles are large touch targets, free tiles are marked by brightness and by their spoken name (not color alone), motion is optional, and the board works with a keyboard and a screen reader. The guidelines we follow:</p>
+    <SourcesList sources={page.sources ?? []} />
+  </div>
+
+  <div class="mj-cta">
+    <img class="mj-cta__photo" src="/pictures/rocco.webp" alt={`${BUSINESS.legalAgent}, licensed Medicare agent in Vernal, Utah`} width="96" height="96" loading="lazy" decoding="async" />
+    <PageCTA />
+  </div>
+</div>
+</StandardPageLayout>
+
+<script>
+  import { mount } from '../lib/games/mahjongUi';
+  mount();
+</script>
+
+<style is:global>
+  .mj-page {
+    --mj-ink: #0b2c45; --mj-soft: #334155; --mj-line: #d3e0ee; --mj-blue: #1d4ed8; --mj-blue-soft: #e5edfe;
+    --mj-coral: #d0343d; --mj-coral-dark: #a8262f; --mj-teal: #0f766e; --mj-gold: #f59e0b; --mj-navy: #0f2744;
+    --mj-felt: #1e4d6b; --mj-felt-dark: #143a52; --mj-face: #fffbea; --mj-edge: #c9b27a;
+    --mj-shadow: 0 14px 34px -22px rgba(11, 44, 69, 0.55);
+    color: var(--mj-ink);
+  }
+  .mj-page *, .mj-page *::before, .mj-page *::after { box-sizing: border-box; }
+  .mj-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .mj-page a:focus-visible, .mj-page button:focus-visible, .mj-page summary:focus-visible { outline: 4px solid var(--mj-gold); outline-offset: 3px; }
+  .mj-page h2 { color: var(--mj-ink); }
+  .mj-muted { color: #5b6b7d; }
+  .mj-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; font: inherit; font-weight: 800; font-size: 1.1rem; min-height: 56px; padding: 0.7rem 1.4rem; border-radius: 999px; cursor: pointer; border: 2px solid transparent; text-decoration: none; }
+  .mj-btn svg { width: 22px; height: 22px; }
+  .mj-btn-primary { background: var(--mj-coral); color: #fff !important; box-shadow: 0 5px 0 var(--mj-coral-dark); }
+  .mj-btn-primary:hover { background: #bb2d36; }
+  .mj-btn-primary:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--mj-coral-dark); }
+  .mj-btn-ghost { background: #fff; color: var(--mj-blue); border-color: var(--mj-line); }
+  .mj-btn-ghost:hover { border-color: var(--mj-blue); background: var(--mj-blue-soft); }
+  .mj-btn[disabled] { opacity: 0.5; cursor: default; }
+  .mj-toggle.is-on { background: var(--mj-blue-soft); border-color: var(--mj-blue); }
+
+  /* Hero */
+  .mj-hero { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 2rem; align-items: center; background: linear-gradient(180deg, #eef7ff, #fff); border: 1px solid var(--mj-line); border-radius: 26px; padding: 2rem 2.25rem; margin: 0.5rem 0 1.5rem; }
+  .mj-eyebrow { margin: 0 0 0.4rem; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mj-teal); }
+  .mj-hero h1 { font-size: clamp(2rem, 4.2vw, 2.9rem); line-height: 1.08; font-weight: 800; margin: 0 0 0.6rem; color: var(--mj-ink); }
+  .mj-hero__tag { font-size: 1.2rem; font-weight: 700; margin: 0 0 0.75rem; }
+  .mj-hero .summary-block { background: none; border: 0; padding: 0; margin: 0 0 0.6rem; box-shadow: none; }
+  .mj-hero .summary-block p { margin: 0; font-size: 1.05rem; line-height: 1.6; color: var(--mj-soft); }
+  .mj-hero .byline { margin: 0 0 1rem; font-size: 0.92rem; color: #5b6b7d; }
+  .mj-hero__cta { margin: 0; }
+  .mj-hero__preview { list-style: none; margin: 0; padding: 0.5rem 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; --tw: 100%; --u: 72px; }
+  .mj-hero__preview > .mj-tile { position: relative; left: auto; top: auto; width: 100%; height: auto; aspect-ratio: 10 / 13; transform: rotate(-3deg); }
+  .mj-hero__preview > .mj-tile:nth-child(even) { transform: rotate(3deg) translateY(8px); }
+
+  /* Game shell */
+  .mj { background: #fff; border: 2px solid var(--mj-line); border-radius: 26px; box-shadow: 0 18px 50px -26px rgba(11, 44, 69, 0.4); padding: 1rem; margin: 0 0 2rem; scroll-margin-top: 140px; font-size: 1.1rem; }
+  .mj-kind { margin: 0 0 0.6rem; padding: 0 0.3rem; font-size: 0.98rem; color: var(--mj-soft); }
+  .mj-kind strong { color: var(--mj-ink); }
+  .mj-controls { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.75rem 1.25rem; padding: 0.75rem 0.9rem; background: #f6faff; border: 1px solid var(--mj-line); border-radius: 18px; margin-bottom: 0.75rem; }
+  .mj-ctl { display: flex; flex-direction: column; gap: 0.3rem; border: 0; margin: 0; padding: 0; min-width: 0; }
+  .mj-ctl--actions { flex-direction: row; flex-wrap: wrap; gap: 0.5rem; margin-left: auto; }
+  .mj-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #5b6b7d; padding: 0; }
+  .mj-layouts { flex-direction: row; flex-wrap: wrap; align-items: flex-end; gap: 0.35rem; }
+  .mj-layouts legend { float: left; width: 100%; margin-bottom: 0.3rem; }
+  .mj-layout { font: inherit; font-weight: 800; min-height: 52px; padding: 0.4rem 1rem; border-radius: 12px; border: 2px solid var(--mj-line); background: #fff; color: var(--mj-blue); cursor: pointer; }
+  .mj-layout.is-on { background: var(--mj-blue); color: #fff; border-color: var(--mj-blue); }
+  .mj-layouthint { flex-basis: 100%; margin: -0.25rem 0 0; font-size: 0.92rem; color: #5b6b7d; }
+  .mj-controls .mj-btn { min-height: 52px; font-size: 1.02rem; padding: 0.5rem 1.1rem; }
+  .mj-status { display: flex; flex-wrap: wrap; gap: 0.3rem 1.25rem; margin: 0 0 0.25rem; padding: 0 0.3rem; color: var(--mj-soft); font-size: 1.02rem; }
+  .mj-status strong { color: var(--mj-ink); font-size: 1.2rem; }
+  .mj-msg { min-height: 1.6em; margin: 0 0 0.6rem; padding: 0 0.3rem; font-size: 1.05rem; font-weight: 700; color: var(--mj-ink); }
+
+  /* Board */
+  .mj-frame { background: radial-gradient(ellipse at 50% 20%, #2a6a92, var(--mj-felt) 55%, var(--mj-felt-dark)); border-radius: 18px; padding: 12px; display: flex; justify-content: center; overflow: auto; }
+  .mj-frame > .mj-board { flex: none; }
+  .mj-board.is-cleared { height: 120px !important; }
+  .mj-board { position: relative; --tw: 48px; --th: 62px; --u: 48px; --r: calc(var(--u) * 0.12); user-select: none; -webkit-user-select: none; }
+  .mj-tile { position: absolute; width: var(--tw); height: var(--th); padding: 0; margin: 0; border: 0; border-radius: var(--r); font: inherit; cursor: pointer; background: var(--mj-face); color: var(--mj-ink);
+    box-shadow: inset 0 0 0 1.5px rgba(201, 178, 122, 0.7), calc(var(--u) * -0.07) calc(var(--u) * 0.07) 0 0 var(--mj-edge), calc(var(--u) * -0.09) calc(var(--u) * 0.1) 6px rgba(0, 0, 0, 0.45); touch-action: manipulation; }
+  .mj-tile.is-blocked { filter: brightness(0.62) saturate(0.6); cursor: default; }
+  .mj-nohl .mj-tile.is-blocked { filter: none; }
+  .mj-tile.is-covered { cursor: default; }
+  .mj-tile.is-selected { background: #fde68a; box-shadow: 0 0 0 4px #fbbf24, calc(var(--u) * -0.07) calc(var(--u) * 0.07) 0 0 var(--mj-edge), 0 0 0 7px rgba(251, 191, 36, 0.35); z-index: 10000 !important; }
+  .mj-tile.is-match { background: #dcfce7; box-shadow: 0 0 0 3px #22c55e, calc(var(--u) * -0.07) calc(var(--u) * 0.07) 0 0 var(--mj-edge), 0 0 0 6px rgba(34, 197, 94, 0.3); }
+  .mj-tile.is-hint { background: #fde68a; box-shadow: 0 0 0 3px #fbbf24, calc(var(--u) * -0.07) calc(var(--u) * 0.07) 0 0 var(--mj-edge), 0 0 0 6px rgba(251, 191, 36, 0.35); z-index: 10000 !important; }
+  .mj-tile:focus-visible { outline: 4px solid #fff; outline-offset: 2px; z-index: 10001 !important; }
+  .mj-tile.is-static { cursor: default; }
+  .mj-face { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2%; color: var(--kc); padding: 6%; }
+  .mj-num { font-size: calc(var(--u) * 0.56); line-height: 0.95; font-weight: 800; color: var(--mj-ink); letter-spacing: -0.02em; }
+  .mj-ico { width: 46%; height: auto; aspect-ratio: 1; display: block; }
+  .mj-ico svg { width: 100%; height: 100%; }
+  .mj-ico--big { width: 62%; }
+  .mj-word { font-size: calc(var(--u) * 0.2); font-weight: 800; color: var(--mj-ink); line-height: 1; text-transform: uppercase; letter-spacing: 0.02em; max-width: 100%; }
+  .mj-word--long { font-size: calc(var(--u) * 0.145); letter-spacing: 0; }
+  .is-transposed .mj-face { flex-direction: row; gap: 6%; }
+  .is-transposed .mj-num { font-size: calc(var(--u) * 0.6); }
+  .is-transposed .mj-ico { width: auto; height: 50%; }
+  .is-transposed .mj-ico--big { height: 64%; }
+  /* Transposed tiles are short and wide: honors show their picture only (the name stays in the spoken label). */
+  .is-transposed .mj-word { display: none; }
+  .is-transposed .mj-ico--big { height: 78%; }
+  .mj-noscript { color: #fff; margin: 1rem; text-align: center; }
+  .mj-tile.is-shake { animation: mj-shake 0.3s ease; }
+
+  /* Panels */
+  .mj-win, .mj-note { margin-top: 1rem; text-align: center; background: #fffbeb; border: 2px solid #fcd34d; border-radius: 16px; padding: 1rem; animation: mj-in 0.3s ease both; }
+  .mj-note { background: #f6faff; border-color: var(--mj-line); }
+  .mj-win__star { display: inline-grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: #facc15; color: #78350f; margin-bottom: 0.3rem; animation: mj-pop 0.5s ease; }
+  .mj-win__star svg { width: 32px; height: 32px; }
+  .mj-page .mj-win h3, .mj-page .mj-note h3 { margin: 0 0 0.25rem; font-size: 1.3rem; color: var(--mj-ink); }
+  .mj-win h3:focus, .mj-note h3:focus { outline: none; }
+  .mj-win p, .mj-note p { margin: 0 0 0.6rem; color: var(--mj-soft); font-size: 0.98rem; }
+  .mj-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+
+  /* Sections */
+  .mj-sec { margin: 0 0 2rem; }
+  .mj-sec__p { margin: 0 0 0.75rem; color: var(--mj-soft); }
+  .mj-page .mj-sec h2, .mj-faq h2, .mj-more h2, .mj-src-h { font-size: clamp(1.5rem, 3vw, 2rem); margin: 0 0 0.8rem; }
+  .mj-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+  .mj-steps li { display: flex; gap: 0.9rem; align-items: flex-start; }
+  .mj-steps li > span { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #fff; background: var(--mj-blue); box-shadow: 0 0 0 4px var(--mj-blue-soft); }
+  .mj-steps p { margin: 0.35rem 0 0; font-size: 1.08rem; color: var(--mj-soft); }
+  .mj-steps strong { color: var(--mj-ink); }
+  .mj-families { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; }
+  .mj-families > li { background: #fff; border: 1px solid var(--mj-line); border-radius: 16px; padding: 0.9rem 1rem; box-shadow: var(--mj-shadow); }
+  .mj-families strong { font-size: 1.08rem; color: var(--kc); }
+  .mj-families p { margin: 0.2rem 0 0.5rem; color: var(--mj-soft); font-size: 0.98rem; }
+  .mj-families__icons { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.35rem; color: var(--kc); }
+  .mj-families__icons li { width: 38px; height: 46px; border-radius: 6px; background: var(--mj-face); border: 1px solid var(--mj-edge); display: grid; place-items: center; }
+  .mj-families__icons svg { width: 26px; height: 26px; }
+  .mj-two { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 0 0 2rem; align-items: start; }
+  .mj-faq__item { background: #fff; border: 1px solid var(--mj-line); border-radius: 14px; margin-bottom: 0.6rem; }
+  .mj-faq__item summary { display: flex; align-items: center; gap: 0.75rem; list-style: none; cursor: pointer; padding: 0.85rem 1rem; min-height: 56px; font-weight: 800; font-size: 1.05rem; }
+  .mj-faq__item summary::-webkit-details-marker { display: none; }
+  .mj-faq__plus { margin-left: auto; width: 30px; height: 30px; flex: none; border-radius: 50%; display: grid; place-items: center; color: var(--mj-coral); background: #fff1f1; font-weight: 800; transition: transform 0.2s ease; }
+  .mj-faq__item[open] .mj-faq__plus { transform: rotate(45deg); }
+  .mj-faq__a { padding: 0 1rem 1rem; color: var(--mj-soft); }
+  .mj-page .mj-more { margin: 0; }
+  .mj-page .mj-more ul { grid-template-columns: 1fr; gap: 0.5rem; }
+  .mj-page .mj-more li { padding: 0; border: 0; background: none; box-shadow: none; }
+  .mj-page .mj-more li::before { content: none; }
+  .mj-page .mj-more li:hover { transform: none; box-shadow: none; }
+  .mj-page .mj-more li a, .mj-page .mj-more li:hover a { display: flex; flex-direction: column; gap: 0.05rem; padding: 0.7rem 0.9rem; background: #fff; border: 1px solid var(--mj-line); border-radius: 12px; color: var(--mj-ink) !important; box-shadow: var(--mj-shadow); }
+  .mj-page .mj-more li a:hover { border-color: var(--mj-blue); }
+  .mj-more strong { font-size: 1.02rem; color: var(--mj-blue); }
+  .mj-more span { font-weight: 400; color: var(--mj-soft); font-size: 0.94rem; }
+  .mj-src { margin: 0 0 2rem; }
+  .mj-src-p { margin: 0 0 0.75rem; color: var(--mj-soft); }
+  .mj-page .sources { background: #fff; border: 1px solid var(--mj-line); border-radius: 18px; padding: 1.1rem 1.35rem; margin: 0; box-shadow: var(--mj-shadow); }
+  .mj-page .sources h2 { font-size: 1.2rem; margin: 0 0 0.5rem; }
+  .mj-page .sources li { margin: 0.3rem 0; color: var(--mj-soft); }
+  .mj-cta { display: flex; align-items: center; gap: 1.5rem; background: linear-gradient(135deg, #0b2c45, #12406a); color: #fff; border-radius: 24px; padding: 1.5rem 1.75rem; margin: 0 0 1.5rem; }
+  .mj-cta__photo { flex: none; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; background: #fff; }
+  .mj-cta .page-cta { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; margin: 0; padding: 0; background: none; border: 0; }
+  .mj-cta .page-cta h2 { flex: 1 1 100%; margin: 0; color: #fff; font-size: 1.6rem; }
+  .mj-cta .page-cta > p:not(.page-cta-actions) { flex: 1 1 280px; margin: 0; color: #dbeafe; }
+  .mj-cta .page-cta-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0; }
+  .mj-cta .page-cta-actions .button { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0.7rem 1.4rem; border-radius: 12px; font-weight: 800; text-decoration: none; }
+  .mj-cta .page-cta-actions .button:first-child { background: var(--mj-coral); color: #fff; border: 2px solid var(--mj-coral); }
+  .mj-cta .page-cta-actions .button + .button { background: transparent; color: #fff; border: 2px solid #fff; }
+
+  @media (max-width: 900px) {
+    .mj-hero { grid-template-columns: minmax(0, 1fr); padding: 1.5rem; }
+    .mj-hero__preview { grid-template-columns: repeat(6, minmax(0, 1fr)); max-width: 480px; --u: 48px; }
+    .mj-two { grid-template-columns: 1fr; }
+    .mj-cta { flex-direction: column; text-align: center; }
+    .mj-cta .page-cta, .mj-cta .page-cta-actions { justify-content: center; }
+  }
+  @media (max-width: 600px) {
+    .mj { padding: 0.5rem; border-radius: 18px; }
+    .mj-hero { padding: 1.1rem; }
+    .mj-controls { padding: 0.6rem; gap: 0.6rem; }
+    .mj-ctl--actions { margin-left: 0; width: 100%; }
+    .mj-ctl--actions .mj-btn { flex: 1 1 40%; padding: 0.5rem 0.6rem; font-size: 0.98rem; }
+    .mj-frame { padding: 6px; border-radius: 12px; }
+    .mj-hero__cta .mj-btn { width: 100%; }
+    .mj-cta .page-cta-actions .button { width: 100%; }
+  }
+
+  @media (max-width: 360px) {
+    .mj { padding: 0.35rem; }
+    .mj-frame { padding: 4px; }
+  }
+
+  @keyframes mj-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @keyframes mj-pop { 0% { transform: scale(0.8); } 60% { transform: scale(1.1); } 100% { transform: scale(1); } }
+  @keyframes mj-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .mj-page *, .mj-page *::before, .mj-page *::after { animation: none !important; transition: none !important; }
+  }
+</style>
