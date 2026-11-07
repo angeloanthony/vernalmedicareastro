@@ -8,6 +8,7 @@
 import { BUSINESS, businessDisclaimers } from '../data/business';
 import { getLangFromUrl, t, localizeLabel } from '../i18n/locales';
 import { localizeHref } from '../i18n/content';
+import SixLineEmblem from './ui/SixLineEmblem.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const d = businessDisclaimers(lang);
@@ -29,6 +30,7 @@ const RESOURCES = [
 
 <footer class="footer">
   <div class="container">
+    <SixLineEmblem class="footer-emblem" />
     <p>© {year} {BUSINESS.name}. {t('footer.rights', lang)}</p>
     <p>
       {/* explicit {' '} — Astro drops whitespace after an expression */}
@@ -80,6 +82,8 @@ const RESOURCES = [
 </footer>
 
 <style>
+  /* Decorative six-line emblem: small, muted, above the copyright line. */
+  .footer :global(.footer-emblem) { display: block; margin: 0 auto 0.9rem; color: #d9b96a; opacity: 0.75; }
   .footer-disclaimer {
     max-width: 1100px;
     margin: 1.5rem auto 0;
