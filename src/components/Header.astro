@@ -7,6 +7,7 @@
 import { BUSINESS } from '../data/business';
 import { PRIMARY_NAV, type NavLink } from '../config/navigation';
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import SixLineEmblem from './ui/SixLineEmblem.astro';
 import { getLangFromUrl, t, localizeLabel } from '../i18n/locales';
 import { localizeHref } from '../i18n/content';
 
@@ -42,6 +43,8 @@ const navLinks = PRIMARY_NAV;
     aria-hidden="true"
     decoding="async"
   />
+  {/* Six-line emblem as a tonal watermark behind the bar text — desktop only. */}
+  <SixLineEmblem class="topbar-emblem" />
   <div class="container">
     <span>📧 <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a></span>
     <span>📞 <a href={`tel:${BUSINESS.phoneTel}`}>{BUSINESS.phone}</a> (TTY: {BUSINESS.tty})</span>
@@ -137,3 +140,27 @@ const navLinks = PRIMARY_NAV;
     </nav>
   </div>
 </header>
+
+<style>
+  /* Six-line emblem (Hexagram 2, Kun) as a quiet watermark in the navy top bar.
+     Lighter navy at low opacity, BEHIND the text (z-index -1 inside an isolated
+     bar), so the contact links stay white-on-navy. Desktop only: below 1024px
+     the bar text wraps differently at every width and leaves no clear space. */
+  .top-bar { isolation: isolate; }
+  .top-bar :global(.topbar-emblem) { display: none; }
+  @media (min-width: 1024px) {
+    .top-bar :global(.topbar-emblem) {
+      display: block;
+      position: absolute;
+      right: 4%;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 82%;
+      width: auto;
+      color: #9fb8cc;
+      opacity: 0.16;
+      z-index: -1;
+      pointer-events: none;
+    }
+  }
+</style>
