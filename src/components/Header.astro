@@ -48,6 +48,24 @@ const navLinks = PRIMARY_NAV;
   <div class="container">
     <span>📧 <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a></span>
     <span>📞 <a href={`tel:${BUSINESS.phoneTel}`}>{BUSINESS.phone}</a> (TTY: {BUSINESS.tty})</span>
+    {/* Google rating badge — figures live in BUSINESS.googleRating. */}
+    <a
+      class="g-rate"
+      href={BUSINESS.googleReviews}
+      target="_blank"
+      rel="noopener"
+      aria-label={t('header.reviewsAria', lang, { rating: BUSINESS.googleRating.value, count: BUSINESS.googleRating.count })}
+    >
+      <span class="g-rate__score">{BUSINESS.googleRating.value}</span>
+      <span class="g-rate__stars" aria-hidden="true">
+        {[0, 1, 2, 3, 4].map((i) => (
+          <svg viewBox="0 0 24 24" width="1em" height="1em" style={`--i:${i}`} focusable="false">
+            <path fill="#fbbc04" d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z" />
+          </svg>
+        ))}
+      </span>
+      <span class="g-rate__count">{t('header.reviewsLabel', lang, { count: BUSINESS.googleRating.count })}</span>
+    </a>
     <a
       href={localizeHref('/medicare-search.html', lang)}
       class="top-search"
@@ -147,6 +165,47 @@ const navLinks = PRIMARY_NAV;
      bar), so the contact links stay white-on-navy. Desktop only: below 1024px
      the bar text wraps differently at every width and leaves no clear space. */
   .top-bar { isolation: isolate; }
+  /* Keep the globe and "English · Español" together when the bar wraps. */
+  .top-bar :global(.lang-switcher) { white-space: nowrap; }
+  /* Where the corner mascot shows (>=769px, see styles.css), keep the bar text
+     clear of it: 72px on both sides (mascot is 10px + 56px), so the text stays
+     centred and never runs under the smiley. */
+  @media (min-width: 769px) {
+    .top-bar > .container { box-sizing: border-box; padding-left: 72px; padding-right: 72px; }
+  }
+
+  /* Google rating badge. The stars twinkle in sequence three times on page
+     load (about 4 seconds) and then stop: moving content that auto-starts must
+     end within 5 seconds or be pausable (WCAG 2.2.2), and each star peaks less
+     than once per second, far under the 3-flashes-per-second limit (2.3.1).
+     No animation at all for visitors who ask for reduced motion. */
+  .g-rate {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    margin: 0 0.4em;
+    font-size: 0.75em;
+    line-height: 1;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  .g-rate__stars { display: inline-flex; gap: 0.06em; }
+  .g-rate__stars svg {
+    display: block;
+    animation: g-rate-twinkle 1.2s ease-in-out 3 both;
+    animation-delay: calc(var(--i) * 0.12s);
+  }
+  .g-rate__count { text-decoration: underline; text-underline-offset: 2px; }
+  @keyframes g-rate-twinkle {
+    0%, 100% { transform: scale(1); filter: none; }
+    50% { transform: scale(1.25); filter: brightness(1.3) drop-shadow(0 0 4px rgba(251, 188, 4, 0.9)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .g-rate__stars svg { animation: none; }
+  }
+  @media (max-width: 481px) {
+    .g-rate { font-size: 1em; }
+  }
   .top-bar :global(.topbar-emblem) { display: none; }
   @media (min-width: 1024px) {
     .top-bar :global(.topbar-emblem) {

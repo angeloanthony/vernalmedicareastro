@@ -69,6 +69,10 @@ export const BUSINESS = {
   // Google Business Profile reviews — direct link to the profile.
   googleReviews:
     'https://www.google.com/maps/place/vernalmedicare.com/data=!4m2!3m1!1s0x0:0x6dd77439aee69843?sa=X&ved=1t:2428&ictx=111',
+  // Google rating shown in the header badge (Header.astro). Copied by hand from
+  // the Google Business Profile; update value/count/asOf together whenever the
+  // profile changes, so the header never shows a stale number.
+  googleRating: { value: '5.0', count: 54, asOf: '2026-11-09' },
 
   // Compliance disclaimer (must appear in footer on every page, verbatim)
   disclaimer:

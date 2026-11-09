@@ -88,6 +88,8 @@ export const strings = {
     'header.toggleAria': 'Toggle navigation',
     'header.searchAria': 'Search the site',
     'header.searchLabel': 'Search',
+    'header.reviewsLabel': '{count} Google reviews',
+    'header.reviewsAria': '{rating} out of 5 stars, {count} Google reviews (opens in a new tab)',
     // Floating Call / Text buttons (ContactFab.astro)
     'contactFab.aria': 'Call or text {agent}',
     'contactFab.call': 'Call',
@@ -134,6 +136,8 @@ export const strings = {
     'header.toggleAria': 'Abrir o cerrar la navegación',
     'header.searchAria': 'Buscar en el sitio',
     'header.searchLabel': 'Buscar',
+    'header.reviewsLabel': '{count} reseñas de Google',
+    'header.reviewsAria': '{rating} de 5 estrellas, {count} reseñas de Google (se abre en una pestaña nueva)',
     'contactFab.aria': 'Llame o envíe un mensaje de texto a {agent}',
     'contactFab.call': 'Llamar',
     'contactFab.text': 'Envíe un texto',
