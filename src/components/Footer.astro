@@ -82,16 +82,19 @@ const RESOURCES = [
 </footer>
 
 <style>
-  /* Decorative six-line emblem: small, muted, above the copyright line. */
-  .footer :global(.footer-emblem) { display: block; margin: 31.5px auto 63.5px; color: #d9b96a; opacity: 0.75; }
+  /* Decorative six-line emblem: small, muted, above the copyright line. It is
+     shifted 56px right of centre (transform only, so layout and height are
+     unchanged) to sit beside the Flower of Life rather than on top of it. */
+  .footer :global(.footer-emblem) { display: block; margin: 31.5px auto 63.5px; color: #d9b96a; opacity: 0.75; transform: translateX(56px); }
   /* Flower of Life medallion (19 circles of the classic pattern + 2 bounding
      rings), drawn as a background so it sits BEHIND everything and changes no
-     markup. 88px, centred on the six-line emblem (emblem centre is 50.5px
-     below the footer top), so the emblem sits in the flower's seed circle. */
+     markup. 140px, vertically centred with the six-line emblem (both centres
+     82px below the footer top) and 57px LEFT of centre, so the two symbols sit
+     side by side instead of overlapping. Same layout as forebearfind.com. */
   .footer {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-32 -32 64 64' fill='none' stroke='rgba(217,185,106,0.55)' stroke-width='0.6'%3E%3Ccircle cx='0' cy='0' r='10'/%3E%3Ccircle cx='10' cy='0' r='10'/%3E%3Ccircle cx='20' cy='0' r='10'/%3E%3Ccircle cx='15' cy='8.66' r='10'/%3E%3Ccircle cx='5' cy='8.66' r='10'/%3E%3Ccircle cx='10' cy='17.321' r='10'/%3E%3Ccircle cx='0' cy='17.321' r='10'/%3E%3Ccircle cx='-5' cy='8.66' r='10'/%3E%3Ccircle cx='-10' cy='17.321' r='10'/%3E%3Ccircle cx='-15' cy='8.66' r='10'/%3E%3Ccircle cx='-10' cy='0' r='10'/%3E%3Ccircle cx='-20' cy='0' r='10'/%3E%3Ccircle cx='-15' cy='-8.66' r='10'/%3E%3Ccircle cx='-5' cy='-8.66' r='10'/%3E%3Ccircle cx='-10' cy='-17.321' r='10'/%3E%3Ccircle cx='0' cy='-17.321' r='10'/%3E%3Ccircle cx='5' cy='-8.66' r='10'/%3E%3Ccircle cx='10' cy='-17.321' r='10'/%3E%3Ccircle cx='15' cy='-8.66' r='10'/%3E%3Ccircle r='30'/%3E%3Ccircle r='31.2'/%3E%3Ccircle r='8.2' fill='%23002b49' stroke='none'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-32 -32 64 64' fill='none' stroke='rgba(217,185,106,0.55)' stroke-width='0.6'%3E%3Ccircle cx='0' cy='0' r='10'/%3E%3Ccircle cx='10' cy='0' r='10'/%3E%3Ccircle cx='20' cy='0' r='10'/%3E%3Ccircle cx='15' cy='8.66' r='10'/%3E%3Ccircle cx='5' cy='8.66' r='10'/%3E%3Ccircle cx='10' cy='17.321' r='10'/%3E%3Ccircle cx='0' cy='17.321' r='10'/%3E%3Ccircle cx='-5' cy='8.66' r='10'/%3E%3Ccircle cx='-10' cy='17.321' r='10'/%3E%3Ccircle cx='-15' cy='8.66' r='10'/%3E%3Ccircle cx='-10' cy='0' r='10'/%3E%3Ccircle cx='-20' cy='0' r='10'/%3E%3Ccircle cx='-15' cy='-8.66' r='10'/%3E%3Ccircle cx='-5' cy='-8.66' r='10'/%3E%3Ccircle cx='-10' cy='-17.321' r='10'/%3E%3Ccircle cx='0' cy='-17.321' r='10'/%3E%3Ccircle cx='5' cy='-8.66' r='10'/%3E%3Ccircle cx='10' cy='-17.321' r='10'/%3E%3Ccircle cx='15' cy='-8.66' r='10'/%3E%3Ccircle r='30'/%3E%3Ccircle r='31.2'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: center 12px;
+    background-position: calc(50% - 57px) 12px;
     background-size: 140px;
   }
   .footer-disclaimer {
