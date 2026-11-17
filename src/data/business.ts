@@ -14,7 +14,7 @@ export const BUSINESS = {
   name: 'Vernal Medicare',
   legalAgent: 'Rocco DeLuca',
   url: 'https://vernalmedicare.com/',
-  logo: 'https://vernalmedicare.com/pictures/Rocco.webp',
+  logo: 'https://vernalmedicare.com/pictures/rocco.webp',
   image: 'https://vernalmedicare.com/pictures/vernalmedicare.webp',
   ogImage: 'https://vernalmedicare.com/pictures/opengraph.webp',
 

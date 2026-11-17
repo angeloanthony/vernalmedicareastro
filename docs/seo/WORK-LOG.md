@@ -118,6 +118,22 @@ strength of one real test.
      experiments (EXP-001 – EXP-003) are logged below and registered in
      docs/seo/EXPERIMENTS.md. -->
 
+### 2026-11-17 — Broken logo/photo URLs in structured data fixed (schema only, not an experiment)
+
+- **Pages:** `/` and `/es.html` (`HomePage.astro` `logo`); every page whose schema uses
+  `BUSINESS.logo` (`src/lib/schema/index.ts`, `LocalBusinessSchema.astro`); and the author image on
+  /does-medicare-cover-mounjaro-utah, /does-medicare-cover-ozempic-wegovy, /insulin-cost-medicare-vernal.
+- **Change:** `/pictures/occo.webp` (homepage logo) and `/pictures/Rocco.webp` (`BUSINESS.logo` and the
+  three author images) both returned **404** — neither file exists (Cloudflare paths are case-sensitive;
+  the file is lowercase `rocco.webp`). Per the owner: the homepage `logo` now points to
+  `/pictures/rocco4.png` (the portrait), and `BUSINESS.logo` + the three author images to
+  `/pictures/rocco.webp`. All return 200.
+- **Metric:** structured-data image URLs that 404: 5 references → 0.
+- **Optimization Hypothesis:** *We expect Google to read the business logo and author photo from structured
+  data because every referenced image URL now resolves instead of returning 404.*
+- **EXP-002 note:** homepage schema change after the hard stop; noted in the EXP-002 observation log.
+- **Outcome:** n/a — a defect fix, verified by the URLs returning 200.
+
 ### 2026-11-17 — Homepage preferred image: Rocco's portrait for the search-result thumbnail (schema only, not an experiment)
 
 - **Pages:** `/` and `/es.html` (shared `HomePage.astro` schema).
@@ -135,8 +151,7 @@ strength of one real test.
   only text-free candidate among them.*
 - **If it does not take:** the next levers are `og:image` (changes the Facebook/social card too) or the
   visible hero image — both owner decisions.
-- **Found, not fixed:** `InsuranceAgency` `logo` points to `/pictures/occo.webp`, which does not exist
-  (404) — likely a typo; needs the owner to say which logo is intended.
+- **Logo 404:** fixed in the next entry up (owner chose `/pictures/rocco4.png` for the homepage).
 - **EXP-002 note:** after the hard stop; recorded in the EXP-002 observation log (§6).
 - **Outcome:** _open_ — check the `/` result's thumbnail after Google recrawls.
 
