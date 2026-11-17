@@ -46,10 +46,10 @@ const schema = [
       <!-- Prominent Google Rating -->
       <div class="rating-box" style="text-align: center; margin: 40px 0;">
         <div style="font-size: 4.2rem; line-height: 1; margin-bottom: 8px; color: #fbbc05;">★★★★★</div>
-        <div style="font-size: 2rem; font-weight: bold; margin-bottom: 4px;">4.9 / 5</div>
-        <div style="color: #555; font-size: 1.1rem;">Based on 26 Google Reviews</div>
+        <div style="font-size: 2rem; font-weight: bold; margin-bottom: 4px;">{BUSINESS.googleRating.value} / 5</div>
+        <div style="color: #555; font-size: 1.1rem;">Based on {BUSINESS.googleRating.count} Google Reviews</div>
         <a
-          href="https://www.google.com/search?q=Vernal+Medicare+Vernal+UT"
+          href={BUSINESS.googleReviews}
           target="_blank"
           rel="noopener nofollow"
           class="button"
@@ -102,11 +102,11 @@ const schema = [
 
       <p style="text-align: center; margin: 40px 0;">
         <a
-          href="https://www.google.com/search?q=Vernal+Medicare+Vernal+UT"
+          href={BUSINESS.googleReviews}
           target="_blank"
           rel="noopener nofollow"
           class="button">
-          See All 26 Google Reviews
+          See All {BUSINESS.googleRating.count} Google Reviews
         </a>
       </p>
     </section>
