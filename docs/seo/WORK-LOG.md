@@ -118,6 +118,31 @@ strength of one real test.
      experiments (EXP-001 – EXP-003) are logged below and registered in
      docs/seo/EXPERIMENTS.md. -->
 
+### 2026-11-17 — Google site name (WebSite schema) + headshot favicon (sitewide head change, not an experiment)
+
+- **Pages:** `/` only (EN). `/es.html` shares `HomePage.astro` but the block is emitted only when
+  `lang === 'en'`, because Google reads the site name from the homepage.
+- **Change:** one JSON-LD `WebSite` object added — `name` "Vernal Medicare", `alternateName`
+  "VernalMedicare.com", `url` `https://vernalmedicare.com/`, `@id` `#website`. There was no
+  `WebSite` object anywhere on the site before. No visible content, copy, links, or other schema changed.
+- **Favicon (sitewide, `BaseLayout.astro`):** the old `favicon.ico` was the wide "Medicare Simplified"
+  logo at 32×27 px — not square, which Google's favicon rules require, and an unreadable smudge at
+  search-result size. Replaced with a square crop of the owner's headshot (`public/pictures/rocco4.png`):
+  `favicon.ico` (16/32/48), `favicon-192.png`, `apple-touch-icon.png`, linked from every page's head.
+- **Why:** owner request — Google labels the result with the bare domain "vernalmedicare.com" and a
+  generic-looking icon.
+- **Metric:** the site name and icon Google shows for the homepage result (observed manually in Search).
+- **Optimization Hypothesis:** *We expect Google to show "Vernal Medicare" as the site name for the
+  homepage result because the homepage now declares it in `WebSite` structured data.*
+- **EXP-002 note:** the homepage is EXP-002's page. This change lands after EXP-002's 8-week hard stop
+  (recrawl was due the week of 2026-08-06), so it is outside the judged window; it is still recorded in
+  the EXP-002 observation log (§6) so the Delta Review can see it. EXP-002 is still "Observing" with no
+  GSC import since 2026-07-29.
+- **Not done here:** the stale homepage
+  `AggregateRating` (5 / 11), which Google's review-snippet rules say should not copy Google-review
+  figures — owner decision pending.
+- **Outcome:** _open_ — check the result's site name after Google recrawls `/`.
+
 ### 2026-10-21 — Medicare Adventure game (new content, not an experiment) + unplanned auto-commit/deploy
 
 - **Pages:** 1 NEW page — `/medicare-adventure-game.html`. Registered in `pageIndex.ts` (silo `tools`);

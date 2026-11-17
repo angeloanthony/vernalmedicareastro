@@ -217,6 +217,18 @@ const schema = [
     "contentUrl": "https://youtu.be/a_WqXnE6ca8",
     "embedUrl": "https://www.youtube.com/embed/a_WqXnE6ca8"
   },
+  // Site name for Google Search ("Vernal Medicare" instead of the bare domain).
+  // Google reads it from the homepage only, so the Spanish homepage omits it.
+  ...(lang === 'en'
+    ? [{
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://vernalmedicare.com/#website",
+        "name": "Vernal Medicare",
+        "alternateName": "VernalMedicare.com",
+        "url": "https://vernalmedicare.com/"
+      }]
+    : []),
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

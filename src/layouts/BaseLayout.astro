@@ -101,7 +101,11 @@ const STYLES_VERSION = '20261021-home-comic';
       <link rel="alternate" hreflang={a.code} href={a.href} />
     ))}
     {robots && <meta name="robots" content={robots} />}
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <!-- Favicon: Rocco's headshot (square crop of public/pictures/rocco4.png).
+         Google Search needs a square icon in a multiple of 48px; 192px is the main one. -->
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" href="/favicon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Verification -->
     <meta name="google-site-verification" content={B.googleSiteVerification} />
