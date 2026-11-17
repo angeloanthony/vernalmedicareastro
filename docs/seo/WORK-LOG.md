@@ -118,6 +118,28 @@ strength of one real test.
      experiments (EXP-001 – EXP-003) are logged below and registered in
      docs/seo/EXPERIMENTS.md. -->
 
+### 2026-11-17 — Homepage preferred image: Rocco's portrait for the search-result thumbnail (schema only, not an experiment)
+
+- **Pages:** `/` and `/es.html` (shared `HomePage.astro` schema).
+- **Change:** new `public/pictures/rocco-portrait.webp` (1086×1086 square crop of `rocco4.png`, no text).
+  `WebPage` (#webpage) gains `primaryImageOfPage` → that portrait; the `InsuranceAgency` `image`
+  changes from `vernalmedicare.webp` (the desert hero banner with "vernalmedicare.com" lettering) to the
+  portrait. Visible hero, `og:image` (`opengraph.webp`, the social card) and all copy unchanged.
+- **Why:** owner request — Google's result for `/` shows the desert banner as its thumbnail; the owner
+  wants their face. Google's Image SEO guide lists `primaryImageOfPage`, the main entity's `image`, and
+  `og:image` as ways to "influence" the choice and says to avoid images with text; selection stays
+  automated, so this is a hint, not a guarantee.
+- **Metric:** the thumbnail Google shows next to the `/` result (observed manually in Search).
+- **Optimization Hypothesis:** *We expect Google to show Rocco's portrait as the homepage result's
+  thumbnail because the page now names it as the preferred image and the business image, and it is the
+  only text-free candidate among them.*
+- **If it does not take:** the next levers are `og:image` (changes the Facebook/social card too) or the
+  visible hero image — both owner decisions.
+- **Found, not fixed:** `InsuranceAgency` `logo` points to `/pictures/occo.webp`, which does not exist
+  (404) — likely a typo; needs the owner to say which logo is intended.
+- **EXP-002 note:** after the hard stop; recorded in the EXP-002 observation log (§6).
+- **Outcome:** _open_ — check the `/` result's thumbnail after Google recrawls.
+
 ### 2026-11-17 — Google site name (WebSite schema) + headshot favicon (sitewide head change, not an experiment)
 
 - **Pages:** `/` only (EN). `/es.html` shares `HomePage.astro` but the block is emitted only when

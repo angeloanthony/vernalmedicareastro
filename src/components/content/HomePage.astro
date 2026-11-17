@@ -73,7 +73,7 @@ const schema = [
     "name": "Vernal Medicare",
     "url": "https://vernalmedicare.com/",
     "logo": "https://vernalmedicare.com/pictures/occo.webp",
-    "image": "https://vernalmedicare.com/pictures/vernalmedicare.webp",
+    "image": "https://vernalmedicare.com/pictures/rocco-portrait.webp",
     "description": c.schema.businessDescription,
     "telephone": "+1-435-219-5120",
     "email": "rocco@vernalmedicare.com",
@@ -205,6 +205,9 @@ const schema = [
     "@context": "https://schema.org",
     "@type": "WebPage",
     "@id": "https://vernalmedicare.com/#webpage",
+    // Preferred image for the search-result thumbnail: Rocco's portrait (Google's
+    // Image SEO guide: primaryImageOfPage; avoid images containing text).
+    "primaryImageOfPage": { "@type": "ImageObject", "url": "https://vernalmedicare.com/pictures/rocco-portrait.webp", "width": 1086, "height": 1086 },
     "speakable": { "@type": "SpeakableSpecification", "cssSelector": [".local-nap", ".nap-info", "#faq"] }
   },
   {
