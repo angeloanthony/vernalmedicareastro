@@ -69,6 +69,8 @@ export const BUSINESS = {
   // Google Business Profile reviews — direct link to the profile.
   googleReviews:
     'https://www.google.com/maps/place/vernalmedicare.com/data=!4m2!3m1!1s0x0:0x6dd77439aee69843?sa=X&ved=1t:2428&ictx=111',
+  // Opens Google's "write a review" dialog for the Business Profile directly.
+  googleWriteReview: 'https://g.page/r/CUOY5q45dNdtEBM/review',
   // Google rating shown in the header badge (Header.astro) and on /reviews.html.
   // Copied by hand from the Google Business Profile; update value/count/asOf
   // together whenever the profile changes — this is the only place to edit.

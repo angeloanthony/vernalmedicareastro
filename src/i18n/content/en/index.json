@@ -65,6 +65,9 @@
     "nextAria": "Next review",
     "dotsAria": "Review navigation dots",
     "goToAria": "Go to review",
+    "ctaPrompt": "Did Rocco help you with Medicare?",
+    "ctaLabel": "Leave a Google review",
+    "ctaAria": "Leave a Google review (opens in a new tab)",
     "items": [
       { "name": "Cheryl G.", "initial": "C", "text": "\"Thank you for all your hard work in supporting my family with medical needs! God bless.\"" },
       { "name": "Jackie S.", "initial": "J", "text": "\"Awesome to talk to. Will help any way he can.\"" },

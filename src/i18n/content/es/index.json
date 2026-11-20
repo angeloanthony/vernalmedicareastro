@@ -66,6 +66,9 @@
     "nextAria": "Reseña siguiente",
     "dotsAria": "Puntos de navegación de reseñas",
     "goToAria": "Ir a la reseña",
+    "ctaPrompt": "¿Le ayudó Rocco con Medicare?",
+    "ctaLabel": "Deje una reseña en Google",
+    "ctaAria": "Deje una reseña en Google (se abre en una pestaña nueva)",
     "items": [
       { "name": "Cheryl G.", "initial": "C", "text": "\"¡Gracias por todo su arduo trabajo apoyando a mi familia con las necesidades médicas! Dios lo bendiga.\"" },
       { "name": "Jackie S.", "initial": "J", "text": "\"Es genial hablar con él. Ayudará en todo lo que pueda.\"" },
